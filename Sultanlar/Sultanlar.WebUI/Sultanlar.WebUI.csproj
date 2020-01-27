@@ -78,14 +78,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\Desktop\SignalR_OneOneChat-master\WebApplication1\bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Sultanlar.Class, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sultanlar.Class\bin\Debug\Sultanlar.Class.dll</HintPath>
-    </Reference>
-    <Reference Include="Sultanlar.DatabaseObject, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sultanlar.DatabaseObject\bin\Debug\Sultanlar.DatabaseObject.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -1972,6 +1964,16 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sultanlar.Class\Sultanlar.Class.csproj">
+      <Project>{6368880d-50c3-4e33-9ecf-2c416e832be9}</Project>
+      <Name>Sultanlar.Class</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sultanlar.DatabaseObject\Sultanlar.DatabaseObject.csproj">
+      <Project>{4dc20636-1474-437f-9a16-ff1b32d145fe}</Project>
+      <Name>Sultanlar.DatabaseObject</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
