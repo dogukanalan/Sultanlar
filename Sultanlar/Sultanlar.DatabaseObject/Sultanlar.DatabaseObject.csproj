@@ -1,17 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>6b4b8a6e-5a3e-4bd0-b047-6b00718d5a6d</ProjectGuid>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4DC20636-1474-437F-9A16-FF1B32D145FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sultanlar.DatabaseObject</RootNamespace>
     <AssemblyName>Sultanlar.DatabaseObject</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,24 +32,246 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ArananGorevler.cs" />
+    <Compile Include="AskerlikDurumlari.cs" />
+    <Compile Include="AskerlikTipleri.cs" />
+    <Compile Include="AT2_AracBedeller.cs" />
+    <Compile Include="AT2_Araclar.cs" />
+    <Compile Include="AT2_AracTipler.cs" />
+    <Compile Include="AT2_Bolgeler.cs" />
+    <Compile Include="AT2_LojistikFirmalar.cs" />
+    <Compile Include="AT2_Personeller.cs" />
+    <Compile Include="AT2_Rotalar.cs" />
+    <Compile Include="AT2_RotaMusteri.cs" />
+    <Compile Include="AT2_SoforlerMuavinler.cs" />
+    <Compile Include="AT_ArabaKimeAit.cs" />
+    <Compile Include="AT_Arabalar.cs" />
+    <Compile Include="AT_ArabaMarkalari.cs" />
+    <Compile Include="AT_ArabaTurleri.cs" />
+    <Compile Include="AT_AracFirmalari.cs" />
+    <Compile Include="AT_AracGiderleri.cs" />
+    <Compile Include="AT_Muayeneler.cs" />
+    <Compile Include="AT_Sigortalar.cs" />
+    <Compile Include="AT_YakitTurleri.cs" />
+    <Compile Include="Basvurular.cs" />
+    <Compile Include="BildigiBilgisayarProgramlari.cs" />
+    <Compile Include="BilgisayarProgramlari.cs" />
+    <Compile Include="Cocuklar.cs" />
+    <Compile Include="Departmanlar.cs" />
+    <Compile Include="DepoDenetleme.cs" />
+    <Compile Include="DepoDenetlemeResimler.cs" />
+    <Compile Include="Dereceler.cs" />
+    <Compile Include="Diller.cs" />
+    <Compile Include="EczaneIlceler.cs" />
+    <Compile Include="Eczaneler.cs" />
+    <Compile Include="Egitimler.cs" />
+    <Compile Include="FinansCariHesapHareketler.cs" />
+    <Compile Include="FormErisimleri.cs" />
+    <Compile Include="Formlar.cs" />
+    <Compile Include="Gelirler.cs" />
+    <Compile Include="GelirTurleri.cs" />
+    <Compile Include="Gorevler.cs" />
+    <Compile Include="Hatalar.cs" />
+    <Compile Include="Internet\Aktiviteler.cs" />
+    <Compile Include="Internet\AktivitelerDetay.cs" />
+    <Compile Include="Internet\AktiviteTipleri.cs" />
+    <Compile Include="Internet\AlinanMesajlar.cs" />
+    <Compile Include="Internet\AnketCevaplar.cs" />
+    <Compile Include="Internet\Anketler.cs" />
+    <Compile Include="Internet\AnketSecimler.cs" />
+    <Compile Include="Internet\AnlasmaBedelAdlari.cs" />
+    <Compile Include="Internet\AnlasmaBedeller.cs" />
+    <Compile Include="Internet\AnlasmaHizmetBedelleri.cs" />
+    <Compile Include="Internet\AnlasmaHizmetBedelleriDD.cs" />
+    <Compile Include="Internet\Anlasmalar.cs" />
+    <Compile Include="Internet\Bankalar.cs" />
+    <Compile Include="Internet\BayiCiroPrimleri.cs" />
+    <Compile Include="Internet\BayiNihaiKapamalar.cs" />
+    <Compile Include="Internet\BayiStoklari.cs" />
+    <Compile Include="Internet\CariHesapEk.cs" />
+    <Compile Include="Internet\CariHesaplar.cs" />
+    <Compile Include="Internet\CariHesaplarTP.cs" />
+    <Compile Include="Internet\CariHesapZ.cs" />
+    <Compile Include="Internet\Depolar.cs" />
+    <Compile Include="Internet\DisSiparisler.cs" />
+    <Compile Include="Internet\DisSiparislerDetay.cs" />
+    <Compile Include="Internet\Efatura.cs" />
+    <Compile Include="Internet\Ekstreler.cs" />
+    <Compile Include="Internet\FiyatlarTP.cs" />
+    <Compile Include="Internet\FiyatListeleri.cs" />
+    <Compile Include="Internet\FiyatTipleri.cs" />
+    <Compile Include="Internet\FiyatTipUrun.cs" />
+    <Compile Include="Internet\GonderilenMesajlar.cs" />
+    <Compile Include="Internet\IadeFaturaTakip.cs" />
+    <Compile Include="Internet\IadeFiyat.cs" />
+    <Compile Include="Internet\IadeFiyatAdet.cs" />
+    <Compile Include="Internet\IadeHareketleri.cs" />
+    <Compile Include="Internet\IadeHizmet.cs" />
+    <Compile Include="Internet\IadeHizmetTutar.cs" />
+    <Compile Include="Internet\Iadeler.cs" />
+    <Compile Include="Internet\IadelerDetay.cs" />
+    <Compile Include="Internet\IadelerDetayFiy.cs" />
+    <Compile Include="Internet\IadelerIslem.cs" />
+    <Compile Include="Internet\IadelerQ.cs" />
+    <Compile Include="Internet\IsyeriOzelKod.cs" />
+    <Compile Include="Internet\Kampanyalar.cs" />
+    <Compile Include="Internet\Kartlar.cs" />
+    <Compile Include="Internet\Kutuphane.cs" />
+    <Compile Include="Internet\LogTabloGuncellemeler.cs" />
+    <Compile Include="Internet\MalzemeHaric.cs" />
+    <Compile Include="Internet\MalzemeKategoriMarka.cs" />
+    <Compile Include="Internet\MesajlarCevaplar.cs" />
+    <Compile Include="Internet\MusteriAdresler.cs" />
+    <Compile Include="Internet\Musteriler.cs" />
+    <Compile Include="Internet\MusteriOnayDurumHareketleri.cs" />
+    <Compile Include="Internet\MusteriOnayDurumlari.cs" />
+    <Compile Include="Internet\MusteriOnayDurumlariSonrakiler.cs" />
+    <Compile Include="Internet\MusteriOnayDurumYetkileri.cs" />
+    <Compile Include="Internet\MusteriSifreSifirlamaTalepler.cs" />
+    <Compile Include="Internet\Odemeler.cs" />
+    <Compile Include="Internet\OzelGrupKodlar.cs" />
+    <Compile Include="Internet\Primler.cs" />
+    <Compile Include="Internet\QuantumWebServisLog.cs" />
+    <Compile Include="Internet\Resimler.cs" />
+    <Compile Include="Internet\Resimler2.cs" />
+    <Compile Include="Internet\Rutlar.cs" />
+    <Compile Include="Internet\RutResim.cs" />
+    <Compile Include="Internet\RutTipleri.cs" />
+    <Compile Include="Internet\SAPs.cs" />
+    <Compile Include="Internet\SatisHedef.cs" />
+    <Compile Include="Internet\SatisRapor.cs" />
+    <Compile Include="Internet\SatisRaporTP.cs" />
+    <Compile Include="Internet\SatisTemsilcileri.cs" />
+    <Compile Include="Internet\SatisTemsilcileriSefler.cs" />
+    <Compile Include="Internet\SatisTemsilcisiZiyaretler.cs" />
+    <Compile Include="Internet\SatTemMusteriTalepleri.cs" />
+    <Compile Include="Internet\SevkYerleri.cs" />
+    <Compile Include="Internet\Siparisler.cs" />
+    <Compile Include="Internet\SiparislerDetay.cs" />
+    <Compile Include="Internet\TaksitPlanlari.cs" />
+    <Compile Include="Internet\TedarikciResim.cs" />
+    <Compile Include="Internet\TP_PersonelBaglantilari.cs" />
+    <Compile Include="Internet\TP_Personeller.cs" />
+    <Compile Include="Internet\TP_PersonelTurleri.cs" />
+    <Compile Include="Internet\Urunler.cs" />
+    <Compile Include="Internet\UrunResim.cs" />
+    <Compile Include="Internet\UyeBayiler.cs" />
+    <Compile Include="Internet\UyeFiyatTipleri.cs" />
+    <Compile Include="Internet\UyeGrubuFiyatTipleri.cs" />
+    <Compile Include="Internet\UyeGrubuGrupKodlar.cs" />
+    <Compile Include="Internet\UyeGrubuOzelKodlar.cs" />
+    <Compile Include="Internet\UyeGrupKodlar.cs" />
+    <Compile Include="Internet\UyeGruplari.cs" />
+    <Compile Include="Internet\UyeOzelKodlar.cs" />
+    <Compile Include="Internet\UyeTipleri.cs" />
+    <Compile Include="Internet\UyeYetkileri.cs" />
+    <Compile Include="Internet\WriteSiparis.cs" />
+    <Compile Include="KanGruplari.cs" />
+    <Compile Include="Kenton\KategorilerTarif.cs" />
+    <Compile Include="Kenton\KategorilerUrun.cs" />
+    <Compile Include="Kenton\TarifFav.cs" />
+    <Compile Include="Kenton\TarifGoruntuleme.cs" />
+    <Compile Include="Kenton\TarifKategori.cs" />
+    <Compile Include="Kenton\Tarifler.cs" />
+    <Compile Include="Kenton\TarifPuan.cs" />
+    <Compile Include="Kenton\TarifUrun.cs" />
+    <Compile Include="Kenton\TarifVideo.cs" />
+    <Compile Include="Kenton\UrunKategori.cs" />
+    <Compile Include="Kenton\Uyeler.cs" />
+    <Compile Include="Kenton\Videolar.cs" />
+    <Compile Include="Kenton\Yorumlar.cs" />
+    <Compile Include="KrediKartlari.cs" />
+    <Compile Include="Kullanicilar.cs" />
+    <Compile Include="Kurslar.cs" />
+    <Compile Include="OgrenimDurumlari.cs" />
+    <Compile Include="General.cs" />
+    <Compile Include="Haberler.cs" />
+    <Compile Include="Ilceler.cs" />
+    <Compile Include="Iller.cs" />
+    <Compile Include="MedeniDurumlar.cs" />
+    <Compile Include="PDAGuncellemeler.cs" />
+    <Compile Include="PerFirmalar.cs" />
+    <Compile Include="Personeller.cs" />
+    <Compile Include="PerSSKFirmalar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Referanslar.cs" />
+    <Compile Include="SatTemMusteriTalepleriLog.cs" />
+    <Compile Include="SecilenGorevler.cs" />
+    <Compile Include="SurucuBelgeSiniflari.cs" />
+    <Compile Include="Web References\SAPsendorderC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="WebGenel.cs" />
+    <Compile Include="Tecrubeler.cs" />
+    <Compile Include="Tedarikciler.cs" />
+    <Compile Include="YabanciDiller.cs" />
+    <Compile Include="Yetkiler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\SAPsendorderC\Bapiret2.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SAPsendorderC\item.wsdl" />
+    <None Include="Web References\SAPsendorderC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\SAPsendorderC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_DatabaseObject_SAPsendorderC_ZwebSendSalesOrderService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sultanlar.Class\Sultanlar.Class.csproj">
+      <Project>{6368880d-50c3-4e33-9ecf-2c416e832be9}</Project>
+      <Name>Sultanlar.Class</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
