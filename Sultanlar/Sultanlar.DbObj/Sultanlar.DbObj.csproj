@@ -1,17 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>1cff32c5-1c50-449b-8d29-135169b8c635</ProjectGuid>
+    <ProjectGuid>{AA50120A-B839-4712-9471-84A7CC28ED5C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sultanlar.DbObj</RootNamespace>
     <AssemblyName>Sultanlar.DbObj</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,24 +32,67 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="Sultanlar.Class, Version=1.0.7320.29235, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Sultanlar.Class\bin\Debug\Sultanlar.Class.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="General.cs" />
+    <Compile Include="Internet\aktiviteler.cs" />
+    <Compile Include="Internet\aktivitelerDetay.cs" />
+    <Compile Include="Internet\anlasmaBedelAdlari.cs" />
+    <Compile Include="Internet\anlasmaBedeller.cs" />
+    <Compile Include="Internet\anlasmalar.cs" />
+    <Compile Include="Internet\borcAlacakRaporu.cs" />
+    <Compile Include="Internet\cariHesaplar.cs" />
+    <Compile Include="Internet\departmanlar.cs" />
+    <Compile Include="Internet\ekstreler.cs" />
+    <Compile Include="Internet\fiyatlar.cs" />
+    <Compile Include="Internet\fiyatlarTp.cs" />
+    <Compile Include="Internet\fiyatTipleri.cs" />
+    <Compile Include="Internet\iadeHareketleri.cs" />
+    <Compile Include="Internet\iadeHareketTurleri.cs" />
+    <Compile Include="Internet\iadeler.cs" />
+    <Compile Include="Internet\iadelerDetay.cs" />
+    <Compile Include="Internet\isyeriOzelKod2.cs" />
+    <Compile Include="Internet\konum.cs" />
+    <Compile Include="Internet\malzemeler.cs" />
+    <Compile Include="Internet\mesajlar.cs" />
+    <Compile Include="Internet\musteriler.cs" />
+    <Compile Include="Internet\primGruplari.cs" />
+    <Compile Include="Internet\resimler.cs" />
+    <Compile Include="Internet\rutlar.cs" />
+    <Compile Include="Internet\rutResimler.cs" />
+    <Compile Include="Internet\satisHedefRaporu.cs" />
+    <Compile Include="Internet\satisRaporu.cs" />
+    <Compile Include="Internet\satisTemsilcileri.cs" />
+    <Compile Include="Internet\satisTemsilcileriSefler.cs" />
+    <Compile Include="Internet\siparisler.cs" />
+    <Compile Include="Internet\siparislerDetay.cs" />
+    <Compile Include="Internet\siparisRaporu.cs" />
+    <Compile Include="Internet\stoklar.cs" />
+    <Compile Include="Internet\urunResimleri.cs" />
+    <Compile Include="Internet\uyeFiyatTipleri.cs" />
+    <Compile Include="Internet\uyeGrubuFiyatTipleri.cs" />
+    <Compile Include="Internet\uyeGruplari.cs" />
+    <Compile Include="Internet\uyeTipleri.cs" />
+    <Compile Include="Internet\uyeYetkileri.cs" />
+    <Compile Include="Internet\ziyaretler.cs" />
+    <Compile Include="Internet\ziyaretSonlandirmaSebepleri.cs" />
+    <Compile Include="Internet\_general.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StandartClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TarifSepeti\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>
