@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="urn:MAPWebServicesSultanlarTEST" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:MAPWebServicesSultanlarTEST" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="urn:MAPWebServicesSultanlarTEST">
+      <xsd:complexType name="OrderPackage">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:ORDERS" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ORDERS">
+        <xsd:all>
+          <xsd:element minOccurs="1" maxOccurs="1" name="HEADER" type="tns:HEADER" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="DETAILS" type="tns:DETAILS" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="HEADER">
+        <xsd:all>
+          <xsd:element minOccurs="1" maxOccurs="1" name="BuyerID" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="SupplierID" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="OrderNumber" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="OrderDT" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="DeliveryDT" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="FreeText" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="BuyerGLN" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="SupplierNo" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="SupplierGLN" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="DeliveryGLN" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="DeliveryPartyName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="InvoiceGLN" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="Currency" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="DETAILS">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="item" type="tns:DETAILITEM" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DETAILITEM">
+        <xsd:all>
+          <xsd:element minOccurs="1" maxOccurs="1" name="EAN" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="SupplierItemCode" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="BuyerItemCode" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="ProdName" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="ProdWidth" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="ProdLength" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="OrderQuantity" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="QuantityPerPack" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="GrossUnitPrice" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="NetUnitPrice" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="OriginalUnit" type="xsd:string" />
+          <xsd:element minOccurs="1" maxOccurs="1" name="OrderChanges" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="Sultanlar.UczOrdersFunctionRequest">
+    <wsdl:part name="authCode" type="xsd:string" />
+    <wsdl:part name="startDate" type="xsd:string" />
+    <wsdl:part name="endDate" type="xsd:string" />
+    <wsdl:part name="status" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="Sultanlar.UczOrdersFunctionResponse">
+    <wsdl:part name="OrderPackage" type="tns:OrderPackage" />
+    <wsdl:part name="ERRs" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:portType name="MAPWebServicesSultanlarTESTPortType">
+    <wsdl:operation name="Sultanlar.UczOrdersFunction">
+      <documentation>DOCUMENT LINE</documentation>
+      <wsdl:input message="tns:Sultanlar.UczOrdersFunctionRequest" />
+      <wsdl:output message="tns:Sultanlar.UczOrdersFunctionResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MAPWebServicesSultanlarTESTBinding" type="tns:MAPWebServicesSultanlarTESTPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="Sultanlar.UczOrdersFunction">
+      <soap:operation soapAction="https://wsx.map.com.tr/ws_sultanlar.php/Sultanlar.UczOrdersFunction" style="rpc" />
+      <wsdl:input>
+        <soap:body namespace="https://wsx.map.com.tr/ws_sultanlar.php" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body namespace="https://wsx.map.com.tr/ws_sultanlar.php" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MAPWebServicesSultanlarTEST">
+    <wsdl:port name="MAPWebServicesSultanlarTESTPort" binding="tns:MAPWebServicesSultanlarTESTBinding">
+      <soap:address location="https://wsx.map.com.tr:443/ws_sultanlar.php" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

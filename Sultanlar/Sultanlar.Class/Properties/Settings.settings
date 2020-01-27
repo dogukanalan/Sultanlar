@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Sultanlar.Class.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Sultanlar_Class_Quantum_svcLibraBiz" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://10.1.1.9/QuantumWeb/svclibrabiz.asmx</Value>
+    </Setting>
+    <Setting Name="Sultanlar_Class_hepsiburada_orders" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://b2b.hepsiburada.com/services/orders.asmx</Value>
+    </Setting>
+    <Setting Name="Sultanlar_Class_SAPsendorderC_ZwebSendSalesOrderService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
