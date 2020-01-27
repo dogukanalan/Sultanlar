@@ -13,7 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sultanlar.UI", "Sultanlar.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sultanlar.WCF", "Sultanlar.WCF\Sultanlar.WCF.csproj", "{0CEAA129-50C9-43E1-9A17-BD0D90109092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sultanlar.WebAPI", "Sultanlar.WebAPI\Sultanlar.WebAPI.csproj", "{4A50527F-CE72-4D06-AD83-1388075832AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sultanlar.WebAPI", "Sultanlar.WebAPI\Sultanlar.WebAPI.csproj", "{4A50527F-CE72-4D06-AD83-1388075832AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sultanlar.WebUI", "Sultanlar.WebUI\Sultanlar.WebUI.csproj", "{C3254FCD-522B-4568-8289-4EBF877376A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{4A50527F-CE72-4D06-AD83-1388075832AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A50527F-CE72-4D06-AD83-1388075832AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A50527F-CE72-4D06-AD83-1388075832AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3254FCD-522B-4568-8289-4EBF877376A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3254FCD-522B-4568-8289-4EBF877376A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3254FCD-522B-4568-8289-4EBF877376A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3254FCD-522B-4568-8289-4EBF877376A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
