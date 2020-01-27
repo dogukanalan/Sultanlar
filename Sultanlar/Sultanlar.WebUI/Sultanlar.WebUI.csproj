@@ -1,39 +1,2009 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C3254FCD-522B-4568-8289-4EBF877376A7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{787A113E-F766-453A-8281-361079E88CFD}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sultanlar.WebUI</RootNamespace>
     <AssemblyName>Sultanlar.WebUI</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <Reference Include="DevExpress.Data.v12.2, Version=12.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v12.2.Core, Version=12.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v12.2.Core, Version=12.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Web.v12.2, Version=12.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Intelligencia.UrlRewriter, Version=1.7.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Desktop\Intelligencia.UrlRewriter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\..\..\Desktop\SignalR_OneOneChat-master\WebApplication1\bin\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\Desktop\SignalR_OneOneChat-master\WebApplication1\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Sultanlar.Class, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Sultanlar.Class\bin\Debug\Sultanlar.Class.dll</HintPath>
+    </Reference>
+    <Reference Include="Sultanlar.DatabaseObject, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Sultanlar.DatabaseObject\bin\Debug\Sultanlar.DatabaseObject.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Content Include="Css2\ChatStyle.css" />
+    <Content Include="Css2\JQueryUI\themes\base\jquery.ui.all.css" />
+    <Content Include="css\form.css" />
+    <Content Include="css\grid.css" />
+    <Content Include="css\reset.css" />
+    <Content Include="css\slider.css" />
+    <Content Include="css\style.css" />
+    <Content Include="css\style2.css" />
+    <Content Include="css\superfish.css" />
+    <Content Include="data1\images\arimama.jpg" />
+    <Content Include="data1\images\bunsa.png" />
+    <Content Include="data1\images\camsil.png" />
+    <Content Include="data1\images\ernet.png" />
+    <Content Include="data1\images\europap.jpg" />
+    <Content Include="data1\images\flore.png" />
+    <Content Include="data1\images\girisim.jpg" />
+    <Content Include="data1\images\happy_family.jpg" />
+    <Content Include="data1\images\hayat.png" />
+    <Content Include="data1\images\henkel.jpg" />
+    <Content Include="data1\images\kenton.png" />
+    <Content Include="data1\images\korozo.jpg" />
+    <Content Include="data1\images\nrc.jpg" />
+    <Content Include="data1\images\omegapharma.jpg" />
+    <Content Include="data1\images\pierrecardin.jpg" />
+    <Content Include="data1\images\piknik.png" />
+    <Content Include="data1\images\saloon.png" />
+    <Content Include="data1\images\scj.jpg" />
+    <Content Include="data1\images\st_grup.jpg" />
+    <Content Include="data1\images\tibet.png" />
+    <Content Include="data1\images\tibtrap.png" />
+    <Content Include="data1\images\vileda.jpg" />
+    <Content Include="data1\tooltips\arimama_k.jpg" />
+    <Content Include="data1\tooltips\bunsa.png" />
+    <Content Include="data1\tooltips\camsil.png" />
+    <Content Include="data1\tooltips\ernet.png" />
+    <Content Include="data1\tooltips\europap_k.jpg" />
+    <Content Include="data1\tooltips\flore.png" />
+    <Content Include="data1\tooltips\girisim_k.jpg" />
+    <Content Include="data1\tooltips\happy_family.jpg" />
+    <Content Include="data1\tooltips\hayat.png" />
+    <Content Include="data1\tooltips\henkel.jpg" />
+    <Content Include="data1\tooltips\kenton.png" />
+    <Content Include="data1\tooltips\korozo.jpg" />
+    <Content Include="data1\tooltips\nrc_k.jpg" />
+    <Content Include="data1\tooltips\omegapharma_k.jpg" />
+    <Content Include="data1\tooltips\pierrecardin_k.jpg" />
+    <Content Include="data1\tooltips\piknik.png" />
+    <Content Include="data1\tooltips\saloon.png" />
+    <Content Include="data1\tooltips\scj.jpg" />
+    <Content Include="data1\tooltips\st_grup.jpg" />
+    <Content Include="data1\tooltips\tibet.png" />
+    <Content Include="data1\tooltips\tibtrap.png" />
+    <Content Include="data1\tooltips\vileda.jpg" />
+    <Content Include="default.aspx" />
+    <Content Include="dlls\DevExpress.Data.v12.2.dll" />
+    <Content Include="dlls\DevExpress.Data.v12.2.xml" />
+    <Content Include="dlls\DevExpress.Printing.v12.2.Core.dll" />
+    <Content Include="dlls\DevExpress.Printing.v12.2.Core.xml" />
+    <Content Include="dlls\DevExpress.RichEdit.v12.2.Core.dll" />
+    <Content Include="dlls\DevExpress.RichEdit.v12.2.Core.xml" />
+    <Content Include="dlls\DevExpress.Web.v12.2.dll" />
+    <Content Include="dlls\DevExpress.Web.v12.2.xml" />
+    <Content Include="dlls\Intelligencia.UrlRewriter.dll" />
+    <Content Include="dlls\Microsoft.Office.Interop.Excel.dll" />
+    <Content Include="dlls\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="dlls\Microsoft.Web.Infrastructure.xml" />
+    <Content Include="engine1\arrows.png" />
+    <Content Include="engine1\bg.png" />
+    <Content Include="engine1\bullet.png" />
+    <Content Include="engine1\jquery.js" />
+    <Content Include="engine1\script.js" />
+    <Content Include="engine1\style.css" />
+    <Content Include="engine1\triangle.png" />
+    <Content Include="engine1\wowslider.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="images\arrow1.png" />
+    <Content Include="images\blockqoute_bg.png" />
+    <Content Include="images\blockquote_bot_bg.png" />
+    <Content Include="images\btn-hov.png" />
+    <Content Include="images\btn_bg.png" />
+    <Content Include="images\comment_icon.png" />
+    <Content Include="images\content_bg.png" />
+    <Content Include="images\down_arrow_select.jpg" />
+    <Content Include="images\efatura1.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\menu_hover.png" />
+    <Content Include="images\middle-bg.png" />
+    <Content Include="images\search_icon.png" />
+    <Content Include="images\socials.png" />
+    <Content Include="images\ssl.gif" />
+    <Content Include="images\sticker.png" />
+    <Content Include="images\totop.png" />
+    <Content Include="images\ver_separator.png" />
+    <Content Include="images\wall_bg2.png" />
+    <Content Include="images\yukleniyor.gif" />
+    <Content Include="js\forms.js" />
+    <Content Include="js\jquery.easing.1.3.js" />
+    <Content Include="js\jquery.tools.min.js" />
+    <Content Include="js\jquery.ui.totop.js" />
+    <Content Include="js\pngfix2.js" />
+    <Content Include="js\superfish.js" />
+    <Content Include="js\tms-0.4.1.js" />
+    <Content Include="kenton\anasayfa.aspx" />
+    <Content Include="kenton\css\main.css" />
+    <Content Include="kenton\css\main1.css" />
+    <Content Include="kenton\css\util.css" />
+    <Content Include="kenton\exit.aspx" />
+    <Content Include="kenton\fonts\iconic\css\material-design-iconic-font.min.css" />
+    <Content Include="kenton\giris.aspx" />
+    <Content Include="kenton\images\background.jpg" />
+    <Content Include="kenton\images\bg.jpg" />
+    <Content Include="kenton\images\box\1.jpg" />
+    <Content Include="kenton\images\box\2.jpg" />
+    <Content Include="kenton\images\box\3.jpg" />
+    <Content Include="kenton\images\box\4.jpg" />
+    <Content Include="kenton\images\box\5.jpg" />
+    <Content Include="kenton\images\favorite.png" />
+    <Content Include="kenton\images\favorite2.png" />
+    <Content Include="kenton\images\gif-load.gif" />
+    <Content Include="kenton\images\headers\1.png" />
+    <Content Include="kenton\images\headers\2.png" />
+    <Content Include="kenton\images\headers\3.png" />
+    <Content Include="kenton\images\headers\4.png" />
+    <Content Include="kenton\images\headers\5.png" />
+    <Content Include="kenton\images\headers\6.png" />
+    <Content Include="kenton\images\kenton.png" />
+    <Content Include="kenton\images\lg.gif" />
+    <Content Include="kenton\images\loading.jpg" />
+    <Content Include="kenton\images\search.png" />
+    <Content Include="kenton\images\sm\em.png" />
+    <Content Include="kenton\images\sm\fb.png" />
+    <Content Include="kenton\images\sm\gp.png" />
+    <Content Include="kenton\images\sm\li.png" />
+    <Content Include="kenton\images\sm\pi.png" />
+    <Content Include="kenton\images\sm\tw.png" />
+    <Content Include="kenton\images\sm\wa.png" />
+    <Content Include="kenton\images\star.png" />
+    <Content Include="kenton\images\star_bos.png" />
+    <Content Include="kenton\images\tarkat\1.jpg" />
+    <Content Include="kenton\images\tarkat\10.jpg" />
+    <Content Include="kenton\images\tarkat\11.jpg" />
+    <Content Include="kenton\images\tarkat\12.jpg" />
+    <Content Include="kenton\images\tarkat\13.jpg" />
+    <Content Include="kenton\images\tarkat\14.jpg" />
+    <Content Include="kenton\images\tarkat\15.jpg" />
+    <Content Include="kenton\images\tarkat\16.jpg" />
+    <Content Include="kenton\images\tarkat\17.jpg" />
+    <Content Include="kenton\images\tarkat\18.jpg" />
+    <Content Include="kenton\images\tarkat\19.jpg" />
+    <Content Include="kenton\images\tarkat\2.jpg" />
+    <Content Include="kenton\images\tarkat\20.jpg" />
+    <Content Include="kenton\images\tarkat\21.jpg" />
+    <Content Include="kenton\images\tarkat\22.jpg" />
+    <Content Include="kenton\images\tarkat\23.jpg" />
+    <Content Include="kenton\images\tarkat\25.jpg" />
+    <Content Include="kenton\images\tarkat\26.jpg" />
+    <Content Include="kenton\images\tarkat\27.jpg" />
+    <Content Include="kenton\images\tarkat\3.jpg" />
+    <Content Include="kenton\images\tarkat\4.jpg" />
+    <Content Include="kenton\images\tarkat\5.jpg" />
+    <Content Include="kenton\images\tarkat\6.jpg" />
+    <Content Include="kenton\images\tarkat\7.jpg" />
+    <Content Include="kenton\images\tarkat\8.jpg" />
+    <Content Include="kenton\images\tarkat\9.jpg" />
+    <Content Include="kenton\images\tarkat\24.jpg" />
+    <Content Include="kenton\images\urkat\1.jpg" />
+    <Content Include="kenton\images\urkat\10.jpg" />
+    <Content Include="kenton\images\urkat\11.jpg" />
+    <Content Include="kenton\images\urkat\12.jpg" />
+    <Content Include="kenton\images\urkat\13.jpg" />
+    <Content Include="kenton\images\urkat\14.jpg" />
+    <Content Include="kenton\images\urkat\15.jpg" />
+    <Content Include="kenton\images\urkat\16.jpg" />
+    <Content Include="kenton\images\urkat\17.jpg" />
+    <Content Include="kenton\images\urkat\18.jpg" />
+    <Content Include="kenton\images\urkat\19.jpg" />
+    <Content Include="kenton\images\urkat\2.jpg" />
+    <Content Include="kenton\images\urkat\20.jpg" />
+    <Content Include="kenton\images\urkat\3.jpg" />
+    <Content Include="kenton\images\urkat\4.jpg" />
+    <Content Include="kenton\images\urkat\5.jpg" />
+    <Content Include="kenton\images\urkat\6.jpg" />
+    <Content Include="kenton\images\urkat\7.jpg" />
+    <Content Include="kenton\images\urkat\8.jpg" />
+    <Content Include="kenton\images\urkat\9.jpg" />
+    <Content Include="kenton\js\LazyLoad.js" />
+    <Content Include="kenton\js\main.js" />
+    <Content Include="kenton\js\unveil.js" />
+    <Content Include="kenton\kategoriler.aspx" />
+    <Content Include="kenton\panel.aspx" />
+    <Content Include="kenton\resim.aspx" />
+    <Content Include="kenton\sifre.aspx" />
+    <Content Include="kenton\sosyal\main.css" />
+    <Content Include="kenton\sosyal\tarif.aspx" />
+    <Content Include="kenton\tarif.aspx" />
+    <Content Include="kenton\tarifekle.aspx" />
+    <Content Include="kenton\tarifler.aspx" />
+    <Content Include="kenton\urunler.aspx" />
+    <Content Include="kenton\uyelik.aspx" />
+    <Content Include="kenton\uyeol.aspx" />
+    <Content Include="kenton\video.aspx" />
+    <Content Include="kenton\videolar.aspx" />
+    <Content Include="kenton\yer.aspx" />
+    <Content Include="kenton\yorum.aspx" />
+    <Content Include="kenton\yorumlar.aspx" />
+    <Content Include="merch\anket.aspx" />
+    <Content Include="merch\anketler.aspx" />
+    <Content Include="merch\camera.html" />
+    <Content Include="merch\coord.js" />
+    <Content Include="merch\download.aspx" />
+    <Content Include="merch\exit.aspx" />
+    <Content Include="merch\giris.aspx" />
+    <Content Include="merch\JScript.js" />
+    <Content Include="merch\kamera.aspx" />
+    <Content Include="merch\konumal.aspx" />
+    <Content Include="merch\konumal2.aspx" />
+    <Content Include="merch\konumlar.aspx" />
+    <Content Include="merch\kutuphane.aspx" />
+    <Content Include="merch\kutuphane2.aspx" />
+    <Content Include="merch\menu.aspx" />
+    <Content Include="merch\mesaj.aspx" />
+    <Content Include="merch\mesajlar.aspx" />
+    <Content Include="merch\microphone.png" />
+    <Content Include="merch\musteriler.aspx" />
+    <Content Include="merch\resim.aspx" />
+    <Content Include="merch\resimler.aspx" />
+    <Content Include="merch\rutbugun.aspx" />
+    <Content Include="merch\rutekle.aspx" />
+    <Content Include="merch\rutlar.aspx" />
+    <Content Include="merch\siparis.aspx" />
+    <Content Include="merch\siparisgoster.aspx" />
+    <Content Include="merch\siparisicerik.aspx" />
+    <Content Include="merch\siparisler.aspx" />
+    <Content Include="merch\StyleSheet.css" />
+    <Content Include="merch\ucAlt.ascx" />
+    <Content Include="merch\ucProgress.ascx" />
+    <Content Include="merch\ucUst.ascx" />
+    <Content Include="merch\ziyaret.aspx" />
+    <Content Include="merch\ziyaret1.aspx" />
+    <Content Include="merch\ziyarethata.aspx" />
+    <Content Include="merch\ziyaretler.aspx" />
+    <Content Include="merch\ziyaretmap.aspx" />
+    <Content Include="musteri\adresbankasi.aspx" />
+    <Content Include="musteri\aktivite.aspx" />
+    <Content Include="musteri\aktiviteler.aspx" />
+    <Content Include="musteri\anlasmalar.aspx" />
+    <Content Include="musteri\anlasmalifiyatlar.aspx" />
+    <Content Include="musteri\borcalacakrapor-eski-cs.txt" />
+    <Content Include="musteri\borcalacakrapor-eski.txt" />
+    <Content Include="musteri\borcalacakrapor.aspx" />
+    <Content Include="musteri\brosur.aspx" />
+    <Content Include="musteri\cikis.aspx" />
+    <Content Include="musteri\defaultsd.aspx" />
+    <Content Include="musteri\deneme.aspx" />
+    <Content Include="musteri\efaturayardim.html" />
+    <Content Include="musteri\ekstreyazdir.aspx" />
+    <Content Include="musteri\eskodlar.aspx" />
+    <Content Include="musteri\eskodurunler.aspx" />
+    <Content Include="musteri\fiyatlar.aspx" />
+    <Content Include="musteri\gorseller.aspx" />
+    <Content Include="musteri\grafik.aspx" />
+    <Content Include="musteri\haritaurun.aspx" />
+    <Content Include="musteri\hata.htm" />
+    <Content Include="musteri\hatalar.aspx" />
+    <Content Include="musteri\hedef.aspx" />
+    <Content Include="musteri\hizlisiparis.aspx" />
+    <Content Include="musteri\hizlisiparis2.aspx" />
+    <Content Include="musteri\hizmetbedelleri.aspx" />
+    <Content Include="musteri\hs\jquery.isotope.min.js" />
+    <Content Include="musteri\hs\jquery.min.js" />
+    <Content Include="musteri\hs\script.js" />
+    <Content Include="musteri\iade.aspx" />
+    <Content Include="musteri\iadegecmis.aspx" />
+    <Content Include="musteri\iadegecmis2.aspx" />
+    <Content Include="musteri\iadeler.aspx" />
+    <Content Include="musteri\img\arti.png" />
+    <Content Include="musteri\img\bg-giris-div.png" />
+    <Content Include="musteri\img\bos.png" />
+    <Content Include="musteri\img\chduzenle.gif" />
+    <Content Include="musteri\img\checkmark.png" />
+    <Content Include="musteri\img\dk_arrows.png" />
+    <Content Include="musteri\img\efaturayardim\1.png" />
+    <Content Include="musteri\img\efaturayardim\2.png" />
+    <Content Include="musteri\img\efaturayardim\3.png" />
+    <Content Include="musteri\img\efaturayardim\4.png" />
+    <Content Include="musteri\img\efaturayardim\5.png" />
+    <Content Include="musteri\img\efaturayardim\6.png" />
+    <Content Include="musteri\img\eksi.png" />
+    <Content Include="musteri\img\esittir.png" />
+    <Content Include="musteri\img\fiyatlionayla.gif" />
+    <Content Include="musteri\img\hata.png" />
+    <Content Include="musteri\img\iadeilgilivar.gif" />
+    <Content Include="musteri\img\iadeilgiliyok.gif" />
+    <Content Include="musteri\img\icon_chart.png" />
+    <Content Include="musteri\img\icon_table.png" />
+    <Content Include="musteri\img\ic_borcalacak.png" />
+    <Content Include="musteri\img\ic_efatura.png" />
+    <Content Include="musteri\img\ic_ekstre.png" />
+    <Content Include="musteri\img\ic_fiyatinceleme.png" />
+    <Content Include="musteri\img\ic_fiyatlisteleri.png" />
+    <Content Include="musteri\img\ic_help.png" />
+    <Content Include="musteri\img\ic_hesaplar.png" />
+    <Content Include="musteri\img\ic_iade.png" />
+    <Content Include="musteri\img\ic_iadeler.png" />
+    <Content Include="musteri\img\ic_katalog.png" />
+    <Content Include="musteri\img\ic_logout.png" />
+    <Content Include="musteri\img\ic_mesajlar.png" />
+    <Content Include="musteri\img\ic_rutlar.png" />
+    <Content Include="musteri\img\ic_saticikampanya.png" />
+    <Content Include="musteri\img\ic_satis.png" />
+    <Content Include="musteri\img\ic_satishedef.png" />
+    <Content Include="musteri\img\ic_siparis.png" />
+    <Content Include="musteri\img\ic_siparisler.png" />
+    <Content Include="musteri\img\ic_tarih.png" />
+    <Content Include="musteri\img\ic_tahsilatlar.png" />
+    <Content Include="musteri\img\ic_tarih16.png" />
+    <Content Include="musteri\img\ic_uyelik.png" />
+    <Content Include="musteri\img\ic_uygulamalar.png" />
+    <Content Include="musteri\img\kapali.png" />
+    <Content Include="musteri\img\LogoSAP.gif" />
+    <Content Include="musteri\img\LogoSAP.png" />
+    <Content Include="musteri\img\marker.png" />
+    <Content Include="musteri\img\new_arrow.jpg" />
+    <Content Include="musteri\img\odeme.gif" />
+    <Content Include="musteri\img\resimyok.png" />
+    <Content Include="musteri\img\resimyok_b.png" />
+    <Content Include="musteri\img\resimyok_k.png" />
+    <Content Include="musteri\img\resimyok_o.png" />
+    <Content Include="musteri\img\s.png" />
+    <Content Include="musteri\img\satista10adim.jpg" />
+    <Content Include="musteri\img\s_sultanlar.png" />
+    <Content Include="musteri\img\yeni.png" />
+    <Content Include="musteri\img\yeni_buyuk.png" />
+    <Content Include="musteri\img\yukleniyor.gif" />
+    <Content Include="musteri\indir.aspx" />
+    <Content Include="musteri\js\charttheme.js" />
+    <Content Include="musteri\js\chartthemeblue.js" />
+    <Content Include="musteri\js\chartthemegray.js" />
+    <Content Include="musteri\js\chartthemegreen.js" />
+    <Content Include="musteri\js\chartthemegrid.js" />
+    <Content Include="musteri\js\dropkick.css" />
+    <Content Include="musteri\js\exporting.js" />
+    <Content Include="musteri\js\highcharts.js" />
+    <Content Include="musteri\js\images\ui-bg_flat_0_888888_40x100.png" />
+    <Content Include="musteri\js\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="musteri\js\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="musteri\js\images\ui-bg_glass_25_e1f0f5_1x400.png" />
+    <Content Include="musteri\js\images\ui-bg_glass_55_444444_1x400.png" />
+    <Content Include="musteri\js\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="musteri\js\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="musteri\js\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="musteri\js\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="musteri\js\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="musteri\js\images\ui-bg_inset-soft_95_fef1ec_1x100.png" />
+    <Content Include="musteri\js\images\ui-icons_222222_256x240.png" />
+    <Content Include="musteri\js\images\ui-icons_309bbf_256x240.png" />
+    <Content Include="musteri\js\images\ui-icons_454545_256x240.png" />
+    <Content Include="musteri\js\images\ui-icons_bf3030_256x240.png" />
+    <Content Include="musteri\js\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="musteri\js\jquery-1.2.6.pack.js" />
+    <Content Include="musteri\js\jquery-1.8.3.js" />
+    <Content Include="musteri\js\jquery-ui.css" />
+    <Content Include="musteri\js\jquery-ui.js" />
+    <Content Include="musteri\js\jquery.dropkick-1.0.0.js" />
+    <Content Include="musteri\js\jquery.elevatezoom.min.js" />
+    <Content Include="musteri\js\jquery.jflip-0.4.js" />
+    <Content Include="musteri\js\jquery.qtip.css" />
+    <Content Include="musteri\js\jquery.qtip.js" />
+    <Content Include="musteri\js\jquery.signalR-1.0.0-rc2.min.js" />
+    <Content Include="musteri\js\jquery.tipTip.js" />
+    <Content Include="musteri\js\jquery.tipTip.minified.js" />
+    <Content Include="musteri\js\jquery.validate.js" />
+    <Content Include="musteri\js\popup.js" />
+    <Content Include="musteri\js\scripts.js" />
+    <Content Include="musteri\js\tipTip.css" />
+    <Content Include="musteri\js\tooltip.js" />
+    <Content Include="musteri\default.aspx" />
+    <Content Include="musteri\download.aspx" />
+    <Content Include="musteri\error.htm" />
+    <Content Include="musteri\fiyatlisteindir.aspx" />
+    <Content Include="musteri\giris.aspx" />
+    <Content Include="iletisim.aspx" />
+    <Content Include="images\ana_bg6.png" />
+    <Content Include="images\ana_bg7.jpg" />
+    <Content Include="images\bg11.png" />
+    <Content Include="images\bg12.png" />
+    <Content Include="images\bina-kurumsal.png" />
+    <Content Include="images\blank.gif" />
+    <Content Include="images\footer.gif" />
+    <Content Include="images\grubumuzunamaclari.png" />
+    <Content Include="images\haber-arka.png" />
+    <Content Include="images\haber.png" />
+    <Content Include="images\hakkimizda.png" />
+    <Content Include="images\harita.png" />
+    <Content Include="images\isbasvurusu.png" />
+    <Content Include="images\kurumsal.png" />
+    <Content Include="images\nobetci-eczane-arka.png" />
+    <Content Include="images\organizasyonsemasi.png" />
+    <Content Include="images\sirketprofili.png" />
+    <Content Include="images\spacer.gif" />
+    <Content Include="images\StGrupLogo.png" />
+    <Content Include="images\sultanalargrup.jpg" />
+    <Content Include="images\sultanalargrup.png" />
+    <Content Include="images\sultanlar.ico" />
+    <Content Include="images\ted.png" />
+    <Content Include="images\ted2.png" />
+    <Content Include="images\yukleniyor2.gif" />
+    <Content Include="insankaynaklari.aspx" />
+    <Content Include="isbasvuru.aspx" />
+    <Content Include="isbasvurutam.aspx" />
+    <Content Include="js\pngfix.js" />
+    <Content Include="musteri\hesapayrinti.aspx" />
+    <Content Include="musteri\img\bg-logo.jpg" />
+    <Content Include="musteri\img\bg-logo.png" />
+    <Content Include="musteri\img\bg-table.png" />
+    <Content Include="musteri\img\degistir.gif" />
+    <Content Include="musteri\img\durum.gif" />
+    <Content Include="musteri\img\sepet-dolu.png" />
+    <Content Include="musteri\img\sepet.png" />
+    <Content Include="musteri\img\tarih.gif" />
+    <Content Include="musteri\img\eposta.gif" />
+    <Content Include="musteri\img\excel_icon.png" />
+    <Content Include="musteri\img\gul.png" />
+    <Content Include="musteri\img\incele.gif" />
+    <Content Include="musteri\img\jquery-1.2.6.pack.js" />
+    <Content Include="musteri\img\kaydet.gif" />
+    <Content Include="musteri\img\kopyala.gif" />
+    <Content Include="musteri\img\logo.png" />
+    <Content Include="musteri\img\onayla.gif" />
+    <Content Include="musteri\img\_resimyok_o.png" />
+    <Content Include="musteri\img\sag_2ok.gif" />
+    <Content Include="musteri\img\sag_ok.gif" />
+    <Content Include="musteri\img\sil.gif" />
+    <Content Include="musteri\img\sol_2ok.gif" />
+    <Content Include="musteri\img\sol_ok.gif" />
+    <Content Include="musteri\img\ssl.gif" />
+    <Content Include="musteri\img\tt_bottom.gif" />
+    <Content Include="musteri\img\tt_left.gif" />
+    <Content Include="musteri\img\tt_top.gif" />
+    <Content Include="musteri\img\yazdir.gif" />
+    <Content Include="musteri\img\yukleniyor2.gif" />
+    <Content Include="musteri\js\wmBox.js" />
+    <Content Include="musteri\kapat.htm" />
+    <Content Include="musteri\kartaiade.aspx" />
+    <Content Include="musteri\kartiade1.aspx" />
+    <Content Include="musteri\kartlar.aspx" />
+    <Content Include="musteri\katalog.aspx" />
+    <Content Include="musteri\katalogsade.aspx" />
+    <Content Include="musteri\kayit.aspx" />
+    <Content Include="kurumsal.aspx" />
+    <Content Include="musteri\kayitbasarili.aspx" />
+    <Content Include="musteri\kimne.aspx" />
+    <Content Include="musteri\konumal.aspx" />
+    <Content Include="musteri\konumlar.aspx" />
+    <Content Include="musteri\konumoto.aspx" />
+    <Content Include="musteri\konumoto2.aspx" />
+    <Content Include="musteri\map.aspx" />
+    <Content Include="musteri\map2.aspx" />
+    <Content Include="musteri\map3.aspx" />
+    <Content Include="musteri\map4.aspx" />
+    <Content Include="musteri\map5.aspx" />
+    <Content Include="musteri\mesafehesapla.aspx" />
+    <Content Include="musteri\mesajlar.aspx" />
+    <Content Include="musteri\musteriresim.aspx" />
+    <Content Include="musteri\musteriresimler.aspx" />
+    <Content Include="musteri\odeme.aspx" />
+    <Content Include="musteri\odeme1.aspx" />
+    <Content Include="musteri\odemeler.aspx" />
+    <Content Include="musteri\odemesayfasi3dpay.aspx" />
+    <Content Include="musteri\odemeyazdir.aspx" />
+    <Content Include="musteri\olcu.aspx" />
+    <Content Include="musteri\olculer.aspx" />
+    <Content Include="musteri\oneriyazdir.aspx" />
+    <Content Include="musteri\quantumwebservislog.aspx" />
+    <Content Include="musteri\resim.aspx" />
+    <Content Include="musteri\resim2.aspx" />
+    <Content Include="musteri\resimcek.html" />
+    <Content Include="musteri\resimler.aspx" />
+    <Content Include="musteri\rutdagilim.aspx" />
+    <Content Include="musteri\rutdagilim2.aspx" />
+    <Content Include="musteri\rutharita.aspx" />
+    <Content Include="musteri\rutlar.aspx" />
+    <Content Include="musteri\saticikampanya.html" />
+    <Content Include="musteri\satishedef-eski-cs.txt" />
+    <Content Include="musteri\satishedef-eski.txt" />
+    <Content Include="musteri\satishedef.aspx" />
+    <Content Include="musteri\satisrapor.aspx" />
+    <Content Include="musteri\satisraporkarsilastirma.aspx" />
+    <Content Include="musteri\satisraporkarsilastirma2.aspx" />
+    <Content Include="musteri\satisraporkarsilastirma3.aspx" />
+    <Content Include="musteri\satisraporozet.aspx" />
+    <Content Include="musteri\satisraporozet2.aspx" />
+    <Content Include="musteri\satisraporozet3.aspx" />
+    <Content Include="musteri\satisraporyazdir.aspx" />
+    <Content Include="musteri\sattemcariduzenleme.aspx" />
+    <Content Include="musteri\Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="musteri\Scripts\jquery-1.6.4.js" />
+    <Content Include="musteri\Scripts\jquery-1.6.4.min.js" />
+    <Content Include="musteri\Scripts\jquery.signalR-1.0.0-rc2.js" />
+    <Content Include="musteri\Scripts\jquery.signalR-1.0.0-rc2.min.js" />
+    <Content Include="musteri\sifirlama.aspx" />
+    <Content Include="musteri\siparis.aspx" />
+    <Content Include="musteri\siparis2.aspx" />
+    <Content Include="musteri\siparisler.aspx" />
+    <Content Include="musteri\siparislerdurum.aspx" />
+    <Content Include="musteri\siparislersap.aspx" />
+    <Content Include="musteri\siparislersapdetay.aspx" />
+    <Content Include="musteri\stok.aspx" />
+    <Content Include="musteri\StyleSheet.css" />
+    <Content Include="musteri\temp\31.jpg" />
+    <Content Include="musteri\temp\54.jpg" />
+    <Content Include="musteri\temp\closelabel.png" />
+    <Content Include="musteri\temp\facebox.css" />
+    <Content Include="musteri\temp\facebox.js" />
+    <Content Include="musteri\temp\jquery.min.js" />
+    <Content Include="musteri\temp\loading.gif" />
+    <Content Include="musteri\ucAlt.ascx" />
+    <Content Include="musteri\ucFiyatlarKampanyaAyrinti.ascx" />
+    <Content Include="musteri\ucFiyatlarKampanyalar.ascx" />
+    <Content Include="musteri\ucKampanyaAyrinti.ascx" />
+    <Content Include="musteri\ucKampanyalar.ascx" />
+    <Content Include="musteri\ucMesajlar.ascx" />
+    <Content Include="musteri\ucProgress.ascx" />
+    <Content Include="musteri\ucUrunAyrinti.ascx" />
+    <Content Include="musteri\ucYeniMesaj.ascx" />
+    <Content Include="musteri\uyelik.aspx" />
+    <Content Include="musteri\yardim.html" />
+    <Content Include="musteri\yazdir.aspx" />
+    <Content Include="musteri\yazdiraktivite.aspx" />
+    <Content Include="musteri\yazdiranlasma.aspx" />
+    <Content Include="musteri\yetkiyok.aspx" />
+    <Content Include="musteri\yonetici.aspx" />
+    <Content Include="musteri\ziyaret.aspx" />
+    <Content Include="resim.aspx" />
+    <Content Include="Scripts2\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts2\jquery-1.8.2.js" />
+    <Content Include="Scripts2\jquery-1.8.2.min.js" />
+    <Content Include="Scripts2\jquery.signalR-1.0.0.js" />
+    <Content Include="Scripts2\jquery.signalR-1.0.0.min.js" />
+    <Content Include="Scripts2\ui\jquery.ui.core.js" />
+    <Content Include="Scripts2\ui\jquery.ui.dialog.js" />
+    <Content Include="Scripts2\ui\jquery.ui.draggable.js" />
+    <Content Include="Scripts2\ui\jquery.ui.mouse.js" />
+    <Content Include="Scripts2\ui\jquery.ui.resizable.js" />
+    <Content Include="Scripts2\ui\jquery.ui.widget.js" />
+    <Content Include="scripts\AC_RunActiveContent.js" />
+    <Content Include="scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="scripts\jquery-1.4.1.js" />
+    <Content Include="scripts\jquery-1.4.1.min.js" />
+    <None Include="css\490cb0e45f39580c7ba1b856f2f1f4a7.eot" />
+    <None Include="css\490cb0e45f39580c7ba1b856f2f1f4a7.ttf" />
+    <None Include="css\eJYqrhUff1n1Ge9A-rSw_FtXRa8TVwTICgirnJhmVJw.woff2" />
+    <None Include="css\w5P-SI7QJQSDqB3GziL8XVtXRa8TVwTICgirnJhmVJw.woff2" />
+    <None Include="kenton\fonts\iconic\fonts\Material-Design-Iconic-Font.ttf" />
+    <Content Include="kenton\fonts\myriadpro\MyriadPro-Light.woff" />
+    <Content Include="kenton\fonts\myriadpro\MyriadPro-Light.woff2" />
+    <None Include="kenton\fonts\poppins\Poppins-Bold.ttf" />
+    <None Include="kenton\fonts\poppins\Poppins-Regular.ttf" />
+    <Content Include="kenton\Site1.Master" />
+    <Content Include="musteri\formlar\Web.config" />
+    <None Include="musteri\hs\7XUFZ5tgS-tD6QamInJTcYp67VRGBZnLJtqE-R4vad8.woff" />
+    <None Include="musteri\hs\anMUvcNT0H1YN4FII8wpr01BFkczmy2u5hEk7x1peg4.woff" />
+    <None Include="musteri\hs\r9OmwyQxrgzUAhaLET_KOzUd9nSPaIPDEKUjMzkuNks.woff" />
+    <None Include="musteri\hs\RZunN20OBmkvrU7sA4GPPn7AeccaDB5K039idtUe2Ic.woff" />
+    <None Include="musteri\hs\yAXhog6uK3bd3OwBILv_SD8E0i7KZn-EPnyo3HZu7kw.woff" />
+    <Content Include="musteri\katalog\Web.config" />
+    <Content Include="musteri\teshir\Web.config" />
+    <Content Include="musteri\sunumlar\Web.config" />
+    <Content Include="musteri\odemesistemleri\Web.config" />
+    <Content Include="musteri\sosyalmedya\Web.config" />
+    <Content Include="musteri\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\System.Xml.Linq.XElement.datasource" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\Quantum\Ambar.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Quantum\AmbarKurallari.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Quantum\BatchliLot.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Quantum\IsEmri.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Quantum\Koridor.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Quantum\Malzeme.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Quantum\MobilDonusDegerleri.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Quantum\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\Quantum\ReturnValue.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\Quantum\svclibrabiz.disco" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <None Include="Web References\Quantum\svclibrabiz.wsdl" />
+    <None Include="Web References\SAPsendorderC\Bapiret2.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SAPsendorderC\item.wsdl" />
+    <None Include="Web References\SAPsendorderC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\SAPsendorder\Bapiret2.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\SAPsendorder\item.wsdl" />
+    <None Include="Web References\SAPsendorder\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\MessageDetail.cs" />
+    <Compile Include="Common\UserDetail.cs" />
+    <Compile Include="default.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\anasayfa.aspx.cs">
+      <DependentUpon>anasayfa.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\anasayfa.aspx.designer.cs">
+      <DependentUpon>anasayfa.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\exit.aspx.cs">
+      <DependentUpon>exit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\exit.aspx.designer.cs">
+      <DependentUpon>exit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\giris.aspx.cs">
+      <DependentUpon>giris.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\giris.aspx.designer.cs">
+      <DependentUpon>giris.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\kategoriler.aspx.cs">
+      <DependentUpon>kategoriler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\kategoriler.aspx.designer.cs">
+      <DependentUpon>kategoriler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\panel.aspx.cs">
+      <DependentUpon>panel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\panel.aspx.designer.cs">
+      <DependentUpon>panel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\resim.aspx.cs">
+      <DependentUpon>resim.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\resim.aspx.designer.cs">
+      <DependentUpon>resim.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\sifre.aspx.cs">
+      <DependentUpon>sifre.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\sifre.aspx.designer.cs">
+      <DependentUpon>sifre.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\Site1.Master.cs">
+      <DependentUpon>Site1.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\Site1.Master.designer.cs">
+      <DependentUpon>Site1.Master</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\sosyal\tarif.aspx.cs">
+      <DependentUpon>tarif.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\sosyal\tarif.aspx.designer.cs">
+      <DependentUpon>tarif.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\tarif.aspx.cs">
+      <DependentUpon>tarif.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\tarif.aspx.designer.cs">
+      <DependentUpon>tarif.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\tarifekle.aspx.cs">
+      <DependentUpon>tarifekle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\tarifekle.aspx.designer.cs">
+      <DependentUpon>tarifekle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\tarifler.aspx.cs">
+      <DependentUpon>tarifler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\tarifler.aspx.designer.cs">
+      <DependentUpon>tarifler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\urunler.aspx.cs">
+      <DependentUpon>urunler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\urunler.aspx.designer.cs">
+      <DependentUpon>urunler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\uyelik.aspx.cs">
+      <DependentUpon>uyelik.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\uyelik.aspx.designer.cs">
+      <DependentUpon>uyelik.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\uyeol.aspx.cs">
+      <DependentUpon>uyeol.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\uyeol.aspx.designer.cs">
+      <DependentUpon>uyeol.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\video.aspx.cs">
+      <DependentUpon>video.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\video.aspx.designer.cs">
+      <DependentUpon>video.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\videolar.aspx.cs">
+      <DependentUpon>videolar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\videolar.aspx.designer.cs">
+      <DependentUpon>videolar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\yer.aspx.cs">
+      <DependentUpon>yer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\yer.aspx.designer.cs">
+      <DependentUpon>yer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\yorum.aspx.cs">
+      <DependentUpon>yorum.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\yorum.aspx.designer.cs">
+      <DependentUpon>yorum.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kenton\yorumlar.aspx.cs">
+      <DependentUpon>yorumlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kenton\yorumlar.aspx.designer.cs">
+      <DependentUpon>yorumlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\anket.aspx.cs">
+      <DependentUpon>anket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\anket.aspx.designer.cs">
+      <DependentUpon>anket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\anketler.aspx.cs">
+      <DependentUpon>anketler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\anketler.aspx.designer.cs">
+      <DependentUpon>anketler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\download.aspx.cs">
+      <DependentUpon>download.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\download.aspx.designer.cs">
+      <DependentUpon>download.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\exit.aspx.cs">
+      <DependentUpon>exit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\exit.aspx.designer.cs">
+      <DependentUpon>exit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\giris.aspx.cs">
+      <DependentUpon>giris.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\giris.aspx.designer.cs">
+      <DependentUpon>giris.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\kamera.aspx.cs">
+      <DependentUpon>kamera.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\kamera.aspx.designer.cs">
+      <DependentUpon>kamera.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\konumal.aspx.cs">
+      <DependentUpon>konumal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\konumal.aspx.designer.cs">
+      <DependentUpon>konumal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\konumal2.aspx.cs">
+      <DependentUpon>konumal2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\konumal2.aspx.designer.cs">
+      <DependentUpon>konumal2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\konumlar.aspx.cs">
+      <DependentUpon>konumlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\konumlar.aspx.designer.cs">
+      <DependentUpon>konumlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\kutuphane.aspx.cs">
+      <DependentUpon>kutuphane.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\kutuphane.aspx.designer.cs">
+      <DependentUpon>kutuphane.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\kutuphane2.aspx.cs">
+      <DependentUpon>kutuphane2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\kutuphane2.aspx.designer.cs">
+      <DependentUpon>kutuphane2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\menu.aspx.cs">
+      <DependentUpon>menu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\menu.aspx.designer.cs">
+      <DependentUpon>menu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\mesaj.aspx.cs">
+      <DependentUpon>mesaj.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\mesaj.aspx.designer.cs">
+      <DependentUpon>mesaj.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\mesajlar.aspx.cs">
+      <DependentUpon>mesajlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\mesajlar.aspx.designer.cs">
+      <DependentUpon>mesajlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\musteriler.aspx.cs">
+      <DependentUpon>musteriler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\musteriler.aspx.designer.cs">
+      <DependentUpon>musteriler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\resim.aspx.cs">
+      <DependentUpon>resim.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\resim.aspx.designer.cs">
+      <DependentUpon>resim.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\resimler.aspx.cs">
+      <DependentUpon>resimler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\resimler.aspx.designer.cs">
+      <DependentUpon>resimler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\rutbugun.aspx.cs">
+      <DependentUpon>rutbugun.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\rutbugun.aspx.designer.cs">
+      <DependentUpon>rutbugun.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\rutekle.aspx.cs">
+      <DependentUpon>rutekle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\rutekle.aspx.designer.cs">
+      <DependentUpon>rutekle.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\rutlar.aspx.cs">
+      <DependentUpon>rutlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\rutlar.aspx.designer.cs">
+      <DependentUpon>rutlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\siparis.aspx.cs">
+      <DependentUpon>siparis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\siparis.aspx.designer.cs">
+      <DependentUpon>siparis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\siparisgoster.aspx.cs">
+      <DependentUpon>siparisgoster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\siparisgoster.aspx.designer.cs">
+      <DependentUpon>siparisgoster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\siparisicerik.aspx.cs">
+      <DependentUpon>siparisicerik.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\siparisicerik.aspx.designer.cs">
+      <DependentUpon>siparisicerik.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\siparisler.aspx.cs">
+      <DependentUpon>siparisler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\siparisler.aspx.designer.cs">
+      <DependentUpon>siparisler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\ucAlt.ascx.cs">
+      <DependentUpon>ucAlt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\ucAlt.ascx.designer.cs">
+      <DependentUpon>ucAlt.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\ucProgress.ascx.cs">
+      <DependentUpon>ucProgress.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\ucProgress.ascx.designer.cs">
+      <DependentUpon>ucProgress.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\ucUst.ascx.cs">
+      <DependentUpon>ucUst.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\ucUst.ascx.designer.cs">
+      <DependentUpon>ucUst.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\ziyaret.aspx.cs">
+      <DependentUpon>ziyaret.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\ziyaret.aspx.designer.cs">
+      <DependentUpon>ziyaret.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\ziyaret1.aspx.cs">
+      <DependentUpon>ziyaret1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\ziyaret1.aspx.designer.cs">
+      <DependentUpon>ziyaret1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\ziyarethata.aspx.cs">
+      <DependentUpon>ziyarethata.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\ziyarethata.aspx.designer.cs">
+      <DependentUpon>ziyarethata.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\ziyaretler.aspx.cs">
+      <DependentUpon>ziyaretler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\ziyaretler.aspx.designer.cs">
+      <DependentUpon>ziyaretler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="merch\ziyaretmap.aspx.cs">
+      <DependentUpon>ziyaretmap.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="merch\ziyaretmap.aspx.designer.cs">
+      <DependentUpon>ziyaretmap.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\adresbankasi.aspx.cs">
+      <DependentUpon>adresbankasi.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\adresbankasi.aspx.designer.cs">
+      <DependentUpon>adresbankasi.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\aktivite.aspx.cs">
+      <DependentUpon>aktivite.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\aktivite.aspx.designer.cs">
+      <DependentUpon>aktivite.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\AktiviteDetayi.cs" />
+    <Compile Include="musteri\aktiviteler.aspx.cs">
+      <DependentUpon>aktiviteler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\aktiviteler.aspx.designer.cs">
+      <DependentUpon>aktiviteler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\AktiviteListe.cs" />
+    <Compile Include="musteri\anlasmalar.aspx.cs">
+      <DependentUpon>anlasmalar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\anlasmalar.aspx.designer.cs">
+      <DependentUpon>anlasmalar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\anlasmalifiyatlar.aspx.cs">
+      <DependentUpon>anlasmalifiyatlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\anlasmalifiyatlar.aspx.designer.cs">
+      <DependentUpon>anlasmalifiyatlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\borcalacakrapor.aspx.cs">
+      <DependentUpon>borcalacakrapor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\borcalacakrapor.aspx.designer.cs">
+      <DependentUpon>borcalacakrapor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\brosur.aspx.cs">
+      <DependentUpon>brosur.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\brosur.aspx.designer.cs">
+      <DependentUpon>brosur.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\cikis.aspx.cs">
+      <DependentUpon>cikis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\cikis.aspx.designer.cs">
+      <DependentUpon>cikis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\CustomQ.cs" />
+    <Compile Include="musteri\default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\defaultsd.aspx.cs">
+      <DependentUpon>defaultsd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\defaultsd.aspx.designer.cs">
+      <DependentUpon>defaultsd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\deneme.aspx.cs">
+      <DependentUpon>deneme.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\deneme.aspx.designer.cs">
+      <DependentUpon>deneme.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\download.aspx.cs">
+      <DependentUpon>download.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\download.aspx.designer.cs">
+      <DependentUpon>download.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\EFatura.cs" />
+    <Compile Include="musteri\ekstreyazdir.aspx.cs">
+      <DependentUpon>ekstreyazdir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ekstreyazdir.aspx.designer.cs">
+      <DependentUpon>ekstreyazdir.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\eskodlar.aspx.cs">
+      <DependentUpon>eskodlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\eskodlar.aspx.designer.cs">
+      <DependentUpon>eskodlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\eskodurunler.aspx.cs">
+      <DependentUpon>eskodurunler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\eskodurunler.aspx.designer.cs">
+      <DependentUpon>eskodurunler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\fiyatlar.aspx.cs">
+      <DependentUpon>fiyatlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\fiyatlar.aspx.designer.cs">
+      <DependentUpon>fiyatlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\fiyatlisteindir.aspx.cs">
+      <DependentUpon>fiyatlisteindir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\fiyatlisteindir.aspx.designer.cs">
+      <DependentUpon>fiyatlisteindir.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\giris.aspx.cs">
+      <DependentUpon>giris.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\giris.aspx.designer.cs">
+      <DependentUpon>giris.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="iletisim.aspx.cs">
+      <DependentUpon>iletisim.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="iletisim.aspx.designer.cs">
+      <DependentUpon>iletisim.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="insankaynaklari.aspx.cs">
+      <DependentUpon>insankaynaklari.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="insankaynaklari.aspx.designer.cs">
+      <DependentUpon>insankaynaklari.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="isbasvuru.aspx.cs">
+      <DependentUpon>isbasvuru.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="isbasvuru.aspx.designer.cs">
+      <DependentUpon>isbasvuru.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="isbasvurutam.aspx.cs">
+      <DependentUpon>isbasvurutam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="isbasvurutam.aspx.designer.cs">
+      <DependentUpon>isbasvurutam.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\gorseller.aspx.cs">
+      <DependentUpon>gorseller.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\gorseller.aspx.designer.cs">
+      <DependentUpon>gorseller.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\grafik.aspx.cs">
+      <DependentUpon>grafik.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\grafik.aspx.designer.cs">
+      <DependentUpon>grafik.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\haritaurun.aspx.cs">
+      <DependentUpon>haritaurun.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\haritaurun.aspx.designer.cs">
+      <DependentUpon>haritaurun.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\hatalar.aspx.cs">
+      <DependentUpon>hatalar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\hatalar.aspx.designer.cs">
+      <DependentUpon>hatalar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\hedef.aspx.cs">
+      <DependentUpon>hedef.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\hedef.aspx.designer.cs">
+      <DependentUpon>hedef.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\hesapayrinti.aspx.cs">
+      <DependentUpon>hesapayrinti.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\hesapayrinti.aspx.designer.cs">
+      <DependentUpon>hesapayrinti.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\hizlisiparis.aspx.cs">
+      <DependentUpon>hizlisiparis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\hizlisiparis.aspx.designer.cs">
+      <DependentUpon>hizlisiparis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\hizlisiparis2.aspx.cs">
+      <DependentUpon>hizlisiparis2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\hizlisiparis2.aspx.designer.cs">
+      <DependentUpon>hizlisiparis2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\hizmetbedelleri.aspx.cs">
+      <DependentUpon>hizmetbedelleri.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\hizmetbedelleri.aspx.designer.cs">
+      <DependentUpon>hizmetbedelleri.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\iade.aspx.cs">
+      <DependentUpon>iade.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\iade.aspx.designer.cs">
+      <DependentUpon>iade.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\IadeDetayi.cs" />
+    <Compile Include="musteri\iadegecmis.aspx.cs">
+      <DependentUpon>iadegecmis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\iadegecmis.aspx.designer.cs">
+      <DependentUpon>iadegecmis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\iadegecmis2.aspx.cs">
+      <DependentUpon>iadegecmis2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\iadegecmis2.aspx.designer.cs">
+      <DependentUpon>iadegecmis2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\iadeler.aspx.cs">
+      <DependentUpon>iadeler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\iadeler.aspx.designer.cs">
+      <DependentUpon>iadeler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\IadeListe.cs" />
+    <Compile Include="musteri\indir.aspx.cs">
+      <DependentUpon>indir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\indir.aspx.designer.cs">
+      <DependentUpon>indir.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\Kampanya.cs" />
+    <Compile Include="musteri\kartaiade.aspx.cs">
+      <DependentUpon>kartaiade.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\kartaiade.aspx.designer.cs">
+      <DependentUpon>kartaiade.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\kartiade1.aspx.cs">
+      <DependentUpon>kartiade1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\kartiade1.aspx.designer.cs">
+      <DependentUpon>kartiade1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\kartlar.aspx.cs">
+      <DependentUpon>kartlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\kartlar.aspx.designer.cs">
+      <DependentUpon>kartlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\katalog.aspx.cs">
+      <DependentUpon>katalog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\katalog.aspx.designer.cs">
+      <DependentUpon>katalog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\katalogsade.aspx.cs">
+      <DependentUpon>katalogsade.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\katalogsade.aspx.designer.cs">
+      <DependentUpon>katalogsade.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\kayit.aspx.cs">
+      <DependentUpon>kayit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\kayit.aspx.designer.cs">
+      <DependentUpon>kayit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="kurumsal.aspx.cs">
+      <DependentUpon>kurumsal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="kurumsal.aspx.designer.cs">
+      <DependentUpon>kurumsal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\kayitbasarili.aspx.cs">
+      <DependentUpon>kayitbasarili.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\kayitbasarili.aspx.designer.cs">
+      <DependentUpon>kayitbasarili.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\kimne.aspx.cs">
+      <DependentUpon>kimne.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\kimne.aspx.designer.cs">
+      <DependentUpon>kimne.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\konumal.aspx.cs">
+      <DependentUpon>konumal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\konumal.aspx.designer.cs">
+      <DependentUpon>konumal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\konumlar.aspx.cs">
+      <DependentUpon>konumlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\konumlar.aspx.designer.cs">
+      <DependentUpon>konumlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\konumoto.aspx.cs">
+      <DependentUpon>konumoto.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\konumoto.aspx.designer.cs">
+      <DependentUpon>konumoto.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\konumoto2.aspx.cs">
+      <DependentUpon>konumoto2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\konumoto2.aspx.designer.cs">
+      <DependentUpon>konumoto2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\map.aspx.cs">
+      <DependentUpon>map.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\map.aspx.designer.cs">
+      <DependentUpon>map.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\map2.aspx.cs">
+      <DependentUpon>map2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\map2.aspx.designer.cs">
+      <DependentUpon>map2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\map3.aspx.cs">
+      <DependentUpon>map3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\map3.aspx.designer.cs">
+      <DependentUpon>map3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\map4.aspx.cs">
+      <DependentUpon>map4.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\map4.aspx.designer.cs">
+      <DependentUpon>map4.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\map5.aspx.cs">
+      <DependentUpon>map5.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\map5.aspx.designer.cs">
+      <DependentUpon>map5.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\mesafehesapla.aspx.cs">
+      <DependentUpon>mesafehesapla.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\mesafehesapla.aspx.designer.cs">
+      <DependentUpon>mesafehesapla.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\mesajlar.aspx.cs">
+      <DependentUpon>mesajlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\mesajlar.aspx.designer.cs">
+      <DependentUpon>mesajlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\musteriresim.aspx.cs">
+      <DependentUpon>musteriresim.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\musteriresim.aspx.designer.cs">
+      <DependentUpon>musteriresim.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\musteriresimler.aspx.cs">
+      <DependentUpon>musteriresimler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\musteriresimler.aspx.designer.cs">
+      <DependentUpon>musteriresimler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\odeme.aspx.cs">
+      <DependentUpon>odeme.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\odeme.aspx.designer.cs">
+      <DependentUpon>odeme.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\odeme1.aspx.cs">
+      <DependentUpon>odeme1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\odeme1.aspx.designer.cs">
+      <DependentUpon>odeme1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\odemeler.aspx.cs">
+      <DependentUpon>odemeler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\odemeler.aspx.designer.cs">
+      <DependentUpon>odemeler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\odemesayfasi3dpay.aspx.cs">
+      <DependentUpon>odemesayfasi3dpay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\odemesayfasi3dpay.aspx.designer.cs">
+      <DependentUpon>odemesayfasi3dpay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\odemeyazdir.aspx.cs">
+      <DependentUpon>odemeyazdir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\odemeyazdir.aspx.designer.cs">
+      <DependentUpon>odemeyazdir.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\olcu.aspx.cs">
+      <DependentUpon>olcu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\olcu.aspx.designer.cs">
+      <DependentUpon>olcu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\olculer.aspx.cs">
+      <DependentUpon>olculer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\olculer.aspx.designer.cs">
+      <DependentUpon>olculer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\oneriyazdir.aspx.cs">
+      <DependentUpon>oneriyazdir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\oneriyazdir.aspx.designer.cs">
+      <DependentUpon>oneriyazdir.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\quantumwebservislog.aspx.cs">
+      <DependentUpon>quantumwebservislog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\quantumwebservislog.aspx.designer.cs">
+      <DependentUpon>quantumwebservislog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\resim.aspx.cs">
+      <DependentUpon>resim.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\resim.aspx.designer.cs">
+      <DependentUpon>resim.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\resim2.aspx.cs">
+      <DependentUpon>resim2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\resim2.aspx.designer.cs">
+      <DependentUpon>resim2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\resimler.aspx.cs">
+      <DependentUpon>resimler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\resimler.aspx.designer.cs">
+      <DependentUpon>resimler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\rutdagilim.aspx.cs">
+      <DependentUpon>rutdagilim.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\rutdagilim.aspx.designer.cs">
+      <DependentUpon>rutdagilim.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\rutdagilim2.aspx.cs">
+      <DependentUpon>rutdagilim2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\rutdagilim2.aspx.designer.cs">
+      <DependentUpon>rutdagilim2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\rutharita.aspx.cs">
+      <DependentUpon>rutharita.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\rutharita.aspx.designer.cs">
+      <DependentUpon>rutharita.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\rutlar.aspx.cs">
+      <DependentUpon>rutlar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\rutlar.aspx.designer.cs">
+      <DependentUpon>rutlar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\satishedef.aspx.cs">
+      <DependentUpon>satishedef.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\satishedef.aspx.designer.cs">
+      <DependentUpon>satishedef.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\Satishedef.cs" />
+    <Compile Include="musteri\satisrapor.aspx.cs">
+      <DependentUpon>satisrapor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\satisrapor.aspx.designer.cs">
+      <DependentUpon>satisrapor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\satisraporkarsilastirma.aspx.cs">
+      <DependentUpon>satisraporkarsilastirma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\satisraporkarsilastirma.aspx.designer.cs">
+      <DependentUpon>satisraporkarsilastirma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\satisraporkarsilastirma2.aspx.cs">
+      <DependentUpon>satisraporkarsilastirma2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\satisraporkarsilastirma2.aspx.designer.cs">
+      <DependentUpon>satisraporkarsilastirma2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\satisraporkarsilastirma3.aspx.cs">
+      <DependentUpon>satisraporkarsilastirma3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\satisraporkarsilastirma3.aspx.designer.cs">
+      <DependentUpon>satisraporkarsilastirma3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\satisraporozet.aspx.cs">
+      <DependentUpon>satisraporozet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\satisraporozet.aspx.designer.cs">
+      <DependentUpon>satisraporozet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\satisraporozet2.aspx.cs">
+      <DependentUpon>satisraporozet2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\satisraporozet2.aspx.designer.cs">
+      <DependentUpon>satisraporozet2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\satisraporozet3.aspx.cs">
+      <DependentUpon>satisraporozet3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\satisraporozet3.aspx.designer.cs">
+      <DependentUpon>satisraporozet3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\satisraporyazdir.aspx.cs">
+      <DependentUpon>satisraporyazdir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\satisraporyazdir.aspx.designer.cs">
+      <DependentUpon>satisraporyazdir.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\sattemcariduzenleme.aspx.cs">
+      <DependentUpon>sattemcariduzenleme.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\sattemcariduzenleme.aspx.designer.cs">
+      <DependentUpon>sattemcariduzenleme.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\sifirlama.aspx.cs">
+      <DependentUpon>sifirlama.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\sifirlama.aspx.designer.cs">
+      <DependentUpon>sifirlama.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\siparis2.aspx.cs">
+      <DependentUpon>siparis2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\siparis2.aspx.designer.cs">
+      <DependentUpon>siparis2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\siparisler.aspx.cs">
+      <DependentUpon>siparisler.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\siparisler.aspx.designer.cs">
+      <DependentUpon>siparisler.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\siparislerdurum.aspx.cs">
+      <DependentUpon>siparislerdurum.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\siparislerdurum.aspx.designer.cs">
+      <DependentUpon>siparislerdurum.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\siparislersap.aspx.cs">
+      <DependentUpon>siparislersap.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\siparislersap.aspx.designer.cs">
+      <DependentUpon>siparislersap.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\siparislersapdetay.aspx.cs">
+      <DependentUpon>siparislersapdetay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\siparislersapdetay.aspx.designer.cs">
+      <DependentUpon>siparislersapdetay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\SiparisListe.cs" />
+    <Compile Include="musteri\siparis.aspx.cs">
+      <DependentUpon>siparis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\siparis.aspx.designer.cs">
+      <DependentUpon>siparis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\SiparisDetayi.cs" />
+    <Compile Include="musteri\stok.aspx.cs">
+      <DependentUpon>stok.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\stok.aspx.designer.cs">
+      <DependentUpon>stok.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\ucAlt.ascx.cs">
+      <DependentUpon>ucAlt.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ucAlt.ascx.designer.cs">
+      <DependentUpon>ucAlt.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\ucFiyatlarKampanyaAyrinti.ascx.cs">
+      <DependentUpon>ucFiyatlarKampanyaAyrinti.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ucFiyatlarKampanyaAyrinti.ascx.designer.cs">
+      <DependentUpon>ucFiyatlarKampanyaAyrinti.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\ucFiyatlarKampanyalar.ascx.cs">
+      <DependentUpon>ucFiyatlarKampanyalar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ucFiyatlarKampanyalar.ascx.designer.cs">
+      <DependentUpon>ucFiyatlarKampanyalar.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\ucKampanyaAyrinti.ascx.cs">
+      <DependentUpon>ucKampanyaAyrinti.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ucKampanyaAyrinti.ascx.designer.cs">
+      <DependentUpon>ucKampanyaAyrinti.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\ucKampanyalar.ascx.cs">
+      <DependentUpon>ucKampanyalar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ucKampanyalar.ascx.designer.cs">
+      <DependentUpon>ucKampanyalar.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\ucMesajlar.ascx.cs">
+      <DependentUpon>ucMesajlar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ucMesajlar.ascx.designer.cs">
+      <DependentUpon>ucMesajlar.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\ucProgress.ascx.cs">
+      <DependentUpon>ucProgress.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ucProgress.ascx.designer.cs">
+      <DependentUpon>ucProgress.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\ucUrunAyrinti.ascx.cs">
+      <DependentUpon>ucUrunAyrinti.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ucUrunAyrinti.ascx.designer.cs">
+      <DependentUpon>ucUrunAyrinti.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\ucYeniMesaj.ascx.cs">
+      <DependentUpon>ucYeniMesaj.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ucYeniMesaj.ascx.designer.cs">
+      <DependentUpon>ucYeniMesaj.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\uyelik.aspx.cs">
+      <DependentUpon>uyelik.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\uyelik.aspx.designer.cs">
+      <DependentUpon>uyelik.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\yazdir.aspx.cs">
+      <DependentUpon>yazdir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\yazdir.aspx.designer.cs">
+      <DependentUpon>yazdir.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\yazdiraktivite.aspx.cs">
+      <DependentUpon>yazdiraktivite.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\yazdiraktivite.aspx.designer.cs">
+      <DependentUpon>yazdiraktivite.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\yazdiranlasma.aspx.cs">
+      <DependentUpon>yazdiranlasma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\yazdiranlasma.aspx.designer.cs">
+      <DependentUpon>yazdiranlasma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\yetkiyok.aspx.cs">
+      <DependentUpon>yetkiyok.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\yetkiyok.aspx.designer.cs">
+      <DependentUpon>yetkiyok.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\yonetici.aspx.cs">
+      <DependentUpon>yonetici.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\yonetici.aspx.designer.cs">
+      <DependentUpon>yonetici.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="musteri\ziyaret.aspx.cs">
+      <DependentUpon>ziyaret.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="musteri\ziyaret.aspx.designer.cs">
+      <DependentUpon>ziyaret.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="resim.aspx.cs">
+      <DependentUpon>resim.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="resim.aspx.designer.cs">
+      <DependentUpon>resim.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\Quantum\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\SAPsendorderC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\SAPsendorder\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="data1\thumbnails\" />
+    <Folder Include="download\" />
+    <Folder Include="duyurular\" />
+    <Folder Include="musteri\teshir\Altin\" />
+    <Folder Include="musteri\teshir\Ari\" />
+    <Folder Include="musteri\teshir\Asalak\" />
+    <Folder Include="musteri\teshir\Camsil\" />
+    <Folder Include="musteri\teshir\Ernet\" />
+    <Folder Include="musteri\teshir\Kenton\" />
+    <Folder Include="musteri\teshir\Piknik\" />
+    <Folder Include="musteri\teshir\Saloon\" />
+    <Folder Include="musteri\teshir\Tibtrap\" />
+    <Folder Include="tempdown\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://10.1.1.9/QuantumWeb/svclibrabiz.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Quantum\</RelPath>
+      <UpdateFromURL>http://10.1.1.9/QuantumWeb/svclibrabiz.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WebUI_Quantum_svcLibraBiz</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://exper2.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\SAPsendorder\</RelPath>
+      <UpdateFromURL>http://exper2.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WebUI_SAPsendorder_ZwebSendSalesOrderService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\SAPsendorderC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WebUI_SAPsendorderC_ZwebSendSalesOrderService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>24316</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

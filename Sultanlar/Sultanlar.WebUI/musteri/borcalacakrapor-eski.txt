@@ -1,0 +1,232 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="borcalacakrapor.aspx.cs" Inherits="Sultanlar.WebUI.musteri.borcalacakrapor" %>
+
+<%@ Register src="ucAlt.ascx" tagname="ucAlt" tagprefix="uc1" %>
+
+<%@ Register src="ucProgress.ascx" tagname="ucProgress" tagprefix="uc2" %>
+
+<%@ Register src="ucMesajlar.ascx" tagname="ucMesajlar" tagprefix="uc3" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Sultanlar : Borç Alacak Raporu</title>
+<link rel="stylesheet" type="text/css" href="StyleSheet.css" />
+    <script type="text/javascript">
+        function invisible() {
+            if (document.getElementById('divEkstreKaydet') != null) {
+                window.location.href = document.getElementById('lbEkstreKaydetKapat').href;
+                return false;
+            }
+        }
+        function Yazdir() {
+            yenipen = window.open('ekstreyazdir.aspx', '_blank', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,width=1024,height=480,noresize');
+            yenipen.moveTo(0, 0);
+        }
+        function clickButton(e, buttonid) {
+            var evt = e ? e : window.event;
+            var bt = document.getElementById(buttonid);
+            if (bt) {
+                if (evt.keyCode == 13) {
+                    bt.click();
+                    return false;
+                }
+            }
+        }
+    </script>
+
+    <script type="text/javascript" src="js/jquery-1.2.6.pack.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <link rel="stylesheet" href="js/jquery-ui.css" />
+    <script type="text/javascript" src="js/scripts.js"></script>
+
+    <script type="text/javascript" src="js/jquery.tipTip.js"></script>
+    <script type="text/javascript" src="js/jquery.tipTip.minified.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/tipTip.css" />
+
+</head>
+<body style="margin: 0 0 0 0;background-color: #EFEEEA;">
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="AjaxScripts" runat="server">
+    </asp:ScriptManager>
+    <script type="text/javascript">
+        Sys.WebForms.PageRequestManager.getInstance().add_pageLoaded(function (evt, args) {
+            $('#cbVGB').button();
+            $("input[type=submit], input[type=button]").button();
+        });
+    </script>
+    <asp:UpdateProgress ID="DivAjaxProg" runat="server">
+        <ProgressTemplate>
+            <uc2:ucProgress ID="ucProgress1" runat="server" />
+        </ProgressTemplate>
+    </asp:UpdateProgress>
+    <asp:UpdatePanel runat="server" ID="upBorcAlacak"><ContentTemplate>
+
+    <div id="tiptip_holder">
+    <div id="tiptip_content">
+    <div id="tiptip_arrow">
+    <div id="tiptip_arrow_inner"></div>
+    </div>
+    </div>
+    </div>
+
+    <uc3:ucMesajlar ID="ucMesajlar1" runat="server" />
+    
+    <div style="width: 100%; font-size: 9px; font-family: Verdana; background-color: #EFEEEA; border-bottom: 1px solid #FFCFB2"">
+    <table cellpadding="5" cellspacing="0">
+    <tr>
+    <td style="width: 800px;" valign="middle">
+        <table cellpadding="0" cellspacing="0"><tr><td>
+        <input type="button" value="Giriþ" onclick="javascript:window.location.href='default.aspx'" /> 
+        <input type="button" value="Aktiviteler" onclick="javascript:window.location.href='aktiviteler.aspx'" /> 
+        <input type="button" value="H.Bedelleri" onclick="javascript:window.location.href='hizmetbedelleri.aspx'" /> 
+        <input type="button" value="Anlaþmalar" onclick="javascript:window.location.href='anlasmalar.aspx'" /> 
+        <input type="button" value="Sipariþler" onclick="javascript:window.location.href='siparisler.aspx'" /> 
+        <input type="button" value="Ýadeler" onclick="javascript:window.location.href='iadeler.aspx'" /> 
+        <input type="button" value="Tahsilatlar" onclick="javascript:window.location.href='odemeler.aspx'" /> 
+        <input type="button" value="Raporlar" disabled="disabled" /> 
+        <input type="button" value="Üye Ýþlemleri" onclick="javascript:window.location.href='uyelik.aspx'" /> 
+        <input type="button" value='Mesajlar (<%= Sultanlar.DatabaseObject.Internet.GonderilenMesajlar.GetObjectCount(((Sultanlar.DatabaseObject.Internet.Musteriler)Session["Musteri"]).pkMusteriID).ToString() %>)' onclick="javascript:window.location.href='mesajlar.aspx'" /></td><td align="left"></td></tr></table>
+    </td>
+    <td style="width: 200px; font-family: Gisha; font-size: 12px" align="right">
+        <table cellpadding="0" cellspacing="0"><tr><td><asp:Label ID="Label1" runat="server"></asp:Label>&nbsp;&nbsp;&nbsp;</td><td><asp:ImageButton runat="server" ID="ImageButton1" OnClick="ImageButton1_Click" ImageUrl="img/ic_logout.png" /></td></tr></table>
+    </td>
+    </tr>
+    </table>
+    </div>
+    <div style="width: 100%; background-color: #FFFFFF">
+    <table cellpadding="0" cellspacing="0" style="width: 1000px; height: 400px; font-size: 10px; font-family: Verdana;
+        background-position: center center; background-image: url('img/bg-logo.jpg'); background-repeat: no-repeat;">
+        <tr>
+            <td>
+                <div class="Baslik">
+                <table cellpadding="0" cellspacing="0"><tr>
+                <td><img src="img/ic_ekstre.png" /></td>
+                <td><a href="hesapayrinti.aspx" style="color: #A0A0A0">Ekstre</a><asp:Label runat="server" Width="40px"></asp:Label></td>
+                <td><img src="img/ic_satis.png" /></td>
+                <td><a href="satisrapor.aspx" style="color: #A0A0A0">Satýþ Raporu</a><asp:Label runat="server" Width="40px"></asp:Label></td>
+                <td><asp:Image runat="server" ID="imgBorcAlacak" ImageUrl="img/ic_borcalacak.png" /></td>
+                <td>Borç Alacak Raporu<asp:Label runat="server" Width="40px"></asp:Label></td>
+                <td><asp:Image runat="server" ID="imgSatisHedef" ImageUrl="img/ic_satishedef.png" Visible="false" /></td>
+                <td><asp:HyperLink runat="server" ID="hlSatisHedef" NavigateUrl="satishedef.aspx" Visible="false" style="color: #A0A0A0">Satýþ Hedef Raporu</asp:HyperLink><asp:Label ID="Label5" runat="server" Width="40px"></asp:Label></td>
+                <td><asp:Image runat="server" ID="imgStok" ImageUrl="img/ic_satis.png" Visible="false" /></td>
+                <td><asp:HyperLink runat="server" ID="hlStok" NavigateUrl="stok.aspx" Visible="false" style="color: #A0A0A0">Stok Raporu</asp:HyperLink><asp:Label ID="Label2" runat="server" Width="40px"></asp:Label></td>
+                </tr></table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div style="padding: 10px 10px 10px 25px; font-size: 12px" runat="server" id="divCariHesaplar">
+                <div runat="server" id="divTemsilciArama" visible="false" 
+                        style="padding: 5px 5px 5px 0px;">
+                    <asp:TextBox runat="server" ID="txtTemsilciAra" Width="150px" onkeypress="return clickButton(event,'btnTemsilci')"
+                        ForeColor="#006699" BorderColor="#A3B5C9" BorderStyle="Solid" 
+                        BorderWidth="1px" style="padding: 3px 3px 3px 3px"></asp:TextBox>&nbsp;
+                    <asp:Button runat="server" ID="btnTemsilciAra" Width="150px" Text="Ara" OnClick="btnTemsilciAra_Click" 
+                        BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" 
+                        ForeColor="#6D8AAA" />&nbsp;
+                    <asp:Button runat="server" ID="btnTemsilci" Width="150px" Text="Tümünü Getir" OnClick="btnTemsilciTemizle_Click"
+                        BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" ForeColor="#6D8AAA" />&nbsp;
+                </div>
+                <table cellpadding="0" cellspacing="0"><tr><td valign="middle">
+                <asp:DropDownList ID="ddlTemsilciler" runat="server" Width="500px" AutoPostBack="True" 
+                                                    Font-Bold="False" Font-Italic="False" Height="25px"
+                    Font-Overline="False" Font-Size="11px" 
+                                                    Font-Strikeout="False" 
+                    Font-Underline="False" style="filter: alpha(opacity=80); -moz-opacity: .80; opacity: .80; padding: 3px 3px 3px 3px;border:1px solid #CCCCCC;background:#ededed;"
+                    onselectedindexchanged="ddlTemsilciler_SelectedIndexChanged" 
+                    ForeColor="#006699">
+                </asp:DropDownList></td>
+                <td valign="middle"><asp:Label runat="server" Width="20px"></asp:Label>
+                <asp:CheckBox runat="server" ID="cbVGB" AutoPostBack="true" Text="VGB" OnCheckedChanged="cbVGB_CheckedChanged" title="Sadece VGBliler" class="kucukbilgiGosterSade" />
+                </td></tr></table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" style="height: 100%">
+                
+                <asp:DataList ID="DataList1" runat="server" OnItemDataBound="DataList1_DataBound">
+
+                    <HeaderTemplate>
+                        <table cellpadding="1" cellspacing="0" style="font-family: Tahoma; font-size: 10px" id="tblDatalist1">
+                        <tr style="color: #D00000;">
+                            <td style="width: 250px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">C/H Açýklama</td>
+                            <td style="width: 90px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">Kredi Limiti</td>
+                            <%--<td style="width: 70px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">VB Vade</td>
+                            <td style="width: 70px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">VB Top.</td>--%>
+                            <td style="width: 70px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">VGB Vade</td>
+                            <td style="width: 70px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">VGB Top.</td>
+                            <td style="width: 70px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">Top.B/A Vd</td>
+                            <td style="width: 70px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">Ç/S Riski</td>
+                            <td style="width: 120px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">Borç</td>
+                            <td style="width: 120px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">Alacak</td>
+                            <td style="width: 120px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">Top.B/A</td>
+                            <%--<td style="width: 80px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">Bakiye Sip.Top.</td>--%>
+                            <td style="width: 90px; text-align: center; height: 20px; border-bottom: 1px solid #CCCCCC">Kullanýlabilir Limit</td>
+                        </tr>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <tr onmouseover="Satir(this,true)" onmouseout="Satir(this,false)">
+                            <td style="width: 250px; height: 32px; text-align: left"><asp:Label runat="server" Text='<%#(Eval("[MUSTERI]").ToString()).Replace("zzzToplam", "<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOPLAM:</b>")%>'></asp:Label></td>
+                            <td style="width: 90px; height: 32px; text-align: right"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[RISK LMT]")).ToString("C2")%>' Font-Bold="true"></asp:Label><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[RISK LMT]")).ToString("C2")%>'></asp:Label></td>
+<%--                            <td style="width: 70px; height: 32px; text-align: center"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text=''></asp:Label><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDouble(Eval("[VB GUN]")) > 0 ? DateTime.Now.AddDays(Convert.ToDouble(Eval("[VB GUN]"))).ToShortDateString() : ""%>'></asp:Label></td>
+                            <td style="width: 70px; height: 32px; text-align: right"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[VB TOP]")).ToString("C2")%>' Font-Bold="true"></asp:Label><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[VB TOP]")).ToString("C2")%>'></asp:Label></td>--%>
+                            <td style="width: 70px; height: 32px; text-align: center"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text=''></asp:Label><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDouble(Eval("[VGB GUN]")) < 0 ? DateTime.Now.AddDays(Convert.ToDouble(Eval("[VGB GUN]"))).ToShortDateString() : ""%>'></asp:Label></td>
+                            <td style="width: 70px; height: 32px; text-align: right"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[VGB TOP]")).ToString("C2")%>' Font-Bold="true"></asp:Label><asp:Label  runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[VGB TOP]")).ToString("C2")%>'></asp:Label></td>
+                            <td style="width: 70px; height: 32px; text-align: center"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text=''></asp:Label><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#DateTime.Now.AddDays(Convert.ToDouble(Eval("[ACK GUN]"))).ToShortDateString()%>'></asp:Label></td>
+                            <td style="width: 70px; height: 32px; text-align: right"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[C/S TOP]")).ToString("C2")%>' Font-Bold="true"></asp:Label><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[C/S TOP]")).ToString("C2")%>'></asp:Label></td>
+                            <td style="width: 120px; height: 32px; text-align: right"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[IRS TOP]")).ToString("C2")%>' Font-Bold="true"></asp:Label><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[IRS TOP]")).ToString("C2")%>'></asp:Label></td>
+                            <td style="width: 120px; height: 32px; text-align: right"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[SIP TOP]")).ToString("C2")%>' Font-Bold="true"></asp:Label><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[SIP TOP]")).ToString("C2")%>'></asp:Label></td>
+                            <td style="width: 120px; height: 32px; text-align: right"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[BAKIYE]")).ToString("C2")%>' Font-Bold="true"></asp:Label><asp:Label ID="Label4" runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[BAKIYE]")).ToString("C2")%>'></asp:Label></td>
+                            <%--<td style="width: 80px; height: 32px; text-align: right"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[SIP TOPLB]")).ToString("C2")%>' Font-Bold="true"></asp:Label><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[SIP TOPLB]")).ToString("C2")%>'></asp:Label></td>--%>
+                            <td style="width: 90px; height: 32px; text-align: right"><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() == "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[RISK BKY]")).ToString("C2")%>' Font-Bold="true"></asp:Label><asp:Label runat="server" Visible='<%#Eval("[MUSTERI]").ToString() != "zzzToplam"%>' Text='<%#Convert.ToDecimal(Eval("[RISK BKY]")).ToString("C2")%>'></asp:Label></td>
+                        </tr>
+                    </ItemTemplate>
+                    <FooterTemplate></table></FooterTemplate>
+
+                </asp:DataList>
+                <br />
+                <asp:Label runat="server" ID="lblRaporYok" Visible="false" Text="- Listenecek satýr bulunamadý. -" Font-Italic="true" style="padding-left: 200px"></asp:Label>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table cellpadding="0" cellspacing="0" style="width: 950px; margin-left: 10px">
+                <tr style="padding-top: 15px">
+                <td align="left"><asp:ImageButton runat="server" ID="ibOnceki" 
+                        ImageUrl="img/sol_ok.gif" onclick="ibOnceki_Click" />
+                        <%--<asp:Label ID="Label4" runat="server" Width="20px"></asp:Label>
+                        <asp:ImageButton runat="server" ID="ibIlk" 
+                        ImageUrl="img/sol_2ok.gif" onclick="ibIlk_Click" />--%></td>
+                <td align="center">
+                <asp:Label runat="server" ID="lblRaporKacinci">0</asp:Label>
+                /
+                <asp:Label runat="server" ID="lblRaporSayisi">0</asp:Label></td>
+                <td>
+                    <asp:DropDownList runat="server" ID="ddlSayfa" AutoPostBack="true" Width="60px" ToolTip="Sayfalar" class="kucukbilgiGosterSade"
+                        Font-Bold="False" Font-Italic="False" Height="25px"
+                        Font-Overline="False" Font-Size="11px" Font-Strikeout="False" 
+                        Font-Underline="False" style="filter: alpha(opacity=80); -moz-opacity: .80; opacity: .80; padding: 3px 3px 3px 3px;border:1px solid #CCCCCC;background:#ededed;" 
+                        onselectedindexchanged="ddlSayfa_SelectedIndexChanged" 
+                        ForeColor="#006699"></asp:DropDownList>
+                </td>
+                <td align="right">
+                        <%--<asp:ImageButton runat="server" ID="ibSon" 
+                        ImageUrl="img/sag_2ok.gif" onclick="ibSon_Click" />
+                        <asp:Label ID="Label5" runat="server" Width="20px"></asp:Label>--%>
+                        <asp:ImageButton runat="server" ID="ibSonraki" 
+                        ImageUrl="img/sag_ok.gif" onclick="ibSonraki_Click" /></td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+    </table><br /></div>
+    </ContentTemplate></asp:UpdatePanel>
+<uc1:ucAlt ID="ucAlt1" runat="server" />
+    </form>
+</body>
+</html>

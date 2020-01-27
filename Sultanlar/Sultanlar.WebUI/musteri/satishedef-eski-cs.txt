@@ -1,0 +1,1326 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.Security;
+using System.Data;
+using Sultanlar.DatabaseObject.Internet;
+using System.Collections;
+using Sultanlar.DatabaseObject;
+using System.IO;
+
+namespace Sultanlar.WebUI.musteri
+{
+    public partial class satishedef : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            Response.Redirect("default.aspx", true);
+
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Label1.Text = ((Musteriler)Session["Musteri"]).strAd + " " + ((Musteriler)Session["Musteri"]).strSoyad;
+
+            if (!IsPostBack)
+            {
+                if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 5 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 1) // perakende müþteri veya müþteri ise
+                    Response.Redirect("yetkiyok.aspx", true);
+
+                //Calendar1.SelectedDate = Convert.ToDateTime("01.01." + DateTime.Now.Year);
+                //Calendar2.SelectedDate = DateTime.Now;
+
+                //Session["downloadyazdirborcalacaktarih1"] = Calendar1.SelectedDate;
+                //Session["downloadyazdirborcalacaktarih2"] = Calendar2.SelectedDate;
+
+                Session["SatisHedefSayfaBasiGosterim"] = 31;
+
+                if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // satýþ temsilcisi veya yönetici ise
+                {
+                    hlBorcAlacak.Visible = ((((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6) && !SatisTemsilcileri.GetSATKOD1BySLSREF(((Musteriler)Session["Musteri"]).intSLSREF).StartsWith("8")) || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 2;
+                    imgBorcAlacak.Visible = ((((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6) && !SatisTemsilcileri.GetSATKOD1BySLSREF(((Musteriler)Session["Musteri"]).intSLSREF).StartsWith("8")) || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 2;
+
+                    //hlSatistaOnAdim.Visible = true;
+
+                    SatisHedef.GetKategoriler(ddlKategoriler.Items);
+
+                    GetSatisSefYoneticiHesaplar();
+                }
+            }
+
+            string alert = "<script type='text/javascript'>$(function () {$(\".kucukbilgiGosterSade\").tipTip({ activation: \"hover\" });});</script>";
+            ScriptManager.RegisterStartupScript(upSatisHedef, typeof(string), "kucukbilgi", alert, false);
+
+            iframeGrafik.Attributes.Add("src", "grafik.aspx");
+        }
+
+        private void GetSatisSefYoneticiHesaplar()
+        {
+            divCariHesaplar.Visible = true;
+
+            ArrayList altlar = new ArrayList();
+            if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6)
+            {
+                altlar = SatisTemsilcileriSefler.GetAltRefler(((Musteriler)Session["Musteri"]).intSLSREF);
+            }
+            else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2)
+            {
+                cbTumu.Visible = true;
+
+                lblRaporYok.Visible = true;
+
+                SatisTemsilcileri.GetObjectsFromCariHesaplar(ddlTemsilciler.Items, true, false);
+                //altlar = SatisTemsilcileri.GetSLSREFsFromCariHesaplar();
+                divTemsilciArama.Visible = true;
+
+                ddlYillar.Items.Clear();
+                ddlYillar.Items.Add(new ListItem(DateTime.Now.Year.ToString(), DateTime.Now.Year.ToString()));
+                ddlYillar.SelectedIndex = 0;
+                ddlAylar.Items.Clear();
+                ddlAylar.Items.Add(new ListItem("Tümü", "0"));
+                ddlAylar.SelectedIndex = 0;
+                ddlHaftalar.Items.Clear();
+                ddlHaftalar.Items.Add(new ListItem("Tümü", "0"));
+                ddlHaftalar.SelectedIndex = 0;
+                ddlGunler.Items.Clear();
+                ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+                ddlGunler.SelectedIndex = 0;
+
+                return;
+            }
+
+            if (altlar.Count == 0)  // þef deðil ise
+            {
+                /*SAP*/
+                ArrayList st = SatisTemsilcileri.GetObjectBySLSREF(((Musteriler)Session["Musteri"]).intSLSREF);
+                if (st.Count > 0)
+                    ddlTemsilciler.Items.Add(new ListItem(st[1].ToString(), ((Musteriler)Session["Musteri"]).intSLSREF.ToString()));
+                else
+                    ddlTemsilciler.Items.Add(new ListItem("-", ((Musteriler)Session["Musteri"]).intSLSREF.ToString()));
+                ddlTemsilciler.SelectedIndex = 0;
+
+                SatisHedef.GetYillar(ddlYillar.Items, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue);
+                ddlYillar.SelectedIndex = ddlYillar.Items.Count - 1;
+                SatisHedef.GetAylarByYil(ddlAylar.Items, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue));
+                ddlHaftalar.Items.Clear();
+                ddlHaftalar.Items.Add(new ListItem("Tümü", "0"));
+                ddlHaftalar.SelectedIndex = 0;
+                ddlGunler.Items.Clear();
+                ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+                ddlGunler.SelectedIndex = 0;
+
+                GetSatisHedefCountByYil(); // tumu idi
+
+                // son sayfaya git:
+                if (Convert.ToInt32(lblRaporSayisi.Text) > (int)Session["SatisHedefSayfaBasiGosterim"])
+                {
+                    int raporsayisi = Convert.ToInt32(lblRaporSayisi.Text);
+                    GetSatisHedefByYil(raporsayisi - (int)Session["SatisHedefSayfaBasiGosterim"], (int)Session["SatisHedefSayfaBasiGosterim"]); // tumu idi
+                    lblRaporKacinci.Text = raporsayisi.ToString();
+
+                    ddlSayfa.SelectedIndex = ddlSayfa.Items.Count - 1;
+                }
+                else
+                {
+                    GetSatisHedefByYil(0, (int)Session["SatisHedefSayfaBasiGosterim"]); // tumu idi
+                }
+
+                DataTable dt = new DataTable();
+                CariHesaplar.GetTekCarilerBySLSREF(dt, ((Musteriler)Session["Musteri"]).intSLSREF);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    int SLSREF = SatisTemsilcileri.GetSLSREFbyPOSITION(Convert.ToInt32(dt.Rows[i]["GMREF"]));
+                    if (SLSREF > 0)
+                    {
+                        ddlTemsilciler.Items.Add(new ListItem(CariHesaplar.GetMUSTERIbyGMREF(Convert.ToInt32(dt.Rows[i]["GMREF"])), SLSREF.ToString()));
+                    }
+                }
+            }
+            else // þef ise
+            {
+                cbTumu.Visible = true;
+
+                lblRaporYok.Visible = true;
+
+                SatisTemsilcileri.GetObjectsBySLSREFs(ddlTemsilciler.Items, altlar, false);
+
+                ddlYillar.Items.Clear();
+                ddlYillar.Items.Add(new ListItem(DateTime.Now.Year.ToString(), DateTime.Now.Year.ToString()));
+                ddlYillar.SelectedIndex = 0;
+                ddlAylar.Items.Clear();
+                ddlAylar.Items.Add(new ListItem("Tümü", "0"));
+                ddlAylar.SelectedIndex = 0;
+                ddlHaftalar.Items.Clear();
+                ddlHaftalar.Items.Add(new ListItem("Tümü", "0"));
+                ddlHaftalar.SelectedIndex = 0;
+                ddlGunler.Items.Clear();
+                ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+                ddlGunler.SelectedIndex = 0;
+            }
+        }
+
+        #region TumununTumu
+
+        #region Yil
+        private int GetSatisHedefTCountByYil()
+        {
+            int donendeger = 0;
+
+            if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+            {
+                donendeger = SatisHedef.GetObjectTCountByYil(ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue));
+            }
+            else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4) // þef ise
+            {
+                ArrayList SLSREFs = SatisTemsilcileriSefler.GetAltRefler(((Musteriler)Session["Musteri"]).intSLSREF);
+                donendeger = SatisHedef.GetObjectTsCountByYil(SLSREFs, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue));
+            }
+
+            if (donendeger > 0)
+            {
+                tblToplam.Visible = true;
+                GetSatisHedefTToplamlarByYil();
+            }
+
+            ibOnceki.Enabled = false;
+            ibSonraki.Enabled = false;
+
+            ddlSayfa.Items.Clear();
+            int sayfasayisi = 0;
+            int kalan = donendeger % (int)Session["SatisHedefSayfaBasiGosterim"];
+            double sayfasayi = Convert.ToDouble(donendeger) / (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (kalan == 0)
+            {
+                sayfasayisi = Convert.ToInt32(sayfasayi);
+            }
+            else
+            {
+                if (kalan * 2 >= (int)Session["SatisHedefSayfaBasiGosterim"])
+                    sayfasayisi = Convert.ToInt32(sayfasayi);
+                else
+                    sayfasayisi = Convert.ToInt32(sayfasayi) + 1;
+            }
+            for (int i = 1; i <= sayfasayisi; i++)
+                ddlSayfa.Items.Add(new ListItem(i.ToString(), (i * (int)Session["SatisHedefSayfaBasiGosterim"]).ToString()));
+
+
+
+            if (donendeger > 0)
+                lblRaporKacinci.Text = Session["SatisHedefSayfaBasiGosterim"].ToString();
+            if (donendeger < (int)Session["SatisHedefSayfaBasiGosterim"])
+                lblRaporKacinci.Text = donendeger.ToString();
+
+            lblRaporSayisi.Text = donendeger.ToString();
+
+            return donendeger;
+        }
+        private void GetSatisHedefTByYil(int Baslangic, int Adet)
+        {
+            DataTable dt = new DataTable();
+
+            if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+            {
+                SatisHedef.GetObjectsTByYil(dt, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue), Baslangic, Adet);
+            }
+            else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4) // þef ise
+            {
+                ArrayList SLSREFs = SatisTemsilcileriSefler.GetAltRefler(((Musteriler)Session["Musteri"]).intSLSREF);
+                SatisHedef.GetObjectsTsByYil(dt, SLSREFs, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue), Baslangic, Adet);
+            }
+
+            DataList1.DataSource = dt;
+            DataList1.DataBind();
+        }
+        private void GetSatisHedefTToplamlarByYil()
+        {
+            ArrayList toplamlar = new ArrayList();
+
+            if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+            {
+                toplamlar = SatisHedef.GetToplamlarTByYil(ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue));
+            }
+            else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4) // þef ise
+            {
+                ArrayList SLSREFs = SatisTemsilcileriSefler.GetAltRefler(((Musteriler)Session["Musteri"]).intSLSREF);
+                toplamlar = SatisHedef.GetToplamlarTsByYil(SLSREFs, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue));
+            }
+
+            lblToplamHedef.Text = ((decimal)toplamlar[0]).ToString("C2");
+            lblToplamSatilan.Text = ((decimal)toplamlar[1]).ToString("C2");
+            lblToplamSatilanNet.Text = ((decimal)toplamlar[2]).ToString("C2");
+        }
+        #endregion
+
+        #region Ay
+        private int GetSatisHedefTCountByAy()
+        {
+            int donendeger = 0;
+
+            if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+            {
+                donendeger = SatisHedef.GetObjectTCountByAy(ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue),
+                Convert.ToInt32(ddlAylar.SelectedValue));
+            }
+            else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4) // þef ise
+            {
+                ArrayList SLSREFs = SatisTemsilcileriSefler.GetAltRefler(((Musteriler)Session["Musteri"]).intSLSREF);
+                donendeger = SatisHedef.GetObjectTsCountByAy(SLSREFs, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue),
+                Convert.ToInt32(ddlAylar.SelectedValue));
+            }
+
+            if (donendeger > 0)
+            {
+                tblToplam.Visible = true;
+                GetSatisHedefTToplamlarByAy();
+            }
+
+            ibOnceki.Enabled = false;
+            ibSonraki.Enabled = false;
+
+            ddlSayfa.Items.Clear();
+            int sayfasayisi = 0;
+            int kalan = donendeger % (int)Session["SatisHedefSayfaBasiGosterim"];
+            double sayfasayi = Convert.ToDouble(donendeger) / (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (kalan == 0)
+            {
+                sayfasayisi = Convert.ToInt32(sayfasayi);
+            }
+            else
+            {
+                if (kalan * 2 >= (int)Session["SatisHedefSayfaBasiGosterim"])
+                    sayfasayisi = Convert.ToInt32(sayfasayi);
+                else
+                    sayfasayisi = Convert.ToInt32(sayfasayi) + 1;
+            }
+            for (int i = 1; i <= sayfasayisi; i++)
+                ddlSayfa.Items.Add(new ListItem(i.ToString(), (i * (int)Session["SatisHedefSayfaBasiGosterim"]).ToString()));
+
+
+
+            if (donendeger > 0)
+                lblRaporKacinci.Text = Session["SatisHedefSayfaBasiGosterim"].ToString();
+            if (donendeger < (int)Session["SatisHedefSayfaBasiGosterim"])
+                lblRaporKacinci.Text = donendeger.ToString();
+
+            lblRaporSayisi.Text = donendeger.ToString();
+
+            return donendeger;
+        }
+        private void GetSatisHedefTByAy(int Baslangic, int Adet)
+        {
+            DataTable dt = new DataTable();
+
+            if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+            {
+                SatisHedef.GetObjectsTByAy(dt, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue), Convert.ToInt32(ddlAylar.SelectedValue),
+                    Baslangic, Adet);
+            }
+            else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4) // þef ise
+            {
+                ArrayList SLSREFs = SatisTemsilcileriSefler.GetAltRefler(((Musteriler)Session["Musteri"]).intSLSREF);
+                SatisHedef.GetObjectsTsByAy(dt, SLSREFs, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue), Convert.ToInt32(ddlAylar.SelectedValue),
+                    Baslangic, Adet);
+            }
+            
+            DataList1.DataSource = dt;
+            DataList1.DataBind();
+        }
+        private void GetSatisHedefTToplamlarByAy()
+        {
+            ArrayList toplamlar =new ArrayList();
+
+            if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+            {
+                toplamlar = SatisHedef.GetToplamlarTByAy(ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue),
+                    Convert.ToInt32(ddlAylar.SelectedValue));
+            }
+            else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4) // þef ise
+            {
+                ArrayList SLSREFs = SatisTemsilcileriSefler.GetAltRefler(((Musteriler)Session["Musteri"]).intSLSREF);
+                toplamlar = SatisHedef.GetToplamlarTsByAy(SLSREFs, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue),
+                    Convert.ToInt32(ddlAylar.SelectedValue));
+            }
+
+            lblToplamHedef.Text = ((decimal)toplamlar[0]).ToString("C2");
+            lblToplamSatilan.Text = ((decimal)toplamlar[1]).ToString("C2");
+            lblToplamSatilanNet.Text = ((decimal)toplamlar[2]).ToString("C2");
+        }
+        #endregion
+
+        #region Hafta
+        private int GetSatisHedefTCountByHafta()
+        {
+            int donendeger = SatisHedef.GetObjectTCountByHafta(ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue),
+                Convert.ToInt32(ddlAylar.SelectedValue), Convert.ToInt32(ddlHaftalar.SelectedValue));
+            if (donendeger > 0)
+            {
+                tblToplam.Visible = true;
+                GetSatisHedefTToplamlarByHafta();
+            }
+
+            ibOnceki.Enabled = false;
+            ibSonraki.Enabled = false;
+
+            ddlSayfa.Items.Clear();
+            int sayfasayisi = 0;
+            int kalan = donendeger % (int)Session["SatisHedefSayfaBasiGosterim"];
+            double sayfasayi = Convert.ToDouble(donendeger) / (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (kalan == 0)
+            {
+                sayfasayisi = Convert.ToInt32(sayfasayi);
+            }
+            else
+            {
+                if (kalan * 2 >= (int)Session["SatisHedefSayfaBasiGosterim"])
+                    sayfasayisi = Convert.ToInt32(sayfasayi);
+                else
+                    sayfasayisi = Convert.ToInt32(sayfasayi) + 1;
+            }
+            for (int i = 1; i <= sayfasayisi; i++)
+                ddlSayfa.Items.Add(new ListItem(i.ToString(), (i * (int)Session["SatisHedefSayfaBasiGosterim"]).ToString()));
+
+
+
+            if (donendeger > 0)
+                lblRaporKacinci.Text = Session["SatisHedefSayfaBasiGosterim"].ToString();
+            if (donendeger < (int)Session["SatisHedefSayfaBasiGosterim"])
+                lblRaporKacinci.Text = donendeger.ToString();
+
+            lblRaporSayisi.Text = donendeger.ToString();
+
+            return donendeger;
+        }
+        private void GetSatisHedefTByHafta(int Baslangic, int Adet)
+        {
+            DataTable dt = new DataTable();
+            SatisHedef.GetObjectsTByHafta(dt, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue), Convert.ToInt32(ddlAylar.SelectedValue),
+                Convert.ToInt32(ddlHaftalar.SelectedValue), Baslangic, Adet);
+            DataList1.DataSource = dt;
+            DataList1.DataBind();
+        }
+        private void GetSatisHedefTToplamlarByHafta()
+        {
+            ArrayList toplamlar = SatisHedef.GetToplamlarTByHafta(ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue),
+                Convert.ToInt32(ddlAylar.SelectedValue), Convert.ToInt32(ddlHaftalar.SelectedValue));
+            lblToplamHedef.Text = ((decimal)toplamlar[0]).ToString("C2");
+            lblToplamSatilan.Text = ((decimal)toplamlar[1]).ToString("C2");
+            lblToplamSatilanNet.Text = ((decimal)toplamlar[2]).ToString("C2");
+        }
+        #endregion
+
+        #region Gun
+        private int GetSatisHedefTCountByGun()
+        {
+            int donendeger = SatisHedef.GetObjectTCountByGun(ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue),
+                Convert.ToInt32(ddlAylar.SelectedValue), Convert.ToInt32(ddlHaftalar.SelectedValue), Convert.ToInt32(ddlGunler.SelectedValue));
+            if (donendeger > 0)
+            {
+                tblToplam.Visible = true;
+                GetSatisHedefTToplamlarByGun();
+            }
+
+            ibOnceki.Enabled = false;
+            ibSonraki.Enabled = false;
+
+            ddlSayfa.Items.Clear();
+            int sayfasayisi = 0;
+            int kalan = donendeger % (int)Session["SatisHedefSayfaBasiGosterim"];
+            double sayfasayi = Convert.ToDouble(donendeger) / (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (kalan == 0)
+            {
+                sayfasayisi = Convert.ToInt32(sayfasayi);
+            }
+            else
+            {
+                if (kalan * 2 >= (int)Session["SatisHedefSayfaBasiGosterim"])
+                    sayfasayisi = Convert.ToInt32(sayfasayi);
+                else
+                    sayfasayisi = Convert.ToInt32(sayfasayi) + 1;
+            }
+            for (int i = 1; i <= sayfasayisi; i++)
+                ddlSayfa.Items.Add(new ListItem(i.ToString(), (i * (int)Session["SatisHedefSayfaBasiGosterim"]).ToString()));
+
+
+
+            if (donendeger > 0)
+                lblRaporKacinci.Text = Session["SatisHedefSayfaBasiGosterim"].ToString();
+            if (donendeger < (int)Session["SatisHedefSayfaBasiGosterim"])
+                lblRaporKacinci.Text = donendeger.ToString();
+
+            lblRaporSayisi.Text = donendeger.ToString();
+
+            return donendeger;
+        }
+        private void GetSatisHedefTByGun(int Baslangic, int Adet)
+        {
+            DataTable dt = new DataTable();
+            SatisHedef.GetObjectsTByGun(dt, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue), Convert.ToInt32(ddlAylar.SelectedValue),
+                Convert.ToInt32(ddlHaftalar.SelectedValue), Convert.ToInt32(ddlGunler.SelectedValue), Baslangic, Adet);
+            DataList1.DataSource = dt;
+            DataList1.DataBind();
+        }
+        private void GetSatisHedefTToplamlarByGun()
+        {
+            ArrayList toplamlar = SatisHedef.GetToplamlarTByGun(ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue),
+                Convert.ToInt32(ddlAylar.SelectedValue), Convert.ToInt32(ddlHaftalar.SelectedValue), Convert.ToInt32(ddlGunler.SelectedValue));
+            lblToplamHedef.Text = ((decimal)toplamlar[0]).ToString("C2");
+            lblToplamSatilan.Text = ((decimal)toplamlar[1]).ToString("C2");
+            lblToplamSatilanNet.Text = ((decimal)toplamlar[2]).ToString("C2");
+        }
+        #endregion
+
+        #endregion
+
+        #region Tumu
+        private int GetSatisHedefCount()
+        {
+            int donendeger = SatisHedef.GetObjectCount(Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue);
+            if (donendeger > 0)
+            {
+                tblToplam.Visible = true;
+                GetSatisHedefToplamlar();
+            }
+
+            ibOnceki.Enabled = true;
+            ibSonraki.Enabled = true;
+
+            ddlSayfa.Items.Clear();
+            int sayfasayisi = 0;
+            int kalan = donendeger % (int)Session["SatisHedefSayfaBasiGosterim"];
+            double sayfasayi = Convert.ToDouble(donendeger) / (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (kalan == 0)
+            {
+                sayfasayisi = Convert.ToInt32(sayfasayi);
+            }
+            else
+            {
+                if (kalan * 2 >= (int)Session["SatisHedefSayfaBasiGosterim"])
+                    sayfasayisi = Convert.ToInt32(sayfasayi);
+                else
+                    sayfasayisi = Convert.ToInt32(sayfasayi) + 1;
+            }
+            for (int i = 1; i <= sayfasayisi; i++)
+                ddlSayfa.Items.Add(new ListItem(i.ToString(), (i * (int)Session["SatisHedefSayfaBasiGosterim"]).ToString()));
+
+
+
+            if (donendeger > 0)
+                lblRaporKacinci.Text = Session["SatisHedefSayfaBasiGosterim"].ToString();
+            if (donendeger < (int)Session["SatisHedefSayfaBasiGosterim"])
+                lblRaporKacinci.Text = donendeger.ToString();
+
+            lblRaporSayisi.Text = donendeger.ToString();
+
+            return donendeger;
+        }
+        private void GetSatisHedef(int Baslangic, int Adet)
+        {
+            DataTable dt = new DataTable();
+            SatisHedef.GetObjects(dt, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, Baslangic, Adet);
+            DataList1.DataSource = dt;
+            DataList1.DataBind();
+        }
+        private void GetSatisHedefToplamlar()
+        {
+            ArrayList toplamlar = SatisHedef.GetToplamlar(Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue);
+            lblToplamHedef.Text = ((decimal)toplamlar[0]).ToString("C2");
+            lblToplamSatilan.Text = ((decimal)toplamlar[1]).ToString("C2");
+            lblToplamSatilanNet.Text = ((decimal)toplamlar[2]).ToString("C2");
+        }
+        #endregion
+
+        #region Yil
+        private int GetSatisHedefCountByYil()
+        {
+            int donendeger = SatisHedef.GetObjectCountByYil(Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue));
+            if (donendeger > 0)
+            {
+                tblToplam.Visible = true;
+                GetSatisHedefToplamlarByYil();
+            }
+
+            ibOnceki.Enabled = false;
+            ibSonraki.Enabled = false;
+
+            ddlSayfa.Items.Clear();
+            int sayfasayisi = 0;
+            int kalan = donendeger % (int)Session["SatisHedefSayfaBasiGosterim"];
+            double sayfasayi = Convert.ToDouble(donendeger) / (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (kalan == 0)
+            {
+                sayfasayisi = Convert.ToInt32(sayfasayi);
+            }
+            else
+            {
+                if (kalan * 2 >= (int)Session["SatisHedefSayfaBasiGosterim"])
+                    sayfasayisi = Convert.ToInt32(sayfasayi);
+                else
+                    sayfasayisi = Convert.ToInt32(sayfasayi) + 1;
+            }
+            for (int i = 1; i <= sayfasayisi; i++)
+                ddlSayfa.Items.Add(new ListItem(i.ToString(), (i * (int)Session["SatisHedefSayfaBasiGosterim"]).ToString()));
+
+
+
+            if (donendeger > 0)
+                lblRaporKacinci.Text = Session["SatisHedefSayfaBasiGosterim"].ToString();
+            if (donendeger < (int)Session["SatisHedefSayfaBasiGosterim"])
+                lblRaporKacinci.Text = donendeger.ToString();
+
+            lblRaporSayisi.Text = donendeger.ToString();
+
+            return donendeger;
+        }
+        private void GetSatisHedefByYil(int Baslangic, int Adet)
+        {
+            DataTable dt = new DataTable();
+            SatisHedef.GetObjectsByYil(dt, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue), 
+                Baslangic, Adet);
+            DataList1.DataSource = dt;
+            DataList1.DataBind();
+        }
+        private void GetSatisHedefToplamlarByYil()
+        {
+            ArrayList toplamlar = SatisHedef.GetToplamlarByYil(Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue));
+            lblToplamHedef.Text = ((decimal)toplamlar[0]).ToString("C2");
+            lblToplamSatilan.Text = ((decimal)toplamlar[1]).ToString("C2");
+            lblToplamSatilanNet.Text = ((decimal)toplamlar[2]).ToString("C2");
+        }
+        #endregion
+
+        #region Ay
+        private int GetSatisHedefCountByAy()
+        {
+            int donendeger = SatisHedef.GetObjectCountByAy(Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue), 
+                Convert.ToInt32(ddlAylar.SelectedValue));
+            if (donendeger > 0)
+            {
+                tblToplam.Visible = true;
+                GetSatisHedefToplamlarByAy();
+            }
+
+            ibOnceki.Enabled = false;
+            ibSonraki.Enabled = false;
+
+            ddlSayfa.Items.Clear();
+            int sayfasayisi = 0;
+            int kalan = donendeger % (int)Session["SatisHedefSayfaBasiGosterim"];
+            double sayfasayi = Convert.ToDouble(donendeger) / (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (kalan == 0)
+            {
+                sayfasayisi = Convert.ToInt32(sayfasayi);
+            }
+            else
+            {
+                if (kalan * 2 >= (int)Session["SatisHedefSayfaBasiGosterim"])
+                    sayfasayisi = Convert.ToInt32(sayfasayi);
+                else
+                    sayfasayisi = Convert.ToInt32(sayfasayi) + 1;
+            }
+            for (int i = 1; i <= sayfasayisi; i++)
+                ddlSayfa.Items.Add(new ListItem(i.ToString(), (i * (int)Session["SatisHedefSayfaBasiGosterim"]).ToString()));
+
+
+
+            if (donendeger > 0)
+                lblRaporKacinci.Text = Session["SatisHedefSayfaBasiGosterim"].ToString();
+            if (donendeger < (int)Session["SatisHedefSayfaBasiGosterim"])
+                lblRaporKacinci.Text = donendeger.ToString();
+
+            lblRaporSayisi.Text = donendeger.ToString();
+
+            return donendeger;
+        }
+        private void GetSatisHedefByAy(int Baslangic, int Adet)
+        {
+            DataTable dt = new DataTable();
+            SatisHedef.GetObjectsByAy(dt, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue), Convert.ToInt32(ddlAylar.SelectedValue), 
+                Baslangic, Adet);
+            DataList1.DataSource = dt;
+            DataList1.DataBind();
+        }
+        private void GetSatisHedefToplamlarByAy()
+        {
+            ArrayList toplamlar = SatisHedef.GetToplamlarByAy(Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue), 
+                Convert.ToInt32(ddlAylar.SelectedValue));
+            lblToplamHedef.Text = ((decimal)toplamlar[0]).ToString("C2");
+            lblToplamSatilan.Text = ((decimal)toplamlar[1]).ToString("C2");
+            lblToplamSatilanNet.Text = ((decimal)toplamlar[2]).ToString("C2");
+        }
+        #endregion
+
+        #region Hafta
+        private int GetSatisHedefCountByHafta()
+        {
+            int donendeger = SatisHedef.GetObjectCountByHafta(Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue), 
+                Convert.ToInt32(ddlAylar.SelectedValue), Convert.ToInt32(ddlHaftalar.SelectedValue));
+            if (donendeger > 0)
+            {
+                tblToplam.Visible = true;
+                GetSatisHedefToplamlarByHafta();
+            }
+
+            ibOnceki.Enabled = false;
+            ibSonraki.Enabled = false;
+
+            ddlSayfa.Items.Clear();
+            int sayfasayisi = 0;
+            int kalan = donendeger % (int)Session["SatisHedefSayfaBasiGosterim"];
+            double sayfasayi = Convert.ToDouble(donendeger) / (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (kalan == 0)
+            {
+                sayfasayisi = Convert.ToInt32(sayfasayi);
+            }
+            else
+            {
+                if (kalan * 2 >= (int)Session["SatisHedefSayfaBasiGosterim"])
+                    sayfasayisi = Convert.ToInt32(sayfasayi);
+                else
+                    sayfasayisi = Convert.ToInt32(sayfasayi) + 1;
+            }
+            for (int i = 1; i <= sayfasayisi; i++)
+                ddlSayfa.Items.Add(new ListItem(i.ToString(), (i * (int)Session["SatisHedefSayfaBasiGosterim"]).ToString()));
+
+
+
+            if (donendeger > 0)
+                lblRaporKacinci.Text = Session["SatisHedefSayfaBasiGosterim"].ToString();
+            if (donendeger < (int)Session["SatisHedefSayfaBasiGosterim"])
+                lblRaporKacinci.Text = donendeger.ToString();
+
+            lblRaporSayisi.Text = donendeger.ToString();
+
+            return donendeger;
+        }
+        private void GetSatisHedefByHafta(int Baslangic, int Adet)
+        {
+            DataTable dt = new DataTable();
+            SatisHedef.GetObjectsByHafta(dt, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue), Convert.ToInt32(ddlAylar.SelectedValue), 
+                Convert.ToInt32(ddlHaftalar.SelectedValue), Baslangic, Adet);
+            DataList1.DataSource = dt;
+            DataList1.DataBind();
+        }
+        private void GetSatisHedefToplamlarByHafta()
+        {
+            ArrayList toplamlar = SatisHedef.GetToplamlarByHafta(Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue), 
+                Convert.ToInt32(ddlAylar.SelectedValue), Convert.ToInt32(ddlHaftalar.SelectedValue));
+            lblToplamHedef.Text = ((decimal)toplamlar[0]).ToString("C2");
+            lblToplamSatilan.Text = ((decimal)toplamlar[1]).ToString("C2");
+            lblToplamSatilanNet.Text = ((decimal)toplamlar[2]).ToString("C2");
+        }
+        #endregion
+
+        #region Gun
+        private int GetSatisHedefCountByGun()
+        {
+            int donendeger = SatisHedef.GetObjectCountByGun(Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue),
+                Convert.ToInt32(ddlAylar.SelectedValue), Convert.ToInt32(ddlHaftalar.SelectedValue), Convert.ToInt32(ddlGunler.SelectedValue));
+            if (donendeger > 0)
+            {
+                tblToplam.Visible = true;
+                GetSatisHedefToplamlarByGun();
+            }
+
+            ibOnceki.Enabled = false;
+            ibSonraki.Enabled = false;
+
+            ddlSayfa.Items.Clear();
+            int sayfasayisi = 0;
+            int kalan = donendeger % (int)Session["SatisHedefSayfaBasiGosterim"];
+            double sayfasayi = Convert.ToDouble(donendeger) / (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (kalan == 0)
+            {
+                sayfasayisi = Convert.ToInt32(sayfasayi);
+            }
+            else
+            {
+                if (kalan * 2 >= (int)Session["SatisHedefSayfaBasiGosterim"])
+                    sayfasayisi = Convert.ToInt32(sayfasayi);
+                else
+                    sayfasayisi = Convert.ToInt32(sayfasayi) + 1;
+            }
+            for (int i = 1; i <= sayfasayisi; i++)
+                ddlSayfa.Items.Add(new ListItem(i.ToString(), (i * (int)Session["SatisHedefSayfaBasiGosterim"]).ToString()));
+
+
+
+            if (donendeger > 0)
+                lblRaporKacinci.Text = Session["SatisHedefSayfaBasiGosterim"].ToString();
+            if (donendeger < (int)Session["SatisHedefSayfaBasiGosterim"])
+                lblRaporKacinci.Text = donendeger.ToString();
+
+            lblRaporSayisi.Text = donendeger.ToString();
+
+            return donendeger;
+        }
+        private void GetSatisHedefByGun(int Baslangic, int Adet)
+        {
+            DataTable dt = new DataTable();
+            SatisHedef.GetObjectsByGun(dt, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue), Convert.ToInt32(ddlAylar.SelectedValue),
+                Convert.ToInt32(ddlHaftalar.SelectedValue), Convert.ToInt32(ddlGunler.SelectedValue), Baslangic, Adet);
+            DataList1.DataSource = dt;
+            DataList1.DataBind();
+        }
+        private void GetSatisHedefToplamlarByGun()
+        {
+            ArrayList toplamlar = SatisHedef.GetToplamlarByGun(Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, 
+                Convert.ToInt32(ddlYillar.SelectedValue),
+                Convert.ToInt32(ddlAylar.SelectedValue), Convert.ToInt32(ddlHaftalar.SelectedValue), Convert.ToInt32(ddlGunler.SelectedValue));
+            lblToplamHedef.Text = ((decimal)toplamlar[0]).ToString("C2");
+            lblToplamSatilan.Text = ((decimal)toplamlar[1]).ToString("C2");
+            lblToplamSatilanNet.Text = ((decimal)toplamlar[2]).ToString("C2");
+        }
+        #endregion
+
+        protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+        {
+            if (Request.Cookies["sultan"] != null)
+            {
+                HttpCookie cookie = new HttpCookie("sultan");
+                cookie.Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies.Add(cookie);
+            }
+
+            Session.Abandon();
+
+            FormsAuthentication.SignOut();
+            FormsAuthentication.RedirectToLoginPage();
+        }
+
+        protected void ddlTemsilciler_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DDLTemsilciler();
+        }
+
+        private void DDLTemsilciler()
+        {
+            if (ddlTemsilciler.SelectedValue == "0")
+            {
+                ddlYillar.Items.Clear();
+                ddlYillar.Items.Add(new ListItem(DateTime.Now.Year.ToString(), DateTime.Now.Year.ToString()));
+                ddlYillar.SelectedIndex = 0;
+                ddlAylar.Items.Clear();
+                ddlAylar.Items.Add(new ListItem("Tümü", "0"));
+                ddlAylar.SelectedIndex = 0;
+                ddlHaftalar.Items.Clear();
+                ddlHaftalar.Items.Add(new ListItem("Tümü", "0"));
+                ddlHaftalar.SelectedIndex = 0;
+                ddlGunler.Items.Clear();
+                ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+                ddlGunler.SelectedIndex = 0;
+
+                DataList1.DataSource = null;
+                DataList1.DataBind();
+
+                ddlSayfa.Items.Clear();
+                lblRaporKacinci.Text = "0"; lblRaporSayisi.Text = "0";
+                lblRaporYok.Visible = true;
+
+                tblToplam.Visible = false;
+
+                lblRaporYok.Visible = true;
+
+                return;
+            }
+
+
+
+            SatisHedef.GetYillar(ddlYillar.Items, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue);
+            ddlYillar.SelectedIndex = ddlYillar.Items.Count - 1;
+
+            SatisHedef.GetAylarByYil(ddlAylar.Items, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue));
+            ddlHaftalar.Items.Clear();
+            ddlHaftalar.Items.Add(new ListItem("Tümü", "0"));
+            ddlHaftalar.SelectedIndex = 0;
+            ddlGunler.Items.Clear();
+            ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+            ddlGunler.SelectedIndex = 0;
+
+            GetSatisHedefCountByYil(); // tumu idi
+
+            if (rbTablo.Checked)
+            {
+                iframeGrafik.Visible = false;
+                DataList1.Visible = true;
+                tblSayfaGecis.Visible = true;
+
+                // son sayfaya git:
+                if (Convert.ToInt32(lblRaporSayisi.Text) > (int)Session["SatisHedefSayfaBasiGosterim"])
+                {
+                    int raporsayisi = Convert.ToInt32(lblRaporSayisi.Text);
+                    GetSatisHedefByYil(raporsayisi - (int)Session["SatisHedefSayfaBasiGosterim"], (int)Session["SatisHedefSayfaBasiGosterim"]); // tumu idi
+                    lblRaporKacinci.Text = raporsayisi.ToString();
+
+                    ddlSayfa.SelectedIndex = ddlSayfa.Items.Count - 1;
+                }
+                else
+                {
+                    GetSatisHedefByYil(0, (int)Session["SatisHedefSayfaBasiGosterim"]); // tumu idi
+                }
+            }
+            else
+            {
+                DataList1.Visible = false;
+                tblSayfaGecis.Visible = false;
+                iframeGrafik.Visible = true;
+
+                iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=yil&ref=" + ddlTemsilciler.SelectedValue + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue);
+            }
+        }
+
+        protected void ddlKategoriler_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DDLKategoriler();
+        }
+
+        private void DDLKategoriler()
+        {
+            if (cbTumu.Checked)
+            {
+                DDLYillarTT();
+            }
+            else
+            {
+                DDLYillar();
+            }
+        }
+
+        protected void ddlYillar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbTumu.Checked)
+            {
+                DDLYillarTT();
+            }
+            else
+            {
+                DDLYillar();
+            }
+        }
+
+        private void DDLYillarTT()
+        {
+            ddlGunler.Items.Clear();
+            ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+            ddlGunler.SelectedIndex = 0;
+            ddlHaftalar.Items.Clear();
+            ddlHaftalar.Items.Add(new ListItem("Tümü", "0"));
+            ddlHaftalar.SelectedIndex = 0;
+
+            SatisHedef.GetAylarByYilT(ddlAylar.Items, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue)); // yönetici þef ayrýmý yapmaya gerek yok
+
+            GetSatisHedefTCountByYil();
+
+            DataList1.Visible = false;
+            tblSayfaGecis.Visible = false;
+            iframeGrafik.Visible = true;
+
+            if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+                iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=tyil&ref=" + ddlTemsilciler.SelectedValue + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue);
+            else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4) // þef ise
+                iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=tsyil&ref=" + ((Musteriler)Session["Musteri"]).intSLSREF.ToString() + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue);
+        }
+
+        private void DDLYillar()
+        {
+            ddlGunler.Items.Clear();
+            ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+            ddlGunler.SelectedIndex = 0;
+            ddlHaftalar.Items.Clear();
+            ddlHaftalar.Items.Add(new ListItem("Tümü", "0"));
+            ddlHaftalar.SelectedIndex = 0;
+
+            if (ddlYillar.SelectedValue == "0")
+            {
+                ddlAylar.Items.Clear();
+                ddlAylar.Items.Add(new ListItem("Tümü", "0"));
+                ddlAylar.SelectedIndex = 0;
+
+                GetSatisHedefCount();
+                GetSatisHedef(0, (int)Session["SatisHedefSayfaBasiGosterim"]);
+            }
+            else
+            {
+                SatisHedef.GetAylarByYil(ddlAylar.Items, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue));
+
+                GetSatisHedefCountByYil();
+
+                if (rbTablo.Checked)
+                {
+                    iframeGrafik.Visible = false;
+                    DataList1.Visible = true;
+                    tblSayfaGecis.Visible = true;
+
+                    GetSatisHedefByYil(0, (int)Session["SatisHedefSayfaBasiGosterim"]);
+                }
+                else
+                {
+                    DataList1.Visible = false;
+                    tblSayfaGecis.Visible = false;
+                    iframeGrafik.Visible = true;
+
+                    iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=yil&ref=" + ddlTemsilciler.SelectedValue + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue);
+                }
+            }
+        }
+
+        protected void ddlAylar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbTumu.Checked)
+            {
+                DDLAylarTT();
+            }
+            else
+            {
+                DDLAylar();
+            }
+        }
+
+        private void DDLAylarTT()
+        {
+            ddlGunler.Items.Clear();
+            ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+            ddlGunler.SelectedIndex = 0;
+            ddlHaftalar.Items.Clear();
+            ddlHaftalar.Items.Add(new ListItem("Tümü", "0"));
+            ddlHaftalar.SelectedIndex = 0;
+
+            if (ddlAylar.SelectedValue == "0")
+            {
+                GetSatisHedefTCountByYil();
+
+                DataList1.Visible = false;
+                tblSayfaGecis.Visible = false;
+                iframeGrafik.Visible = true;
+
+                if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+                    iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=tyil&ref=" + ddlTemsilciler.SelectedValue + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue);
+                else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4) // þef ise
+                    iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=tsyil&ref=" + ((Musteriler)Session["Musteri"]).intSLSREF.ToString() + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue);
+            }
+            else
+            {
+                GetSatisHedefTCountByAy();
+
+                DataList1.Visible = false;
+                tblSayfaGecis.Visible = false;
+                iframeGrafik.Visible = true;
+
+                if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+                    iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=tay&ref=" + ddlTemsilciler.SelectedValue + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue + "&ay=" + ddlAylar.SelectedValue);
+                else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6) // þef ise
+                    iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=tsay&ref=" + ((Musteriler)Session["Musteri"]).intSLSREF.ToString() + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue + "&ay=" + ddlAylar.SelectedValue);
+            }
+        }
+
+        private void DDLAylar()
+        {
+            ddlGunler.Items.Clear();
+            ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+            ddlGunler.SelectedIndex = 0;
+
+            if (ddlAylar.SelectedValue == "0")
+            {
+                ddlHaftalar.Items.Clear();
+                ddlHaftalar.Items.Add(new ListItem("Tümü", "0"));
+                ddlHaftalar.SelectedIndex = 0;
+
+                GetSatisHedefCountByYil();
+
+                if (rbTablo.Checked)
+                {
+                    iframeGrafik.Visible = false;
+                    DataList1.Visible = true;
+                    tblSayfaGecis.Visible = true;
+
+                    GetSatisHedefByYil(0, (int)Session["SatisHedefSayfaBasiGosterim"]);
+                }
+                else
+                {
+                    DataList1.Visible = false;
+                    tblSayfaGecis.Visible = false;
+                    iframeGrafik.Visible = true;
+
+                    iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=yil&ref=" + ddlTemsilciler.SelectedValue + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue);
+                }
+            }
+            else
+            {
+                SatisHedef.GetHaftalarByAy(ddlHaftalar.Items, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue), Convert.ToInt32(ddlAylar.SelectedValue));
+
+                GetSatisHedefCountByAy();
+
+                if (rbTablo.Checked)
+                {
+                    iframeGrafik.Visible = false;
+                    DataList1.Visible = true;
+                    tblSayfaGecis.Visible = true;
+
+                    GetSatisHedefByAy(0, (int)Session["SatisHedefSayfaBasiGosterim"]);
+                }
+                else
+                {
+                    DataList1.Visible = false;
+                    tblSayfaGecis.Visible = false;
+                    iframeGrafik.Visible = true;
+
+                    iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=ay&ref=" + ddlTemsilciler.SelectedValue + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue + "&ay=" + ddlAylar.SelectedValue);
+                }
+            }
+        }
+
+        protected void ddlHaftalar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DDLHaftalar();
+        }
+
+        private void DDLHaftalar()
+        {
+            if (ddlHaftalar.SelectedValue == "0")
+            {
+                ddlGunler.Items.Clear();
+                ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+                ddlGunler.SelectedIndex = 0;
+
+                GetSatisHedefCountByAy();
+
+                if (rbTablo.Checked)
+                {
+                    iframeGrafik.Visible = false;
+                    DataList1.Visible = true;
+                    tblSayfaGecis.Visible = true;
+
+                    GetSatisHedefByAy(0, (int)Session["SatisHedefSayfaBasiGosterim"]);
+                }
+                else
+                {
+                    DataList1.Visible = false;
+                    tblSayfaGecis.Visible = false;
+                    iframeGrafik.Visible = true;
+
+                    iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=ay&ref=" + ddlTemsilciler.SelectedValue + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue + "&ay=" + ddlAylar.SelectedValue);
+                }
+            }
+            else
+            {
+                SatisHedef.GetGunlerByAyHafta(ddlGunler.Items, Convert.ToInt32(ddlTemsilciler.SelectedValue), ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue), Convert.ToInt32(ddlAylar.SelectedValue), Convert.ToInt32(ddlHaftalar.SelectedValue));
+
+                GetSatisHedefCountByHafta();
+                GetSatisHedefByHafta(0, (int)Session["SatisHedefSayfaBasiGosterim"]);
+            }
+        }
+
+        protected void ddlGunler_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DDLGunler();
+        }
+
+        private void DDLGunler()
+        {
+            if (ddlGunler.SelectedValue == "0")
+            {
+                GetSatisHedefCountByHafta();
+                GetSatisHedefByHafta(0, (int)Session["SatisHedefSayfaBasiGosterim"]);
+            }
+            else
+            {
+                GetSatisHedefCountByGun();
+                GetSatisHedefByGun(0, (int)Session["SatisHedefSayfaBasiGosterim"]);
+            }
+        }
+
+        protected void ibOnceki_Click(object sender, ImageClickEventArgs e)
+        {
+            int baslangic = Convert.ToInt32(lblRaporKacinci.Text) - (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (baslangic > 0)
+            {
+                if ((int)Session["SatisHedefSayfaBasiGosterim"] < baslangic)
+                {
+                    GetSatisHedef(baslangic - (int)Session["SatisHedefSayfaBasiGosterim"], (int)Session["SatisHedefSayfaBasiGosterim"]);
+                    lblRaporKacinci.Text = baslangic.ToString();
+                }
+                else
+                {
+                    GetSatisHedef(0, (int)Session["SatisHedefSayfaBasiGosterim"]);
+                    lblRaporKacinci.Text = Session["SatisHedefSayfaBasiGosterim"].ToString();
+                }
+
+                ddlSayfa.SelectedIndex = ddlSayfa.SelectedIndex - 1;
+            }
+        }
+
+        protected void ibSonraki_Click(object sender, ImageClickEventArgs e)
+        {
+            int baslangic = Convert.ToInt32(lblRaporKacinci.Text) + (int)Session["SatisHedefSayfaBasiGosterim"];
+            if (Convert.ToInt32(lblRaporKacinci.Text) < Convert.ToInt32(lblRaporSayisi.Text))
+            {
+                GetSatisHedef(baslangic - (int)Session["SatisHedefSayfaBasiGosterim"], (int)Session["SatisHedefSayfaBasiGosterim"]);
+
+                if (baslangic > Convert.ToInt32(lblRaporSayisi.Text))
+                    lblRaporKacinci.Text = lblRaporSayisi.Text;
+                else
+                    lblRaporKacinci.Text = baslangic.ToString();
+
+                ddlSayfa.SelectedIndex = ddlSayfa.SelectedIndex + 1;
+            }
+        }
+
+        protected void ddlSayfa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlSayfa.SelectedIndex == ddlSayfa.Items.Count - 1)
+                lblRaporKacinci.Text = lblRaporSayisi.Text;
+            else
+                lblRaporKacinci.Text = ddlSayfa.SelectedValue;
+
+            GetSatisHedef(Convert.ToInt32(ddlSayfa.SelectedValue) - (int)Session["SatisHedefSayfaBasiGosterim"], (int)Session["SatisHedefSayfaBasiGosterim"]);
+        }
+
+        protected void btnTemsilciAra_Click(object sender, EventArgs e)
+        {
+            if (txtTemsilciAra.Text.Trim() == string.Empty)
+                return;
+
+            DataList1.DataSource = null;
+            DataList1.DataBind();
+
+            ddlSayfa.Items.Clear();
+            lblRaporKacinci.Text = "0"; lblRaporSayisi.Text = "0";
+
+            SatisTemsilcileri.GetObjectsBySatisTemsilcisi(ddlTemsilciler.Items, txtTemsilciAra.Text.Trim(), false);
+        }
+
+        protected void btnTemsilciTemizle_Click(object sender, EventArgs e)
+        {
+            DataList1.DataSource = null;
+            DataList1.DataBind();
+
+            ddlSayfa.Items.Clear();
+            lblRaporKacinci.Text = "0"; lblRaporSayisi.Text = "0";
+
+            GetSatisSefYoneticiHesaplar();
+        }
+
+        protected void DataList1_DataBound(object sender, EventArgs e)
+        {
+            if (DataList1.Visible)
+                lblRaporYok.Visible = DataList1.Items.Count == 0;
+        }
+
+        protected void rbTablo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbGrafik.Checked)
+                lblRaporYok.Visible = false;
+
+            if (ddlTemsilciler.SelectedValue != "0")
+            {
+                iframeGrafik.Visible = rbGrafik.Checked;
+                DataList1.Visible = rbTablo.Checked;
+                tblSayfaGecis.Visible = rbTablo.Checked;
+
+                if (ddlGunler.SelectedValue != "0")
+                {
+                    DDLGunler();
+                }
+                else if (ddlHaftalar.SelectedValue != "0" && ddlGunler.SelectedValue == "0")
+                {
+                    DDLHaftalar();
+                }
+                else if (ddlAylar.SelectedValue != "0" && ddlHaftalar.SelectedValue == "0" && ddlGunler.SelectedValue == "0")
+                {
+                    DDLAylar();
+                }
+                else if (ddlYillar.SelectedValue != "0" && ddlAylar.SelectedValue == "0" && ddlHaftalar.SelectedValue == "0" && ddlGunler.SelectedValue == "0")
+                {
+                    DDLYillar();
+                }
+            }
+        }
+
+        protected void cbTumu_CheckedChanged(object sender, EventArgs e)
+        {
+            ddlYillar.Items.Clear();
+            ddlYillar.Items.Add(new ListItem(DateTime.Now.Year.ToString(), DateTime.Now.Year.ToString()));
+            ddlYillar.SelectedIndex = 0;
+            ddlAylar.Items.Clear();
+            ddlAylar.Items.Add(new ListItem("Tümü", "0"));
+            ddlAylar.SelectedIndex = 0;
+            ddlHaftalar.Items.Clear();
+            ddlHaftalar.Items.Add(new ListItem("Tümü", "0"));
+            ddlHaftalar.SelectedIndex = 0;
+            ddlGunler.Items.Clear();
+            ddlGunler.Items.Add(new ListItem("Tümü", "0"));
+            ddlGunler.SelectedIndex = 0;
+
+            if (cbTumu.Checked)
+            {
+                ddlTemsilciler.Enabled = false;
+                ddlTemsilciler.SelectedIndex = 0;
+
+                SatisHedef.GetYillarT(ddlYillar.Items, ddlKategoriler.SelectedValue);
+                ddlYillar.SelectedIndex = ddlYillar.Items.Count - 1;
+
+                SatisHedef.GetAylarByYilT(ddlAylar.Items, ddlKategoriler.SelectedValue, Convert.ToInt32(ddlYillar.SelectedValue));
+
+                GetSatisHedefTCountByYil();
+
+
+
+                ddlHaftalar.Visible = false;
+                ddlGunler.Visible = false;
+
+                rbTablo.Checked = false;
+                rbGrafik.Checked = true;
+                rbTablo.Visible = false;
+                rbGrafik.Visible = false;
+
+                DataList1.Visible = false;
+                tblSayfaGecis.Visible = false;
+                iframeGrafik.Visible = true;
+
+                if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+                    iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=tyil&ref=" + ddlTemsilciler.SelectedValue + "&kat=" + ddlKategoriler.SelectedValue + "&yil=" + ddlYillar.SelectedValue);
+                else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4) // þef ise
+                    iframeGrafik.Attributes.Add("src", "grafik.aspx?tur=tsyil&ref=" + ((Musteriler)Session["Musteri"]).intSLSREF.ToString() + "&kat=" + ddlKategoriler.SelectedValue + "yil=" + ddlYillar.SelectedValue);
+            }
+            else if (!cbTumu.Checked)
+            {
+                ddlTemsilciler.Enabled = true;
+
+                DataList1.DataSource = null;
+                DataList1.DataBind();
+
+                ddlSayfa.Items.Clear();
+                lblRaporKacinci.Text = "0"; lblRaporSayisi.Text = "0";
+                lblRaporYok.Visible = true;
+
+                tblToplam.Visible = false;
+
+                lblRaporYok.Visible = true;
+
+
+
+                ddlHaftalar.Visible = true;
+                ddlGunler.Visible = true;
+
+                rbTablo.Checked = true;
+                rbGrafik.Checked = false;
+                rbTablo.Visible = true;
+                rbGrafik.Visible = true;
+
+                DataList1.Visible = true;
+                tblSayfaGecis.Visible = true;
+                iframeGrafik.Visible = false;
+            }
+        }
+    }
+}

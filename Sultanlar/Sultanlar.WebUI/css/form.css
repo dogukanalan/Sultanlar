@@ -1,0 +1,94 @@
+/****Form****/
+
+#form {
+	padding-top: 4px;
+}
+#form input {
+	border: none;
+	background:#d0c8c0;
+	font-size:14px;
+	color:#95918f;
+	padding: 7px 9px 8px;
+	outline: medium none;
+	width: 280px;
+	height:18px;
+	float:left;
+		font-family: Arial, Helvetica, sans-serif;
+}
+#form select {
+	border: none;
+	background:#d0c8c0;
+	font-size:14px;
+	color:#95918f;
+	padding: 7px 9px 8px;
+	outline: medium none;
+	width: 298px;
+	height:32px;
+	float:left;
+		font-family: Arial, Helvetica, sans-serif;
+}
+#form textarea {
+	border: none;
+	background:#d0c8c0;
+	font-size:12px;
+	color:#95918f;
+	height: 163px !important;
+	outline: medium none;
+	overflow: auto;
+	padding: 14px 10px 12px;
+	width: 280px;
+	position: relative;
+	resize:none;
+	float:left;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+}
+#form label {
+	position:relative;
+	display: block;
+	min-height: 51px;
+	overflow: hidden;
+	float: left;
+	clear: left;
+}
+#form .error, #form .empty {
+	color: #FF0000;
+	display: none;
+	font-size: 11px;
+	line-height:14px;
+	width:auto;
+	float:left;
+	margin-top:2px;
+}
+#form .error-empty {
+	margin: 4px 0 4px 5px !important;
+	display:none;
+	float:left;
+}
+
+.btns {
+	position:relative;
+	overflow:hidden;
+	padding-right: 0px;
+	padding-bottom: 5px;
+}
+.btns a {
+	margin: 2px 38px 0px 0px !important;
+	cursor: pointer;
+	float: left;
+
+}
+
+.message {
+	min-height: 220px !important;	
+}
+
+.message br {
+	height: 0;
+	line-height: 0;
+}
+
+#form .success {
+	display: none;	
+}
+

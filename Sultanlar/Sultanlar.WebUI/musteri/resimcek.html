@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="snap">Snap Photo</button>
+    <canvas id="canvas" width="640" height="480"></canvas>
+
+    <script type="text/javascript">
+
+    var video = document.getElementById('video');
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        try {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+                alert('videoyagirdi');
+                video.srcObject = stream;
+                video.play();
+            });
+        } catch (e) {
+            alert('');
+        }
+    }
+    else if (navigator.getUserMedia) { // Standard
+        navigator.getUserMedia({ video: true }, function (stream) {
+            video.src = stream;
+            video.play();
+        }, errBack);
+    } else if (navigator.webkitGetUserMedia) { // WebKit-prefixed
+        navigator.webkitGetUserMedia({ video: true }, function (stream) {
+            video.src = window.webkitURL.createObjectURL(stream);
+            video.play();
+        }, errBack);
+    } else if (navigator.mozGetUserMedia) { // Mozilla-prefixed
+        navigator.mozGetUserMedia({ video: true }, function (stream) {
+            video.srcObject = stream;
+            video.play();
+        }, errBack);
+    }
+
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var video = document.getElementById('video');
+
+    document.getElementById("snap").addEventListener("click", function () {
+        alert('resimcek');
+        context.drawImage(video, 0, 0, 640, 480);
+    });
+
+    var Pic = canvas.toDataURL('image/jpeg', 0.75);
+
+    </script>
+</body>
+</html>

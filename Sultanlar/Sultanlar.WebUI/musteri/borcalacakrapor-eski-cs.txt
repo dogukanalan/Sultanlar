@@ -1,0 +1,306 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.Security;
+using System.Data;
+using Sultanlar.DatabaseObject.Internet;
+using System.Collections;
+using Sultanlar.DatabaseObject;
+
+namespace Sultanlar.WebUI.musteri
+{
+    public partial class borcalacakrapor : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            //Response.Redirect("default.aspx", true);
+
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Label1.Text = ((Musteriler)Session["Musteri"]).strAd + " " + ((Musteriler)Session["Musteri"]).strSoyad;
+            
+            if (!IsPostBack)
+            {
+                if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 5 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 1) // perakende müþteri veya müþteri ise
+                    Response.Redirect("yetkiyok.aspx", true);
+
+                //Calendar1.SelectedDate = Convert.ToDateTime("01.01." + DateTime.Now.Year);
+                //Calendar2.SelectedDate = DateTime.Now;
+
+                //Session["downloadyazdirborcalacaktarih1"] = Calendar1.SelectedDate;
+                //Session["downloadyazdirborcalacaktarih2"] = Calendar2.SelectedDate;
+
+                Session["BorcAlacakSayfaBasiGosterim"] = ((Musteriler)Session["Musteri"]).intRaporSatirSayisi;
+
+                if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // satýþ temsilcisi veya yönetici ise
+                {
+                    if ((((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6) && SatisTemsilcileri.GetSATKOD1BySLSREF(((Musteriler)Session["Musteri"]).intSLSREF).StartsWith("8"))
+                        Response.Redirect("yetkiyok.aspx", true);
+
+                    hlSatisHedef.Visible = true;
+                    imgSatisHedef.Visible = true;
+                    //hlSatistaOnAdim.Visible = true;
+                    hlStok.Visible = ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 2;
+                    imgStok.Visible = ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 2;
+
+                    GetSatisSefYoneticiHesaplar();
+                }
+            }
+
+            string alert = "<script type='text/javascript'>$(function () {$(\".kucukbilgiGosterSade\").tipTip({ activation: \"hover\" });});</script>";
+            ScriptManager.RegisterStartupScript(upBorcAlacak, typeof(string), "kucukbilgi", alert, false);
+
+            string alert2 = "<script type='text/javascript'>$(function () {$(\".kucukbilgiGoster\").tipTip({ activation: \"hover\" });});</script>";
+            ScriptManager.RegisterStartupScript(upBorcAlacak, typeof(string), "kucukbilgi2", alert2, false);
+        }
+
+        private void GetSatisSefYoneticiHesaplar()
+        {
+            divCariHesaplar.Visible = true;
+
+            ArrayList altlar = new ArrayList();
+            if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6)
+            {
+                altlar = SatisTemsilcileriSefler.GetAltRefler(((Musteriler)Session["Musteri"]).intSLSREF);
+            }
+            else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2)
+            {
+                SatisTemsilcileri.GetObjectsFromCariHesaplarNot8(ddlTemsilciler.Items, true);
+                //altlar = SatisTemsilcileri.GetSLSREFsFromCariHesaplar();
+                divTemsilciArama.Visible = true;
+
+                lblRaporYok.Visible = true;
+
+                return;
+            }
+
+            if (altlar.Count == 0)  // þef deðil ise
+            {
+                /*SAP*/
+                ArrayList st = SatisTemsilcileri.GetObjectBySLSREF(((Musteriler)Session["Musteri"]).intSLSREF);
+                if (st.Count > 0)
+                    ddlTemsilciler.Items.Add(new ListItem(st[1].ToString(), ((Musteriler)Session["Musteri"]).intSLSREF.ToString()));
+                else
+                    ddlTemsilciler.Items.Add(new ListItem("-", ((Musteriler)Session["Musteri"]).intSLSREF.ToString()));
+
+                GetBorcAlacakCount();
+
+                // son sayfaya git:
+                if (Convert.ToInt32(lblRaporSayisi.Text) > (int)Session["BorcAlacakSayfaBasiGosterim"])
+                {
+                    int raporsayisi = Convert.ToInt32(lblRaporSayisi.Text);
+                    GetBorcAlacak(raporsayisi - (int)Session["BorcAlacakSayfaBasiGosterim"], (int)Session["BorcAlacakSayfaBasiGosterim"]);
+                    lblRaporKacinci.Text = raporsayisi.ToString();
+
+                    ddlSayfa.SelectedIndex = ddlSayfa.Items.Count - 1;
+                }
+                else
+                {
+                    GetBorcAlacak(0, (int)Session["BorcAlacakSayfaBasiGosterim"]);
+                }
+            }
+            else // þef ise
+            {
+                lblRaporYok.Visible = true;
+
+                SatisTemsilcileri.GetObjectsBySLSREFs(ddlTemsilciler.Items, altlar, false);
+            }
+        }
+
+        private int GetBorcAlacakCount()
+        {
+            int donendeger = CariHesaplar.GetBorcAlacakCount(Convert.ToInt32(ddlTemsilciler.SelectedValue), cbVGB.Checked) + 1;
+
+
+
+            ddlSayfa.Items.Clear();
+            int sayfasayisi = 0;
+            int kalan = donendeger % (int)Session["BorcAlacakSayfaBasiGosterim"];
+            double sayfasayi = Convert.ToDouble(donendeger) / (int)Session["BorcAlacakSayfaBasiGosterim"];
+            if (kalan == 0)
+            {
+                sayfasayisi = Convert.ToInt32(sayfasayi);
+            }
+            else
+            {
+                if (kalan * 2 >= (int)Session["BorcAlacakSayfaBasiGosterim"])
+                    sayfasayisi = Convert.ToInt32(sayfasayi);
+                else
+                    sayfasayisi = Convert.ToInt32(sayfasayi) + 1;
+            }
+            for (int i = 1; i <= sayfasayisi; i++)
+                ddlSayfa.Items.Add(new ListItem(i.ToString(), (i * (int)Session["BorcAlacakSayfaBasiGosterim"]).ToString()));
+
+
+
+            if (donendeger > 0)
+                lblRaporKacinci.Text = Session["BorcAlacakSayfaBasiGosterim"].ToString();
+            if (donendeger < (int)Session["BorcAlacakSayfaBasiGosterim"])
+                lblRaporKacinci.Text = donendeger.ToString();
+
+            lblRaporSayisi.Text = donendeger.ToString();
+            return donendeger;
+        }
+
+        private void GetBorcAlacak(int Baslangic, int Adet)
+        {
+            DataTable dt = new DataTable();
+            CariHesaplar.GetBorcAlacak(dt, Convert.ToInt32(ddlTemsilciler.SelectedValue), Baslangic, Adet, cbVGB.Checked);
+            DataList1.DataSource = dt;
+            DataList1.DataBind();
+        }
+
+        protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+        {
+            if (Request.Cookies["sultan"] != null)
+            {
+                HttpCookie cookie = new HttpCookie("sultan");
+                cookie.Expires = DateTime.Now.AddDays(-1d);
+                Response.Cookies.Add(cookie);
+            }
+
+            Session.Abandon();
+
+            FormsAuthentication.SignOut();
+            FormsAuthentication.RedirectToLoginPage();
+        }
+
+        protected void ddlTemsilciler_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlTemsilciler.SelectedValue == "0")
+            {
+                DataList1.DataSource = null;
+                DataList1.DataBind();
+
+                ddlSayfa.Items.Clear();
+                lblRaporKacinci.Text = "0"; lblRaporSayisi.Text = "0";
+
+                lblRaporYok.Visible = true;
+
+                return;
+            }
+
+            GetBorcAlacakCount();
+
+            // son sayfaya git:
+            if (Convert.ToInt32(lblRaporSayisi.Text) > (int)Session["BorcAlacakSayfaBasiGosterim"])
+            {
+                int raporsayisi = Convert.ToInt32(lblRaporSayisi.Text);
+                GetBorcAlacak(raporsayisi - (int)Session["BorcAlacakSayfaBasiGosterim"], (int)Session["BorcAlacakSayfaBasiGosterim"]);
+                lblRaporKacinci.Text = raporsayisi.ToString();
+
+                ddlSayfa.SelectedIndex = ddlSayfa.Items.Count - 1;
+            }
+            else
+            {
+                GetBorcAlacak(0, (int)Session["BorcAlacakSayfaBasiGosterim"]);
+            }
+        }
+
+        protected void ibOnceki_Click(object sender, ImageClickEventArgs e)
+        {
+            int baslangic = Convert.ToInt32(lblRaporKacinci.Text) - (int)Session["BorcAlacakSayfaBasiGosterim"];
+            if (baslangic > 0)
+            {
+                if ((int)Session["BorcAlacakSayfaBasiGosterim"] < baslangic)
+                {
+                    GetBorcAlacak(baslangic - (int)Session["BorcAlacakSayfaBasiGosterim"], (int)Session["BorcAlacakSayfaBasiGosterim"]);
+                    lblRaporKacinci.Text = baslangic.ToString();
+                }
+                else
+                {
+                    GetBorcAlacak(0, (int)Session["BorcAlacakSayfaBasiGosterim"]);
+                    lblRaporKacinci.Text = Session["BorcAlacakSayfaBasiGosterim"].ToString();
+                }
+
+                ddlSayfa.SelectedIndex = ddlSayfa.SelectedIndex - 1;
+            }
+        }
+
+        protected void ibSonraki_Click(object sender, ImageClickEventArgs e)
+        {
+            int baslangic = Convert.ToInt32(lblRaporKacinci.Text) + (int)Session["BorcAlacakSayfaBasiGosterim"];
+            if (Convert.ToInt32(lblRaporKacinci.Text) < Convert.ToInt32(lblRaporSayisi.Text))
+            {
+                GetBorcAlacak(baslangic - (int)Session["BorcAlacakSayfaBasiGosterim"], (int)Session["BorcAlacakSayfaBasiGosterim"]);
+
+                if (baslangic > Convert.ToInt32(lblRaporSayisi.Text))
+                    lblRaporKacinci.Text = lblRaporSayisi.Text;
+                else
+                    lblRaporKacinci.Text = baslangic.ToString();
+
+                ddlSayfa.SelectedIndex = ddlSayfa.SelectedIndex + 1;
+            }
+        }
+
+        protected void ddlSayfa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlSayfa.SelectedIndex == ddlSayfa.Items.Count - 1)
+                lblRaporKacinci.Text = lblRaporSayisi.Text;
+            else
+                lblRaporKacinci.Text = ddlSayfa.SelectedValue;
+
+            GetBorcAlacak(Convert.ToInt32(ddlSayfa.SelectedValue) - (int)Session["BorcAlacakSayfaBasiGosterim"], (int)Session["BorcAlacakSayfaBasiGosterim"]);
+        }
+
+        protected void btnTemsilciAra_Click(object sender, EventArgs e)
+        {
+            if (txtTemsilciAra.Text.Trim() == string.Empty)
+                return;
+
+            DataList1.DataSource = null;
+            DataList1.DataBind();
+
+            ddlSayfa.Items.Clear();
+            lblRaporKacinci.Text = "0"; lblRaporSayisi.Text = "0";
+
+            SatisTemsilcileri.GetObjectsBySatisTemsilcisi(ddlTemsilciler.Items, txtTemsilciAra.Text.Trim(), false);
+        }
+
+        protected void btnTemsilciTemizle_Click(object sender, EventArgs e)
+        {
+            DataList1.DataSource = null;
+            DataList1.DataBind();
+
+            ddlSayfa.Items.Clear();
+            lblRaporKacinci.Text = "0"; lblRaporSayisi.Text = "0";
+
+            GetSatisSefYoneticiHesaplar();
+        }
+
+        protected void cbVGB_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ddlTemsilciler.SelectedValue != "0")
+            {
+                GetBorcAlacakCount();
+
+                // son sayfaya git:
+                if (Convert.ToInt32(lblRaporSayisi.Text) > (int)Session["BorcAlacakSayfaBasiGosterim"])
+                {
+                    int raporsayisi = Convert.ToInt32(lblRaporSayisi.Text);
+                    GetBorcAlacak(raporsayisi - (int)Session["BorcAlacakSayfaBasiGosterim"], (int)Session["BorcAlacakSayfaBasiGosterim"]);
+                    lblRaporKacinci.Text = raporsayisi.ToString();
+
+                    ddlSayfa.SelectedIndex = ddlSayfa.Items.Count - 1;
+                }
+                else
+                {
+                    GetBorcAlacak(0, (int)Session["BorcAlacakSayfaBasiGosterim"]);
+                }
+            }
+        }
+
+        protected void DataList1_DataBound(object sender, EventArgs e)
+        {
+            lblRaporYok.Visible = DataList1.Items.Count == 0;
+
+            //if (DataList1.Items.Count > 1)
+            //{
+            //    string alert = "<script type='text/javascript'>$('#tblDatalist1 tr:last').css('border-top', '1px solid #CCCCCC');</script>";
+            //    ScriptManager.RegisterStartupScript(upBorcAlacak, typeof(string), "kucukbilgi", alert, false);
+            //}
+        }
+    }
+}
