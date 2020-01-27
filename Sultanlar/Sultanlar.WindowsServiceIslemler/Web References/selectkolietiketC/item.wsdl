@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s0="urn:sap-com:document:sap:soap:functions:mc-style" targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style">
+      <xsd:element name="ZwebSelectKoliEtiket">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="IDate" type="s0:date" />
+            <xsd:element name="ITime" type="s0:time" />
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ZwebSelectKoliEtiketResult">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="EtKoliEtiket">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element minOccurs="0" maxOccurs="unbounded" name="Zwebs019" type="s0:Zwebs019" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="Zwebs019">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Kolietiketno">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+                <xsd:pattern value="\d*" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Kolisira">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Koliadet" type="xsd:int" />
+          <xsd:element minOccurs="0" name="Vbeln">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Erdat" type="s0:date" />
+          <xsd:element minOccurs="0" name="Erzet" type="s0:time" />
+          <xsd:element minOccurs="0" name="Ernam">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="12" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Deleted">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="date">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+          <xsd:pattern value="....-..-.." />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="time">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="8" />
+          <xsd:pattern value="..:..:.." />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+  </types>
+  <message name="ZwebSelectKoliEtiketInput">
+    <part name="parameters" element="s0:ZwebSelectKoliEtiket" />
+  </message>
+  <message name="ZwebSelectKoliEtiketOutput">
+    <part name="parameters" element="s0:ZwebSelectKoliEtiketResult" />
+  </message>
+  <portType name="ZwebSelectKoliEtiketPortType">
+    <operation name="ZwebSelectKoliEtiket">
+      <input message="s0:ZwebSelectKoliEtiketInput" />
+      <output message="s0:ZwebSelectKoliEtiketOutput" />
+    </operation>
+  </portType>
+  <binding name="ZwebSelectKoliEtiketBinding" type="s0:ZwebSelectKoliEtiketPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="ZwebSelectKoliEtiket">
+      <soap:operation soapAction="http://www.sap.com/ZwebSelectKoliEtiket" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ZwebSelectKoliEtiketService">
+    <documentation>SAP Service ZwebSelectKoliEtiket via SOAP</documentation>
+    <port name="ZwebSelectKoliEtiketPortType" binding="s0:ZwebSelectKoliEtiketBinding">
+      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+    </port>
+  </service>
+</definitions>

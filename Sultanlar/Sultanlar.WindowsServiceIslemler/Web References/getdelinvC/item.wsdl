@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s0="urn:sap-com:document:sap:soap:functions:mc-style" targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style">
+      <xsd:element name="ZwebGetDelInv">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="IvBegda" type="s0:date" />
+            <xsd:element minOccurs="0" name="IvEndda" type="s0:date" />
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ZwebGetDelInvResult">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="EtDelInv">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element minOccurs="0" maxOccurs="unbounded" name="Zwebs003d" type="s0:Zwebs003d" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="Zwebs003d">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Vbeln">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="date">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+          <xsd:pattern value="....-..-.." />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+  </types>
+  <message name="ZwebGetDelInvInput">
+    <part name="parameters" element="s0:ZwebGetDelInv" />
+  </message>
+  <message name="ZwebGetDelInvOutput">
+    <part name="parameters" element="s0:ZwebGetDelInvResult" />
+  </message>
+  <portType name="ZwebGetDelInvPortType">
+    <operation name="ZwebGetDelInv">
+      <input message="s0:ZwebGetDelInvInput" />
+      <output message="s0:ZwebGetDelInvOutput" />
+    </operation>
+  </portType>
+  <binding name="ZwebGetDelInvBinding" type="s0:ZwebGetDelInvPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="ZwebGetDelInv">
+      <soap:operation soapAction="http://www.sap.com/ZwebGetDelInv" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ZwebGetDelInvService">
+    <documentation>SAP Service ZwebGetDelInv via SOAP</documentation>
+    <port name="ZwebGetDelInvPortType" binding="s0:ZwebGetDelInvBinding">
+      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+    </port>
+  </service>
+</definitions>

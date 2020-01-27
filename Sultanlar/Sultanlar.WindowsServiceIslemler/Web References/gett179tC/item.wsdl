@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s0="urn:sap-com:document:sap:soap:functions:mc-style" targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style">
+      <xsd:element name="ZwebGetT179t">
+        <xsd:complexType>
+          <xsd:all />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ZwebGetT179tResult">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="EtT179t">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element minOccurs="0" maxOccurs="unbounded" name="Zwebt179t" type="s0:Zwebt179t" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="Zwebt179t">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Mandt">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Spras">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Prodh">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Vtext">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="40" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="ZwebGetT179tInput">
+    <part name="parameters" element="s0:ZwebGetT179t" />
+  </message>
+  <message name="ZwebGetT179tOutput">
+    <part name="parameters" element="s0:ZwebGetT179tResult" />
+  </message>
+  <portType name="ZwebGetT179tPortType">
+    <operation name="ZwebGetT179t">
+      <input message="s0:ZwebGetT179tInput" />
+      <output message="s0:ZwebGetT179tOutput" />
+    </operation>
+  </portType>
+  <binding name="ZwebGetT179tBinding" type="s0:ZwebGetT179tPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="ZwebGetT179t">
+      <soap:operation soapAction="http://www.sap.com/ZwebGetT179t" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ZwebGetT179tService">
+    <documentation>SAP Service ZwebGetT179t via SOAP</documentation>
+    <port name="ZwebGetT179tPortType" binding="s0:ZwebGetT179tBinding">
+      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+    </port>
+  </service>
+</definitions>

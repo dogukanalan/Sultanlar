@@ -1,0 +1,60 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Sultanlar.WindowsServiceIslemler.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_getcustomersC_ZwebGetCustomersService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_getcampaignsC_ZwebGetCampaignsService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_getmaterialpricesC_ZwebGetMaterialPricesService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_getmaterialsC_ZwebGetMaterialsService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_getpersonalsC_ZwebGetPersonalsService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_getsalesreportC_ZwebSelectSalesReportService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_getdelinvC_ZwebGetDelInvService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_selectaccountingC_ZwebSelectAccountingService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_selectkolietiketC_ZwebSelectKoliEtiketService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_selectsalesdeliveryC_ZwebSelectSalesDeliveryService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_selectsalesorderC_ZwebSelectSalesOrderService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_selectsalestransportC_ZwebSelectSalesTransportService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_selectsalesvbfaC_ZwebSelectSalesVbfaService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_efaturaC_EFaturaInfoService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://efatura.tibet.com.tr/TIBETeFatura/services/EFaturaInfoPort</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_selectsalesgoodsmoveC_ZwebSelectSalesGoodsMoveService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_selectekstreC_ZwebSelectEkstreService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_efatura_EFaturaInfoService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://test.efatura.tibet.com.tr/TIBETeFatura/services/EFaturaInfoPort</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WindowsServiceIslemler_gett179tC_ZwebGetT179tService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
