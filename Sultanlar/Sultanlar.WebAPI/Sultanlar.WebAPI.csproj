@@ -28,18 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Sultanlar.Class">
-      <HintPath>..\Sultanlar.Class\bin\Debug\Sultanlar.Class.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="Sultanlar.DatabaseObject">
-      <HintPath>..\Sultanlar.DatabaseObject\bin\Debug\Sultanlar.DatabaseObject.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="Sultanlar.DbObj">
-      <HintPath>..\Sultanlar.DbObj\bin\Debug\Sultanlar.DbObj.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
+    <ProjectReference Include="..\Sultanlar.Class\Sultanlar.Class.csproj" />
+    <ProjectReference Include="..\Sultanlar.DatabaseObject\Sultanlar.DatabaseObject.csproj" />
+    <ProjectReference Include="..\Sultanlar.DbObj\Sultanlar.DbObj.csproj" />
   </ItemGroup>
 
 </Project>
