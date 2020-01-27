@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sultanlar.DbObj", "Sultanla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sultanlar.UI", "Sultanlar.UI\Sultanlar.UI.csproj", "{4EB61050-7673-44BD-86B6-90BDFED74D08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sultanlar.WCF", "Sultanlar.WCF\Sultanlar.WCF.csproj", "{40E017EA-A158-453E-ADD4-9163EE84B677}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{AA50120A-B839-4712-9471-84A7CC28ED5C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4EB61050-7673-44BD-86B6-90BDFED74D08}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{4EB61050-7673-44BD-86B6-90BDFED74D08}.Release|Any CPU.ActiveCfg = Release|x86
+		{40E017EA-A158-453E-ADD4-9163EE84B677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40E017EA-A158-453E-ADD4-9163EE84B677}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40E017EA-A158-453E-ADD4-9163EE84B677}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40E017EA-A158-453E-ADD4-9163EE84B677}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
