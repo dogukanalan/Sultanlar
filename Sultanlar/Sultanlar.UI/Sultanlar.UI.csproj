@@ -123,18 +123,6 @@
       <HintPath>..\packages\Microsoft.Office.Interop.Outlook.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Outlook.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Sultanlar.Class, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sultanlar.Class\bin\Debug\Sultanlar.Class.dll</HintPath>
-    </Reference>
-    <Reference Include="Sultanlar.DatabaseObject, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sultanlar.DatabaseObject\bin\Debug\Sultanlar.DatabaseObject.dll</HintPath>
-    </Reference>
-    <Reference Include="Sultanlar.DbObj, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sultanlar.DbObj\bin\Debug\Sultanlar.DbObj.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
@@ -1965,7 +1953,20 @@
       <FileType>Satellite</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Sultanlar.Class\Sultanlar.Class.csproj">
+      <Project>{6368880d-50c3-4e33-9ecf-2c416e832be9}</Project>
+      <Name>Sultanlar.Class</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sultanlar.DatabaseObject\Sultanlar.DatabaseObject.csproj">
+      <Project>{4dc20636-1474-437f-9a16-ff1b32d145fe}</Project>
+      <Name>Sultanlar.DatabaseObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sultanlar.DbObj\Sultanlar.DbObj.csproj">
+      <Project>{aa50120a-b839-4712-9471-84a7cc28ed5c}</Project>
+      <Name>Sultanlar.DbObj</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
