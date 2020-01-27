@@ -1,0 +1,232 @@
+﻿@page
+@model EkstreModel
+@{
+    ViewData["Title"] = "Ekstre";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>*@
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+
+    <script>
+        function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
+        function getGmref() { return getParameterByName("gmref") ? getParameterByName("gmref") : "0"; }
+        function getAy() { return getParameterByName("ay") ? getParameterByName("ay") : (new Date().getMonth() + 1).toString(); }
+
+        var kolonlar = [
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.fistur + '">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.fistur + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.fistar.replace("T", " ").replace(" 00:00:00", "")) + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return (data.tur == 8 ? '<a href="Satis?yil=' + new Date(data.fistar).getFullYear() + '&ay=' + (new Date(data.fistar).getMonth() + 1) + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=0&fatno=' + data.fisno + '">' : '') +
+                        '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.matbuno) + '</span></a><span class="hide">' + data.fisno + '</span>' +
+                        (data.tur == 8 ? '</a>' : '');
+                }
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.fisvade.replace("T", " ").replace(" 00:00:00", "")) + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.fisaciklama + '">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.fisaciklama) + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.borc.formatMoney(2, ',', '.') + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.alacak.formatMoney(2, ',', '.') + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.bakiye.formatMoney(2, ',', '.') + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
+                }
+            }
+        ];
+
+        function SaticilarGetir() {
+            var uyeid = window.localStorage["uyeid"];
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "satici",
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        $('select[name=selectSaticilar]').val(getSlsref());
+                        CarilerGetir();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function CarilerGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getana/" + getSlsref(),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectCariler").empty().append($("<option></option>").text("Seçiniz").val("0"));
+                        $.each(data, function (index, item) {
+                            $("#selectCariler").append(
+                                $("<option></option>")
+                                    .text(item.musteri)
+                                    .val(item.gmref)
+                            );
+                        });
+
+                        $('select[name=selectCariler]').val(getGmref());
+                        getEkstre();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function getEkstre() {
+            var url1 = apiurl + "ekstre/getir/" + getGmref() + "/" + (getGmref() == "0" ? "0" : getAy());
+            var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                "responsive": true,
+                "destroy": true,
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    table.page('last').draw(false);
+                    $("html, body").animate({ scrollTop: $(document).height() - $(window).height() - 200 }, 1000);
+                },
+                "fnDrawCallback": function (oSettings) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
+                },
+                dom: 'Bfrtip',
+                buttons: ['excel', 'pdf', 'print'],
+                columns: kolonlar,
+                "language": defaultDtLang,
+                "paging": true,
+                "pagingType": "full_numbers",
+                "ordering": false,
+                "info": false,
+                "searching": true,
+                "deferRender": true
+            });
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.header()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            })
+        }
+
+        $(window).on("popstate", function (e) {
+            $('select[name=selectSaticilar]').val(getSlsref());
+            $('select[name=selectCariler]').val(getGmref());
+            getEkstre();
+        });
+
+        $(document).ready(function () {
+            $('select[name=selectAy]').val(getAy());
+            SaticilarGetir();
+
+            $('#selectSaticilar').on('change', function (e) {
+                window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=0&ay=' + $('select[name=selectAy]').val());
+                CarilerGetir();
+            });
+
+            $('#selectCariler').on('change', function (e) {
+                window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&ay=' + $('select[name=selectAy]').val());
+                getEkstre();
+            });
+
+            $('#selectAy').on('change', function (e) {
+                window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&ay=' + $('select[name=selectAy]').val());
+                getEkstre();
+            });
+        });
+    </script>
+}
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
+
+<select id="selectAy" name="selectAy" class="dropDown selYil">
+    <option value="0">Tümü</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+</select>
+<br />
+<select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
+    <option value="0" selected="selected">Seçiniz</option>
+</select>
+<br />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Tür</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Tarih</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Fiş No</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Vade</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Açıklama</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Borç</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Alacak</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Bakiye</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+        </tr>
+    </thead>
+</table>

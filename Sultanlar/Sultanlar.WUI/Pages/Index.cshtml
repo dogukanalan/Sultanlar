@@ -1,0 +1,131 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Üye Girişi";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'" />
+
+    <script>
+        function GirisYap() {
+            var input = $('.validate-input .input100');
+            for (var i = 0; i < input.length; i++) {
+                if (validate(input[i]) == false) {
+                    showValidate(input[i]);
+                    return;
+                }
+            }
+
+            $('#divProgress').css("display", "block");
+            $("#girisBasarisiz").css("visibility", "hidden");
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    type: 'POST',
+                    url: apiurl + "giris",
+                    data: '{ "strEposta": "' + $('#email').val() + '", "strSifre": "' + $('#pass').val() + '", "blBirGun": "' + ($('#ckb1').is(':checked') ? "true" : "false") + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (!data.pkID) {
+                            $("#girisBasarisiz").css("visibility", "visible");
+                            return;
+                        }
+                        window.localStorage["eposta"] = $('#email').val();
+                        window.localStorage["uyeid"] = data.pkID;
+                        window.localStorage["uyetipiid"] = data.intUyeTipiID;
+                        window.localStorage["slsref"] = data.intSLSREF;
+                        window.localStorage["gmref"] = data.intGMREF;
+                        window.localStorage["token"] = data.token;
+                        createCookie("sulLogin", data.tokenCr, 1);
+                        createCookie("sulLoginR", $('#ckb1').is(':checked') ? "true" : "false", 1);
+                        var bas = window.location.href.indexOf("site") > -1 ? window.location.href.substring(0, window.location.href.indexOf("/")) + "/site" : window.location.href.substring(0, window.location.href.indexOf("/"));
+                        window.location.href = bas + "/" + (getParameterByName("returnurl") ? getParameterByName("returnurl") : "Musteri");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { alert(errorThrown); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+            $(".wrap").css("width", 560);
+
+            $('.validate-form .input100').each(function () {
+                $(this).focus(function () {
+                    hideValidate(this);
+                });
+            });
+
+            var showPass = 0;
+            $('.btn-show-pass').on('click', function () {
+                if (showPass === 0) {
+                    $(this).next('input').attr('type', 'text');
+                    $(this).find('i').removeClass('fa-eye');
+                    $(this).find('i').addClass('fa-eye-slash');
+                    showPass = 1;
+                }
+                else {
+                    $(this).next('input').attr('type', 'password');
+                    $(this).find('i').removeClass('fa-eye-slash');
+                    $(this).find('i').addClass('fa-eye');
+                    showPass = 0;
+                }
+
+            });
+        });
+    </script>
+}
+@*<span class="form1-title" style="padding-bottom: 32px;">
+        Üye Girişi
+    </span>*@
+<script>girissayfasi = true;</script>
+<span class="txt1">
+    EPOSTA
+</span>
+
+<div class="wrap-input100 validate-input" style="margin-bottom: 36px;" data-validate="Eposta formatı yanlış">
+    <input class="input100 inputGiris clGerekli" type="text" name="email" id="email" onkeydown="return clickButton(event,'aGiris')">
+    <span class="focus-input100"></span>
+</div>
+
+<span class="txt1">
+    ŞİFRE
+</span>
+
+<div class="wrap-input100 validate-input" style="margin-bottom: 12px;" data-validate="Şifre gerekli">
+    <span class="btn-show-pass">
+        <i class="fa fa-eye"></i>
+    </span>
+    <input class="input100 inputGiris clGerekli" type="password" name="pass" id="pass" onkeydown="return clickButton(event,'aGiris')">
+    <span class="focus-input100"></span>
+</div>
+
+<div class="flex-sb-m">
+    <div class="contact100-form-checkbox">
+        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+        <label class="label-checkbox100" for="ckb1">
+            Bir gün boyunca hatırla
+        </label>
+    </div>
+
+    <div>
+        <a href="#" class="txt3">
+            Şifremi Unuttum
+        </a>
+    </div>
+</div>
+
+<div class="flex-sb-m">
+    <span class="txt1" id="girisBasarisiz" style="padding-bottom: 24px; padding-top: 24px; color: red; visibility: hidden">
+        Giriş başarısız, lütfen tekrar deneyin.
+    </span>
+</div>
+
+<div class="container-form-btn">
+    <a id="aGiris" class="form1-btn hrefbutton" href="javascript:GirisYap()">
+        Oturum aç
+    </a>
+</div>

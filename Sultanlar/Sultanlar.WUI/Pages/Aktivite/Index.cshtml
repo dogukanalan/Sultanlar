@@ -1,0 +1,115 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Aktivite";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+    <script>
+        var anlasmaid;
+        var ahtfatalt;
+        var ahtfataltciro;
+        var ahtciroprim;
+        var yegfatalt;
+        var yegfataltciro;
+        var yegciroprim;
+        var fiyattip500;
+
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+
+            $('#inputDonem').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy/mm",
+                viewMode: "months",
+                minViewMode: "months"
+            });
+            $('#inputDonem').on('changeDate', function (ev) {
+                $('#divProgress').css("display", "block");
+                $(this).datepicker('hide');
+                $("#btnDevam").attr("disabled", true);
+                anlasmaGetir($(this).val().substring(0, 4), $(this).val().substring(5, 7), getParameterByName('smref'), getParameterByName('tip'));
+            });
+
+            anlasmaid = 0;
+            $('#selectAnlasmalar').on('change', function (e) {
+                if ($(this).val() != "0") {
+                    var infos = $(this).val().split(";;;");
+                    anlasmaid = infos[0];
+                    ahtfatalt = infos[1];
+                    ahtfataltciro = infos[2];
+                    ahtciroprim = infos[3];
+                    yegfatalt = infos[4];
+                    yegfataltciro = infos[5];
+                    yegciroprim = infos[6];
+                    fiyattip500 = infos[7];
+                    $("#btnDevam").attr("disabled", false);
+                }
+            });
+        });
+
+        function anlasmaGetir(yil, ay, smref, tip) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "anlasma/getirbymus",
+                    data: '{ "yil": "' + yil + '", "ay": "' + ay + '", "smref": "' + smref + '", "tip": "' + tip + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        
+                        $("#selectAnlasmalar").empty().append($("<option></option>").text("Seçiniz").val("0"));
+                        $.each(data, function (index, item) {
+                            $("#selectAnlasmalar").append(
+                                $("<option></option>")
+                                    .text(item.pkID + " (" + item.strAciklama1 + ")")
+                                    .val(item.pkID + ";;;" + item.flTAHIsk + ";;;" + item.flTAHCiroIsk + ";;;" + (item.flTAHCiro + item.flTAHCiro3 + item.flTAHCiro6 + item.flTAHCiro12) + ";;;" + + item.flYEGIsk + ";;;" + item.flYEGCiroIsk + ";;;" + (item.flYEGCiro + item.flYEGCiro3 + item.flYEGCiro6 + item.flYEGCiro12) + ";;;" + item.fiyatTip500)
+                            );
+                        });
+
+                        if (data.length == 0) {
+                            $("#selectAnlasmalar").empty().append($("<option></option>").text("Anlaşma bulunamadı").val("0"));
+                            ahtfatalt = 0;
+                            ahtfataltciro = 0;
+                            ahtciroprim = 0;
+                            yegfatalt = 0;
+                            yegfataltciro = 0;
+                            yegciroprim = 0;
+                            $("#btnDevam").attr("disabled", false);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function devam() {
+            var ftip = getParameterByName('ftip');
+            if (anlasmaid == 0) {
+                ahtfatalt = 5;
+                yegfatalt = 5;
+            }
+            else {
+                ftip = fiyattip500 != 0 ? fiyattip500 : ftip;
+            }
+            window.location.href = 'Aktivite?smref=' + getParameterByName('smref') + '&ftip=' + ftip + '&tip=' + getParameterByName('tip') + '&aktiviteid=' + getParameterByName('aktiviteid') + '&donem=' + $("#inputDonem").val() + '&anlasmaid=' + anlasmaid + '&ahtfatalt=' + ahtfatalt + '&ahtfataltciro=' + ahtfataltciro + '&ahtciroprim=' + ahtciroprim + '&yegfatalt=' + yegfatalt + '&yegfataltciro=' + yegfataltciro + '&yegciroprim=' + yegciroprim;
+        }
+    </script>
+}
+<h5 class="spanCiplak">Aktivite için dönem ve anlaşma seçiniz</h5>
+<input class="form-control input100" type="text" name="inputDonem" id="inputDonem" placeholder="Dönem" autocomplete="off" onkeypress="return false">
+<br />
+<select id="selectAnlasmalar" name="selectAnlasmalar" class="form-control input100">
+    <option value="0" selected="selected">Seçiniz</option>
+</select>
+<br />
+<input type="button" id="btnDevam" class="btn btn-primary secimTus" value="Aktiviteye devam et" onclick="devam()" disabled />

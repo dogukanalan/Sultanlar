@@ -1,0 +1,222 @@
+﻿@page
+@model InceleModel
+@{
+    if (Request.Query["yazdir"] == "true")
+    {
+        ViewData["Title"] = "Anlaşma Çıktısı";
+    }
+    else
+    {
+        ViewData["Title"] = "Anlaşma İncele";
+    }
+}
+
+@section head {
+    <script>
+        var yazdir;
+
+        function AnlasmaGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "anlasma/get/" + getParameterByName('anlasmaid'),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        var yazi = yazdir ? "Çıktısı" : "İncele";
+                        document.getElementById("basTitle").innerHTML = "Anlaşma " + yazi + " (" + data.pkID + ")";
+                        $("#inputMusteri").val(data.cari.sube);
+                        $("#inputSubeSay").val(data.strAciklama4);
+                        $("#inputIl").val(data.cari.il);
+                        $("#inputBayi").val(data.cari.musteri);
+                        $("#dtpBaslangic").val(data.dtBaslangic.replace("T00:00:00", ""));
+                        $("#dtpBitis").val(data.dtBitis.replace("T00:00:00", ""));
+                        $("#inputVadeKGT").val(data.intVadeTAH);
+                        $("#inputVadeNF").val(data.intVadeYEG);
+                        $("#inputSKUKGT").val(data.intListSKUTAH);
+                        $("#inputSKUNF").val(data.intListSKUYEG);
+                        $("#inputFatAltKGT").val(data.flTAHIsk);
+                        $("#inputFatAltNF").val(data.flYEGIsk);
+                        $("#inputCiroKGT").val(data.flTAHCiro);
+                        $("#inputCiroNF").val(data.flYEGCiro);
+                        $("#inputCiro3KGT").val(data.flTAHCiro3);
+                        $("#inputCiro3NF").val(data.flYEGCiro3);
+                        $("#inputCiro6KGT").val(data.flTAHCiro6);
+                        $("#inputCiro6NF").val(data.flYEGCiro6);
+                        $("#inputCiro12KGT").val(data.flTAHCiro12);
+                        $("#inputCiro12NF").val(data.flYEGCiro12);
+                        $("#inputCiroFatAltKGT").val(data.flTAHCiroIsk);
+                        $("#inputCiroFatAltNF").val(data.flYEGCiroIsk);
+                        $("#inputDisBedelKGT").val(data.mnTAHAnlasmaDisiBedeller);
+                        $("#inputDisBedelNF").val(data.mnYEGAnlasmaDisiBedeller);
+                        $("#inputTopCiroKGT").val(data.mnTAHToplamCiro);
+                        $("#inputTopCiroNF").val(data.mnYEGToplamCiro);
+                        $("#inputAciklama").val(data.strAciklama1);
+
+                        var htmlText = '<div>';
+                        $.each(data.bedeller, function (i, item) {
+                            htmlText += '<div><span class="txt4">' + item.bedelAdlar.value + '</span>' +
+                                '<div class="centerVeMiddle"><input class="form-control input100 anlasmaBolum" type="number" value="' + item.intTAHAdet + '" disabled>' +
+                                '&nbsp;<input class="form-control input100 anlasmaBolum" type="number" value="' + item.intYEGAdet + '" disabled></div>' +
+                                '<div class="centerVeMiddle"><input class="form-control input100 anlasmaBolum" type="number" value="' + item.mnTAHBedel + '" disabled>' +
+                                '&nbsp;<input class="form-control input100 anlasmaBolum" type="number" value="' + item.mnYEGBedel + '" disabled></div>' +
+                                '<br /></div>';
+                        });
+                        divData.innerHTML = htmlText + '</div>';
+
+                        if (yazdir)
+                            window.print();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            yazdir = getParameterByName("yazdir") == "true";
+            AnlasmaGetir();
+        });
+    </script>
+}
+
+<span class="txt1">
+    Müşteri
+</span>
+<div class="">
+    <input class="form-control input100" type="text" name="inputMusteri" id="inputMusteri" disabled>
+</div>
+<br />
+<span class="txt1">
+    Şube Sayısı
+</span>
+<div class="validate-input" data-validate="Gerekli alan">
+    <input class="form-control input100 clGerekli" type="number" name="inputSubeSay" id="inputSubeSay" disabled>
+</div>
+<br />
+<span class="txt1">
+    İl
+</span>
+<div class="">
+    <input class="form-control input100" type="text" name="inputIl" id="inputIl" disabled>
+</div>
+<br />
+<span class="txt1">
+    Bayi
+</span>
+<div class="">
+    <input class="form-control input100" type="text" name="inputBayi" id="inputBayi" disabled>
+</div>
+<br />
+<span class="txt1">
+    Başlangıç
+</span>
+<div class="validate-input" data-validate="Gerekli alan">
+    <input type="text" class="form-control input100 clGerekli" name="dtpBaslangic" id="dtpBaslangic" onkeypress="return false" disabled>
+</div>
+<br />
+<span class="txt1">
+    Bitiş
+</span>
+<div class="validate-input" data-validate="Gerekli alan">
+    <input type="text" class="form-control input100 clGerekli" name="dtpBitis" id="dtpBitis" onkeypress="return false" disabled>
+</div>
+<br />
+<span class="txt4">
+    Vade
+</span>
+<div class="centerVeMiddle">
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputVadeKGT" id="inputVadeKGT" placeholder="KGT" disabled>
+    </div>
+    &nbsp;
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputVadeNF" id="inputVadeNF" placeholder="NF" disabled>
+    </div>
+</div>
+<br />
+<span class="txt4">
+    Listelenecek SKU
+</span>
+<div class="centerVeMiddle">
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputSKUKGT" id="inputSKUKGT" placeholder="KGT" disabled>
+    </div>
+    &nbsp;
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputSKUNF" id="inputSKUNF" placeholder="NF" disabled>
+    </div>
+</div>
+<br />
+<span class="txt4">
+    Fatura Altı İskonto
+</span>
+<div class="centerVeMiddle">
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputFatAltKGT" id="inputFatAltKGT" placeholder="KGT" disabled>
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputFatAltNF" id="inputFatAltNF" placeholder="NF" disabled>
+</div>
+<br />
+<span class="txt4">
+    Ciro Primi Aylık
+</span>
+<div class="centerVeMiddle">
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroKGT" id="inputCiroKGT" placeholder="KGT" disabled>
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroNF" id="inputCiroNF" placeholder="NF" disabled>
+</div>
+<br />
+<span class="txt4">
+    Ciro Primi 3 Aylık
+</span>
+<div class="centerVeMiddle">
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro3KGT" id="inputCiro3KGT" placeholder="KGT" disabled>
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro3NF" id="inputCiro3NF" placeholder="NF" disabled>
+</div>
+<br />
+<span class="txt4">
+    Ciro Primi 6 Aylık
+</span>
+<div class="centerVeMiddle">
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro6KGT" id="inputCiro6KGT" placeholder="KGT" disabled>
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro6NF" id="inputCiro6NF" placeholder="NF" disabled>
+</div>
+<br />
+<span class="txt4">
+    Ciro Primi Yıllık
+</span>
+<div class="centerVeMiddle">
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro12KGT" id="inputCiro12KGT" placeholder="KGT" disabled>
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro12NF" id="inputCiro12NF" placeholder="NF" disabled>
+</div>
+<br />
+<span class="txt4">
+    Ciro Primi Fatura Altı
+</span>
+<div class="centerVeMiddle">
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroFatAltKGT" id="inputCiroFatAltKGT" placeholder="KGT" disabled>
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroFatAltNF" id="inputCiroFatAltNF" placeholder="NF" disabled>
+</div>
+<br />
+<span class="txt4">
+    Anlaşma Dışı Bedeller
+</span>
+<div class="centerVeMiddle">
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputDisBedelKGT" id="inputDisBedelKGT" placeholder="KGT" disabled>
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputDisBedelNF" id="inputDisBedelNF" placeholder="NF" disabled>
+</div>
+<br />
+<span class="txt4">
+    Öngörülen Toplam Ciro
+</span>
+<div class="centerVeMiddle">
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputTopCiroKGT" id="inputTopCiroKGT" placeholder="KGT" disabled>
+    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputTopCiroNF" id="inputTopCiroNF" placeholder="NF" disabled>
+</div>
+<br />
+<span class="txt1">
+    Açıklama
+</span>
+<div class="">
+    <textarea class="form-control input100" type="text" name="inputAciklama" id="inputAciklama" disabled></textarea>
+</div>
+<br />
+<div id="divData"></div>

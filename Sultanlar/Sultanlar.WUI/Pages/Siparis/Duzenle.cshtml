@@ -1,0 +1,74 @@
+﻿@page
+@model DuzenleModel
+@{
+    ViewData["Title"] = "Sipariş Düzenle";
+}
+
+@section head {
+    <script>
+        function getir() {
+            var arrayFromCookie = JSON.parse(window.localStorage['sepet']);
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "siparis/get/" + getParameterByName('siparisid'),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data.blAktarilmis) {
+                            alert("Sipariş onaylı. Onaylı sipariş düzenlenemez.");
+                            window.location.href = 'Siparisler';
+                            return;
+                        }
+
+                        senkRoot(arrayFromCookie, data.smref, data.pkSiparisID.toString(), data.sintFiyatTipiID.toString()); // sepetteki smref ve siparisid aynilari sil
+
+                        var yenisepet = JSON.parse(window.localStorage["sepet"]);
+                        var icsepet =
+                            {
+                                siparisid: data.pkSiparisID.toString(),
+                                smref: data.smref.toString(),
+                                ftip: data.sintFiyatTipiID.toString(),
+                                aciklama: data.aciklama2,
+                                teslim: data.aciklama3,
+                                musteri: window.localStorage["uyeid"],
+                                detaylar: []
+                            };
+                        $.each(data.detaylar, function (i, item) {
+                            icsepet.detaylar.push(
+                                {
+                                    itemref: data.detaylar[i].intUrunID.toString(),
+                                    malacik: data.detaylar[i].malzeme.malacik,
+                                    netkdv: data.detaylar[i].mnFiyat.toString(),
+                                    miktar: data.detaylar[i].intMiktar.toString(),
+                                    miktartur: data.detaylar[i].strMiktarTur
+                                }
+                            );
+                        });
+                        yenisepet.push(icsepet);
+                        window.localStorage["sepet"] = JSON.stringify(yenisepet);
+                        window.location.href = 'Siparis?smref=' + data.smref + '&ftip=' + data.sintFiyatTipiID + '&siparisid=' + data.pkSiparisID;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function senkRoot(eskisepet, smref, siparisid, ftip) {
+            var yenisepet = [];
+            for (var i = 0; i < eskisepet.length; i++) {
+                if (eskisepet[i].smref != smref || eskisepet[i].siparisid != siparisid || eskisepet[i].ftip != ftip) {
+                    yenisepet.push(
+                        { siparisid: eskisepet[i].siparisid, smref: eskisepet[i].smref, ftip: eskisepet[i].ftip, aciklama: eskisepet[i].aciklama, teslim: eskisepet[i].teslim, musteri: window.localStorage["uyeid"], detaylar: eskisepet[i].detaylar }
+                    );
+                }
+            }
+            window.localStorage["sepet"] = JSON.stringify(yenisepet);
+        }
+
+        $(document).ready(function () {
+            getir();
+        });
+    </script>
+}

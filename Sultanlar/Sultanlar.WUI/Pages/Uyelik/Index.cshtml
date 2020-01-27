@@ -1,0 +1,118 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Üyelik İşlemleri";
+}
+
+@section head {
+    <script>
+        function UyeGetir() {
+            var uyeid = window.localStorage["uyeid"];
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "musteri/" + uyeid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#inputAd").val(data.strAd);
+                        $("#inputSoyad").val(data.strSoyad);
+                        $("#inputTelefon").val(data.strTelefon);
+                        $("#inputEposta").val(data.strEposta);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function UyeGuncelle() {
+            var input = $('.validate-input .input100');
+            for (var i = 0; i < input.length; i++) {
+                if (validate(input[i]) == false) {
+                    showValidate(input[i]);
+                    return;
+                }
+            }
+
+            var uyeid = window.localStorage["uyeid"];
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "musteri",
+                    data: '{ "id": "' + uyeid + '", "ad": "' + $("#inputAd").val() + '", "soyad": "' + $("#inputSoyad").val() + '", "telefon": "' + $("#inputTelefon").val() + '", "sifre": "' + $("#inputSifre").val() + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data == "")
+                            alert("Bilgiler güncellendi.");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            UyeGetir();
+
+            $('.validate-form .input100').each(function () {
+                $(this).focus(function () {
+                    hideValidate(this);
+                });
+            });
+        });
+    </script>
+}
+<span class="txt1">
+    Ad
+</span>
+<div class="wrap-input100 validate-input" data-validate="Ad gerekli">
+    <input class="input100 inputGiris clGerekli" type="text" name="inputAd" id="inputAd">
+    <span class="focus-input100"></span>
+</div>
+<br />
+<span class="txt1">
+    Soyad
+</span>
+<div class="wrap-input100 validate-input" data-validate="Soyad gerekli">
+    <input class="input100 inputGiris clGerekli" type="text" name="inputSoyad" id="inputSoyad">
+    <span class="focus-input100"></span>
+</div>
+<br />
+<span class="txt1">
+    Telefon
+</span>
+<div class="wrap-input100 validate-input" data-validate="Telefon gerekli">
+    <input class="input100 inputGiris clGerekli" type="text" name="inputTelefon" id="inputTelefon">
+    <span class="focus-input100"></span>
+</div>
+<br />
+<span class="txt1">
+    E-posta
+</span>
+<div class="wrap-input100 validate-input" data-validate="E-posta gerekli">
+    <input class="form-control input100 inputGiris" type="text" name="inputEposta" id="inputEposta" disabled>
+    <span class="focus-input100"></span>
+</div>
+<br />
+<span class="txt1">
+    Şifre
+</span>
+<div class="wrap-input100 validate-input" data-validate="Şifre gerekli">
+    <input class="input100 inputGiris" type="password" name="inputSifre" id="inputSifre">
+    <span class="focus-input100"></span>
+</div>
+<br />
+<span class="txt1">
+    Şifre Tekrarı
+</span>
+<div class="wrap-input100 validate-input" data-validate="Şifre tekrarı aynı değil">
+    <input class="input100 inputGiris" type="password" name="inputSifre2" id="inputSifre2">
+    <span class="focus-input100"></span>
+</div>
+<br />
+<input type="button" class="btn btn-success btnWidthFull" value="Bilgileri Güncelle" onclick="UyeGuncelle()" />

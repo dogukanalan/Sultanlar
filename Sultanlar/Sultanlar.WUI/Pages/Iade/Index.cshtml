@@ -1,0 +1,174 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "İade";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+
+    <script>
+        var paramsmref;
+        var iadeid;
+
+        function getMalzemeler() {
+            var url1 = apiurl + "fiyat/getbytip/20";
+            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "fnDrawCallback": function (oSettings) {
+                    qtip();
+                },
+                "initComplete": function (settings, json) {
+
+                },
+                columns: siparisiadeaktivitecolumns,
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[2, "asc"]]
+            });
+        }
+
+        function iadeGoster() {
+            sencHeader();
+            window.location.href = 'Icerik?smref=' + paramsmref + '&iadeid=' + iadeid;
+        }
+
+        function iadeyeAktar() {
+            sencHeader();
+            $('#dtTable').find('input').each(function () {
+                if ($(this).val() != "") {
+                    var cookie = JSON.parse(getLocal());
+                    var varmis = false;
+                    for (var j = 0; j < cookie.length; j++) {
+                        if (cookie[j].smref == paramsmref && cookie[j].iadeid == iadeid) {
+                            for (var i = 0; i < cookie[j].detaylar.length; i++) {
+                                if (cookie[j].detaylar[i].itemref == $(this).attr('accesskey') && cookie[j].detaylar[i].miktartur == $(this).closest("tr").find(".ddTur").val()) {
+                                    cookie[j].detaylar[i].miktar = parseInt(cookie[j].detaylar[i].miktar) + parseInt($(this).val());
+                                    varmis = true;
+                                    break;
+                                }
+                            }
+
+                            if (!varmis) {
+                                cookie[j].detaylar.push(
+                                    {
+                                        itemref: $(this).attr('accesskey'),
+                                        malacik: $(this).closest("tr").find(".malacik").text(),
+                                        miktar: parseInt($(this).val()),
+                                        miktartur: $(this).closest("tr").find(".ddTur").val(),
+                                        netkdv: 0
+                                    }
+                                );
+                            }
+                        }
+                    }
+
+                    sencLocal(cookie);
+                    $(this).val("");
+                }
+            });
+        }
+
+        function getLocal() {
+            return window.localStorage['sepetI'];
+        }
+
+        function sencLocal(data) {
+            window.localStorage['sepetI'] = JSON.stringify(data);
+        }
+
+        function sencHeader() {
+            var cookie = JSON.parse(getLocal());
+            var degistirildi = false;
+            for (var i = 0; i < cookie.length; i++) {
+                if (cookie[i].smref == paramsmref && cookie[i].iadeid == iadeid) {
+                    degistirildi = true;
+                    cookie[i].aciklama = $("#inputAciklama").val();
+                }
+            }
+            if (degistirildi)
+                sencLocal(cookie);
+        }
+
+        function header() {
+            var cookie = JSON.parse(getLocal());
+            var varmis = false;
+
+            for (var i = 0; i < cookie.length; i++) {
+                if (cookie[i].smref == paramsmref && cookie[i].iadeid == iadeid) {
+                    varmis = true;
+                    $("#inputAciklama").val(cookie[i].aciklama);
+                }
+            }
+
+            if (!varmis) { // iade yeni başlıyor ya da hiç iade cookie yoktu
+                cookie.push(
+                    {
+                        iadeid: iadeid,
+                        smref: paramsmref,
+                        aciklama: $("#inputAciklama").val(),
+                        musteri: window.localStorage["uyeid"],
+                        detaylar: []
+                    }
+                );
+                sencLocal(cookie);
+            }
+        }
+
+        $(document).ready(function () {
+            paramsmref = getParameterByName('smref');
+            iadeid = getParameterByName('iadeid') ? getParameterByName('iadeid') : "0";
+            $('#inputAciklama').on('keyup', function (ev) { sencHeader(); });
+
+            header();
+            getCari("1", paramsmref, getCariSube, "iadMus");
+            getMalzemeler();
+            $('#dtTable').on('draw.dt', function () {
+
+            });
+        });
+
+        function qtip() {
+            $('.urunResim').each(function () {
+                $(this).qtip({
+                    content: '<img src="' + $(this).attr('rel') + '" class="urunResimQtip" />',
+                    position: { at: 'top right' }
+                });
+            });
+            lazyload();
+        }
+    </script>
+}
+
+<h5 class="spanCiplak" id="iadMus"></h5>
+<input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" autocomplete="off">
+<input type="button" id="sipAktar" class="btn btn-primary secimTus" value="Seçimi Listeye Aktar" onclick="iadeyeAktar()" />
+<input type="button" class="btn btn-info secimTus" value="İade İçeriğini Göster" onclick="iadeGoster()" />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+            <th class="keyTd"><span class="">Kod</span></th>
+            <th class="keyTd"><span class="">Malzeme</span></th>
+            <th class="keyTd hide"><span class="">Fiyat</span></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+        </tr>
+    </thead>
+</table>

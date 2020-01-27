@@ -1,0 +1,94 @@
+﻿@page
+@model BitirModel
+@{
+    ViewData["Title"] = "Ziyaret Sonlandırma";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+
+    <script>
+        function ZiyaretBitir() {
+            var ziyaret = JSON.parse(window.localStorage["ziyaret"]);
+            var neden = "";
+            $('input:radio').each(function () {
+                if ($(this).is(':checked')) {
+                    neden = $(this).attr("accesskey");
+                }
+            });
+            var sentData =
+                '{ "mtip": "' + ziyaret.mtip + '", "rut_tur": "' + ziyaret.rut_tur + '", "rut_id": "' + ziyaret.rut_id + '", "gmref": "' + ziyaret.gmref +
+                '", "smref": "' + ziyaret.smref + '", "slsref": "' + ziyaret.slsref +
+                '", "barkod": "' + ziyaret.barkod + '", "ziy_bas_tar": "' + ziyaret.ziy_bas_tar + '", "ziy_bit_tar": "' + getDateNow() + '", "ziy_ndn_id": "' + neden +
+                '", "ziy_konum": "' + ziyaret.ziy_konum + '", "ziy_konum_adres": "' + ziyaret.ziy_konum_adres +
+                '", "ziy_konum_cikis": "' + $("#inputCoords").val() + '", "ziy_konum_adres_cikis": "' + $("#inputCoordAddress").val() +
+                '", "fark_knm_ziy": "' + farkHesapla(ziyaret.ziy_konum, $("#inputCoords").val()) + '", "ziy_konum_resim": "' + ziyaret.ziy_konum_resim +
+                '", "ziy_notlari": "' + $("#textAciklama").val() + '", "ziy_sip": "' + ziyaret.ziy_sip + '", "ziy_akt": "' + ziyaret.ziy_akt + '", "ziy_iad": "' + ziyaret.ziy_iad + '", "ziy_tah": "' + ziyaret.ziy_tah + '" }';
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + 'ziyaret/duzelt',
+                    data: sentData,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        window.localStorage.removeItem("ziyaret");
+                        window.location.href = '../Musteri';
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function ZiyaretSonlandirma() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + 'ziyaret/sonlandirma',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        var html = '';
+                        $.each(data, function (index, item) {
+                            html += '<div class="pretty p-default p-curve prettyMargin"><input type="radio" name="color" accesskey="' + item.key + '" /><div class="state p-primary-o"><label>' + item.value + '</label></div></div>';
+                        });
+                        sonSebep.innerHTML = html;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+            if (window.localStorage["ziyaret"]) {
+                KoordinatBaslat();
+                ZiyaretSonlandirma();
+            }
+            else {
+                window.location.href = '../Musteri';
+            }
+        });
+    </script>
+}
+<input type="hidden" id="inputCoords" />
+<input type="hidden" id="inputCoordsLat" />
+<input type="hidden" id="inputCoordsLng" />
+<div id="divMap"></div>
+<br />
+<input type="text" class="form-control" id="inputCoordAddress" disabled />
+<br />
+    Ziyaret Sebebi:
+<div id="sonSebep"></div>
+<br />
+    Açıklama:
+<textarea class="form-control" id="textAciklama"></textarea>
+<br />
+<input type="button" class="btn btn-success btnWidthFull" value="Ziyareti Sonlandır" onclick="ZiyaretBitir()" />
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXm_Z4J-I9jrTO72lGvx1jRzTWsP6qi7Q&libraries=geometry"></script>

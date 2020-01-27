@@ -1,0 +1,164 @@
+﻿@page
+@model Index2Model
+@{
+    ViewData["Title"] = "Konumlar";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+
+    <script>
+        function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
+
+        var kolonlar = [
+            {
+                "data": "sube", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                }
+            },
+            {
+                "data": "musteri", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                }
+            },
+            {
+                "data": "tip", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                }
+            },
+            {
+                "data": "sehir", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                }
+            },
+            {
+                "data": "ilce", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                }
+            },
+            {
+                "data": "adres", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data + '">' + data + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return data.konum == '' ?
+                        '<a href="Al?smref=' + data.kod + '&tip=' + data.tipkod + '"><span class="sinirli">Konum al</span></a>' :
+                        ('<a target="_blank" href="https://www.google.com/maps?q=' + data.konum + '"><span class="sinirli">Göster</span></a> ' +
+                            '<a href="Degistir?smref=' + data.kod + '&tip=' + data.tipkod + '"><span class="sinirli">Değiştir</span></a>');
+                }
+            }
+        ];
+
+        function SaticilarGetir() {
+            var uyeid = window.localStorage["uyeid"];
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "satici",
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        $('select[name=selectSaticilar]').val(getSlsref());
+                        getKonum();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function getKonum() {
+            var url1 = apiurl + "konum/getirkonumlistepost/" + getSlsref();
+            var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                "responsive": true,
+                "destroy": true,
+                "processing": true,
+                "serverSide": true,
+                "searchDelay": 1000,
+                ajax: {
+                    dataSrc: "json",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1,
+                    data: function (d) { return JSON.stringify(d); },
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8'
+                },
+                "initComplete": function (settings, json) {
+
+                },
+                "fnDrawCallback": function (oSettings) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
+                },
+                columns: kolonlar,
+                "language": defaultDtLang,
+                "paging": true,
+                "pagingType": "full_numbers",
+                "ordering": false,
+                "info": false,
+                "searching": true,
+                "deferRender": true
+            });
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.header()).on('keyup change', delay(function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                }, 1000));
+            });
+        }
+
+        $(window).on("popstate", function (e) {
+            $('select[name=selectSaticilar]').val(getSlsref());
+            getKonum();
+        });
+
+        $(document).ready(function () {
+            SaticilarGetir();
+
+            $('#selectSaticilar').on('change', function (e) {
+                window.history.pushState("", "Title", '?slsref=' + $('select[name=selectSaticilar]').val());
+                getKonum();
+            });
+        });
+    </script>
+}
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
+
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd" data-priority="1"><span class="spanCiplak">Alt Cari</span><br /><input type="text" class="form-control inputWidthFull" /></th>
+            <th class="keyTd"><span class="spanCiplak">Cari</span><br /><input type="text" class="form-control inputWidthFull" /></th>
+            <th class="keyTd"><span class="spanCiplak">Tip</span><br /><input type="text" class="form-control inputWidthFull" /></th>
+            <th class="keyTd"><span class="spanCiplak">Şehir</span><br /><input type="text" class="form-control inputWidthFull" /></th>
+            <th class="keyTd"><span class="spanCiplak">İlçe</span><br /><input type="text" class="form-control inputWidthFull" /></th>
+            <th class="keyTd" data-priority="2"><span class="spanCiplak">Adres</span><br /><input type="text" class="form-control inputWidthFull" /></th>
+            <th class="keyTd" data-priority="3"><span class="spanCiplak">Konum</span><br /><input type="text" class="form-control inputWidthFull gizle" /></th>
+        </tr>
+    </thead>
+</table>

@@ -1,0 +1,236 @@
+﻿@page
+@model KopyalaModel
+@{
+    ViewData["Title"] = "Anlaşma Kopyala";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+    <script>
+        var anlasmaid;
+
+        function SaticilarGetir(uyeid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + 'satici',
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectSaticilar option").remove();
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        CarilerGetir($("#selectSaticilar").val());
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function CarilerGetir(slsref) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getana/" + slsref,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectCariler").empty().append($("<option></option>").text("Seçiniz").val("0"));
+                        $.each(data, function (index, item) {
+                            $("#selectCariler").append(
+                                $("<option></option>")
+                                    .text(item.musteri)
+                                    .val(item.gmref)
+                            );
+                        });
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function MusterilerGetir(gmref) {
+            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getsubetp/" + gmref
+                },
+                "initComplete": function (settings, json) {
+
+                },
+                "fnDrawCallback": function (oSettings) {
+                    $('input.smm').change(function () {
+                        if ($("#baslangic").val() == "" || $("#bitis").val() == "") {
+                            alert("Eksik seçim var.");
+                            $(this).prop("checked", false);
+                        }
+                        else if ($(this).attr("bayimi") == "true") {
+                            alert("Bayiye anlaşma girilemez.");
+                            $(this).prop("checked", false);
+                        }
+                    });
+                },
+                columns: [
+                    {
+                        "data": "smref", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "musteri", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "sube", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" bayimi="' + data.bayiMi + '" rel="' + data.tip + '" accesskey="' + data.smref + '" /><div class="state p-primary-o"><label></label></div></div>';
+                        }
+                    }
+                ],
+                "scrollX": true,
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[3, "asc"]]
+            });
+        }
+
+        function kopyala() {
+            sentValue = '{ "id": ' + anlasmaid + ', "musteri": "' + window.localStorage["uyeid"] + '", "baslangic": "' + $("#baslangic").val() + '", "bitis": "' + $("#bitis").val() + '", "aciklama": "' + $("#aciklama").val() + '", "smreFs": [';
+            $('.smm').each(function () {
+                if ($(this).is(':checked')) {
+                    sentValue += '{ "smref": ' + $(this).attr("accesskey") + ', "tip": ' + $(this).attr("rel") + ' },';
+                }
+            });
+            sentValue = sentValue.substring(0, sentValue.length - 1) + '] }';
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "anlasma/kopya",
+                    data: sentValue,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data == "") {
+                            alert("Kopyalandı.");
+                            $('input.smm').each(function () {
+                                $(this).prop("checked", false);
+                            });
+                        }
+                        else
+                            console.log(JSON.stringify(data));
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            anlasmaid = getParameterByName('anlasmaid');
+            document.getElementById("basTitle").innerHTML = "Anlaşma Kopyala (" + anlasmaid + ")";
+            $('#baslangic').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "01/mm/yyyy",
+                viewMode: "months",
+                minViewMode: "months",
+                orientation: "auto bottom"
+            });
+            $('#baslangic').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+                if ($('#baslangic').val() != "" && $('#bitis').val() != "") {
+                    $("#btnKopyala").attr("disabled", false);
+                }
+            });
+            $('#bitis').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "01/mm/yyyy",
+                viewMode: "months",
+                minViewMode: "months",
+                orientation: "auto bottom"
+            });
+            $('#bitis').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+                if ($('#baslangic').val() != "" && $('#bitis').val() != "") {
+                    $("#btnKopyala").attr("disabled", false);
+                }
+            });
+            MusterilerGetir(0);
+            SaticilarGetir(window.localStorage["uyeid"]);
+            $('#selectSaticilar').on('change', function (e) {
+                $("#inputDonem").val("");
+                CarilerGetir(this.value);
+                $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsubetp/0").load();
+            });
+            $('#selectCariler').on('change', function (e) {
+                $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsubetp/" + this.value).load();
+            });
+        });
+    </script>
+}
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar">
+    <option value="1" selected="selected">Seçiniz</option>
+</select>
+<br />
+<select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
+    <option value="0" selected="selected">Seçiniz</option>
+</select>
+<br /><br />
+<input class="form-control input100" type="text" name="baslangic" id="baslangic" placeholder="Başlangıç" autocomplete="off" onkeypress="return false">
+<br />
+<input class="form-control input100" type="text" name="bitis" id="bitis" placeholder="Bitiş" autocomplete="off" onkeypress="return false">
+<br />
+<textarea class="form-control input100" type="text" name="aciklama" id="aciklama" placeholder="Açıklama"></textarea>
+<br />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="">Kod</span></th>
+            <th class="keyTd" style="width: 50%"><span class="">Bayi</span></th>
+            <th class="keyTd" style="width: 50%"><span class="">Cari</span></th>
+            <th class="keyTd"></th>
+        </tr>
+    </thead>
+</table>
+<br />
+<div class="centerVeMiddle">
+    <input type="button" class="btn btn-success secimTus" id="btnKopyala" value="Anlaşmayı Kopyala" onclick="kopyala()" disabled />
+    <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.history.back()" />
+</div>

@@ -1,0 +1,33 @@
+﻿@page
+@model SilModel
+@{
+    ViewData["Title"] = "Mesaj Sil";
+}
+
+@section head {
+    <script>
+        function MesajSil() {
+            document.getElementById("basTitle").innerHTML = "Mesaj Sil (" + getParameterByName("mesajid") + ")";
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "mesaj/sil/" + getParameterByName("mesajid") + "/" + getParameterByName("gelgit"),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data == "")
+                            window.history.back();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            MesajSil();
+        });
+    </script>
+}
+<div id="divData">Siliniyor...</div>

@@ -1,0 +1,113 @@
+﻿@page
+@model DuzenleModel
+@{
+    ViewData["Title"] = "Aktivite Düzenle";
+}
+
+@section head {
+    <script>
+        function getir() {
+            var arrayFromCookie = JSON.parse(window.localStorage['sepetA']);
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "aktivite/get/" + getParameterByName('aktiviteid'),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data.blAktarilmis || data.blAktarilmis == null) {
+                            alert("Aktivite onaylı. Onaylı aktivite düzenlenemez.");
+                            window.location.href = 'Aktiviteler';
+                            return;
+                        }
+
+                        senkRoot(arrayFromCookie, data.pkID.toString()); // sepette aktiviteid varsa sil
+                        
+                        var yenisepet = JSON.parse(window.localStorage["sepetA"]);
+                        var icsepet =
+                        {
+                            aktiviteid: data.pkID.toString(),
+                            smref: data.smref.toString(),
+                            tip: data.intAktiviteTipiID.toString(),
+                            ftip: data.sintFiyatTipiID.toString(),
+                            aciklama1: data.strAciklama1,
+                            aciklama2: data.strAciklama2,
+                            aciklama3: data.strAciklama3,
+                            donem: data.strAciklama4,
+                            baslangic: data.dtAktiviteBaslangic,
+                            bitis: data.dtAktiviteBitis,
+                            anlasmaid: data.intAnlasmaID.toString(),
+                            ahtfatalt: data.intAnlasmaID > 0 ? data.anlasma.flTAHIsk : 5,
+                            yegfatalt: data.intAnlasmaID > 0 ? data.anlasma.flYEGIsk : 5,
+                            ahtfataltciro: data.intAnlasmaID > 0 ? data.anlasma.flTAHCiroIsk : 0,
+                            yegfataltciro: data.intAnlasmaID > 0 ? data.anlasma.flYEGCiroIsk : 0,
+                            ahtciroprim: data.intAnlasmaID > 0 ? data.anlasma.ahtCiroPrimDonusYuzdeToplam : 0,
+                            yegciroprim: data.intAnlasmaID > 0 ? data.anlasma.yegCiroPrimDonusYuzdeToplam : 0,
+                            musteri: window.localStorage["uyeid"],
+                            detaylar: []
+                        };
+                        $.each(data.detaylar, function (i, item) {
+                            icsepet.detaylar.push(
+                                {
+                                    itemref: item.intUrunID.toString(),
+                                    malacik: item.malzeme.malacik,
+                                    miktar: item.strSatisHedefi,
+                                    birimfiyat: item.mnBirimFiyatKDVli,
+                                    fatalt: parseFloat(item.strAciklama1),
+                                    fataltciro: parseFloat(item.strAciklama2),
+                                    ciroprim: item.flCiroPrimDonusYuzde,
+                                    iskonto: item.flEkIsk,
+                                    kdv: item.malzeme.kdv,
+                                    pazisk: parseFloat(item.strAciklama3),
+                                    cirodusulmus: item.mnTutar,
+                                    kdvli: item.mnDusulmusBirimFiyatKDVli
+                                }
+                            );
+                        });
+                        yenisepet.push(icsepet);
+                        window.localStorage["sepetA"] = JSON.stringify(yenisepet);
+                        window.location.href = 'Aktivite?smref=' + data.smref + '&tip=' + icsepet.tip + '&ftip=' + icsepet.ftip + '&aktiviteid=' + data.pkID + '&donem=' + icsepet.donem + '&anlasmaid=' + icsepet.anlasmaid +
+                            '&ahtfatalt=' + icsepet.ahtfatalt + '&ahtfataltciro=' + icsepet.ahtfataltciro + '&ahtciroprim=' + icsepet.ahtciroprim + '&yegfatalt=' + icsepet.yegfatalt + '&yegfataltciro=' + icsepet.yegfataltciro + '&yegciroprim=' + icsepet.yegciroprim;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function senkRoot(eskisepet, aktiviteid) {
+            var yenisepet = [];
+            for (var i = 0; i < eskisepet.length; i++) {
+                if (eskisepet[i].aktiviteid != aktiviteid) {
+                    yenisepet.push(
+                        {
+                            aktiviteid: eskisepet[i].aktiviteid,
+                            smref: eskisepet[i].smref,
+                            tip: eskisepet[i].tip,
+                            ftip: eskisepet[i].ftip,
+                            aciklama1: eskisepet[i].aciklama1,
+                            aciklama2: eskisepet[i].aciklama2,
+                            aciklama3: eskisepet[i].aciklama3,
+                            donem: eskisepet[i].donem,
+                            baslangic: eskisepet[i].baslangic,
+                            bitis: eskisepet[i].bitis,
+                            ahtfatalt: eskisepet[i].ahtfatalt,
+                            yegfatalt: eskisepet[i].yegfatalt,
+                            ahtfataltciro: eskisepet[i].ahtfataltciro,
+                            yegfataltciro: eskisepet[i].yegfataltciro,
+                            ahtciroprim: eskisepet[i].ahtciroprim,
+                            yegciroprim: eskisepet[i].yegciroprim,
+                            musteri: window.localStorage["uyeid"],
+                            detaylar: eskisepet[i].detaylar
+                        }
+                    );
+                }
+            }
+            window.localStorage["sepetA"] = JSON.stringify(yenisepet);
+        }
+
+        $(document).ready(function () {
+            getir();
+        });
+    </script>
+}

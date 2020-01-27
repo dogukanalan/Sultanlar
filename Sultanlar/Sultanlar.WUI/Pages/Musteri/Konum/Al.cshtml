@@ -1,0 +1,38 @@
+﻿@page
+@model AlModel
+@{
+    ViewData["Title"] = "Konum Al";
+}
+
+@section head {
+    <script>
+        function kaydet() {
+
+        }
+
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+            KoordinatBaslat();
+            getCari(getParameterByName("tip"), getParameterByName("smref"), getCariSube, "konMus");
+
+            $("#inputAdres").keyup(function (e) {
+                if (e.which == 13)
+                    AdresGetir($(this).val());
+            });
+        });
+    </script>
+}
+<h5 class="spanCiplak" id="konMus"></h5>
+<input type="hidden" id="inputCoords" />
+<input type="hidden" id="inputCoordsLat" />
+<input type="hidden" id="inputCoordsLng" />
+<div id="divMap"></div>
+<br />
+<input type="text" class="form-control" id="inputCoordAddress" value="Konumunuz bulunuyor..." disabled />
+<br />
+<input type="text" class="form-control" id="inputAdres" placeholder="Adres arayın" />
+<br />
+<input type="button" class="btn btn-danger" value="Geri Dön" onclick="window.history.back()" />
+<input type="button" id="btnKaydet" class="btn btn-success konumTamam" value="Konumu Kaydet" onclick="kaydet()" disabled />
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXm_Z4J-I9jrTO72lGvx1jRzTWsP6qi7Q&libraries=geometry"></script>

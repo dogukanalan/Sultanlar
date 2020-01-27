@@ -1,0 +1,24 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Raporlar";
+}
+
+@section head {
+    <script>
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+        });
+    </script>
+}
+<br />
+<input type="button" class="btn btn-secondary secimTus" value="Müşteri Ekstresi" onclick="window.location.href = 'Ekstre'" />
+<input type="button" class="btn btn-secondary secimTus" value="Satış Raporu" onclick="window.location.href = 'Satis'" />
+<input type="button" class="btn btn-secondary secimTus" value="Satış-Hedef Raporu" onclick="window.location.href = 'SatisHedef'" />
+<input type="button" class="btn btn-secondary secimTus" value="Satış Özet Raporu" onclick="window.location.href = 'SatisOzet'" />
+<input type="button" class="btn btn-secondary secimTus" value="Satış Karşılaştırma Raporu" onclick="window.location.href = 'SatisKars'" />
+<input type="button" class="btn btn-secondary secimTus" value="Borç-Alacak Raporu" onclick="window.location.href = 'BorcAlacak'" />
+<input type="button" class="btn btn-secondary secimTus" value="Stok Raporu" onclick="window.location.href = 'Stok'" />
+<input type="button" class="btn btn-secondary secimTus" value="Sipariş Raporu" onclick="window.location.href = 'Siparis'" />
+<input type="button" class="btn btn-secondary secimTus" value="Sipariş-Detay Raporu" onclick="window.location.href = 'SiparisDetay'" />
+<input type="button" class="btn btn-secondary secimTus" value="Sipariş-Durum Raporu" onclick="window.location.href = 'SiparisDurum'" />

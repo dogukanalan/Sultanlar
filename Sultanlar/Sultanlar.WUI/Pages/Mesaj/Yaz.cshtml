@@ -1,0 +1,162 @@
+﻿@page
+@model YazModel
+@{
+    ViewData["Title"] = "Mesaj Gönder";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <script>
+        function DepartmanlarGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "departman/getir",
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        var htmlText = '<div id="divDep">';
+                        $.each(data, function (i, item) {
+                            htmlText += '<div class="pretty p-default p-curve prettyMargin2"><input class="chkbxs" type="radio" name="color" accesskey="' + item.pkDepartmanID + '" /><div class="state p-primary-o"><label>' + item.strDepartman + '</label></div></div>';
+                        });
+                        divData.innerHTML = htmlText + "</div>";
+
+
+                        if (!getParameterByName("mesajid"))
+                            setDepRadioCheck(9);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function setDepRadioCheck(val) {
+            $("#divDep input").each(function (index, element) {
+                if ($(element).attr("accesskey") == val) {
+                    $(element).prop("checked", true);
+                }
+            });
+        }
+
+        function getDepRadioCheck() {
+            var val;
+            $("#divDep input").each(function (index, element) {
+                if ($(element).is(':checked')) {
+                    val = $(element).attr("accesskey");
+                }
+            });
+            return val;
+        }
+
+        function MesajGonder() {
+            var input = $('.validate-input input, textarea');
+            for (var i = 0; i < input.length; i++) {
+                if (validate(input[i]) == false) {
+                    showValidate(input[i]);
+                    return;
+                }
+            }
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "mesaj/gonder",
+                    data: dat(),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        alert("Mesaj Gönderildi.");
+                        window.history.back();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function dat() {
+            var d = {};
+            d.musteri = window.localStorage["uyeid"];
+            d.departman = getDepRadioCheck();
+            d.konu = $("#inputBaslik").val();
+            d.icerik = $("#inputIcerik").val();
+            return JSON.stringify(d);
+        }
+
+        function MesajGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "mesaj/get/" + getParameterByName("mesajid") + "/1",
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (!data.blOkundu)
+                            MesajOkundu();
+
+                        document.getElementById("basTitle").innerHTML = "Mesaj Cevapla (" + data.pkMesajID + ")";
+                        $("#inputBaslik").val("RE: " + data.strKonu);
+                        $("#inputIcerik").val("--- Cevaplanan Mesaj ---\n" + data.dtGondermeZamani.replace("T", " ") + "\n" + data.strIcerik + "\n--- Cevaplanan Mesaj ---\n\n");
+                        setDepRadioCheck(data.tintDepartmanID);
+                        $("#inputIcerik").focus();
+                        $("#divDep *").prop("disabled", true);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function MesajOkundu() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "mesaj/oku/" + getParameterByName("mesajid") + "/1",
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+
+            $('.validate-form input, textarea').each(function () {
+                $(this).focus(function () {
+                    hideValidate(this);
+                });
+            });
+
+            DepartmanlarGetir();
+            if (getParameterByName("mesajid"))
+                MesajGetir();
+        });
+    </script>
+}
+<div id="divData"></div>
+<br />
+<span class="txt1">
+    Başlık
+</span>
+<div class="validate-input" data-validate="Gerekli alan">
+    <input class="form-control input100 clGerekli" type="text" name="inputBaslik" id="inputBaslik">
+</div>
+<br />
+<span class="txt1">
+    İçerik
+</span>
+<div class="validate-input" data-validate="Gerekli alan">
+    <textarea class="form-control input100 yuksekHeight clGerekli" name="inputIcerik" id="inputIcerik"></textarea>
+</div>
+<br />
+<div class="divOrta">
+    <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.history.back()" />&nbsp;
+    <input type="button" class="btn btn-success secimTus" value="Gönder" onclick="MesajGonder()" />
+</div>

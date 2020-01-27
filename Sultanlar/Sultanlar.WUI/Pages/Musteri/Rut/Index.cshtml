@@ -1,0 +1,148 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Rutlar";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+    <script>
+        function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
+
+        var kolonlar = [
+            {
+                "data": "cari", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.musteri + '</span>';
+                }
+            },
+            {
+                "data": "cari", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.sube + '</span>';
+                }
+            },
+            {
+                "data": "tarih", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.replace("T00:00:00", "") + '</span>';
+                }
+            },
+            {
+                "data": "gun", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                }
+            }
+        ];
+
+        function SaticilarGetir() {
+            var uyeid = window.localStorage["uyeid"];
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "satici",
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        $('select[name=selectSaticilar]').val(getSlsref());
+                        getRut();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function getRut() {
+            var url1 = apiurl + "rut/getirrutlar/" + getSlsref();
+            var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                "responsive": true,
+                "destroy": true,
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+
+                },
+                "fnDrawCallback": function (oSettings) {
+
+                },
+                columns: kolonlar,
+                "language": defaultDtLang,
+                "paging": true,
+                "pagingType": "full_numbers",
+                "ordering": false,
+                "info": false,
+                "searching": true,
+                "deferRender": true
+            });
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.header()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            })
+        }
+
+        $(window).on("popstate", function (e) {
+            $('select[name=selectSaticilar]').val(getSlsref());
+            getRut();
+        });
+
+        $(document).ready(function () {
+            SaticilarGetir();
+            $('#tarih').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy-mm-dd",
+                clearBtn: true,
+                orientation: "auto bottom"
+            });
+            $('#tarih').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+
+            $('#selectSaticilar').on('change', function (e) {
+                window.history.pushState("", "Title", '?slsref=' + $('select[name=selectSaticilar]').val());
+                getRut();
+            });
+        });
+    </script>
+}
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
+
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="spanCiplak" data-priority="4">Ana Cari</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd"><span class="spanCiplak" data-priority="1">Alt Cari</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd"><span class="spanCiplak" data-priority="2">Tarih</span><br /><input type="text" id="tarih" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd"><span class="spanCiplak" data-priority="3">Gün</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+        </tr>
+    </thead>
+</table>

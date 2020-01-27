@@ -1,0 +1,51 @@
+﻿@page
+@model KaydetModel
+@{
+    ViewData["Title"] = "Sipariş Kaydet";
+}
+
+@section head {
+    <script>
+        var paramsmref;
+        var paramftip;
+        var siparisid;
+        var paramonay;
+
+        function kaydet() {
+            var arrayFromCookie = JSON.parse(window.localStorage['sepet']);
+            
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "siparis/kaydet",
+                    data: stringifySepet(arrayFromCookie, paramsmref, paramftip, siparisid),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        sipSil(arrayFromCookie);
+                        if (paramonay == 1)
+                            window.location.href = 'Onayla?siparisid=' + data;
+                        else
+                            document.getElementById("sipNo").innerHTML = "Sipariş kaydedildi.<br><br>Sipariş no: " + data;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            paramsmref = getParameterByName('smref');
+            paramftip = getParameterByName('fiyattipi');
+            siparisid = getParameterByName('siparisid') ? getParameterByName('siparisid') : "0";
+            paramonay = getParameterByName('onay');
+            kaydet();
+        });
+    </script>
+}
+<br />
+<h4 id="sipNo" class="onayliYesil"></h4>
+<br />
+<input type="button" class="btn btn-warning secimTus" value="Siparişler Ekranına Git" onclick="window.location.href = 'Siparisler'" />

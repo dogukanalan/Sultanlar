@@ -1,0 +1,49 @@
+﻿@page
+@model KaydetModel
+@{
+    ViewData["Title"] = "İade Kaydet";
+}
+
+@section head {
+    <script>
+        var paramsmref;
+        var iadeid;
+        var paramonay;
+
+        function kaydet() {
+            var arrayFromCookie = JSON.parse(window.localStorage['sepetI']);
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "iade/kaydet",
+                    data: stringifySepetI(arrayFromCookie, paramsmref, iadeid),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        iadeSil(arrayFromCookie);
+                        if (paramonay == 1)
+                            window.location.href = 'Onayla?iadeid=' + data;
+                        else
+                            document.getElementById("iadeNo").innerHTML = "İade kaydedildi.<br><br>İade no: " + data;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            paramsmref = getParameterByName('smref');
+            iadeid = getParameterByName('iadeid') ? getParameterByName('iadeid') : "0";
+            paramonay = getParameterByName('onay');
+            kaydet();
+        });
+    </script>
+}
+<br />
+<h4 id="iadeNo" class="onayliYesil"></h4>
+<br />
+<input type="button" class="btn btn-warning secimTus" value="İadeler Ekranına Git" onclick="window.location.href = 'Iadeler'" />

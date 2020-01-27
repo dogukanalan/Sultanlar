@@ -1,0 +1,263 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Mesajlar";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+    <script>
+        function getSecim() { return getParameterByName("secim") ? getParameterByName("secim") : "1"; }
+        function getDepSecim() { return getParameterByName("dep") ? getParameterByName("dep") : "0"; }
+
+        function DepartmanlarGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "departman/getir",
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        var htmlText = '<div id="divDep">';
+                        htmlText += '<div class="pretty p-default p-curve prettyMargin2"><input class="chkbxs" type="radio" name="color" accesskey="0" /><div class="state p-primary-o"><label>Tümü</label></div></div>';
+                        $.each(data, function (i, item) {
+                            htmlText += '<div class="pretty p-default p-curve prettyMargin2"><input class="chkbxs" type="radio" name="color" accesskey="' + item.pkDepartmanID + '" /><div class="state p-primary-o"><label>' + item.strDepartman + '</label></div></div>';
+                        });
+                        divData.innerHTML = htmlText + "</div>";
+                        setDepRadioCheck(getDepSecim());
+                        MesajlarGetir();
+
+                        $('input[type=radio][name=color]').change(function () {
+                            window.history.pushState("", "Title", '?secim=' + getRadioCheck() + '&dep=' + getDepRadioCheck());
+                            MesajlarGetir();
+                        });
+
+                        var chckbxs = $('.chkbxs');
+                        for (var i = 0; i < chckbxs.length; i++) {
+                            $(chckbxs[i]).change(function () {
+                                if (this.checked) {
+
+                                }
+                                else {
+
+                                }
+                            });
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+        var table;
+        function MesajlarGetir() {
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+
+                var departmanlar = [];
+                $.each(json.json, function (index, item) {
+                    if (departmanlar.indexOf(item.departman.strDepartman.toLocaleUpperCase()) === -1)
+                        departmanlar.push(item.departman.strDepartman.toLocaleUpperCase());
+                });
+                $("#departman").autocomplete({
+                    source: departmanlar,
+                    select: function (event, ui) {
+                        table.columns('departman:name').search(ui.item.value).draw();
+                    }
+                });
+
+            }).DataTable({
+                "responsive": true,
+                "destroy": true,
+                "processing": true,
+                "serverSide": true,
+                ajax: {
+                    dataSrc: "json",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "mesaj/getir/" + getDepRadioCheck() + "/" + window.localStorage["uyeid"] + "/" + getRadioCheck(),
+                    data: function (d) { return JSON.stringify(d); },
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8'
+                },
+                "initComplete": function (settings, json) {
+
+                },
+                "fnDrawCallback": function (oSettings) {
+
+                },
+                columns: [
+                    {
+                        "data": "blOkundu", "class": "keyTd", render: function (data, type, row) {
+                            return data ? "" : "<i>*</i>";
+                        },
+                        "width": "5%"
+                    },
+                    {
+                        "data": "departman", "class": "keyTd", render: function (data, type, row) {
+                            return '<a href="javascript:setDepRadioCheck(' + data.pkDepartmanID + ');Git();"><span class="sinirli">' + data.strDepartman + '</span></a>';
+                        },
+                        "name": "departman",
+                        "width": "20%"
+                    },
+                    {
+                        "data": null, "class": "valueTd", render: function (data, type, row) {
+                            return '<a href="Goster?gelgit=' + getRadioCheck() + '&mesajid=' + data.pkMesajID + '"><span class="sinirli">' + data.strKonu + '</span></a>';
+                        },
+                        "name": "konu",
+                        "width": "40%"
+                    },
+                    {
+                        "data": "dtGondermeZamani", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>';
+                        },
+                        "name": "zaman",
+                        "width": "20%"
+                    },
+                    {
+                        "data": "pkMesajID", "class": "keyTd", render: function (data, type, row) {
+                            return (getSecim() == 2 ? '' : '<a href="Yaz?mesajid=' + data + '">Cevapla</a><br>') + '<a href="Sil?gelgit=' + getRadioCheck() + '&mesajid=' + data + '">Sil</a>';
+                        },
+                        "width": "15%"
+                    }
+                ],
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": false,
+                "info": false,
+                "searching": true,
+                "deferRender": true
+            });
+            table.columns().every(function () {
+                var that = this;
+                $('input[type=text]', this.header()).on('keyup change', delay(function () {
+                    if ($(this).val() !== '') {
+                        $(this).closest("th").find(".dtClearButton").css("display", "inline");
+                    }
+                    else {
+                        $(this).closest("th").find(".dtClearButton").css("display", "none");
+                    }
+                    if (that.search() !== this.value) {
+                        if (this.value === '' || $(that.header()).find("span").html() !== 'Departman') {
+                            that.search(this.value.toLocaleUpperCase()).draw();
+                        }
+                    }
+                }, aramadelay));
+
+                $('input[type=button]', this.header()).on('click', function () {
+                    $(this).closest("th").find("input[type=text]").val("");
+                });
+            });
+        }
+
+        function getRadioCheck() {
+            var val;
+            $("#divGelGit input").each(function (index, element) {
+                if ($(element).is(':checked')) {
+                    val = $(element).val();
+                }
+            });
+            return val;
+        }
+
+        function setRadioCheck(val) {
+            $("#divGelGit input").each(function (index, element) {
+                if ($(element).val() == val) {
+                    $(element).prop("checked", true);
+                    $(element).closest("label").addClass("active");
+                }
+            });
+        }
+
+        function getDepRadioCheck() {
+            var val;
+            $("#divDep input").each(function (index, element) {
+                if ($(element).is(':checked')) {
+                    val = $(element).attr("accesskey");
+                }
+            });
+            return val;
+        }
+
+        function setDepRadioCheck(val) {
+            $("#divDep input").each(function (index, element) {
+                if ($(element).attr("accesskey") == val) {
+                    $(element).prop("checked", true);
+                }
+            });
+        }
+
+        $(window).on("popstate", function (e) {
+            MesajlarGetir();
+        });
+
+        function Git() {
+            window.history.pushState("", "Title", '?secim=' + getRadioCheck() + '&dep=' + getDepRadioCheck());
+            MesajlarGetir();
+        }
+
+        $(document).ready(function () {
+            $('#tarih').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy-mm-dd",
+                clearBtn: true,
+                orientation: "auto bottom"
+            });
+            $('#tarih').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+
+            DepartmanlarGetir();
+            setRadioCheck(getSecim());
+
+            $('input[type=radio][name=options]').change(function () {
+                window.history.pushState("", "Title", '?secim=' + getRadioCheck() + '&dep=' + getDepRadioCheck());
+                MesajlarGetir();
+            });
+        });
+    </script>
+}
+
+<div class="divOrta">
+    <input type="button" class="btn btn-success secimTus" value="Yeni Mesaj Yaz" onclick="window.location.href = 'Yaz'" />
+</div>
+<br />
+<div id="divData"></div>
+<br />
+<div id="divGelGit" class="btn-group divOrta" data-toggle="buttons">
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option1" value="1" autocomplete="off"> Gelen Mesajlar
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option2" value="2" autocomplete="off"> Giden Mesajlar
+    </label>
+</div>
+
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd"></th>
+            <th class="keyTd" data-priority="1"><span class="spanCiplak">Departman</span><br /><input id="departman" type="text" class="form-control inputWidthFull" /><input type="button" class="dtClearButton" value="X" /></th>
+            <th class="keyTd" data-priority="2"><span class="spanCiplak">Konu</span><br /><input type="text" class="form-control inputWidthFull" /></th>
+            <th class="keyTd" data-priority="3"><span class="spanCiplak">Tarih</span><br /><input id="tarih" type="text" class="form-control inputWidthFull" /></th>
+            <th class="keyTd"></th>
+        </tr>
+    </thead>
+</table>

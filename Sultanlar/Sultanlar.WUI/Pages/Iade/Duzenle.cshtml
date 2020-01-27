@@ -1,0 +1,72 @@
+﻿@page
+@model DuzenleModel
+@{
+    ViewData["Title"] = "İade Düzenle";
+}
+
+@section head {
+    <script>
+        function getir() {
+            var arrayFromCookie = JSON.parse(window.localStorage['sepetI']);
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "iade/get/" + getParameterByName('iadeid'),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data.blAktarilmis) {
+                            alert("İade onaylı. Onaylı iade düzenlenemez.");
+                            window.location.href = 'Iadeler';
+                            return;
+                        }
+
+                        senkRoot(arrayFromCookie, data.smref, data.pkIadeID.toString()); // sepetteki smref ve iadeid aynilari sil
+
+                        var yenisepet = JSON.parse(window.localStorage["sepetI"]);
+                        var icsepet =
+                            {
+                                iadeid: data.pkIadeID.toString(),
+                                smref: data.smref.toString(),
+                                aciklama: data.aciklama2,
+                                musteri: window.localStorage["uyeid"],
+                                detaylar: []
+                            };
+                        $.each(data.detaylar, function (i, item) {
+                            icsepet.detaylar.push(
+                                {
+                                    itemref: data.detaylar[i].intUrunID.toString(),
+                                    malacik: data.detaylar[i].malzeme.malacik,
+                                    netkdv: data.detaylar[i].mnFiyat.toString(),
+                                    miktar: data.detaylar[i].intMiktar.toString(),
+                                    miktartur: "ST"
+                                }
+                            );
+                        });
+                        yenisepet.push(icsepet);
+                        window.localStorage["sepetI"] = JSON.stringify(yenisepet);
+                        window.location.href = 'Index?smref=' + data.smref + '&iadeid=' + data.pkIadeID;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function senkRoot(eskisepet, smref, iadeid) {
+            var yenisepet = [];
+            for (var i = 0; i < eskisepet.length; i++) {
+                if (eskisepet[i].smref != smref || eskisepet[i].iadeid != iadeid) {
+                    yenisepet.push(
+                        { iadeid: eskisepet[i].iadeid, smref: eskisepet[i].smref, aciklama: eskisepet[i].aciklama, musteri: window.localStorage["uyeid"], detaylar: eskisepet[i].detaylar }
+                    );
+                }
+            }
+            window.localStorage["sepetI"] = JSON.stringify(yenisepet);
+        }
+
+        $(document).ready(function () {
+            getir();
+        });
+    </script>
+}

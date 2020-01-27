@@ -1,0 +1,143 @@
+﻿@page
+@model KopyalaModel
+@{
+    ViewData["Title"] = "Sipariş Kopyala";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+
+    <script>
+        var siparisid;
+
+        function SaticilarGetir(uyeid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + 'satici',
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectSaticilar option").remove();
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        MusterilerGetir($('select[name=selectSaticilar]').val());
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function MusterilerGetir(slsref) {
+            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/gethepsi/" + slsref
+                },
+                columns: [
+                    {
+                        "data": "smref", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": null, "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + (data.sube == '' ? data.musteri : data.sube) + '</span>';
+                        }
+                    },
+                    {
+                        "data": "smref", "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" accesskey="' + data + '" /><div class="state p-primary-o"><label></label></div></div>';
+                        }
+                    }
+                ],
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[1, "asc"]]
+            });
+        }
+
+        function kopyala() {
+            sentValue = '{ "siparisID": ' + siparisid + ', "smreFs": [';
+            $('.smm').each(function () {
+                if ($(this).is(':checked')) {
+                    sentValue += '{ "smref": ' + $(this).attr("accesskey") + ' },';
+                }
+            });
+            sentValue = sentValue.substring(0, sentValue.length - 1) + '] }';
+            console.log(sentValue);
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "siparis/kopya",
+                    data: sentValue,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data == "")
+                            window.history.back();
+                        else
+                            console.log(JSON.stringify(data));
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            siparisid = getParameterByName('siparisid');
+            document.getElementById("basTitle").innerHTML = "Sipariş Kopyala (" + siparisid + ")";
+            SaticilarGetir(window.localStorage["uyeid"]);
+            $('#selectSaticilar').on('change', function (e) {
+                $('#dtTable').DataTable().ajax.url(apiurl + "cari/gethepsi/" + this.value).load();
+            });
+        });
+    </script>
+}
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar">
+    <option value="1" selected="selected">Seçiniz</option>
+</select>
+
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="">Kod</span></th>
+            <th class="keyTd"><span class="">Şube</span></th>
+            <th class="keyTd"></th>
+        </tr>
+    </thead>
+</table>
+<br />
+<div class="centerVeMiddle">
+    <input type="button" class="btn btn-success secimTus" value="Siparişi Kopyala" onclick="kopyala()" />
+    <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.history.back()" />
+</div>

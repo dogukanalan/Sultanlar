@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sultanlar : @ViewData["Title"]</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="~/css/site.css">
+        <link rel="stylesheet" href="~/css/main.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="~/js/main.js"></script>
+        <script src="~/js/db.js"></script>
+        <script src="~/js/lazyload.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/main.min.css" asp-append-version="true" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="~/js/main.min.js" asp-append-version="true"></script>
+        <script src="~/js/db.min.js" asp-append-version="true"></script>
+        <script src="~/js/lazyload.min.js"></script>
+    </environment>
+
+    <link rel="icon" type="image/png" href="~/images/favicon.ico" />
+    <script>
+        var girissayfasi = false;
+        var cikissayfasi = false;
+
+        $(document).ready(function () {
+            //check(false);
+            if (!girissayfasi && !cikissayfasi)
+                MesajSayisi();
+        });
+
+        function MesajSayisi() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "mesaj/GetMesajCount/" + window.localStorage["uyeid"],
+                    success: function (data, textStatus, response) {
+                        checkAuth2(response);
+
+                        $("#spanMesaj").html("Mesajlar (" + data + ")");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function check(yap) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "genel/ticket/" + readCookie("sulLoginR"),
+                    success: function (data, textStatus, response) { // yanıt verme süresi 20-60 milisaniye
+                        if (yap)
+                            checkAuth(response);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+    </script>
+    @RenderSection("head", false)
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Menü</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*<a asp-page="/Index" class="navbar-brand">Sultanlar</a>*@
+            </div>
+            <div class="navbar-collapse collapse" style="overflow-x: scroll !important;">
+                <div class="navbar-ic">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:showSubMenu(divMusSub)" onmouseover="showSubMenu(divMusSub)" onmouseout="divMusSub.classList.remove('show')">Müşteriler</a>
+                            <div onmouseover="showSubMenu(divMusSub)" onmouseout="divMusSub.classList.remove('show')" class="subMenu" id="divMusSub">
+                                <a href="~/Musteri">Ana Ekran</a>
+                                <a href="~/Musteri/Konum/">Konumlar</a>
+                                <a href="~/Musteri/Rut/">Rutlar</a>
+                                <a href="~/Musteri/Resim/">Resimler</a>
+                            </div>
+                        </li>
+                        <li><a href="~/Siparis/Siparisler">Siparişler</a></li>
+                        <li><a href="~/Iade/Iadeler">İadeler</a></li>
+                        <li><a href="~/Ziyaret/Ziyaretler">Ziyaretler</a></li>
+                        <li><a href="~/Anlasma/Anlasmalar">Anlaşmalar</a></li>
+                        <li><a href="~/Aktivite/Aktiviteler">Aktiviteler</a></li>
+                        @*<li><a href="~/Tahsilatlar">Tahsilatlar</a></li>*@
+                        <li>
+                            <a href="javascript:showSubMenu(divRapSub)" onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')">Raporlar</a>
+                            <div onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')" class="subMenu" id="divRapSub">
+                                <a href="~/Rapor/Ekstre">Ekstre</a>
+                                <a href="~/Rapor/Satis">Satış</a>
+                                <a href="~/Rapor/SatisHedef">Satış Hedef</a>
+                                <a href="~/Rapor/SatisOzet">Satış Özet</a>
+                                <a href="~/Rapor/SatisKars">Satış Karşılaştırma</a>
+                                <a href="~/Rapor/BorcAlacak">Borç Alacak</a>
+                                <a href="~/Rapor/Stok">Stok</a>
+                                <a href="~/Rapor/Siparis">Sipariş</a>
+                                <a href="~/Rapor/SiparisDetay">Sipariş Detay</a>
+                                <a href="~/Rapor/SiparisDurum">Sipariş Durum</a>
+                            </div>
+                        </li>
+                        <li><a href="~/Uyelik">Üye İşlemleri</a></li>
+                        <li><a href="~/Mesaj/"><span id="spanMesaj">Mesajlar</span></a></li>
+                        <li><a href="~/Cikis">Çıkış</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <partial name="_CookieConsentPartial" />
+
+    <div class="container body-content">
+        <div class="limiter">
+            <div class="containerM">
+                <div class="wrap">
+                    <form class="form1 validate-form">
+                        <h2 class="spanCiplak" id="basTitle">@ViewData["Title"]</h2>
+                        @RenderBody()
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p>&copy; 2019 - Sultanlar</p><br />
+        </footer>
+    </div>
+
+    <div id="divProgress"><div id="divProgressBack"></div><div id="divProgressFront"><div id="divProgressFrontInner">Yükleniyor...</div></div></div>
+
+    <environment include="Development">
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

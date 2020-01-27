@@ -1,0 +1,108 @@
+﻿@page
+@model SilModel
+@{
+    ViewData["Title"] = "Aktivite Sil";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+
+    <script>
+        var aktiviteid;
+
+        function AktivitelerDetayGetir() {
+            var url1 = apiurl + "aktivite/get/" + aktiviteid;
+            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+
+                if (json.blAktarilmis) {
+                    alert("Aktivite onaylı. Onaylı aktivite silinemez.");
+                    window.location.href = 'Aktiviteler';
+                    return;
+                }
+                document.getElementById("basTitle").innerHTML = "Aktivite Sil (" + json.pkID + ")";
+                document.getElementById("aktMus").innerHTML = json.cari.sube;
+            }).DataTable({
+                "responsive": true,
+                ajax: {
+                    dataSrc: "detaylar",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    qtip();
+                },
+                columns: aktinceleonaylasilcolumns,
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[2, "asc"]]
+            });
+        }
+
+        function sil() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "aktivite/sil/" + aktiviteid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data == "")
+                            window.location.href = 'Aktiviteler';
+                        else
+                            alert(data);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            aktiviteid = getParameterByName('aktiviteid');
+            AktivitelerDetayGetir();
+        });
+
+        function qtip() {
+            $('.urunResim').each(function () {
+                $(this).qtip({
+                    content: '<img src="' + $(this).attr('rel') + '" class="urunResimQtip" />',
+                    position: { at: 'top right' }
+                });
+            });
+            lazyload();
+        }
+    </script>
+}
+<h5 class="spanCiplak" id="aktMus"></h5>
+<div class="centerVeMiddle">
+    <input type="button" class="btn btn-success secimTus" value="Aktiviteyi Sistemden Sil" onclick="sil()" />
+    <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.location.href = 'Aktiviteler'" />
+</div>
+<br />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd" data-priority="1"><span class="">Kod</span></th>
+            <th class="keyTd" data-priority="4"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+            <th class="keyTd" data-priority="2"><span class="">Malzeme</span></th>
+            <th class="keyTd"><span class="" data-toggle="tooltip" title="Birim Fiyat KDV'li">B.Fiyat</span></th>
+            <th class="keyTd"><span class="" data-toggle="tooltip" title="Fatura Altı İskonto">F.Alt</span></th>
+            <th class="keyTd"><span class="" data-toggle="tooltip" title="Fatura Altı Ciro Primi">F.A.C.</span></th>
+            <th class="keyTd"><span class="" data-toggle="tooltip" title="Ciro Primi Dönüş Yüzdesi">C.P.D.</span></th>
+            <th class="keyTd" data-priority="3"><span class="" data-toggle="tooltip" title="İstenen Ek İskonto">Isk.</span></th>
+            <th class="keyTd" data-priority="5"><span class="" data-toggle="tooltip" title="Ciro Primi Dahil KDV'li Birim Fiyat">C.P.T.</span></th>
+            @*<th class="keyTd"><span class="">KDV'siz</span></th>*@
+            <th class="keyTd" data-priority="6"><span class="">KDV'li</span></th>
+        </tr>
+    </thead>
+</table>

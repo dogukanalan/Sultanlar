@@ -1,0 +1,67 @@
+﻿@page
+@model MusteriModel
+@{
+    ViewData["Title"] = "Müşteri";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+
+    <script>
+        function MusteriGetir(gmref) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getsube1/" + gmref,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        document.getElementById("sipMus").innerHTML = data[0].musteri;
+
+                        var htmlText = '<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length="50"><thead><tr><th class="keyTd hidewhenmobile">Kod</th><th class="keyTd">Müşteri</th><th></th></tr></thead><tbody>';
+                        $.each(data, function (i, item) {
+                            if (data[i].smref != gmref || data[i].tip != 4) { // tp den bayi tekrar gelmesin
+                                htmlText += '<tr>';
+                                htmlText += '<td class="keyTd hidewhenmobile"><span class="sinirli">' + data[i].smref + '</span></td>';
+                                htmlText += '<td class="valueTd"><span class="sinirli3">' + data[i].sube + '</span></td>';
+                                htmlText += '<td class="keyTd"><a href="javascript:showSubMenu(div' + data[i].smref + ')" class="btn btn-primary">İşlemler</a><div class="subMenu" id="div' + data[i].smref + '">' +
+                                    (data[i].tip == 4 ? '<a href="../Anlasma/?smref=' + data[i].smref + '&tip=' + data[i].tip + '">Anlaşma</a>' : '') +
+                                    (data[i].tip == 4 ? '<a href="../Aktivite/?smref=' + data[i].smref + '&ftip=25&tip=1&aktiviteid=0">Aktivite</a>' : '') +
+                                    '<a href="../Ziyaret/?smref=' + data[i].smref + '&gmref=' + gmref + '&slsref=' + getParameterByName("slsref") + '&tip=' + data[i].tip + '">Ziyaret</a>' +
+                                    (data[i].tip == 1 ? '<a href="../Siparis/?smref=' + data[i].smref + '">Sipariş</a>' : '') +
+                                    (data[i].tip == 1 ? '<a href="../Iade/?smref=' + data[i].smref + '">İade</a></div>' : '');
+                                htmlText += '</td></tr>';
+                            }
+                        });
+                        divData.innerHTML = htmlText + '</table>';
+                        initDt(1, true, true, true);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            MusteriGetir(getParameterByName("gmref"));
+
+            window.onclick = function (event) {
+                if (!event.target.matches('.dropbtn')) {
+                    var dropdowns = document.getElementsByClassName("subMenu");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            };
+        });
+    </script>
+}
+<h5 class="spanCiplak" id="sipMus"></h5>
+<div id="divData"></div>

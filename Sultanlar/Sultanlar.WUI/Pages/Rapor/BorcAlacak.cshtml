@@ -1,0 +1,198 @@
+﻿@page
+@model BorcAlacakModel
+@{
+    ViewData["Title"] = "Borç Alacak Raporu";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+
+    <script>
+        function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
+
+        var kolonlar = [
+            {
+                "data": "cari", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.musteri + '</span>';
+                }
+            },
+            {
+                "data": "borc", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "alacak", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "bakiye", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "ortvade", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.substring(0, 10).replace("0001-01-01", "") + '</span>';
+                }
+            },
+            {
+                "data": "vgb", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "vgbvade", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                }
+            },
+            {
+                "data": "risktop", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "risklmt", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            }
+        ];
+
+        function SaticilarGetir() {
+            var uyeid = window.localStorage["uyeid"];
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "satici",
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        $('select[name=selectSaticilar]').val(getSlsref());
+                        getRapor();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function getRapor() {
+            $("#dtTable input").each(function (index, element) {
+                $(element).val("");
+            });
+            var url1 = apiurl + "borcalacak/getir/" + getSlsref();
+            var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                "responsive": true,
+                "destroy": true,
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+
+                },
+                "fnDrawCallback": function (oSettings) {
+                    var api = this.api();
+                    $("#spBorc").html(api.column(1, { page: 'all' }).data().sum().formatMoney(2, ',', '.'));
+                    $("#spAlacak").html(api.column(2, { page: 'all' }).data().sum().formatMoney(2, ',', '.'));
+                    $("#spBakiye").html(api.column(3, { page: 'all' }).data().sum().formatMoney(2, ',', '.'));
+                    $("#spVGB").html(api.column(5, { page: 'all' }).data().sum().formatMoney(2, ',', '.'));
+                    $("#spRiskTop").html(api.column(7, { page: 'all' }).data().sum().formatMoney(2, ',', '.'));
+                    $("#spRiskLmt").html(api.column(8, { page: 'all' }).data().sum().formatMoney(2, ',', '.'));
+
+                },
+                dom: 'Bfrtip',
+                buttons: ['excel', 'pdf', 'print'],
+                columns: kolonlar,
+                "language": defaultDtLang,
+                "paging": true,
+                "pagingType": "full_numbers",
+                "ordering": false,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[0, "asc"]]
+            });
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.header()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            })
+        }
+
+        $(window).on("popstate", function (e) {
+            $('select[name=selectSaticilar]').val(getSlsref());
+            getRapor();
+        });
+
+        $(document).ready(function () {
+            SaticilarGetir();
+
+            $('#selectSaticilar').on('change', function (e) {
+                window.history.pushState("", "Title", 'BorcAlacak?&slsref=' + $('select[name=selectSaticilar]').val());
+                getRapor();
+            });
+        });
+    </script>
+}
+
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
+<br />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='100'>
+    <thead>
+        <tr>
+            <th class="keyTd" data-priority="1"><span class="spanCiplak">Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="4"><span class="spanCiplak" data-toggle="tooltip" title="Bu Yıl Koli">Borç</span><br /><input type="text" class="form-control input100yuzde gizle" /></th>
+            <th class="keyTd" data-priority="5"><span class="spanCiplak" data-toggle="tooltip" title="Önceki Yıl Koli">Alacak</span><br /><input type="text" class="form-control input100yuzde gizle" /></th>
+            <th class="keyTd" data-priority="2"><span class="spanCiplak" data-toggle="tooltip" title="Bu Yıl Net">Bakiye</span><br /><input type="text" class="form-control input100yuzde gizle" /></th>
+            <th class="keyTd" data-priority="6"><span class="spanCiplak" data-toggle="tooltip" title="Önceki Yıl Net">Ort.Vade</span><br /><input type="text" class="form-control input100yuzde gizle" /></th>
+            <th class="keyTd" data-priority="3"><span class="spanCiplak" data-toggle="tooltip" title="Önceki Yıl Net">VGB</span><br /><input type="text" class="form-control input100yuzde gizle" /></th>
+            <th class="keyTd" data-priority="7"><span class="spanCiplak" data-toggle="tooltip" title="Önceki Yıl Net">VGB Vade</span><br /><input type="text" class="form-control input100yuzde gizle" /></th>
+            <th class="keyTd" data-priority="8"><span class="spanCiplak" data-toggle="tooltip" title="Önceki Yıl Koli">Risk Top.</span><br /><input type="text" class="form-control input100yuzde gizle" /></th>
+            <th class="keyTd" data-priority="9"><span class="spanCiplak" data-toggle="tooltip" title="Bu Yıl Net">Risk Lmt.</span><br /><input type="text" class="form-control input100yuzde gizle" /></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="keyTd"><span class="spanCiplak">Toplam</span></th>
+            <th class="floaTd"><span class="spanCiplak" id="spBorc">0</span></th>
+            <th class="floaTd"><span class="spanCiplak" id="spAlacak">0</span></th>
+            <th class="floaTd"><span class="spanCiplak" id="spBakiye">0</span></th>
+            <th class="keyTd"></th>
+            <th class="floaTd"><span class="spanCiplak" id="spVGB">0</span></th>
+            <th class="keyTd"></th>
+            <th class="floaTd"><span class="spanCiplak" id="spRiskTop">0</span></th>
+            <th class="floaTd"><span class="spanCiplak" id="spRiskLmt">0</span></th>
+        </tr>
+    </tfoot>
+</table>

@@ -1,0 +1,218 @@
+﻿@page
+@model SiparisDurumModel
+@{
+    ViewData["Title"] = "Sipariş Durum Raporu";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+
+    <script>
+        function getYil() { return getParameterByName("yil") ? getParameterByName("yil") : (new Date().getFullYear()).toString(); }
+        function getAy() { return getParameterByName("ay") ? getParameterByName("ay") : (new Date().getMonth() + 1).toString(); }
+        function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
+        function getSipno() { return getParameterByName("sipno") ? getParameterByName("sipno") : 0; }
+
+        var kolonlar = [
+            {
+                "data": "siptar", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.substring(0, 10).replace("0001-01-01", "") + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli" data-toggle="tooltip" title="Web sip.no: ' + data.webno + '">' + data.sipno + '</span><span class="hide">' + data.webno + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli" data-toggle="tooltip" title="' + data.anaCari.musteri + '">' + data.sube.sube + '</span><span class="hide">' + data.anaCari.musteri + '</span>';
+                }
+            },
+            {
+                "data": "malkod", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                }
+            },
+            {
+                "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.malacik + '</span>';
+                }
+            },
+            {
+                "data": "sipad", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(0, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "tslad", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(0, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "irsad", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(0, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "bkyad", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(0, ',', '.') + '</span>';
+                }
+            }
+        ];
+
+        function SaticilarGetir() {
+            var uyeid = window.localStorage["uyeid"];
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "satici",
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        $('select[name=selectSaticilar]').val(getSlsref());
+                        getRapor();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function getRapor() {
+            $("#dtTable input").each(function (index, element) {
+                $(element).val("");
+            });
+            var url1 = apiurl + "satisraporu/getirsiparisdurum/" + getYil() + "/" + getAy() + "/" + getSlsref() + "/" + getSipno();
+            var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                "responsive": true,
+                "destroy": true,
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+
+                },
+                "fnDrawCallback": function (oSettings) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
+                },
+                dom: 'Bfrtip',
+                buttons: ['excel', 'pdf', 'print'],
+                columns: kolonlar,
+                "language": defaultDtLang,
+                "paging": true,
+                "pagingType": "full_numbers",
+                "ordering": false,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[0, "asc"]]
+            });
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.header()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            })
+        }
+
+        $(window).on("popstate", function (e) {
+            $('select[name=selectSaticilar]').val(getSlsref());
+            getRapor();
+        });
+
+        $(document).ready(function () {
+            $('select[name=selectYil]').val(getYil());
+            $('select[name=selectAy]').val(getAy());
+            SaticilarGetir();
+
+            $('#selectSaticilar').on('change', function (e) {
+                window.history.pushState("", "Title", 'SiparisDurum?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&sipno=' + getSipno());
+                getRapor();
+            });
+
+            $('#selectYil').on('change', function (e) {
+                window.history.pushState("", "Title", 'SiparisDurum?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&sipno=' + getSipno());
+                getRapor();
+            });
+
+            $('#selectAy').on('change', function (e) {
+                window.history.pushState("", "Title", 'SiparisDurum?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&sipno=' + getSipno());
+                getRapor();
+            });
+        });
+    </script>
+}
+
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
+
+<select id="selectYil" name="selectYil" class="dropDown selYil">
+    <option value="2019" selected="selected">2019</option>
+    <option value="2018">2018</option>
+    <option value="2017">2017</option>
+    <option value="2016">2016</option>
+    <option value="2015">2015</option>
+    <option value="2014">2014</option>
+</select>
+
+<select id="selectAy" name="selectAy" class="dropDown selYil">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+</select>
+<br />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='100'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="spanCiplak">Tarih</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="1"><span class="spanCiplak">Sip.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd"><span class="spanCiplak">Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd"><span class="spanCiplak">Mal.Kod</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="2"><span class="spanCiplak">Sip.Ad.</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="3"><span class="spanCiplak">Tsl.Ad.</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="4"><span class="spanCiplak">İrs.Ad.</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="5"><span class="spanCiplak">Bky.Ad.</span><br /><input type="text" class="form-control input100yuzde" /></th>
+        </tr>
+    </thead>
+</table>

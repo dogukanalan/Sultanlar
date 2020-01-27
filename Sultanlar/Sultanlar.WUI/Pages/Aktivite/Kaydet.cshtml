@@ -1,0 +1,60 @@
+﻿@page
+@model KaydetModel
+@{
+    ViewData["Title"] = "Aktivite Kaydet";
+}
+
+@section head {
+    <script>
+        var paramsmref;
+        var paramdonem;
+        var paramtip;
+        var aktiviteid;
+        var anlasmaid;
+        var paramonay;
+
+        function kaydet() {
+            var cookie = JSON.parse(window.localStorage['sepetA']);
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "aktivite/kaydet",
+                    data: stringifySepetA(cookie, paramsmref, paramdonem, paramtip, aktiviteid, anlasmaid),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        senkRoot(cookie);
+                        if (paramonay == 1)
+                            window.location.href = 'Onayla?aktiviteid=' + data;
+                        else
+                            document.getElementById("aktNo").innerHTML = "Aktivite kaydedildi.<br><br>Aktivite no: " + data;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function senkRoot(eskisepet) {
+            aktSil(eskisepet);
+        }
+
+        $(document).ready(function () {
+            paramsmref = getParameterByName('smref');
+            paramdonem = getParameterByName('donem');
+            paramtip = getParameterByName('tip');
+            aktiviteid = getParameterByName('aktiviteid');
+            anlasmaid = getParameterByName('anlasmaid');
+            paramonay = getParameterByName('onay');
+            kaydet();
+        });
+    </script>
+}
+<br />
+<h4 id="aktNo" class="onayliYesil"></h4>
+<br />
+<input type="button" class="btn btn-warning secimTus" value="Aktiviteler Ekranına Git" onclick="window.location.href = 'Aktiviteler'" />

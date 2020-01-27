@@ -1,0 +1,65 @@
+﻿@page
+@model GosterModel
+@{
+    ViewData["Title"] = "Mesaj";
+}
+
+@section head {
+    <script>
+        function MesajGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "mesaj/get/" + getParameterByName("mesajid") + "/" + getParameterByName("gelgit"),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        document.getElementById("basTitle").innerHTML = "Mesaj (" + data.pkMesajID + ")";
+                        $("#baslik").html(data.strKonu);
+                        $("#icerik").html(data.strIcerik);
+                        $("#tarih").html(data.dtGondermeZamani.replace("T", " "));
+
+                        if (!data.blOkundu)
+                            MesajOkundu();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function MesajOkundu() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "mesaj/oku/" + getParameterByName("mesajid") + "/" + getParameterByName("gelgit"),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            MesajGetir();
+        });
+    </script>
+}
+<br />
+<div class="divOrta">
+    <strong><span id="baslik"></span></strong>
+</div>
+<br />
+<div>
+    <span id="icerik"></span>
+</div>
+<br />
+<div class="divOrta">
+    <strong><span id="tarih"></span></strong>
+</div>
+<br />
+<div class="divOrta">
+    <input type="button" class="btn btn-info secimTus" value="Geri Dön" onclick="window.history.back()" />
+</div>

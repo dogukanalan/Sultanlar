@@ -1,0 +1,93 @@
+﻿@page
+@model ZiyaretModel
+@{
+    ViewData["Title"] = "Ziyaret";
+}
+
+@section head {
+    <script>
+        var map;
+
+        function ZiyaretEkle() {
+            var rut_id = getParameterByName("barkod") ? getParameterByName("barkod") : getParameterByName("slsref") + getParameterByName("gmref") + getParameterByName("smref") + "." + getDateNowStr();
+            var rut_tur = getParameterByName("barkod") ? "1" : "2";
+            var sentData =
+                '{ "mtip": "' + getParameterByName("tip") + '", "rut_tur": "' + rut_tur + '", "rut_id": "' + rut_id + '", "gmref": "' + getParameterByName("gmref") +
+                '", "smref": "' + getParameterByName("smref") + '", "slsref": "' + getParameterByName("slsref") +
+                '", "barkod": "' + rut_id + '", "ziy_bas_tar": "' + getDateNow() + '", "ziy_bit_tar": "' + getDateNow() + '", "ziy_ndn_id": "0", "ziy_konum": "' +
+                getParameterByName("coords") + '", "ziy_konum_adres": "' + getParameterByName("address") +
+                '", "ziy_konum_cikis": "0,0", "ziy_konum_adres_cikis": "", "fark_knm_ziy": "0", "ziy_konum_resim": "", "ziy_notlari": "", "ziy_sip": "0", "ziy_akt": "0", "ziy_iad": "0", "ziy_tah": "0" }';
+            window.localStorage["ziyaret"] = sentData;
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "ziyaret/ekle",
+                    data: sentData,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        getCari(getParameterByName("tip"), getParameterByName("smref"), getCariSube, "inputSube");
+                        getBaslangic(getDateNowStr());
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function ZiyaretIptal() {
+            var ziyaret = JSON.parse(window.localStorage["ziyaret"]);
+            var sentData = '{ "tip": "' + ziyaret.mtip + '", "smref": "' + ziyaret.smref + '", "slsref": "' + ziyaret.slsref + '", "zaman": "' + ziyaret.ziy_bas_tar + '" }';
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "ziyaret/sil",
+                    data: sentData,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        window.localStorage.removeItem("ziyaret");
+                        window.location.href = '../Musteri';
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function getBaslangic(baslangic) {
+            $("#inputBas").val(baslangic);
+        }
+
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+            if (window.localStorage["ziyaret"]) {
+                var ziyaret = JSON.parse(window.localStorage["ziyaret"]);
+                getCari(ziyaret.mtip, ziyaret.smref, getCariSube, "inputSube");
+                getBaslangic(ziyaret.ziy_bas_tar);
+            }
+            else {
+                if (getParameterByName("tip"))
+                    ZiyaretEkle();
+            }
+        });
+    </script>
+}
+    Şube:
+<input type="text" class="form-control" id="inputSube" disabled />
+<br />
+    Başlangıç:
+<input type="text" class="form-control" id="inputBas" disabled />
+<br />
+<input type="button" class="btn btn-info" value="Resim Gönder" onclick="window.location.href = '../Resim/?smref=' + getParameterByName('smref') + '&tip=' + getParameterByName('tip')" />
+<br /><br />
+<input type="button" class="btn btn-danger" value="Ziyareti İptal Et" onclick="ZiyaretIptal()" />
+<input type="button" class="btn btn-success" value="Ziyareti Bitir" onclick="window.location.href = 'Bitir'" />

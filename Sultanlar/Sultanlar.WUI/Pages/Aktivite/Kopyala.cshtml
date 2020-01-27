@@ -1,0 +1,266 @@
+﻿@page
+@model KopyalaModel
+@{
+    ViewData["Title"] = "Aktivite Kopyala";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+    <script>
+        var aktiviteid;
+
+        function SaticilarGetir(uyeid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + 'satici',
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectSaticilar option").remove();
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        CarilerGetir($("#selectSaticilar").val());
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function CarilerGetir(slsref) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getana/" + slsref,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectCariler").empty().append($("<option></option>").text("Seçiniz").val("0"));
+                        $.each(data, function (index, item) {
+                            $("#selectCariler").append(
+                                $("<option></option>")
+                                    .text(item.musteri)
+                                    .val(item.gmref)
+                            );
+                        });
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function anlasmalarDoldur() {
+            $('input.smm').change(function () {
+                if ($(this).is(":checked")) {
+                    anlasmaGetir(
+                        $("#inputDonem").val().substring(0, 4),
+                        $("#inputDonem").val().substring(5, 7),
+                        $(this).attr('accesskey'),
+                        $(this).attr('rel'),
+                        $(this).attr('auid'));
+                }
+                else {
+                    $("#" + $(this).attr('auid')).empty().append($("<option></option>").text("Yok").val("0"));
+                }
+            });
+        }
+
+        function MusterilerGetir(gmref) {
+            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getsubetp/" + gmref
+                },
+                "initComplete": function (settings, json) {
+
+                },
+                "fnDrawCallback": function (oSettings) {
+                    $('input.smm').change(function () {
+                        if ($("#inputDonem").val() == "") {
+                            alert("Dönem seçiniz.");
+                            $(this).prop("checked", false);
+                        }
+                    });
+                },
+                columns: [
+                    {
+                        "data": "smref", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": null, "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + (data.bayiMi ? "(GENEL ANLAŞMASIZ)" : data.musteri) + '</span>';
+                        }
+                    },
+                    {
+                        "data": "sube", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "smref", "class": "keyTd", render: function (data, type, row) {
+                            return '<select id="slAnlasma' + data + '" name="slAnlasma" class="form-control clAnlasma"><option value="0" selected="selected">Yok</option></select>';
+                        }
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" auid="slAnlasma' + data.smref + '" rel="' + data.tip + '" accesskey="' + data.smref + '" /><div class="state p-primary-o"><label></label></div></div>';
+                        }
+                    }
+                ],
+                "scrollX": true,
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[3, "asc"]]
+            });
+        }
+
+        function anlasmaGetir(yil, ay, smref, tip, controlid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "anlasma/getirbymus",
+                    data: '{ "yil": ' + yil + ', "ay": ' + ay + ', "smref": ' + smref + ', "tip": "' + (tip == "1" ? "2" : "1") + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#" + controlid).empty().append($("<option></option>").text("Yok").val("0"));
+                        $.each(data, function (index, item) {
+                            $("#" + controlid).append(
+                                $("<option></option>")
+                                    .text(item.pkID)
+                                    .val(item.pkID)
+                            );
+                        });
+                        $("#" + controlid + " option:last").attr("selected", "selected");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function kopyala() {
+            sentValue = '{ "id": ' + aktiviteid + ', "musteri": "' + window.localStorage["uyeid"] + '", "donem": "' + $("#inputDonem").val() + '", "smreFs": [';
+            $('.smm').each(function () {
+                if ($(this).is(':checked')) {
+                    sentValue += '{ "smref": ' + $(this).attr("accesskey") + ', "tip": ' + $(this).attr("rel") + ', "AnlasmaID": ' + $(this).closest("tr").find(".clAnlasma").val() + ' },';
+                }
+            });
+            sentValue = sentValue.substring(0, sentValue.length - 1) + '] }';
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "aktivite/kopya",
+                    data: sentValue,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data == "") {
+                            alert("Kopyalandı.");
+                            $('input.smm').each(function () {
+                                $(this).prop("checked", false);
+                            });
+                            $('select[name=slAnlasma]').each(function () {
+                                $(this).empty().append($("<option></option>").text("Yok").val("0"));
+                            });
+                        }
+                        else
+                            console.log(JSON.stringify(data));
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            aktiviteid = getParameterByName('aktiviteid');
+            document.getElementById("basTitle").innerHTML = "Aktivite Kopyala (" + aktiviteid + ")";
+            $('#inputDonem').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy/m",
+                viewMode: "months",
+                minViewMode: "months",
+                orientation: "auto bottom"
+            });
+            $('#inputDonem').on('changeDate', function (ev) {
+                anlasmalarDoldur();
+                $("#btnKopyala").attr("disabled", false);
+                $(this).datepicker('hide');
+            });
+            MusterilerGetir(0);
+            SaticilarGetir(window.localStorage["uyeid"]);
+            $('#selectSaticilar').on('change', function (e) {
+                $("#inputDonem").val("");
+                CarilerGetir(this.value);
+                $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsubetp/0").load();
+            });
+            $('#selectCariler').on('change', function (e) {
+                $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsubetp/" + this.value).load();
+            });
+        });
+    </script>
+}
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar">
+    <option value="1" selected="selected">Seçiniz</option>
+</select>
+<br />
+<select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
+    <option value="0" selected="selected">Seçiniz</option>
+</select>
+<br /><br />
+<input class="form-control input100" type="text" name="inputDonem" id="inputDonem" placeholder="Dönem" autocomplete="off" onkeypress="return false">
+<br />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="">Kod</span></th>
+            <th class="keyTd" style="width: 50%"><span class="">Bayi</span></th>
+            <th class="keyTd" style="width: 50%"><span class="">Cari</span></th>
+            <th class="keyTd"><span class="">Anlaşma</span></th>
+            <th class="keyTd"></th>
+        </tr>
+    </thead>
+</table>
+<br />
+<div class="centerVeMiddle">
+    <input type="button" class="btn btn-success secimTus" id="btnKopyala" value="Aktiviteyi Kopyala" onclick="kopyala()" disabled />
+    <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.history.back()" />
+</div>
