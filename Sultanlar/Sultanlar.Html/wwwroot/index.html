@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sultanlar : Üye Girişi</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'" />
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/lazyload.js"></script>
+    <script src="js/giris/giris.js"></script>
+
+    <link rel="icon" type="image/png" href="images/favicon.ico" />
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Menü</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse" style="overflow-x: scroll !important;">
+                <div class="navbar-ic">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="javascript:showSubMenu(divMusSub)" onmouseover="showSubMenu(divMusSub)" onmouseout="divMusSub.classList.remove('show')">Müşteriler</a>
+                            <div onmouseover="showSubMenu(divMusSub)" onmouseout="divMusSub.classList.remove('show')" class="subMenu" id="divMusSub">
+                                <a href="Musteri">Ana Ekran</a>
+                                <a href="Musteri/Konum/">Konumlar</a>
+                                <a href="Musteri/Rut/">Rutlar</a>
+                                <a href="Musteri/Resim/">Resimler</a>
+                            </div>
+                        </li>
+                        <li><a href="Siparis/Siparisler">Siparişler</a></li>
+                        <li><a href="Iade/Iadeler">İadeler</a></li>
+                        <li><a href="Ziyaret/Ziyaretler">Ziyaretler</a></li>
+                        <li><a href="Anlasma/Anlasmalar">Anlaşmalar</a></li>
+                        <li><a href="Aktivite/Aktiviteler">Aktiviteler</a></li>
+                        <li>
+                            <a href="javascript:showSubMenu(divRapSub)" onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')">Raporlar</a>
+                            <div onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')" class="subMenu" id="divRapSub">
+                                <a href="Rapor/Ekstre">Ekstre</a>
+                                <a href="Rapor/Satis">Satış</a>
+                                <a href="Rapor/SatisHedef">Satış Hedef</a>
+                                <a href="Rapor/SatisOzet">Satış Özet</a>
+                                <a href="Rapor/SatisKars">Satış Karşılaştırma</a>
+                                <a href="Rapor/BorcAlacak">Borç Alacak</a>
+                                <a href="Rapor/Stok">Stok</a>
+                                <a href="Rapor/Siparis">Sipariş</a>
+                                <a href="Rapor/SiparisDetay">Sipariş Detay</a>
+                                <a href="Rapor/SiparisDurum">Sipariş Durum</a>
+                            </div>
+                        </li>
+                        <li><a href="Uyelik">Üye İşlemleri</a></li>
+                        <li><a href="Mesaj/"><span id="spanMesaj">Mesajlar</span></a></li>
+                        <li><a href="Cikis">Çıkış</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        <div class="limiter">
+            <div class="containerM">
+                <div class="wrap">
+                    <form class="form1 validate-form">
+                        <h2 class="spanCiplak" id="basTitle">Üye Girişi</h2>
+
+                        <!-- Başlangıç -->
+
+                        <script>girissayfasi = true;</script>
+                        <span class="txt1">
+                            EPOSTA
+                        </span>
+
+                        <div class="wrap-input100 validate-input" style="margin-bottom: 36px;" data-validate="Eposta formatı yanlış">
+                            <input class="input100 inputGiris clGerekli" type="text" name="email" id="email" onkeydown="return clickButton(event,'aGiris')">
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <span class="txt1">
+                            ŞİFRE
+                        </span>
+
+                        <div class="wrap-input100 validate-input" style="margin-bottom: 12px;" data-validate="Şifre gerekli">
+                            <span class="btn-show-pass">
+                                <i class="fa fa-eye"></i>
+                            </span>
+                            <input class="input100 inputGiris clGerekli" type="password" name="pass" id="pass" onkeydown="return clickButton(event,'aGiris')">
+                            <span class="focus-input100"></span>
+                        </div>
+
+                        <div class="flex-sb-m">
+                            <div class="contact100-form-checkbox">
+                                <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                                <label class="label-checkbox100" for="ckb1">
+                                    Bir gün boyunca hatırla
+                                </label>
+                            </div>
+
+                            <div>
+                                <a href="#" class="txt3">
+                                    Şifremi Unuttum
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="flex-sb-m">
+                            <span class="txt1" id="girisBasarisiz" style="padding-bottom: 24px; padding-top: 24px; color: red; visibility: hidden">
+                                Giriş başarısız, lütfen tekrar deneyin.
+                            </span>
+                        </div>
+
+                        <div class="container-form-btn">
+                            <a id="aGiris" class="form1-btn hrefbutton" href="javascript:GirisYap()">
+                                Oturum aç
+                            </a>
+                        </div>
+
+                        <!-- Bitiş -->
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p>&copy; 2020 - Sultanlar</p><br />
+        </footer>
+    </div>
+
+    <div id="divProgress"><div id="divProgressBack"></div><div id="divProgressFront"><div id="divProgressFrontInner">Yükleniyor...</div></div></div>
+
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"></script>
+</body>
+</html>
