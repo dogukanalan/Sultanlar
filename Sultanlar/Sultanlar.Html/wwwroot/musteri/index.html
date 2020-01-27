@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="../_assets/images/favicon.ico" />
+    <!-- Style -->
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../_assets/css/site.css">
+    <link rel="stylesheet" href="../_assets/css/main.css">
+    <!-- add: -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <!-- Style -->
+    <!-- Script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../_assets/js/main.js"></script>
+    <script src="../_assets/js/masterpage.js"></script>
+    <script src="../_assets/js/musteri/musteri.js"></script>
+    <!-- add: -->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <!-- Script -->
+</head>
+<body onload="baslangic();">
+    <div id="header"></div>
+
+    <div class="container body-content">
+        <div class="limiter">
+            <div class="containerM">
+                <div class="wrap">
+                    <form class="form1 validate-form">
+                        <h2 class="spanCiplak" id="basTitle">Müşteriler</h2>
+
+                        <!-- Başlangıç -->
+
+                        <select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar">
+                            <option value="1" selected="selected">Seçiniz</option>
+                        </select>
+                        <div id="divData"></div>
+
+                        <!-- Bitiş -->
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="footer"></div>
+    </div>
+
+</body>
+</html>

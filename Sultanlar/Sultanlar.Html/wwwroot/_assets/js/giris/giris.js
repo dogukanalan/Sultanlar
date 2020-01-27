@@ -1,9 +1,14 @@
 ﻿
-var girissayfasi = false;
-var cikissayfasi = false;
+girissayfasi = true;
 
-$(document).ready(function () {
-    $('#divProgress').css("display", "none");
+function baslangic() {
+    jsload("genel", "db", "lazyload");
+    //cssload("bootstrap", "site", "main");
+
+    add_header('Sultanlar', 'Üye Girişi');
+    add_footer();
+
+    $('#divProgress').css('display', 'none');
     $(".wrap").css("width", 560);
 
     $('.validate-form .input100').each(function () {
@@ -26,9 +31,8 @@ $(document).ready(function () {
             $(this).find('i').addClass('fa-eye');
             showPass = 0;
         }
-
     });
-});
+}
 
 function GirisYap() {
     var input = $('.validate-input .input100');

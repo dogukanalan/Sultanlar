@@ -1,4 +1,7 @@
 ﻿
+var girissayfasi = false;
+var cikissayfasi = false;
+
 $(document).ready(function () {
     if (!girissayfasi && !cikissayfasi)
         MesajSayisi();
