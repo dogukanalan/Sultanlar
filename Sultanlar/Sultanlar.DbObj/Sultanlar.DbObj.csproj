@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Sultanlar.Class, Version=1.0.7320.29235, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sultanlar.Class\bin\Debug\Sultanlar.Class.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -93,6 +89,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TarifSepeti\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sultanlar.Class\Sultanlar.Class.csproj">
+      <Project>{6368880d-50c3-4e33-9ecf-2c416e832be9}</Project>
+      <Name>Sultanlar.Class</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
