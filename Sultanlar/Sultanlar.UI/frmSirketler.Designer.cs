@@ -1,6 +1,6 @@
 ﻿namespace Sultanlar.UI
 {
-    partial class Form1
+    partial class frmSirketler
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSirketler));
+            this.SuspendLayout();
+            // 
+            // frmSirketler
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "frmSirketler";
+            this.Text = "Şirketler";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
     }
 }
-
