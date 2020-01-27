@@ -77,14 +77,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.3.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Sultanlar.Class, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sultanlar.Class\bin\Debug\Sultanlar.Class.dll</HintPath>
-    </Reference>
-    <Reference Include="Sultanlar.DatabaseObject, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Sultanlar.DatabaseObject\bin\Debug\Sultanlar.DatabaseObject.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration.Install" />
@@ -653,6 +645,16 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_efatura_EFaturaInfoService</CachedSettingsPropName>
     </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sultanlar.Class\Sultanlar.Class.csproj">
+      <Project>{6368880d-50c3-4e33-9ecf-2c416e832be9}</Project>
+      <Name>Sultanlar.Class</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sultanlar.DatabaseObject\Sultanlar.DatabaseObject.csproj">
+      <Project>{4dc20636-1474-437f-9a16-ff1b32d145fe}</Project>
+      <Name>Sultanlar.DatabaseObject</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
