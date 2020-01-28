@@ -1,9 +1,11 @@
 ﻿
 function baslangic() {
-    jsload("genel", "db", "lazyload");
-
     add_header('Sultanlar', 'Müşteriler');
     add_footer();
+
+
+
+    // {{{{{{{{{{{{{{{{{{
 
     window.onclick = function (event) {
         if (!event.target.matches('.dropbtn')) {
@@ -22,6 +24,11 @@ function baslangic() {
     $('#selectSaticilar').on('change', function (e) {
         MusterilerGetir(this.value);
     });
+
+    // }}}}}}}}}}}}}}}}}}
+
+
+    
 }
 
 function SaticilarGetir(uyeid) {

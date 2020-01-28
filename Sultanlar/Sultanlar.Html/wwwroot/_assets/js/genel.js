@@ -3,9 +3,13 @@ var girissayfasi = false;
 var cikissayfasi = false;
 
 $(document).ready(function () {
+    sayfabaslangic();
+});
+
+function sayfabaslangic() {
     if (!girissayfasi && !cikissayfasi)
         MesajSayisi();
-});
+}
 
 function MesajSayisi() {
     $.ajax(

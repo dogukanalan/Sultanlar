@@ -2,11 +2,15 @@
 girissayfasi = true;
 
 function baslangic() {
-    jsload("genel", "db", "lazyload");
+    //jsload("genel", "db", "lazyload");
     //cssload("bootstrap", "site", "main");
 
     add_header('Sultanlar', 'Üye Girişi');
     add_footer();
+
+
+
+    // {{{{{{{{{{{{{{{{{{
 
     $('#divProgress').css('display', 'none');
     $(".wrap").css("width", 560);
@@ -32,6 +36,11 @@ function baslangic() {
             showPass = 0;
         }
     });
+
+    // }}}}}}}}}}}}}}}}}}
+
+
+
 }
 
 function GirisYap() {

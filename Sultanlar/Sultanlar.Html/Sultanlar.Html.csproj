@@ -13,7 +13,6 @@
     <Folder Include="wwwroot\anlasma\" />
     <Folder Include="wwwroot\aktivite\" />
     <Folder Include="wwwroot\mesaj\" />
-    <Folder Include="wwwroot\cikis\" />
     <Folder Include="wwwroot\uyelik\" />
     <Folder Include="wwwroot\rapor\" />
     <Folder Include="wwwroot\ziyaret\" />

@@ -1,21 +1,4 @@
 
-/*==================================================================
-[ Validate ]*/
-/*var input = $('.validate-input .input100');
-
-$('.validate-form').on('submit', function () {
-    var check = true;
-
-    for (var i = 0; i < input.length; i++) {
-        if (validate(input[i]) == false) {
-            showValidate(input[i]);
-            check = false;
-        }
-    }
-
-    return check;
-});*/
-
 var apiurl = "https://www.happyfamily.com.tr:442/internet/";
 //http://localhost:50543/internet/
 //http://95.0.47.130/SulAPI/internet/
@@ -559,12 +542,6 @@ $.event.special.inputchange = {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-//function getBosSepet() {
-//    var sepet = [{ siparisid: 0, smref: 0, itemref: 0, malacik: "", netkdv: 0, miktar: 0, miktartur: "" }];
-//    sepet.removeValue('itemref', 0, 'miktartur', "");
-//    return sepet;
-//}
 
 function stringifySepet(sepet, smref, fiyattipi, siparisid) {
     var sentValue;
