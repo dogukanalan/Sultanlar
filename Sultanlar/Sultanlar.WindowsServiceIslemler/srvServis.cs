@@ -2912,7 +2912,7 @@ namespace Sultanlar.WindowsServiceIslemler
                                 cmd.Parameters.AddWithValue("@Gewei", onuc[j].Gewei);
                                 cmd.Parameters.AddWithValue("@Volum", onuc[j].Volum);
                                 cmd.Parameters.AddWithValue("@Voleh", onuc[j].Voleh);
-                                cmd.Parameters.AddWithValue("@Hsdat", (onuc[j].Hsdat != "0000-00-00" ? Convert.ToDateTime(onuc[j].Hsdat) : Convert.ToDateTime("01.01.1900")));
+                                cmd.Parameters.AddWithValue("@Hsdat", (onuc[j].Hsdat != "0000-00-00" ? (Convert.ToDateTime(onuc[j].Hsdat) < Convert.ToDateTime("01.01.1900") ? Convert.ToDateTime("01.01.1900") : Convert.ToDateTime(onuc[j].Hsdat)) : Convert.ToDateTime("01.01.1900")));
                                 #endregion
                                 cmd.ExecuteNonQuery();
                             }
@@ -4238,7 +4238,7 @@ namespace Sultanlar.WindowsServiceIslemler
                                 cmd.Parameters.AddWithValue("@Gewei", onuc[j].Gewei);
                                 cmd.Parameters.AddWithValue("@Volum", onuc[j].Volum);
                                 cmd.Parameters.AddWithValue("@Voleh", onuc[j].Voleh);
-                                cmd.Parameters.AddWithValue("@Hsdat", (onuc[j].Hsdat != "0000-00-00" ? Convert.ToDateTime(onuc[j].Hsdat) : Convert.ToDateTime("01.01.1900")));
+                                cmd.Parameters.AddWithValue("@Hsdat", (onuc[j].Hsdat != "0000-00-00" ? (Convert.ToDateTime(onuc[j].Hsdat) < Convert.ToDateTime("01.01.1900") ? Convert.ToDateTime("01.01.1900") : Convert.ToDateTime(onuc[j].Hsdat)) : Convert.ToDateTime("01.01.1900")));
                                 #endregion
                                 cmd.ExecuteNonQuery();
                             }

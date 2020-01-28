@@ -41,6 +41,17 @@
                         window.localStorage["token"] = data.token;
                         createCookie("sulLogin", data.tokenCr, 1);
                         createCookie("sulLoginR", $('#ckb1').is(':checked') ? "true" : "false", 1);
+
+                        if (!window.localStorage["sepet"]) {
+                            window.localStorage["sepet"] = "[]";
+                        }
+                        if (!window.localStorage["sepetI"]) {
+                            window.localStorage["sepetI"] = "[]";
+                        }
+                        if (!window.localStorage["sepetA"]) {
+                            window.localStorage["sepetA"] = "[]";
+                        }
+
                         var bas = window.location.href.indexOf("site") > -1 ? window.location.href.substring(0, window.location.href.indexOf("/")) + "/site" : window.location.href.substring(0, window.location.href.indexOf("/"));
                         window.location.href = bas + "/" + (getParameterByName("returnurl") ? getParameterByName("returnurl") : "Musteri");
                     },
