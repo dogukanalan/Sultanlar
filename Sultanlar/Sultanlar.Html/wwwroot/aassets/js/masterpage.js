@@ -8,7 +8,7 @@ function jsload() {
             script.src = arguments[i];
         }
         else {
-            script.src = '../../../../../../../../../_assets/js/' + arguments[i] + '.js';
+            script.src = '/aassets/js/' + arguments[i] + '.js';
         }
         head.appendChild(script);
     }
@@ -23,7 +23,7 @@ function cssload() {
             link.href = arguments[i];
         }
         else {
-            link.href = '../../../../../../../../../_assets/css/' + arguments[i] + '.css';
+            link.href = '/aassets/css/' + arguments[i] + '.css';
         }
         document.head.appendChild(link);
     }
@@ -37,7 +37,7 @@ function add_header(page_header, page_subheader) {
         var header = document.getElementById('header');
 
         jQuery.ajax({
-            url: "../../../../../../../../../../../_assets/templates/header.html",
+            url: "/aassets/templates/header.html",
             async: true,
             success: function (data) {
                 place_in_outerHTML(header, data);
@@ -50,7 +50,7 @@ function add_footer() {
     var footer = document.getElementById('footer');
 
     jQuery.ajax({
-        url: "../../../../../../../../../../../_assets/templates/footer.html",
+        url: "/aassets/templates/footer.html",
         async: true,
         success: function (data) {
             place_in_outerHTML(footer, data);
