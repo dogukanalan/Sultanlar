@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sultanlar.WebUI.musteri {
-    
-    
-    public partial class _default {
-        
+namespace Sultanlar.WebUI.musteri
+{
+
+
+    public partial class _default
+    {
+
         /// <summary>
         /// form1 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
         /// <summary>
         /// infoCoords control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl infoCoords;
-        
+
         /// <summary>
         /// AjaxScripts control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.ScriptManager AjaxScripts;
-        
+
         /// <summary>
         /// DivAjaxProg control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress DivAjaxProg;
-        
+
         /// <summary>
         /// divAjaxDefault control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel divAjaxDefault;
-        
+
         /// <summary>
         /// Label1 control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label1;
-        
+
         /// <summary>
         /// ImageButton1 control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
-        
+
         /// <summary>
         /// ucMesajlar1 control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Sultanlar.WebUI.musteri.ucMesajlar ucMesajlar1;
-        
+
         /// <summary>
         /// divInsert control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInsert;
-        
+
         /// <summary>
         /// divZiyaret control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divZiyaret;
-        
+
         /// <summary>
         /// lblZiyaretSubesi control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblZiyaretSubesi;
-        
+
         /// <summary>
         /// lblZiyaretBaslangic control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblZiyaretBaslangic;
-        
+
         /// <summary>
         /// lbZiyaretIptal control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbZiyaretIptal;
-        
+
         /// <summary>
         /// lbZiyaretSonlandirUst control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbZiyaretSonlandirUst;
-        
+
         /// <summary>
         /// divZiyaretHata control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divZiyaretHata;
-        
+
         /// <summary>
         /// lbZiyaretHataKapat control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbZiyaretHataKapat;
-        
+
         /// <summary>
         /// divZiyaretHata2 control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divZiyaretHata2;
-        
+
         /// <summary>
         /// inputZiyaretHata2smref control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden inputZiyaretHata2smref;
-        
+
         /// <summary>
         /// inputZiyaretHata2tip control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden inputZiyaretHata2tip;
-        
+
         /// <summary>
         /// inputZiyaretHata2barkod control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden inputZiyaretHata2barkod;
-        
+
         /// <summary>
         /// inputZiyaretHata2ziygun control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden inputZiyaretHata2ziygun;
-        
+
         /// <summary>
         /// lbZiyaretHata2konum control.
         /// </summary>
@@ -209,7 +211,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbZiyaretHata2konum;
-        
+
         /// <summary>
         /// lblZiyaretHata2konum control.
         /// </summary>
@@ -218,7 +220,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblZiyaretHata2konum;
-        
+
         /// <summary>
         /// lbZiyaretHataKapat2 control.
         /// </summary>
@@ -227,7 +229,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbZiyaretHataKapat2;
-        
+
         /// <summary>
         /// divZiyaretHata3 control.
         /// </summary>
@@ -236,7 +238,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divZiyaretHata3;
-        
+
         /// <summary>
         /// lbZiyaretHataKapat3 control.
         /// </summary>
@@ -245,7 +247,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbZiyaretHataKapat3;
-        
+
         /// <summary>
         /// divFiyatTipi control.
         /// </summary>
@@ -254,7 +256,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divFiyatTipi;
-        
+
         /// <summary>
         /// lblFiyatTipCH control.
         /// </summary>
@@ -263,7 +265,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblFiyatTipCH;
-        
+
         /// <summary>
         /// tblFiyatTipiPanelindeBakiyeler control.
         /// </summary>
@@ -272,7 +274,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTable tblFiyatTipiPanelindeBakiyeler;
-        
+
         /// <summary>
         /// lblRiskLimiti control.
         /// </summary>
@@ -281,7 +283,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblRiskLimiti;
-        
+
         /// <summary>
         /// lblVBVd control.
         /// </summary>
@@ -290,7 +292,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblVBVd;
-        
+
         /// <summary>
         /// lblVBTop control.
         /// </summary>
@@ -299,7 +301,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblVBTop;
-        
+
         /// <summary>
         /// lblVGBGun control.
         /// </summary>
@@ -308,7 +310,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblVGBGun;
-        
+
         /// <summary>
         /// lblVGBToplam control.
         /// </summary>
@@ -317,7 +319,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblVGBToplam;
-        
+
         /// <summary>
         /// lblBakiyeVade control.
         /// </summary>
@@ -326,7 +328,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblBakiyeVade;
-        
+
         /// <summary>
         /// lblBakiye control.
         /// </summary>
@@ -335,7 +337,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblBakiye;
-        
+
         /// <summary>
         /// lblCekSenetRisk control.
         /// </summary>
@@ -344,7 +346,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCekSenetRisk;
-        
+
         /// <summary>
         /// lblIrs control.
         /// </summary>
@@ -353,7 +355,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblIrs;
-        
+
         /// <summary>
         /// lblSiparisToplam control.
         /// </summary>
@@ -362,7 +364,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSiparisToplam;
-        
+
         /// <summary>
         /// lblSiparisToplamBakiye control.
         /// </summary>
@@ -371,7 +373,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSiparisToplamBakiye;
-        
+
         /// <summary>
         /// lblRiskBakiyesi control.
         /// </summary>
@@ -380,7 +382,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblRiskBakiyesi;
-        
+
         /// <summary>
         /// dlFiyatTipiNSTs control.
         /// </summary>
@@ -389,7 +391,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList dlFiyatTipiNSTs;
-        
+
         /// <summary>
         /// lblFiyatTipiNSTsYok control.
         /// </summary>
@@ -398,7 +400,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblFiyatTipiNSTsYok;
-        
+
         /// <summary>
         /// cbButunUrunler control.
         /// </summary>
@@ -407,7 +409,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbButunUrunler;
-        
+
         /// <summary>
         /// cbHizliSiparis control.
         /// </summary>
@@ -416,7 +418,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbHizliSiparis;
-        
+
         /// <summary>
         /// ddlFiyatTipleri control.
         /// </summary>
@@ -425,7 +427,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlFiyatTipleri;
-        
+
         /// <summary>
         /// lbFiyatTipiKapat control.
         /// </summary>
@@ -434,7 +436,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbFiyatTipiKapat;
-        
+
         /// <summary>
         /// divFiyatlarFiyatTipi control.
         /// </summary>
@@ -443,7 +445,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divFiyatlarFiyatTipi;
-        
+
         /// <summary>
         /// ddlFiyatlarFiyatTipleri control.
         /// </summary>
@@ -452,7 +454,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlFiyatlarFiyatTipleri;
-        
+
         /// <summary>
         /// lbFiyatlarFiyatTipiKapat control.
         /// </summary>
@@ -461,7 +463,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbFiyatlarFiyatTipiKapat;
-        
+
         /// <summary>
         /// divSatTemAnaCariSubeleri control.
         /// </summary>
@@ -470,7 +472,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSatTemAnaCariSubeleri;
-        
+
         /// <summary>
         /// inputGMREF control.
         /// </summary>
@@ -479,7 +481,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden inputGMREF;
-        
+
         /// <summary>
         /// btnAltCari control.
         /// </summary>
@@ -488,7 +490,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAltCari;
-        
+
         /// <summary>
         /// btnGenelAktivite control.
         /// </summary>
@@ -497,7 +499,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnGenelAktivite;
-        
+
         /// <summary>
         /// lblSatTemRiskLimiti control.
         /// </summary>
@@ -506,7 +508,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemRiskLimiti;
-        
+
         /// <summary>
         /// lblSatTemVBVd control.
         /// </summary>
@@ -515,7 +517,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemVBVd;
-        
+
         /// <summary>
         /// lblSatTemVBTop control.
         /// </summary>
@@ -524,7 +526,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemVBTop;
-        
+
         /// <summary>
         /// lblSatTemVGBGun control.
         /// </summary>
@@ -533,7 +535,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemVGBGun;
-        
+
         /// <summary>
         /// lblSatTemVGBToplam control.
         /// </summary>
@@ -542,7 +544,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemVGBToplam;
-        
+
         /// <summary>
         /// lblSatTemBakiyeVade control.
         /// </summary>
@@ -551,7 +553,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemBakiyeVade;
-        
+
         /// <summary>
         /// lblSatTemBakiye control.
         /// </summary>
@@ -560,7 +562,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemBakiye;
-        
+
         /// <summary>
         /// lblSatTemCekSenetRisk control.
         /// </summary>
@@ -569,7 +571,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemCekSenetRisk;
-        
+
         /// <summary>
         /// lblSatTemIrs control.
         /// </summary>
@@ -578,7 +580,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemIrs;
-        
+
         /// <summary>
         /// lblSatTemSiparisToplam control.
         /// </summary>
@@ -587,7 +589,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemSiparisToplam;
-        
+
         /// <summary>
         /// lblSatTemSiparisToplamBakiye control.
         /// </summary>
@@ -596,7 +598,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemSiparisToplamBakiye;
-        
+
         /// <summary>
         /// lblSatTemRiskBakiyesi control.
         /// </summary>
@@ -605,7 +607,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSatTemRiskBakiyesi;
-        
+
         /// <summary>
         /// dlSatTemAnaCariSubeleri control.
         /// </summary>
@@ -614,7 +616,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList dlSatTemAnaCariSubeleri;
-        
+
         /// <summary>
         /// lbSatTemAnaCariSubeleri control.
         /// </summary>
@@ -623,7 +625,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbSatTemAnaCariSubeleri;
-        
+
         /// <summary>
         /// divTarih control.
         /// </summary>
@@ -632,7 +634,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTarih;
-        
+
         /// <summary>
         /// cbTariheGore control.
         /// </summary>
@@ -641,7 +643,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbTariheGore;
-        
+
         /// <summary>
         /// Calendar1 control.
         /// </summary>
@@ -650,7 +652,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Calendar Calendar1;
-        
+
         /// <summary>
         /// Calendar2 control.
         /// </summary>
@@ -659,7 +661,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Calendar Calendar2;
-        
+
         /// <summary>
         /// lbTarihKapat control.
         /// </summary>
@@ -668,7 +670,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbTarihKapat;
-        
+
         /// <summary>
         /// divZiyaretSonlandirmaSebep control.
         /// </summary>
@@ -677,7 +679,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divZiyaretSonlandirmaSebep;
-        
+
         /// <summary>
         /// rblZiyaretSonlandirmaSebepleri control.
         /// </summary>
@@ -686,7 +688,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList rblZiyaretSonlandirmaSebepleri;
-        
+
         /// <summary>
         /// txtZiyaretSonlandirmaSebepAciklama control.
         /// </summary>
@@ -695,7 +697,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtZiyaretSonlandirmaSebepAciklama;
-        
+
         /// <summary>
         /// lbZiyaretSonlandirmaSebep control.
         /// </summary>
@@ -704,7 +706,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbZiyaretSonlandirmaSebep;
-        
+
         /// <summary>
         /// divFarkliZiyaret control.
         /// </summary>
@@ -713,7 +715,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divFarkliZiyaret;
-        
+
         /// <summary>
         /// txtFarkliZiyaretSube control.
         /// </summary>
@@ -722,7 +724,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFarkliZiyaretSube;
-        
+
         /// <summary>
         /// btnFarkliZiyaretAra control.
         /// </summary>
@@ -731,7 +733,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnFarkliZiyaretAra;
-        
+
         /// <summary>
         /// rpZiyaretCariler control.
         /// </summary>
@@ -740,7 +742,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rpZiyaretCariler;
-        
+
         /// <summary>
         /// lbFarkliZiyaretKapat control.
         /// </summary>
@@ -749,7 +751,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbFarkliZiyaretKapat;
-        
+
         /// <summary>
         /// divMusteriArama control.
         /// </summary>
@@ -758,7 +760,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMusteriArama;
-        
+
         /// <summary>
         /// dlMusteriArama control.
         /// </summary>
@@ -767,7 +769,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList dlMusteriArama;
-        
+
         /// <summary>
         /// lbMusteriAramaKapat control.
         /// </summary>
@@ -776,7 +778,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbMusteriAramaKapat;
-        
+
         /// <summary>
         /// divRiskLimitHata control.
         /// </summary>
@@ -785,7 +787,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divRiskLimitHata;
-        
+
         /// <summary>
         /// lbRiskLimitHata control.
         /// </summary>
@@ -794,7 +796,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbRiskLimitHata;
-        
+
         /// <summary>
         /// divAnlasmaliFiyatHata control.
         /// </summary>
@@ -803,7 +805,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaliFiyatHata;
-        
+
         /// <summary>
         /// lbAnlasmaliFiyatHata control.
         /// </summary>
@@ -812,7 +814,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAnlasmaliFiyatHata;
-        
+
         /// <summary>
         /// divSonZiyaret control.
         /// </summary>
@@ -821,7 +823,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSonZiyaret;
-        
+
         /// <summary>
         /// lblSonZiyaretMusteri control.
         /// </summary>
@@ -830,7 +832,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSonZiyaretMusteri;
-        
+
         /// <summary>
         /// lbSonZiyaretSonlandir control.
         /// </summary>
@@ -839,7 +841,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbSonZiyaretSonlandir;
-        
+
         /// <summary>
         /// lbSonZiyaretKapat control.
         /// </summary>
@@ -848,7 +850,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbSonZiyaretKapat;
-        
+
         /// <summary>
         /// divZiyaretKonumAlinamadi control.
         /// </summary>
@@ -857,7 +859,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divZiyaretKonumAlinamadi;
-        
+
         /// <summary>
         /// lbZiyaretKonumAlinamadi control.
         /// </summary>
@@ -866,7 +868,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbZiyaretKonumAlinamadi;
-        
+
         /// <summary>
         /// divAnlasmaHata control.
         /// </summary>
@@ -875,7 +877,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHata;
-        
+
         /// <summary>
         /// lbAnlasmaHata control.
         /// </summary>
@@ -884,7 +886,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAnlasmaHata;
-        
+
         /// <summary>
         /// divAktiviteHata control.
         /// </summary>
@@ -893,7 +895,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAktiviteHata;
-        
+
         /// <summary>
         /// lbAktiviteHata control.
         /// </summary>
@@ -902,7 +904,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAktiviteHata;
-        
+
         /// <summary>
         /// divIadeIlgili control.
         /// </summary>
@@ -911,7 +913,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divIadeIlgili;
-        
+
         /// <summary>
         /// inputIadeIlgiliSMREF control.
         /// </summary>
@@ -920,7 +922,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden inputIadeIlgiliSMREF;
-        
+
         /// <summary>
         /// lblIadeIlgiliMusteri control.
         /// </summary>
@@ -929,7 +931,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblIadeIlgiliMusteri;
-        
+
         /// <summary>
         /// txtIadeIlgili control.
         /// </summary>
@@ -938,7 +940,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtIadeIlgili;
-        
+
         /// <summary>
         /// lbIadeIlgiliKapat control.
         /// </summary>
@@ -947,7 +949,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbIadeIlgiliKapat;
-        
+
         /// <summary>
         /// divEFaturaTarih control.
         /// </summary>
@@ -956,7 +958,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divEFaturaTarih;
-        
+
         /// <summary>
         /// Calendar3 control.
         /// </summary>
@@ -965,7 +967,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Calendar Calendar3;
-        
+
         /// <summary>
         /// Calendar4 control.
         /// </summary>
@@ -974,7 +976,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Calendar Calendar4;
-        
+
         /// <summary>
         /// lblEFaturaTarihSecim1 control.
         /// </summary>
@@ -983,7 +985,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblEFaturaTarihSecim1;
-        
+
         /// <summary>
         /// lblEFaturaTarihSecim2 control.
         /// </summary>
@@ -992,7 +994,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblEFaturaTarihSecim2;
-        
+
         /// <summary>
         /// lbEFaturaTarihIptal control.
         /// </summary>
@@ -1001,7 +1003,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lbEFaturaTarihIptal;
-        
+
         /// <summary>
         /// lbEFaturaTarihDevam control.
         /// </summary>
@@ -1010,7 +1012,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lbEFaturaTarihDevam;
-        
+
         /// <summary>
         /// divEFaturaFaturalar control.
         /// </summary>
@@ -1019,7 +1021,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divEFaturaFaturalar;
-        
+
         /// <summary>
         /// cblEFaturaFaturalar control.
         /// </summary>
@@ -1028,7 +1030,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBoxList cblEFaturaFaturalar;
-        
+
         /// <summary>
         /// lblEFaturaFaturalarSayi control.
         /// </summary>
@@ -1037,7 +1039,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblEFaturaFaturalarSayi;
-        
+
         /// <summary>
         /// lbEFaturaFaturalarIptal control.
         /// </summary>
@@ -1046,7 +1048,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lbEFaturaFaturalarIptal;
-        
+
         /// <summary>
         /// lbEFaturaFaturalarDevam control.
         /// </summary>
@@ -1055,7 +1057,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lbEFaturaFaturalarDevam;
-        
+
         /// <summary>
         /// divEFaturaAlias control.
         /// </summary>
@@ -1064,7 +1066,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divEFaturaAlias;
-        
+
         /// <summary>
         /// rbEFaturaAliasBelirleme control.
         /// </summary>
@@ -1073,7 +1075,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton rbEFaturaAliasBelirleme;
-        
+
         /// <summary>
         /// rbEFaturaAliasIlon control.
         /// </summary>
@@ -1082,7 +1084,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton rbEFaturaAliasIlon;
-        
+
         /// <summary>
         /// rbEFaturaAliasEczanem control.
         /// </summary>
@@ -1091,7 +1093,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton rbEFaturaAliasEczanem;
-        
+
         /// <summary>
         /// rbEFaturaAliasTebeos control.
         /// </summary>
@@ -1100,7 +1102,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton rbEFaturaAliasTebeos;
-        
+
         /// <summary>
         /// divEFaturaAliasBelirleme control.
         /// </summary>
@@ -1109,7 +1111,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divEFaturaAliasBelirleme;
-        
+
         /// <summary>
         /// lbEFaturaAliasSil control.
         /// </summary>
@@ -1118,7 +1120,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbEFaturaAliasSil;
-        
+
         /// <summary>
         /// lbEFaturaAliasVarsayilan control.
         /// </summary>
@@ -1127,7 +1129,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbEFaturaAliasVarsayilan;
-        
+
         /// <summary>
         /// tblEFaturaAlias control.
         /// </summary>
@@ -1136,7 +1138,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTable tblEFaturaAlias;
-        
+
         /// <summary>
         /// txtEFaturaAliasLT control.
         /// </summary>
@@ -1145,7 +1147,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasLT;
-        
+
         /// <summary>
         /// txtEFaturaAliasBOLGE control.
         /// </summary>
@@ -1154,7 +1156,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasBOLGE;
-        
+
         /// <summary>
         /// txtEFaturaAliasGRP control.
         /// </summary>
@@ -1163,7 +1165,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasGRP;
-        
+
         /// <summary>
         /// txtEFaturaAliasEKP control.
         /// </summary>
@@ -1172,7 +1174,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasEKP;
-        
+
         /// <summary>
         /// txtEFaturaAliasABRNO control.
         /// </summary>
@@ -1181,7 +1183,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasABRNO;
-        
+
         /// <summary>
         /// txtEFaturaAliasAMBAR control.
         /// </summary>
@@ -1190,7 +1192,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasAMBAR;
-        
+
         /// <summary>
         /// txtEFaturaAliasAY control.
         /// </summary>
@@ -1199,7 +1201,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasAY;
-        
+
         /// <summary>
         /// txtEFaturaAliasHAFTA control.
         /// </summary>
@@ -1208,7 +1210,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasHAFTA;
-        
+
         /// <summary>
         /// txtEFaturaAliasFATTAR control.
         /// </summary>
@@ -1217,7 +1219,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasFATTAR;
-        
+
         /// <summary>
         /// txtEFaturaAliasFATNO control.
         /// </summary>
@@ -1226,7 +1228,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasFATNO;
-        
+
         /// <summary>
         /// txtEFaturaAliasFATVD control.
         /// </summary>
@@ -1235,7 +1237,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasFATVD;
-        
+
         /// <summary>
         /// txtEFaturaAliasTUR control.
         /// </summary>
@@ -1244,7 +1246,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasTUR;
-        
+
         /// <summary>
         /// txtEFaturaAliasTURACK control.
         /// </summary>
@@ -1253,7 +1255,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasTURACK;
-        
+
         /// <summary>
         /// txtEFaturaAliasFTUR control.
         /// </summary>
@@ -1262,7 +1264,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasFTUR;
-        
+
         /// <summary>
         /// txtEFaturaAliasSLSREF control.
         /// </summary>
@@ -1271,7 +1273,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasSLSREF;
-        
+
         /// <summary>
         /// txtEFaturaAliasSATKOD control.
         /// </summary>
@@ -1280,7 +1282,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasSATKOD;
-        
+
         /// <summary>
         /// txtEFaturaAliasSATTEM control.
         /// </summary>
@@ -1289,7 +1291,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasSATTEM;
-        
+
         /// <summary>
         /// txtEFaturaAliasTEDEKP control.
         /// </summary>
@@ -1298,7 +1300,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasTEDEKP;
-        
+
         /// <summary>
         /// txtEFaturaAliasTEDSLSREF control.
         /// </summary>
@@ -1307,7 +1309,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasTEDSLSREF;
-        
+
         /// <summary>
         /// txtEFaturaAliasTEDSATTEM control.
         /// </summary>
@@ -1316,7 +1318,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasTEDSATTEM;
-        
+
         /// <summary>
         /// txtEFaturaAliasIL control.
         /// </summary>
@@ -1325,7 +1327,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasIL;
-        
+
         /// <summary>
         /// txtEFaturaAliasILCE control.
         /// </summary>
@@ -1334,7 +1336,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasILCE;
-        
+
         /// <summary>
         /// txtEFaturaAliasMTACIKLAMA control.
         /// </summary>
@@ -1343,7 +1345,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasMTACIKLAMA;
-        
+
         /// <summary>
         /// txtEFaturaAliasGMREF control.
         /// </summary>
@@ -1352,7 +1354,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasGMREF;
-        
+
         /// <summary>
         /// txtEFaturaAliasMUSKOD control.
         /// </summary>
@@ -1361,7 +1363,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasMUSKOD;
-        
+
         /// <summary>
         /// txtEFaturaAliasMUSTERI control.
         /// </summary>
@@ -1370,7 +1372,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasMUSTERI;
-        
+
         /// <summary>
         /// txtEFaturaAliasSMREF control.
         /// </summary>
@@ -1379,7 +1381,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasSMREF;
-        
+
         /// <summary>
         /// txtEFaturaAliasSUBKOD control.
         /// </summary>
@@ -1388,7 +1390,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasSUBKOD;
-        
+
         /// <summary>
         /// txtEFaturaAliasSUBE control.
         /// </summary>
@@ -1397,7 +1399,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasSUBE;
-        
+
         /// <summary>
         /// txtEFaturaAliasSEVKKOD control.
         /// </summary>
@@ -1406,7 +1408,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasSEVKKOD;
-        
+
         /// <summary>
         /// txtEFaturaAliasSEVKADRES control.
         /// </summary>
@@ -1415,7 +1417,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasSEVKADRES;
-        
+
         /// <summary>
         /// txtEFaturaAliasREYKOD control.
         /// </summary>
@@ -1424,7 +1426,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasREYKOD;
-        
+
         /// <summary>
         /// txtEFaturaAliasREYON control.
         /// </summary>
@@ -1433,7 +1435,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasREYON;
-        
+
         /// <summary>
         /// txtEFaturaAliasANAGRP control.
         /// </summary>
@@ -1442,7 +1444,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasANAGRP;
-        
+
         /// <summary>
         /// txtEFaturaAliasGRPKOD control.
         /// </summary>
@@ -1451,7 +1453,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasGRPKOD;
-        
+
         /// <summary>
         /// txtEFaturaAliasGRUP control.
         /// </summary>
@@ -1460,7 +1462,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasGRUP;
-        
+
         /// <summary>
         /// txtEFaturaAliasTEDGRP control.
         /// </summary>
@@ -1469,7 +1471,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasTEDGRP;
-        
+
         /// <summary>
         /// txtEFaturaAliasTEDKISAMAL control.
         /// </summary>
@@ -1478,7 +1480,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasTEDKISAMAL;
-        
+
         /// <summary>
         /// txtEFaturaAliasBARCODE control.
         /// </summary>
@@ -1487,7 +1489,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasBARCODE;
-        
+
         /// <summary>
         /// txtEFaturaAliasITEMREF control.
         /// </summary>
@@ -1496,7 +1498,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasITEMREF;
-        
+
         /// <summary>
         /// txtEFaturaAliasMALKOD control.
         /// </summary>
@@ -1505,7 +1507,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasMALKOD;
-        
+
         /// <summary>
         /// txtEFaturaAliasMALZEME control.
         /// </summary>
@@ -1514,7 +1516,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasMALZEME;
-        
+
         /// <summary>
         /// txtEFaturaAliasKOLI control.
         /// </summary>
@@ -1523,7 +1525,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasKOLI;
-        
+
         /// <summary>
         /// txtEFaturaAliasKDV control.
         /// </summary>
@@ -1532,7 +1534,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasKDV;
-        
+
         /// <summary>
         /// txtEFaturaAliasBRM control.
         /// </summary>
@@ -1541,7 +1543,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasBRM;
-        
+
         /// <summary>
         /// txtEFaturaAliasADT control.
         /// </summary>
@@ -1550,7 +1552,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasADT;
-        
+
         /// <summary>
         /// txtEFaturaAliasISK1 control.
         /// </summary>
@@ -1559,7 +1561,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasISK1;
-        
+
         /// <summary>
         /// txtEFaturaAliasISK2 control.
         /// </summary>
@@ -1568,7 +1570,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasISK2;
-        
+
         /// <summary>
         /// txtEFaturaAliasISK3 control.
         /// </summary>
@@ -1577,7 +1579,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasISK3;
-        
+
         /// <summary>
         /// txtEFaturaAliasISK4 control.
         /// </summary>
@@ -1586,7 +1588,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasISK4;
-        
+
         /// <summary>
         /// txtEFaturaAliasISK5 control.
         /// </summary>
@@ -1595,7 +1597,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasISK5;
-        
+
         /// <summary>
         /// txtEFaturaAliasISKALT control.
         /// </summary>
@@ -1604,7 +1606,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasISKALT;
-        
+
         /// <summary>
         /// txtEFaturaAliasBRUTT control.
         /// </summary>
@@ -1613,7 +1615,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasBRUTT;
-        
+
         /// <summary>
         /// txtEFaturaAliasISKT control.
         /// </summary>
@@ -1622,7 +1624,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasISKT;
-        
+
         /// <summary>
         /// txtEFaturaAliasNETT control.
         /// </summary>
@@ -1631,7 +1633,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasNETT;
-        
+
         /// <summary>
         /// txtEFaturaAliasKDVT control.
         /// </summary>
@@ -1640,7 +1642,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasKDVT;
-        
+
         /// <summary>
         /// txtEFaturaAliasNETKDVT control.
         /// </summary>
@@ -1649,7 +1651,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasNETKDVT;
-        
+
         /// <summary>
         /// ddlEFaturaAliasSecim control.
         /// </summary>
@@ -1658,7 +1660,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlEFaturaAliasSecim;
-        
+
         /// <summary>
         /// lbEFaturaAliasSecimSil control.
         /// </summary>
@@ -1667,7 +1669,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbEFaturaAliasSecimSil;
-        
+
         /// <summary>
         /// cbEFaturaAliasKaydet control.
         /// </summary>
@@ -1676,7 +1678,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbEFaturaAliasKaydet;
-        
+
         /// <summary>
         /// txtEFaturaAliasKaydetAd control.
         /// </summary>
@@ -1685,7 +1687,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEFaturaAliasKaydetAd;
-        
+
         /// <summary>
         /// lbEFaturaAliasIptal control.
         /// </summary>
@@ -1694,7 +1696,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lbEFaturaAliasIptal;
-        
+
         /// <summary>
         /// lbEFaturaIndir control.
         /// </summary>
@@ -1703,7 +1705,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button lbEFaturaIndir;
-        
+
         /// <summary>
         /// divAltCariEkle control.
         /// </summary>
@@ -1712,7 +1714,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAltCariEkle;
-        
+
         /// <summary>
         /// txtAltCariEkleCari control.
         /// </summary>
@@ -1721,7 +1723,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAltCariEkleCari;
-        
+
         /// <summary>
         /// ddlAltCariEkleIl control.
         /// </summary>
@@ -1730,7 +1732,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlAltCariEkleIl;
-        
+
         /// <summary>
         /// ddlAltCariEkleIlce control.
         /// </summary>
@@ -1739,7 +1741,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlAltCariEkleIlce;
-        
+
         /// <summary>
         /// txtAltCariEkleAciklama control.
         /// </summary>
@@ -1748,7 +1750,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAltCariEkleAciklama;
-        
+
         /// <summary>
         /// txtAltCariEkleAdres control.
         /// </summary>
@@ -1757,7 +1759,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAltCariEkleAdres;
-        
+
         /// <summary>
         /// rbKonumAl control.
         /// </summary>
@@ -1766,7 +1768,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton rbKonumAl;
-        
+
         /// <summary>
         /// rbKonumAlma control.
         /// </summary>
@@ -1775,7 +1777,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButton rbKonumAlma;
-        
+
         /// <summary>
         /// txtAltCariEkleVergiDairesi control.
         /// </summary>
@@ -1784,7 +1786,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAltCariEkleVergiDairesi;
-        
+
         /// <summary>
         /// txtAltCariEkleVergiNo control.
         /// </summary>
@@ -1793,7 +1795,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAltCariEkleVergiNo;
-        
+
         /// <summary>
         /// txtAltCariEkleTelefon control.
         /// </summary>
@@ -1802,7 +1804,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAltCariEkleTelefon;
-        
+
         /// <summary>
         /// txtAltCariEkleCep control.
         /// </summary>
@@ -1811,7 +1813,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAltCariEkleCep;
-        
+
         /// <summary>
         /// txtAltCariEkleFax control.
         /// </summary>
@@ -1820,7 +1822,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAltCariEkleFax;
-        
+
         /// <summary>
         /// txtAltCariEkleEposta control.
         /// </summary>
@@ -1829,7 +1831,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAltCariEkleEposta;
-        
+
         /// <summary>
         /// btnAltCariEkle control.
         /// </summary>
@@ -1838,7 +1840,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAltCariEkle;
-        
+
         /// <summary>
         /// btnAltCariEkleVazgec control.
         /// </summary>
@@ -1847,7 +1849,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAltCariEkleVazgec;
-        
+
         /// <summary>
         /// divAltCariHata control.
         /// </summary>
@@ -1856,7 +1858,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAltCariHata;
-        
+
         /// <summary>
         /// lbAltCariHataKapat control.
         /// </summary>
@@ -1865,7 +1867,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAltCariHataKapat;
-        
+
         /// <summary>
         /// divAnlasmaKaydedildi control.
         /// </summary>
@@ -1874,7 +1876,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaKaydedildi;
-        
+
         /// <summary>
         /// lbAnlasmaKaydedildiKapat control.
         /// </summary>
@@ -1883,7 +1885,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAnlasmaKaydedildiKapat;
-        
+
         /// <summary>
         /// divAnlasma control.
         /// </summary>
@@ -1892,7 +1894,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasma;
-        
+
         /// <summary>
         /// AnlasmaSMREF control.
         /// </summary>
@@ -1901,7 +1903,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden AnlasmaSMREF;
-        
+
         /// <summary>
         /// txtAnlasmaMusteri control.
         /// </summary>
@@ -1910,7 +1912,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaMusteri;
-        
+
         /// <summary>
         /// txtAnlasmaSubeSayisi control.
         /// </summary>
@@ -1919,7 +1921,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaSubeSayisi;
-        
+
         /// <summary>
         /// txtAnlasmaIl control.
         /// </summary>
@@ -1928,7 +1930,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaIl;
-        
+
         /// <summary>
         /// txtAnlasmaBayi control.
         /// </summary>
@@ -1937,7 +1939,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaBayi;
-        
+
         /// <summary>
         /// datepickerAnlasmaBaslangic control.
         /// </summary>
@@ -1946,7 +1948,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText datepickerAnlasmaBaslangic;
-        
+
         /// <summary>
         /// datepickerAnlasmaBitis control.
         /// </summary>
@@ -1955,7 +1957,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText datepickerAnlasmaBitis;
-        
+
         /// <summary>
         /// txtAnlasmaVadeTAH control.
         /// </summary>
@@ -1964,7 +1966,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaVadeTAH;
-        
+
         /// <summary>
         /// txtAnlasmaVadeYEG control.
         /// </summary>
@@ -1973,7 +1975,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaVadeYEG;
-        
+
         /// <summary>
         /// txtAnlasmaSKUTAH control.
         /// </summary>
@@ -1982,7 +1984,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaSKUTAH;
-        
+
         /// <summary>
         /// txtAnlasmaSKUYEG control.
         /// </summary>
@@ -1991,7 +1993,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaSKUYEG;
-        
+
         /// <summary>
         /// cblAnlasmaHizmetBedelleri control.
         /// </summary>
@@ -2000,7 +2002,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBoxList cblAnlasmaHizmetBedelleri;
-        
+
         /// <summary>
         /// tblAnlasmaHizmetBedelleri control.
         /// </summary>
@@ -2009,7 +2011,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTable tblAnlasmaHizmetBedelleri;
-        
+
         /// <summary>
         /// pnlAnlasmaHizmetBedelleri control.
         /// </summary>
@@ -2018,7 +2020,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlAnlasmaHizmetBedelleri;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli1 control.
         /// </summary>
@@ -2027,7 +2029,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli1;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli1 control.
         /// </summary>
@@ -2036,7 +2038,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli1;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli1TAHadet control.
         /// </summary>
@@ -2045,7 +2047,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli1TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli1YEGadet control.
         /// </summary>
@@ -2054,7 +2056,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli1YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli1TAHbedel control.
         /// </summary>
@@ -2063,7 +2065,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli1TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli1YEGbedel control.
         /// </summary>
@@ -2072,7 +2074,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli1YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli2 control.
         /// </summary>
@@ -2081,7 +2083,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli2;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli2 control.
         /// </summary>
@@ -2090,7 +2092,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli2;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli2TAHadet control.
         /// </summary>
@@ -2099,7 +2101,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli2TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli2YEGadet control.
         /// </summary>
@@ -2108,7 +2110,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli2YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli2TAHbedel control.
         /// </summary>
@@ -2117,7 +2119,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli2TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli2YEGbedel control.
         /// </summary>
@@ -2126,7 +2128,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli2YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli3 control.
         /// </summary>
@@ -2135,7 +2137,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli3;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli3 control.
         /// </summary>
@@ -2144,7 +2146,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli3;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli3TAHadet control.
         /// </summary>
@@ -2153,7 +2155,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli3TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli3YEGadet control.
         /// </summary>
@@ -2162,7 +2164,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli3YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli3TAHbedel control.
         /// </summary>
@@ -2171,7 +2173,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli3TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli3YEGbedel control.
         /// </summary>
@@ -2180,7 +2182,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli3YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli4 control.
         /// </summary>
@@ -2189,7 +2191,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli4;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli4 control.
         /// </summary>
@@ -2198,7 +2200,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli4;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli4TAHadet control.
         /// </summary>
@@ -2207,7 +2209,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli4TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli4YEGadet control.
         /// </summary>
@@ -2216,7 +2218,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli4YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli4TAHbedel control.
         /// </summary>
@@ -2225,7 +2227,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli4TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli4YEGbedel control.
         /// </summary>
@@ -2234,7 +2236,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli4YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli5 control.
         /// </summary>
@@ -2243,7 +2245,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli5;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli5 control.
         /// </summary>
@@ -2252,7 +2254,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli5;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli5TAHadet control.
         /// </summary>
@@ -2261,7 +2263,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli5TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli5YEGadet control.
         /// </summary>
@@ -2270,7 +2272,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli5YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli5TAHbedel control.
         /// </summary>
@@ -2279,7 +2281,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli5TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli5YEGbedel control.
         /// </summary>
@@ -2288,7 +2290,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli5YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli6 control.
         /// </summary>
@@ -2297,7 +2299,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli6;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli6 control.
         /// </summary>
@@ -2306,7 +2308,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli6;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli6TAHadet control.
         /// </summary>
@@ -2315,7 +2317,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli6TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli6YEGadet control.
         /// </summary>
@@ -2324,7 +2326,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli6YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli6TAHbedel control.
         /// </summary>
@@ -2333,7 +2335,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli6TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli6YEGbedel control.
         /// </summary>
@@ -2342,7 +2344,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli6YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli7 control.
         /// </summary>
@@ -2351,7 +2353,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli7;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli7 control.
         /// </summary>
@@ -2360,7 +2362,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli7;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli7TAHadet control.
         /// </summary>
@@ -2369,7 +2371,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli7TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli7YEGadet control.
         /// </summary>
@@ -2378,7 +2380,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli7YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli7TAHbedel control.
         /// </summary>
@@ -2387,7 +2389,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli7TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli7YEGbedel control.
         /// </summary>
@@ -2396,7 +2398,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli7YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli8 control.
         /// </summary>
@@ -2405,7 +2407,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli8;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli8 control.
         /// </summary>
@@ -2414,7 +2416,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli8;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli8TAHadet control.
         /// </summary>
@@ -2423,7 +2425,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli8TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli8YEGadet control.
         /// </summary>
@@ -2432,7 +2434,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli8YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli8TAHbedel control.
         /// </summary>
@@ -2441,7 +2443,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli8TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli8YEGbedel control.
         /// </summary>
@@ -2450,7 +2452,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli8YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli9 control.
         /// </summary>
@@ -2459,7 +2461,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli9;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli9 control.
         /// </summary>
@@ -2468,7 +2470,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli9;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli9TAHadet control.
         /// </summary>
@@ -2477,7 +2479,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli9TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli9YEGadet control.
         /// </summary>
@@ -2486,7 +2488,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli9YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli9TAHbedel control.
         /// </summary>
@@ -2495,7 +2497,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli9TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli9YEGbedel control.
         /// </summary>
@@ -2504,7 +2506,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli9YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli10 control.
         /// </summary>
@@ -2513,7 +2515,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli10;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli10 control.
         /// </summary>
@@ -2522,7 +2524,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli10;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli10TAHadet control.
         /// </summary>
@@ -2531,7 +2533,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli10TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli10YEGadet control.
         /// </summary>
@@ -2540,7 +2542,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli10YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli10TAHbedel control.
         /// </summary>
@@ -2549,7 +2551,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli10TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli10YEGbedel control.
         /// </summary>
@@ -2558,7 +2560,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli10YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli11 control.
         /// </summary>
@@ -2567,7 +2569,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli11;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli11 control.
         /// </summary>
@@ -2576,7 +2578,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli11;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli11TAHadet control.
         /// </summary>
@@ -2585,7 +2587,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli11TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli11YEGadet control.
         /// </summary>
@@ -2594,7 +2596,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli11YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli11TAHbedel control.
         /// </summary>
@@ -2603,7 +2605,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli11TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli11YEGbedel control.
         /// </summary>
@@ -2612,7 +2614,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli11YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli12 control.
         /// </summary>
@@ -2621,7 +2623,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli12;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli12 control.
         /// </summary>
@@ -2630,7 +2632,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli12;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli12TAHadet control.
         /// </summary>
@@ -2639,7 +2641,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli12TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli12YEGadet control.
         /// </summary>
@@ -2648,7 +2650,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli12YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli12TAHbedel control.
         /// </summary>
@@ -2657,7 +2659,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli12TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli12YEGbedel control.
         /// </summary>
@@ -2666,7 +2668,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli12YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli13 control.
         /// </summary>
@@ -2675,7 +2677,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli13;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli13 control.
         /// </summary>
@@ -2684,7 +2686,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli13;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli13TAHadet control.
         /// </summary>
@@ -2693,7 +2695,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli13TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli13YEGadet control.
         /// </summary>
@@ -2702,7 +2704,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli13YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli13TAHbedel control.
         /// </summary>
@@ -2711,7 +2713,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli13TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli13YEGbedel control.
         /// </summary>
@@ -2720,7 +2722,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli13YEGbedel;
-        
+
         /// <summary>
         /// divAnlasmaHizmetBedeli14 control.
         /// </summary>
@@ -2729,7 +2731,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divAnlasmaHizmetBedeli14;
-        
+
         /// <summary>
         /// lblAnlasmaHizmetBedeli14 control.
         /// </summary>
@@ -2738,7 +2740,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnlasmaHizmetBedeli14;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli14TAHadet control.
         /// </summary>
@@ -2747,7 +2749,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli14TAHadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli14YEGadet control.
         /// </summary>
@@ -2756,7 +2758,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli14YEGadet;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli14TAHbedel control.
         /// </summary>
@@ -2765,7 +2767,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli14TAHbedel;
-        
+
         /// <summary>
         /// txtAnlasmaHizmetBedeli14YEGbedel control.
         /// </summary>
@@ -2774,7 +2776,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaHizmetBedeli14YEGbedel;
-        
+
         /// <summary>
         /// txtAnlasmaTAHIsk control.
         /// </summary>
@@ -2783,7 +2785,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHIsk;
-        
+
         /// <summary>
         /// txtAnlasmaYEGIsk control.
         /// </summary>
@@ -2792,7 +2794,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGIsk;
-        
+
         /// <summary>
         /// txtAnlasmaTAHCiro control.
         /// </summary>
@@ -2801,7 +2803,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHCiro;
-        
+
         /// <summary>
         /// txtAnlasmaYEGCiro control.
         /// </summary>
@@ -2810,7 +2812,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGCiro;
-        
+
         /// <summary>
         /// txtAnlasmaTAHCiro3 control.
         /// </summary>
@@ -2819,7 +2821,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHCiro3;
-        
+
         /// <summary>
         /// txtAnlasmaYEGCiro3 control.
         /// </summary>
@@ -2828,7 +2830,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGCiro3;
-        
+
         /// <summary>
         /// txtAnlasmaTAHCiro6 control.
         /// </summary>
@@ -2837,7 +2839,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHCiro6;
-        
+
         /// <summary>
         /// txtAnlasmaYEGCiro6 control.
         /// </summary>
@@ -2846,7 +2848,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGCiro6;
-        
+
         /// <summary>
         /// txtAnlasmaTAHCiro12 control.
         /// </summary>
@@ -2855,7 +2857,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHCiro12;
-        
+
         /// <summary>
         /// txtAnlasmaYEGCiro12 control.
         /// </summary>
@@ -2864,7 +2866,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGCiro12;
-        
+
         /// <summary>
         /// txtAnlasmaTAHCiroIsk control.
         /// </summary>
@@ -2873,7 +2875,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHCiroIsk;
-        
+
         /// <summary>
         /// txtAnlasmaYEGCiroIsk control.
         /// </summary>
@@ -2882,7 +2884,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGCiroIsk;
-        
+
         /// <summary>
         /// txtAnlasmaTAHAnlasmaDisiBedeller control.
         /// </summary>
@@ -2891,7 +2893,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHAnlasmaDisiBedeller;
-        
+
         /// <summary>
         /// txtAnlasmaYEGAnlasmaDisiBedeller control.
         /// </summary>
@@ -2900,7 +2902,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGAnlasmaDisiBedeller;
-        
+
         /// <summary>
         /// txtAnlasmaTAHToplamCiro control.
         /// </summary>
@@ -2909,7 +2911,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHToplamCiro;
-        
+
         /// <summary>
         /// txtAnlasmaYEGToplamCiro control.
         /// </summary>
@@ -2918,7 +2920,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGToplamCiro;
-        
+
         /// <summary>
         /// txtAnlasmaTAHTumBedeller control.
         /// </summary>
@@ -2927,7 +2929,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHTumBedeller;
-        
+
         /// <summary>
         /// txtAnlasmaYEGTumBedeller control.
         /// </summary>
@@ -2936,7 +2938,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGTumBedeller;
-        
+
         /// <summary>
         /// txtAnlasmaTAHYilSonuMaliyet control.
         /// </summary>
@@ -2945,7 +2947,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHYilSonuMaliyet;
-        
+
         /// <summary>
         /// txtAnlasmaYEGYilSonuMaliyet control.
         /// </summary>
@@ -2954,7 +2956,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGYilSonuMaliyet;
-        
+
         /// <summary>
         /// txtAnlasmaTAHCiroPrimiDahil control.
         /// </summary>
@@ -2963,7 +2965,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaTAHCiroPrimiDahil;
-        
+
         /// <summary>
         /// txtAnlasmaYEGCiroPrimiDahil control.
         /// </summary>
@@ -2972,7 +2974,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaYEGCiroPrimiDahil;
-        
+
         /// <summary>
         /// txtAnlasmaAciklama control.
         /// </summary>
@@ -2981,7 +2983,16 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaAciklama;
-        
+
+        /// <summary>
+        /// fuAnlasma control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fuAnlasma;
+
         /// <summary>
         /// lbAnlasmaHesapla control.
         /// </summary>
@@ -2990,7 +3001,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAnlasmaHesapla;
-        
+
         /// <summary>
         /// Label3 control.
         /// </summary>
@@ -2999,7 +3010,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label3;
-        
+
         /// <summary>
         /// lbAnlasmaGir control.
         /// </summary>
@@ -3008,7 +3019,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAnlasmaGir;
-        
+
         /// <summary>
         /// Label2 control.
         /// </summary>
@@ -3017,7 +3028,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label2;
-        
+
         /// <summary>
         /// lbAnlasmaKapat control.
         /// </summary>
@@ -3026,7 +3037,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAnlasmaKapat;
-        
+
         /// <summary>
         /// tdEFatura control.
         /// </summary>
@@ -3035,7 +3046,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdEFatura;
-        
+
         /// <summary>
         /// lbEFatura control.
         /// </summary>
@@ -3044,7 +3055,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbEFatura;
-        
+
         /// <summary>
         /// tdSaticiKampanya control.
         /// </summary>
@@ -3053,7 +3064,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdSaticiKampanya;
-        
+
         /// <summary>
         /// tdFiyatInceleme control.
         /// </summary>
@@ -3062,7 +3073,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdFiyatInceleme;
-        
+
         /// <summary>
         /// lbFiyatlar control.
         /// </summary>
@@ -3071,7 +3082,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbFiyatlar;
-        
+
         /// <summary>
         /// td500 control.
         /// </summary>
@@ -3080,7 +3091,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell td500;
-        
+
         /// <summary>
         /// lb500 control.
         /// </summary>
@@ -3089,7 +3100,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lb500;
-        
+
         /// <summary>
         /// tdGorseller control.
         /// </summary>
@@ -3098,7 +3109,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdGorseller;
-        
+
         /// <summary>
         /// lbGorseller control.
         /// </summary>
@@ -3107,7 +3118,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbGorseller;
-        
+
         /// <summary>
         /// tdBrosurler control.
         /// </summary>
@@ -3116,7 +3127,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdBrosurler;
-        
+
         /// <summary>
         /// lbBrosurler control.
         /// </summary>
@@ -3125,7 +3136,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbBrosurler;
-        
+
         /// <summary>
         /// tdBrosurler2 control.
         /// </summary>
@@ -3134,7 +3145,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdBrosurler2;
-        
+
         /// <summary>
         /// lbBrosurler2 control.
         /// </summary>
@@ -3143,7 +3154,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbBrosurler2;
-        
+
         /// <summary>
         /// tdBrosurler3 control.
         /// </summary>
@@ -3152,7 +3163,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdBrosurler3;
-        
+
         /// <summary>
         /// lbBrosurler3 control.
         /// </summary>
@@ -3161,7 +3172,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbBrosurler3;
-        
+
         /// <summary>
         /// tdBrosurler4 control.
         /// </summary>
@@ -3170,7 +3181,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdBrosurler4;
-        
+
         /// <summary>
         /// lbBrosurler4 control.
         /// </summary>
@@ -3179,7 +3190,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbBrosurler4;
-        
+
         /// <summary>
         /// tdBrosurler5 control.
         /// </summary>
@@ -3188,7 +3199,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdBrosurler5;
-        
+
         /// <summary>
         /// lbBrosurler5 control.
         /// </summary>
@@ -3197,7 +3208,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbBrosurler5;
-        
+
         /// <summary>
         /// tdBrosurler6 control.
         /// </summary>
@@ -3206,7 +3217,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdBrosurler6;
-        
+
         /// <summary>
         /// lbBrosurler6 control.
         /// </summary>
@@ -3215,7 +3226,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbBrosurler6;
-        
+
         /// <summary>
         /// tdFormlar control.
         /// </summary>
@@ -3224,7 +3235,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdFormlar;
-        
+
         /// <summary>
         /// lbFormlar control.
         /// </summary>
@@ -3233,7 +3244,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbFormlar;
-        
+
         /// <summary>
         /// tdKimNe control.
         /// </summary>
@@ -3242,7 +3253,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdKimNe;
-        
+
         /// <summary>
         /// lbKimNe control.
         /// </summary>
@@ -3251,7 +3262,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbKimNe;
-        
+
         /// <summary>
         /// tdAdresBankasi control.
         /// </summary>
@@ -3260,7 +3271,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdAdresBankasi;
-        
+
         /// <summary>
         /// lbAdresBankasi control.
         /// </summary>
@@ -3269,7 +3280,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAdresBankasi;
-        
+
         /// <summary>
         /// tdRutlar control.
         /// </summary>
@@ -3278,7 +3289,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdRutlar;
-        
+
         /// <summary>
         /// lbRutlar control.
         /// </summary>
@@ -3287,7 +3298,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbRutlar;
-        
+
         /// <summary>
         /// tdKonumlar control.
         /// </summary>
@@ -3296,7 +3307,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdKonumlar;
-        
+
         /// <summary>
         /// lbKonumlar control.
         /// </summary>
@@ -3305,7 +3316,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbKonumlar;
-        
+
         /// <summary>
         /// tdDestek control.
         /// </summary>
@@ -3314,7 +3325,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdDestek;
-        
+
         /// <summary>
         /// tdResimler control.
         /// </summary>
@@ -3323,7 +3334,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell tdResimler;
-        
+
         /// <summary>
         /// lbResimler control.
         /// </summary>
@@ -3332,7 +3343,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbResimler;
-        
+
         /// <summary>
         /// rpFiyatListeleri control.
         /// </summary>
@@ -3341,7 +3352,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rpFiyatListeleri;
-        
+
         /// <summary>
         /// tblRutlar control.
         /// </summary>
@@ -3350,7 +3361,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTable tblRutlar;
-        
+
         /// <summary>
         /// ibTarih control.
         /// </summary>
@@ -3359,7 +3370,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton ibTarih;
-        
+
         /// <summary>
         /// dlRutlar control.
         /// </summary>
@@ -3368,7 +3379,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList dlRutlar;
-        
+
         /// <summary>
         /// lblRutYok control.
         /// </summary>
@@ -3377,7 +3388,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblRutYok;
-        
+
         /// <summary>
         /// lbSonZiyaret control.
         /// </summary>
@@ -3386,7 +3397,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbSonZiyaret;
-        
+
         /// <summary>
         /// lbFarkliZiyaretAc control.
         /// </summary>
@@ -3395,7 +3406,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbFarkliZiyaretAc;
-        
+
         /// <summary>
         /// tableAsagi control.
         /// </summary>
@@ -3404,7 +3415,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTable tableAsagi;
-        
+
         /// <summary>
         /// ibCHduzenle control.
         /// </summary>
@@ -3413,7 +3424,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton ibCHduzenle;
-        
+
         /// <summary>
         /// dlCariHesaplar control.
         /// </summary>
@@ -3422,7 +3433,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList dlCariHesaplar;
-        
+
         /// <summary>
         /// dlCariHesaplarSube control.
         /// </summary>
@@ -3431,7 +3442,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList dlCariHesaplarSube;
-        
+
         /// <summary>
         /// divMusteriSiparisIadeButton control.
         /// </summary>
@@ -3440,7 +3451,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMusteriSiparisIadeButton;
-        
+
         /// <summary>
         /// lbSiparis control.
         /// </summary>
@@ -3449,7 +3460,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbSiparis;
-        
+
         /// <summary>
         /// lbIade control.
         /// </summary>
@@ -3458,7 +3469,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbIade;
-        
+
         /// <summary>
         /// divSefAltlar control.
         /// </summary>
@@ -3467,7 +3478,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSefAltlar;
-        
+
         /// <summary>
         /// ddlSefAltlar control.
         /// </summary>
@@ -3476,7 +3487,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSefAltlar;
-        
+
         /// <summary>
         /// ddlSefAltlarBayiSatici control.
         /// </summary>
@@ -3485,7 +3496,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSefAltlarBayiSatici;
-        
+
         /// <summary>
         /// divCHarama control.
         /// </summary>
@@ -3494,7 +3505,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divCHarama;
-        
+
         /// <summary>
         /// txtMusteriAra control.
         /// </summary>
@@ -3503,7 +3514,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtMusteriAra;
-        
+
         /// <summary>
         /// btnMusteriAra control.
         /// </summary>
@@ -3512,7 +3523,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnMusteriAra;
-        
+
         /// <summary>
         /// inputBayiGibi control.
         /// </summary>
@@ -3521,7 +3532,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden inputBayiGibi;
-        
+
         /// <summary>
         /// dlSatTemCariler control.
         /// </summary>
@@ -3530,7 +3541,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList dlSatTemCariler;
-        
+
         /// <summary>
         /// txtCoords1onceki control.
         /// </summary>
@@ -3539,7 +3550,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCoords1onceki;
-        
+
         /// <summary>
         /// txtCoords1 control.
         /// </summary>
@@ -3548,7 +3559,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCoords1;
-        
+
         /// <summary>
         /// txtCoords control.
         /// </summary>
@@ -3557,7 +3568,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCoords;
-        
+
         /// <summary>
         /// txtCoordsFark control.
         /// </summary>
@@ -3566,7 +3577,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCoordsFark;
-        
+
         /// <summary>
         /// ucAlt1 control.
         /// </summary>

@@ -20,6 +20,7 @@ namespace Sultanlar.WebUI.musteri
         protected void Page_Load(object sender, EventArgs e)
         {
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Page.Form.Attributes.Add("enctype", "multipart/form-data");
 
             if (Session["Musteri"] == null)
                 Response.Redirect("giris.aspx", true);
@@ -1127,19 +1128,25 @@ namespace Sultanlar.WebUI.musteri
                     }
                 }
 
-                anlasma.DoInsert();
+                /*anlasma.DoInsert();
                 for (int i = 0; i < eklenecekbedeller.Count; i++)
                 {
                     AnlasmaBedeller anlasmabedel = (AnlasmaBedeller)eklenecekbedeller[i];
                     anlasmabedel.intAnlasmaID = anlasma.pkID;
                     anlasmabedel.DoInsert();
-                }
+                }*/
 
                 //Sultanlar.Class.Eposta.EpostaYolla("sultanlar@sultanlar.com.tr", "", new string[] { "hgunbay@sultanlar.com.tr" },
                 //    "Sultanlar Pazarlama A.Ş.",
                 //    "Anlaşma onay talebi: " + anlasma.pkID.ToString(),
                 //    anlasma.pkID.ToString() + " nolu anlaşma için onay talebi yapılmıştır. Talebi yapan web üyesi: " +
                 //    Musteriler.GetMusteriByID(anlasma.intMusteriID).strAd + " " + Musteriler.GetMusteriByID(anlasma.intMusteriID).strSoyad);
+
+                System.IO.Stream fs = fuAnlasma.PostedFile.InputStream;
+                System.IO.BinaryReader br = new System.IO.BinaryReader(fs);
+                byte[] resim = br.ReadBytes(Convert.ToInt32(fs.Length));
+
+                Class.Eposta.EpostaGonder("Sistem", "mehmetistif@tibet.com.tr", "Yeni Anlaşma", "Sisteme yeni bir anlaşma girildi. Anlaşma ile gönderilen dosya ektedir.<br><br>Girilen anlaşma numarası: ", resim, fuAnlasma.PostedFile.FileName);
 
                 AnlasmaSMREF.Value = "0";
 

@@ -469,7 +469,11 @@
             <uc2:ucProgress ID="ucProgress1" runat="server" />
         </ProgressTemplate>
     </asp:UpdateProgress>
-    <asp:UpdatePanel runat="server" ID="divAjaxDefault"><ContentTemplate>
+    <asp:UpdatePanel runat="server" ID="divAjaxDefault">
+        <Triggers>
+        <asp:PostBackTrigger ControlID="lbAnlasmaGir" />
+        </Triggers>
+        <ContentTemplate>
 
     <div id="tiptip_holder">
     <div id="tiptip_content">
@@ -2385,6 +2389,12 @@
                         <td align="left">
                             <asp:TextBox runat="server" ID="txtAnlasmaAciklama" Width="200px" ForeColor="#006699" BorderColor="#A3B5C9" BorderStyle="Solid" 
                                 BorderWidth="1px" Height="23px" style="padding: 0px 3px 0px 3px" Text=""></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Resim dosyası:</td>
+                        <td align="left">
+                            <asp:FileUpload ID="fuAnlasma" runat="server" />
                         </td>
                     </tr>
                     </table>

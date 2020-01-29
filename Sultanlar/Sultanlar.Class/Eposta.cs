@@ -5,6 +5,7 @@ using System.Text;
 using System.Net.Mail;
 using System.Net;
 using System.Diagnostics;
+using System.IO;
 
 namespace Sultanlar.Class
 {
@@ -219,6 +220,37 @@ namespace Sultanlar.Class
                 mail.IsBodyHtml = true;
                 mail.From = new MailAddress("sultanlar@sultanlar.com.tr", EpostaFromDisplayName);
                 mail.To.Add(new MailAddress(EpostaTo));
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                EventLog eventLog = new EventLog("Application");
+                eventLog.WriteEntry(ex.Message + "Genel Eposta Gönderimi");
+            }
+        }
+        //
+        //
+        //
+        //
+        //
+        public static void EpostaGonder(string EpostaFromDisplayName, string EpostaTo, string Konu, string Icerik, byte[] attach, string attach_name)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.EnableSsl = false;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential("sultanlar@sultan", "987456");
+                client.Host = "mail.sultanlar.com.tr";
+                mail.Subject = Konu;
+                mail.Body = Icerik;
+                mail.IsBodyHtml = true;
+                mail.From = new MailAddress("sultanlar@sultanlar.com.tr", EpostaFromDisplayName);
+                mail.To.Add(new MailAddress(EpostaTo));
+                mail.Attachments.Add(new Attachment(new MemoryStream(attach), attach_name));
                 client.Send(mail);
             }
             catch (Exception ex)
