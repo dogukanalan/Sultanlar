@@ -1148,7 +1148,7 @@ namespace Sultanlar.WebUI.musteri
                     System.IO.BinaryReader br = new System.IO.BinaryReader(fs);
                     byte[] resim = br.ReadBytes(Convert.ToInt32(fs.Length));
 
-                    Class.Eposta.EpostaGonder("Sistem", "mehmetistif@tibet.com.tr", "Yeni Anlaşma", "Sisteme yeni bir anlaşma girildi. Anlaşma ile gönderilen dosya ektedir.<br><br>Girilen anlaşma numarası: ", resim, fuAnlasma.PostedFile.FileName);
+                    Class.Eposta.EpostaGonder("Sistem", "mehmetistif@tibet.com.tr", "Yeni Anlaşma", "Sisteme yeni bir anlaşma girildi. Anlaşma ile gönderilen dosya ektedir.<br><br>Girilen anlaşma numarası: " + anlasma.pkID.ToString(), resim, fuAnlasma.PostedFile.FileName);
                 }
 
                 AnlasmaSMREF.Value = "0";
