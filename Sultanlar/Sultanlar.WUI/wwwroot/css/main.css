@@ -591,6 +591,10 @@ iframe {
     #divMusSub, #divRapSub {
         position: absolute !important;
     }
+
+    .spanCiplak {
+        display: none;
+    }
 }
 
 @media (max-width: 576px) {
@@ -778,7 +782,7 @@ table tr.even:hover {
 .selYil {
     float: right;
     font-size: 0.75rem;
-    width: 72px;
+    width: 73px;
     margin: 0px 2px 0px 2px;
 }
 
@@ -1154,4 +1158,17 @@ button.dt-button {
     color: darkgray;
     box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
     -webkit-appearance: none;
+}
+
+.navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {
+    max-height: 340px !important;
+}
+
+.navbar-toggle {
+    float: left !important;
+    margin-left: 20px;
+}
+
+.navbar-brand {
+    padding-left: 0px !important;
 }
