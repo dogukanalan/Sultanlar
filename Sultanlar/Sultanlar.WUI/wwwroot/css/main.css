@@ -567,6 +567,10 @@ iframe {
     }
 }
 
+.navbar-brand {
+    display: none;
+}
+
 @media (max-width: 767px) {
     .wrap {
         padding-top: 25px;
@@ -592,8 +596,12 @@ iframe {
         position: absolute !important;
     }
 
-    .spanCiplak {
+    #basTitle {
         display: none;
+    }
+
+    .navbar-brand {
+        display: block;
     }
 }
 
