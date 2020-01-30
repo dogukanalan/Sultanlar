@@ -36,7 +36,7 @@
             {
                 "data": null, "class": "keyTd", render: function (data, type, row) {
                     return (data.tur == 8 ? '<a href="Satis?yil=' + new Date(data.fistar).getFullYear() + '&ay=' + (new Date(data.fistar).getMonth() + 1) + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=0&fatno=' + data.fisno + '">' : '') +
-                        '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.matbuno) + '</span></a><span class="hide">' + data.fisno + '</span>' +
+                        '<span class="sinirli4">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.matbuno) + '</span></a><span class="hide">' + data.fisno + '</span>' +
                         (data.tur == 8 ? '</a>' : '');
                 }
             },

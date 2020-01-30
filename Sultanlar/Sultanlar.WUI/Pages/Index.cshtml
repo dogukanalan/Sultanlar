@@ -53,7 +53,7 @@
                         }
 
                         var bas = window.location.href.indexOf("site") > -1 ? window.location.href.substring(0, window.location.href.indexOf("/")) + "/site" : window.location.href.substring(0, window.location.href.indexOf("/"));
-                        window.location.href = bas + "/" + (getParameterByName("returnurl") ? getParameterByName("returnurl") : "Musteri") + "/?eposta=" + $('#email').val() + "&sifre=" + $('#pass').val();
+                        window.location.href = bas + "/" + (getParameterByName("returnurl") ? getParameterByName("returnurl") : "Musteri") + "?eposta=" + $('#email').val() + "&sifre=" + $('#pass').val();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { alert(errorThrown); }
                 }

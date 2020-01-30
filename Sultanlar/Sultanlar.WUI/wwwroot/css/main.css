@@ -254,6 +254,7 @@ iframe {
     border-radius: 10px;
     position: relative;
     padding: 45px 55px 45px 55px;
+    opacity: .9;
 }
 
 .container {
@@ -679,6 +680,10 @@ iframe {
         width: 180px;
     }
 
+    .sinirli4 {
+        font-size: 0.7rem;
+    }
+
     .dropbtn {
         font-size: 0.8rem;
     }
@@ -792,6 +797,7 @@ table tr.even:hover {
     font-size: 0.75rem;
     width: 73px;
     margin: 0px 2px 0px 2px;
+    z-index: 1;
 }
 
 select {
