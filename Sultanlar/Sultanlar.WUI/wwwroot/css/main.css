@@ -868,7 +868,12 @@ select {
 }
 
 .dataTables_filter label {
-    float: right;
+    width: 100%;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0 !important;
+    width: 100% !important;
 }
 
 .subMenu {
