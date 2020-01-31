@@ -1105,7 +1105,7 @@ namespace Sultanlar.WebUI.musteri
                 Convert.ToDouble(txtAnlasmaYEGCiro.Text.Trim()), Convert.ToDouble(txtAnlasmaYEGCiro3.Text.Trim()),
                 Convert.ToDouble(txtAnlasmaYEGCiro6.Text.Trim()), Convert.ToDouble(txtAnlasmaYEGCiro12.Text.Trim()),
                 Convert.ToDouble(txtAnlasmaYEGCiroIsk.Text.Trim()), Convert.ToDecimal(txtAnlasmaYEGAnlasmaDisiBedeller.Text.Trim()),
-                Convert.ToDecimal(txtAnlasmaYEGToplamCiro.Text.Trim()), txtAnlasmaAciklama.Text.Trim() + " (Anlaşma onay talep tarihi:" + DateTime.Now.ToShortDateString() + ")",
+                Convert.ToDecimal(txtAnlasmaYEGToplamCiro.Text.Trim()), (cbAnlasmaGecici.Checked ? "[Geçici] " : "") + txtAnlasmaAciklama.Text.Trim() + " (Anlaşma onay talep tarihi:" + DateTime.Now.ToShortDateString() + ")",
                 AnlasmaSMREF.Value.StartsWith("-") ? "2" : "1", 
                 "", txtAnlasmaSubeSayisi.Text.Trim(),
                 0);
@@ -1134,6 +1134,15 @@ namespace Sultanlar.WebUI.musteri
                 //    anlasma.pkID.ToString() + " nolu anlaşma için onay talebi yapılmıştır. Talebi yapan web üyesi: " +
                 //    Musteriler.GetMusteriByID(anlasma.intMusteriID).strAd + " " + Musteriler.GetMusteriByID(anlasma.intMusteriID).strSoyad);
 
+                if (!cbAnlasmaGecici.Checked)
+                {
+                    if (!fuAnlasma.HasFile)
+                    {
+                        lblAnlasmaHata.Text = "Anlaşma dosyası eklenmeden anlaşma girilemez.";
+                        return;
+                    }
+                }
+
                 anlasma.DoInsert();
                 for (int i = 0; i < eklenecekbedeller.Count; i++)
                 {
@@ -1148,7 +1157,8 @@ namespace Sultanlar.WebUI.musteri
                     System.IO.BinaryReader br = new System.IO.BinaryReader(fs);
                     byte[] resim = br.ReadBytes(Convert.ToInt32(fs.Length));
 
-                    Class.Eposta.EpostaGonder("Sistem", "mehmetistif@tibet.com.tr", "Yeni Anlaşma", "Sisteme yeni bir anlaşma girildi. Anlaşma ile gönderilen dosya ektedir.<br><br>Girilen anlaşma numarası: " + anlasma.pkID.ToString(), resim, fuAnlasma.PostedFile.FileName);
+                    Class.Eposta.EpostaGonder("Sistem", "demetdogan@tibet.com.tr", "Yeni Anlaşma", "Sisteme yeni bir anlaşma girildi. Anlaşma ile gönderilen dosya ektedir.<br><br>Girilen anlaşma numarası: " + anlasma.pkID.ToString(), resim, fuAnlasma.PostedFile.FileName);
+                    //Class.Eposta.EpostaGonder("Sistem", "ndemirbas@tibet.com.tr", "Yeni Anlaşma", "Sisteme yeni bir anlaşma girildi. Anlaşma ile gönderilen dosya ektedir.<br><br>Girilen anlaşma numarası: " + anlasma.pkID.ToString(), resim, fuAnlasma.PostedFile.FileName);
                 }
 
                 AnlasmaSMREF.Value = "0";

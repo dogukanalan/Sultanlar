@@ -2985,6 +2985,15 @@ namespace Sultanlar.WebUI.musteri
         protected global::System.Web.UI.WebControls.TextBox txtAnlasmaAciklama;
 
         /// <summary>
+        /// cbAnlasmaGecici control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbAnlasmaGecici;
+
+        /// <summary>
         /// fuAnlasma control.
         /// </summary>
         /// <remarks>
@@ -2992,6 +3001,15 @@ namespace Sultanlar.WebUI.musteri
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fuAnlasma;
+
+        /// <summary>
+        /// lblAnlasmaHata control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAnlasmaHata;
 
         /// <summary>
         /// lbAnlasmaHesapla control.

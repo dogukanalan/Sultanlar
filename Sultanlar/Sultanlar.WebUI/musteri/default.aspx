@@ -1562,13 +1562,13 @@
                     <tr>
                         <td>Başlangıç:</td>
                         <td align="left">
-                            <input type="text" id="datepickerAnlasmaBaslangic" runat="server" onkeypress="return yazma(event)" style="width: 200px" />
+                            <input type="text" id="datepickerAnlasmaBaslangic" runat="server" onkeypress="return yazma(event)" style="width: 200px" autocomplete="off" />
                         </td>
                     </tr>
                     <tr>
                         <td>Bitiş:</td>
                         <td align="left">
-                            <input type="text" id="datepickerAnlasmaBitis" runat="server" onkeypress="return yazma(event)" style="width: 200px" />
+                            <input type="text" id="datepickerAnlasmaBitis" runat="server" onkeypress="return yazma(event)" style="width: 200px" autocomplete="off" />
                         </td>
                     </tr>
                     <tr>
@@ -2392,9 +2392,21 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>Geçici anlaşma:</td>
+                        <td align="left"><br />
+                            <asp:CheckBox runat="server" ID="cbAnlasmaGecici" Checked="false" Text=" Bu anlaşma geçici anlaşmadır" /><br /><br />
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Resim dosyası:</td>
                         <td align="left">
                             <asp:FileUpload ID="fuAnlasma" runat="server" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td align="left">
+                            <asp:Label runat="server" ID="lblAnlasmaHata" ForeColor="Red"></asp:Label>
                         </td>
                     </tr>
                     </table>
