@@ -17,6 +17,8 @@ using Sultanlar.Class;
 using Sultanlar.DatabaseObject.Kenton;
 using System.Net.NetworkInformation;
 using System.Deployment.Application;
+using System.Net;
+using System.Diagnostics;
 
 namespace Sultanlar.UI
 {
@@ -34,6 +36,7 @@ namespace Sultanlar.UI
         internal static string KAdi;
         internal static string InputBox;
         FormErisimleri fe;
+        Timer tmr;
         //
         //
         //
@@ -66,9 +69,46 @@ namespace Sultanlar.UI
             //RssKenton("https://www.kenton.com.tr/kategori/tatli-tarifleri/feed/");
             //RssVideo("https://www.kenton.com.tr/kategori/kenton-video/feed/");
             //RssVideo("https://www.kenton.com.tr/kategori/tatli-sefi-video/feed/");
+
+            if (ApplicationDeployment.IsNetworkDeployed) // yeni sürüm kontrolu
+            {
+                tmr = new Timer();
+                tmr.Interval = 300000;
+                tmr.Tick += new EventHandler(tmr_Tick);
+                tmr.Start();
+            }
         }
 
-        
+        private void tmr_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                WebResponse wr = WebRequest.Create("https://www.sultanlar.com.tr/sultanlarui/index.htm").GetResponse();
+                Stream stream = wr.GetResponseStream();
+                StreamReader strR = new StreamReader(stream, Encoding.GetEncoding("iso-8859-9"));
+                string sayfa = strR.ReadToEnd();
+                strR.Close();
+                wr.Close();
+
+                int baslangic = sayfa.IndexOf("<TR><TD><B>Version:</B></TD><TD WIDTH=\"5\"><SPACER TYPE=\"block\" WIDTH=\"10\" /></TD><TD>") + 85;
+                int bitis = sayfa.IndexOf("</TD>", baslangic);
+                string surum = string.Empty;
+                if (baslangic > 84 && bitis > 85)
+                    surum = sayfa.Substring(baslangic, bitis - baslangic);
+
+                string programsurum = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4);
+
+                if (surum != programsurum)
+                {
+                    this.Text = this.Text.Substring(0, 23) + " [Yeni sürüm mevcut]";
+                    MessageBox.Show("Uygulamanın daha yeni bir sürümü mevcut, lütfen uygulamayı kapatın. Tekrar açtığınızda otomatik güncellenecektir.", "Güncelleme Uyarısı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                EventLog.WriteEntry("Sultanlar UI", "Sürüm kontrolü yapılamıyor. Detay: " + ex.Message, EventLogEntryType.Information);
+            }
+        }
 
         private void RssKenton(string url)
         {
