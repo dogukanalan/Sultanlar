@@ -114,7 +114,7 @@ namespace Sultanlar.UI
 
                     CariHesaplarTP chtp = new CariHesaplarTP(0, "", "", "", "", ILKOD, IL, ILCEKOD, ILCE,
                         0, "", values[i, 3].ToString().ToUpper(), "", Bayi.SLSREF, "", "", "", GMREF, "", values[i, 4].ToString().ToUpper(), SMREF, "", values[i, 4].ToString().ToUpper(),
-                        values[i, 5].ToString().ToUpper(), "", values[i, 6].ToString().ToUpper(), values[i, 7].ToString().ToUpper(), 
+                        values[i, 5].ToString().ToUpper(), "", values[i, 6].ToString().ToUpper(), values[i, 7].ToString().ToUpper(),
                         values[i, 8].ToString(), values[i, 9].ToString(), values[i, 10].ToString(), values[i, 11].ToString(), "", values[i, 12].ToString(), 0);
                     chtps.Add(chtp);
 
@@ -225,7 +225,7 @@ namespace Sultanlar.UI
 
                 CariHesaplarTP chtp = new CariHesaplarTP(0, "", "", "", "", ILKOD, IL, ILCEKOD, ILCE,
                     0, "", txtMtAciklama.Text.Trim().ToUpper(), "", bayi.SLSREF, "", "", "", GMREF, "", txtMusteri.Text.ToUpper(), SMREF, "", txtMusteri.Text.ToUpper(),
-                    txtAdres.Text.Trim().ToUpper(), "", txtSemt.Text.Trim().ToUpper(), txtVergiDairesi.Text.Trim().ToUpper(), 
+                    txtAdres.Text.Trim().ToUpper(), "", txtSemt.Text.Trim().ToUpper(), txtVergiDairesi.Text.Trim().ToUpper(),
                     txtVergiNo.Text.Trim(), txtTelefon.Text.Trim(), txtFax.Text.Trim(), txtEmail.Text.Trim(), "", txtCep.Text.Trim(), 0);
                 chtp.DoInsert();
 
@@ -739,7 +739,7 @@ namespace Sultanlar.UI
                     MessageBox.Show(ex.Message);
                 }
             }
-            
+
             for (int i = 0; i < chtps.Count; i++)
                 ((CariHesaplarTP)chtps[i]).DoUpdate();
 
@@ -798,16 +798,10 @@ namespace Sultanlar.UI
 
                 try
                 {
-                    if (Convert.ToInt32(values[i, 1]) != Convert.ToInt32(values[i, 2]))
-                    {
-                        CariHesaplarTP chtp = CariHesaplarTP.GetObject(Convert.ToInt32(values[i, 1]), false);
+                    CariHesaplarTP chtp = CariHesaplarTP.GetObject(Convert.ToInt32(values[i, 1]), false);
 
-                        if (chtp.NETTOP != Convert.ToInt32(values[i, 2]))
-                        {
-                            chtp.ACTIVE = 1;
-                            chtps.Add(chtp);
-                        }
-                    }
+                    chtp.ACTIVE = 1;
+                    chtps.Add(chtp);
                 }
                 catch (Exception ex)
                 {
