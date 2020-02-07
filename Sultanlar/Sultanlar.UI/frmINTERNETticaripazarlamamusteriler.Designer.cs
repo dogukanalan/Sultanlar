@@ -86,6 +86,7 @@
             this.rbSultanlar = new System.Windows.Forms.RadioButton();
             this.lblBayiKod = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.txtAltCariDuzenleIsim = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.btnAltCariDuzenlemeSil = new System.Windows.Forms.Button();
@@ -102,7 +103,8 @@
             this.label20 = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.label24 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button6 = new System.Windows.Forms.Button();
+            this.label25 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -729,6 +731,16 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Alt Cari Düzenleme";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(268, 159);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(49, 17);
+            this.checkBox1.TabIndex = 15;
+            this.checkBox1.Text = "Pasif";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // txtAltCariDuzenleIsim
             // 
             this.txtAltCariDuzenleIsim.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
@@ -915,15 +927,26 @@
             this.label24.TabIndex = 3;
             this.label24.Text = "(Excel dosyasında 1. kolon kod, 2. kolon eş kod olmalı.)";
             // 
-            // checkBox1
+            // button6
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(268, 159);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(49, 17);
-            this.checkBox1.TabIndex = 15;
-            this.checkBox1.Text = "Pasif";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.button6.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button6.Location = new System.Drawing.Point(741, 281);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(114, 23);
+            this.button6.TabIndex = 2;
+            this.button6.Text = "Toplu Pasif Yap";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.ForeColor = System.Drawing.Color.Red;
+            this.label25.Location = new System.Drawing.Point(861, 286);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(189, 13);
+            this.label25.TabIndex = 3;
+            this.label25.Text = "(Excel dosyasında 1. kolon kod olmalı.)";
             // 
             // frmINTERNETticaripazarlamamusteriler
             // 
@@ -932,6 +955,7 @@
             this.ClientSize = new System.Drawing.Size(1184, 572);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cmbAy);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.cmbYil);
             this.Controls.Add(this.groupBox3);
@@ -943,6 +967,7 @@
             this.Controls.Add(this.txtTAHKar);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.button4);
+            this.Controls.Add(this.label25);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label17);
@@ -1050,5 +1075,7 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Label label25;
     }
 }

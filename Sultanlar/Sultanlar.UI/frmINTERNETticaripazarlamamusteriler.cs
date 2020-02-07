@@ -739,6 +739,82 @@ namespace Sultanlar.UI
                     MessageBox.Show(ex.Message);
                 }
             }
+            
+            for (int i = 0; i < chtps.Count; i++)
+                ((CariHesaplarTP)chtps[i]).DoUpdate();
+
+            MessageBox.Show("Aktarım tamamlandı.", "Başarılı");
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            string dosya = "";
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK)
+                dosya = ofd.FileName;
+
+            Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook wb = null;
+            Microsoft.Office.Interop.Excel.Worksheet ws = null;
+            Microsoft.Office.Interop.Excel.Range range = null;
+
+            object[,] values = null;
+
+            try
+            {
+                wb = ap.Workbooks.Open(dosya, false, true,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, true);
+
+                ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+
+                range = ws.get_Range("A1", "B6666");
+
+                values = (object[,])range.Value2;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                range = null;
+                ws = null;
+                if (wb != null)
+                    wb.Close(false, System.Reflection.Missing.Value, System.Reflection.Missing.Value);
+                wb = null;
+                if (ap != null)
+                    ap.Quit();
+                ap = null;
+            }
+
+            ArrayList chtps = new ArrayList();
+            for (int i = 2; i <= values.GetLength(0); i++)
+            {
+                if (values[i, 1] == null) // 1.kolon boş ise bu satırdan sonrasına bakmasın
+                    break;
+
+                try
+                {
+                    if (Convert.ToInt32(values[i, 1]) != Convert.ToInt32(values[i, 2]))
+                    {
+                        CariHesaplarTP chtp = CariHesaplarTP.GetObject(Convert.ToInt32(values[i, 1]), false);
+
+                        if (chtp.NETTOP != Convert.ToInt32(values[i, 2]))
+                        {
+                            chtp.ACTIVE = 1;
+                            chtps.Add(chtp);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    chtps.Clear();
+                    MessageBox.Show(ex.Message);
+                }
+            }
 
             for (int i = 0; i < chtps.Count; i++)
                 ((CariHesaplarTP)chtps[i]).DoUpdate();

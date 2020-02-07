@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sultanlar.WindowsServiceIsl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sultanlar.WUI", "Sultanlar.WUI\Sultanlar.WUI.csproj", "{70071685-3D80-4A4A-AC77-4EA2B67ADD90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sultanlar.Html", "Sultanlar.Html\Sultanlar.Html.csproj", "{D1EFD87A-0C43-4A45-BF90-6C8D521FFA65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sultanlar.Html", "Sultanlar.Html\Sultanlar.Html.csproj", "{D1EFD87A-0C43-4A45-BF90-6C8D521FFA65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +42,7 @@ Global
 		{AA50120A-B839-4712-9471-84A7CC28ED5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA50120A-B839-4712-9471-84A7CC28ED5C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4EB61050-7673-44BD-86B6-90BDFED74D08}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4EB61050-7673-44BD-86B6-90BDFED74D08}.Debug|Any CPU.Build.0 = Debug|x86
 		{4EB61050-7673-44BD-86B6-90BDFED74D08}.Release|Any CPU.ActiveCfg = Release|x86
 		{0CEAA129-50C9-43E1-9A17-BD0D90109092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CEAA129-50C9-43E1-9A17-BD0D90109092}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -56,6 +57,7 @@ Global
 		{787A113E-F766-453A-8281-361079E88CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{787A113E-F766-453A-8281-361079E88CFD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA020367-154D-43C1-8115-6AD92315AA88}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{FA020367-154D-43C1-8115-6AD92315AA88}.Debug|Any CPU.Build.0 = Debug|x86
 		{FA020367-154D-43C1-8115-6AD92315AA88}.Release|Any CPU.ActiveCfg = Release|x86
 		{70071685-3D80-4A4A-AC77-4EA2B67ADD90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{70071685-3D80-4A4A-AC77-4EA2B67ADD90}.Debug|Any CPU.Build.0 = Debug|Any CPU
