@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
-
+using System.Net;
 
 namespace Sultanlar.DatabaseObject.Internet
 {
@@ -408,6 +409,234 @@ namespace Sultanlar.DatabaseObject.Internet
             QuantumWebServisLog.DoInsert(error == string.Empty, sip.pkSiparisID, donen, MusteriID, "", "SATIS");
 
             return error;
+        }
+
+        public static string QuantumaYaz(string EntegraNo, int SMREF, string aciklama)
+        {
+            EntegraSiparis siparis = Entegra.GetSiparis(EntegraNo);
+            List<EntegraSatir> satirlar = Entegra.GetSatirlar(EntegraNo);
+            DateTime now = DateTime.Now;
+            SAPsendorderC.ZwebSendSalesOrderService salesOrderService = new SAPsendorderC.ZwebSendSalesOrderService();
+            salesOrderService.Credentials = (ICredentials)new NetworkCredential("MISTIF", "123456q");
+            SAPsendorderC.Zwebs010 IsOrderHeader = new SAPsendorderC.Zwebs010();
+            IsOrderHeader.Ctype = "SATIS";
+            SAPsendorderC.Zwebs010 zwebs010 = IsOrderHeader;
+            int num = now.Year;
+            string str1 = num.ToString();
+            num = now.Month;
+            string str2;
+            if (num.ToString().Length != 1)
+            {
+                num = now.Month;
+                str2 = num.ToString();
+            }
+            else
+            {
+                num = now.Month;
+                str2 = "0" + num.ToString();
+            }
+            num = now.Day;
+            string str3;
+            if (num.ToString().Length != 1)
+            {
+                num = now.Day;
+                str3 = num.ToString();
+            }
+            else
+            {
+                num = now.Day;
+                str3 = "0" + num.ToString();
+            }
+            string str4 = str1 + str2 + str3;
+            zwebs010.Ketdat = str4;
+            IsOrderHeader.Kunwe = "000" + SMREF.ToString();
+            IsOrderHeader.Pltyp = "02";
+            IsOrderHeader.Vbeln = "";
+            IsOrderHeader.Xblnr = EntegraNo;
+            IsOrderHeader.Stext = aciklama;
+            IsOrderHeader.Zterm = "0080";
+            IsOrderHeader.Pernr = "1296";
+            IsOrderHeader.PernrVw = "1296";
+            SAPsendorderC.Zwebs011[] ItOrderItems = new SAPsendorderC.Zwebs011[satirlar.Count];
+            for (int index = 0; index < ItOrderItems.Length; ++index)
+            {
+                ItOrderItems[index] = new SAPsendorderC.Zwebs011();
+                ItOrderItems[index].Xblnr = EntegraNo;
+                SAPsendorderC.Zwebs011 zwebs011 = ItOrderItems[index];
+                num = index + 1;
+                string str5 = num.ToString();
+                zwebs011.Itmid = str5;
+                ItOrderItems[index].Matnr = "00000000000" + satirlar[index].KOD.ToString();
+                ItOrderItems[index].Meins = "ST";
+                ItOrderItems[index].MengeSpecified = true;
+                ItOrderItems[index].Menge = (Decimal)satirlar[index].MIKTAR;
+                ItOrderItems[index].Satir = "00";
+                ItOrderItems[index].FiyatSpecified = true;
+                ItOrderItems[index].Fiyat = Convert.ToDecimal(satirlar[index].FIYAT);
+                ItOrderItems[index].Isk1Specified = true;
+                ItOrderItems[index].Isk1 = Decimal.Zero;
+                ItOrderItems[index].Isk2Specified = true;
+                ItOrderItems[index].Isk2 = Decimal.Zero;
+                ItOrderItems[index].Isk3Specified = true;
+                ItOrderItems[index].Isk3 = Decimal.Zero;
+                ItOrderItems[index].Isk4Specified = true;
+                ItOrderItems[index].Isk4 = Decimal.Zero;
+                ItOrderItems[index].Isk5Specified = true;
+                ItOrderItems[index].Isk5 = Decimal.Zero;
+                ItOrderItems[index].Isk6Specified = true;
+                ItOrderItems[index].Isk6 = Decimal.Zero;
+                ItOrderItems[index].Isk7Specified = true;
+                ItOrderItems[index].Isk7 = Decimal.Zero;
+                ItOrderItems[index].Isk8Specified = true;
+                ItOrderItems[index].Isk8 = Decimal.Zero;
+                ItOrderItems[index].Isk9Specified = true;
+                ItOrderItems[index].Isk9 = Decimal.Zero;
+                ItOrderItems[index].Isk10Specified = true;
+                ItOrderItems[index].Isk10 = Decimal.Zero;
+            }
+            string str6 = string.Empty;
+            string EvVbeln = string.Empty;
+            SAPsendorderC.Bapiret2[] bapiret2Array = null;
+            try
+            {
+                bapiret2Array = salesOrderService.ZwebSendSalesOrder(IsOrderHeader, ItOrderItems, out EvVbeln);
+            }
+            catch (Exception ex)
+            {
+                str6 = ex.Message;
+            }
+            if (bapiret2Array != null)
+            {
+                for (int index = 0; index < bapiret2Array.Length; ++index)
+                    str6 = str6 + bapiret2Array[index].Message + ", ";
+            }
+            string str7;
+            if (EvVbeln != string.Empty)
+            {
+                Siparisler.DoInsertQ(111, EvVbeln);
+                str7 = string.Empty;
+            }
+            else
+            {
+                Hatalar.DoInsert("Entegra Sipariş (" + siparis.SIPARIS_NO + ") SAP'a gönderilemedi. " + DateTime.Now.ToString() + " --- Ayrıntı: " + str6, "siparisler.aspx Quantumayaz()");
+                str7 = "Ayrıntı: <br><br>" + str6.Replace("SALES_HEADER_IN işlendi, ", "").Replace("SALES_ITEM_IN işlendi, ", "").Replace("Satış belgesi  değiştirilmedi, ", "").Replace("SALES_ITEM_IN", "").Replace("Teknik eksiklikler", "Ürün kullanım dışındadır. Lütfen ürünü siparişten silerek onaylayınız, ");
+            }
+            QuantumWebServisLog.DoInsert(str7 == string.Empty, 111, EvVbeln, 0, "", "SATIS-ENT");
+            return EvVbeln;
+        }
+
+        public static string QuantumaYaz(string EntegraNo, int SMREF, int ITEMREF, string aciklama)
+        {
+            EntegraSiparis siparis = Entegra.GetSiparis(EntegraNo);
+            EntegraSatir satir = Entegra.GetSatir(EntegraNo, ITEMREF);
+            DateTime now = DateTime.Now;
+            SAPsendorderC.ZwebSendSalesOrderService salesOrderService = new SAPsendorderC.ZwebSendSalesOrderService();
+            salesOrderService.Credentials = (ICredentials)new NetworkCredential("MISTIF", "123456q");
+            SAPsendorderC.Zwebs010 IsOrderHeader = new SAPsendorderC.Zwebs010();
+            IsOrderHeader.Ctype = "SATIS";
+            SAPsendorderC.Zwebs010 zwebs010 = IsOrderHeader;
+            int num = now.Year;
+            string str1 = num.ToString();
+            num = now.Month;
+            string str2;
+            if (num.ToString().Length != 1)
+            {
+                num = now.Month;
+                str2 = num.ToString();
+            }
+            else
+            {
+                num = now.Month;
+                str2 = "0" + num.ToString();
+            }
+            num = now.Day;
+            string str3;
+            if (num.ToString().Length != 1)
+            {
+                num = now.Day;
+                str3 = num.ToString();
+            }
+            else
+            {
+                num = now.Day;
+                str3 = "0" + num.ToString();
+            }
+            string str4 = str1 + str2 + str3;
+            zwebs010.Ketdat = str4;
+            IsOrderHeader.Kunwe = "000" + SMREF.ToString();
+            IsOrderHeader.Pltyp = "02";
+            IsOrderHeader.Vbeln = "";
+            IsOrderHeader.Xblnr = EntegraNo + "_" + ITEMREF.ToString();
+            IsOrderHeader.Stext = aciklama;
+            IsOrderHeader.Zterm = "0080";
+            IsOrderHeader.Pernr = "1296";
+            IsOrderHeader.PernrVw = "1296";
+            SAPsendorderC.Zwebs011[] ItOrderItems = new SAPsendorderC.Zwebs011[1];
+            for (int index = 0; index < ItOrderItems.Length; ++index)
+            {
+                ItOrderItems[index] = new SAPsendorderC.Zwebs011();
+                ItOrderItems[index].Xblnr = EntegraNo + "_" + ITEMREF.ToString();
+                SAPsendorderC.Zwebs011 zwebs011 = ItOrderItems[index];
+                num = index + 1;
+                string str5 = num.ToString();
+                zwebs011.Itmid = str5;
+                ItOrderItems[index].Matnr = "00000000000" + satir.KOD.ToString();
+                ItOrderItems[index].Meins = "ST";
+                ItOrderItems[index].MengeSpecified = true;
+                ItOrderItems[index].Menge = (Decimal)satir.MIKTAR;
+                ItOrderItems[index].Satir = "00";
+                ItOrderItems[index].FiyatSpecified = true;
+                ItOrderItems[index].Fiyat = Convert.ToDecimal(satir.FIYAT);
+                ItOrderItems[index].Isk1Specified = true;
+                ItOrderItems[index].Isk1 = Decimal.Zero;
+                ItOrderItems[index].Isk2Specified = true;
+                ItOrderItems[index].Isk2 = Decimal.Zero;
+                ItOrderItems[index].Isk3Specified = true;
+                ItOrderItems[index].Isk3 = Decimal.Zero;
+                ItOrderItems[index].Isk4Specified = true;
+                ItOrderItems[index].Isk4 = Decimal.Zero;
+                ItOrderItems[index].Isk5Specified = true;
+                ItOrderItems[index].Isk5 = Decimal.Zero;
+                ItOrderItems[index].Isk6Specified = true;
+                ItOrderItems[index].Isk6 = Decimal.Zero;
+                ItOrderItems[index].Isk7Specified = true;
+                ItOrderItems[index].Isk7 = Decimal.Zero;
+                ItOrderItems[index].Isk8Specified = true;
+                ItOrderItems[index].Isk8 = Decimal.Zero;
+                ItOrderItems[index].Isk9Specified = true;
+                ItOrderItems[index].Isk9 = Decimal.Zero;
+                ItOrderItems[index].Isk10Specified = true;
+                ItOrderItems[index].Isk10 = Decimal.Zero;
+            }
+            string str6 = string.Empty;
+            string EvVbeln = string.Empty;
+            SAPsendorderC.Bapiret2[] bapiret2Array = null;
+            try
+            {
+                bapiret2Array = salesOrderService.ZwebSendSalesOrder(IsOrderHeader, ItOrderItems, out EvVbeln);
+            }
+            catch (Exception ex)
+            {
+                str6 = ex.Message;
+            }
+            if (bapiret2Array != null)
+            {
+                for (int index = 0; index < bapiret2Array.Length; ++index)
+                    str6 = str6 + bapiret2Array[index].Message + ", ";
+            }
+            string str7;
+            if (EvVbeln != string.Empty)
+            {
+                Siparisler.DoInsertQ(111, EvVbeln);
+                str7 = string.Empty;
+            }
+            else
+            {
+                Hatalar.DoInsert("Entegra Sipariş (" + siparis.SIPARIS_NO + ") SAP'a gönderilemedi. " + DateTime.Now.ToString() + " --- Ayrıntı: " + str6, "siparisler.aspx Quantumayaz()");
+                str7 = "Ayrıntı: <br><br>" + str6.Replace("SALES_HEADER_IN işlendi, ", "").Replace("SALES_ITEM_IN işlendi, ", "").Replace("Satış belgesi  değiştirilmedi, ", "").Replace("SALES_ITEM_IN", "").Replace("Teknik eksiklikler", "Ürün kullanım dışındadır. Lütfen ürünü siparişten silerek onaylayınız, ");
+            }
+            QuantumWebServisLog.DoInsert(str7 == string.Empty, 111, EvVbeln, 0, "", "SATIS-ENT");
+            return str7;
         }
     }
 

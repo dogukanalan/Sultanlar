@@ -109,6 +109,7 @@
     <Compile Include="Internet\DisSiparislerDetay.cs" />
     <Compile Include="Internet\Efatura.cs" />
     <Compile Include="Internet\Ekstreler.cs" />
+    <Compile Include="Internet\Entegra.cs" />
     <Compile Include="Internet\FiyatlarTP.cs" />
     <Compile Include="Internet\FiyatListeleri.cs" />
     <Compile Include="Internet\FiyatTipleri.cs" />
