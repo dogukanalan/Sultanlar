@@ -420,7 +420,6 @@ namespace Sultanlar.DatabaseObject.Internet
             salesOrderService.Credentials = (ICredentials)new NetworkCredential("MISTIF", "123456q");
             SAPsendorderC.Zwebs010 IsOrderHeader = new SAPsendorderC.Zwebs010();
             IsOrderHeader.Ctype = "SATIS";
-            SAPsendorderC.Zwebs010 zwebs010 = IsOrderHeader;
             int num = now.Year;
             string str1 = num.ToString();
             num = now.Month;
@@ -448,7 +447,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 str3 = "0" + num.ToString();
             }
             string str4 = str1 + str2 + str3;
-            zwebs010.Ketdat = str4;
+            IsOrderHeader.Ketdat = str4;
             IsOrderHeader.Kunwe = "000" + SMREF.ToString();
             IsOrderHeader.Pltyp = "02";
             IsOrderHeader.Vbeln = "";
@@ -462,14 +461,13 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 ItOrderItems[index] = new SAPsendorderC.Zwebs011();
                 ItOrderItems[index].Xblnr = EntegraNo;
-                SAPsendorderC.Zwebs011 zwebs011 = ItOrderItems[index];
                 num = index + 1;
                 string str5 = num.ToString();
-                zwebs011.Itmid = str5;
+                ItOrderItems[index].Itmid = str5;
                 ItOrderItems[index].Matnr = "00000000000" + satirlar[index].KOD.ToString();
                 ItOrderItems[index].Meins = "ST";
                 ItOrderItems[index].MengeSpecified = true;
-                ItOrderItems[index].Menge = (Decimal)satirlar[index].MIKTAR;
+                ItOrderItems[index].Menge = satirlar[index].MIKTAR;
                 ItOrderItems[index].Satir = "00";
                 ItOrderItems[index].FiyatSpecified = true;
                 ItOrderItems[index].Fiyat = Convert.ToDecimal(satirlar[index].FIYAT);
@@ -534,7 +532,6 @@ namespace Sultanlar.DatabaseObject.Internet
             salesOrderService.Credentials = (ICredentials)new NetworkCredential("MISTIF", "123456q");
             SAPsendorderC.Zwebs010 IsOrderHeader = new SAPsendorderC.Zwebs010();
             IsOrderHeader.Ctype = "SATIS";
-            SAPsendorderC.Zwebs010 zwebs010 = IsOrderHeader;
             int num = now.Year;
             string str1 = num.ToString();
             num = now.Month;
@@ -562,7 +559,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 str3 = "0" + num.ToString();
             }
             string str4 = str1 + str2 + str3;
-            zwebs010.Ketdat = str4;
+            IsOrderHeader.Ketdat = str4;
             IsOrderHeader.Kunwe = "000" + SMREF.ToString();
             IsOrderHeader.Pltyp = "02";
             IsOrderHeader.Vbeln = "";
@@ -576,14 +573,13 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 ItOrderItems[index] = new SAPsendorderC.Zwebs011();
                 ItOrderItems[index].Xblnr = EntegraNo + "_" + ITEMREF.ToString();
-                SAPsendorderC.Zwebs011 zwebs011 = ItOrderItems[index];
                 num = index + 1;
                 string str5 = num.ToString();
-                zwebs011.Itmid = str5;
+                ItOrderItems[index].Itmid = str5;
                 ItOrderItems[index].Matnr = "00000000000" + satir.KOD.ToString();
                 ItOrderItems[index].Meins = "ST";
                 ItOrderItems[index].MengeSpecified = true;
-                ItOrderItems[index].Menge = (Decimal)satir.MIKTAR;
+                ItOrderItems[index].Menge = satir.MIKTAR;
                 ItOrderItems[index].Satir = "00";
                 ItOrderItems[index].FiyatSpecified = true;
                 ItOrderItems[index].Fiyat = Convert.ToDecimal(satir.FIYAT);

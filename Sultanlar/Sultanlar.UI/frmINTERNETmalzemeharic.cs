@@ -367,5 +367,11 @@ namespace Sultanlar.UI
                 }
             }
         }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            frmINTERNETentegra frm = new frmINTERNETentegra();
+            frm.ShowDialog();
+        }
     }
 }

@@ -4903,5 +4903,10 @@ namespace Sultanlar.WindowsServiceIslemler
 
             LogYaz(conn, "satis update", hata == string.Empty ? true : false, hata, baslangic, DateTime.Now);
         }
+
+        private void EntegraSiparis()
+        {
+            Entegra.EntegraSiparis();
+        }
     }
 }

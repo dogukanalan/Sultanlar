@@ -184,7 +184,7 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
 
-        private void EntegraSiparis()
+        public static void EntegraSiparis()
         {
             XmlDocument xml = new XmlDocument();
             xml.Load("http://sultanlar.xmlbankasi.com/image/data/xml/siparis.xml");

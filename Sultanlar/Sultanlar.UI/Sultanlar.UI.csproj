@@ -378,6 +378,12 @@
     <Compile Include="frmHatalar.Designer.cs">
       <DependentUpon>frmHatalar.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmINTERNETentegra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmINTERNETentegra.Designer.cs">
+      <DependentUpon>frmINTERNETentegra.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmINTERNETfiyaturunbaglanti.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1076,6 +1082,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmHatalar.resx">
       <DependentUpon>frmHatalar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmINTERNETentegra.resx">
+      <DependentUpon>frmINTERNETentegra.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmINTERNETfiyaturunbaglanti.resx">
       <DependentUpon>frmINTERNETfiyaturunbaglanti.cs</DependentUpon>
