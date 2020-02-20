@@ -31,6 +31,7 @@ namespace Sultanlar.UI
             Entegra.GetObjects(dt);
             dataGridView1.DataSource = dt;
             dgvfm = new DgvFilterManager(dataGridView1);
+            dataGridView1.Columns["Ürün"].Width = 300;
         }
 
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)

@@ -1426,7 +1426,7 @@ namespace Sultanlar.UI
         {
             foreach (Form f in this.MdiChildren)
             {
-                if (f.Name == "frmINTERNETdisSiparisler")
+                if (f.Name == "frmINTERNETentegra")
                 {
                     if (f.WindowState == FormWindowState.Minimized)
                     {
@@ -1437,14 +1437,14 @@ namespace Sultanlar.UI
                     return;
                 }
             }
-            frmINTERNETdisSiparisler frm = new frmINTERNETdisSiparisler();
+            frmINTERNETentegra frm = new frmINTERNETentegra();
             frm.MdiParent = this;
             frm.FormClosing += new FormClosingEventHandler(frm_FormClosing);
             frm.Show();
             frm.BringToFront();
 
             ToolStripButton lll = new ToolStripButton("E-Ticaret Siparişleri");
-            lll.Name = "frmINTERNETdisSiparisler";
+            lll.Name = "frmINTERNETentegra";
             lll.MouseUp += new MouseEventHandler(lll_MouseUp);
             statusStrip1.Items.Add(lll);
         }
@@ -2984,7 +2984,7 @@ namespace Sultanlar.UI
             {
                 foreach (Form f in this.MdiChildren)
                 {
-                    if (f.Name == "frmINTERNETdisSiparisler")
+                    if (f.Name == "frmINTERNETentegra")
                     {
                         if (f.WindowState == FormWindowState.Minimized)
                         {
