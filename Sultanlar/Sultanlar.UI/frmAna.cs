@@ -106,7 +106,7 @@ namespace Sultanlar.UI
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("Sultanlar UI", "Sürüm kontrolü yapılamıyor. Detay: " + ex.Message, EventLogEntryType.Information);
+                Hatalar.DoInsert(ex, "frmAna sürüm kontrol");
             }
         }
 
