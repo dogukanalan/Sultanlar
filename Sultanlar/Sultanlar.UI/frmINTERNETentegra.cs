@@ -1,6 +1,7 @@
 ﻿using DgvFilterPopup;
 using Sultanlar.DatabaseObject.Internet;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Sultanlar.UI
 {
@@ -94,7 +96,81 @@ namespace Sultanlar.UI
 
         private void button4_Click(object sender, EventArgs e)
         {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
+                Microsoft.Office.Interop.Excel.Workbook wb = null;
+                Microsoft.Office.Interop.Excel.Worksheet ws = null;
+                Microsoft.Office.Interop.Excel.Range range = null;
 
+                object[,] values = null;
+
+                try
+                {
+                    wb = ap.Workbooks.Open(ofd.FileName, false, true,
+                        Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                        Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                        Type.Missing, Type.Missing, Type.Missing, true);
+
+                    ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+
+                    range = ws.get_Range("A1", "BI6666");
+
+                    values = (object[,])range.Value2;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Hata");
+                }
+                finally
+                {
+                    range = null;
+                    ws = null;
+                    if (wb != null)
+                        wb.Close(false, System.Reflection.Missing.Value, System.Reflection.Missing.Value);
+                    wb = null;
+                    if (ap != null)
+                        ap.Quit();
+                    ap = null;
+                }
+
+                if (values != null)
+                {
+                    ArrayList carikodlar = new ArrayList();
+                    ArrayList siparisnolar = new ArrayList();
+                    for (int i = 2; i <= values.GetLength(0); i++)
+                    {
+                        if (values[i, 1] == null) // 1.kolon boş ise bu satırdan sonrasına bakmasın
+                            break;
+
+                        try
+                        {
+                            carikodlar.Add(Convert.ToInt32(values[i, 4]));
+                            siparisnolar.Add(values[i, 12].ToString().Substring(values[i, 12].ToString().LastIndexOf(":") + 1));
+                        }
+                        catch (Exception ex)
+                        {
+                            carikodlar.Clear();
+                            siparisnolar.Clear();
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+
+                    for (int i = 0; i < carikodlar.Count; i++)
+                    {
+                        string EntegraNo = siparisnolar[i].ToString();
+                        int smref = Convert.ToInt32(carikodlar[i]);
+                        List<EntegraSatir> satirlarGercek = Entegra.GetSatirlarGercek(EntegraNo);
+                        for (int index = 0; index < satirlarGercek.Count; ++index)
+                            Entegra.DoInsertSAP(EntegraNo, satirlarGercek[index].KOD, smref);
+                    }
+
+                    MessageBox.Show("Aktarım tamamlandı.", "Bitti", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    GetSiparisler();
+                }
+            }
         }
     }
 }
