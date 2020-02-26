@@ -139,6 +139,36 @@ namespace Sultanlar.DatabaseObject.Internet
             return entegraSatir;
         }
 
+        public static int SAPsipNo(string EntegraNo, int KOD)
+        {
+            int flag = 0;
+            using (SqlConnection connection = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT GONDERILDI FROM [Web-Entegra-Siparis-SAP] WHERE [SIPARIS_NO] = @SIPARIS_NO AND [KOD] = @KOD", connection);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
+                sqlCommand.Parameters.AddWithValue(nameof(KOD), (object)KOD);
+                connection.Open();
+                flag = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                connection.Close();
+            }
+            return flag;
+        }
+
+        public static bool SAPcariVarMi(string EntegraNo, int KOD)
+        {
+            bool flag = false;
+            using (SqlConnection connection = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT count(*) FROM [Web-Entegra-Siparis-SAP] WHERE [SIPARIS_NO] = @SIPARIS_NO AND [KOD] = @KOD", connection);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
+                sqlCommand.Parameters.AddWithValue(nameof(KOD), (object)KOD);
+                connection.Open();
+                flag = Convert.ToBoolean(sqlCommand.ExecuteScalar());
+                connection.Close();
+            }
+            return flag;
+        }
+
         public static bool SAPcariVarMi(string EntegraNo, int KOD, int SAP_CARI)
         {
             bool flag = false;
@@ -184,10 +214,17 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
 
-        public static void EntegraSiparis()
+        public static bool EntegraSiparis()
         {
             XmlDocument xml = new XmlDocument();
-            xml.Load("http://sultanlar.xmlbankasi.com/image/data/xml/siparis.xml");
+            try
+            {
+                xml.Load("http://sultanlar.xmlbankasi.com/image/data/xml/siparis.xml");
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
 
             List<EntegraSiparis> siparisler = new List<EntegraSiparis>();
             foreach (XmlNode xNode in xml.SelectNodes("SIPARISLER/SIPARIS"))
@@ -302,6 +339,8 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
             }
             conn.Close();
+
+            return true;
         }
     }
 
