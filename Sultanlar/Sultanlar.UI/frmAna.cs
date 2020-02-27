@@ -106,7 +106,7 @@ namespace Sultanlar.UI
             }
             catch (Exception ex)
             {
-                Hatalar.DoInsert(ex, "frmAna sürüm kontrol" + KAdi);
+                Hatalar.DoInsert(ex, "frmAna sürüm kontrol. kul: " + KAdi);
             }
         }
 

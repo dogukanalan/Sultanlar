@@ -9,7 +9,6 @@ using System.Text;
 using Sultanlar.Class;
 using Sultanlar.DatabaseObject;
 using System.Timers;
-using System.Data.SQLite;
 using System.IO;
 using System.Data.SqlClient;
 using System.Net;
@@ -598,8 +597,8 @@ namespace Sultanlar.WindowsServiceIslemler
         }
 
 
-
-
+        #region sqlite
+        /*
         SQLiteConnection conn;
 
         private void Sqlite()
@@ -733,7 +732,8 @@ namespace Sultanlar.WindowsServiceIslemler
         }
 
 
-
+        */
+        #endregion
 
 
         private void KampanyalarC()
@@ -1985,6 +1985,9 @@ namespace Sultanlar.WindowsServiceIslemler
                     break;
                 case 1027198:
                     donendeger = 606;
+                    break;
+                case 1027499:
+                    donendeger = 607;
                     break;
                 default:
                     break;

@@ -47,9 +47,12 @@ namespace Sultanlar.UI
                 chk.Width = 50;
                 dataGridView1.Rows[0].Cells["Seç"].Value = false;
             }
+            
+            Renklendirme2();
+        }
 
-
-
+        private void Renklendirme()
+        {
             string oncekisipno = "";
             int or = 0, og = 0, ob = 0;
 
@@ -59,12 +62,54 @@ namespace Sultanlar.UI
 
                 string sipno = row.Cells["Sip.No"].Value.ToString();
 
-                int r = rnd.Next(235, 256), g = rnd.Next(235, 256), b = rnd.Next(235, 256);
-                Color color = Color.FromArgb(r, g, b);
+                int r = 0, g = 0, b = 0;
+                Color color = Color.White;
 
                 if (sipno == oncekisipno)
                 {
                     r = or; g = og; b = ob;
+                }
+                else
+                {
+                    r = random(235, 256, or, 5); g = random(235, 256, og, 5); b = random(235, 256, ob, 5);
+                }
+
+                color = Color.FromArgb(r, g, b);
+                row.Cells["Color"].Value = color.ToArgb();
+
+                or = r; og = g; ob = b;
+                oncekisipno = row.Cells["Sip.No"].Value.ToString();
+            }
+        }
+
+        private void Renklendirme2()
+        {
+            string oncekisipno = "";
+            int or = 255, og = 255, ob = 255;
+            int r = 240, g = 240, b = 240;
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Cells["Seç"].Value = false;
+
+                string sipno = row.Cells["Sip.No"].Value.ToString();
+
+                Color color = Color.White;
+
+                if (sipno == oncekisipno)
+                {
+                    r = or; g = og; b = ob;
+                }
+                else
+                {
+                    if (r == 240)
+                    {
+                        r = 255; g = 255; b = 255;
+                    }
+                    else
+                    {
+                        r = 240; g = 240; b = 240;
+                    }
                 }
 
                 color = Color.FromArgb(r, g, b);
@@ -77,9 +122,29 @@ namespace Sultanlar.UI
 
         private void SapGonder(int rowIndex, bool uyari)
         {
+            string EntegraNo = dataGridView1.Rows[rowIndex].Cells["Sip.No"].Value.ToString();
+
+            string bolum = "";
+            List<EntegraSatir> sats = Entegra.GetSatirlar(EntegraNo);
+            for (int i = 0; i < sats.Count; i++)
+            {
+                if (i == 0)
+                {
+                    bolum = Urunler.GetProductOzelKod(sats[i].KOD);
+                }
+                else
+                {
+                    if (bolum != Urunler.GetProductOzelKod(sats[i].KOD))
+                    {
+                        if (uyari)
+                            MessageBox.Show("Ürünler aynı bölümde değil, sipariş SAP'ye aktarılamaz.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                }
+            }
+
             string Site = dataGridView1.Rows[rowIndex].Cells["Site"].Value.ToString();
             string kargo = dataGridView1.Rows[rowIndex].Cells["Kargo Kodu"].Value.ToString();
-            string EntegraNo = dataGridView1.Rows[rowIndex].Cells["Sip.No"].Value.ToString();
             int smref = Convert.ToInt32(dataGridView1.Rows[rowIndex].Cells["SAP Cari Kod"].Value);
 
             string aciklama = Site.Replace("n11", "N11").Replace("hb", "Hepsiburada").Replace("eptt", "Eptt").Replace("trendyol", "Trendyol").Replace("gg", "Gittigidiyor").Replace("ak", "Akakce") + "; Sip:" + EntegraNo + "_Kargo Kodu:" + kargo;
@@ -92,19 +157,33 @@ namespace Sultanlar.UI
                 if (checkBox1.Checked)
                 {
                     string sapsipno = Siparis.QuantumaYaz(EntegraNo, smref, aciklama);
-                    List<EntegraSatir> satirlarGercek = Entegra.GetSatirlarGercek(EntegraNo);
-                    for (int index = 0; index < satirlarGercek.Count; ++index)
-                        Entegra.DoSAP(EntegraNo, satirlarGercek[index].KOD, Convert.ToInt32(sapsipno));
-                    if (uyari)
-                        MessageBox.Show("Sipariş gönderildi. SAP numarası: " + sapsipno, "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (sapsipno == "")
+                    {
+                        MessageBox.Show("Sipariş gönderilemedi. Entegra Sipariş No: " + EntegraNo, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        List<EntegraSatir> satirlarGercek = Entegra.GetSatirlarGercek(EntegraNo);
+                        for (int index = 0; index < satirlarGercek.Count; ++index)
+                            Entegra.DoSAP(EntegraNo, satirlarGercek[index].KOD, Convert.ToInt32(sapsipno));
+                        if (uyari)
+                            MessageBox.Show("Sipariş gönderildi. SAP numarası: " + sapsipno, "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
                 else
                 {
                     int kod = Convert.ToInt32(dataGridView1.Rows[rowIndex].Cells["Ürün Kodu"].Value);
                     string sapsipno = Siparis.QuantumaYaz(EntegraNo, smref, kod, aciklama);
-                    Entegra.DoSAP(EntegraNo, kod, Convert.ToInt32(sapsipno));
-                    if (uyari)
-                        MessageBox.Show("Sipariş gönderildi. SAP numarası: " + sapsipno, "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (sapsipno == "")
+                    {
+                        MessageBox.Show("Sipariş gönderilemedi. Entegra Sipariş No: " + EntegraNo, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        Entegra.DoSAP(EntegraNo, kod, Convert.ToInt32(sapsipno));
+                        if (uyari)
+                            MessageBox.Show("Sipariş gönderildi. SAP numarası: " + sapsipno, "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
 
                 if (uyari)
@@ -263,6 +342,25 @@ namespace Sultanlar.UI
             }
 
             GetSiparisler();
+        }
+
+        private int random(int min, int max, int notchoose, int proximity)
+        {
+            int donendeger = 0;
+
+            donendeger = rnd.Next(min, max);
+            while (Math.Abs(donendeger - notchoose) < proximity)
+                donendeger = rnd.Next(min, max);
+
+            return donendeger;
+        }
+
+        private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                Renklendirme2();
+            }
         }
     }
 }
