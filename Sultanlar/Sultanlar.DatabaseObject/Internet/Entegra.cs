@@ -303,7 +303,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             textBox1.Text = xml1;*/
 
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection(General.ConnectionString);
             conn.Open();
             for (int i = 0; i < siparisler.Count; i++)
             {
@@ -469,7 +469,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             textBox1.Text = xml1;*/
 
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection(General.ConnectionString);
             conn.Open();
             for (int i = 0; i < siparisler.Count; i++)
             {
