@@ -271,6 +271,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 sip.teslimkod4 = xNode.SelectSingleNode("teslimkod4").InnerText;
                 sip.teslimsekli = xNode.SelectSingleNode("teslimsekli").InnerText;
                 sip.TeslimTelefon = xNode.SelectSingleNode("TeslimTelefon").InnerText;
+                sip.status = xNode.SelectSingleNode("status").InnerText;
 
                 List<EntegraSatir> satirlar = new List<EntegraSatir>();
                 foreach (XmlNode xNode1 in xNode.SelectNodes("SATIRLAR/SATIR"))
@@ -313,7 +314,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
                 if (!var)
                 {
-                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Entegra-Siparis] ([SIPARIS_NO],[PAZARYERI_KARGOKODU],[CariHesapKodu],[CariHesapOzelKodu],[POSTA],[TARIH],[ISKONTO],[NET_TOPLAM],[TeslimAlici],[TeslimAdresi],[TeslimTelefon],[teslimsekli],[tasiyicifirma],[teslimkod1],[teslimkod4],[teslimil],[teslimilce],[faturaalici],[faturaAdresi],[faturaTelefon],[faturavergino],[faturavergidairesi],[faturail],[faturailce],[kargokodu],[ODEME_SEKLI]) VALUES (@SIPARIS_NO,@PAZARYERI_KARGOKODU,@CariHesapKodu,@CariHesapOzelKodu,@POSTA,@TARIH,@ISKONTO,@NET_TOPLAM,@TeslimAlici,@TeslimAdresi,@TeslimTelefon,@teslimsekli,@tasiyicifirma,@teslimkod1,@teslimkod4,@teslimil,@teslimilce,@faturaalici,@faturaAdresi,@faturaTelefon,@faturavergino,@faturavergidairesi,@faturail,@faturailce,@kargokodu,@ODEME_SEKLI)", conn);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Entegra-Siparis] ([SIPARIS_NO],[PAZARYERI_KARGOKODU],[CariHesapKodu],[CariHesapOzelKodu],[POSTA],[TARIH],[ISKONTO],[NET_TOPLAM],[TeslimAlici],[TeslimAdresi],[TeslimTelefon],[teslimsekli],[tasiyicifirma],[teslimkod1],[teslimkod4],[teslimil],[teslimilce],[faturaalici],[faturaAdresi],[faturaTelefon],[faturavergino],[faturavergidairesi],[faturail],[faturailce],[kargokodu],[ODEME_SEKLI],status) VALUES (@SIPARIS_NO,@PAZARYERI_KARGOKODU,@CariHesapKodu,@CariHesapOzelKodu,@POSTA,@TARIH,@ISKONTO,@NET_TOPLAM,@TeslimAlici,@TeslimAdresi,@TeslimTelefon,@teslimsekli,@tasiyicifirma,@teslimkod1,@teslimkod4,@teslimil,@teslimilce,@faturaalici,@faturaAdresi,@faturaTelefon,@faturavergino,@faturavergidairesi,@faturail,@faturailce,@kargokodu,@ODEME_SEKLI,@status)", conn);
                     cmd.Parameters.AddWithValue("CariHesapKodu", siparisler[i].CariHesapKodu);
                     cmd.Parameters.AddWithValue("CariHesapOzelKodu", siparisler[i].CariHesapOzelKodu);
                     cmd.Parameters.AddWithValue("faturaAdresi", siparisler[i].faturaAdresi);
@@ -340,6 +341,7 @@ namespace Sultanlar.DatabaseObject.Internet
                     cmd.Parameters.AddWithValue("teslimkod4", siparisler[i].teslimkod4);
                     cmd.Parameters.AddWithValue("teslimsekli", siparisler[i].teslimsekli);
                     cmd.Parameters.AddWithValue("TeslimTelefon", siparisler[i].TeslimTelefon);
+                    cmd.Parameters.AddWithValue("status", siparisler[i].status);
 
                     bool basarili = false;
                     try { cmd.ExecuteNonQuery(); basarili = true; }
@@ -411,6 +413,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 sip.teslimkod4 = xNode.SelectSingleNode("teslimkod4").InnerText;
                 sip.teslimsekli = xNode.SelectSingleNode("teslimsekli").InnerText;
                 sip.TeslimTelefon = xNode.SelectSingleNode("TeslimTelefon").InnerText;
+                sip.status = xNode.SelectSingleNode("status").InnerText;
 
                 sip.SIPARIS_NO = sip.SIPARIS_NO + "-T1";
                 sipT2 = SiparisKopyala(sip, sip.SIPARIS_NO + "-T2");
@@ -479,7 +482,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
                 if (!var)
                 {
-                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Entegra-Siparis] ([SIPARIS_NO],[PAZARYERI_KARGOKODU],[CariHesapKodu],[CariHesapOzelKodu],[POSTA],[TARIH],[ISKONTO],[NET_TOPLAM],[TeslimAlici],[TeslimAdresi],[TeslimTelefon],[teslimsekli],[tasiyicifirma],[teslimkod1],[teslimkod4],[teslimil],[teslimilce],[faturaalici],[faturaAdresi],[faturaTelefon],[faturavergino],[faturavergidairesi],[faturail],[faturailce],[kargokodu],[ODEME_SEKLI]) VALUES (@SIPARIS_NO,@PAZARYERI_KARGOKODU,@CariHesapKodu,@CariHesapOzelKodu,@POSTA,@TARIH,@ISKONTO,@NET_TOPLAM,@TeslimAlici,@TeslimAdresi,@TeslimTelefon,@teslimsekli,@tasiyicifirma,@teslimkod1,@teslimkod4,@teslimil,@teslimilce,@faturaalici,@faturaAdresi,@faturaTelefon,@faturavergino,@faturavergidairesi,@faturail,@faturailce,@kargokodu,@ODEME_SEKLI)", conn);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Entegra-Siparis] ([SIPARIS_NO],[PAZARYERI_KARGOKODU],[CariHesapKodu],[CariHesapOzelKodu],[POSTA],[TARIH],[ISKONTO],[NET_TOPLAM],[TeslimAlici],[TeslimAdresi],[TeslimTelefon],[teslimsekli],[tasiyicifirma],[teslimkod1],[teslimkod4],[teslimil],[teslimilce],[faturaalici],[faturaAdresi],[faturaTelefon],[faturavergino],[faturavergidairesi],[faturail],[faturailce],[kargokodu],[ODEME_SEKLI],status) VALUES (@SIPARIS_NO,@PAZARYERI_KARGOKODU,@CariHesapKodu,@CariHesapOzelKodu,@POSTA,@TARIH,@ISKONTO,@NET_TOPLAM,@TeslimAlici,@TeslimAdresi,@TeslimTelefon,@teslimsekli,@tasiyicifirma,@teslimkod1,@teslimkod4,@teslimil,@teslimilce,@faturaalici,@faturaAdresi,@faturaTelefon,@faturavergino,@faturavergidairesi,@faturail,@faturailce,@kargokodu,@ODEME_SEKLI,@status)", conn);
                     cmd.Parameters.AddWithValue("CariHesapKodu", siparisler[i].CariHesapKodu);
                     cmd.Parameters.AddWithValue("CariHesapOzelKodu", siparisler[i].CariHesapOzelKodu);
                     cmd.Parameters.AddWithValue("faturaAdresi", siparisler[i].faturaAdresi);
@@ -506,6 +509,7 @@ namespace Sultanlar.DatabaseObject.Internet
                     cmd.Parameters.AddWithValue("teslimkod4", siparisler[i].teslimkod4);
                     cmd.Parameters.AddWithValue("teslimsekli", siparisler[i].teslimsekli);
                     cmd.Parameters.AddWithValue("TeslimTelefon", siparisler[i].TeslimTelefon);
+                    cmd.Parameters.AddWithValue("status", siparisler[i].status);
 
                     bool basarili = false;
                     try { cmd.ExecuteNonQuery(); basarili = true; }
@@ -608,6 +612,7 @@ namespace Sultanlar.DatabaseObject.Internet
         public string faturailce;
         public string kargokodu;
         public string ODEME_SEKLI;
+        public string status;
         public List<EntegraSatir> Satirlar;
     }
 
