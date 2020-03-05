@@ -4909,7 +4909,8 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void EntegraSiparis()
         {
-            Entegra.EntegraSiparis();
+            if (Entegra.EntegraSiparis2())
+                EventLog.WriteEntry("Sultanlar Windows Service", "Entegra güncellemesi yapıldı.", EventLogEntryType.Information);
         }
     }
 }
