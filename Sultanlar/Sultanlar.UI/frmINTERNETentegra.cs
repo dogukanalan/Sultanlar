@@ -226,7 +226,7 @@ namespace Sultanlar.UI
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (Entegra.EntegraSiparis())
+            if (Entegra.EntegraSiparis2())
             {
                 //MessageBox.Show("Entegra bağlantısı başarılı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 GetSiparisler();
