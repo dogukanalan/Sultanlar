@@ -845,6 +845,34 @@ namespace Sultanlar.WCF
 
             return donendeger;
         }
+        /// <summary>
+        /// View
+        /// </summary>
+        public XmlDocument GetView(string Sifre, string Name, string ParamNames, string ParamValues)
+        {
+            XmlDocument donendeger = new XmlDocument();
+
+            DataSet ds = new DataSet("Views");
+            DataTable dt = new DataTable(Name);
+
+            ArrayList paramn = new ArrayList();
+            ArrayList paramv = new ArrayList();
+            string[] paramN = ParamNames.Split(new string[] { ";" }, StringSplitOptions.None);
+            string[] paramV = ParamValues.Split(new string[] { ";" }, StringSplitOptions.None);
+            for (int i = 0; i < paramN.Length; i++)
+            {
+                paramn.Add(paramN[i]);
+                paramv.Add(paramV[i]);
+            }
+
+            if (Sifre == "rapor2020")
+                dt = WebGenel.WCFdata("SELECT * FROM [" + Name + "] ", paramn, paramv, Name);
+
+            ds.Tables.Add(dt);
+            donendeger.LoadXml(ds.GetXml());
+
+            return donendeger;
+        }
         private void EmusiadDoldur(DataTable dt, int i,Sultanlar.Class.Entry entry)
         {
             entry.id = Convert.ToInt32(dt.Rows[i]["Kod"]);

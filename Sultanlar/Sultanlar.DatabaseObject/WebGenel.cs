@@ -489,6 +489,7 @@ namespace Sultanlar.DatabaseObject
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
                 SqlDataAdapter da = new SqlDataAdapter(CommandText, conn);
+                da.SelectCommand.CommandTimeout = 1000;
                 for (int i = 0; i < Parameters.Count; i++)
                     da.SelectCommand.Parameters.Add(ParameterNames[i].ToString(), (SqlDbType)Types[i]).Value = Parameters[i].ToString();
                 try
@@ -499,6 +500,47 @@ namespace Sultanlar.DatabaseObject
                 catch (SqlException ex)
                 {
                     Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return dt;
+        }
+        public static DataTable WCFdata(string CommandText, ArrayList ParameterNames, ArrayList Parameters, string TableName)
+        {
+            DataTable dt = new DataTable(TableName);
+
+            string where = string.Empty;
+            bool var = false;
+            for (int i = 0; i < ParameterNames.Count - 1; i++)
+            {
+                if (ParameterNames[i].ToString().Length > 0)
+                {
+                    var = true;
+                    if (i == 0)
+                        where = "WHERE ";
+                    where += "[" + ParameterNames[i] + "] = @" + ParameterNames[i] + " AND ";
+                }
+            }
+            where = var ? where.Substring(0, where.Length - 5) : where;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter(CommandText + where, conn);
+                da.SelectCommand.CommandTimeout = 1000;
+                for (int i = 0; i < Parameters.Count; i++)
+                    da.SelectCommand.Parameters.AddWithValue(ParameterNames[i].ToString(), Parameters[i].ToString());
+                try
+                {
+                    conn.Open();
+                    da.Fill(dt);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex, " " + da.SelectCommand.CommandText);
                 }
                 finally
                 {

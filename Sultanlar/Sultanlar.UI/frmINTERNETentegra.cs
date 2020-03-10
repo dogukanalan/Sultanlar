@@ -114,6 +114,8 @@ namespace Sultanlar.UI
 
                 color = Color.FromArgb(r, g, b);
                 row.Cells["Color"].Value = color.ToArgb();
+                if (row.Cells["Durum"].Value.ToString().IndexOf("İptal") > -1 || row.Cells["Durum"].Value.ToString().IndexOf("İade") > -1)
+                    row.Cells["Color"].Value = Color.FromArgb(255, 225, 220).ToArgb();
 
                 or = r; og = g; ob = b;
                 oncekisipno = row.Cells["Sip.No"].Value.ToString();

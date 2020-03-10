@@ -140,6 +140,10 @@ namespace Sultanlar.WCF
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/EmusiadGetProducts/GetProducts?sifre={Sifre}&grup={Grup}")]
         XmlDocument EmusiadGetProducts(string Sifre, string Grup);
         //
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/View/Get?sifre={Sifre}&name={Name}&paramn={ParamNames}&paramv={ParamValues}")]
+        XmlDocument GetView(string Sifre, string Name, string ParamNames, string ParamValues);
+        //
         //[OperationContract, XmlSerializerFormat]
         //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Xml, ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/eczanem/Efatura/Post")]
         //XmlDocument EfaturaPost(XmlDocument icerik);

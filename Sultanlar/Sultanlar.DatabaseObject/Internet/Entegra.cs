@@ -229,7 +229,7 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
 
-        public static bool EntegraSiparis()
+        /*public static bool EntegraSiparis()
         {
             XmlDocument xml = new XmlDocument();
             try
@@ -290,24 +290,24 @@ namespace Sultanlar.DatabaseObject.Internet
                 siparisler.Add(sip);
             }
 
-            /*XmlSerializer xsSubmit = new XmlSerializer(typeof(List<Siparis>));
-            var xml1 = "";
+            //XmlSerializer xsSubmit = new XmlSerializer(typeof(List<Siparis>));
+            //var xml1 = "";
 
-            using (var sww = new StringWriter())
-            {
-                using (XmlWriter writer = XmlWriter.Create(sww))
-                {
-                    xsSubmit.Serialize(writer, siparisler);
-                    xml1 = sww.ToString();
-                }
-            }
+            //using (var sww = new StringWriter())
+            //{
+            //    using (XmlWriter writer = XmlWriter.Create(sww))
+            //    {
+            //        xsSubmit.Serialize(writer, siparisler);
+            //        xml1 = sww.ToString();
+            //    }
+            //}
 
-            textBox1.Text = xml1;*/
+            //textBox1.Text = xml1;
 
             DbYaz(siparisler);
 
             return true;
-        }
+        }*/
 
         public static bool EntegraSiparis2()
         {
@@ -426,8 +426,8 @@ namespace Sultanlar.DatabaseObject.Internet
             conn.Open();
             for (int i = 0; i < siparisler.Count; i++)
             {
-                SqlCommand cmd2 = new SqlCommand("SELECT count(*) FROM [Web-Entegra-Siparis] WHERE REPLACE(REPLACE(REPLACE(REPLACE([SIPARIS_NO],'-T1',''),'-T2',''),'-T3',''),'-T4','') = @SIPARIS_NO", conn);
-                cmd2.Parameters.AddWithValue("SIPARIS_NO", siparisler[i].SIPARIS_NO.Replace("-T1", "").Replace("-T2", "").Replace("-T3", "").Replace("-T4", ""));
+                SqlCommand cmd2 = new SqlCommand("SELECT count(*) FROM [Web-Entegra-Siparis] WHERE [SIPARIS_NO] = @SIPARIS_NO", conn);
+                cmd2.Parameters.AddWithValue("SIPARIS_NO", siparisler[i].SIPARIS_NO);
                 bool var = Convert.ToBoolean(cmd2.ExecuteScalar());
 
                 SqlCommand cmd = new SqlCommand();
