@@ -26,7 +26,7 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 SqlCommand sqlCommand = new SqlCommand("sp_entegra_siparis", connection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", EntegraNo);
                 connection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
                 if (sqlDataReader.Read())
@@ -71,7 +71,7 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 SqlCommand sqlCommand = new SqlCommand("sp_entegra_satirlar", connection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", EntegraNo);
                 connection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
                 while (sqlDataReader.Read())
@@ -96,7 +96,7 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 SqlCommand sqlCommand = new SqlCommand("sp_entegra_satirlar_gercek", connection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", EntegraNo);
                 connection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
                 while (sqlDataReader.Read())
@@ -121,8 +121,8 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 SqlCommand sqlCommand = new SqlCommand("sp_entegra_satir", connection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
-                sqlCommand.Parameters.AddWithValue(nameof(KOD), (object)KOD);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", EntegraNo);
+                sqlCommand.Parameters.AddWithValue(nameof(KOD), KOD);
                 connection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
                 if (sqlDataReader.Read())
@@ -146,8 +146,8 @@ namespace Sultanlar.DatabaseObject.Internet
             using (SqlConnection connection = new SqlConnection(General.ConnectionString))
             {
                 SqlCommand sqlCommand = new SqlCommand("SELECT GONDERILDI FROM [Web-Entegra-Siparis-SAP] WHERE [SIPARIS_NO] = @SIPARIS_NO AND [KOD] = @KOD", connection);
-                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
-                sqlCommand.Parameters.AddWithValue(nameof(KOD), (object)KOD);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", EntegraNo);
+                sqlCommand.Parameters.AddWithValue(nameof(KOD), KOD);
                 connection.Open();
                 flag = Convert.ToInt32(sqlCommand.ExecuteScalar());
                 connection.Close();
@@ -161,7 +161,7 @@ namespace Sultanlar.DatabaseObject.Internet
             using (SqlConnection connection = new SqlConnection(General.ConnectionString))
             {
                 SqlCommand sqlCommand = new SqlCommand("SELECT ITEMREF FROM [Web-Malzeme-Haric] WHERE [ID] = @KOD AND SIRA = 1", connection);
-                sqlCommand.Parameters.AddWithValue(nameof(KOD), (object)KOD);
+                sqlCommand.Parameters.AddWithValue(nameof(KOD), KOD);
                 connection.Open();
                 flag = Convert.ToInt32(sqlCommand.ExecuteScalar());
                 connection.Close();
@@ -175,8 +175,8 @@ namespace Sultanlar.DatabaseObject.Internet
             using (SqlConnection connection = new SqlConnection(General.ConnectionString))
             {
                 SqlCommand sqlCommand = new SqlCommand("SELECT count(*) FROM [Web-Entegra-Siparis-SAP] WHERE [SIPARIS_NO] = @SIPARIS_NO AND [KOD] = @KOD", connection);
-                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
-                sqlCommand.Parameters.AddWithValue(nameof(KOD), (object)KOD);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", EntegraNo);
+                sqlCommand.Parameters.AddWithValue(nameof(KOD), KOD);
                 connection.Open();
                 flag = Convert.ToBoolean(sqlCommand.ExecuteScalar());
                 connection.Close();
@@ -189,10 +189,10 @@ namespace Sultanlar.DatabaseObject.Internet
             bool flag = false;
             using (SqlConnection connection = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand sqlCommand = new SqlCommand("SELECT count(*) FROM [Web-Entegra-Siparis-SAP] WHERE SAP_CARI = @SAP_CARI AND [SIPARIS_NO] = @SIPARIS_NO AND [KOD] = @KOD", connection);
-                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
-                sqlCommand.Parameters.AddWithValue(nameof(KOD), (object)KOD);
-                sqlCommand.Parameters.AddWithValue(nameof(SAP_CARI), (object)SAP_CARI);
+                SqlCommand sqlCommand = new SqlCommand("SELECT count(*) FROM [Web-Entegra-Siparis-SAP] WHERE [SIPARIS_NO] = @SIPARIS_NO AND [KOD] = @KOD AND SAP_CARI = @SAP_CARI", connection);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", EntegraNo);
+                sqlCommand.Parameters.AddWithValue(nameof(KOD), KOD);
+                sqlCommand.Parameters.AddWithValue(nameof(SAP_CARI), SAP_CARI);
                 connection.Open();
                 flag = Convert.ToBoolean(sqlCommand.ExecuteScalar());
                 connection.Close();
@@ -206,9 +206,9 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 SqlCommand sqlCommand1 = new SqlCommand();
                 SqlCommand sqlCommand2 = !Entegra.SAPcariVarMi(EntegraNo, KOD, CARI) ? new SqlCommand("INSERT INTO [Web-Entegra-Siparis-SAP] ([SIPARIS_NO],[KOD],[SAP_CARI],[GONDERILDI]) VALUES (@SIPARIS_NO,@KOD,@SAP_CARI,0)", connection) : new SqlCommand("UPDATE [Web-Entegra-Siparis-SAP] SET [SAP_CARI] = @SAP_CARI WHERE [SIPARIS_NO] = @SIPARIS_NO AND [KOD] = @KOD", connection);
-                sqlCommand2.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
-                sqlCommand2.Parameters.AddWithValue(nameof(KOD), (object)KOD);
-                sqlCommand2.Parameters.AddWithValue("SAP_CARI", (object)CARI);
+                sqlCommand2.Parameters.AddWithValue("SIPARIS_NO", EntegraNo);
+                sqlCommand2.Parameters.AddWithValue(nameof(KOD), KOD);
+                sqlCommand2.Parameters.AddWithValue("SAP_CARI", CARI);
                 connection.Open();
                 sqlCommand2.ExecuteNonQuery();
                 connection.Close();
@@ -220,9 +220,9 @@ namespace Sultanlar.DatabaseObject.Internet
             using (SqlConnection connection = new SqlConnection(General.ConnectionString))
             {
                 SqlCommand sqlCommand = new SqlCommand("UPDATE [Web-Entegra-Siparis-SAP] SET [GONDERILDI] = @GONDERILDI WHERE [SIPARIS_NO] = @SIPARIS_NO AND [KOD] = @KOD", connection);
-                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", (object)EntegraNo);
-                sqlCommand.Parameters.AddWithValue(nameof(KOD), (object)KOD);
-                sqlCommand.Parameters.AddWithValue(nameof(GONDERILDI), (object)GONDERILDI);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", EntegraNo);
+                sqlCommand.Parameters.AddWithValue(nameof(KOD), KOD);
+                sqlCommand.Parameters.AddWithValue(nameof(GONDERILDI), GONDERILDI);
                 connection.Open();
                 sqlCommand.ExecuteNonQuery();
                 connection.Close();
