@@ -209,8 +209,8 @@ namespace Sultanlar.UI
             int smref = Convert.ToInt32(textBox1.Text);
             List<EntegraSatir> satirlarGercek = Entegra.GetSatirlarGercek(EntegraNo);
             for (int index = 0; index < satirlarGercek.Count; ++index)
-                if (!Entegra.SAPcariVarMi(EntegraNo, satirlarGercek[index].KOD))
-                    Entegra.DoInsertSAP(EntegraNo, satirlarGercek[index].KOD, smref);
+                if (!Entegra.SAPcariVarMi(satirlarGercek[index].SIPARIS_NO, satirlarGercek[index].KOD))
+                    Entegra.DoInsertSAP(satirlarGercek[index].SIPARIS_NO, satirlarGercek[index].KOD, smref);
             dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells["SAP Cari Kod"].Value = textBox1.Text;
             dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells["SAP Cari"].Value = CariHesaplar.GetMUSTERIbySMREF(smref);
         }
@@ -309,8 +309,8 @@ namespace Sultanlar.UI
                         int smref = Convert.ToInt32(carikodlar[i]);
                         List<EntegraSatir> satirlarGercek = Entegra.GetSatirlarGercek(EntegraNo);
                         for (int index = 0; index < satirlarGercek.Count; ++index)
-                            if (!Entegra.SAPcariVarMi(EntegraNo, satirlarGercek[index].KOD))
-                                Entegra.DoInsertSAP(EntegraNo, satirlarGercek[index].KOD, smref);
+                            if (!Entegra.SAPcariVarMi(satirlarGercek[index].SIPARIS_NO, satirlarGercek[index].KOD))
+                                Entegra.DoInsertSAP(satirlarGercek[index].SIPARIS_NO, satirlarGercek[index].KOD, smref);
                     }
 
                     MessageBox.Show("Aktarım tamamlandı.", "Bitti", MessageBoxButtons.OK, MessageBoxIcon.Information);
