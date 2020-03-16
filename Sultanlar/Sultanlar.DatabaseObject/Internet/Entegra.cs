@@ -80,7 +80,7 @@ namespace Sultanlar.DatabaseObject.Internet
                         KOD = Convert.ToInt32(sqlDataReader[0]),
                         MIKTAR = Convert.ToInt32(sqlDataReader[1]),
                         BIRIM = sqlDataReader[2].ToString(),
-                        FIYAT = Convert.ToDouble(sqlDataReader[3]),
+                        FIYAT = sqlDataReader[3] != DBNull.Value ? Convert.ToDouble(sqlDataReader[3]) : 0,
                         KDV = Convert.ToInt32(sqlDataReader[4]),
                         SIPARIS_NO = sqlDataReader[5].ToString()
                     });

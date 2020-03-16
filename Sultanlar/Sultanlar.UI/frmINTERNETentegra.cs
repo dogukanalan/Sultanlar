@@ -130,6 +130,13 @@ namespace Sultanlar.UI
             List<EntegraSatir> sats = Entegra.GetSatirlar(EntegraNo);
             for (int i = 0; i < sats.Count; i++)
             {
+                if (sats[i].FIYAT == 0)
+                {
+                    if (uyari)
+                        MessageBox.Show("Ürün fiyatı bulunamadı. Kod: " + sats[i].KOD.ToString(), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
                 if (i == 0)
                 {
                     bolum = Urunler.GetProductOzelKod(sats[i].KOD);
