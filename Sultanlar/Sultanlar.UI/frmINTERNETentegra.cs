@@ -371,5 +371,13 @@ namespace Sultanlar.UI
                 Renklendirme2();
             }
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            int rowIndex = dataGridView1.SelectedCells[0].RowIndex;
+            string EntegraNo = dataGridView1.Rows[rowIndex].Cells["Sip.No"].Value.ToString();
+            if (MessageBox.Show(EntegraNo + " nolu siparişin SAP numarası silinecek. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+                Entegra.DoSAP(EntegraNo, 0);
+        }
     }
 }

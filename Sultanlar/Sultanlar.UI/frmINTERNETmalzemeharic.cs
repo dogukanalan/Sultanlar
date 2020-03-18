@@ -21,12 +21,18 @@ namespace Sultanlar.UI
 
         private void frmINTERNETmalzemeharic_Load(object sender, EventArgs e)
         {
+            GetStart();
+        }
+
+        private void GetStart()
+        {
             GetMalzemeler();
             GetAna();
         }
 
         private void GetMalzemeler()
         {
+            comboBox2.Items.Clear();
             Urunler.GetProducts(comboBox1.Items, 0, "", "", "", "", true, true, false, true, true);
             for (int i = 0; i < comboBox1.Items.Count; i++)
                 comboBox2.Items.Add(comboBox1.Items[i]);
@@ -34,6 +40,7 @@ namespace Sultanlar.UI
 
         private void GetAna()
         {
+            listBox3.Items.Clear();
             MalzemeHaric.GetObjects(listBox1.Items);
             for (int i = 0; i < listBox1.Items.Count; i++)
                 listBox3.Items.Add(listBox1.Items[i]);
@@ -143,7 +150,7 @@ namespace Sultanlar.UI
         private void AnaSil(int ID)
         {
             MalzemeHaric mh = MalzemeHaric.GetObject(ID, 1);
-            mh.AP = 1;
+            mh.AP = mh.AP == 0 ? 1 : 0;
             mh.DoUpdate();
         }
 
@@ -261,9 +268,10 @@ namespace Sultanlar.UI
         {
             if (listBox1.SelectedIndex > -1)
             {
-                if (MessageBox.Show("Ana ürün pasife alınacak, devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                if (MessageBox.Show("Ana ürünün aktif-pasifliği değiştirilecek, devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
                     AnaSil(((MalzemeHaric)listBox1.SelectedItem).ID);
+                    btnYenile.PerformClick();
                 }
             }
         }
@@ -372,6 +380,12 @@ namespace Sultanlar.UI
         {
             frmINTERNETentegra frm = new frmINTERNETentegra();
             frm.ShowDialog();
+        }
+
+        private void btnYenile_Click(object sender, EventArgs e)
+        {
+            GetStart();
+            button9.PerformClick();
         }
     }
 }

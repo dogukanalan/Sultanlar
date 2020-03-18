@@ -229,6 +229,19 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
 
+        public static void DoSAP(string EntegraNo, int GONDERILDI)
+        {
+            using (SqlConnection connection = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand sqlCommand = new SqlCommand("UPDATE [Web-Entegra-Siparis-SAP] SET [GONDERILDI] = @GONDERILDI WHERE [SIPARIS_NO] = @SIPARIS_NO", connection);
+                sqlCommand.Parameters.AddWithValue("SIPARIS_NO", EntegraNo);
+                sqlCommand.Parameters.AddWithValue(nameof(GONDERILDI), GONDERILDI);
+                connection.Open();
+                sqlCommand.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
         /*public static bool EntegraSiparis()
         {
             XmlDocument xml = new XmlDocument();
