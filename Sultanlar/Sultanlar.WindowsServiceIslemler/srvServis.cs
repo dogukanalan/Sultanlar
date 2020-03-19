@@ -1989,6 +1989,9 @@ namespace Sultanlar.WindowsServiceIslemler
                 case 1027499:
                     donendeger = 607;
                     break;
+                case 1027689:
+                    donendeger = 608;
+                    break;
                 default:
                     break;
             }
