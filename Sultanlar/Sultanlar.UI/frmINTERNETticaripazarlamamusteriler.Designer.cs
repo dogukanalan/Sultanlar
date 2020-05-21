@@ -911,7 +911,7 @@
             this.button5.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button5.Location = new System.Drawing.Point(741, 252);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(114, 23);
+            this.button5.Size = new System.Drawing.Size(90, 23);
             this.button5.TabIndex = 2;
             this.button5.Text = "Toplu Eş Kod";
             this.button5.UseVisualStyleBackColor = true;
@@ -921,7 +921,7 @@
             // 
             this.label24.AutoSize = true;
             this.label24.ForeColor = System.Drawing.Color.Red;
-            this.label24.Location = new System.Drawing.Point(861, 257);
+            this.label24.Location = new System.Drawing.Point(837, 257);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(268, 13);
             this.label24.TabIndex = 3;
@@ -932,7 +932,7 @@
             this.button6.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button6.Location = new System.Drawing.Point(741, 281);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(114, 23);
+            this.button6.Size = new System.Drawing.Size(90, 23);
             this.button6.TabIndex = 2;
             this.button6.Text = "Toplu Pasif Yap";
             this.button6.UseVisualStyleBackColor = true;
@@ -942,11 +942,11 @@
             // 
             this.label25.AutoSize = true;
             this.label25.ForeColor = System.Drawing.Color.Red;
-            this.label25.Location = new System.Drawing.Point(861, 286);
+            this.label25.Location = new System.Drawing.Point(837, 286);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(189, 13);
+            this.label25.Size = new System.Drawing.Size(337, 13);
             this.label25.TabIndex = 3;
-            this.label25.Text = "(Excel dosyasında 1. kolon kod olmalı.)";
+            this.label25.Text = "(Excel dosyasında 1. kolon kod, 2. kolon 1 (pasif) veya 0 (aktif) olmalı.)";
             // 
             // frmINTERNETticaripazarlamamusteriler
             // 

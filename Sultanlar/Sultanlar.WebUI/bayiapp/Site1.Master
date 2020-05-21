@@ -1,0 +1,61 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Sultanlar.WebUI.bayiapp.Site1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <link rel="preload" href="images/background.jpg" as="image" /> 
+    <link rel="preload" href="images/loading.jpg" as="image" /> 
+    <title>Sultanlar Bayi App</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	<%--<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css" />--%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<%--<link rel="stylesheet" type="text/css" href="css/util.css" />--%>
+	<link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+	
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/unveil.js"></script>
+    <%--<script type="text/javascript" src="js/LazyLoad.js"></script>--%>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var userAgent = window.navigator.userAgent.toLowerCase();
+			ios = /iphone|ipod|ipad/.test( userAgent );
+        });
+    </script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+
+    <div id="divProgress" style="display: none; width: 100%; height: 100%; background-size: cover; background-image: url(images/background.jpg); background-position: center center">
+
+    </div>
+
+    
+	    <div class="limiter">
+		    <div class="container-login100">
+			    <div class="wrap-login100">
+                    <form id="form1" runat="server" class="login100-form validate-form">
+                        <%--<span class="login100-form-title p-b-15 m-b-15" style="border-bottom: 1px solid #C0C0C0;">
+		                    <img src="images/kenton.png" alt="Kenton" style="width: 200px" />
+	                    </span>--%>
+                        <input type="hidden" runat="server" id="uyeidMaster" clientidmode="Static" />
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        
+                        </asp:ContentPlaceHolder>
+                        <%--<span class="p-t-25 m-t-25" style="border-top: 1px solid #C0C0C0; display: block; text-align: center; font-size: 14px">
+		                    Tibet A.Ş. 2018 © Tüm hakları saklıdır.
+	                    </span>--%>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+	<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

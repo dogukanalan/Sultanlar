@@ -59,7 +59,7 @@ namespace Sultanlar.WindowsServiceIslemler
             tmrSAPpersonals.Enabled = true;
             tmrSAPpersonals.Start();
 
-            tmrSAPcustomers = new Timer(1800000);
+            tmrSAPcustomers = new Timer(300000);
             tmrSAPcustomers.Elapsed += new ElapsedEventHandler(tmrSAPcustomers_Elapsed);
             tmrSAPcustomers.Enabled = true;
             tmrSAPcustomers.Start();
@@ -174,9 +174,12 @@ namespace Sultanlar.WindowsServiceIslemler
                     DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
                     )
                 {
-                    musteriguncelleniyor = true;
-                    MusterilerC();
-                    musteriguncelleniyor = false;
+                    if ((DateTime.Now.Minute > 25 && DateTime.Now.Minute <= 30))
+                    {
+                        musteriguncelleniyor = true;
+                        MusterilerC();
+                        musteriguncelleniyor = false;
+                    }
                 }
             }
         }
@@ -241,7 +244,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     {
                         SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
                         LogYaz(conn, "ekstre oncesi", true, "ekstre fonksiyonu simdi baslayacak", DateTime.Now, DateTime.Now);
-                        GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014") DateTime.Now.AddYears(-2)
+                        GetEkstre(DateTime.Now.AddYears(-2)); // Convert.ToDateTime("01.01.2014") DateTime.Now.AddYears(-2)
                         LogYaz(conn, "ekstre sonrasi", true, "ekstre fonksiyonu simdi bitmis olmasi lazim, satis yeni baslayacak", DateTime.Now, DateTime.Now);
                         GetSatisJob();
                         LogYaz(conn, "ekstre sonrasi", true, "satis yeni simdi bitmis olmasi lazim", DateTime.Now, DateTime.Now);
@@ -275,7 +278,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 {
                     if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
                     {
-                        GetEkstre(Convert.ToDateTime("01.01.2014")); // DateTime.Now.AddYears(-2)
+                        GetEkstre(DateTime.Now.AddYears(-2)); // DateTime.Now.AddYears(-2)
                         GetSatisJob();
                     }
                 }
@@ -741,7 +744,7 @@ namespace Sultanlar.WindowsServiceIslemler
             SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
-            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Kampanyalar"); cmdLog.Parameters.AddWithValue("@strLog", "");
+            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Kampanyalar");
 
 
 
@@ -754,8 +757,10 @@ namespace Sultanlar.WindowsServiceIslemler
             getcampaignsC.Zwebt903[] listHed = null;
             getcampaignsC.Zwebt901[] listKart = clCampaigns.ZwebGetCampaigns(out listAna, out listHed);
 
+            cmdLog.Parameters.AddWithValue("@strLog", listKart.Length.ToString() + " Satır");
+
             SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web-Kampanya-1] DELETE FROM [Web-Kampanya-2] DELETE FROM [Web-Kampanya-3]", conn);
-            cmd1.CommandTimeout = 360;
+            cmd1.CommandTimeout = 1000;
             conn.Open();
             cmd1.ExecuteNonQuery();
             conn.Close();
@@ -775,7 +780,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Kampanya-1] " +
                     "([KAMKARTREF],[KAMPNO],[FIYAT_TIPI],ACIKLAMA,BASLANGIC_TARIHI,BITIS_TARIHI,KYTK)" +
                     "VALUES (@KAMKARTREF,@KAMPNO,@FIYAT_TIPI,@ACIKLAMA,@BASLANGIC_TARIHI,@BITIS_TARIHI,@KYTK)", conn);
-                cmd.CommandTimeout = 360;
+                cmd.CommandTimeout = 1000;
                 cmd.Parameters.AddWithValue("@KAMKARTREF", kamkartref);
                 cmd.Parameters.AddWithValue("@KAMPNO", kampno);
                 cmd.Parameters.AddWithValue("@FIYAT_TIPI", ftip);
@@ -810,7 +815,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Kampanya-2] " +
                     "([KAMKARTREF],[KAMPANASATREF],[ITEMREF],MIKTAR)" +
                     "VALUES (@KAMKARTREF,@KAMPANASATREF,@ITEMREF,@MIKTAR)", conn);
-                cmd.CommandTimeout = 360;
+                cmd.CommandTimeout = 1000;
                 cmd.Parameters.AddWithValue("@KAMKARTREF", kamkartref);
                 cmd.Parameters.AddWithValue("@KAMPANASATREF", kampanasatref);
                 cmd.Parameters.AddWithValue("@ITEMREF", itemref);
@@ -842,7 +847,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Kampanya-3] " +
                     "([KAMKARTREF],[KAMPHEDSATREF],[ITEMREF],MIKTAR)" +
                     "VALUES (@KAMKARTREF,@KAMPHEDSATREF,@ITEMREF,@MIKTAR)", conn);
-                cmd.CommandTimeout = 360;
+                cmd.CommandTimeout = 1000;
                 cmd.Parameters.AddWithValue("@KAMKARTREF", kamkartref);
                 cmd.Parameters.AddWithValue("@KAMPHEDSATREF", kamphedsatref);
                 cmd.Parameters.AddWithValue("@ITEMREF", itemref);
@@ -866,7 +871,7 @@ namespace Sultanlar.WindowsServiceIslemler
             cmd2.CommandText = "UPDATE [Web-Kampanya-2] SET [KAMPNO] = [Web-Kampanya-1].KAMPNO,[TIP] = [Web-Kampanya-1].FIYAT_TIPI,[GRUP KOD] = [Web-Malzeme].[GRUP KOD],[OZEL KOD] = [Web-Malzeme].[OZEL KOD],[HK] = [Web-Malzeme].HK,[OZEL ACIK] = [Web-Malzeme].[OZEL ACIK],[REY KOD] = [Web-Malzeme].[REY KOD],[RK] = [Web-Malzeme].RK,[REY ACIK] = [Web-Malzeme].[REY ACIK],[MAL ACIK] = [Web-Malzeme].[MAL ACIK],[KOLI] = [Web-Malzeme].KOLI,[KYTK] = [Web-Kampanya-1].KYTK FROM [Web-Kampanya-2] INNER JOIN [Web-Malzeme] ON [Web-Kampanya-2].ITEMREF = [Web-Malzeme].ITEMREF INNER JOIN [Web-Kampanya-1] ON [Web-Kampanya-2].[KAMKARTREF] = [Web-Kampanya-1].[KAMKARTREF] UPDATE [Web-Kampanya-2] SET [KAMP.NET+KDV] = (SELECT [NET+KDV] FROM [Web-Fiyat] WHERE TIP = [Web-Kampanya-2].TIP AND ITEMREF = [Web-Kampanya-2].ITEMREF) * MIKTAR ";
             cmd2.CommandText += "UPDATE [Web-Kampanya-3] SET [KAMPNO] = [Web-Kampanya-1].KAMPNO,[TIP] = [Web-Kampanya-1].FIYAT_TIPI,[GRUP KOD] = [Web-Malzeme].[GRUP KOD],[OZEL KOD] = [Web-Malzeme].[OZEL KOD],[HK] = [Web-Malzeme].HK,[OZEL ACIK] = [Web-Malzeme].[OZEL ACIK],[REY KOD] = [Web-Malzeme].[REY KOD],[RK] = [Web-Malzeme].RK,[REY ACIK] = [Web-Malzeme].[REY ACIK],[MAL ACIK] = [Web-Malzeme].[MAL ACIK],[KOLI] = [Web-Malzeme].KOLI,[KYTK] = [Web-Kampanya-1].KYTK FROM [Web-Kampanya-3] INNER JOIN [Web-Malzeme] ON [Web-Kampanya-3].ITEMREF = [Web-Malzeme].ITEMREF INNER JOIN [Web-Kampanya-1] ON [Web-Kampanya-3].[KAMKARTREF] = [Web-Kampanya-1].[KAMKARTREF] UPDATE [Web-Kampanya-3] SET [HED.NET+KDV] = (SELECT [NET+KDV] FROM [Web-Fiyat] WHERE TIP = [Web-Kampanya-3].TIP AND ITEMREF = [Web-Kampanya-3].ITEMREF) * MIKTAR ";
             cmd2.CommandText += "UPDATE [Web-Kampanya-1] SET ACIKLAMA = (SELECT [OZEL ACIK] FROM [Web-Kampanya-2] WHERE KAMKARTREF = [Web-Kampanya-1].KAMKARTREF),[KAMP.NET+KDV] = (SELECT [KAMP.NET+KDV] FROM [Web-Kampanya-2] WHERE KAMKARTREF = [Web-Kampanya-1].KAMKARTREF),[HED.NET+KDV] = (SELECT [HED.NET+KDV] FROM [Web-Kampanya-3] WHERE KAMKARTREF = [Web-Kampanya-1].KAMKARTREF) UPDATE [KurumsalWebSAP].[dbo].[Web-Kampanya-1] SET [ISK-%] = ([HED.NET+KDV] * 100) / [KAMP.NET+KDV]";
-            cmd2.CommandTimeout = 360;
+            cmd2.CommandTimeout = 1000;
             conn.Open();
             cmd2.ExecuteNonQuery();
             conn.Close();
@@ -878,6 +883,9 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void FiyatlarC()
         {
+            FiyatlarCsap();
+            return;
+
             SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
@@ -893,7 +901,7 @@ namespace Sultanlar.WindowsServiceIslemler
             getmaterialpricesC.Zwebt004[] listMaterialPrices = clMaterialPrices.ZwebGetMaterialPrices();
 
             SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Fiyat]", conn);
-            cmd1.CommandTimeout = 360;
+            cmd1.CommandTimeout = 1000;
             conn.Open();
             cmd1.ExecuteNonQuery();
             conn.Close();
@@ -929,7 +937,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Fiyat] " +
                     "([TIP],GMREF,[ITEMREF],[FIYAT],ISK1,ISK2,ISK3,ISK4,ISK5,ISK6,ISK7,ISK8,ISK9,ISK10,[VADE])" +
                     "VALUES (@TIP,@GMREF,@ITEMREF,@FIYAT,0,0,0,0,0,0,0,0,0,0,@VADE)", conn);
-                    cmd.CommandTimeout = 360;
+                    cmd.CommandTimeout = 1000;
                     cmd.Parameters.AddWithValue("@TIP", tip);
                     cmd.Parameters.AddWithValue("@GMREF", gmref);
                     cmd.Parameters.AddWithValue("@ITEMREF", itemref);
@@ -968,7 +976,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 }
 
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandTimeout = 360;
+                cmd.CommandTimeout = 1000;
                 cmd.Connection = conn; cmd.CommandText = "";
                 cmd.Parameters.AddWithValue("@TIP", tip);
                 cmd.Parameters.AddWithValue("@GMREF", gmref);
@@ -1093,7 +1101,7 @@ namespace Sultanlar.WindowsServiceIslemler
             //        SqlCommand cmd = new SqlCommand("UPDATE [Web_Fiyat] " +
             //                "SET [GRUP KOD] = @GRUPKOD,[OZEL KOD] = @OZELKOD,[HK] = @HK,[OZEL ACIK] = @OZELACIK,[REY KOD] = @REYKOD,[RK] = @RK,[REY ACIK] = @REYACIK,[MAL ACIK] = @MALACIK,[NET] = @NET,[NET+KDV] = @NETKDV" +
             //                " WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF", conn);
-            //        cmd.CommandTimeout = 360;
+            //        cmd.CommandTimeout = 1000;
 
             //        cmd.Parameters.AddWithValue("@GRUPKOD", dt1.Rows[0]["GRUP KOD"].ToString());
             //        cmd.Parameters.AddWithValue("@OZELKOD", dt1.Rows[0]["OZEL KOD"].ToString());
@@ -1127,7 +1135,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
             #region yeni usül
             SqlCommand cmdBilgiler = new SqlCommand("UPDATE [Web_Fiyat] SET [Web_Fiyat].[GRUP KOD] = [Web-Malzeme-Full].[GRUP KOD],[Web_Fiyat].[OZEL KOD] = [Web-Malzeme-Full].[OZEL KOD],[Web_Fiyat].[HK] = [Web-Malzeme-Full].[HK],[Web_Fiyat].[OZEL ACIK] = [Web-Malzeme-Full].[OZEL ACIK],[Web_Fiyat].[REY KOD] = [Web-Malzeme-Full].[REY KOD],[Web_Fiyat].[RK] = [Web-Malzeme-Full].[RK],[Web_Fiyat].[REY ACIK] = [Web-Malzeme-Full].[REY ACIK],[Web_Fiyat].[MAL ACIK] = [Web-Malzeme-Full].[MAL ACIK],[Web_Fiyat].[NET] = dbo.IskontoDusCoklu([Web_Fiyat].FIYAT, [Web_Fiyat].ISK1, [Web_Fiyat].ISK2, [Web_Fiyat].ISK3, [Web_Fiyat].ISK4, [Web_Fiyat].ISK5, [Web_Fiyat].ISK6, [Web_Fiyat].ISK7, [Web_Fiyat].ISK8, [Web_Fiyat].ISK9, [Web_Fiyat].ISK10),[Web_Fiyat].[NET+KDV] = dbo.IskontoDusCoklu([Web_Fiyat].FIYAT, [Web_Fiyat].ISK1, [Web_Fiyat].ISK2, [Web_Fiyat].ISK3, [Web_Fiyat].ISK4, [Web_Fiyat].ISK5, [Web_Fiyat].ISK6, [Web_Fiyat].ISK7, [Web_Fiyat].ISK8, [Web_Fiyat].ISK9, [Web_Fiyat].ISK10) * ((100 + [Web-Malzeme-Full].KDV) / 100) FROM [Web_Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web_Fiyat].[ITEMREF] = [Web-Malzeme-Full].[ITEMREF]", conn);
-            cmdBilgiler.CommandTimeout = 360;
+            cmdBilgiler.CommandTimeout = 1000;
             conn.Open();
             cmdBilgiler.ExecuteNonQuery();
             conn.Close();
@@ -1136,13 +1144,13 @@ namespace Sultanlar.WindowsServiceIslemler
 
 
             SqlCommand cmd4 = new SqlCommand("DELETE FROM [Web_Fiyat] WHERE [NET] IS NULL", conn);
-            cmd4.CommandTimeout = 360;
+            cmd4.CommandTimeout = 1000;
             conn.Open();
             cmd4.ExecuteNonQuery();
             conn.Close();
 
             SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Fiyat] INSERT INTO [Web-Fiyat] SELECT * FROM [Web_Fiyat] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
-            cmd2.CommandTimeout = 360;
+            cmd2.CommandTimeout = 1000;
             conn.Open();
             cmd2.ExecuteNonQuery();
             conn.Close();
@@ -1158,7 +1166,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 ",[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]" +
 
                 "FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7", conn);
-            cmd3.CommandTimeout = 360;
+            cmd3.CommandTimeout = 1000;
             conn.Open();
             cmd3.ExecuteNonQuery();
             conn.Close();
@@ -1168,12 +1176,403 @@ namespace Sultanlar.WindowsServiceIslemler
             conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
         }
 
+        private void FiyatlarCsap()
+        {
+            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+
+            SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
+            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Fiyatlar");
+
+
+
+            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+
+            getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
+            clMaterialPrices.Timeout = 6000000;
+            clMaterialPrices.Credentials = nc1;
+            getmaterialpricesC.Zwebt004[] listMaterialPrices = clMaterialPrices.ZwebGetMaterialPrices();
+
+            cmdLog.Parameters.AddWithValue("@strLog", listMaterialPrices.Length.ToString() + " Satır");
+
+            SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Fiyat_SAP]", conn);
+            cmd1.CommandTimeout = 1000;
+            conn.Open();
+            cmd1.ExecuteNonQuery();
+            conn.Close();
+
+            for (int i = 0; i < listMaterialPrices.Length; i++)
+            {
+                SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Fiyat_SAP] " +
+                "(Aedat,Aezet,Kbetr,Kdgrp,Kmein,Konwa,Kpein,Kschl,Kunnr,Mandt,Matnr,Pltyp,Valdt,Zterm)" +
+                "VALUES (@Aedat,@Aezet,@Kbetr,@Kdgrp,@Kmein,@Konwa,@Kpein,@Kschl,@Kunnr,@Mandt,@Matnr,@Pltyp,@Valdt,@Zterm)", conn);
+                cmd.CommandTimeout = 1000;
+                cmd.Parameters.AddWithValue("@Aedat", listMaterialPrices[i].Aedat);
+                cmd.Parameters.AddWithValue("@Aezet", listMaterialPrices[i].Aezet);
+                cmd.Parameters.AddWithValue("@Kbetr", listMaterialPrices[i].Kbetr);
+                cmd.Parameters.AddWithValue("@Kdgrp", listMaterialPrices[i].Kdgrp);
+                cmd.Parameters.AddWithValue("@Kmein", listMaterialPrices[i].Kmein);
+                cmd.Parameters.AddWithValue("@Konwa", listMaterialPrices[i].Konwa);
+                cmd.Parameters.AddWithValue("@Kpein", listMaterialPrices[i].Kpein);
+                cmd.Parameters.AddWithValue("@Kschl", listMaterialPrices[i].Kschl);
+                cmd.Parameters.AddWithValue("@Kunnr", listMaterialPrices[i].Kunnr);
+                cmd.Parameters.AddWithValue("@Mandt", listMaterialPrices[i].Mandt);
+                cmd.Parameters.AddWithValue("@Matnr", listMaterialPrices[i].Matnr);
+                cmd.Parameters.AddWithValue("@Pltyp", listMaterialPrices[i].Pltyp);
+                cmd.Parameters.AddWithValue("@Valdt", listMaterialPrices[i].Valdt);
+                cmd.Parameters.AddWithValue("@Zterm", listMaterialPrices[i].Zterm);
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Hatalar.DoInsert(ex, "windows servis SAP fiyatlar");
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+
+
+            /*SqlCommand cmd5 = new SqlCommand("INSERT INTO [Web_Fiyat] SELECT *,NULL,NULL,NULL FROM [Web_Fiyat_SAP_aktarim]", conn);
+            cmd5.CommandTimeout = 1000;
+            conn.Open();
+            cmd5.ExecuteNonQuery();
+            conn.Close();*/
+
+            /*SqlCommand cmd4 = new SqlCommand("DELETE FROM [Web_Fiyat] WHERE [NET] IS NULL", conn);
+            cmd4.CommandTimeout = 1000;
+            conn.Open();
+            cmd4.ExecuteNonQuery();
+            conn.Close();*/
+
+            SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Fiyat] INSERT INTO [Web-Fiyat] SELECT *,NULL,NULL,NULL FROM [Web_Fiyat_SAP_aktarim] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
+            cmd2.CommandTimeout = 1000;
+            conn.Open();
+            cmd2.ExecuteNonQuery();
+            conn.Close();
+
+            SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-Fiyat] WHERE TIP = 21 " +
+
+                "INSERT INTO [Web-Fiyat] ([TIP],[GMREF],[GRUP KOD],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[ITEMREF],[MAL ACIK],[FIYAT],[ISK1],[ISK2],[ISK3],[ISK4],[ISK5],[ISK6],[ISK7],[ISK8],[ISK9],[ISK10],[NET],[NET+KDV],[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH])" +
+
+                "SELECT 21,0,[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK],FIYAT,0,0,0,0,0,0,0,0,0,0,FIYAT - (FIYAT / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel)),(FIYAT - (FIYAT / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))) * ((100 + KDV) / 100),[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7"
+
+                /*"SELECT 21,0,[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK]," +
+                "(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF)" +
+                ",0,0,0,0,0,0,0,0,0,0" +
+                ",(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))" +
+                ",((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))) * ((100 + KDV) / 100)" +
+                ",[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]" +
+
+                "FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7"*/
+                , conn);
+            cmd3.CommandTimeout = 1000;
+            conn.Open();
+            cmd3.ExecuteNonQuery();
+            conn.Close();
+
+
+
+            conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
+        }
+
+        #region multithread fiyatlar (kullanılmıyor)
+        bool Fiyatbirbitti = false, Fiyatikibitti = false, Fiyatucbitti = false, Fiyatdortbitti = false;
+
+        private void FiyatlarCmt()
+        {
+            SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+
+            SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
+            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Fiyatlar"); cmdLog.Parameters.AddWithValue("@strLog", "");
+
+
+
+            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+
+            getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
+            clMaterialPrices.Timeout = 6000000;
+            clMaterialPrices.Credentials = nc1;
+            getmaterialpricesC.Zwebt004[] listMaterialPrices = clMaterialPrices.ZwebGetMaterialPrices();
+
+            SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Fiyat]", conn);
+            cmd1.CommandTimeout = 1000;
+            conn.Open();
+            cmd1.ExecuteNonQuery();
+            conn.Close();
+
+
+            System.Threading.Thread thr1 = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(FiyatlarCmtIslem));
+            System.Threading.Thread thr2 = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(FiyatlarCmtIslem));
+            System.Threading.Thread thr3 = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(FiyatlarCmtIslem));
+            System.Threading.Thread thr4 = new System.Threading.Thread(new System.Threading.ParameterizedThreadStart(FiyatlarCmtIslem));
+            int bir = listMaterialPrices.Length / 4;
+            int iki = bir * 2;
+            int uc = bir * 3;
+            int dort = listMaterialPrices.Length;
+            FiyatlarCmtParametre par1 = new FiyatlarCmtParametre() { listMaterialPrices = listMaterialPrices, baslangic = 0, bitis = bir, kacinci = 1, cmdLog = cmdLog };
+            FiyatlarCmtParametre par2 = new FiyatlarCmtParametre() { listMaterialPrices = listMaterialPrices, baslangic = bir, bitis = iki, kacinci = 2, cmdLog = cmdLog };
+            FiyatlarCmtParametre par3 = new FiyatlarCmtParametre() { listMaterialPrices = listMaterialPrices, baslangic = iki, bitis = uc, kacinci = 3, cmdLog = cmdLog };
+            FiyatlarCmtParametre par4 = new FiyatlarCmtParametre() { listMaterialPrices = listMaterialPrices, baslangic = uc, bitis = dort, kacinci = 4, cmdLog = cmdLog };
+            thr1.Start(par1);
+            thr2.Start(par2);
+            thr3.Start(par3);
+            thr4.Start(par4);
+        }
+
+        private void FiyatlarCmtBitis(SqlCommand cmdLog)
+        {
+            if (Fiyatbirbitti && Fiyatikibitti && Fiyatucbitti && Fiyatdortbitti)
+            {
+                SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+
+                SqlCommand cmdBilgiler = new SqlCommand("UPDATE [Web_Fiyat] SET [Web_Fiyat].[GRUP KOD] = [Web-Malzeme-Full].[GRUP KOD],[Web_Fiyat].[OZEL KOD] = [Web-Malzeme-Full].[OZEL KOD],[Web_Fiyat].[HK] = [Web-Malzeme-Full].[HK],[Web_Fiyat].[OZEL ACIK] = [Web-Malzeme-Full].[OZEL ACIK],[Web_Fiyat].[REY KOD] = [Web-Malzeme-Full].[REY KOD],[Web_Fiyat].[RK] = [Web-Malzeme-Full].[RK],[Web_Fiyat].[REY ACIK] = [Web-Malzeme-Full].[REY ACIK],[Web_Fiyat].[MAL ACIK] = [Web-Malzeme-Full].[MAL ACIK],[Web_Fiyat].[NET] = dbo.IskontoDusCoklu([Web_Fiyat].FIYAT, [Web_Fiyat].ISK1, [Web_Fiyat].ISK2, [Web_Fiyat].ISK3, [Web_Fiyat].ISK4, [Web_Fiyat].ISK5, [Web_Fiyat].ISK6, [Web_Fiyat].ISK7, [Web_Fiyat].ISK8, [Web_Fiyat].ISK9, [Web_Fiyat].ISK10),[Web_Fiyat].[NET+KDV] = dbo.IskontoDusCoklu([Web_Fiyat].FIYAT, [Web_Fiyat].ISK1, [Web_Fiyat].ISK2, [Web_Fiyat].ISK3, [Web_Fiyat].ISK4, [Web_Fiyat].ISK5, [Web_Fiyat].ISK6, [Web_Fiyat].ISK7, [Web_Fiyat].ISK8, [Web_Fiyat].ISK9, [Web_Fiyat].ISK10) * ((100 + [Web-Malzeme-Full].KDV) / 100) FROM [Web_Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web_Fiyat].[ITEMREF] = [Web-Malzeme-Full].[ITEMREF]", conn);
+                cmdBilgiler.CommandTimeout = 1000;
+                conn.Open();
+                cmdBilgiler.ExecuteNonQuery();
+                conn.Close();
+
+
+
+                SqlCommand cmd4 = new SqlCommand("DELETE FROM [Web_Fiyat] WHERE [NET] IS NULL", conn);
+                cmd4.CommandTimeout = 1000;
+                conn.Open();
+                cmd4.ExecuteNonQuery();
+                conn.Close();
+
+                SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Fiyat] INSERT INTO [Web-Fiyat] SELECT * FROM [Web_Fiyat] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
+                cmd2.CommandTimeout = 1000;
+                conn.Open();
+                cmd2.ExecuteNonQuery();
+                conn.Close();
+
+                SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-Fiyat] WHERE TIP = 21 " +
+
+                    "INSERT INTO [Web-Fiyat] ([TIP],[GMREF],[GRUP KOD],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[ITEMREF],[MAL ACIK],[FIYAT],[ISK1],[ISK2],[ISK3],[ISK4],[ISK5],[ISK6],[ISK7],[ISK8],[ISK9],[ISK10],[NET],[NET+KDV],[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH])" +
+                    "SELECT 21,0,[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK]," +
+                    "(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF)" +
+                    ",0,0,0,0,0,0,0,0,0,0" +
+                    ",(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))" +
+                    ",((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))) * ((100 + KDV) / 100)" +
+                    ",[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]" +
+
+                    "FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7", conn);
+                cmd3.CommandTimeout = 1000;
+                conn.Open();
+                cmd3.ExecuteNonQuery();
+                conn.Close();
+
+
+
+                conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
+
+                Fiyatbirbitti = false;
+                Fiyatikibitti = false;
+                Fiyatucbitti = false;
+                Fiyatdortbitti = false;
+            }
+        }
+
+        private void FiyatlarCmtIslem(object para)
+        {
+            FiyatlarCmtParametre gelen = (FiyatlarCmtParametre)para;
+            getmaterialpricesC.Zwebt004[] listMaterialPrices = gelen.listMaterialPrices;
+            int baslangic = gelen.baslangic;
+            int bitis = gelen.bitis;
+            int kacinci = gelen.kacinci;
+            SqlCommand cmdLog = gelen.cmdLog;
+            SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+
+
+
+            for (int i = baslangic; i < bitis; i++)
+            {
+                if ((listMaterialPrices[i].Kschl == "ZT01" && listMaterialPrices[i].Pltyp != "02") || (listMaterialPrices[i].Kschl == "ZT22" && listMaterialPrices[i].Pltyp == "02"))
+                {
+                    int tip = 0; try { tip = Convert.ToInt32(listMaterialPrices[i].Pltyp); }
+                    catch { }
+                    int itemref = 0; try { itemref = Convert.ToInt32(listMaterialPrices[i].Matnr.Substring(11)); }
+                    catch { }
+                    double fiyat = 0; try { fiyat = Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+
+                    int vade = 0; try { vade = Convert.ToInt32(listMaterialPrices[i].Zterm); }
+                    catch { }
+                    if (vade == 0)
+                    {
+                        try { vade = Convert.ToInt32((Convert.ToDateTime(listMaterialPrices[i].Valdt) - DateTime.Now).TotalDays); }
+                        catch { }
+                    }
+
+                    int gmref = 0;
+
+                    if (tip == 0)
+                    {
+                        try { gmref = Convert.ToInt32(listMaterialPrices[i].Kunnr); }
+                        catch { }
+                        tip = GetFiyatTipiFromGMREF(gmref);
+                    }
+
+                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Fiyat] " +
+                    "([TIP],GMREF,[ITEMREF],[FIYAT],ISK1,ISK2,ISK3,ISK4,ISK5,ISK6,ISK7,ISK8,ISK9,ISK10,[VADE])" +
+                    "VALUES (@TIP,@GMREF,@ITEMREF,@FIYAT,0,0,0,0,0,0,0,0,0,0,@VADE)", conn);
+                    cmd.CommandTimeout = 1000;
+                    cmd.Parameters.AddWithValue("@TIP", tip);
+                    cmd.Parameters.AddWithValue("@GMREF", gmref);
+                    cmd.Parameters.AddWithValue("@ITEMREF", itemref);
+                    cmd.Parameters.AddWithValue("@FIYAT", fiyat);
+                    cmd.Parameters.AddWithValue("@VADE", vade);
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        Hatalar.DoInsert(ex, "windows servis SAP fiyatlar");
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+
+            for (int i = baslangic; i < bitis; i++)
+            {
+                string kosul = listMaterialPrices[i].Kschl;
+                int tip = 0; try { tip = Convert.ToInt32(listMaterialPrices[i].Pltyp); }
+                catch { }
+                int itemref = 0; try { itemref = Convert.ToInt32(listMaterialPrices[i].Matnr.Substring(11)); }
+                catch { }
+                int gmref = 0;
+
+                if (tip == 0)
+                {
+                    try { gmref = Convert.ToInt32(listMaterialPrices[i].Kunnr); }
+                    catch { }
+                    tip = GetFiyatTipiFromGMREF(gmref);
+                }
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandTimeout = 1000;
+                cmd.Connection = conn; cmd.CommandText = "";
+                cmd.Parameters.AddWithValue("@TIP", tip);
+                cmd.Parameters.AddWithValue("@GMREF", gmref);
+                cmd.Parameters.AddWithValue("@ITEMREF", itemref);
+
+                if (listMaterialPrices[i].Kschl == "ZT03") // isk1
+                {
+                    double isk = 0; try { isk = -1 * Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+                    cmd.CommandText = "UPDATE [Web_Fiyat] SET ISK1 = @ISK1 WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF";
+                    cmd.Parameters.AddWithValue("@ISK1", isk);
+                }
+                else if (listMaterialPrices[i].Kschl == "ZT04") // isk2
+                {
+                    double isk = 0; try { isk = -1 * Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+                    cmd.CommandText = "UPDATE [Web_Fiyat] SET ISK2 = @ISK2 WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF";
+                    cmd.Parameters.AddWithValue("@ISK2", isk);
+                }
+                else if (listMaterialPrices[i].Kschl == "ZT05") // isk3
+                {
+                    double isk = 0; try { isk = -1 * Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+                    cmd.CommandText = "UPDATE [Web_Fiyat] SET ISK3 = @ISK3 WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF";
+                    cmd.Parameters.AddWithValue("@ISK3", isk);
+                }
+                else if (listMaterialPrices[i].Kschl == "ZT07") // isk4
+                {
+                    double isk = 0; try { isk = -1 * Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+                    cmd.CommandText = "UPDATE [Web_Fiyat] SET ISK4 = @ISK4 WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF";
+                    cmd.Parameters.AddWithValue("@ISK4", isk);
+                }
+                else if (listMaterialPrices[i].Kschl == "ZT13") // isk5
+                {
+                    double isk = 0; try { isk = -1 * Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+                    cmd.CommandText = "UPDATE [Web_Fiyat] SET ISK5 = @ISK5 WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF";
+                    cmd.Parameters.AddWithValue("@ISK5", isk);
+                }
+                else if (listMaterialPrices[i].Kschl == "ZT16") // isk6
+                {
+                    double isk = 0; try { isk = -1 * Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+                    cmd.CommandText = "UPDATE [Web_Fiyat] SET ISK6 = @ISK6 WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF";
+                    cmd.Parameters.AddWithValue("@ISK6", isk);
+                }
+                else if (listMaterialPrices[i].Kschl == "ZT06") // isk7
+                {
+                    double isk = 0; try { isk = -1 * Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+                    cmd.CommandText = "UPDATE [Web_Fiyat] SET ISK7 = @ISK7 WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF";
+                    cmd.Parameters.AddWithValue("@ISK7", isk);
+                }
+                else if (listMaterialPrices[i].Kschl == "ZT11") // isk8
+                {
+                    double isk = 0; try { isk = -1 * Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+                    cmd.CommandText = "UPDATE [Web_Fiyat] SET ISK8 = @ISK8 WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF";
+                    cmd.Parameters.AddWithValue("@ISK8", isk);
+                }
+                else if (listMaterialPrices[i].Kschl == "ZT17") // isk9
+                {
+                    double isk = 0; try { isk = -1 * Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+                    cmd.CommandText = "UPDATE [Web_Fiyat] SET ISK9 = @ISK9 WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF";
+                    cmd.Parameters.AddWithValue("@ISK9", isk);
+                }
+                else if (listMaterialPrices[i].Kschl == "ZT18") // isk10
+                {
+                    double isk = 0; try { isk = -1 * Convert.ToDouble(listMaterialPrices[i].Kbetr) / (listMaterialPrices[i].Kpein > 0 ? Convert.ToDouble(listMaterialPrices[i].Kpein) : 10); }
+                    catch { }
+                    cmd.CommandText = "UPDATE [Web_Fiyat] SET ISK10 = @ISK10 WHERE TIP = @TIP AND GMREF = @GMREF AND ITEMREF = @ITEMREF";
+                    cmd.Parameters.AddWithValue("@ISK10", isk);
+                }
+
+                if (cmd.CommandText != "")
+                {
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        Hatalar.DoInsert(ex, "windows servis SAP fiyatlar");
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+
+            if (kacinci == 1)
+                Fiyatbirbitti = true;
+            else if (kacinci == 2)
+                Fiyatikibitti = true;
+            else if (kacinci == 3)
+                Fiyatucbitti = true;
+            else if (kacinci == 4)
+                Fiyatdortbitti = true;
+
+            FiyatlarCmtBitis(cmdLog);
+        }
+        #endregion
+
         private void MalzemelerC(bool malzeme, bool olcubirim)
         {
             SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
-            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Malzemeler"); cmdLog.Parameters.AddWithValue("@strLog", "");
+            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Malzemeler");
 
 
 
@@ -1183,17 +1582,35 @@ namespace Sultanlar.WindowsServiceIslemler
             clMaterials.Timeout = 6000000;
             clMaterials.Credentials = nc1;
             getmaterialsC.Zwebs025[] yirmibes = null;
-            getmaterialsC.Zwebt001[] listMaterials = clMaterials.ZwebGetMaterials(out yirmibes);
+            getmaterialsC.Zwebt001St[] birst = null;
+            getmaterialsC.Zwebt001[] listMaterials = clMaterials.ZwebGetMaterials(out yirmibes, out birst);
 
-
+            cmdLog.Parameters.AddWithValue("@strLog", listMaterials.Length.ToString() + " Satır");
 
             if (malzeme)
             {
-                SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Malzeme]", conn);
-                cmd1.CommandTimeout = 360;
+                SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Malzeme] DELETE FROM [Web_Malzeme_Stock]", conn);
+                cmd1.CommandTimeout = 1000;
                 conn.Open();
                 cmd1.ExecuteNonQuery();
                 conn.Close();
+
+                for (int i = 0; i < birst.Length; i++)
+                {
+                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Malzeme_Stock] (Charg,Clabs,Lgort,Matnr,Meins,Werks) VALUES (@Charg,@Clabs,@Lgort,@Matnr,@Meins,@Werks)", conn);
+                    cmd.CommandTimeout = 1000;
+                    cmd.Parameters.AddWithValue("@Charg", birst[i].Charg);
+                    cmd.Parameters.AddWithValue("@Clabs", birst[i].Clabs);
+                    cmd.Parameters.AddWithValue("@Lgort", birst[i].Lgort);
+                    try { cmd.Parameters.AddWithValue("@Matnr", Convert.ToInt32(birst[i].Matnr.Substring(11))); }
+                    catch { cmd.Parameters.AddWithValue("@Matnr", 0); }
+                    cmd.Parameters.AddWithValue("@Meins", birst[i].Meins);
+                    cmd.Parameters.AddWithValue("@Werks", birst[i].Werks);
+                    conn.Open();
+                    try { cmd.ExecuteNonQuery(); }
+                    catch (Exception ex) { Hatalar.DoInsert(ex, "windows servis SAP malzemeler stock"); }
+                    conn.Close();
+                }
 
                 for (int i = 0; i < listMaterials.Length; i++)
                 {
@@ -1240,7 +1657,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Malzeme] " +
                         "([AP],[ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],KOLI,BARKOD,STOK,[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ)" +
                         "VALUES (@AP,@ITEMREF,@MALKOD,@MALACIK,@URTKOD,@ESKOD,@BIRIMREF,@BIRIM,@GRUPKOD,@GRUPACIK,@OZELKOD,@HK,@OZELACIK,@REYKOD,@RK,@REYACIK,@KDV,@KOLI,@BARKOD,@STOK,@KYTM,@KANAL,@PRIMT,@PRIMB,@HYRS,@HYRS_TANIM,@DONUSUM,@MHDHB,@MHDRZ)", conn);
-                    cmd.CommandTimeout = 360;
+                    cmd.CommandTimeout = 1000;
                     cmd.Parameters.AddWithValue("@AP", Convert.ToInt32(ap == string.Empty || ap == "A" ? "0" : "1"));
                     cmd.Parameters.AddWithValue("@ITEMREF", itemref);
                     cmd.Parameters.AddWithValue("@MALKOD", malkod);
@@ -1287,33 +1704,36 @@ namespace Sultanlar.WindowsServiceIslemler
                 }
 
                 SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Malzeme-Full] INSERT INTO [Web-Malzeme-Full] SELECT * FROM [Web_Malzeme] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
-                cmd2.CommandTimeout = 360;
+                cmd2.CommandTimeout = 1000;
                 SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-GrupKodlar] INSERT INTO [Web-GrupKodlar] SELECT DISTINCT [GRUP KOD],[GRUP ACIK] FROM [Web_Malzeme]   DELETE FROM [Web-OzelKodlar] INSERT INTO [Web-OzelKodlar] SELECT DISTINCT [OZEL KOD],[HK],[OZEL ACIK],[GRUP KOD] FROM [Web_Malzeme]   DELETE FROM [Web-Kategoriler] INSERT INTO [Web-Kategoriler] SELECT DISTINCT [REY KOD] AS CODE,[RK],[REY ACIK] AS NAME FROM [Web_Malzeme]", conn);
-                cmd3.CommandTimeout = 360;
+                cmd3.CommandTimeout = 1000;
 
                 //SqlCommand cmd5 = new SqlCommand("INSERT INTO [Web-Malzeme-AP] SELECT ITEMREF,AP FROM [Web-Malzeme-Full] WHERE ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Malzeme-AP])", conn);
-                //cmd5.CommandTimeout = 360;
+                //cmd5.CommandTimeout = 1000;
                 //SqlCommand cmd6 = new SqlCommand("UPDATE [Web-Malzeme-Full] SET [AP] = [Web-Malzeme-AP].AP FROM [Web-Malzeme-Full] INNER JOIN [Web-Malzeme-AP] ON [Web-Malzeme-Full].ITEMREF = [Web-Malzeme-AP].ITEMREF", conn);
-                //cmd6.CommandTimeout = 360;
+                //cmd6.CommandTimeout = 1000;
 
                 SqlCommand cmd4 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Malzeme] INSERT INTO [Web-Malzeme] ([ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ) SELECT [ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ FROM [Web-Malzeme-Full] WITH (HOLDLOCK) WHERE AP = 0 COMMIT TRANSACTION t_Transaction", conn);
-                cmd4.CommandTimeout = 360;
+                cmd4.CommandTimeout = 1000;
 
                 SqlCommand cmd7 = new SqlCommand("UPDATE [Web-Malzeme] SET [REY KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Malzeme].ITEMREF) WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
                 //SqlCommand cmd7 = new SqlCommand("UPDATE [Web-Malzeme] SET [OZEL KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Malzeme].ITEMREF),[GRUP KOD] = 'STG-1',[GRUP ACIK] = 'AHT',HK = CASE WHEN (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Malzeme].ITEMREF) = 'T3' THEN 'H' ELSE 'T' END,[OZEL ACIK] = CASE WHEN (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Malzeme].ITEMREF) = 'T3' THEN 'HAYAT' ELSE 'TİBET' END WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
-                cmd7.CommandTimeout = 360;
+                cmd7.CommandTimeout = 1000;
 
                 SqlCommand cmd8 = new SqlCommand("UPDATE [Web-Malzeme-Full] SET [REY KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Malzeme-Full].ITEMREF) WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
                 //SqlCommand cmd8 = new SqlCommand("UPDATE [Web-Malzeme-Full] SET [OZEL KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Malzeme-Full].ITEMREF),[GRUP KOD] = 'STG-1',[GRUP ACIK] = 'AHT',HK = CASE WHEN (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Malzeme-Full].ITEMREF) = 'T3' THEN 'H' ELSE 'T' END,[OZEL ACIK] = CASE WHEN (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Malzeme-Full].ITEMREF) = 'T3' THEN 'HAYAT' ELSE 'TİBET' END WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
-                cmd8.CommandTimeout = 360;
+                cmd8.CommandTimeout = 1000;
 
                 SqlCommand cmd9 = new SqlCommand("UPDATE [Web-Fiyat] SET [REY KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat].ITEMREF) WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
                 //SqlCommand cmd9 = new SqlCommand("UPDATE [Web-Fiyat] SET [OZEL KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat].ITEMREF),[GRUP KOD] = 'STG-1',HK = CASE WHEN (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat].ITEMREF) = 'T3' THEN 'H' ELSE 'T' END,[OZEL ACIK] = CASE WHEN (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat].ITEMREF) = 'T3' THEN 'HAYAT' ELSE 'TİBET' END WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
-                cmd9.CommandTimeout = 360;
+                cmd9.CommandTimeout = 1000;
 
                 SqlCommand cmd10 = new SqlCommand("UPDATE [Web-Fiyat-Full] SET [REY KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat-Full].ITEMREF) WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
                 //SqlCommand cmd10 = new SqlCommand("UPDATE [Web-Fiyat-Full] SET [OZEL KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat-Full].ITEMREF),[GRUP KOD] = 'STG-1',HK = CASE WHEN (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat-Full].ITEMREF) = 'T3' THEN 'H' ELSE 'T' END,[OZEL ACIK] = CASE WHEN (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat-Full].ITEMREF) = 'T3' THEN 'HAYAT' ELSE 'TİBET' END WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
-                cmd10.CommandTimeout = 360;
+                cmd10.CommandTimeout = 1000;
+
+                SqlCommand cmd11 = new SqlCommand("UPDATE [Web-Malzeme] SET STOKE = (SELECT sum([Clabs]) FROM [Web_Malzeme_Stock] WHERE Matnr = [Web-Malzeme].ITEMREF) FROM [Web-Malzeme] UPDATE [Web-Malzeme-Full] SET STOKE = (SELECT sum([Clabs]) FROM [Web_Malzeme_Stock] WHERE Matnr = [Web-Malzeme-Full].ITEMREF) FROM [Web-Malzeme-Full]", conn);
+                cmd11.CommandTimeout = 1000;
 
                 conn.Open();
                 cmd2.ExecuteNonQuery();
@@ -1325,6 +1745,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 cmd8.ExecuteNonQuery();
                 cmd9.ExecuteNonQuery();
                 cmd10.ExecuteNonQuery();
+                cmd11.ExecuteNonQuery();
                 conn.Close();
 
 
@@ -1394,7 +1815,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     SqlCommand cmdOlcuBirim = new SqlCommand("INSERT INTO [SAP_OLCUBIRIM] " +
                         "([Matnr],[Meinh],[Umrez],[Umren],[Eannr],[Ean11],[Numtp],[Laeng],[Breit],[Hoehe],[Meabm],[Volum],[Voleh],[Brgew],[Gewei],[Mesub],[Atinn],[Mesrt],[Xfhdw],[Xbeww],[Kzwso],[Msehi],[BflmeMarm],[GtinVariant],[NestFtr],[MaxStack],[Capause],[Ty2tq]) " +
                         "VALUES (@Matnr,@Meinh,@Umrez,@Umren,@Eannr,@Ean11,@Numtp,@Laeng,@Breit,@Hoehe,@Meabm,@Volum,@Voleh,@Brgew,@Gewei,@Mesub,@Atinn,@Mesrt,@Xfhdw,@Xbeww,@Kzwso,@Msehi,@BflmeMarm,@GtinVariant,@NestFtr,@MaxStack,@Capause,@Ty2tq)", conn);
-                    cmdOlcuBirim.CommandTimeout = 360;
+                    cmdOlcuBirim.CommandTimeout = 1000;
                     cmdOlcuBirim.Parameters.AddWithValue("@Matnr", Matnr);
                     cmdOlcuBirim.Parameters.AddWithValue("@Meinh", Meinh);
                     cmdOlcuBirim.Parameters.AddWithValue("@Umrez", Umrez);
@@ -1446,7 +1867,7 @@ namespace Sultanlar.WindowsServiceIslemler
             SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
-            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Personeller"); cmdLog.Parameters.AddWithValue("@strLog", "");
+            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Personeller");
 
 
 
@@ -1457,8 +1878,10 @@ namespace Sultanlar.WindowsServiceIslemler
             clPersonals.Credentials = nc1;
             getpersonalsC.Zwebt003[] listPersonals = clPersonals.ZwebGetPersonals();
 
+            cmdLog.Parameters.AddWithValue("@strLog", listPersonals.Length.ToString() + " Satır");
+
             SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web-SatisTemsilcileri]", conn);
-            cmd1.CommandTimeout = 360;
+            cmd1.CommandTimeout = 1000;
             conn.Open();
             cmd1.ExecuteNonQuery();
             conn.Close();
@@ -1472,7 +1895,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 SqlCommand cmd = new SqlCommand("INSERT INTO [Web-SatisTemsilcileri] " +
                     "([ACTIVE],[SLSMANREF],[SAT TEM])" +
                     "VALUES (0,@SLSMANREF,@SATTEM)", conn);
-                cmd.CommandTimeout = 360;
+                cmd.CommandTimeout = 1000;
                 cmd.Parameters.AddWithValue("@SLSMANREF", slsmanref);
                 cmd.Parameters.AddWithValue("@SATTEM", sattem);
                 try
@@ -1491,13 +1914,13 @@ namespace Sultanlar.WindowsServiceIslemler
             }
 
             SqlCommand cmd2 = new SqlCommand("UPDATE [Web-SatisTemsilcileri] SET [SAT KOD1] = (SELECT TOP 1 [SAT KOD1] FROM [Web-Musteri] WHERE SLSREF = [Web-SatisTemsilcileri].SLSMANREF ORDER BY [SAT KOD1])", conn);
-            cmd2.CommandTimeout = 360;
+            cmd2.CommandTimeout = 1000;
             conn.Open();
             cmd2.ExecuteNonQuery();
             conn.Close();
 
             //SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-SatisTemsilcileri] WHERE [SAT KOD1] IS NULL", conn);
-            //cmd3.CommandTimeout = 360;
+            //cmd3.CommandTimeout = 1000;
             //conn.Open();
             //cmd3.ExecuteNonQuery();
             //conn.Close();
@@ -1512,7 +1935,7 @@ namespace Sultanlar.WindowsServiceIslemler
             SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
-            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Musteriler"); cmdLog.Parameters.AddWithValue("@strLog", "");
+            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Musteriler");
 
 
 
@@ -1523,8 +1946,10 @@ namespace Sultanlar.WindowsServiceIslemler
             clCustomers.Credentials = nc1;
             getcustomersC.Zwebt002[] listCustomers = clCustomers.ZwebGetCustomers();
 
+            cmdLog.Parameters.AddWithValue("@strLog", listCustomers.Length.ToString() + " Satır");
+
             SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Musteri] DELETE FROM [Web-Risk]", conn);
-            cmd1.CommandTimeout = 360;
+            cmd1.CommandTimeout = 1000;
             conn.Open();
             cmd1.ExecuteNonQuery();
             conn.Close();
@@ -1567,7 +1992,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Musteri] " +
                     "([ACTIVE],BOLGE,[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[MT KOD],[MT ACIKLAMA],[SLSREF],[SAT KOD],[SAT KOD1],[GMREF],[MUS KOD],[SAT TEM],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],SEMT,[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],ILGILI,[CEP-1],[NETTOP])" +
                     "VALUES (@ACTIVE,@BOLGE,@YTKKOD,@ILKOD,@IL,@ILCEKOD,@ILCE,@MTKOD,@MTACIKLAMA,@SLSREF,@SATKOD,@SATKOD1,@GMREF,@MUSKOD,@SATTEM,@MUSTERI,@SMREF,@SUBKOD,@SUBE,@ADRES,@SEHIR,@SEMT,@VRGDAIRE,@VRGNO,@TEL,@FAX,@EMAIL,@ILGILI,@CEP,0)", conn);
-                cmd.CommandTimeout = 360;
+                cmd.CommandTimeout = 1000;
                 cmd.Parameters.AddWithValue("@ACTIVE", active);
                 cmd.Parameters.AddWithValue("@BOLGE", bolgekod);
                 cmd.Parameters.AddWithValue("@YTKKOD", ytkkod);
@@ -1598,11 +2023,11 @@ namespace Sultanlar.WindowsServiceIslemler
                 cmd.Parameters.AddWithValue("@CEP", cep);
 
                 SqlCommand cmd2 = new SqlCommand("SELECT count(GMREF) FROM [Web-Risk] WHERE GMREF = @GMREF", conn);
-                cmd2.CommandTimeout = 360;
+                cmd2.CommandTimeout = 1000;
                 cmd2.Parameters.AddWithValue("@GMREF", gmref);
 
                 SqlCommand cmd3 = new SqlCommand("INSERT INTO [Web-Risk] ([SLSREF],[GMREF],[MUS KOD],[MUSTERI],[RISK LMT],[RISK TOP],[RISK BKY],[BAKIYE],[ACK GUN],[ACK TOP],[VB GUN],[VB TOP],[VGB GUN],[VGB TOP],[IRS TOP],[C/S TOP],[SIP TOPL],[SIP TOPLB],[SIP TOPQ]) VALUES (@SLSREF,@GMREF,@GMREF,@MUSTERI,@RISKLMT,0,@RISKBKY,0,0,0,0,0,0,0,0,0,0,0,0)", conn);
-                cmd3.CommandTimeout = 360;
+                cmd3.CommandTimeout = 1000;
                 cmd3.Parameters.AddWithValue("@SLSREF", slsref);
                 cmd3.Parameters.AddWithValue("@GMREF", gmref);
                 cmd3.Parameters.AddWithValue("@MUSTERI", musteri);
@@ -1610,7 +2035,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 cmd3.Parameters.AddWithValue("@RISKBKY", risklimit);
 
                 SqlCommand cmd4 = new SqlCommand("SELECT [SAT TEM] FROM [Web-SatisTemsilcileri] WHERE SLSMANREF = @SLSMANREF", conn);
-                cmd4.CommandTimeout = 360;
+                cmd4.CommandTimeout = 1000;
                 cmd4.Parameters.AddWithValue("@SLSMANREF", slsref);
 
                 try
@@ -1634,26 +2059,26 @@ namespace Sultanlar.WindowsServiceIslemler
             }
 
             SqlCommand cmd5 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Musteri] INSERT INTO [Web-Musteri] SELECT * FROM [Web_Musteri] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
-            cmd5.CommandTimeout = 360;
+            cmd5.CommandTimeout = 1000;
             conn.Open();
             cmd5.ExecuteNonQuery();
             conn.Close();
 
             //üşengeçlik
             SqlCommand cmd6 = new SqlCommand("UPDATE [KurumsalWebSAP].[dbo].[Web-Musteri] SET [GRP] = '',[EKP] = '',[TIP] = 0,UNVAN=''", conn);
-            cmd6.CommandTimeout = 360;
+            cmd6.CommandTimeout = 1000;
             conn.Open();
             cmd6.ExecuteNonQuery();
             conn.Close();
 
             SqlCommand cmd7 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Risk-2] INSERT INTO [Web-Risk-2] ([SLSREF],[GMREF],[MUS KOD],[MUSTERI],[RISK LMT],[RISK TOP],[RISK BKY],[BAKIYE],[ACK GUN],[ACK TOP],[VB GUN],[VB TOP],[VGB GUN],[VGB TOP],[IRS TOP],[C/S TOP],[SIP TOPL],[SIP TOPLB],[SIP TOPQ]) SELECT [SAT KOD],[MUS KOD],[MUS KOD],[MUSTERI],[RISK LMT],0,[RISK LMT],[BAKIYE],0,0,0,0,0,0,[BORC],0,[ALACAK],0,0 FROM [SAP_B_A_2017] WITH (HOLDLOCK) WHERE [SAT KOD] IS NOT NULL COMMIT TRANSACTION t_Transaction", conn);
-            cmd7.CommandTimeout = 360;
+            cmd7.CommandTimeout = 1000;
             conn.Open();
             cmd7.ExecuteNonQuery();
             conn.Close();
 
             /*SqlCommand cmd8 = new SqlCommand("UPDATE [Web-Musteri] SET [Web-Musteri].BOLGE = ISNULL(SATRAP.BLG_KOD,''),[Web-Musteri].ILGILI = ISNULL(SATRAP.[BOLGE],'') FROM [Web-Musteri] LEFT OUTER JOIN (SELECT DISTINCT SMREF,BLG_KOD,[BOLGE] FROM [KurumsalWebSAP].[dbo].[Web-Satis-Rapor-1] WHERE YIL > YEAR(getdate()) - 4) AS SATRAP ON [Web-Musteri].SMREF = SATRAP.SMREF", conn);
-            cmd8.CommandTimeout = 360;
+            cmd8.CommandTimeout = 1000;
             conn.Open();
             cmd8.ExecuteNonQuery();
             conn.Close();*/
@@ -1666,7 +2091,16 @@ namespace Sultanlar.WindowsServiceIslemler
         private int GetFiyatTipiFromGMREF(int GMREF)
         {
             int donendeger = 0;
-            switch (GMREF)
+
+            DataTable dt = new DataTable();
+            FiyatTipleri.GetObjects(dt, true);
+            for (int i = 0; i < dt.Rows.Count; i++)
+                if (dt.Rows[i]["GMREF"] != DBNull.Value && Convert.ToInt32(dt.Rows[i]["GMREF"]) == GMREF)
+                    donendeger = Convert.ToInt32(dt.Rows[i]["NOSU"]);
+
+            #region eskimethod
+
+            /*switch (GMREF)
             {
                 case 1000020:
                     donendeger = 501;
@@ -1992,9 +2426,14 @@ namespace Sultanlar.WindowsServiceIslemler
                 case 1027689:
                     donendeger = 608;
                     break;
+                case 1010244:
+                    donendeger = 609;
+                    break;
                 default:
                     break;
-            }
+            }*/
+            #endregion
+
             return donendeger;
         }
 
@@ -4915,5 +5354,16 @@ namespace Sultanlar.WindowsServiceIslemler
             if (Entegra.EntegraSiparis2())
                 EventLog.WriteEntry("Sultanlar Windows Service", "Entegra güncellemesi yapıldı.", EventLogEntryType.Information);
         }
+    }
+
+
+
+    public class FiyatlarCmtParametre
+    {
+        public getmaterialpricesC.Zwebt004[] listMaterialPrices { get; set; }
+        public int baslangic { get; set; }
+        public int bitis { get; set; }
+        public int kacinci { get; set; }
+        public SqlCommand cmdLog { get; set; }
     }
 }

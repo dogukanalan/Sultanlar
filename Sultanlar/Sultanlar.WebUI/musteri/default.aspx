@@ -2449,6 +2449,8 @@
                 <tr><td style="width: 33%" align="left" runat="server" id="tdKonumlar"><table><tr><td><img src="img/marker.png" width="16px" /></td><td><asp:LinkButton ID="lbKonumlar" runat="server" OnClick="lbKonumlar_Click">Konumlar</asp:LinkButton></td></tr></table></td></tr>
                 <tr><td style="width: 33%" align="left" runat="server" id="tdDestek"><table><tr><td><img src="img/ic_rutlar.png" width="16px" /></td><td><a href='http://95.0.47.130/Sulchat/index.html?kul=<%=((Sultanlar.DatabaseObject.Internet.Musteriler)Session["Musteri"]).strAd + "_" + ((Sultanlar.DatabaseObject.Internet.Musteriler)Session["Musteri"]).strSoyad %>' target="_blank">Canlı Destek</a></td></tr></table></td></tr>
                 <tr><td style="width: 33%" align="left" runat="server" id="tdResimler"><table><tr><td><img src="img/ic_fiyatlisteleri.png" width="16px" /></td><td><asp:LinkButton ID="lbResimler" runat="server" OnClick="lbResimler_Click">Müşteri Resimleri</asp:LinkButton></td></tr></table></td></tr>
+                <tr><td style="width: 33%" align="left" runat="server" id="tdPlano"><table><tr><td><img src="img/ic_katalog.png" width="16px" /></td><td><a href="/planogramlar">Planogramlar</a></td></tr></table></td></tr>
+                <tr><td style="width: 33%" align="left" runat="server" id="tdStand"><table><tr><td><img src="img/ic_katalog.png" width="16px" /></td><td><a href="/stand">Stand</a></td></tr></table></td></tr>
                 </table>
                 </div>
             </td>

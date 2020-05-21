@@ -23,12 +23,13 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="ZwebGetMaterialsBinding", Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Zwebt001[]))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Zwebs025[]))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Zwebt001St[]))]
     public partial class ZwebGetMaterialsService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback ZwebGetMaterialsOperationCompleted;
@@ -78,9 +79,10 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.sap.com/ZwebGetMaterials", RequestNamespace="urn:sap-com:document:sap:soap:functions:mc-style", ResponseElementName="ZwebGetMaterialsResult", ResponseNamespace="urn:sap-com:document:sap:soap:functions:mc-style", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlArrayAttribute("EtMaterials", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         [return: System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public Zwebt001[] ZwebGetMaterials([System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)] out Zwebs025[] EtOlcubirim) {
+        public Zwebt001[] ZwebGetMaterials([System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)] out Zwebs025[] EtOlcubirim, [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)] out Zwebt001St[] EtStocks) {
             object[] results = this.Invoke("ZwebGetMaterials", new object[0]);
             EtOlcubirim = ((Zwebs025[])(results[1]));
+            EtStocks = ((Zwebt001St[])(results[2]));
             return ((Zwebt001[])(results[0]));
         }
         
@@ -124,7 +126,7 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -216,6 +218,8 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
         private decimal mhdrzField;
         
         private bool mhdrzFieldSpecified;
+        
+        private string taxm2Field;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -689,10 +693,121 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
                 this.mhdrzFieldSpecified = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Taxm2 {
+            get {
+                return this.taxm2Field;
+            }
+            set {
+                this.taxm2Field = value;
+            }
+        }
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
+    public partial class Zwebt001St {
+        
+        private string matnrField;
+        
+        private string werksField;
+        
+        private string lgortField;
+        
+        private string chargField;
+        
+        private decimal clabsField;
+        
+        private bool clabsFieldSpecified;
+        
+        private string meinsField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Matnr {
+            get {
+                return this.matnrField;
+            }
+            set {
+                this.matnrField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Werks {
+            get {
+                return this.werksField;
+            }
+            set {
+                this.werksField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Lgort {
+            get {
+                return this.lgortField;
+            }
+            set {
+                this.lgortField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Charg {
+            get {
+                return this.chargField;
+            }
+            set {
+                this.chargField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public decimal Clabs {
+            get {
+                return this.clabsField;
+            }
+            set {
+                this.clabsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool ClabsSpecified {
+            get {
+                return this.clabsFieldSpecified;
+            }
+            set {
+                this.clabsFieldSpecified = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Meins {
+            get {
+                return this.meinsField;
+            }
+            set {
+                this.meinsField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3752.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1195,11 +1310,11 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
     public delegate void ZwebGetMaterialsCompletedEventHandler(object sender, ZwebGetMaterialsCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3752.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ZwebGetMaterialsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -1224,6 +1339,14 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((Zwebs025[])(this.results[1]));
+            }
+        }
+        
+        /// <remarks/>
+        public Zwebt001St[] EtStocks {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Zwebt001St[])(this.results[2]));
             }
         }
     }
