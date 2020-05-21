@@ -57,6 +57,8 @@ namespace Sultanlar.WebUI.musteri
                 tdBrosurler4.Visible = true;
                 tdBrosurler5.Visible = true;
                 tdBrosurler6.Visible = true;
+                tdPlano.Visible = true;
+                tdStand.Visible = true;
 
                 tableAsagi.Visible = !((Musteriler)Session["Musteri"]).blSicakSatis;
                 tdFiyatInceleme.Visible = !((Musteriler)Session["Musteri"]).blSicakSatis;
@@ -1136,11 +1138,11 @@ namespace Sultanlar.WebUI.musteri
 
                 if (!cbAnlasmaGecici.Checked)
                 {
-                    if (!fuAnlasma.HasFile)
+                    /*if (!fuAnlasma.HasFile)
                     {
                         lblAnlasmaHata.Text = "Anlaşma dosyası eklenmeden anlaşma girilemez.";
                         return;
-                    }
+                    }*/
                 }
 
                 anlasma.DoInsert();

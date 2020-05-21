@@ -97,6 +97,20 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bayiapp\anasayfa.aspx" />
+    <Content Include="bayiapp\css\main.css" />
+    <Content Include="bayiapp\css\main1.css" />
+    <Content Include="bayiapp\css\util.css" />
+    <Content Include="bayiapp\fonts\iconic\css\material-design-iconic-font.min.css" />
+    <Content Include="bayiapp\giris.aspx" />
+    <Content Include="bayiapp\images\background.jpg" />
+    <Content Include="bayiapp\images\bg.jpg" />
+    <Content Include="bayiapp\images\headers\5.png" />
+    <Content Include="bayiapp\images\loading.jpg" />
+    <Content Include="bayiapp\js\LazyLoad.js" />
+    <Content Include="bayiapp\js\main.js" />
+    <Content Include="bayiapp\js\unveil.js" />
+    <Content Include="bayiapp\uyeol.aspx" />
     <Content Include="Css2\ChatStyle.css" />
     <Content Include="Css2\JQueryUI\themes\base\jquery.ui.all.css" />
     <Content Include="css\form.css" />
@@ -647,6 +661,12 @@
     <Content Include="scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="scripts\jquery-1.4.1.js" />
     <Content Include="scripts\jquery-1.4.1.min.js" />
+    <Content Include="bayiapp\fonts\iconic\fonts\Material-Design-Iconic-Font.ttf" />
+    <Content Include="bayiapp\fonts\myriadpro\MyriadPro-Light.woff" />
+    <Content Include="bayiapp\fonts\myriadpro\MyriadPro-Light.woff2" />
+    <Content Include="bayiapp\fonts\poppins\Poppins-Bold.ttf" />
+    <Content Include="bayiapp\fonts\poppins\Poppins-Regular.ttf" />
+    <Content Include="bayiapp\Site1.Master" />
     <None Include="css\490cb0e45f39580c7ba1b856f2f1f4a7.eot" />
     <None Include="css\490cb0e45f39580c7ba1b856f2f1f4a7.ttf" />
     <None Include="css\eJYqrhUff1n1Ge9A-rSw_FtXRa8TVwTICgirnJhmVJw.woff2" />
@@ -671,6 +691,7 @@
     <Content Include="musteri\Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="musteri\planogramlar\Web.config" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\System.Xml.Linq.XElement.datasource" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
@@ -735,6 +756,34 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bayiapp\anasayfa.aspx.cs">
+      <DependentUpon>anasayfa.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="bayiapp\anasayfa.aspx.designer.cs">
+      <DependentUpon>anasayfa.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="bayiapp\giris.aspx.cs">
+      <DependentUpon>giris.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="bayiapp\giris.aspx.designer.cs">
+      <DependentUpon>giris.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="bayiapp\Site1.Master.cs">
+      <DependentUpon>Site1.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="bayiapp\Site1.Master.designer.cs">
+      <DependentUpon>Site1.Master</DependentUpon>
+    </Compile>
+    <Compile Include="bayiapp\uyeol.aspx.cs">
+      <DependentUpon>uyeol.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="bayiapp\uyeol.aspx.designer.cs">
+      <DependentUpon>uyeol.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Common\MessageDetail.cs" />
     <Compile Include="Common\UserDetail.cs" />
     <Compile Include="default.aspx.cs">
@@ -1910,6 +1959,7 @@
     <Folder Include="data1\thumbnails\" />
     <Folder Include="download\" />
     <Folder Include="duyurular\" />
+    <Folder Include="musteri\stand\" />
     <Folder Include="musteri\teshir\Altin\" />
     <Folder Include="musteri\teshir\Ari\" />
     <Folder Include="musteri\teshir\Asalak\" />

@@ -3363,6 +3363,24 @@ namespace Sultanlar.WebUI.musteri
         protected global::System.Web.UI.WebControls.LinkButton lbResimler;
 
         /// <summary>
+        /// tdPlano control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdPlano;
+
+        /// <summary>
+        /// tdStand control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdStand;
+
+        /// <summary>
         /// rpFiyatListeleri control.
         /// </summary>
         /// <remarks>

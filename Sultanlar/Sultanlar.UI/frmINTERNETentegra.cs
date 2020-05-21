@@ -346,7 +346,10 @@ namespace Sultanlar.UI
                 if (Convert.ToBoolean(row.Cells["Seç"].Value) && row.Cells["SAP Sip."].Value.ToString() == "0")
                 {
                     if (Entegra.SAPsipNo(row.Cells["Sip.No"].Value.ToString(), Convert.ToInt32(row.Cells["Ürün Kodu"].Value)) == 0)
+                    {
                         SapGonder(row.Index, false);
+                        System.Threading.Thread.Sleep(2000);
+                    }
                 }
             }
 
@@ -376,7 +379,7 @@ namespace Sultanlar.UI
         {
             int rowIndex = dataGridView1.SelectedCells[0].RowIndex;
             string EntegraNo = dataGridView1.Rows[rowIndex].Cells["Sip.No"].Value.ToString();
-            if (MessageBox.Show(EntegraNo + " nolu siparişin SAP numarası silinecek. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+            if (MessageBox.Show(EntegraNo + " nolu siparişin SAP numarası silinecek. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 Entegra.DoSAP(EntegraNo, 0);
         }
     }

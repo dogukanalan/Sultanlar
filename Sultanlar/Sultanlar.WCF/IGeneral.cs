@@ -66,6 +66,18 @@ namespace Sultanlar.WCF
         XmlDocument n11GetProducts(string KAdi, string Sifre);
         //
         [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/shupsy/GetProducts/?sifre={Sifre}")]
+        XmlDocument shupsyGetProducts(string Sifre);
+        //
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/sefamerve/GetProducts/?sifre={Sifre}")]
+        XmlDocument sefamerveGetProducts(string Sifre);
+        //
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/amazon/GetProducts/?sifre={Sifre}")]
+        XmlDocument amazonGetProducts(string Sifre);
+        //
+        [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/dela/GetProducts/?kullanici={KAdi}&sifre={Sifre}")]
         XmlDocument delaGetProducts(string KAdi, string Sifre);
         //

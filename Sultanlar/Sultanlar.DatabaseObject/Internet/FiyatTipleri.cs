@@ -231,6 +231,28 @@ namespace Sultanlar.DatabaseObject.Internet
         }
         //
         //
+        public static void GetObjects(DataTable dt, bool ful)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionStringGOKW3))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT NOSU, ACIKLAMA, GMREF FROM [Web-FiyatTipleri]", conn);
+                try
+                {
+                    conn.Open();
+                    da.Fill(dt);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        //
+        //
         public static void GetObjectWS(DataTable dt)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionStringGOKW3))

@@ -489,6 +489,57 @@ namespace Sultanlar.WCF
             return donendeger;
         }
         /// <summary>
+        /// shupsy için bütün ürünler.
+        /// </summary>
+        public XmlDocument shupsyGetProducts(string Sifre)
+        {
+            XmlDocument donendeger = new XmlDocument();
+            DataSet ds = new DataSet("Urunler");
+            DataTable dt = new DataTable("Urun");
+
+            if (Sifre == "shupsy1")
+                FiyatListeleri.GetObjectXml(dt, 3, "shupsy");
+
+            ds.Tables.Add(dt);
+            donendeger.LoadXml(ds.GetXml());
+
+            return donendeger;
+        }
+        /// <summary>
+        /// sefamerve için bütün ürünler.
+        /// </summary>
+        public XmlDocument sefamerveGetProducts(string Sifre)
+        {
+            XmlDocument donendeger = new XmlDocument();
+            DataSet ds = new DataSet("Urunler");
+            DataTable dt = new DataTable("Urun");
+
+            if (Sifre == "sefamerve1")
+                FiyatListeleri.GetObjectXml(dt, 3, "sefamerve");
+
+            ds.Tables.Add(dt);
+            donendeger.LoadXml(ds.GetXml());
+
+            return donendeger;
+        }
+        /// <summary>
+        /// amazon için bütün ürünler.
+        /// </summary>
+        public XmlDocument amazonGetProducts(string Sifre)
+        {
+            XmlDocument donendeger = new XmlDocument();
+            DataSet ds = new DataSet("Urunler");
+            DataTable dt = new DataTable("Urun");
+
+            if (Sifre == "amazon1")
+                FiyatListeleri.GetObjectXml(dt, 3, "amazon");
+
+            ds.Tables.Add(dt);
+            donendeger.LoadXml(ds.GetXml());
+
+            return donendeger;
+        }
+        /// <summary>
         /// 
         /// </summary>
         public XmlDocument delaGetProducts(string KAdi, string Sifre)

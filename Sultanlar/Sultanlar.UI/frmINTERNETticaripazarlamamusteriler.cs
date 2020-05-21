@@ -800,7 +800,7 @@ namespace Sultanlar.UI
                 {
                     CariHesaplarTP chtp = CariHesaplarTP.GetObject(Convert.ToInt32(values[i, 1]), false);
 
-                    chtp.ACTIVE = 1;
+                    chtp.ACTIVE = Convert.ToInt16(values[i, 2]);
                     chtps.Add(chtp);
                 }
                 catch (Exception ex)
