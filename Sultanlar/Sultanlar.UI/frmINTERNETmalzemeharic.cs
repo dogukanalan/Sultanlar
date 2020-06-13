@@ -170,7 +170,7 @@ namespace Sultanlar.UI
                 if (resim != null)
                     pictureBox1.Image = Resim.ByteToImage(MalzemeHaric.GetResim(mh.ID));
                 else
-                    pictureBox1.Image = null;
+                    pictureBox1.Image = Properties.Resources.hazirlaniyor;
                 label5.Visible = mh.AP == 1;
 
                 GetAlt(mh.ID);
@@ -249,10 +249,10 @@ namespace Sultanlar.UI
                     if (resimid > 0)
                         pictureBox1.Image = Resim.ByteToImage(Resimler.GetObjectByResimID(resimid));
                     else
-                        pictureBox1.Image = null;
+                        pictureBox1.Image = Properties.Resources.hazirlaniyor;
                 }
                 else
-                    pictureBox1.Image = null;
+                    pictureBox1.Image = Properties.Resources.hazirlaniyor;
             }
         }
 
