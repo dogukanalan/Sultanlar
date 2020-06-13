@@ -371,6 +371,8 @@ namespace Sultanlar.DatabaseObject.Internet
                 sipT1.teslimsekli = xNode.SelectSingleNode("teslimsekli").InnerText;
                 sipT1.TeslimTelefon = xNode.SelectSingleNode("TeslimTelefon").InnerText;
                 sipT1.status = xNode.SelectSingleNode("status").InnerText;
+                sipT1.NO = xNode.SelectSingleNode("NO").InnerText;
+                sipT1.Tc_id = xNode.SelectSingleNode("Tc_id").InnerText;
 
                 sipT1.SIPARIS_NO = sipno + "-T1";
                 sipT2 = SiparisKopyala(sipT1, sipno + "-T2");
@@ -446,11 +448,11 @@ namespace Sultanlar.DatabaseObject.Internet
                 SqlCommand cmd = new SqlCommand();
                 if (var)
                 {
-                    cmd = new SqlCommand("UPDATE [Web-Entegra-Siparis] SET [PAZARYERI_KARGOKODU]=@PAZARYERI_KARGOKODU,[CariHesapKodu]=@CariHesapKodu,[CariHesapOzelKodu]=@CariHesapOzelKodu,[POSTA]=@POSTA,[TARIH]=@TARIH,[ISKONTO]=@ISKONTO,[NET_TOPLAM]=@NET_TOPLAM,[TeslimAlici]=@TeslimAlici,[TeslimAdresi]=@TeslimAdresi,[TeslimTelefon]=@TeslimTelefon,[teslimsekli]=@teslimsekli,[tasiyicifirma]=@tasiyicifirma,[teslimkod1]=@teslimkod1,[teslimkod4]=@teslimkod4,[teslimil]=@teslimil,[teslimilce]=@teslimilce,[faturaalici]=@faturaalici,[faturaAdresi]=@faturaAdresi,[faturaTelefon]=@faturaTelefon,[faturavergino]=@faturavergino,[faturavergidairesi]=@faturavergidairesi,[faturail]=@faturail,[faturailce]=@faturailce,[kargokodu]=@kargokodu,[ODEME_SEKLI]=@ODEME_SEKLI,[status]=@status WHERE [SIPARIS_NO] = @SIPARIS_NO", conn);
+                    cmd = new SqlCommand("UPDATE [Web-Entegra-Siparis] SET [PAZARYERI_KARGOKODU]=@PAZARYERI_KARGOKODU,[CariHesapKodu]=@CariHesapKodu,[CariHesapOzelKodu]=@CariHesapOzelKodu,[POSTA]=@POSTA,[TARIH]=@TARIH,[ISKONTO]=@ISKONTO,[NET_TOPLAM]=@NET_TOPLAM,[TeslimAlici]=@TeslimAlici,[TeslimAdresi]=@TeslimAdresi,[TeslimTelefon]=@TeslimTelefon,[teslimsekli]=@teslimsekli,[tasiyicifirma]=@tasiyicifirma,[teslimkod1]=@teslimkod1,[teslimkod4]=@teslimkod4,[teslimil]=@teslimil,[teslimilce]=@teslimilce,[faturaalici]=@faturaalici,[faturaAdresi]=@faturaAdresi,[faturaTelefon]=@faturaTelefon,[faturavergino]=@faturavergino,[faturavergidairesi]=@faturavergidairesi,[faturail]=@faturail,[faturailce]=@faturailce,[kargokodu]=@kargokodu,[ODEME_SEKLI]=@ODEME_SEKLI,[status]=@status,[NO]=@NO,[Tc_id]=@Tc_id WHERE [SIPARIS_NO] = @SIPARIS_NO", conn);
                 }
                 else
                 {
-                    cmd = new SqlCommand("INSERT INTO [Web-Entegra-Siparis] ([SIPARIS_NO],[PAZARYERI_KARGOKODU],[CariHesapKodu],[CariHesapOzelKodu],[POSTA],[TARIH],[ISKONTO],[NET_TOPLAM],[TeslimAlici],[TeslimAdresi],[TeslimTelefon],[teslimsekli],[tasiyicifirma],[teslimkod1],[teslimkod4],[teslimil],[teslimilce],[faturaalici],[faturaAdresi],[faturaTelefon],[faturavergino],[faturavergidairesi],[faturail],[faturailce],[kargokodu],[ODEME_SEKLI],status) VALUES (@SIPARIS_NO,@PAZARYERI_KARGOKODU,@CariHesapKodu,@CariHesapOzelKodu,@POSTA,@TARIH,@ISKONTO,@NET_TOPLAM,@TeslimAlici,@TeslimAdresi,@TeslimTelefon,@teslimsekli,@tasiyicifirma,@teslimkod1,@teslimkod4,@teslimil,@teslimilce,@faturaalici,@faturaAdresi,@faturaTelefon,@faturavergino,@faturavergidairesi,@faturail,@faturailce,@kargokodu,@ODEME_SEKLI,@status)", conn);
+                    cmd = new SqlCommand("INSERT INTO [Web-Entegra-Siparis] ([SIPARIS_NO],[PAZARYERI_KARGOKODU],[CariHesapKodu],[CariHesapOzelKodu],[POSTA],[TARIH],[ISKONTO],[NET_TOPLAM],[TeslimAlici],[TeslimAdresi],[TeslimTelefon],[teslimsekli],[tasiyicifirma],[teslimkod1],[teslimkod4],[teslimil],[teslimilce],[faturaalici],[faturaAdresi],[faturaTelefon],[faturavergino],[faturavergidairesi],[faturail],[faturailce],[kargokodu],[ODEME_SEKLI],status,NO,Tc_id) VALUES (@SIPARIS_NO,@PAZARYERI_KARGOKODU,@CariHesapKodu,@CariHesapOzelKodu,@POSTA,@TARIH,@ISKONTO,@NET_TOPLAM,@TeslimAlici,@TeslimAdresi,@TeslimTelefon,@teslimsekli,@tasiyicifirma,@teslimkod1,@teslimkod4,@teslimil,@teslimilce,@faturaalici,@faturaAdresi,@faturaTelefon,@faturavergino,@faturavergidairesi,@faturail,@faturailce,@kargokodu,@ODEME_SEKLI,@status,@NO,@Tc_id)", conn);
                 }
                 cmd.Parameters.AddWithValue("CariHesapKodu", siparisler[i].CariHesapKodu);
                 cmd.Parameters.AddWithValue("CariHesapOzelKodu", siparisler[i].CariHesapOzelKodu);
@@ -479,6 +481,8 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.AddWithValue("teslimsekli", siparisler[i].teslimsekli);
                 cmd.Parameters.AddWithValue("TeslimTelefon", siparisler[i].TeslimTelefon);
                 cmd.Parameters.AddWithValue("status", siparisler[i].status);
+                cmd.Parameters.AddWithValue("NO", siparisler[i].NO);
+                cmd.Parameters.AddWithValue("Tc_id", siparisler[i].Tc_id);
 
                 bool basarili = false;
                 try { cmd.ExecuteNonQuery(); basarili = true; }
@@ -514,11 +518,11 @@ namespace Sultanlar.DatabaseObject.Internet
                 SqlCommand cmd = new SqlCommand();
                 if (var)
                 {
-                    cmd = new SqlCommand("UPDATE [Web-Entegra-Siparis-Test] SET [PAZARYERI_KARGOKODU]=@PAZARYERI_KARGOKODU,[CariHesapKodu]=@CariHesapKodu,[CariHesapOzelKodu]=@CariHesapOzelKodu,[POSTA]=@POSTA,[TARIH]=@TARIH,[ISKONTO]=@ISKONTO,[NET_TOPLAM]=@NET_TOPLAM,[TeslimAlici]=@TeslimAlici,[TeslimAdresi]=@TeslimAdresi,[TeslimTelefon]=@TeslimTelefon,[teslimsekli]=@teslimsekli,[tasiyicifirma]=@tasiyicifirma,[teslimkod1]=@teslimkod1,[teslimkod4]=@teslimkod4,[teslimil]=@teslimil,[teslimilce]=@teslimilce,[faturaalici]=@faturaalici,[faturaAdresi]=@faturaAdresi,[faturaTelefon]=@faturaTelefon,[faturavergino]=@faturavergino,[faturavergidairesi]=@faturavergidairesi,[faturail]=@faturail,[faturailce]=@faturailce,[kargokodu]=@kargokodu,[ODEME_SEKLI]=@ODEME_SEKLI,[status]=@status WHERE [SIPARIS_NO] = @SIPARIS_NO", conn);
+                    cmd = new SqlCommand("UPDATE [Web-Entegra-Siparis-Test] SET [PAZARYERI_KARGOKODU]=@PAZARYERI_KARGOKODU,[CariHesapKodu]=@CariHesapKodu,[CariHesapOzelKodu]=@CariHesapOzelKodu,[POSTA]=@POSTA,[TARIH]=@TARIH,[ISKONTO]=@ISKONTO,[NET_TOPLAM]=@NET_TOPLAM,[TeslimAlici]=@TeslimAlici,[TeslimAdresi]=@TeslimAdresi,[TeslimTelefon]=@TeslimTelefon,[teslimsekli]=@teslimsekli,[tasiyicifirma]=@tasiyicifirma,[teslimkod1]=@teslimkod1,[teslimkod4]=@teslimkod4,[teslimil]=@teslimil,[teslimilce]=@teslimilce,[faturaalici]=@faturaalici,[faturaAdresi]=@faturaAdresi,[faturaTelefon]=@faturaTelefon,[faturavergino]=@faturavergino,[faturavergidairesi]=@faturavergidairesi,[faturail]=@faturail,[faturailce]=@faturailce,[kargokodu]=@kargokodu,[ODEME_SEKLI]=@ODEME_SEKLI,[status]=@status,[NO]=@NO,[Tc_id]=@Tc_id WHERE [SIPARIS_NO] = @SIPARIS_NO", conn);
                 }
                 else
                 {
-                    cmd = new SqlCommand("INSERT INTO [Web-Entegra-Siparis-Test] ([SIPARIS_NO],[PAZARYERI_KARGOKODU],[CariHesapKodu],[CariHesapOzelKodu],[POSTA],[TARIH],[ISKONTO],[NET_TOPLAM],[TeslimAlici],[TeslimAdresi],[TeslimTelefon],[teslimsekli],[tasiyicifirma],[teslimkod1],[teslimkod4],[teslimil],[teslimilce],[faturaalici],[faturaAdresi],[faturaTelefon],[faturavergino],[faturavergidairesi],[faturail],[faturailce],[kargokodu],[ODEME_SEKLI],status) VALUES (@SIPARIS_NO,@PAZARYERI_KARGOKODU,@CariHesapKodu,@CariHesapOzelKodu,@POSTA,@TARIH,@ISKONTO,@NET_TOPLAM,@TeslimAlici,@TeslimAdresi,@TeslimTelefon,@teslimsekli,@tasiyicifirma,@teslimkod1,@teslimkod4,@teslimil,@teslimilce,@faturaalici,@faturaAdresi,@faturaTelefon,@faturavergino,@faturavergidairesi,@faturail,@faturailce,@kargokodu,@ODEME_SEKLI,@status)", conn);
+                    cmd = new SqlCommand("INSERT INTO [Web-Entegra-Siparis-Test] ([SIPARIS_NO],[PAZARYERI_KARGOKODU],[CariHesapKodu],[CariHesapOzelKodu],[POSTA],[TARIH],[ISKONTO],[NET_TOPLAM],[TeslimAlici],[TeslimAdresi],[TeslimTelefon],[teslimsekli],[tasiyicifirma],[teslimkod1],[teslimkod4],[teslimil],[teslimilce],[faturaalici],[faturaAdresi],[faturaTelefon],[faturavergino],[faturavergidairesi],[faturail],[faturailce],[kargokodu],[ODEME_SEKLI],status,NO,Tc_id) VALUES (@SIPARIS_NO,@PAZARYERI_KARGOKODU,@CariHesapKodu,@CariHesapOzelKodu,@POSTA,@TARIH,@ISKONTO,@NET_TOPLAM,@TeslimAlici,@TeslimAdresi,@TeslimTelefon,@teslimsekli,@tasiyicifirma,@teslimkod1,@teslimkod4,@teslimil,@teslimilce,@faturaalici,@faturaAdresi,@faturaTelefon,@faturavergino,@faturavergidairesi,@faturail,@faturailce,@kargokodu,@ODEME_SEKLI,@status,@NO,@Tc_id)", conn);
                 }
                 cmd.Parameters.AddWithValue("CariHesapKodu", siparisler[i].CariHesapKodu);
                 cmd.Parameters.AddWithValue("CariHesapOzelKodu", siparisler[i].CariHesapOzelKodu);
@@ -547,6 +551,8 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.AddWithValue("teslimsekli", siparisler[i].teslimsekli);
                 cmd.Parameters.AddWithValue("TeslimTelefon", siparisler[i].TeslimTelefon);
                 cmd.Parameters.AddWithValue("status", siparisler[i].status);
+                cmd.Parameters.AddWithValue("NO", siparisler[i].NO);
+                cmd.Parameters.AddWithValue("Tc_id", siparisler[i].Tc_id);
 
                 bool basarili = false;
                 try { cmd.ExecuteNonQuery(); basarili = true; }
@@ -600,6 +606,8 @@ namespace Sultanlar.DatabaseObject.Internet
             donendeger.teslimsekli = sip.teslimsekli;
             donendeger.TeslimTelefon = sip.TeslimTelefon;
             donendeger.status = sip.status;
+            donendeger.NO = sip.NO;
+            donendeger.Tc_id = sip.Tc_id;
 
             return donendeger;
         }
@@ -648,6 +656,8 @@ namespace Sultanlar.DatabaseObject.Internet
         public string kargokodu;
         public string ODEME_SEKLI;
         public string status;
+        public string NO;
+        public string Tc_id;
         public List<EntegraSatir> Satirlar;
     }
 

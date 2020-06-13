@@ -630,6 +630,7 @@ namespace Sultanlar.UI
                 List.Add(new Depo("TS1B", "Sultanlar İmha D"));
                 List.Add(new Depo("TS5A", "Sult.Kurt İade D"));
                 List.Add(new Depo("TS5B", "Sult.Kurt İmha D"));
+                List.Add(new Depo("TBET", "E-Ticaret"));
             }
             else if (UY == "TB13")
             {
@@ -649,6 +650,7 @@ namespace Sultanlar.UI
                 List.Add(new Depo("TB1E", "Re-Work Depo"));
                 List.Add(new Depo("TB20", "Ü.İade Tesellüm"));
                 List.Add(new Depo("TBEF", "Envanter Farkı"));
+                List.Add(new Depo("TBET", "E-Ticaret"));
             }
             else if (UY == "TB20" || UY == "TB60")
             {
@@ -677,6 +679,7 @@ namespace Sultanlar.UI
                 List.Add(new Depo("TB21", "Hayat Ambalaj"));
                 List.Add(new Depo("TB20", "Hayat Hammadde"));
                 List.Add(new Depo("SP53", "SP53 Depo Yeri"));
+                List.Add(new Depo("TBET", "E-Ticaret"));
             }
             else if (UY == "TB80")
             {
@@ -690,6 +693,7 @@ namespace Sultanlar.UI
                 List.Add(new Depo("TB8A", "İade depo"));
                 List.Add(new Depo("TB8B", "İmha Depo"));
                 List.Add(new Depo("TB8E", "Sultanlar Rework"));
+                List.Add(new Depo("TBET", "E-Ticaret"));
             }
         }
     }

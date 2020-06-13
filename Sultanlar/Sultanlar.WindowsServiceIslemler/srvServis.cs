@@ -207,9 +207,9 @@ namespace Sultanlar.WindowsServiceIslemler
                 if (
                     (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
                     DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
-                    DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17 || DateTime.Now.Hour == 18 ||
+                    DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17 || DateTime.Now.Hour == 18/* ||
                     DateTime.Now.Hour == 19 || DateTime.Now.Hour == 20 || DateTime.Now.Hour == 21 || DateTime.Now.Hour == 22 ||
-                    (DateTime.Now.Hour == 23/* && DateTime.Now.Minute < 30*/))
+                    DateTime.Now.Hour == 23*/)
                     )
                 {
                     GetSAP();
