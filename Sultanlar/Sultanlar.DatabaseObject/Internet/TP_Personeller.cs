@@ -225,7 +225,40 @@ namespace Sultanlar.DatabaseObject.Internet
                 {
                     conn.Open();
                     dr = cmd.ExecuteReader();
-                    while (dr.Read())
+                    if (dr.Read())
+                    {
+                        donendeger = new TP_Personeller(Convert.ToInt32(dr[0]), Convert.ToInt32(dr[1]), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString());
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        //
+        //
+        public static TP_Personeller GetObject(string Ad, string Soyad)
+        {
+            TP_Personeller donendeger = new TP_Personeller();
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT [pkID],[intTur],[strAd],[strSoyad],[strGorev],[strTelefon],strKod,strEposta,[strAciklama] FROM [Web-Musteri-TP_Personeller] WHERE strAd = @strAd AND strSoyad = @strSoyad", conn);
+                cmd.Parameters.Add("@strAd", SqlDbType.NVarChar, 50).Value = Ad;
+                cmd.Parameters.Add("@strSoyad", SqlDbType.NVarChar, 50).Value = Soyad;
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    if (dr.Read())
                     {
                         donendeger = new TP_Personeller(Convert.ToInt32(dr[0]), Convert.ToInt32(dr[1]), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString());
                     }

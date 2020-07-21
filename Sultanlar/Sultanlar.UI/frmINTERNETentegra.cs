@@ -156,7 +156,7 @@ namespace Sultanlar.UI
             string kargo = dataGridView1.Rows[rowIndex].Cells["Kargo Kodu"].Value.ToString();
             int smref = Convert.ToInt32(dataGridView1.Rows[rowIndex].Cells["SAP Cari Kod"].Value);
 
-            string aciklama = Site.Replace("n11", "N11").Replace("hb", "Hepsiburada").Replace("eptt", "Eptt").Replace("trendyol", "Trendyol").Replace("gg", "Gittigidiyor").Replace("ak", "Akakce") + "; Sip:" + EntegraNo + "_Kargo Kodu:" + kargo;
+            string aciklama = Site.Replace("n11", "N11").Replace("hb", "Hepsiburada").Replace("eptt", "Eptt").Replace("trendyol", "Trendyol").Replace("gg", "Gittigidiyor").Replace("ak", "AkAkce") + "; Sip:" + EntegraNo + "_Kargo Kodu:" + kargo;
             if (smref > 0)
             {
                 if (uyari)

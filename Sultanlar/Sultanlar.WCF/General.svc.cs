@@ -540,6 +540,23 @@ namespace Sultanlar.WCF
             return donendeger;
         }
         /// <summary>
+        /// n11pro için bütün ürünler.
+        /// </summary>
+        public XmlDocument n11proGetProducts(string Sifre)
+        {
+            XmlDocument donendeger = new XmlDocument();
+            DataSet ds = new DataSet("Urunler");
+            DataTable dt = new DataTable("Urun");
+
+            if (Sifre == "n11pro1")
+                FiyatListeleri.GetObjectXml(dt, 3, "n11pro");
+
+            ds.Tables.Add(dt);
+            donendeger.LoadXml(ds.GetXml());
+
+            return donendeger;
+        }
+        /// <summary>
         /// 
         /// </summary>
         public XmlDocument delaGetProducts(string KAdi, string Sifre)

@@ -677,6 +677,8 @@ namespace Sultanlar.UI
             ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
             if (ofd.ShowDialog() == DialogResult.OK)
                 dosya = ofd.FileName;
+            else
+                return;
 
             Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
             Microsoft.Office.Interop.Excel.Workbook wb = null;
@@ -753,6 +755,8 @@ namespace Sultanlar.UI
             ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
             if (ofd.ShowDialog() == DialogResult.OK)
                 dosya = ofd.FileName;
+            else
+                return;
 
             Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
             Microsoft.Office.Interop.Excel.Workbook wb = null;

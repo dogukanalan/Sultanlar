@@ -63,6 +63,9 @@
         function yazma(evt) {
             return false;
         }
+        function TusBasildiGizle(control) {
+            control.style.display = 'none';
+        }
     </script>
 
 </head>
@@ -291,7 +294,7 @@
                     </tr>
                     </table>
                     <br />
-                    <asp:LinkButton runat="server" ID="lbHizmetBedeliGirKaydet" 
+                    <asp:LinkButton runat="server" ID="lbHizmetBedeliGirKaydet" OnClientClick="TusBasildiGizle(this)"
                         onclick="lbHizmetBedeliGirKaydet_Click" ValidationGroup="grHizmet">Kaydet</asp:LinkButton>
                     <asp:Label runat="server" Width="50px"></asp:Label>
                     <asp:LinkButton runat="server" ID="lbHizmetBedeliGirKapat" 
