@@ -321,11 +321,12 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             List.Clear();
 
-            string aktifler = sadeceaktifler ? "ACTIVE = 0 AND " : ""; 
+            string aktifler = sadeceaktifler ? "ACTIVE = 0 AND " : "";
+            string where = Musteri != "" && char.IsDigit(Musteri, 0) ? "GMREF = " + Musteri : "[MUSTERI] LIKE '%" + Musteri + "%'";
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT DISTINCT [GMREF],[MUSTERI] FROM [Web-Musteri] WHERE " + aktifler + "[MUSTERI] LIKE '%" + Musteri + "%' ORDER BY MUSTERI", conn);
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT [GMREF],[MUSTERI] FROM [Web-Musteri] WHERE " + aktifler + where + " ORDER BY MUSTERI", conn);
                 SqlDataReader dr;
                 try
                 {

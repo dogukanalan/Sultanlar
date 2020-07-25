@@ -44,6 +44,7 @@
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.btnToplu = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -58,7 +59,7 @@
             this.lbPersoneller.FormattingEnabled = true;
             this.lbPersoneller.Location = new System.Drawing.Point(0, 0);
             this.lbPersoneller.Name = "lbPersoneller";
-            this.lbPersoneller.Size = new System.Drawing.Size(198, 359);
+            this.lbPersoneller.Size = new System.Drawing.Size(198, 336);
             this.lbPersoneller.TabIndex = 0;
             this.lbPersoneller.SelectedIndexChanged += new System.EventHandler(this.lbPersoneller_SelectedIndexChanged);
             // 
@@ -76,6 +77,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.btnPerSil);
             this.splitContainer1.Panel1.Controls.Add(this.btnPerBaglantiKaldir);
             this.splitContainer1.Panel1.Controls.Add(this.btnPerBaglanti);
+            this.splitContainer1.Panel1.Controls.Add(this.btnToplu);
             // 
             // splitContainer1.Panel2
             // 
@@ -87,7 +89,7 @@
             // btnPerEkle
             // 
             this.btnPerEkle.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnPerEkle.Location = new System.Drawing.Point(0, 359);
+            this.btnPerEkle.Location = new System.Drawing.Point(0, 336);
             this.btnPerEkle.Name = "btnPerEkle";
             this.btnPerEkle.Size = new System.Drawing.Size(198, 23);
             this.btnPerEkle.TabIndex = 1;
@@ -98,7 +100,7 @@
             // btnPerDuzenle
             // 
             this.btnPerDuzenle.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnPerDuzenle.Location = new System.Drawing.Point(0, 382);
+            this.btnPerDuzenle.Location = new System.Drawing.Point(0, 359);
             this.btnPerDuzenle.Name = "btnPerDuzenle";
             this.btnPerDuzenle.Size = new System.Drawing.Size(198, 23);
             this.btnPerDuzenle.TabIndex = 4;
@@ -109,7 +111,7 @@
             // btnPerSil
             // 
             this.btnPerSil.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnPerSil.Location = new System.Drawing.Point(0, 405);
+            this.btnPerSil.Location = new System.Drawing.Point(0, 382);
             this.btnPerSil.Name = "btnPerSil";
             this.btnPerSil.Size = new System.Drawing.Size(198, 23);
             this.btnPerSil.TabIndex = 3;
@@ -120,7 +122,7 @@
             // btnPerBaglantiKaldir
             // 
             this.btnPerBaglantiKaldir.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnPerBaglantiKaldir.Location = new System.Drawing.Point(0, 428);
+            this.btnPerBaglantiKaldir.Location = new System.Drawing.Point(0, 405);
             this.btnPerBaglantiKaldir.Name = "btnPerBaglantiKaldir";
             this.btnPerBaglantiKaldir.Size = new System.Drawing.Size(198, 23);
             this.btnPerBaglantiKaldir.TabIndex = 5;
@@ -131,7 +133,7 @@
             // btnPerBaglanti
             // 
             this.btnPerBaglanti.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnPerBaglanti.Location = new System.Drawing.Point(0, 451);
+            this.btnPerBaglanti.Location = new System.Drawing.Point(0, 428);
             this.btnPerBaglanti.Name = "btnPerBaglanti";
             this.btnPerBaglanti.Size = new System.Drawing.Size(198, 23);
             this.btnPerBaglanti.TabIndex = 2;
@@ -207,6 +209,17 @@
             this.gridColumn6.FieldName = "UNVAN";
             this.gridColumn6.Name = "gridColumn6";
             // 
+            // btnToplu
+            // 
+            this.btnToplu.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnToplu.Location = new System.Drawing.Point(0, 451);
+            this.btnToplu.Name = "btnToplu";
+            this.btnToplu.Size = new System.Drawing.Size(198, 23);
+            this.btnToplu.TabIndex = 6;
+            this.btnToplu.Text = "Toplu Personel Bağla";
+            this.btnToplu.UseVisualStyleBackColor = true;
+            this.btnToplu.Click += new System.EventHandler(this.btnToplu_Click);
+            // 
             // frmINTERNETpersonelbaglantilari
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -244,5 +257,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
+        private System.Windows.Forms.Button btnToplu;
     }
 }

@@ -63,7 +63,7 @@ namespace Sultanlar.WebUI.musteri
                 tableAsagi.Visible = !((Musteriler)Session["Musteri"]).blSicakSatis;
                 tdFiyatInceleme.Visible = !((Musteriler)Session["Musteri"]).blSicakSatis;
 
-                int sonyarimsiparis = ((Musteriler)Session["Musteri"]).intSonYarimSiparisID;
+                /*int sonyarimsiparis = ((Musteriler)Session["Musteri"]).intSonYarimSiparisID;
                 if (sonyarimsiparis > 0 && Siparisler.GetObjectsBySiparisID(sonyarimsiparis).pkSiparisID != 0)
                 {
                     Siparisler siparis = Siparisler.GetObjectsBySiparisID(((Musteriler)Session["Musteri"]).intSonYarimSiparisID);
@@ -78,7 +78,7 @@ namespace Sultanlar.WebUI.musteri
                     Session["SMREF"] = siparis.SMREF;
                     Session["FiyatTipi"] = siparis.sintFiyatTipiID;
                     Response.Redirect("siparis.aspx", true);
-                }
+                }*/
 
                 if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
                 {
