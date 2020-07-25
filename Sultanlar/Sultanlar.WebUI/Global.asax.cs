@@ -32,8 +32,6 @@ namespace Sultanlar.WebUI
             //    app.Context.RewritePath(
             //             string.Concat(app.Context.Request.Url.LocalPath, "default.aspx"));
             //}
-
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
         }
 
         protected void Session_Start(object sender, EventArgs e)

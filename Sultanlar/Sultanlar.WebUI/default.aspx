@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta charset="utf-8" />
+    <meta http-equiv="REFRESH" content="0;url=https://www.tibet.com.tr/">
     <title>Sultanlar Ev İhtiyaç Malzemeleri Pazarlama A.Ş.</title>
     <meta name="robots" content="index, follow" />
     <meta name="description" content="Sultanlar Ev İhtiyaç Maddeleri Pazarlama A.Ş. bünyesinde bir çok ticari ve sınai kuruluşları bulunduran Sultanlar Şirketler Grubu içerisinde yer almaktadır." />
@@ -38,8 +39,9 @@
     <form id="form1" runat="server" action="index.html">
     <asp:ScriptManager runat="server" ID="ajaxScripts"></asp:ScriptManager>
 
+        
 
-
+    <div style="background-color: white; z-index: 999; position:fixed; width: 100%; height: 2000px"></div>
     <div id="divKartvizit" runat="server" visible="false">
         <div style="padding-top: 300px; filter: alpha(opacity=40); -moz-opacity: .40; opacity: .40;
             background-color: #000000; position: fixed; width: 100%; height: 100%; z-index: 99;
