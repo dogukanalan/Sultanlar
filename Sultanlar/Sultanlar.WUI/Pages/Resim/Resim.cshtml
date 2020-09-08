@@ -1,0 +1,23 @@
+﻿@page
+@model Sultanlar.WUI.ResimModel
+@{
+    ViewData["Title"] = "Resim";
+}
+
+@section head {
+    <script>
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+
+            $("#image").attr("src", apiurl + "resim/sderesim/" + getParameterByName("res"));
+
+            document.getElementById("geridon").addEventListener("click", function () {
+                window.history.back();
+            });
+        });
+    </script>
+}
+<img id="image" alt="Resim" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" style="width: 100%" />
+<br />
+<br />
+<input type="button" class="btn btn-danger btnWidthFull" id="geridon" value="Geri Dön" />

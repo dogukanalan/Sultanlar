@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sultanlar.DbObj.Internet
 {
@@ -15,6 +16,7 @@ namespace Sultanlar.DbObj.Internet
         public string ILCEKOD { get; set; }
         public string ILCE { get; set; }
         public int TIP { get; set; }
+        public string TIP_ACK { get { return TIP == 1 ? "SAP MUSTERILERI" : TIP == 2 ? "SAP MUS.SUBELERI" : TIP == 3 ? "ZIYARET MUSTERILERI" : TIP == 4 ? "BAYII ALT CARILERI" : TIP == 5 ? "BAYII ALT CARI SUBELERI" : ""; } }
         public string MTKOD { get; set; }
         public string MTACIKLAMA { get; set; }
         public string UNVAN { get; set; }
@@ -186,6 +188,7 @@ namespace Sultanlar.DbObj.Internet
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new cariHesaplar(ConvertToInt16(dic[i][0]), dic[i][1].ToString(), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToInt32(dic[i][13]), dic[i][14].ToString(), dic[i][15].ToString(), dic[i][16].ToString(), ConvertToInt32(dic[i][17]), dic[i][18].ToString(), dic[i][19].ToString(), ConvertToInt32(dic[i][20]), dic[i][21].ToString(), dic[i][22].ToString(), dic[i][23].ToString(), dic[i][24].ToString(), dic[i][25].ToString(), dic[i][26].ToString(), dic[i][27].ToString(), dic[i][28].ToString(), dic[i][29].ToString(), dic[i][30].ToString(), dic[i][31].ToString(), dic[i][32].ToString(), ConvertToDouble(dic[i][33])));
 
+            //donendeger.Add(new cariHesaplar(0, "", "", "", "", "", "", "", "", 1, "", "", "", 0, "", "", "", ConvertToInt32(dic[i][0]), "", dic[i][1].ToString(), 0, "", "", "", "", "", "", "", "", "", "", "", "", 0));
             return donendeger;
         }
         /// <summary>

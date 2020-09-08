@@ -51,4 +51,13 @@ namespace Sultanlar.WebAPI.Models.Internet
         public int miktar { get; set; }
         public string miktartur { get; set; }
     }
+
+    public class SiparisIsks
+    {
+        public double fiyat { get; set; }
+        public double isk1 { get; set; }
+        public double isk2 { get; set; }
+        public double isk3 { get; set; }
+        public double isk4 { get; set; }
+    }
 }

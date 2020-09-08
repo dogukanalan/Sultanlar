@@ -43,7 +43,6 @@ namespace Sultanlar.WebAPI.Controllers.Internet
             return File(rp.ResimOlustur(rp.Resimler(ur[0].intResimID).binResim, 400, 400, 75), "image/png");
         }
 
-        [Yetkili]
         [HttpPost]
         public string SdePost([FromBody]SDEResim sderesim) => new ResimProvider().SDEResimGonder(sderesim);
 

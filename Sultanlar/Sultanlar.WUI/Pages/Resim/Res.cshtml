@@ -1,0 +1,38 @@
+﻿@page
+@model Sultanlar.WUI.ResModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Resim</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/main.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/site.min.css" />
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/main.min.css" />
+    <script>
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+
+            $("#image").attr("src", apiurl + "resim/sderesim/" + getParameterByName("res"));
+
+            document.getElementById("geridon").addEventListener("click", function () {
+                window.history.back();
+            });
+        });
+    </script>
+</head>
+<body style="margin: 0px 0px 0px 0px; padding: 0px 0px 0px 0px">
+    <img id="image" alt="Resim" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" style="width: 100%" />
+    <br /><br />
+    <input type="button" class="btn btn-danger btnWidthFull" id="geridon" value="Geri Dön" />
+</body>
+</html>

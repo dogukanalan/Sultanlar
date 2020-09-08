@@ -7,6 +7,12 @@
 @section head {
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
@@ -15,6 +21,8 @@
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
 
     <script>
         function getYil() { return getParameterByName("yil") ? getParameterByName("yil") : (new Date().getFullYear()).toString(); }
@@ -167,6 +175,17 @@
                 window.history.pushState("", "Title", 'SiparisDetay?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&sipno=' + getSipno());
                 getRapor();
             });
+
+            $('#tarih').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy-mm-dd",
+                clearBtn: true,
+                orientation: "auto bottom"
+            });
+            $('#tarih').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
         });
     </script>
 }
@@ -200,14 +219,14 @@
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='100'>
     <thead>
         <tr>
-            <th class="keyTd"><span class="spanCiplak">Sip.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd"><span class="spanCiplak">Tarih</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="1"><span class="spanCiplak">Sip.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd"><span class="spanCiplak">Tarih</span><br /><input type="text" id="tarih" class="form-control input100yuzde tarihpicker" /></th>
             <th class="keyTd"><span class="spanCiplak">Ana Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd" data-priority="1"><span class="spanCiplak">Alt Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="2"><span class="spanCiplak">Alt Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd"><span class="spanCiplak">Mal.Kod</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd" data-priority="2"><span class="spanCiplak">Adet</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd" data-priority="3"><span class="spanCiplak">Net</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="3"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="4"><span class="spanCiplak">Adet</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd"><span class="spanCiplak">Net</span><br /><input type="text" class="form-control input100yuzde" /></th>
         </tr>
     </thead>
 </table>

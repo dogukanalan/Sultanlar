@@ -16,7 +16,7 @@
         function getSmref() { return getParameterByName("smref") ? getParameterByName("smref") : "0"; }
         function getTip() { return getParameterByName("tip") ? getParameterByName("tip") : "1"; }
         function getYil() { return getParameterByName("yil") ? getParameterByName("yil") : (new Date().getFullYear()).toString(); }
-        function getAy() { return getParameterByName("ay") ? getParameterByName("ay") : (new Date().getMonth() + 1).toString(); }
+        function getAy() { return getParameterByName("ay") ? getParameterByName("ay") : "0"; }
         function getOnay() { return getParameterByName("onay") ? getParameterByName("onay") : "0"; }
 
         $(window).on("popstate", function (e) {
@@ -287,7 +287,8 @@
 <select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
 
 <select id="selectYil" name="selectYil" class="dropDown selYil">
-    <option value="2019" selected="selected">2019</option>
+    <option value="2020" selected="selected">2020</option>
+    <option value="2019">2019</option>
     <option value="2018">2018</option>
     <option value="2017">2017</option>
     <option value="2016">2016</option>

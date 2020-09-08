@@ -60,7 +60,7 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                         if (data == "")
-                            window.location.href = "Siparisler";
+                            window.location.href = "Siparisler?onay=1";
                         else
                             alert(data);
                     },

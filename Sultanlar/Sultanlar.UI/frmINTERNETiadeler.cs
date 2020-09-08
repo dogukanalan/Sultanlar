@@ -1091,14 +1091,16 @@ namespace Sultanlar.UI
                 header.Pernr = "1529";
                 header.PernrVw = SLSREF.ToString();
             }
-            //else if (CariHesaplar.GetSATKOD1BySLSREF(SLSREF) == "ZM") // gerek olmayabilir diye kaldırdım çünkü satkod1 order by ile getirince önce ve geliyor
-            //{
-            //    header.Pernr = SLSREF.ToString();
-            //    header.PernrVw = "1530";
-            //}
+            else if (CariHesaplar.GetSATKOD1BySLSREF(SLSREF) == "ZM") // gerek olmayabilir diye kaldırdım çünkü satkod1 order by ile getirince önce ve geliyor
+            {
+                //header.Pernr = SLSREF.ToString();
+                //header.PernrVw = "1530";
+                hata = "Sat.Tem. olarak yetkili çalışan seçilemez. Sat.Tem. alanını değiştirerek tekrar deneyiniz.";
+                return string.Empty;
+            }
             else
             {
-                hata = "";
+                hata = "Satış temsilcisi gözükmüyor.";
                 return string.Empty;
             }
 

@@ -10,6 +10,14 @@
             $('#divProgress').css("display", "none");
             //updateSize();
 
+            if (typeof Android === "undefined") {
+                $('#divAndr').hide();
+                $('#divWeb').show();
+            } else {
+                $('#divAndr').show();
+                $('#divWeb').hide();
+            }
+
             $('.validate-form input').each(function () {
                 $(this).focus(function () {
                     hideValidate(this);
@@ -65,30 +73,56 @@
                 }
             );
         }
+
+        function kameraAc() {
+            /*if (!$('form').valid()) {
+                window.scrollTo(0, 400);
+                return false;
+            }
+            if ($('select[name=turler]').val() == "0") {
+                AndroidToast("Tür seçmeniz gerekli!");
+                return;
+            }*/
+
+            Android.KameraAc(getParameterByName("smref"), getParameterByName("tip"), window.localStorage["musteri"], $('select[name=turler]').val(), getParameterByName("rut_id"), "0",
+
+                $('#aciklama').val().toUpperCase().replace("Ğ", "G").replace("Ü", "U").replace("Ş", "S").replace("İ", "I").replace("Ö", "O").replace("Ç", "C")
+
+            );
+        }
     </script>
 }
 
-<select id="videoSource" class="form-control"></select>
-<br />
-<video id="video" style="border: 1px solid gray" width="100%" height="100%" autoplay></video>
-<br />
-<input type="button" class="btn btn-info btnWidthFull" id="snap" value="Resim Çek" />
-<br /><br />
-<div id="divCanvas" style="border: 1px solid gray; width: 100%; overflow-x: scroll;">
-    <canvas id="canvas"></canvas>
-</div>
-<br />
 <select class="form-control" name="turler" id="turler"></select>
 <br />
 <div class="validate-input" data-validate="Gerekli">
     <input type="text" class="form-control clGerekli" id="aciklama" placeholder="Açıklama" />
 </div>
+<div id="divAndr">
+    <br />
+    <input type="button" class="btn btn-success btnWidthFull" id="gonder" value="Resim Çek" />
+</div>
+<div id="divWeb">
+    <br />
+    <select id="videoSource" class="form-control"></select>
+    <br />
+    <video id="video" style="border: 1px solid gray" width="100%" height="100%" autoplay></video>
+    <br />
+    <input type="button" class="btn btn-info btnWidthFull" id="snap" value="Resim Çek" />
+    <br />
+    <br />
+    <div id="divCanvas" style="border: 1px solid gray; width: 100%; overflow-x: scroll;">
+        <canvas id="canvas"></canvas>
+    </div>
+    <input type="button" class="btn btn-success btnWidthFull" id="gonderWeb" value="Resim Gönder" />
+    <br />
+</div>
 <br />
-<input type="button" class="btn btn-success btnWidthFull" id="gonder" value="Resmi Gönder" />
+<input type="button" class="btn btn-danger btnWidthFull" id="geridon" value="Geri Dön" />
 
 <script>
-    var resimcekildi;
     getTurler();
+    var resimcekildi = false;
 
     function gotDevices(deviceInfos) {
         //$("#videoSource").empty();
@@ -151,18 +185,26 @@
     });
 
     document.getElementById("gonder").addEventListener("click", function () {
+        kameraAc();
+    });
+
+    document.getElementById("geridon").addEventListener("click", function () {
+        window.history.back();
+    });
+
+    document.getElementById("gonderWeb").addEventListener("click", function () {
         if (resimcekildi) {
-            var input = $('.validate-input input');
+            /*var input = $('.validate-input input');
             for (var i = 0; i < input.length; i++) {
                 if (validate(input[i]) == false) {
                     showValidate(input[i]);
                     return;
                 }
-            }
+            }*/
 
             Pic = Pic.replace(/^data:image\/(png|jpeg);base64,/, "");
-            sentData = '{ "smref": ' + getParameterByName("smref") + ', "tip": ' + getParameterByName("tip") + ', "musteri": "' + window.localStorage["uyeid"] + '", "tur": ' + $("select[name=turler]").val() + ', "rut": "' + JSON.parse(window.localStorage["ziyaret"]).rut_id + '", "ziyaret": 0, "resim": "' + Pic + '", "aciklama": "' + $("#aciklama").val() + '", "not": "-yeniweb" }';
-            
+            sentData = '{ "smref": ' + getParameterByName("smref") + ', "tip": ' + getParameterByName("tip") + ', "musteri": "' + window.localStorage["musteri"] + '", "tur": ' + $("select[name=turler]").val() + ', "rut": "' + JSON.parse(window.localStorage["ziyaret"]).rut_id + '", "ziyaret": 0, "resim": "' + Pic + '", "aciklama": "' + $("#aciklama").val().toLocaleUpperCase() + '", "not": "-yeniweb" }';
+
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
@@ -173,7 +215,7 @@
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     success: function (data, textStatus, response) {
-
+                        alert('Resim gönderildi.');
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { alert('hata'); }
                 }
@@ -184,5 +226,7 @@
         }
     });
 
-    start();
+    if (typeof Android === "undefined") {
+        start();
+    }
 </script>

@@ -10,6 +10,7 @@
 
         function ZiyaretEkle() {
             var rut_id = getParameterByName("barkod") ? getParameterByName("barkod") : getParameterByName("slsref") + getParameterByName("gmref") + getParameterByName("smref") + "." + getDateNowStr();
+            $("#rut_id").val(rut_id);
             var rut_tur = getParameterByName("barkod") ? "1" : "2";
             var sentData =
                 '{ "mtip": "' + getParameterByName("tip") + '", "rut_tur": "' + rut_tur + '", "rut_id": "' + rut_id + '", "gmref": "' + getParameterByName("gmref") +
@@ -55,12 +56,13 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        window.localStorage.removeItem("ziyaret");
                         window.location.href = '../Musteri';
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
             );
+
+            window.localStorage.removeItem("ziyaret");
         }
 
         function getBaslangic(baslangic) {
@@ -73,6 +75,7 @@
                 var ziyaret = JSON.parse(window.localStorage["ziyaret"]);
                 getCari(ziyaret.mtip, ziyaret.smref, getCariSube, "inputSube");
                 getBaslangic(ziyaret.ziy_bas_tar);
+                $("#rut_id").val(ziyaret.rut_id);
             }
             else {
                 if (getParameterByName("tip"))
@@ -81,13 +84,16 @@
         });
     </script>
 }
+
+<input type="hidden" id="rut_id" />
     Şube:
 <input type="text" class="form-control" id="inputSube" disabled />
 <br />
     Başlangıç:
 <input type="text" class="form-control" id="inputBas" disabled />
 <br />
-<input type="button" class="btn btn-info" value="Resim Gönder" onclick="window.location.href = '../Resim/?smref=' + getParameterByName('smref') + '&tip=' + getParameterByName('tip')" />
-<br /><br />
+<input type="button" class="btn btn-info" value="Resim Gönder" onclick="window.location.href = '../Resim/?smref=' + getParameterByName('smref') + '&tip=' + getParameterByName('tip') + '&rut_id=' + $('#rut_id').val()" />
+<br />
+<br />
 <input type="button" class="btn btn-danger" value="Ziyareti İptal Et" onclick="ZiyaretIptal()" />
 <input type="button" class="btn btn-success" value="Ziyareti Bitir" onclick="window.location.href = 'Bitir'" />

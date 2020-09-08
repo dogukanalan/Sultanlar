@@ -30,7 +30,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         }
 
         [HttpPost, Route("internet/[controller]/[action]/{DepartmanID}/{MusteriID}/{GelGit}")]
-        public DtAjaxResponse Getir(int DepartmanID, string MusteriID, int GelGit, [FromBody]DataTableAjaxPostModel req) => new MesajProvider().Mesajlar(DepartmanID, MusteriID, GelGit == 1, req);
+        public DtAjaxResponse Getir(int DepartmanID, int MusteriID, int GelGit, [FromBody]DataTableAjaxPostModel req) => new MesajProvider().Mesajlar(DepartmanID, MusteriID, GelGit == 1, req);
 
         [HttpPost, Route("internet/[controller]/[action]")]
         public string Gonder([FromBody]Mesaj mesaj) => new MesajProvider().MesajGonder(mesaj);
@@ -54,6 +54,6 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         }
 
         [HttpGet, Route("internet/[controller]/[action]/{musteri}")]
-        public int GetMesajCount(string musteri) => new MesajProvider().GonderilenOkunmayanMesajSayisi(musteri);
+        public int GetMesajCount(int musteri) => new MesajProvider().GonderilenOkunmayanMesajSayisi(musteri);
     }
 }

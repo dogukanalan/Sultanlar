@@ -16,7 +16,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
     public class MusteriController : Controller
     {
         [HttpGet("{id}")]
-        public musteriler Get(string id) => new MusteriProvider().Musteri(id);
+        public musteriler Get(int id) => new MusteriProvider().Musteri(id);
 
         [HttpPost]
         public string Post([FromBody]Musteri musteri) => new MusteriProvider().MusteriGuncelle(musteri.id, musteri.ad, musteri.soyad, musteri.telefon, musteri.sifre);

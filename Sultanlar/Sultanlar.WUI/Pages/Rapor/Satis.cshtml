@@ -7,6 +7,7 @@
 @section head {
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
     <style>
         .dataTables_filter {
             display: none;
@@ -20,6 +21,8 @@
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
 
     <script>
         function getYil() { return getParameterByName("yil") ? getParameterByName("yil") : (new Date().getFullYear()).toString(); }
@@ -59,10 +62,10 @@
                 "width": "11%"
             },
             {
-                "data": null, "class": "keyTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data.fatnomtb + '</span><span class="hide">' + data.fatno + '</span>';
+                "data": "fatnomtb", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
                 },
-                "name": "fatno",
+                "name": "fatnomtb",
                 "width": "8%"
             },
             {
@@ -216,18 +219,23 @@
                     contentType: 'application/json; charset=utf-8'
                 },
                 "initComplete": function (settings, json) {
-                    if (getParameterByName("fatno")) {
+                    /*if (getParameterByName("fatno")) {
                         $('input', table.columns(4).header()).val(getParameterByName("fatno"));
                         table.columns(4).search(getParameterByName("fatno")).draw();
-                    }
+                    }*/
 
-                    $("#spFtAdet").html(json.sum1.formatMoney(0, ',', '.'));
+                    /*$("#spFtAdet").html(json.sum1.formatMoney(0, ',', '.'));
                     $("#spFtKoli").html(json.sum2.formatMoney(1, ',', '.'));
-                    $("#spFtNet").html(json.sum3.formatMoney(2, ',', '.'));
+                    $("#spFtNet").html(json.sum3.formatMoney(2, ',', '.'));*/
                 },
-                "fnDrawCallback": function (oSettings) {
+                "drawCallback": function (oSettings) {
                     $('[data-toggle="tooltip"]').tooltip();
                     $('[data-toggle="tooltip"]').css("cursor", "pointer");
+
+                    $("#spFtAdet").html(oSettings.json.sum1.formatMoney(0, ',', '.'));
+                    $("#spFtKoli").html(oSettings.json.sum2.formatMoney(0, ',', '.'));
+                    $("#spFtNet").html(oSettings.json.sum3.formatMoney(0, ',', '.'));
+
                 },
                 dom: 'Bfrtip',
                 buttons: ['excel', 'pdf', 'print'],
@@ -250,7 +258,10 @@
                             .draw();
                     }
                 }, aramadelay));
-            })
+            });
+            /*table.on('page.dt', function () {
+
+            });*/
         }
 
         $(window).on("popstate", function (e) {
@@ -289,6 +300,17 @@
             $('#selectAy').on('change', function (e) {
                 window.history.pushState("", "Title", 'Satis?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&smref=' + $('select[name=selectSubeler]').val());
                 getRapor();
+            });
+
+            $('#siptar,#fattar').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy-mm-dd",
+                clearBtn: true,
+                orientation: "auto bottom"
+            });
+            $('#siptar,#fattar').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
             });
         });
     </script>
@@ -331,13 +353,13 @@
     <thead>
         <tr>
             <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Tür</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd desktop"><span class="spanCiplak">Sip.Tar.</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Sip.Tar.</span><br /><input type="text" id="siptar" class="form-control input100yuzde tarihpicker" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Sip.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Fat.Tar.</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Fat.Tar.</span><br /><input type="text" id="fattar" class="form-control input100yuzde tarihpicker" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Fat.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Sube</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Adet</span></th>
             <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Koli</span></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Net</span></th>

@@ -42,6 +42,8 @@ namespace Sultanlar.WebAPI.Services.Internet
                         donendeger2 = donendeger2.ToList().Where(k => k.SIPNO.ToUpper(CultureInfo.CurrentCulture).IndexOf(Req.columns[i].search.value.ToUpper(CultureInfo.CurrentCulture)) > -1).ToList();
                     else if (Req.columns[i].name == "siptar")
                         donendeger2 = donendeger2.ToList().Where(k => k.SIPTAR.ToShortDateString() == Convert.ToDateTime(Req.columns[i].search.value).ToShortDateString()).ToList();
+                    else if (Req.columns[i].name == "fatnomtb")
+                        donendeger2 = donendeger2.ToList().Where(k => k.FATNOMTB.ToUpper(CultureInfo.CurrentCulture).IndexOf(Req.columns[i].search.value.ToUpper(CultureInfo.CurrentCulture)) > -1).ToList();
                     else if (Req.columns[i].name == "fatno")
                         donendeger2 = donendeger2.ToList().Where(k => k.FATNO.ToUpper(CultureInfo.CurrentCulture).IndexOf(Req.columns[i].search.value.ToUpper(CultureInfo.CurrentCulture)) > -1).ToList();
                     else if (Req.columns[i].name == "fattar")

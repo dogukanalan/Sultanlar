@@ -18,7 +18,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string SDEResimGonder(SDEResim sderesim)
         {
-            rutResimler rr = new rutResimler(sderesim.smref, sderesim.tip, Convert.ToInt32(Sifreleme.Decrypt(sderesim.musteri)), sderesim.tur, sderesim.rut, sderesim.ziyaret, DateTime.Now, Convert.FromBase64String(sderesim.resim), sderesim.aciklama, sderesim.not);
+            rutResimler rr = new rutResimler(sderesim.smref, sderesim.tip, Convert.ToInt32(sderesim.musteri), sderesim.tur, sderesim.rut, sderesim.ziyaret, DateTime.Now, Convert.FromBase64String(sderesim.resim), sderesim.aciklama, sderesim.not);
             rr.DoInsert();
             return rr.pkID.ToString();
         }

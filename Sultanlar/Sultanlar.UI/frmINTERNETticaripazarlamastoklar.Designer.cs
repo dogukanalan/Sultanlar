@@ -66,6 +66,7 @@
             this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
@@ -476,6 +477,15 @@
             this.simpleButton3.Text = "Fiyat Gir";
             this.simpleButton3.Click += new System.EventHandler(this.simpleButton3_Click);
             // 
+            // simpleButton4
+            // 
+            this.simpleButton4.Location = new System.Drawing.Point(515, 2);
+            this.simpleButton4.Name = "simpleButton4";
+            this.simpleButton4.Size = new System.Drawing.Size(75, 22);
+            this.simpleButton4.TabIndex = 7;
+            this.simpleButton4.Text = "Excel";
+            this.simpleButton4.Click += new System.EventHandler(this.simpleButton4_Click);
+            // 
             // frmINTERNETticaripazarlamastoklar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -483,6 +493,7 @@
             this.ClientSize = new System.Drawing.Size(854, 492);
             this.Controls.Add(this.simpleButton2);
             this.Controls.Add(this.simpleButton3);
+            this.Controls.Add(this.simpleButton4);
             this.Controls.Add(this.simpleButton1);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox3);
@@ -538,5 +549,6 @@
         private DevExpress.XtraEditors.SimpleButton simpleButton2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn29;
         private DevExpress.XtraEditors.SimpleButton simpleButton3;
+        private DevExpress.XtraEditors.SimpleButton simpleButton4;
     }
 }

@@ -25,6 +25,7 @@ namespace Sultanlar.UI
 
         private void frmINTERNETentegra_Load(object sender, EventArgs e)
         {
+            //GetSiparisler();
             button3.PerformClick();
         }
 
@@ -235,6 +236,7 @@ namespace Sultanlar.UI
 
         private void button3_Click(object sender, EventArgs e)
         {
+            //new ToolTip().Show("Entegra bağlantısı yapılıyor, lütfen bekleyin.", this, Cursor.Position.X - this.Location.X, Cursor.Position.Y - this.Location.Y - 30, 2000);
             if (Entegra.EntegraSiparis2())
             {
                 //MessageBox.Show("Entegra bağlantısı başarılı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -299,8 +301,8 @@ namespace Sultanlar.UI
 
                         try
                         {
-                            carikodlar.Add(Convert.ToInt32(values[i, 2]));
-                            siparisnolar.Add(values[i, 10].ToString().Substring(values[i, 10].ToString().LastIndexOf(":") + 1));
+                            carikodlar.Add(Convert.ToInt32(values[i, 3]));
+                            siparisnolar.Add(values[i, 11].ToString().Substring(values[i, 11].ToString().LastIndexOf(":") + 1));
                         }
                         catch (Exception ex)
                         {

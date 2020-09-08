@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <meta http-equiv="REFRESH" content="0;url=https://www.tibet.com.tr/">
     <title>Sultanlar Ev İhtiyaç Malzemeleri Pazarlama A.Ş.</title>
     <meta name="robots" content="index, follow" />
     <meta name="description" content="Sultanlar Ev ihtiyaç Maddeleri Pazarlama A.Ş. bünyesinde bir çok ticari ve sınai kuruluşları bulunduran Sultanlar Şirketler Grubu içerisinde yer almaktadır." />
@@ -34,6 +35,7 @@
 
 
     
+    <div style="background-color: white; z-index: 999; position:fixed; width: 100%; height: 2000px"></div>
 <!--[if IE 6]><div class="heaader"><![endif]--><!--[if IE 7]><div class="heaader"><![endif]--><!--[if IE 8]><div class="heaader"><![endif]-->
 <header>
   <div class="container_12">

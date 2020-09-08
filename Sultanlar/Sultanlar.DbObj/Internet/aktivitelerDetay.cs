@@ -134,5 +134,19 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public aktivitelerDetay GetObjectSon(int SMREF, int ITEMREF, DateTime Tarih)
+        {
+            aktivitelerDetay donendeger = new aktivitelerDetay();
+
+            Dictionary<int, object> dic = GetObject("db_sp_aktivitelerDetayGetirSon", new Dictionary<string, object>() { { "SMREF", SMREF }, { "ITEMREF", ITEMREF }, { "Tarih", Tarih } }, timeout);
+            if (dic != null)
+                donendeger = new aktivitelerDetay(ConvertToInt64(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), dic[3].ToString(), ConvertToInt32(dic[4]), ConvertToDouble(dic[5]), ConvertToDouble(dic[6]), ConvertToDouble(dic[7]), dic[8].ToString(), ConvertToDouble(dic[9]), ConvertToDouble(dic[10]), ConvertToDouble(dic[11]), ConvertToDouble(dic[12]), ConvertToDouble(dic[13]), ConvertToDouble(dic[14]), ConvertToDouble(dic[15]), dic[16].ToString(), dic[17].ToString(), dic[18].ToString(), dic[19].ToString(), dic[20].ToString());
+
+            return donendeger;
+        }
     }
 }
