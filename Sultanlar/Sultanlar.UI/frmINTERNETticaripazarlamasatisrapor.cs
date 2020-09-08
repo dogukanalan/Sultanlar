@@ -1169,7 +1169,7 @@ namespace Sultanlar.UI
                                 dt.Rows[i]["intAnlasmaID"] = anlasma.pkID;
                                 dt.Rows[i]["intAktiviteID"] = 0;
 
-                                if (isk1 == 0) anlasmaid = 0; // anlaşma sadece tah veya sadece yeg ise diğerini kapsamasın, alttaki genel anlaşmasıza düşsün
+                                if (isk1 == 0 && isk2 == 0) anlasmaid = 0; // anlaşma sadece tah veya sadece yeg ise diğerini kapsamasın, alttaki genel anlaşmasıza düşsün
                                 if (anlasma.flTAHIsk == 0 && anlasma.flYEGIsk == 0) anlasmaid = anlasma.pkID; // tah ve yeg yoksa anlaşma tah yada yeg için geçerlidir o yüzden genel anlaşmasıza düşmesin
                             }
                             
@@ -1222,7 +1222,7 @@ namespace Sultanlar.UI
 
 
 
-                        if ((dt.Rows[i]["BAYIKOD"].ToString() == "1001141" || dt.Rows[i]["BAYIKOD"].ToString() == "1000021" ||
+                        /*if ((dt.Rows[i]["BAYIKOD"].ToString() == "1001141" || dt.Rows[i]["BAYIKOD"].ToString() == "1000021" ||
                             dt.Rows[i]["BAYIKOD"].ToString() == "1001785" || dt.Rows[i]["BAYIKOD"].ToString() == "1002966" ||
                             dt.Rows[i]["BAYIKOD"].ToString() == "1012383" || dt.Rows[i]["BAYIKOD"].ToString() == "1001233" ||
                             dt.Rows[i]["BAYIKOD"].ToString() == "1002080" || dt.Rows[i]["BAYIKOD"].ToString() == "1002568" ||
@@ -1235,7 +1235,7 @@ namespace Sultanlar.UI
                         {
                             noktasatyil = 2016;
                             noktasatay = 2;
-                        }
+                        }*/
 
 
 

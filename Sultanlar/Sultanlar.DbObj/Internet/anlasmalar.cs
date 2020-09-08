@@ -244,5 +244,19 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public anlasmalar GetObjectSon(int SMREF, string Aciklama2, DateTime Tarih)
+        {
+            anlasmalar donendeger = new anlasmalar();
+
+            Dictionary<int, object> dic = GetObject("db_sp_anlasmaGetirSon", new Dictionary<string, object>() { { "SMREF", SMREF }, { "strAciklama2", Aciklama2 }, { "Tarih", Tarih } }, timeout);
+            if (dic != null)
+                donendeger = new anlasmalar(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), ConvertToDateTime(dic[3]), ConvertToDateTime(dic[4]), ConvertToInt32(dic[5]), ConvertToInt32(dic[6]), ConvertToInt32(dic[7]), ConvertToInt32(dic[8]), ConvertToDouble(dic[9]), ConvertToDouble(dic[10]), ConvertToDouble(dic[11]), ConvertToDouble(dic[12]), ConvertToDouble(dic[13]), ConvertToDouble(dic[14]), ConvertToDouble(dic[15]), ConvertToDouble(dic[16]), ConvertToDouble(dic[17]), ConvertToDouble(dic[18]), ConvertToDouble(dic[19]), ConvertToDouble(dic[20]), ConvertToDouble(dic[21]), ConvertToDouble(dic[22]), ConvertToDouble(dic[23]), ConvertToDouble(dic[24]), dic[25].ToString(), dic[26].ToString(), dic[27].ToString(), dic[28].ToString(), ConvertToInt32(dic[29]), true);
+
+            return donendeger;
+        }
     }
 }

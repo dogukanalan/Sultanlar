@@ -1,0 +1,240 @@
+﻿@page
+@model Sultanlar.WUI.SecModel
+@{
+    ViewData["Title"] = "Rut Ekleme";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script>
+        function getMtip() { return getParameterByName("tip"); }
+        function getSlsref() { return getParameterByName("slsref"); }
+        function getGmref() { return getParameterByName("gmref"); }
+        function getSmref() { return getParameterByName("smref"); }
+        function getKacinci() { return getParameterByName("sira"); }
+
+        function Ekle() {
+            if ($('#inputBaslangic').val() == "") {
+                $('#inputBaslangic').val(GetDateNow());
+            }
+            if ($('#inputBitis').val() == "") {
+                $('#inputBitis').val("01.01.2023");
+            }
+            Gonder();
+        }
+
+        function Baslat() {
+            $('#inputBaslangic').val(GetDateNow());
+            $('#inputBitis').val("01.01.2023");
+            Gonder();
+        }
+
+        function Bitir() {
+            $('#inputBaslangic').val(GetDateNow());
+            $('#inputBitis').val(GetDateNow());
+            Gonder();
+        }
+
+        function RutGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'GET',
+                    url: apiurl + "rut/getirrut/" + getSlsref() + "/" + getGmref() + "/" + getSmref() + "/" + getKacinci(),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data.id != "") {
+                            $('#buttonEkle').val("Rutu Güncelle");
+                            $('#inputBaslangic').val(data.basTar.split("/").join("."));
+                            $('#inputBitis').val(data.bitTar.split("/").join("."));
+                            $("#divRutPeriyod input").each(function () {
+                                if ($(this).attr("accesskey") == $.trim(data.ruut)) {
+                                    $(this).prop('checked', true);
+                                }
+                                else {
+                                    $(this).prop('checked', false);
+                                }
+                            });
+                            $("#divRutGun input").each(function () {
+                                if ($(this).attr("accesskey") == $.trim(data.gun)) {
+                                    $(this).prop('checked', true);
+                                }
+                                else {
+                                    $(this).prop('checked', false);
+                                }
+                            });
+                            AndroidToast('Seçime ilişkin rut tanımı bulunmaktadır. Güncelleme yapabilirsiniz.');
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function Gonder() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'GET',
+                    url: apiurl + "rut/rutekle/" + getMtip() + "/" + getSlsref() + "/" + getGmref() + "/" + getSmref() + "/" + getKacinci() + "/" + getPeriyod() + "/" + getGun() + "/" + getBaslangic() + "/" + getBitis() + "/" + getIslemYapan(),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        
+                        if (data == "") {
+                            AndroidToast("İşlem kaydedildi.");
+                            window.location.href = "Ekle?slsref=" + getSlsref() + "&sira=" + getKacinci();
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                });
+        }
+
+        function getPeriyod() { return $('#divRutPeriyod input:checked').attr("accesskey"); }
+        function getGun() { return $('#divRutGun input:checked').attr("accesskey"); }
+        function getBaslangic() { return $('#inputBaslangic').val(); }
+        function getBitis() { return $('#inputBitis').val(); }
+        function getIslemYapan() { return window.localStorage["musteri"]; }
+
+        $(document).ready(function () {
+            getCari(getParameterByName("tip"), getParameterByName("smref"), getCariSube, "inputMusteri");
+            $('#inputBaslangic').datetimepicker({
+                locale: "tr",
+                format: 'L'
+            });
+            $('#inputBitis').datetimepicker({
+                locale: "tr",
+                format: 'L'
+            });
+            $('#inputBaslangic').val(GetDateNow());
+
+            RutGetir();
+        });
+    </script>
+}
+<input type="text" id="inputMusteri" class="form-control marginUstAlt" style="width: 100%" disabled />
+<input type="text" id="inputBaslangic" class="form-control marginUstAlt tarihpicker" style="width: 100%" onkeypress="return false" placeholder="Başlangıç (Bugünden büyük)" />
+<input type="text" id="inputBitis" class="form-control marginUstAlt tarihpicker" style="width: 100%" onkeypress="return false" placeholder="Bitiş (Boş bırakılabilir)" />
+<br />
+Periyod
+<div id="divRutPeriyod">
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs" type="radio" name="color" accesskey="7" checked="checked" />
+        <div class="state p-primary-o">
+            <label>Her Hafta (7)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs" type="radio" name="color" accesskey="141" />
+        <div class="state p-primary-o">
+            <label>İki Hafta (14.1)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs" type="radio" name="color" accesskey="142" />
+        <div class="state p-primary-o">
+            <label>İki Hafta (14.2)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs" type="radio" name="color" accesskey="211" />
+        <div class="state p-primary-o">
+            <label>Üç Hafta (21.1)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs" type="radio" name="color" accesskey="212" />
+        <div class="state p-primary-o">
+            <label>Üç Hafta (21.2)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs" type="radio" name="color" accesskey="213" />
+        <div class="state p-primary-o">
+            <label>Üç Hafta (21.3)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs" type="radio" name="color" accesskey="281" />
+        <div class="state p-primary-o">
+            <label>Aylık (28.1)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs" type="radio" name="color" accesskey="282" />
+        <div class="state p-primary-o">
+            <label>Aylık (28.2)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs" type="radio" name="color" accesskey="283" />
+        <div class="state p-primary-o">
+            <label>Aylık (28.3)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs" type="radio" name="color" accesskey="284" />
+        <div class="state p-primary-o">
+            <label>Aylık (28.4)</label>
+        </div>
+    </div>
+</div>
+<br />
+Gün
+<div id="divRutGun">
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs2" type="radio" name="color2" accesskey="1" checked="checked" />
+        <div class="state p-primary-o">
+            <label>Pazartesi (1)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs2" type="radio" name="color2" accesskey="2" />
+        <div class="state p-primary-o">
+            <label>Salı (2)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs2" type="radio" name="color2" accesskey="3" />
+        <div class="state p-primary-o">
+            <label>Çarşamba (3)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs2" type="radio" name="color2" accesskey="4" />
+        <div class="state p-primary-o">
+            <label>Perşembe (4)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs2" type="radio" name="color2" accesskey="5" />
+        <div class="state p-primary-o">
+            <label>Cuma (5)</label>
+        </div>
+    </div>
+    <div class="pretty p-default p-curve prettyMargin3">
+        <input class="chkbxs2" type="radio" name="color2" accesskey="6" />
+        <div class="state p-primary-o">
+            <label>Cumartesi (6)</label>
+        </div>
+    </div>
+</div>
+<br />
+<input type="button" id="buttonEkle" class="btn btn-success secimTus marginUstAlt" value="Rutu Ekle" style="width: 100%" onclick="Ekle()" />
+<input type="button" class="btn btn-info secimTus marginUstAlt" value="Rutu Başlat" style="width: 100%" onclick="Baslat()" />
+<input type="button" class="btn btn-primary secimTus marginUstAlt" value="Rutu Bitir" style="width: 100%" onclick="Bitir()" />
+<input type="button" class="btn btn-danger secimTus marginUstAlt" value="Geri Dön" style="width: 100%" onclick="window.location.href = 'Ekle?slsref=' + getSlsref() + '&sira=' + getKacinci()" />

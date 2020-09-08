@@ -55,8 +55,10 @@
                         checkAuth(response);
 
                         var html = '';
+                        var i = 0;
                         $.each(data, function (index, item) {
-                            html += '<div class="pretty p-default p-curve prettyMargin"><input type="radio" name="color" accesskey="' + item.key + '" /><div class="state p-primary-o"><label>' + item.value + '</label></div></div>';
+                            html += '<div class="pretty p-default p-curve prettyMargin"><input type="radio" name="color" accesskey="' + item.key + '"' + (i == 0 ? ' checked="checked"' : '') + ' /><div class="state p-primary-o"><label>' + item.value + '</label></div></div>';
+                            i++;
                         });
                         sonSebep.innerHTML = html;
                     },

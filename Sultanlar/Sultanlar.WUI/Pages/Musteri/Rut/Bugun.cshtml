@@ -1,55 +1,41 @@
 ﻿@page
-@model IndexModel
+@model BugunModel
 @{
-    ViewData["Title"] = "Konumlar";
+    ViewData["Title"] = "Rutlar Bugün";
 }
 
 @section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
 
     <script>
         function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
 
         var kolonlar = [
             {
-                "data": "sube", "class": "valueTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data + '</span>';
+                "data": "cari", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.sube + '</span>';
                 }
             },
             {
-                "data": "musteri", "class": "valueTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data + '</span>';
-                }
-            },
-            {
-                "data": "tip", "class": "keyTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data + '</span>';
-                }
-            },
-            {
-                "data": "sehir", "class": "keyTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data + '</span>';
-                }
-            },
-            {
-                "data": "ilce", "class": "keyTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data + '</span>';
-                }
-            },
-            {
-                "data": "adres", "class": "keyTd", render: function (data, type, row) {
-                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data + '">' + data + '</span>';
+                "data": "cari", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.musteri + '</span>';
                 }
             },
             {
                 "data": null, "class": "keyTd", render: function (data, type, row) {
-                    return data.konum == '' ?
-                        '<a href="Al?smref=' + data.kod + '&tip=' + data.tipkod + '"><span class="sinirli">Konum al</span></a>' :
-                        ('<a target="_blank" href="https://www.google.com/maps?q=' + data.konum + '"><span class="sinirli">Göster</span></a> ' +
-                            '<a href="Degistir?smref=' + data.kod + '&tip=' + data.tipkod + '"><span class="sinirli">Değiştir</span></a>');
+                    return data.yapildi ? '<div class="pretty p-default p-curve prettyMargin3"><input class="chkbxs" type="checkbox" checked="checked" disabled /><div class="state p-primary-o"><label></label></div></div>' : '<span class="sinirli"><a href="../../Ziyaret/?smref=' + data.cari.smref + '&gmref=' + data.cari.gmref + '&slsref=' + getSlsref() + '&tip=' + data.cari.tip + '&barkod=' + data.gun + '">Ziyaret</a></span>';
                 }
             }
         ];
@@ -77,15 +63,15 @@
                         });
 
                         $('select[name=selectSaticilar]').val(getSlsref());
-                        getKonum();
+                        getRut();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
             );
         }
 
-        function getKonum() {
-            var url1 = apiurl + "konum/getirkonumliste/" + getSlsref();
+        function getRut() {
+            var url1 = apiurl + "rut/getirrutlarbugun/" + getSlsref();
             var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
@@ -98,11 +84,10 @@
                     url: url1
                 },
                 "initComplete": function (settings, json) {
-                    $('#dtTable_filter').css('display', 'none');
+
                 },
                 "fnDrawCallback": function (oSettings) {
-                    $('[data-toggle="tooltip"]').tooltip();
-                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
+
                 },
                 columns: kolonlar,
                 "language": defaultDtLang,
@@ -122,20 +107,30 @@
                             .draw();
                     }
                 });
-            });
+            })
         }
 
         $(window).on("popstate", function (e) {
             $('select[name=selectSaticilar]').val(getSlsref());
-            getKonum();
+            getRut();
         });
 
         $(document).ready(function () {
             SaticilarGetir();
+            $('#tarih').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy-mm-dd",
+                clearBtn: true,
+                orientation: "auto bottom"
+            });
+            $('#tarih').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
 
             $('#selectSaticilar').on('change', function (e) {
                 window.history.pushState("", "Title", '?slsref=' + $('select[name=selectSaticilar]').val());
-                getKonum();
+                getRut();
             });
         });
     </script>
@@ -146,12 +141,8 @@
     <thead>
         <tr>
             <th class="keyTd" data-priority="1"><span class="spanCiplak">Alt Cari</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
-            <th class="keyTd"><span class="spanCiplak">Cari</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
-            <th class="keyTd"><span class="spanCiplak">Tip</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
-            <th class="keyTd"><span class="spanCiplak">Şehir</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
-            <th class="keyTd"><span class="spanCiplak">İlçe</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
-            <th class="keyTd" data-priority="2"><span class="spanCiplak">Adres</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
-            <th class="keyTd" data-priority="3"><span class="spanCiplak">Konum</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd" data-priority="3"><span class="spanCiplak">Ana Cari</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd" data-priority="2"><span class="spanCiplak">İşlem</span></th>
         </tr>
     </thead>
 </table>

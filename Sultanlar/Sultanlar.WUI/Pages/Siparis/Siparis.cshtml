@@ -32,7 +32,9 @@
                     url: url1
                 },
                 "initComplete": function (settings, json) {
-
+                    $('.dataTables_filter input').keyup(function () {
+                        $(this).val($(this).val().toLocaleUpperCase());
+                    });
                 },
                 "fnDrawCallback": function (oSettings) {
                     qtip();
@@ -43,9 +45,28 @@
                 "ordering": true,
                 "info": false,
                 "searching": true,
-                "deferRender": true,
-                "order": [[2, "asc"]]
+                "deferRender": true
             });
+        }
+
+        function getIsksA(smref, itemref, tarih) {
+            var isks;
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "siparis/getisks/" + smref + "/" + itemref + "/" + tarih,
+                    async: false,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        isks = data;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+
+            return isks;
         }
 
         function siparisiGoster() {
@@ -59,24 +80,40 @@
                 if ($(this).val() != "") {
                     var cookie = JSON.parse(getLocal());
                     var varmis = false;
+                    var itref = $(this).attr('accesskey');
+                    var miktur = $(this).closest("tr").find(".ddTur").val();
+                    var malac = $(this).closest("tr").find(".malacik").text();
+                    var mik = parseInt($(this).val());
+                    var netkd = $(this).closest("tr").find(".netkdv").text();
+
                     for (var j = 0; j < cookie.length; j++) {
+                        var cookiedet = cookie[j].detaylar;
                         if (cookie[j].smref == paramsmref && cookie[j].ftip == paramftip && cookie[j].siparisid == siparisid) {
-                            for (var i = 0; i < cookie[j].detaylar.length; i++) {
-                                if (cookie[j].detaylar[i].itemref == $(this).attr('accesskey') && cookie[j].detaylar[i].miktartur == $(this).closest("tr").find(".ddTur").val()) {
-                                    cookie[j].detaylar[i].miktar = parseInt(cookie[j].detaylar[i].miktar) + parseInt($(this).val());
+                            for (var i = 0; i < cookiedet.length; i++) {
+                                if (cookiedet[i].itemref == itref && cookiedet[i].miktartur == miktur) {
+                                    cookiedet[i].miktar = parseInt(cookiedet[i].miktar) + mik;
                                     varmis = true;
                                     break;
                                 }
                             }
 
                             if (!varmis) {
-                                cookie[j].detaylar.push(
+                                var isks = { fiyat:0, isk1:0, isk2:0, isk3:0, isk4:0 };
+                                if (paramftip == 2) {
+                                    isks = getIsksA(paramsmref, itref, getDateNow());
+                                }
+
+                                cookiedet.push(
                                     {
-                                        itemref: $(this).attr('accesskey'),
-                                        malacik: $(this).closest("tr").find(".malacik").text(),
-                                        miktar: parseInt($(this).val()),
-                                        miktartur: $(this).closest("tr").find(".ddTur").val(),
-                                        netkdv: $(this).closest("tr").find(".netkdv").text()
+                                        itemref: itref,
+                                        malacik: malac,
+                                        miktar: mik,
+                                        miktartur: miktur,
+                                        isk1: isks.isk1,
+                                        isk2: isks.isk2,
+                                        isk3: isks.isk3,
+                                        isk4: isks.isk4,
+                                        netkdv: netkd
                                     }
                                 );
                             }
@@ -175,7 +212,7 @@
     </script>
 }
 <h5 class="spanCiplak" id="sipMus"></h5>
-<input class="form-control inputCiplak" type="text" name="inputTeslim" id="inputTeslim" placeholder="Teslim Tarihi" autocomplete="off" onkeypress="return false">
+<input class="form-control inputCiplak tarihpicker" type="text" name="inputTeslim" id="inputTeslim" placeholder="Teslim Tarihi" autocomplete="off" onkeypress="return false">
 <input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" autocomplete="off">
 <input type="button" id="sipAktar" class="btn btn-primary secimTus" value="Seçimi Siparişe Aktar" onclick="sipariseAktar()" />
 <input type="button" class="btn btn-info secimTus" value="Siparişi İçeriğini Göster" onclick="siparisiGoster()" />

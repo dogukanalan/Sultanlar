@@ -13,13 +13,14 @@ namespace Sultanlar.WebAPI.Models.Internet
         public string intSLSREF { get; set; }
         public string token { get; set; }
         public string tokenCr { get; set; }
+        public int musteri { get; set; }
 
         public Giris()
         {
 
         }
 
-        public Giris(string pkID, string intUyeTipiID, string intGMREF, string intSLSREF, string token, string tokenCr)
+        public Giris(string pkID, string intUyeTipiID, string intGMREF, string intSLSREF, string token, string tokenCr, int musteri)
         {
             this.pkID = pkID;
             this.intUyeTipiID = intUyeTipiID;
@@ -27,6 +28,7 @@ namespace Sultanlar.WebAPI.Models.Internet
             this.intSLSREF = intSLSREF;
             this.token = token;
             this.tokenCr = tokenCr;
+            this.musteri = musteri;
         }
     }
 

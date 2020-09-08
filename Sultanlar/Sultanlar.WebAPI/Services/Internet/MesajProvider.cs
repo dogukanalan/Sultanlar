@@ -15,17 +15,17 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal mesajlar AlinanMesaj(int id) => new mesajlar(id, false).GetObject();
 
-        internal int GonderilenOkunmayanMesajSayisi(string musteri)
+        internal int GonderilenOkunmayanMesajSayisi(int musteri)
         {
-            return new mesajlar().GetOkunmayanCount(Convert.ToInt32(Sifreleme.Decrypt(musteri)), true);
+            return new mesajlar().GetOkunmayanCount(musteri, true);
         }
 
-        internal DtAjaxResponse Mesajlar(int departmanid, string musteriid, bool gonderilen, DataTableAjaxPostModel Req)
+        internal DtAjaxResponse Mesajlar(int departmanid, int musteriid, bool gonderilen, DataTableAjaxPostModel Req)
         {
             DtAjaxResponse donendeger = new DtAjaxResponse();
 
             object DepartmanID = departmanid == 0 ? DBNull.Value : (object)departmanid;
-            List<mesajlar> donendeger2 = new mesajlar().GetObjects(DepartmanID, Convert.ToInt32(Sifreleme.Decrypt(musteriid)), gonderilen);
+            List<mesajlar> donendeger2 = new mesajlar().GetObjects(DepartmanID, musteriid, gonderilen);
 
             donendeger.recordsTotal = donendeger2.Count;
             

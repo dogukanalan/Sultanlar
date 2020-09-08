@@ -97,11 +97,11 @@ namespace Sultanlar.UI
                     surum = sayfa.Substring(baslangic, bitis - baslangic);
 
                 string programsurum = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString(4);
-
+                
                 if (surum != programsurum)
                 {
-                    this.Text = this.Text.Substring(0, 23) + " [Yeni sürüm mevcut]";
-                    MessageBox.Show("Uygulamanın daha yeni bir sürümü mevcut, lütfen uygulamayı kapatın. Tekrar açtığınızda otomatik güncellenecektir.", "Güncelleme Uyarısı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Text = this.Text.Substring(0, 24) + " [Yeni sürüm mevcut]";
+                    //MessageBox.Show("Uygulamanın daha yeni bir sürümü mevcut, lütfen uygulamayı kapatın. Tekrar açtığınızda otomatik güncellenecektir.", "Güncelleme Uyarısı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (Exception ex)

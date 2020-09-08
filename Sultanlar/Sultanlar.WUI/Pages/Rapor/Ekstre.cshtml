@@ -7,6 +7,12 @@
 @section head {
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
@@ -16,6 +22,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>*@
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
 
     <script>
         function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
@@ -35,7 +43,7 @@
             },
             {
                 "data": null, "class": "keyTd", render: function (data, type, row) {
-                    return (data.tur == 8 ? '<a href="Satis?yil=' + new Date(data.fistar).getFullYear() + '&ay=' + (new Date(data.fistar).getMonth() + 1) + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=0&fatno=' + data.fisno + '">' : '') +
+                    return (data.tur == 8 ? '<a href="Satis?yil=' + new Date(data.fistar).getFullYear() + '&ay=' + (new Date(data.fistar).getMonth() + 1) + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=0&fatno=' + data.fisno + '" disabled>' : '') +
                         '<span class="sinirli4">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.matbuno) + '</span></a><span class="hide">' + data.fisno + '</span>' +
                         (data.tur == 8 ? '</a>' : '');
                 }
@@ -191,6 +199,17 @@
                 window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&ay=' + $('select[name=selectAy]').val());
                 getEkstre();
             });
+
+            $('#tarih,#vade').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy-mm-dd",
+                clearBtn: true,
+                orientation: "auto bottom"
+            });
+            $('#tarih,#vade').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
         });
     </script>
 }
@@ -220,9 +239,9 @@
     <thead>
         <tr>
             <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Tür</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
-            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Tarih</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Tarih</span><br /><input type="text" id="tarih" class="form-control tarihpicker" style="width: 100%" /></th>
             <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Fiş No</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
-            <th class="keyTd desktop"><span class="spanCiplak">Vade</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Vade</span><br /><input type="text" id="vade" class="form-control tarihpicker" style="width: 100%" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Açıklama</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Borç</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Alacak</span><br /><input type="text" class="form-control" style="width: 100%" /></th>

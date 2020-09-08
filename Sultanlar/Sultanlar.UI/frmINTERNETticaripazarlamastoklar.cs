@@ -94,5 +94,13 @@ namespace Sultanlar.UI
             frmINTERNETstoklartekligiris frm = new frmINTERNETstoklartekligiris();
             frm.ShowDialog();
         }
+
+        private void simpleButton4_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Excel dosyaları (*.xlsx)|*.xlsx;|Bütün Dosyalar|*.*";
+            if (sfd.ShowDialog() == DialogResult.OK)
+                gridControl1.ExportToXlsx(sfd.FileName, new DevExpress.XtraPrinting.XlsxExportOptions(DevExpress.XtraPrinting.TextExportMode.Text, true));
+        }
     }
 }

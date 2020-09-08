@@ -6,16 +6,27 @@
 
 @section head {
     <script>
+        function getBarkod() { return getParameterByName("barkod") ? getParameterByName("barkod") : ""; }
+
         function baslat() {
-            window.location.href = 'Ziyaret?gmref=' + getParameterByName("gmref") + '&smref=' + getParameterByName("smref") + '&slsref=' + getParameterByName("slsref") +
+            window.location.href = 'Ziyaret?gmref=' + getParameterByName("gmref") + '&smref=' + getParameterByName("smref") + '&slsref=' + getParameterByName("slsref") + '&barkod=' + getBarkod() +
                 '&tip=' + getParameterByName("tip") + '&coords=' + $("#inputCoords").val() + '&address=' + $("#inputCoordAddress").val();
         }
 
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
+
             KoordinatBaslat();
             getCari(getParameterByName("tip"), getParameterByName("smref"), getCariSube, "ziyMus");
         });
+
+        function Sonlanmamis() {
+            if (window.localStorage["ziyaret"]) {
+                alert("Sonlandırılmamış bir ziyaret var, yönlendiriliyorsunuz.");
+                window.location.href = 'Ziyaret?gmref=' + getParameterByName("gmref") + '&smref=' + getParameterByName("smref") + '&slsref=' + getParameterByName("slsref") + '&barkod=' + getBarkod() +
+                '&tip=' + getParameterByName("tip") + '&coords=' + $("#inputCoords").val() + '&address=' + $("#inputCoordAddress").val();
+            }
+        }
     </script>
 }
 <h5 class="spanCiplak" id="ziyMus"></h5>

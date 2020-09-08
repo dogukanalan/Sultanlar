@@ -9,7 +9,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 {
     public class MusteriProvider
     {
-        internal musteriler Musteri(string id) => new musteriler(Convert.ToInt32(Sifreleme.Decrypt(id))).GetObject();
+        internal musteriler Musteri(int id) => new musteriler(id).GetObject();
 
         internal string MusteriGuncelle(string id, string ad, string soyad, string telefon, string sifre)
         {

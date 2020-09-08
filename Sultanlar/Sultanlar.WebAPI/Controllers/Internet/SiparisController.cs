@@ -33,5 +33,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpPost]
         public string Kaydet([FromBody]SiparisKaydet sipariskaydet) => new SiparisProvider().SiparisKaydet(sipariskaydet);
+
+        [HttpGet("{SMREF}/{ITEMREF}/{Tarih}")]
+        public SiparisIsks GetIsks(int SMREF, int ITEMREF, DateTime Tarih) => new SiparisProvider().Isks(SMREF, ITEMREF, Tarih);
     }
 }

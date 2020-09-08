@@ -41,7 +41,9 @@
                     url: url1
                 },
                 "initComplete": function (settings, json) {
-                    //qtip();
+                    $('.dataTables_filter input').keyup(function () {
+                        $(this).val($(this).val().toLocaleUpperCase());
+                    });
                 },
                 "fnDrawCallback": function (oSettings) {
                     qtip();
@@ -278,8 +280,8 @@
 }
 <h5 class="spanCiplak" id="aktMus"></h5>
 <div class="centerVeMiddle">
-    <input class="form-control inputCiplak anlasmaBolum" type="text" name="inputBaslangic" id="inputBaslangic" placeholder="Başlangıç Tarihi" autocomplete="off" onkeypress="return false">
-    <input class="form-control inputCiplak anlasmaBolum" type="text" name="inputBitis" id="inputBitis" placeholder="Bitiş Tarihi" autocomplete="off" onkeypress="return false">
+    <input class="form-control inputCiplak anlasmaBolum tarihpicker" type="text" name="inputBaslangic" id="inputBaslangic" placeholder="Başlangıç Tarihi" autocomplete="off" onkeypress="return false">
+    <input class="form-control inputCiplak anlasmaBolum tarihpicker" type="text" name="inputBitis" id="inputBitis" placeholder="Bitiş Tarihi" autocomplete="off" onkeypress="return false">
 </div>
 <div class="centerVeMiddle">
     <input class="form-control inputCiplak anlasmaBolum2" type="text" name="inputAciklama1" id="inputAciklama1" placeholder="Açıklama 1" autocomplete="off">

@@ -122,5 +122,36 @@ namespace Sultanlar.WebAPI.Services.Internet
             object sipno = Sipno == 0 ? DBNull.Value : (object)Sipno;
             return new siparisDurumRaporu().GetObjects(Yil, ay, Slsref, sipno);
         }
+
+        internal SiparisIsks Isks(int SMREF, int ITEMREF, DateTime Tarih)
+        {
+            double fiyat = new fiyatlar(20, ITEMREF).GetObject().FIYAT;
+            SiparisIsks donendeger = new SiparisIsks() { fiyat = fiyat, isk1 = 5, isk2 = 0, isk3 = 0, isk4 = 0 };
+
+            malzemeler mal = new malzemeler(ITEMREF).GetObject();
+
+            aktivitelerDetay aktd = new aktivitelerDetay().GetObjectSon(SMREF, ITEMREF, Tarih);
+            if (aktd.pkID > 0)
+            {
+                donendeger = new SiparisIsks() { fiyat = aktd.mnBirimFiyatKDVli / ((100 + mal.KDV) / 100), isk1 = Convert.ToDouble(aktd.strAciklama1), isk2 = Convert.ToDouble(aktd.strAciklama2), isk3 = Convert.ToDouble(aktd.strAciklama3), isk4 = aktd.flEkIsk };
+            }
+            else
+            {
+                anlasmalar anl = new anlasmalar().GetObjectSon(SMREF, "2", Tarih);
+                if (anl.pkID > 0)
+                {
+                    donendeger = new SiparisIsks()
+                    {
+                        fiyat = fiyat,
+                        isk1 = (mal.GRUPKOD == "STG-1" ? anl.flTAHIsk : anl.flYEGIsk),
+                        isk2 = (mal.GRUPKOD == "STG-1" ? anl.flTAHCiroIsk : anl.flYEGCiroIsk),
+                        isk3 = 0,
+                        isk4 = 0
+                    };
+                }
+            }
+
+            return donendeger;// new SiparisIsks() { fiyat=1, isk1=2, isk2=3, isk3=4, isk4=5 };
+        }
     }
 }
