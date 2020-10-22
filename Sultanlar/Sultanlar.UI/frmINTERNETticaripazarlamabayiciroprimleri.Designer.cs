@@ -55,6 +55,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.sbGuncelle = new DevExpress.XtraEditors.SimpleButton();
             this.sbSil = new DevExpress.XtraEditors.SimpleButton();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView4)).BeginInit();
             this.SuspendLayout();
@@ -62,6 +63,9 @@
             // gridControl4
             // 
             this.gridControl4.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // 
+            // 
             this.gridControl4.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
             this.gridControl4.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
             this.gridControl4.EmbeddedNavigator.Appearance.Options.UseBackColor = true;
@@ -345,11 +349,22 @@
             this.sbSil.Text = "Sil";
             this.sbSil.Click += new System.EventHandler(this.sbSil_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(24, 1);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 40;
+            this.button1.Text = "Excel\'den al";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // frmINTERNETticaripazarlamabayiciroprimleri
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(864, 459);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.txtAy);
             this.Controls.Add(this.txtAciklama);
             this.Controls.Add(this.txtYEG);
@@ -409,5 +424,6 @@
         private System.Windows.Forms.Label label7;
         private DevExpress.XtraEditors.SimpleButton sbGuncelle;
         private DevExpress.XtraEditors.SimpleButton sbSil;
+        private System.Windows.Forms.Button button1;
     }
 }
