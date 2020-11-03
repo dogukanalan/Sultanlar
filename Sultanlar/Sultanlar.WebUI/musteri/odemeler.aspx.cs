@@ -481,7 +481,7 @@ namespace Sultanlar.WebUI.musteri
             if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || 
                 ((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // satış temsilcisi ise veya yönetici ise
             {
-                if (ddlCariHesaplar.SelectedIndex > 1)
+                if (ddlCariHesaplar.SelectedIndex > 0)
                     divOdeme1.Visible = true;
             }
             else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 1) // müşteri ise
@@ -507,7 +507,7 @@ namespace Sultanlar.WebUI.musteri
             else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || 
                       ((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // satış temsilcisi ise veya yönetici ise
             {
-                if (ddlCariHesaplar.SelectedIndex > 1)
+                if (ddlCariHesaplar.SelectedIndex > 0)
                 {
                     Session["OdemeGMREF"] = Convert.ToInt32(ddlCariHesaplar.SelectedValue.Substring(3));
 

@@ -4,11 +4,11 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>3D Pay Ödeme Sayfası</title>
+    <title>Ödeme Sayfası</title>
 </head>
 <body style="font-family: Verdana">
     <h2>
-        3D Ödeme İşlem Sonucu</h2>
+        Ödeme İşlem Sonucu</h2>
     <%--<h3>
         3D Dönen Parametreler</h3>--%>
 <%--    <table border="1">
@@ -31,8 +31,12 @@
             Session["OdemeTutari"] = null;
             Session["OdemeGMREF"] = null;
             Session["KrediKart"] = null;
+
+            odm.strmdStatus = "1";
+            odm.strReturnOid = Request.QueryString["orderid"];
+            odm.strMaskedPan = Request.QueryString["maskedpan"];
             
-            String[] odemeparametreleri = new String[] { "AuthCode", "Response", "HostRefNum", "ProcReturnCode", "TransId", "ErrMsg" };
+            /*String[] odemeparametreleri = new String[] { "AuthCode", "Response", "HostRefNum", "ProcReturnCode", "TransId", "ErrMsg" };
             IEnumerator e = Request.Form.GetEnumerator();
             while (e.MoveNext())
             {
@@ -57,10 +61,11 @@
                         odm.strMaskedPan = xval;
                     //Response.Write("<tr><td>" + xkey + "</td><td>" + xval + "</td></tr>");
                 }
-            }
+            }*/
         %>
 <%--    </table>--%>
     <%
+        /*
         String hashparams = Request.Form.Get("HASHPARAMS");
         String hashparamsval = Request.Form.Get("HASHPARAMSVAL");
         String storekey = "sultanlaRTeb3d";
@@ -103,55 +108,26 @@
 
 
         String mdStatus = Request.Form.Get("mdStatus"); // 3d işlemin sonucu
+        
+
         if (mdStatus.Equals("1") || mdStatus.Equals("2") || mdStatus.Equals("3") || mdStatus.Equals("4"))
         {
+        */
     %>
-    <h5>
-        <%--3D İşlemi Başarılı--%></h5>
-    <%--<h3>
-        Ödeme Sonucu</h3>--%>
-<%--    <table border="1">
-        <tr>
-            <td>
-                <b>Parametre İsmi</b>
-            </td>
-            <td>
-                <b>Parameter Değeri</b>
-            </td>
-        </tr>--%>
         <%
-            for (int i = 0; i < odemeparametreleri.Length; i++)
-            {
-                String paramname = odemeparametreleri[i];
-                String paramval = Request.Form.Get(paramname);
 
-                if (paramname == "AuthCode")
-                    odm.strAuthCode = paramval;
-                else if (paramname == "Response")
-                    odm.strResponse = paramval;
-                else if (paramname == "HostRefNum")
-                    odm.strHostRefNum = paramval;
-                else if (paramname == "ProcReturnCode")
-                    odm.strProcReturnCode = paramval;
-                else if (paramname == "TransId")
-                    odm.strTransId = paramval;
-                else if (paramname == "ErrMsg")
-                    odm.strErrMsg = paramval;
+                    odm.strAuthCode = Request.QueryString["authCode"];
+                    odm.strResponse = (Request.QueryString["approved"] == "1" ? "Approved" : "Declined");
+                    odm.strHostRefNum = Request.QueryString["hostlogkey"];
+                    odm.strProcReturnCode = Request.QueryString["respCode"];
+                    odm.strTransId = Request.QueryString["tranDate"];
+                    odm.strErrMsg = Request.QueryString["respText"];
                 
-                //Response.Write("<tr><td>" + paramname + "</td><td>" + paramval + "</td></tr>");
-            }
-
-            if (odemeparametreleri.Length == 0)
-            {
-                Response.Write("<h4><span style=\"color: Red\">Ödeme İşlemi Başarısız</span></h4>");
-            }
-
             odm.DoInsert();
     
         %>
-<%--    </table>--%>
     <%
-        if ("Approved".Equals(Request.Form.Get("Response")))
+        if (Request.QueryString["approved"] == "1")
         {
             Session["OdemeYapildi"] = true;
     %>
@@ -164,46 +140,15 @@
     %>
     <h4>
         <span style="color: Red">Ödeme İşlemi Başarısız</span></h4>
+    <br /><br />Hata: <%=Request.QueryString["respText"] %>
     <%
-}
         }
-        else
-        {
-            for (int i = 0; i < odemeparametreleri.Length; i++)
-            {
-                String paramname = odemeparametreleri[i];
-                String paramval = Request.Form.Get(paramname);
-
-                if (paramname == "AuthCode")
-                    odm.strAuthCode = paramval;
-                else if (paramname == "Response")
-                    odm.strResponse = paramval;
-                else if (paramname == "HostRefNum")
-                    odm.strHostRefNum = paramval;
-                else if (paramname == "ProcReturnCode")
-                    odm.strProcReturnCode = paramval;
-                else if (paramname == "TransId")
-                    odm.strTransId = paramval;
-                else if (paramname == "ErrMsg")
-                    odm.strErrMsg = paramval;
-
-                //Response.Write("<tr><td>" + paramname + "</td><td>" + paramval + "</td></tr>");
-            }
-            
-            odm.DoInsert();
     %>
-    <h5>
-        <span style="color: Red">Ödeme İşlemi Başarısız</span>
-        <%--3D İşlemi Başarısız--%></h5>
-    <%
-}
-    
-    
-    %>
+
     <center>
     
     <% 
-        if (Session["OdemeSiparisNo"].ToString() != "0")
+        if (Session["OdemeSiparisNo"] != null)
        {
            Response.Write("<span style=\"font-style: italic; font-size: 12px; color: #DD0000\">Sipariş onaylama bir sonraki sayfadadır. Bu sayfayı kapatmak için alttaki &quot;Ödeme Ekranını Kapat&quot; tuşuna basınız, sonraki sayfada adres belirterek siparişi onaylayınız.</span>");
        }

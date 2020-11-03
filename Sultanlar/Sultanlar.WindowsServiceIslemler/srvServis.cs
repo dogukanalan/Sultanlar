@@ -1249,6 +1249,12 @@ namespace Sultanlar.WindowsServiceIslemler
             cmd4.ExecuteNonQuery();
             conn.Close();*/
 
+            SqlCommand cmd10 = new SqlCommand("DROP TABLE [Web-Fiyat-Onceki] SELECT * INTO [Web-Fiyat-Onceki] FROM [dbo].[Web-Fiyat]", conn);
+            cmd10.CommandTimeout = 1000;
+            conn.Open();
+            cmd10.ExecuteNonQuery();
+            conn.Close();
+
             SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Fiyat] INSERT INTO [Web-Fiyat] SELECT *,NULL,NULL,NULL FROM [Web_Fiyat_SAP_aktarim] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
             cmd2.CommandTimeout = 1000;
             conn.Open();

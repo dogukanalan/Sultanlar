@@ -692,6 +692,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="musteri\planogramlar\Web.config" />
+    <Content Include="musteri\stand\Web.config" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\System.Xml.Linq.XElement.datasource" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
@@ -1959,7 +1960,6 @@
     <Folder Include="data1\thumbnails\" />
     <Folder Include="download\" />
     <Folder Include="duyurular\" />
-    <Folder Include="musteri\stand\" />
     <Folder Include="musteri\teshir\Altin\" />
     <Folder Include="musteri\teshir\Ari\" />
     <Folder Include="musteri\teshir\Asalak\" />

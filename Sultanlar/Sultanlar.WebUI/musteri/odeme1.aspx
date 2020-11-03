@@ -48,7 +48,7 @@
                     style="text-align: left; width: 350px;">
                     <tr>
                         <td align="right">Ödeme Tutarı:</td>
-                        <td><strong><%=Session["OdemeTutari"].ToString()%> TL</strong></td>
+                        <td><strong><%=Convert.ToDecimal(Session["OdemeTutari"]).ToString("N2")%> TL</strong></td>
                     </tr>
 
                     <tr>
@@ -156,7 +156,7 @@
                         </td>
                     </tr>
                     
-                    <tr>
+                    <tr style="display: none">
                         <td align="right">
                             Visa/MC Seçimi:</td>
                         <td>

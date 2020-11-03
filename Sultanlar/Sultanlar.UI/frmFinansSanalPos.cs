@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Sultanlar.DatabaseObject.Internet;
 using System.IO;
+using System.Net;
 
 namespace Sultanlar.UI
 {
@@ -145,7 +146,7 @@ namespace Sultanlar.UI
             {
                 if (dataGridView1.Rows[e.RowIndex].Cells["clblAktarildi"].Value.ToString() != "True")
                 {
-                    if (MessageBox.Show("Bu satır işlendi olarak işaretlenecek. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                    if (MessageBox.Show("Bu satır işlendi olarak işaretlenecek. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         Odemeler.DoUpdateAktar(Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["clpkOdemeID"].Value), frmAna.KAdi.ToUpper());
                         dataGridView1.Rows[e.RowIndex].Cells["clblAktarildi"].Value = true;
@@ -289,10 +290,47 @@ namespace Sultanlar.UI
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-                string tutar = Convert.ToDecimal(dataGridView1.SelectedRows[0].Cells["clmnTutar"].Value).ToString("N2");
-                string siparisno = Convert.ToDecimal(dataGridView1.SelectedRows[0].Cells["clstrReturnOid"].Value).ToString();
-                frmFinansSanalPosKartIade frm = new frmFinansSanalPosKartIade(tutar, siparisno);
-                frm.ShowDialog();
+                if (dataGridView1.SelectedRows[0].Cells["clblAktarildi"].Value.ToString() != "True")
+                {
+                    if (MessageBox.Show("İptal işlemi uygulamak istediğinize emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        string Donen = string.Empty;
+                        HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://95.0.47.130/SulWCF/sanalpos.ashx?hostlogkey=" + dataGridView1.SelectedRows[0].Cells["clstrHostRefNum"].Value);
+                        HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+                        Donen = new StreamReader(res.GetResponseStream()).ReadToEnd();
+
+                        string[] parcalar = Donen.Split(new string[] { ";;;" }, StringSplitOptions.None);
+                        string approved = parcalar[0], authCode = parcalar[1], hostlogkey = parcalar[2], respCode = parcalar[3], respText = parcalar[4];
+
+                        if (approved == "1")
+                        {
+                            Odemeler odeme = Odemeler.GetObject(Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkOdemeID"].Value));
+                            odeme.blAktarildi = true;
+                            odeme.strAktaran = frmAna.KAdi.ToUpper() + "-IPTAL";
+                            odeme.dtAktarmaZamani = DateTime.Now;
+                            odeme.DoUpdate();
+
+                            dataGridView1.SelectedRows[0].Cells["clblAktarildi"].Value = true;
+                            dataGridView1.SelectedRows[0].Cells["clstrAktaran"].Value = frmAna.KAdi.ToUpper() + "-IPTAL";
+                            dataGridView1.SelectedRows[0].Cells["cldtAktarmaZamani"].Value = DateTime.Now;
+
+                            MessageBox.Show("İptal işlemi yapıldı.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Hata çıktı. Ayrıntı:\r\n" + respCode + " " + respText, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
+                        /*string tutar = Convert.ToDecimal(dataGridView1.SelectedRows[0].Cells["clmnTutar"].Value).ToString("N2");
+                        string siparisno = Convert.ToDecimal(dataGridView1.SelectedRows[0].Cells["clstrReturnOid"].Value).ToString();
+                        frmFinansSanalPosKartIade frm = new frmFinansSanalPosKartIade(tutar, siparisno);
+                        frm.ShowDialog();*/
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("İşlenen kayda iptal işlemi uygulanamaz.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
 

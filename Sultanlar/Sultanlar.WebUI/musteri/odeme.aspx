@@ -17,17 +17,15 @@
 </head>
 <body style="font-family: Verdana; font-size: 11px">
 
+        <center>
+            <form runat="server">
 <%
     if (Session["OdemeTutari"] == null || Session["OdemeGMREF"] == null || Session["KrediKart"] == null)
         Response.Redirect("hata.htm", true);
-    
-    //  AŞAĞIDA 3D SECURE İŞLEMİ İÇİN GEREKLİ ALANLAR VE KULLANIMLARI İLE ASP.NET KOD ÖRNEĞİ VERİLMİŞTİR. GİRİLEN DEĞERLER TEST AMAÇLI GİRİLMİŞTİR.
-    //  3DPAY MODEL ÜZERİNE DÜZENLENMİŞ KOD ÖRNEĞİDİR. İŞ YERLERİ KENDİ DEĞERLERİYLE DEĞİŞKENLERİ TANIMLAMALIDIR. 
-    //  İŞ YERLERİNE REFERANS AMAÇLI OLUŞTURULMUŞTUR.
-    
+
         /**************           GEREKLİ  PARAMETRELER       ********************/
+        /*
         String clientId = "400359354";   //Banka tarafından verilen işyeri numarası     
-        String amount = Convert.ToDecimal(Session["OdemeTutari"]).ToString("N2").Replace(".", "").Replace(",", ".");          //İşlem tutarı
         String oid = Session["OdemeSiparisNo"] != null ? Session["OdemeSiparisNo"].ToString() : "";                 //Sipariş Numarası
         String okUrl = "https://www.sultanlar.com.tr/musteri/odemesayfasi3dpay.aspx";     //İşlem başarılıysa dönülecek sayfa
         String failUrl = "https://www.sultanlar.com.tr/musteri/odemesayfasi3dpay.aspx";   //İşlem başarısızsa dönülecek sayfa
@@ -42,7 +40,8 @@
         byte[] inputbytes = sha.ComputeHash(hashbytes);
         
         String hash = Convert.ToBase64String(inputbytes);  //Güvenlik amaçlı hash değeri
-
+    */
+        String amount1 = Convert.ToDecimal(Session["OdemeTutari"]).ToString("N2");
 
         String Numara = Sultanlar.Class.Sifreleme.Decrypt(((Sultanlar.DatabaseObject.Internet.Kartlar)Session["KrediKart"]).strNumara);
         String Guvenlik = Sultanlar.Class.Sifreleme.Decrypt(((Sultanlar.DatabaseObject.Internet.Kartlar)Session["KrediKart"]).strGuvenlik);
@@ -65,13 +64,11 @@
         }
     %>
 
-        <center>
-            <form method="post" action="https://sanalpos.teb.com.tr/servlet/est3Dgate">
                 <table cellpadding="3" cellspacing="0" 
                     style="text-align: left; width: 350px;">
                     <tr>
                         <td align="right">Ödeme Tutarı:</td>
-                        <td><strong><%=amount%> TL</strong></td>
+                        <td><strong><%=amount1%> TL</strong></td>
                     </tr>
                     
                     <tr>
@@ -123,25 +120,25 @@
 
                     <tr>
                         <td align="right">Kredi Kart Numarası:</td>
-                        <td><%=Numara.Substring(0, 6) + "********" + Numara.Substring(14)%></td>
+                        <td><%=Numara.ToString()%></td>
                     </tr>
                     
                     <tr>
                         <td align="right">Güvenlik Kodu:</td>
-                        <td><%="*" + Guvenlik[1] + "*"%></td>
+                        <td><%=Guvenlik%></td>
                     </tr>
                     
                     <tr>
                         <td align="right">Son Kullanma Ayı:</td>
-                        <td><%=Ay[0] + "*"%></td>
+                        <td><%=Ay%></td>
                     </tr>
                     
                     <tr>
                         <td align="right">Son Kullanma Yılı:</td>
-                        <td><%="*" + Yil[1]%></td>
+                        <td><%=Yil%></td>
                     </tr>
                     
-                    <tr>
+                    <tr style="display: none">
                         <td align="right">Visa/MC Seçimi:</td>
                         <td><%=VM%></td>
                     </tr>
@@ -149,17 +146,16 @@
                     <tr>
                         <td align="center" colspan="2" style="font-size: 14px">
                             <br /><br />
-                            <span style="color: #D00000; font-weight: bold">
-                            Önemli Not:</span> Ödeme işlemi <b>sadece 3D Secure</b> sistemiyle yapılabilmektedir. Kredi kartınızda&nbsp;&nbsp;&nbsp; 
-                            <b>3D Secure</b> tanımlı değil ise bankanızla görüşmeniz gerekmektedir.
-                            <br /><br /><br />
-                            <input type="submit" value="Ödemeyi Tamamla" style="color:#284775;background-color:#FFFBFF;width:160px;
-                                border-color:#CCCCCC;border-width:1px;border-style:Solid;font-family:Verdana;font-size:14px;font-weight:bold"/>
+                            <asp:LinkButton runat="server" ID="lbTamamla" OnClick="lbTamamla_Click"
+                                style="color:#284775; background-color:#FFFBFF; width:160px; border-color:#CCCCCC;border-width:1px;border-style:Solid;font-family:Verdana;font-size:14px;font-weight:bold" 
+                                OnClientClick="this.style.display = 'none'">Ödemeyi Tamamla</asp:LinkButton>
+                            
                         </td>
                     </tr>
                     
                 </table>
-                <input type="hidden" name="clientid" value="<%=clientId%>">
+
+                <%--<input type="hidden" name="clientid" value="<%=clientId%>">
                 <input type="hidden" name="amount" value="<%=amount%>">
                 <input type="hidden" name="oid" value="<%=oid%>">	
                 <input type="hidden" name="okUrl" value="<%=okUrl%>">
@@ -201,7 +197,7 @@
                 <input type="hidden" name="desc1" value="a4 desc">
                 <input type="hidden" name="id1" value="a5">
                 <input type="hidden" name="price1" value="0.00">
-                <input type="hidden" name="total1" value="0.00">
+                <input type="hidden" name="total1" value="0.00">--%>
                 
             </form>
 
