@@ -242,26 +242,32 @@ namespace Sultanlar.UI
         {
             if (gridView1.SelectedRowsCount > 0 && !gridView1.IsFilterRow(gridView1.GetSelectedRows()[0]))
             {
-                if (MessageBox.Show("Anlaşma onaylanacak, devam etmek istediğinize emin misiniz?", "Onaylama", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                int AnlasmaID = Convert.ToInt32(((DataRowView)gridControl1.MainView.GetRow(gridView1.GetSelectedRows()[0])).Row.ItemArray[0]);
+                Anlasmalar anlasma = Anlasmalar.GetObject(AnlasmaID);
+
+                if ((frmAna.KAdi != "ST47" && anlasma.dtBaslangic.Year > 2020) || frmAna.KAdi == "ST47")
                 {
-                    int AnlasmaID = Convert.ToInt32(((DataRowView)gridControl1.MainView.GetRow(gridView1.GetSelectedRows()[0])).Row.ItemArray[0]);
-
-                    if (Anlasmalar.GetObject(AnlasmaID).intOnay == 1)
+                    if (MessageBox.Show("Anlaşma onaylanacak, devam etmek istediğinize emin misiniz?", "Onaylama", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                     {
-                        MessageBox.Show("Anlaşma zaten onaylanmış.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-
-                    Anlasmalar anlasma = Anlasmalar.GetObject(AnlasmaID);
-
-                    if (Anlasmalar.GetSonAnlasmaID(anlasma.SMREF, anlasma.dtBaslangic, anlasma.strAciklama2) > 0)
-                        if (MessageBox.Show("Anlaşmanın başlangıç tarihini içeren onaylanmış bir anlaşma zaten var. Devam etmek istediğinize emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.No)
+                        if (Anlasmalar.GetObject(AnlasmaID).intOnay == 1)
+                        {
+                            MessageBox.Show("Anlaşma zaten onaylanmış.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
+                        }
 
-                    anlasma.intOnay = 1;
-                    anlasma.DoUpdate();
-                    MesajAt(anlasma, 1);
-                    GetAnlasmalar();
+                        if (Anlasmalar.GetSonAnlasmaID(anlasma.SMREF, anlasma.dtBaslangic, anlasma.strAciklama2) > 0)
+                            if (MessageBox.Show("Anlaşmanın başlangıç tarihini içeren onaylanmış bir anlaşma zaten var. Devam etmek istediğinize emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.No)
+                                return;
+
+                        anlasma.intOnay = 1;
+                        anlasma.DoUpdate();
+                        MesajAt(anlasma, 1);
+                        GetAnlasmalar();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Yetkiniz bulunmamaktadır. Ticari pazarlama ile görüşün.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -270,21 +276,28 @@ namespace Sultanlar.UI
         {
             if (gridView1.SelectedRowsCount > 0 && !gridView1.IsFilterRow(gridView1.GetSelectedRows()[0]))
             {
-                if (MessageBox.Show("Anlaşma onaysız duruma getirilecek, devam etmek istediğinize emin misiniz?", "Geri alma", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                int AnlasmaID = Convert.ToInt32(((DataRowView)gridControl1.MainView.GetRow(gridView1.GetSelectedRows()[0])).Row.ItemArray[0]);
+                Anlasmalar anlasma = Anlasmalar.GetObject(AnlasmaID);
+
+                if (frmAna.KAdi == "ST47")
                 {
-                    int AnlasmaID = Convert.ToInt32(((DataRowView)gridControl1.MainView.GetRow(gridView1.GetSelectedRows()[0])).Row.ItemArray[0]);
-
-                    if (Anlasmalar.GetObject(AnlasmaID).intOnay == 0)
+                    if (MessageBox.Show("Anlaşma onaysız duruma getirilecek, devam etmek istediğinize emin misiniz?", "Geri alma", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                     {
-                        MessageBox.Show("Anlaşma zaten onaylanmamış.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
+                        if (Anlasmalar.GetObject(AnlasmaID).intOnay == 0)
+                        {
+                            MessageBox.Show("Anlaşma zaten onaylanmamış.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            return;
+                        }
 
-                    Anlasmalar anlasma = Anlasmalar.GetObject(AnlasmaID);
-                    anlasma.intOnay = 0;
-                    anlasma.DoUpdate();
-                    MesajAt(anlasma, 5);
-                    GetAnlasmalar();
+                        anlasma.intOnay = 0;
+                        anlasma.DoUpdate();
+                        MesajAt(anlasma, 5);
+                        GetAnlasmalar();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Yetkiniz bulunmamaktadır. Ticari pazarlama ile görüşün.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }

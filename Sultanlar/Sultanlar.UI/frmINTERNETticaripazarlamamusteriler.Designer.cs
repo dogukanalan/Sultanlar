@@ -105,6 +105,8 @@
             this.label24 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.label25 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -948,6 +950,27 @@
             this.label25.TabIndex = 3;
             this.label25.Text = "(Excel dosyasında 1. kolon kod, 2. kolon 1 (pasif) veya 0 (aktif) olmalı.)";
             // 
+            // button7
+            // 
+            this.button7.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button7.Location = new System.Drawing.Point(741, 310);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(90, 23);
+            this.button7.TabIndex = 2;
+            this.button7.Text = "Toplu Tür";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.ForeColor = System.Drawing.Color.Red;
+            this.label26.Location = new System.Drawing.Point(837, 315);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(280, 13);
+            this.label26.TabIndex = 3;
+            this.label26.Text = "(Excel dosyasında 1. kolon kod, 2. kolon Tür Kodu olmalı.)";
+            // 
             // frmINTERNETticaripazarlamamusteriler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -955,6 +978,7 @@
             this.ClientSize = new System.Drawing.Size(1184, 572);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cmbAy);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.cmbYil);
@@ -967,6 +991,7 @@
             this.Controls.Add(this.txtTAHKar);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.button4);
+            this.Controls.Add(this.label26);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label16);
@@ -1077,5 +1102,7 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Label label26;
     }
 }
