@@ -406,5 +406,16 @@ namespace Sultanlar.UI
                 }
             }
         }
+
+        private void btnKat_Click(object sender, EventArgs e)
+        {
+            int AnlasmaID = Convert.ToInt32(((DataRowView)gridControl1.MainView.GetRow(gridView1.GetSelectedRows()[0])).Row.ItemArray[0]);
+            
+            frmInputBox frm = new frmInputBox("Anlaşma Kategorisi (" + AnlasmaID.ToString() + ")", Anlasmalar.GetKat(AnlasmaID));
+            frm.ShowDialog();
+
+            Anlasmalar.SetKat(AnlasmaID, frmAna.InputBox);
+            frmAna.InputBox = string.Empty;
+        }
     }
 }

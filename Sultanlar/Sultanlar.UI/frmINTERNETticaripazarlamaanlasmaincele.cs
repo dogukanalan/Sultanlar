@@ -16,9 +16,9 @@ namespace Sultanlar.UI
         {
             InitializeComponent();
             anlasma = Anlasmalar.GetObject(AnlasmaID);
-            this.Text = anlasma.strAciklama2 == "1" ? 
-                "Ticari Pazarlama : Anlaşma (" + CariHesaplarTP.GetObject(anlasma.SMREF, false).SUBE + ")"
-                : "Ticari Pazarlama : Anlaşma (" + CariHesaplar.GetMUSTERIbyGMREF(anlasma.SMREF) + ")";
+            this.Text = anlasma.strAciklama2 == "1" ?
+                "Ticari Pazarlama : Anlaşma " + anlasma.pkID.ToString() + " (" + CariHesaplarTP.GetObject(anlasma.SMREF, false).SUBE + ")"
+                : "Ticari Pazarlama : Anlaşma " + anlasma.pkID.ToString() + " (" + CariHesaplar.GetMUSTERIbyGMREF(anlasma.SMREF) + ")";
         }
 
         public Anlasmalar anlasma;

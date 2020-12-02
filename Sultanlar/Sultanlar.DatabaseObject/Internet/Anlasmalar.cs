@@ -822,5 +822,58 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
+        //
+        //
+        public static string GetKat(int AnlasmaID)
+        {
+            string donendeger = "";
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT strKategori FROM tblINTERNET_Anlasmalar WHERE pkID = @AnlasmaID", conn);
+                cmd.Parameters.Add("@AnlasmaID", SqlDbType.Int).Value = AnlasmaID;
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                        donendeger = obj.ToString();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        //
+        //
+        public static void SetKat(int AnlasmaID, string Kat)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE tblINTERNET_Anlasmalar SET strKategori = @Kat WHERE pkID = @AnlasmaID", conn);
+                cmd.Parameters.Add("@AnlasmaID", SqlDbType.Int).Value = AnlasmaID;
+                cmd.Parameters.Add("@Kat", SqlDbType.NVarChar, 50).Value = Kat;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
     }
 }
