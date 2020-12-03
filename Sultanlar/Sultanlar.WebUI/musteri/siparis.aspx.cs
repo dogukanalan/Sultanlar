@@ -106,6 +106,13 @@ namespace Sultanlar.WebUI.musteri
                 //}
                 else
                 {
+                    Siparisler sip = Siparisler.GetObjectsBySiparisID(Convert.ToInt32(Session["SiparisID"]));
+                    if (sip.pkSiparisID == 0)
+                    {
+                        Session["SiparisID"] = null;
+                        Response.Redirect("default.aspx", true);
+                    }
+
                     if (Session["FiyatTipiDegisti"] == null)
                     {
                         if (Session["RISKBAKIYE"] == null)

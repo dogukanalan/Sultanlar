@@ -82,6 +82,7 @@ namespace Sultanlar.UI
             sbPasif.Location = new Point(sbPasif.Location.X, lblAlt.Location.Y + 3);
             sbYazdir.Location = new Point(sbYazdir.Location.X, lblAlt.Location.Y + 3);
             sbExcel.Location = new Point(sbExcel.Location.X, lblAlt.Location.Y + 3);
+            btnKat.Location = new Point(btnKat.Location.X, lblAlt.Location.Y + 3);
 
             rbHepsi.Location = new Point(this.Width - 383, rbHepsi.Location.Y);
             rbOnaylilar.Location = new Point(this.Width - 325, rbOnaylilar.Location.Y);
