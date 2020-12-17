@@ -829,5 +829,39 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
+        //
+        //
+        public static void FiyatKontrolEkle(int ITEMREF, double FIYAT, int YIL, int AY)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd1 = new SqlCommand("SELECT count(*) FROM [Web-Fiyat-Aktivite-Kontrol] WHERE YIL = @YIL AND AY = @AY AND ITEMREF = @ITEMREF", conn);
+                cmd1.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
+                cmd1.Parameters.Add("@YIL", SqlDbType.Int).Value = YIL;
+                cmd1.Parameters.Add("@AY", SqlDbType.Int).Value = AY;
+
+                SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Fiyat-Aktivite-Kontrol] (ITEMREF,FIYAT,YIL,AY) VALUES (@ITEMREF,@FIYAT,@YIL,@AY)", conn);
+                cmd.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
+                cmd.Parameters.Add("@FIYAT", SqlDbType.Float).Value = FIYAT;
+                cmd.Parameters.Add("@YIL", SqlDbType.Int).Value = YIL;
+                cmd.Parameters.Add("@AY", SqlDbType.Int).Value = AY;
+                try
+                {
+                    conn.Open();
+                    bool varmi = Convert.ToBoolean(cmd1.ExecuteScalar());
+                    if (varmi)
+                        cmd.CommandText = "UPDATE [Web-Fiyat-Aktivite-Kontrol] SET FIYAT = @FIYAT WHERE YIL = @YIL AND AY = @AY AND ITEMREF = @ITEMREF";
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
     }
 }
