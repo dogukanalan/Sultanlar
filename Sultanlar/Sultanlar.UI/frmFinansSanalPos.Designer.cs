@@ -507,7 +507,7 @@
             this.btnIade.Name = "btnIade";
             this.btnIade.Size = new System.Drawing.Size(120, 20);
             this.btnIade.TabIndex = 32;
-            this.btnIade.Text = "Ödeme İadesi Yap";
+            this.btnIade.Text = "Ödeme İptali Yap";
             this.btnIade.UseVisualStyleBackColor = true;
             this.btnIade.Click += new System.EventHandler(this.btnIade_Click);
             // 

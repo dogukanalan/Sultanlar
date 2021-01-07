@@ -57,6 +57,7 @@ namespace Sultanlar.UI
             sbGeriAl.Location = new Point(sbGeriAl.Location.X, splitContainer1.Panel2.Height - 26);
             sbYazdir.Location = new Point(sbYazdir.Location.X, splitContainer1.Panel2.Height - 26);
             sbExcel2.Location = new Point(sbExcel2.Location.X, splitContainer1.Panel2.Height - 26);
+            btnFiyatExcel.Location = new Point(btnFiyatExcel.Location.X, splitContainer1.Panel2.Height - 26);
 
             lblSatirSayisi.Location = new Point(this.Width - 69, lblAlt.Location.Y + 7);
             lblSatirSayisi2.Location = new Point(this.Width - 109, lblAlt.Location.Y + 7);
@@ -72,6 +73,7 @@ namespace Sultanlar.UI
             sbGeriAl.Location = new Point(sbGeriAl.Location.X, lblAlt.Location.Y + 3);
             sbYazdir.Location = new Point(sbYazdir.Location.X, lblAlt.Location.Y + 3);
             sbExcel2.Location = new Point(sbExcel2.Location.X, lblAlt.Location.Y + 3);
+            btnFiyatExcel.Location = new Point(btnFiyatExcel.Location.X, lblAlt.Location.Y + 3);
 
             rbHepsi.Location = new Point(this.Width - 383, rbHepsi.Location.Y);
             rbOnaylilar.Location = new Point(this.Width - 325, rbOnaylilar.Location.Y);
@@ -1044,6 +1046,101 @@ namespace Sultanlar.UI
         private void gridView1_ColumnFilterChanged(object sender, EventArgs e)
         {
             lblSatirSayisi2.Text = gridView1.RowCount.ToString();
+        }
+
+        private void btnFiyatExcel_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Excel dosyasında kolonlar şu sıra ile olmalı:\r\nÜrün Kodu, Fiyat, Yıl, Ay, Müdür Kodu", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            string dosya = "";
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK)
+                dosya = ofd.FileName;
+            else
+                return;
+
+            Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook wb = null;
+            Microsoft.Office.Interop.Excel.Worksheet ws = null;
+            Microsoft.Office.Interop.Excel.Range range = null;
+
+            object[,] values = null;
+
+            try
+            {
+                wb = ap.Workbooks.Open(dosya, false, true,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, true);
+
+                ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+
+                range = ws.get_Range("A1", "D6666");
+
+                values = (object[,])range.Value2;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                range = null;
+                ws = null;
+                if (wb != null)
+                    wb.Close(false, System.Reflection.Missing.Value, System.Reflection.Missing.Value);
+                wb = null;
+                if (ap != null)
+                    ap.Quit();
+                ap = null;
+            }
+
+            ArrayList kodlar = new ArrayList();
+            ArrayList fiyatlar = new ArrayList();
+            ArrayList yillar = new ArrayList();
+            ArrayList aylar = new ArrayList();
+            ArrayList mudurler = new ArrayList();
+            for (int i = 2; i <= values.GetLength(0); i++)
+            {
+                if (values[i, 1] == null) // 1.kolon boş ise bu satırdan sonrasına bakmasın
+                    break;
+
+                try
+                {
+                    if (Urunler.GetProductName(Convert.ToInt32(values[i, 1])) == string.Empty)
+                    {
+                        MessageBox.Show(i.ToString() + ". satırda ürün kodu yanlış. Düzeltip tekrar deneyin", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        kodlar.Clear();
+                        fiyatlar.Clear();
+                        yillar.Clear();
+                        aylar.Clear();
+                        mudurler.Clear();
+                        return;
+                    }
+
+                    kodlar.Add(Convert.ToInt32(values[i, 1]));
+                    fiyatlar.Add(Convert.ToDouble(values[i, 2]));
+                    yillar.Add(Convert.ToInt32(values[i, 3]));
+                    aylar.Add(Convert.ToInt32(values[i, 4]));
+                    mudurler.Add(Convert.ToInt32(values[i, 5]));
+                }
+                catch (Exception ex)
+                {
+                    kodlar.Clear();
+                    fiyatlar.Clear();
+                    yillar.Clear();
+                    aylar.Clear();
+                    mudurler.Clear();
+                    MessageBox.Show(ex.Message);
+                    return;
+                }
+            }
+
+            for (int i = 0; i < kodlar.Count; i++)
+                Aktiviteler.FiyatKontrolEkle(Convert.ToInt32(kodlar[i]), Convert.ToDouble(fiyatlar[i]), Convert.ToInt32(yillar[i]), Convert.ToInt32(aylar[i]), Convert.ToInt32(mudurler[i]));
+
+            MessageBox.Show("Aktarım tamamlandı.", "Başarılı");
         }
     }
 }

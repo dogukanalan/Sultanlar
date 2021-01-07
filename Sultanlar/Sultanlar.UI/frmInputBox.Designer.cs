@@ -62,6 +62,7 @@
             this.Name = "frmInputBox";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Veri Girişi";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmInputBox_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

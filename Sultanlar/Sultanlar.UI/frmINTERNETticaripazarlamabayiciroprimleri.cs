@@ -143,5 +143,79 @@ namespace Sultanlar.UI
                 txtAciklama.Text = string.Empty;
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                if (MessageBox.Show("Dosyadan aktarım yapmak istediğinize emin misiniz?\r\nExcel dosyası kolonları sırasıyla aşağıdaki gibi olmalı:\r\n\r\nA-Bayi Kodu, B-Yıl, C-Ay, D-KGT Bedel, E-NF Bedel, F-Açıklama", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    ExceldenAl(ofd.FileName);
+                }
+            }
+        }
+
+        private void ExceldenAl(object dosya)
+        {
+            Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook wb = null;
+            Microsoft.Office.Interop.Excel.Worksheet ws = null;
+            Microsoft.Office.Interop.Excel.Range range = null;
+
+            object[,] values = null;
+
+            try
+            {
+                wb = ap.Workbooks.Open(dosya.ToString(), false, true,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, true);
+
+                ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+
+                if (dosya.ToString().EndsWith(".xls"))
+                    range = ws.get_Range("A1", "K65535");
+                else
+                    range = ws.get_Range("A1", "K1000000");
+
+                values = (object[,])range.Value2;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+            finally
+            {
+                range = null;
+                ws = null;
+                if (wb != null)
+                    wb.Close(false, System.Reflection.Missing.Value, System.Reflection.Missing.Value);
+                wb = null;
+                if (ap != null)
+                    ap.Quit();
+                ap = null;
+            }
+
+            for (int i = 2; i <= values.GetLength(0); i++) // 1.satır başlıklar
+            {
+                if (values[i, 1] == null) // 1.kolon boş ise bu satırdan sonrasına bakmasın
+                    break;
+
+                try
+                {
+                    BayiCiroPrimleri.DoInsert(Convert.ToInt32(values[i, 1]), Convert.ToInt32(values[i, 2]), Convert.ToInt32(values[i, 3]), Convert.ToDecimal(values[i, 4]), Convert.ToDecimal(values[i, 5]), values[i, 6].ToString());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hata oluşan satır: " + i.ToString() + "\r\nHata ayrıntısı: " + ex.Message);
+                }
+            }
+
+            MessageBox.Show("Tüm veriler aktarıldı.", "Aktarım", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            btnYenile.PerformClick();
+        }
     }
 }

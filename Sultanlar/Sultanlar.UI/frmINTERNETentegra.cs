@@ -206,6 +206,16 @@ namespace Sultanlar.UI
             }
         }
 
+        private void SapCariYaz(string Entegrano, int SMREF)
+        {
+            string EntegraNo = Entegrano;
+            int smref = SMREF;
+            List<EntegraSatir> satirlarGercek = Entegra.GetSatirlarGercek(EntegraNo);
+            for (int index = 0; index < satirlarGercek.Count; ++index)
+                if (!Entegra.SAPcariVarMi(satirlarGercek[index].SIPARIS_NO, satirlarGercek[index].KOD))
+                    Entegra.DoInsertSAP(satirlarGercek[index].SIPARIS_NO, satirlarGercek[index].KOD, smref);
+        }
+
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             textBox1.Text = dataGridView1.Rows[e.RowIndex].Cells["SAP Cari Kod"].Value.ToString();
@@ -213,14 +223,9 @@ namespace Sultanlar.UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string EntegraNo = dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells["Sip.No"].Value.ToString();
-            int smref = Convert.ToInt32(textBox1.Text);
-            List<EntegraSatir> satirlarGercek = Entegra.GetSatirlarGercek(EntegraNo);
-            for (int index = 0; index < satirlarGercek.Count; ++index)
-                if (!Entegra.SAPcariVarMi(satirlarGercek[index].SIPARIS_NO, satirlarGercek[index].KOD))
-                    Entegra.DoInsertSAP(satirlarGercek[index].SIPARIS_NO, satirlarGercek[index].KOD, smref);
+            SapCariYaz(dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells["Sip.No"].Value.ToString(), Convert.ToInt32(textBox1.Text));
             dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells["SAP Cari Kod"].Value = textBox1.Text;
-            dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells["SAP Cari"].Value = CariHesaplar.GetMUSTERIbySMREF(smref);
+            dataGridView1.Rows[dataGridView1.SelectedCells[0].RowIndex].Cells["SAP Cari"].Value = CariHesaplar.GetMUSTERIbySMREF(Convert.ToInt32(textBox1.Text));
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -239,6 +244,11 @@ namespace Sultanlar.UI
             //new ToolTip().Show("Entegra bağlantısı yapılıyor, lütfen bekleyin.", this, Cursor.Position.X - this.Location.X, Cursor.Position.Y - this.Location.Y - 30, 2000);
             if (Entegra.EntegraSiparis2())
             {
+                List<EntegraSatir> sats = Entegra.SapCHkodu();
+                for (int i = 0; i < sats.Count; i++)
+                {
+                    SapCariYaz(sats[i].SIPARIS_NO, sats[i].KOD);
+                }
                 //MessageBox.Show("Entegra bağlantısı başarılı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 GetSiparisler();
             }

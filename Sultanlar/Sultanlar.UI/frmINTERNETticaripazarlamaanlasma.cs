@@ -20,8 +20,8 @@ namespace Sultanlar.UI
             anlasma = new Anlasmalar(SMREF, 0, DateTime.Now, DateTime.Now, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", "", "", "", 0);
             anlasma.DoInsert();
             this.Text = anlasma.strAciklama2 == "1" ?
-                "Ticari Pazarlama : Anlaşma (" + CariHesaplarTP.GetObject(anlasma.SMREF, false).SUBE + ")"
-                : "Ticari Pazarlama : Anlaşma (" + CariHesaplar.GetMUSTERIbyGMREF(anlasma.SMREF) + ")";
+                "Ticari Pazarlama : Anlaşma " + anlasma.pkID.ToString() + " (" + CariHesaplarTP.GetObject(anlasma.SMREF, false).SUBE + ")"
+                : "Ticari Pazarlama : Anlaşma " + anlasma.pkID.ToString() + " (" + CariHesaplar.GetMUSTERIbyGMREF(anlasma.SMREF) + ")";
         }
 
         public frmINTERNETticaripazarlamaanlasma(int AnlasmaID)
@@ -31,8 +31,8 @@ namespace Sultanlar.UI
             GetAnlasmaBedelAdlari();
             anlasma = Anlasmalar.GetObject(AnlasmaID);
             this.Text = anlasma.strAciklama2 == "1" ?
-                "Ticari Pazarlama : Anlaşma (" + CariHesaplarTP.GetObject(anlasma.SMREF, false).SUBE + ")"
-                : "Ticari Pazarlama : Anlaşma (" + CariHesaplar.GetMUSTERIbyGMREF(anlasma.SMREF) + ")";
+                "Ticari Pazarlama : Anlaşma " + anlasma.pkID.ToString() + " (" + CariHesaplarTP.GetObject(anlasma.SMREF, false).SUBE + ")"
+                : "Ticari Pazarlama : Anlaşma " + anlasma.pkID.ToString() + " (" + CariHesaplar.GetMUSTERIbyGMREF(anlasma.SMREF) + ")";
         }
 
         public Anlasmalar anlasma;

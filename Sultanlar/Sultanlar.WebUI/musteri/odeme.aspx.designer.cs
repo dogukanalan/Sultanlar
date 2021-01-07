@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sultanlar.WebUI.musteri {
-    
-    
-    public partial class odeme {
-        
+namespace Sultanlar.WebUI.musteri
+{
+
+
+    public partial class odeme
+    {
+
         /// <summary>
         /// Head1 control.
         /// </summary>
@@ -20,5 +22,14 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlHead Head1;
+
+        /// <summary>
+        /// lbTamamla control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbTamamla;
     }
 }

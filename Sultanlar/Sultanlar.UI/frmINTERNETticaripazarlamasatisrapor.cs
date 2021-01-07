@@ -46,7 +46,7 @@ namespace Sultanlar.UI
 
             hesaplamayapilabilir = false;
             GetBayiler();
-            cmbYil.SelectedIndex = 7;
+            cmbYil.SelectedIndex = 8;
             cmbAy.SelectedIndex = 0;
             GetSatisRaporBos();
         }

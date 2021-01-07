@@ -116,6 +116,7 @@
             this.sbYazdir = new DevExpress.XtraEditors.SimpleButton();
             this.lblSatirSayisi = new System.Windows.Forms.Label();
             this.sbPasif = new DevExpress.XtraEditors.SimpleButton();
+            this.btnKat = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -147,6 +148,9 @@
             // gridControl4
             // 
             this.gridControl4.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // 
+            // 
             this.gridControl4.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
             this.gridControl4.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
             this.gridControl4.EmbeddedNavigator.Appearance.Options.UseBackColor = true;
@@ -526,6 +530,9 @@
             // gridControl1
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // 
+            // 
             this.gridControl1.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
             this.gridControl1.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
             this.gridControl1.EmbeddedNavigator.Appearance.Options.UseBackColor = true;
@@ -899,7 +906,6 @@
             // 
             this.sbGeriAl.Location = new System.Drawing.Point(408, 439);
             this.sbGeriAl.Name = "sbGeriAl";
-            this.sbGeriAl.Size = new System.Drawing.Size(75, 23);
             this.sbGeriAl.TabIndex = 11;
             this.sbGeriAl.Text = "Geri al";
             this.sbGeriAl.Click += new System.EventHandler(this.sbGeriAl_Click);
@@ -908,7 +914,6 @@
             // 
             this.sbOnayla.Location = new System.Drawing.Point(327, 439);
             this.sbOnayla.Name = "sbOnayla";
-            this.sbOnayla.Size = new System.Drawing.Size(75, 23);
             this.sbOnayla.TabIndex = 13;
             this.sbOnayla.Text = "Onayla";
             this.sbOnayla.Click += new System.EventHandler(this.sbOnayla_Click);
@@ -917,7 +922,6 @@
             // 
             this.sbSil.Location = new System.Drawing.Point(246, 439);
             this.sbSil.Name = "sbSil";
-            this.sbSil.Size = new System.Drawing.Size(75, 23);
             this.sbSil.TabIndex = 14;
             this.sbSil.Text = "Sil";
             this.sbSil.Click += new System.EventHandler(this.sbSil_Click);
@@ -926,7 +930,6 @@
             // 
             this.sbIncele.Location = new System.Drawing.Point(3, 439);
             this.sbIncele.Name = "sbIncele";
-            this.sbIncele.Size = new System.Drawing.Size(75, 23);
             this.sbIncele.TabIndex = 12;
             this.sbIncele.Text = "İncele";
             this.sbIncele.Click += new System.EventHandler(this.sbIncele_Click);
@@ -935,7 +938,6 @@
             // 
             this.sbDuzenle.Location = new System.Drawing.Point(165, 439);
             this.sbDuzenle.Name = "sbDuzenle";
-            this.sbDuzenle.Size = new System.Drawing.Size(75, 23);
             this.sbDuzenle.TabIndex = 10;
             this.sbDuzenle.Text = "Düzenle";
             this.sbDuzenle.Click += new System.EventHandler(this.sbDuzenle_Click);
@@ -944,7 +946,6 @@
             // 
             this.sbEkle.Location = new System.Drawing.Point(84, 439);
             this.sbEkle.Name = "sbEkle";
-            this.sbEkle.Size = new System.Drawing.Size(75, 23);
             this.sbEkle.TabIndex = 15;
             this.sbEkle.Text = "Ekle";
             this.sbEkle.Click += new System.EventHandler(this.sbEkle_Click);
@@ -1012,7 +1013,6 @@
             // 
             this.sbExcel.Location = new System.Drawing.Point(651, 439);
             this.sbExcel.Name = "sbExcel";
-            this.sbExcel.Size = new System.Drawing.Size(75, 23);
             this.sbExcel.TabIndex = 38;
             this.sbExcel.Text = "Excel\'e aktar";
             this.sbExcel.Click += new System.EventHandler(this.sbExcel_Click);
@@ -1021,7 +1021,6 @@
             // 
             this.sbYazdir.Location = new System.Drawing.Point(570, 439);
             this.sbYazdir.Name = "sbYazdir";
-            this.sbYazdir.Size = new System.Drawing.Size(75, 23);
             this.sbYazdir.TabIndex = 37;
             this.sbYazdir.Text = "Yazdır";
             this.sbYazdir.ToolTip = "Satıcı düzenleyebilir";
@@ -1041,16 +1040,26 @@
             // 
             this.sbPasif.Location = new System.Drawing.Point(489, 439);
             this.sbPasif.Name = "sbPasif";
-            this.sbPasif.Size = new System.Drawing.Size(75, 23);
             this.sbPasif.TabIndex = 14;
             this.sbPasif.Text = "Pasif Yap";
             this.sbPasif.Click += new System.EventHandler(this.sbPasif_Click);
+            // 
+            // btnKat
+            // 
+            this.btnKat.Location = new System.Drawing.Point(731, 439);
+            this.btnKat.Name = "btnKat";
+            this.btnKat.Size = new System.Drawing.Size(47, 23);
+            this.btnKat.TabIndex = 40;
+            this.btnKat.Text = "Kat.";
+            this.btnKat.UseVisualStyleBackColor = true;
+            this.btnKat.Click += new System.EventHandler(this.btnKat_Click);
             // 
             // frmINTERNETticaripazarlamaanlasmalar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(845, 465);
+            this.Controls.Add(this.btnKat);
             this.Controls.Add(this.sbPasif);
             this.Controls.Add(this.lblSatirSayisi);
             this.Controls.Add(this.sbExcel);
@@ -1178,5 +1187,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gcanintMusteriID;
         private DevExpress.XtraGrid.Columns.GridColumn gcanMUSTERI;
         private DevExpress.XtraEditors.SimpleButton sbPasif;
+        private System.Windows.Forms.Button btnKat;
     }
 }

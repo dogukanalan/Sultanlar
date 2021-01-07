@@ -399,7 +399,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Ciro Primi 3 Aylık:</td>
+                <td>Lojistik Prim Oranı:</td>
                 <td align="left">
                     <asp:TextBox runat="server" ID="txtAnlasmaTAHCiro3" Width="100px" ForeColor="#006699" BorderColor="#A3B5C9" BorderStyle="Solid" 
                         BorderWidth="1px" Height="23px" style="padding: 0px 3px 0px 3px" Text="" Enabled="false"></asp:TextBox>
@@ -408,7 +408,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Ciro Primi 6 Aylık:</td>
+                <td>Diğer Oran:</td>
                 <td align="left">
                     <asp:TextBox runat="server" ID="txtAnlasmaTAHCiro6" Width="100px" ForeColor="#006699" BorderColor="#A3B5C9" BorderStyle="Solid" 
                         BorderWidth="1px" Height="23px" style="padding: 0px 3px 0px 3px" Text="" Enabled="false"></asp:TextBox>
@@ -435,7 +435,7 @@
                 </td>
             </tr>
             <tr>
-                <td>Anlaşma Dışı Bedeller:</td>
+                <td>Diğer Bedeller:</td>
                 <td align="left">
                     <asp:TextBox runat="server" ID="txtAnlasmaTAHAnlasmaDisiBedeller" Width="100px" ForeColor="#006699" BorderColor="#A3B5C9" BorderStyle="Solid" 
                         BorderWidth="1px" Height="23px" style="padding: 0px 3px 0px 3px" Text="" Enabled="false"></asp:TextBox>

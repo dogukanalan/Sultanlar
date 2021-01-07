@@ -100,6 +100,42 @@ namespace Sultanlar.DatabaseObject.Internet
         }
         //
         //
+        public static void DoInsert(int SMREF, int Yil, int Ay, decimal TAH, decimal YEG, string Aciklama)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("", conn);
+                if (VarMi(SMREF, Yil, Ay))
+                {
+                    cmd = new SqlCommand("UPDATE [tblINTERNET_BayiCiroPrimleri] SET [mnTAH] = @mnTAH,[mnYEG] = @mnYEG,[strAciklama] = @strAciklama WHERE [SMREF] = @SMREF AND [intYil] = @intYil AND [intAy] = @intAy", conn);
+                }
+                else
+                {
+                    cmd = new SqlCommand("INSERT INTO [tblINTERNET_BayiCiroPrimleri] ([SMREF],[intYil],[intAy],[mnTAH],[mnYEG],[strAciklama]) VALUES (@SMREF,@intYil,@intAy,@mnTAH,@mnYEG,@strAciklama)", conn);
+                }
+                cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
+                cmd.Parameters.Add("@intYil", SqlDbType.Int).Value = Yil;
+                cmd.Parameters.Add("@intAy", SqlDbType.Int).Value = Ay;
+                cmd.Parameters.Add("@mnTAH", SqlDbType.Money).Value = TAH;
+                cmd.Parameters.Add("@mnYEG", SqlDbType.Money).Value = YEG;
+                cmd.Parameters.Add("@strAciklama", SqlDbType.NVarChar).Value = Aciklama;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        //
+        //
         public void DoUpdate()
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))

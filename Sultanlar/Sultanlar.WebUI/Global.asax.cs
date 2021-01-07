@@ -109,7 +109,7 @@ namespace Sultanlar.WebUI
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            Server.ClearError();
+            //Server.ClearError();
             //string ErrorMessage = Server.GetLastError().Message;
             //SmtpClient SC = new SmtpClient("mail.sultanlar.com.tr");
             //MailMessage MM = new MailMessage("mistif@sultanlar.com.tr", "mistif@sultanlar.com.tr");

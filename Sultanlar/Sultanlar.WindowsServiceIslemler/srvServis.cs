@@ -140,7 +140,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
                     )
                 {
-                    if ((DateTime.Now.Minute > 5 && DateTime.Now.Minute <= 10))
+                    if ((DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15))
                     {
                         MalzemelerC(true, false);
                         FiyatlarC();
@@ -174,7 +174,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
                     )
                 {
-                    if ((DateTime.Now.Minute > 25 && DateTime.Now.Minute <= 30))
+                    if ((DateTime.Now.Minute > 15 && DateTime.Now.Minute <= 20))
                     {
                         musteriguncelleniyor = true;
                         MusterilerC();
@@ -291,7 +291,7 @@ namespace Sultanlar.WindowsServiceIslemler
             {
                 if (DateTime.Now.Hour == 9 || DateTime.Now.Hour == 15 || DateTime.Now.Hour == 18)
                 {
-                    if (DateTime.Now.Minute > 15 && DateTime.Now.Minute <= 20)
+                    if (DateTime.Now.Minute > 33 && DateTime.Now.Minute <= 38)
                     {
                         GetEkstre(DateTime.Now.AddYears(-1)); //Convert.ToDateTime("01.01.2014")
                     }
@@ -1190,7 +1190,17 @@ namespace Sultanlar.WindowsServiceIslemler
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
             clMaterialPrices.Credentials = nc1;
-            getmaterialpricesC.Zwebt004[] listMaterialPrices = clMaterialPrices.ZwebGetMaterialPrices();
+            getmaterialpricesC.Zwebt004[] listMaterialPrices;
+            try
+            {
+                listMaterialPrices = clMaterialPrices.ZwebGetMaterialPrices();
+            }
+            catch (Exception ex)
+            {
+                cmdLog.Parameters.AddWithValue("@strLog", ex.Message);
+                conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
+                return;
+            }
 
             cmdLog.Parameters.AddWithValue("@strLog", listMaterialPrices.Length.ToString() + " Satır");
 
@@ -1248,6 +1258,12 @@ namespace Sultanlar.WindowsServiceIslemler
             conn.Open();
             cmd4.ExecuteNonQuery();
             conn.Close();*/
+
+            SqlCommand cmd10 = new SqlCommand("DROP TABLE [Web-Fiyat-Onceki] SELECT * INTO [Web-Fiyat-Onceki] FROM [dbo].[Web-Fiyat]", conn);
+            cmd10.CommandTimeout = 1000;
+            conn.Open();
+            cmd10.ExecuteNonQuery();
+            conn.Close();
 
             SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Fiyat] INSERT INTO [Web-Fiyat] SELECT *,NULL,NULL,NULL FROM [Web_Fiyat_SAP_aktarim] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
             cmd2.CommandTimeout = 1000;
@@ -1944,7 +1960,17 @@ namespace Sultanlar.WindowsServiceIslemler
             getcustomersC.ZwebGetCustomersService clCustomers = new getcustomersC.ZwebGetCustomersService();
             clCustomers.Timeout = 6000000;
             clCustomers.Credentials = nc1;
-            getcustomersC.Zwebt002[] listCustomers = clCustomers.ZwebGetCustomers();
+            getcustomersC.Zwebt002[] listCustomers;
+            try
+            {
+                listCustomers = clCustomers.ZwebGetCustomers();
+            }
+            catch (Exception ex)
+            {
+                cmdLog.Parameters.AddWithValue("@strLog", ex.Message);
+                conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
+                return;
+            }
 
             cmdLog.Parameters.AddWithValue("@strLog", listCustomers.Length.ToString() + " Satır");
 
@@ -2057,6 +2083,12 @@ namespace Sultanlar.WindowsServiceIslemler
                     conn.Close();
                 }
             }
+
+            SqlCommand cmd10 = new SqlCommand("DROP TABLE [Web-Musteri-Onceki] SELECT * INTO [Web-Musteri-Onceki] FROM [dbo].[Web-Musteri]", conn);
+            cmd10.CommandTimeout = 1000;
+            conn.Open();
+            cmd10.ExecuteNonQuery();
+            conn.Close();
 
             SqlCommand cmd5 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Musteri] INSERT INTO [Web-Musteri] SELECT * FROM [Web_Musteri] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
             cmd5.CommandTimeout = 1000;
