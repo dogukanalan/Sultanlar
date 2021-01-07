@@ -318,9 +318,9 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(12, 294);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(84, 13);
+            this.label13.Size = new System.Drawing.Size(90, 13);
             this.label13.TabIndex = 1;
-            this.label13.Text = "Ciro Primi 3 Aylık";
+            this.label13.Text = "Lojistik Prim Oranı";
             // 
             // txtTAHCiro6
             // 
@@ -343,9 +343,9 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(12, 314);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(84, 13);
+            this.label14.Size = new System.Drawing.Size(58, 13);
             this.label14.TabIndex = 1;
-            this.label14.Text = "Ciro Primi 6 Aylık";
+            this.label14.Text = "Diğer Oran";
             // 
             // label15
             // 
@@ -509,9 +509,9 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(12, 374);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(108, 13);
+            this.label17.Size = new System.Drawing.Size(73, 13);
             this.label17.TabIndex = 1;
-            this.label17.Text = "Anlaşma Dışı Bedeller";
+            this.label17.Text = "Diğer Bedeller";
             // 
             // txtTAHTumBedeller
             // 

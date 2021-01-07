@@ -241,6 +241,32 @@ namespace Sultanlar.DatabaseObject.Internet
                 connection.Close();
             }
         }
+        /// <summary>
+        /// list entegrasatir i sadece veri cekmek icin kullandik, kod alanında cap ch kodu var siparis no alainda siparis no var, diğer alanlar bos
+        /// </summary>
+        /// <returns></returns>
+        public static List<EntegraSatir> SapCHkodu()
+        {
+            List<EntegraSatir> entegraSatirList = new List<EntegraSatir>();
+            using (SqlConnection connection = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand sqlCommand = new SqlCommand("SELECT SIPARIS_NO,SAP_CH_KODU FROM [Web-Entegra-Siparis] INNER JOIN SUL_Fiyatlar_21_12_Entegra_Sip_CH ON [Web-Entegra-Siparis].SIPARIS_NO = SUL_Fiyatlar_21_12_Entegra_Sip_CH.PY_SIP_NO", connection);
+                connection.Open();
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                while (sqlDataReader.Read())
+                    entegraSatirList.Add(new EntegraSatir()
+                    {
+                        KOD = Convert.ToInt32(sqlDataReader[1]),
+                        MIKTAR = 0,
+                        BIRIM = "",
+                        FIYAT = 0,
+                        KDV = 0,
+                        SIPARIS_NO = sqlDataReader[0].ToString()
+                    });
+                connection.Close();
+            }
+            return entegraSatirList;
+        }
 
         /*public static bool EntegraSiparis()
         {

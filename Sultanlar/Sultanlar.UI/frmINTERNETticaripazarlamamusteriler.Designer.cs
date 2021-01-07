@@ -891,7 +891,10 @@
             "2017",
             "2018",
             "2019",
-            "2020"});
+            "2020",
+            "2021",
+            "2022",
+            "2023"});
             this.cmbYil.Location = new System.Drawing.Point(831, 12);
             this.cmbYil.Name = "cmbYil";
             this.cmbYil.Size = new System.Drawing.Size(90, 21);

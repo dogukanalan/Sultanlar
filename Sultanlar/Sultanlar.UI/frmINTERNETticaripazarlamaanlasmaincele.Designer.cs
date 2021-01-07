@@ -226,9 +226,9 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(12, 239);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(108, 13);
+            this.label17.Size = new System.Drawing.Size(73, 13);
             this.label17.TabIndex = 127;
-            this.label17.Text = "Anlaşma Dışı Bedeller";
+            this.label17.Text = "Diğer Bedeller";
             // 
             // label10
             // 
@@ -483,6 +483,9 @@
             this.txtCari.TabIndex = 101;
             // 
             // gridControl1
+            // 
+            // 
+            // 
             // 
             this.gridControl1.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
             this.gridControl1.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
@@ -745,9 +748,9 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(12, 179);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(84, 13);
+            this.label14.Size = new System.Drawing.Size(58, 13);
             this.label14.TabIndex = 175;
-            this.label14.Text = "Ciro Primi 6 Aylık";
+            this.label14.Text = "Diğer Oran";
             // 
             // label15
             // 
@@ -763,9 +766,9 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(12, 159);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(84, 13);
+            this.label13.Size = new System.Drawing.Size(90, 13);
             this.label13.TabIndex = 173;
-            this.label13.Text = "Ciro Primi 3 Aylık";
+            this.label13.Text = "Lojistik Prim Oranı";
             // 
             // txtAciklama
             // 

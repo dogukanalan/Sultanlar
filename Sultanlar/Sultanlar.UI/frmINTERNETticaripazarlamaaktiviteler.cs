@@ -1050,7 +1050,7 @@ namespace Sultanlar.UI
 
         private void btnFiyatExcel_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Excel dosyasında kolonlar şu sıra ile olmalı:\r\nÜrün Kodu, Fiyat, Yıl, Ay", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Excel dosyasında kolonlar şu sıra ile olmalı:\r\nÜrün Kodu, Fiyat, Yıl, Ay, Müdür Kodu", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             string dosya = "";
             OpenFileDialog ofd = new OpenFileDialog();
@@ -1100,6 +1100,7 @@ namespace Sultanlar.UI
             ArrayList fiyatlar = new ArrayList();
             ArrayList yillar = new ArrayList();
             ArrayList aylar = new ArrayList();
+            ArrayList mudurler = new ArrayList();
             for (int i = 2; i <= values.GetLength(0); i++)
             {
                 if (values[i, 1] == null) // 1.kolon boş ise bu satırdan sonrasına bakmasın
@@ -1114,6 +1115,7 @@ namespace Sultanlar.UI
                         fiyatlar.Clear();
                         yillar.Clear();
                         aylar.Clear();
+                        mudurler.Clear();
                         return;
                     }
 
@@ -1121,6 +1123,7 @@ namespace Sultanlar.UI
                     fiyatlar.Add(Convert.ToDouble(values[i, 2]));
                     yillar.Add(Convert.ToInt32(values[i, 3]));
                     aylar.Add(Convert.ToInt32(values[i, 4]));
+                    mudurler.Add(Convert.ToInt32(values[i, 5]));
                 }
                 catch (Exception ex)
                 {
@@ -1128,13 +1131,14 @@ namespace Sultanlar.UI
                     fiyatlar.Clear();
                     yillar.Clear();
                     aylar.Clear();
+                    mudurler.Clear();
                     MessageBox.Show(ex.Message);
                     return;
                 }
             }
 
             for (int i = 0; i < kodlar.Count; i++)
-                Aktiviteler.FiyatKontrolEkle(Convert.ToInt32(kodlar[i]), Convert.ToDouble(fiyatlar[i]), Convert.ToInt32(yillar[i]), Convert.ToInt32(aylar[i]));
+                Aktiviteler.FiyatKontrolEkle(Convert.ToInt32(kodlar[i]), Convert.ToDouble(fiyatlar[i]), Convert.ToInt32(yillar[i]), Convert.ToInt32(aylar[i]), Convert.ToInt32(mudurler[i]));
 
             MessageBox.Show("Aktarım tamamlandı.", "Başarılı");
         }
