@@ -273,18 +273,18 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(356, 145);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(65, 13);
+            this.label12.Size = new System.Drawing.Size(89, 13);
             this.label12.TabIndex = 1;
-            this.label12.Text = "Taksit Planı:";
+            this.label12.Text = "Harici Bayi Üyesi:";
             // 
             // cbTaksit
             // 
             this.cbTaksit.AutoSize = true;
-            this.cbTaksit.Location = new System.Drawing.Point(436, 144);
+            this.cbTaksit.Location = new System.Drawing.Point(451, 144);
             this.cbTaksit.Name = "cbTaksit";
-            this.cbTaksit.Size = new System.Drawing.Size(54, 17);
+            this.cbTaksit.Size = new System.Drawing.Size(48, 17);
             this.cbTaksit.TabIndex = 13;
-            this.cbTaksit.Text = "Yetkili";
+            this.cbTaksit.Text = "Evet";
             this.cbTaksit.UseVisualStyleBackColor = true;
             // 
             // btnEkle

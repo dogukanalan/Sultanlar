@@ -302,9 +302,9 @@
             this.cbTaksitPlani.Enabled = false;
             this.cbTaksitPlani.Location = new System.Drawing.Point(264, 43);
             this.cbTaksitPlani.Name = "cbTaksitPlani";
-            this.cbTaksitPlani.Size = new System.Drawing.Size(115, 17);
+            this.cbTaksitPlani.Size = new System.Drawing.Size(105, 17);
             this.cbTaksitPlani.TabIndex = 7;
-            this.cbTaksitPlani.Text = "Taksit Planı Yetkisi";
+            this.cbTaksitPlani.Text = "Harici Bayi Üyesi";
             this.cbTaksitPlani.UseVisualStyleBackColor = true;
             this.cbTaksitPlani.CheckedChanged += new System.EventHandler(this.cbTaksitPlani_CheckedChanged);
             // 

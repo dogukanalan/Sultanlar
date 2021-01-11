@@ -234,7 +234,7 @@ namespace Sultanlar.WebUI.musteri
         #region GetTaksitPlani
         private void GetTaksitPlani()
         {
-            if (((Musteriler)Session["Musteri"]).blTaksitPlani)
+            if (true) //((Musteriler)Session["Musteri"]).blTaksitPlani
             {
                 TaksitPlanlari.GetObjects(ddlTaksitPlanlari.Items, Convert.ToInt32(((SiparisListe)Session["Siparis"])._FiyatTipi));
                 if (ddlTaksitPlanlari.Items.Count > 0)
