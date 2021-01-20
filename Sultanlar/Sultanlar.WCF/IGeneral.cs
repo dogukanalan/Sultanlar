@@ -160,6 +160,10 @@ namespace Sultanlar.WCF
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/View/Get?sifre={Sifre}&name={Name}&paramn={ParamNames}&paramv={ParamValues}")]
         XmlDocument GetView(string Sifre, string Name, string ParamNames, string ParamValues);
         //
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Orders/Pirim")]
+        XmlDocument GetOrders();
+        //
         //[OperationContract, XmlSerializerFormat]
         //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Xml, ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/eczanem/Efatura/Post")]
         //XmlDocument EfaturaPost(XmlDocument icerik);

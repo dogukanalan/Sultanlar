@@ -19,6 +19,7 @@ using System.Net.NetworkInformation;
 using System.Deployment.Application;
 using System.Net;
 using System.Diagnostics;
+using System.Xml.Serialization;
 
 namespace Sultanlar.UI
 {
@@ -77,6 +78,9 @@ namespace Sultanlar.UI
                 tmr.Tick += new EventHandler(tmr_Tick);
                 tmr.Start();
             }
+
+            //XmlDocument xml = GetOrders();
+            //xml.Save("f:\\asd.xml");
         }
 
         private void tmr_Tick(object sender, EventArgs e)
@@ -110,6 +114,9 @@ namespace Sultanlar.UI
             }
         }
 
+
+
+        #region Kenton
         private void RssKenton(string url)
         {
             List<Tarifler> tarifler = new List<Tarifler>();
@@ -290,6 +297,7 @@ namespace Sultanlar.UI
             for (int i = 0; i < tarifler.Count; i++)
                 MessageBox.Show(tarifler[i].strBaslik + " " + tarifler[i].dtTarih.ToShortDateString());
         }
+        #endregion
 
 
 
@@ -2456,6 +2464,34 @@ namespace Sultanlar.UI
             lll.MouseUp += new MouseEventHandler(lll_MouseUp);
             statusStrip1.Items.Add(lll);
         }
+        //
+        //
+        private void veriçekmeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.Name == "frmINTERNETticaripazarlamavericekme")
+                {
+                    if (f.WindowState == FormWindowState.Minimized)
+                    {
+                        f.WindowState = FormWindowState.Normal;
+                    }
+                    f.Focus();
+
+                    return;
+                }
+            }
+            frmINTERNETticaripazarlamavericekme frm = new frmINTERNETticaripazarlamavericekme();
+            frm.MdiParent = this;
+            frm.FormClosing += new FormClosingEventHandler(frm_FormClosing);
+            frm.Show();
+            frm.BringToFront();
+
+            ToolStripButton lll = new ToolStripButton("Veri Çekme");
+            lll.Name = "frmINTERNETticaripazarlamavericekme";
+            lll.MouseUp += new MouseEventHandler(lll_MouseUp);
+            statusStrip1.Items.Add(lll);
+        }
         #endregion
         //
         //
@@ -3484,6 +3520,20 @@ namespace Sultanlar.UI
                     }
                 }
             }
+            else if (treeView1.SelectedNode.Name == "ndVeriCekme")
+            {
+                foreach (Form f in this.MdiChildren)
+                {
+                    if (f.Name == "frmINTERNETticaripazarlamavericekme")
+                    {
+                        if (f.WindowState == FormWindowState.Minimized)
+                        {
+                            f.WindowState = FormWindowState.Normal;
+                        }
+                        f.Focus();
+                    }
+                }
+            }
         }
         #endregion
         //
@@ -4006,6 +4056,13 @@ namespace Sultanlar.UI
             {
                 if (çokluMalzemeXMLToolStripMenuItem.Enabled)
                     çokluMalzemeXMLToolStripMenuItem.PerformClick();
+                else
+                    MessageBox.Show("Bu sayfayı görmeye yetkiniz yoktur.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (treeView1.SelectedNode.Name == "ndVeriCekme")
+            {
+                if (veriÇekmeToolStripMenuItem.Enabled)
+                    veriÇekmeToolStripMenuItem.PerformClick();
                 else
                     MessageBox.Show("Bu sayfayı görmeye yetkiniz yoktur.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

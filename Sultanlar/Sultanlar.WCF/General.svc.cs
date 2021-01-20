@@ -941,7 +941,112 @@ namespace Sultanlar.WCF
 
             return donendeger;
         }
-        private void EmusiadDoldur(DataTable dt, int i,Sultanlar.Class.Entry entry)
+        /// <summary>
+        /// 
+        /// </summary>
+        public XmlDocument GetOrders()
+        {
+            XmlDocument donendeger = new XmlDocument();
+
+
+
+            DataTable dt = WebGenel.WCFdata("SELECT TOP (1000) [pkSiparisID] AS SipNo,sintFiyatTipiID, strAd + ' ' + strSoyad AS Uye,[SMREF] AS MusKod,[dtOlusmaTarihi] AS Tarih,[mnToplamTutar] AS Tutar,strAciklama FROM [tblINTERNET_Siparisler] INNER JOIN tblINTERNET_Musteriler ON intMusteriID = pkMusteriID INNER JOIN [Web-Dis-Siparis] ON [pkSiparisID] = intSiparisID WHERE blAktarilmis = 'True' ORDER BY pkSiparisID DESC", new ArrayList(), new ArrayList(), "Orders");
+
+
+
+            Sultanlar.Class.XmlSiparislerDis siparisler = new Sultanlar.Class.XmlSiparislerDis();
+            siparisler.Siparisler = new List<Sultanlar.Class.XmlSiparisDis>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                Sultanlar.Class.XmlSiparisDis siparis = new Class.XmlSiparisDis();
+
+                DataTable dt2 = WebGenel.WCFdata("SELECT DISTINCT [IL] AS Sehir,[ILCE] AS Ilce,[GMREF] AS BayiKod,[MUSTERI] AS BayiUnvan,[SMREF] AS Kod,[SUBE] AS Unvan,[MT ACIKLAMA] AS Aciklama,SEHIR AS FaturaTip,[VRG DAIRE] AS VergiDaire,[VRG NO] AS VergiNo,[ADRES] AS Adres,[TEL-1] AS Telefon,[CEP-1] AS Mobil,[FAX-1] AS Fax,[EMAIL-1] AS Eposta FROM [Web-Musteri]", new ArrayList() { "SMREF" }, new ArrayList() { dt.Rows[i]["MusKod"].ToString() }, "Musteri");
+                siparis.Musteri = new Sultanlar.Class.XmlSiparisMusteri();
+                siparis.Musteri.Sehir = dt2.Rows[0]["Sehir"].ToString();
+                siparis.Musteri.Ilce = dt2.Rows[0]["Ilce"].ToString();
+                siparis.Musteri.BayiKod = dt2.Rows[0]["BayiKod"].ToString();
+                siparis.Musteri.BayiUnvan = dt2.Rows[0]["BayiUnvan"].ToString();
+                siparis.Musteri.Kod = dt2.Rows[0]["Kod"].ToString();
+                siparis.Musteri.Unvan = dt2.Rows[0]["Unvan"].ToString();
+                siparis.Musteri.Aciklama = dt2.Rows[0]["Aciklama"].ToString();
+                siparis.Musteri.FaturaTip = dt2.Rows[0]["FaturaTip"].ToString();
+                siparis.Musteri.VergiDaire = dt2.Rows[0]["VergiDaire"].ToString();
+                siparis.Musteri.VergiNo = dt2.Rows[0]["VergiNo"].ToString();
+                siparis.Musteri.Adres = dt2.Rows[0]["Adres"].ToString();
+                siparis.Musteri.Telefon = dt2.Rows[0]["Telefon"].ToString();
+                siparis.Musteri.Mobil = dt2.Rows[0]["Mobil"].ToString();
+                siparis.Musteri.Fax = dt2.Rows[0]["Fax"].ToString();
+                siparis.Musteri.Eposta = dt2.Rows[0]["Eposta"].ToString();
+
+                siparis.SipNo = dt.Rows[i]["SipNo"].ToString();
+                siparis.Uye = dt.Rows[i]["Uye"].ToString();
+                siparis.Tarih = Convert.ToDateTime(dt.Rows[i]["Tarih"]);
+                //siparis.Tutar = Convert.ToDouble(dt.Rows[i]["Tutar"]);
+                siparis.Aciklama = dt.Rows[i]["strAciklama"].ToString().Split(new string[] { ";;;" }, StringSplitOptions.None)[1];
+                siparis.Kalemler = new List<Class.XmlSiparisDisDetay>();
+
+                DataTable dt1 = WebGenel.WCFdata("" +
+
+                    "SELECT UrunKod,Bolum,Barkod,KdvOran,KoliAdet,UrunAd,Adet,BrutFiyat,Isk1,Isk2,Isk3,Isk4" +
+",CONVERT(decimal(18,2),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0),0)) AS NetFiyat" +
+",CONVERT(decimal(18,2),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) / 100 * KdvOran,0)) AS Kdv" +
+",CONVERT(decimal(18,2),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) + (dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) / 100 * KdvOran),0)) AS KdvDahilNet " +
+"FROM " +
+"(" +
+"SELECT intSiparisID,[intUrunID] AS UrunKod,[OZEL ACIK] AS Bolum,BARKOD AS Barkod,KDV AS KdvOran,KOLI AS KoliAdet,[strUrunAdi] AS UrunAd,[intMiktar] AS Adet" +
+",ISNULL(FIYAT,(SELECT FIYAT FROM [Web-Fiyat-TP] WHERE TIP = 20 AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS BrutFiyat" +
+",ISNULL(ISK1,(SELECT ISK1 FROM [Web-Fiyat-TP] WHERE TIP = 7 AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk1" +
+",ISNULL(ISK2,(SELECT ISK2 FROM [Web-Fiyat-TP] WHERE TIP = 7 AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk2" +
+",ISNULL(ISK3,(SELECT ISK3 FROM [Web-Fiyat-TP] WHERE TIP = 7 AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk3" +
+",ISNULL(ISK4,(SELECT ISK6 FROM [Web-Fiyat-TP] WHERE TIP = 7 AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk4 " +
+"FROM [tblINTERNET_SiparislerDetay] " +
+"INNER JOIN tblINTERNET_Siparisler ON intSiparisID = pkSiparisID " +
+"INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID LEFT OUTER JOIN tblINTERNET_SiparislerDetayISK ON pkSiparisDetayID = bintSiparisDetayID" +
+") AS TABLO1" +
+                    
+                    "", new ArrayList() { "intSiparisID" }, new ArrayList() { siparis.SipNo }, "OrderDetail");
+                for (int j = 0; j < dt1.Rows.Count; j++)
+                {
+                    Sultanlar.Class.XmlSiparisDisDetay detay = new Class.XmlSiparisDisDetay();
+                    detay.UrunKod = dt1.Rows[j]["UrunKod"].ToString();
+                    detay.Bolum = dt1.Rows[j]["Bolum"].ToString();
+                    detay.Barkod = dt1.Rows[j]["Barkod"].ToString();
+                    detay.KdvOran = dt1.Rows[j]["KdvOran"].ToString();
+                    detay.KoliAdet = dt1.Rows[j]["KoliAdet"].ToString();
+                    detay.UrunAd = dt1.Rows[j]["UrunAd"].ToString();
+                    detay.Adet = Convert.ToInt32(dt1.Rows[j]["Adet"]);
+                    detay.BrutFiyat = Convert.ToDouble(dt1.Rows[j]["BrutFiyat"]);
+                    detay.Isk1 = Convert.ToDouble(dt1.Rows[j]["Isk1"]);
+                    detay.Isk2 = Convert.ToDouble(dt1.Rows[j]["Isk2"]);
+                    detay.Isk3 = Convert.ToDouble(dt1.Rows[j]["Isk3"]);
+                    detay.Isk4 = Convert.ToDouble(dt1.Rows[j]["Isk4"]);
+                    detay.NetFiyat = Convert.ToDouble(dt1.Rows[j]["NetFiyat"]);
+                    detay.Kdv = Convert.ToDouble(dt1.Rows[j]["Kdv"]);
+                    detay.KdvDahilNet = Convert.ToDouble(dt1.Rows[j]["KdvDahilNet"]);
+                    siparis.Kalemler.Add(detay);
+                }
+
+                siparisler.Siparisler.Add(siparis);
+            }
+
+
+            XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
+            xsn.Add("g", "http://base.google.com/ns/1.0");
+            XmlSerializer MySerializer = new XmlSerializer(typeof(Sultanlar.Class.XmlSiparislerDis), "http://www.w3.org/2005/Atom");
+
+            TextWriter TW = new StringWriter();
+
+
+            MySerializer.Serialize(TW, siparisler, xsn);
+
+
+
+            donendeger.LoadXml(TW.ToString());
+
+            return donendeger;
+        }
+
+        private void EmusiadDoldur(DataTable dt, int i, Sultanlar.Class.Entry entry)
         {
             entry.id = Convert.ToInt32(dt.Rows[i]["Kod"]);
             entry.title = dt.Rows[i]["AltBaslik"].ToString();
@@ -970,22 +1075,6 @@ namespace Sultanlar.WCF
             entry.emusiad.seo_description = "";
             entry.emusiad.seo_keywords = dt.Rows[i]["AltBaslik"].ToString() + "," + dt.Rows[i]["KategoriAdi1"].ToString() + "," + dt.Rows[i]["Marka"].ToString();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        //public XmlDocument Efatura(string Sifre, string GMREF, string Baslangic, string Bitis)
-        //{
-        //    XmlDocument donendeger = new XmlDocument();
-        //    DataSet ds = new DataSet("Faturalar");
-        //    DataTable dt = new DataTable("Fatura");
-
-        //    Sultanlar.DatabaseObject.Internet.Efatura.GetFATNOFATTARTUTARByGMREF(dt, Convert.ToInt32(GMREF), Convert.ToDateTime(Baslangic), Convert.ToDateTime(Bitis));
-
-        //    ds.Tables.Add(dt);
-        //    donendeger.LoadXml(ds.GetXml());
-
-        //    return donendeger;
-        //}
         /// <summary>
         /// 
         /// </summary>

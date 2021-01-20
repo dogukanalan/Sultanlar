@@ -87,7 +87,8 @@
             System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("Hedefler");
             System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("Personel Bağlantıları");
             System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("Bayi Stokları");
-            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("Ticari Pazarlama", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("Veri Çekme");
+            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("Ticari Pazarlama", new System.Windows.Forms.TreeNode[] {
             treeNode25,
             treeNode26,
             treeNode27,
@@ -100,54 +101,54 @@
             treeNode34,
             treeNode35,
             treeNode36,
-            treeNode37});
-            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("Şirketler");
-            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("Departmanlar");
-            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("Görevler");
-            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("Tatil Günleri");
-            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("Tanımlar", new System.Windows.Forms.TreeNode[] {
-            treeNode39,
+            treeNode37,
+            treeNode38});
+            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("Şirketler");
+            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("Departmanlar");
+            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("Görevler");
+            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("Tatil Günleri");
+            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("Tanımlar", new System.Windows.Forms.TreeNode[] {
             treeNode40,
             treeNode41,
-            treeNode42});
-            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("Eleman Talepleri");
-            System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("İş Başvuruları");
-            System.Windows.Forms.TreeNode treeNode46 = new System.Windows.Forms.TreeNode("İnsan Kaynakları", new System.Windows.Forms.TreeNode[] {
-            treeNode43,
+            treeNode42,
+            treeNode43});
+            System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("Eleman Talepleri");
+            System.Windows.Forms.TreeNode treeNode46 = new System.Windows.Forms.TreeNode("İş Başvuruları");
+            System.Windows.Forms.TreeNode treeNode47 = new System.Windows.Forms.TreeNode("İnsan Kaynakları", new System.Windows.Forms.TreeNode[] {
             treeNode44,
-            treeNode45});
-            System.Windows.Forms.TreeNode treeNode47 = new System.Windows.Forms.TreeNode("Personeller");
-            System.Windows.Forms.TreeNode treeNode48 = new System.Windows.Forms.TreeNode("Tahsilat Hareketleri");
-            System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("C/H Ekstresi");
-            System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("Web Sanal Pos İşlemleri");
-            System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("Satış Temsilcisi Cari Hesap Ekleme");
-            System.Windows.Forms.TreeNode treeNode52 = new System.Windows.Forms.TreeNode("Prim Oranları");
-            System.Windows.Forms.TreeNode treeNode53 = new System.Windows.Forms.TreeNode("Finans", new System.Windows.Forms.TreeNode[] {
-            treeNode48,
+            treeNode45,
+            treeNode46});
+            System.Windows.Forms.TreeNode treeNode48 = new System.Windows.Forms.TreeNode("Personeller");
+            System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("Tahsilat Hareketleri");
+            System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("C/H Ekstresi");
+            System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("Web Sanal Pos İşlemleri");
+            System.Windows.Forms.TreeNode treeNode52 = new System.Windows.Forms.TreeNode("Satış Temsilcisi Cari Hesap Ekleme");
+            System.Windows.Forms.TreeNode treeNode53 = new System.Windows.Forms.TreeNode("Prim Oranları");
+            System.Windows.Forms.TreeNode treeNode54 = new System.Windows.Forms.TreeNode("Finans", new System.Windows.Forms.TreeNode[] {
             treeNode49,
             treeNode50,
             treeNode51,
-            treeNode52});
-            System.Windows.Forms.TreeNode treeNode54 = new System.Windows.Forms.TreeNode("Araçlar");
-            System.Windows.Forms.TreeNode treeNode55 = new System.Windows.Forms.TreeNode("Araç Giderleri");
-            System.Windows.Forms.TreeNode treeNode56 = new System.Windows.Forms.TreeNode("Markalar");
-            System.Windows.Forms.TreeNode treeNode57 = new System.Windows.Forms.TreeNode("Türler");
-            System.Windows.Forms.TreeNode treeNode58 = new System.Windows.Forms.TreeNode("Araç Takip", new System.Windows.Forms.TreeNode[] {
-            treeNode54,
+            treeNode52,
+            treeNode53});
+            System.Windows.Forms.TreeNode treeNode55 = new System.Windows.Forms.TreeNode("Araçlar");
+            System.Windows.Forms.TreeNode treeNode56 = new System.Windows.Forms.TreeNode("Araç Giderleri");
+            System.Windows.Forms.TreeNode treeNode57 = new System.Windows.Forms.TreeNode("Markalar");
+            System.Windows.Forms.TreeNode treeNode58 = new System.Windows.Forms.TreeNode("Türler");
+            System.Windows.Forms.TreeNode treeNode59 = new System.Windows.Forms.TreeNode("Araç Takip", new System.Windows.Forms.TreeNode[] {
             treeNode55,
             treeNode56,
-            treeNode57});
-            System.Windows.Forms.TreeNode treeNode59 = new System.Windows.Forms.TreeNode("Lojistik Firmaları");
-            System.Windows.Forms.TreeNode treeNode60 = new System.Windows.Forms.TreeNode("Bölgeler");
-            System.Windows.Forms.TreeNode treeNode61 = new System.Windows.Forms.TreeNode("Araç Tipleri");
-            System.Windows.Forms.TreeNode treeNode62 = new System.Windows.Forms.TreeNode("Araçlar");
-            System.Windows.Forms.TreeNode treeNode63 = new System.Windows.Forms.TreeNode("Şoför ve Muavinler");
-            System.Windows.Forms.TreeNode treeNode64 = new System.Windows.Forms.TreeNode("Araç Bedelleri");
-            System.Windows.Forms.TreeNode treeNode65 = new System.Windows.Forms.TreeNode("Sipariş Toplama Personelleri");
-            System.Windows.Forms.TreeNode treeNode66 = new System.Windows.Forms.TreeNode("Rotalar");
-            System.Windows.Forms.TreeNode treeNode67 = new System.Windows.Forms.TreeNode("Rota Müşteri Bağlantıları");
-            System.Windows.Forms.TreeNode treeNode68 = new System.Windows.Forms.TreeNode("Tanımlar", new System.Windows.Forms.TreeNode[] {
-            treeNode59,
+            treeNode57,
+            treeNode58});
+            System.Windows.Forms.TreeNode treeNode60 = new System.Windows.Forms.TreeNode("Lojistik Firmaları");
+            System.Windows.Forms.TreeNode treeNode61 = new System.Windows.Forms.TreeNode("Bölgeler");
+            System.Windows.Forms.TreeNode treeNode62 = new System.Windows.Forms.TreeNode("Araç Tipleri");
+            System.Windows.Forms.TreeNode treeNode63 = new System.Windows.Forms.TreeNode("Araçlar");
+            System.Windows.Forms.TreeNode treeNode64 = new System.Windows.Forms.TreeNode("Şoför ve Muavinler");
+            System.Windows.Forms.TreeNode treeNode65 = new System.Windows.Forms.TreeNode("Araç Bedelleri");
+            System.Windows.Forms.TreeNode treeNode66 = new System.Windows.Forms.TreeNode("Sipariş Toplama Personelleri");
+            System.Windows.Forms.TreeNode treeNode67 = new System.Windows.Forms.TreeNode("Rotalar");
+            System.Windows.Forms.TreeNode treeNode68 = new System.Windows.Forms.TreeNode("Rota Müşteri Bağlantıları");
+            System.Windows.Forms.TreeNode treeNode69 = new System.Windows.Forms.TreeNode("Tanımlar", new System.Windows.Forms.TreeNode[] {
             treeNode60,
             treeNode61,
             treeNode62,
@@ -155,31 +156,32 @@
             treeNode64,
             treeNode65,
             treeNode66,
-            treeNode67});
-            System.Windows.Forms.TreeNode treeNode69 = new System.Windows.Forms.TreeNode("Sevkiyat", new System.Windows.Forms.TreeNode[] {
+            treeNode67,
             treeNode68});
-            System.Windows.Forms.TreeNode treeNode70 = new System.Windows.Forms.TreeNode("Broşür Hazırlama");
-            System.Windows.Forms.TreeNode treeNode71 = new System.Windows.Forms.TreeNode("Kampanya Hazırlama");
-            System.Windows.Forms.TreeNode treeNode72 = new System.Windows.Forms.TreeNode("Tasarım", new System.Windows.Forms.TreeNode[] {
-            treeNode70,
-            treeNode71});
-            System.Windows.Forms.TreeNode treeNode73 = new System.Windows.Forms.TreeNode("Siparişler");
-            System.Windows.Forms.TreeNode treeNode74 = new System.Windows.Forms.TreeNode("Genel Bilgiler");
-            System.Windows.Forms.TreeNode treeNode75 = new System.Windows.Forms.TreeNode("Sipariş Durumları Listesi");
-            System.Windows.Forms.TreeNode treeNode76 = new System.Windows.Forms.TreeNode("Kargo Şirketleri Listesi");
-            System.Windows.Forms.TreeNode treeNode77 = new System.Windows.Forms.TreeNode("Tek Ürün Satışı", new System.Windows.Forms.TreeNode[] {
-            treeNode73,
+            System.Windows.Forms.TreeNode treeNode70 = new System.Windows.Forms.TreeNode("Sevkiyat", new System.Windows.Forms.TreeNode[] {
+            treeNode69});
+            System.Windows.Forms.TreeNode treeNode71 = new System.Windows.Forms.TreeNode("Broşür Hazırlama");
+            System.Windows.Forms.TreeNode treeNode72 = new System.Windows.Forms.TreeNode("Kampanya Hazırlama");
+            System.Windows.Forms.TreeNode treeNode73 = new System.Windows.Forms.TreeNode("Tasarım", new System.Windows.Forms.TreeNode[] {
+            treeNode71,
+            treeNode72});
+            System.Windows.Forms.TreeNode treeNode74 = new System.Windows.Forms.TreeNode("Siparişler");
+            System.Windows.Forms.TreeNode treeNode75 = new System.Windows.Forms.TreeNode("Genel Bilgiler");
+            System.Windows.Forms.TreeNode treeNode76 = new System.Windows.Forms.TreeNode("Sipariş Durumları Listesi");
+            System.Windows.Forms.TreeNode treeNode77 = new System.Windows.Forms.TreeNode("Kargo Şirketleri Listesi");
+            System.Windows.Forms.TreeNode treeNode78 = new System.Windows.Forms.TreeNode("Tek Ürün Satışı", new System.Windows.Forms.TreeNode[] {
             treeNode74,
             treeNode75,
-            treeNode76});
-            System.Windows.Forms.TreeNode treeNode78 = new System.Windows.Forms.TreeNode("Eposta Gönderme");
-            System.Windows.Forms.TreeNode treeNode79 = new System.Windows.Forms.TreeNode("Yetkiler");
-            System.Windows.Forms.TreeNode treeNode80 = new System.Windows.Forms.TreeNode("Loglar");
-            System.Windows.Forms.TreeNode treeNode81 = new System.Windows.Forms.TreeNode("Üye Kayıt Formu Yetkileri");
-            System.Windows.Forms.TreeNode treeNode82 = new System.Windows.Forms.TreeNode("Yönetim Paneli", new System.Windows.Forms.TreeNode[] {
-            treeNode79,
+            treeNode76,
+            treeNode77});
+            System.Windows.Forms.TreeNode treeNode79 = new System.Windows.Forms.TreeNode("Eposta Gönderme");
+            System.Windows.Forms.TreeNode treeNode80 = new System.Windows.Forms.TreeNode("Yetkiler");
+            System.Windows.Forms.TreeNode treeNode81 = new System.Windows.Forms.TreeNode("Loglar");
+            System.Windows.Forms.TreeNode treeNode82 = new System.Windows.Forms.TreeNode("Üye Kayıt Formu Yetkileri");
+            System.Windows.Forms.TreeNode treeNode83 = new System.Windows.Forms.TreeNode("Yönetim Paneli", new System.Windows.Forms.TreeNode[] {
             treeNode80,
-            treeNode81});
+            treeNode81,
+            treeNode82});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAna));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.işlemlerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -296,6 +298,7 @@
             this.txtSifre = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtKAdi = new System.Windows.Forms.TextBox();
+            this.veriÇekmeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.pnlSecenekler.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -343,7 +346,7 @@
             // 
             this.haberlerToolStripMenuItem.Enabled = false;
             this.haberlerToolStripMenuItem.Name = "haberlerToolStripMenuItem";
-            this.haberlerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.haberlerToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.haberlerToolStripMenuItem.Text = "Haberler";
             this.haberlerToolStripMenuItem.Click += new System.EventHandler(this.haberlerToolStripMenuItem_Click);
             // 
@@ -351,7 +354,7 @@
             // 
             this.tedarikçilerToolStripMenuItem.Enabled = false;
             this.tedarikçilerToolStripMenuItem.Name = "tedarikçilerToolStripMenuItem";
-            this.tedarikçilerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tedarikçilerToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.tedarikçilerToolStripMenuItem.Text = "Tedarikçiler";
             this.tedarikçilerToolStripMenuItem.Click += new System.EventHandler(this.tedarikçilerToolStripMenuItem_Click);
             // 
@@ -359,7 +362,7 @@
             // 
             this.nöbetçiEczanelerToolStripMenuItem.Enabled = false;
             this.nöbetçiEczanelerToolStripMenuItem.Name = "nöbetçiEczanelerToolStripMenuItem";
-            this.nöbetçiEczanelerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nöbetçiEczanelerToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.nöbetçiEczanelerToolStripMenuItem.Text = "Nöbetçi Eczaneler";
             this.nöbetçiEczanelerToolStripMenuItem.Click += new System.EventHandler(this.nöbetçiEczanelerToolStripMenuItem_Click);
             // 
@@ -383,7 +386,7 @@
             this.anketlerToolStripMenuItem,
             this.çokluMalzemeXMLToolStripMenuItem});
             this.webSatışBölümüToolStripMenuItem.Name = "webSatışBölümüToolStripMenuItem";
-            this.webSatışBölümüToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.webSatışBölümüToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.webSatışBölümüToolStripMenuItem.Text = "Web Satış Bölümü";
             // 
             // üyelerToolStripMenuItem
@@ -518,7 +521,7 @@
             // 
             this.diğerMüşterilerToolStripMenuItem.Enabled = false;
             this.diğerMüşterilerToolStripMenuItem.Name = "diğerMüşterilerToolStripMenuItem";
-            this.diğerMüşterilerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.diğerMüşterilerToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.diğerMüşterilerToolStripMenuItem.Text = "Bütün Müşteriler";
             this.diğerMüşterilerToolStripMenuItem.Click += new System.EventHandler(this.diğerMüşterilerToolStripMenuItem_Click);
             // 
@@ -529,7 +532,7 @@
             this.tariflerToolStripMenuItem,
             this.yorumlarToolStripMenuItem});
             this.kentonToolStripMenuItem.Name = "kentonToolStripMenuItem";
-            this.kentonToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.kentonToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.kentonToolStripMenuItem.Text = "Kenton";
             // 
             // üyelerToolStripMenuItem1
@@ -570,7 +573,7 @@
             // 
             this.iadelerToolStripMenuItem.Enabled = false;
             this.iadelerToolStripMenuItem.Name = "iadelerToolStripMenuItem";
-            this.iadelerToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.iadelerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.iadelerToolStripMenuItem.Text = "İade Fiyatlandırma";
             this.iadelerToolStripMenuItem.Click += new System.EventHandler(this.iadelerToolStripMenuItem_Click);
             // 
@@ -578,7 +581,7 @@
             // 
             this.hizmetlerToolStripMenuItem.Enabled = false;
             this.hizmetlerToolStripMenuItem.Name = "hizmetlerToolStripMenuItem";
-            this.hizmetlerToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.hizmetlerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hizmetlerToolStripMenuItem.Text = "Hizmet - Fiyat Farkı";
             this.hizmetlerToolStripMenuItem.Click += new System.EventHandler(this.hizmetlerToolStripMenuItem_Click);
             // 
@@ -586,7 +589,7 @@
             // 
             this.iadeİşlemSüreciToolStripMenuItem.Enabled = false;
             this.iadeİşlemSüreciToolStripMenuItem.Name = "iadeİşlemSüreciToolStripMenuItem";
-            this.iadeİşlemSüreciToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.iadeİşlemSüreciToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.iadeİşlemSüreciToolStripMenuItem.Text = "İade İşlem Süreci";
             this.iadeİşlemSüreciToolStripMenuItem.Click += new System.EventHandler(this.iadeİşlemSüreciToolStripMenuItem_Click);
             // 
@@ -605,7 +608,8 @@
             this.depoDenetlemeleriToolStripMenuItem,
             this.hedeflerToolStripMenuItem,
             this.personelBağlantılarıToolStripMenuItem,
-            this.bayiStoklarıToolStripMenuItem});
+            this.bayiStoklarıToolStripMenuItem,
+            this.veriÇekmeToolStripMenuItem});
             this.ticariPazarlamaToolStripMenuItem.Name = "ticariPazarlamaToolStripMenuItem";
             this.ticariPazarlamaToolStripMenuItem.Size = new System.Drawing.Size(104, 20);
             this.ticariPazarlamaToolStripMenuItem.Text = "Ticari Pazarlama";
@@ -1189,109 +1193,111 @@
             treeNode36.Text = "Personel Bağlantıları";
             treeNode37.Name = "ndBayiStoklari";
             treeNode37.Text = "Bayi Stokları";
-            treeNode38.Name = "ndTicariPazarlama";
-            treeNode38.Text = "Ticari Pazarlama";
-            treeNode39.Name = "ndSirketler";
-            treeNode39.Text = "Şirketler";
-            treeNode40.Name = "ndDepartmanlar";
-            treeNode40.Text = "Departmanlar";
-            treeNode41.Name = "ndGorevler";
-            treeNode41.Text = "Görevler";
-            treeNode42.Name = "ndTatiller";
-            treeNode42.Text = "Tatil Günleri";
-            treeNode43.Name = "ndIsBasvurulari";
-            treeNode43.Text = "Tanımlar";
-            treeNode44.Name = "ndIsIstekleri";
-            treeNode44.Text = "Eleman Talepleri";
-            treeNode45.Name = "ndBasvurular";
-            treeNode45.Text = "İş Başvuruları";
-            treeNode46.Name = "ndInsanKaynaklari";
-            treeNode46.Text = "İnsan Kaynakları";
-            treeNode47.Name = "ndPersoneller";
-            treeNode47.Text = "Personeller";
-            treeNode48.Name = "ndCariHesapHareketler";
-            treeNode48.Text = "Tahsilat Hareketleri";
-            treeNode49.Name = "ndCHEkstresi";
-            treeNode49.Text = "C/H Ekstresi";
-            treeNode50.Name = "ndSanalPos";
-            treeNode50.Text = "Web Sanal Pos İşlemleri";
-            treeNode51.Name = "ndFinansCariHesapEklemeCikarma";
-            treeNode51.Text = "Satış Temsilcisi Cari Hesap Ekleme";
-            treeNode52.Name = "ndPrimler";
-            treeNode52.Text = "Prim Oranları";
-            treeNode53.Name = "ndFinans";
-            treeNode53.Text = "Finans";
-            treeNode54.Name = "ndAraclar";
-            treeNode54.Text = "Araçlar";
-            treeNode55.Name = "ndAracGiderleri";
-            treeNode55.Text = "Araç Giderleri";
-            treeNode56.Name = "ndAracMarkalari";
-            treeNode56.Text = "Markalar";
-            treeNode57.Name = "ndAracTurleri";
-            treeNode57.Text = "Türler";
-            treeNode58.Name = "ndAracTakip";
-            treeNode58.Text = "Araç Takip";
-            treeNode59.Name = "ndLojistikFirmalar";
-            treeNode59.Text = "Lojistik Firmaları";
-            treeNode60.Name = "ndBolgeler";
-            treeNode60.Text = "Bölgeler";
-            treeNode61.Name = "ndAracTipleri";
-            treeNode61.Text = "Araç Tipleri";
-            treeNode62.Name = "ndAraclar";
-            treeNode62.Text = "Araçlar";
-            treeNode63.Name = "ndSoforlerMuavinler";
-            treeNode63.Text = "Şoför ve Muavinler";
-            treeNode64.Name = "ndAracBedelleri";
-            treeNode64.Text = "Araç Bedelleri";
-            treeNode65.Name = "ndSiparisToplamaPersonelleri";
-            treeNode65.Text = "Sipariş Toplama Personelleri";
-            treeNode66.Name = "ndRotalar";
-            treeNode66.Text = "Rotalar";
-            treeNode67.Name = "ndRotaMusteri";
-            treeNode67.Text = "Rota Müşteri Bağlantıları";
-            treeNode68.Name = "ndTanimlar";
-            treeNode68.Text = "Tanımlar";
-            treeNode69.Name = "ndSevkiyat";
-            treeNode69.Text = "Sevkiyat";
-            treeNode70.Name = "ndBrosurHazirlama";
-            treeNode70.Text = "Broşür Hazırlama";
-            treeNode71.Name = "ndKampanyaHazirlama";
-            treeNode71.Text = "Kampanya Hazırlama";
-            treeNode72.Name = "ndTasarim";
-            treeNode72.Text = "Tasarım";
-            treeNode73.Name = "ndTekUrunSiparisler";
-            treeNode73.Text = "Siparişler";
-            treeNode74.Name = "ndTekUrunGenelBilgiler";
-            treeNode74.Text = "Genel Bilgiler";
-            treeNode75.Name = "ndTekUrunSiparisDurumlari";
-            treeNode75.Text = "Sipariş Durumları Listesi";
-            treeNode76.Name = "ndTekUrunKargoSirketleri";
-            treeNode76.Text = "Kargo Şirketleri Listesi";
-            treeNode77.Name = "ndTekUrun";
-            treeNode77.Text = "Tek Ürün Satışı";
-            treeNode78.Name = "ndEpostaGonderme";
-            treeNode78.Text = "Eposta Gönderme";
-            treeNode79.Name = "ndYetkiler";
-            treeNode79.Text = "Yetkiler";
-            treeNode80.Name = "ndHatalar";
-            treeNode80.Text = "Loglar";
-            treeNode81.Name = "ndUyeKayitFormuYetkileri";
-            treeNode81.Text = "Üye Kayıt Formu Yetkileri";
-            treeNode82.Name = "ndYonetimPaneli";
-            treeNode82.Text = "Yönetim Paneli";
+            treeNode38.Name = "ndVeriCekme";
+            treeNode38.Text = "Veri Çekme";
+            treeNode39.Name = "ndTicariPazarlama";
+            treeNode39.Text = "Ticari Pazarlama";
+            treeNode40.Name = "ndSirketler";
+            treeNode40.Text = "Şirketler";
+            treeNode41.Name = "ndDepartmanlar";
+            treeNode41.Text = "Departmanlar";
+            treeNode42.Name = "ndGorevler";
+            treeNode42.Text = "Görevler";
+            treeNode43.Name = "ndTatiller";
+            treeNode43.Text = "Tatil Günleri";
+            treeNode44.Name = "ndIsBasvurulari";
+            treeNode44.Text = "Tanımlar";
+            treeNode45.Name = "ndIsIstekleri";
+            treeNode45.Text = "Eleman Talepleri";
+            treeNode46.Name = "ndBasvurular";
+            treeNode46.Text = "İş Başvuruları";
+            treeNode47.Name = "ndInsanKaynaklari";
+            treeNode47.Text = "İnsan Kaynakları";
+            treeNode48.Name = "ndPersoneller";
+            treeNode48.Text = "Personeller";
+            treeNode49.Name = "ndCariHesapHareketler";
+            treeNode49.Text = "Tahsilat Hareketleri";
+            treeNode50.Name = "ndCHEkstresi";
+            treeNode50.Text = "C/H Ekstresi";
+            treeNode51.Name = "ndSanalPos";
+            treeNode51.Text = "Web Sanal Pos İşlemleri";
+            treeNode52.Name = "ndFinansCariHesapEklemeCikarma";
+            treeNode52.Text = "Satış Temsilcisi Cari Hesap Ekleme";
+            treeNode53.Name = "ndPrimler";
+            treeNode53.Text = "Prim Oranları";
+            treeNode54.Name = "ndFinans";
+            treeNode54.Text = "Finans";
+            treeNode55.Name = "ndAraclar";
+            treeNode55.Text = "Araçlar";
+            treeNode56.Name = "ndAracGiderleri";
+            treeNode56.Text = "Araç Giderleri";
+            treeNode57.Name = "ndAracMarkalari";
+            treeNode57.Text = "Markalar";
+            treeNode58.Name = "ndAracTurleri";
+            treeNode58.Text = "Türler";
+            treeNode59.Name = "ndAracTakip";
+            treeNode59.Text = "Araç Takip";
+            treeNode60.Name = "ndLojistikFirmalar";
+            treeNode60.Text = "Lojistik Firmaları";
+            treeNode61.Name = "ndBolgeler";
+            treeNode61.Text = "Bölgeler";
+            treeNode62.Name = "ndAracTipleri";
+            treeNode62.Text = "Araç Tipleri";
+            treeNode63.Name = "ndAraclar";
+            treeNode63.Text = "Araçlar";
+            treeNode64.Name = "ndSoforlerMuavinler";
+            treeNode64.Text = "Şoför ve Muavinler";
+            treeNode65.Name = "ndAracBedelleri";
+            treeNode65.Text = "Araç Bedelleri";
+            treeNode66.Name = "ndSiparisToplamaPersonelleri";
+            treeNode66.Text = "Sipariş Toplama Personelleri";
+            treeNode67.Name = "ndRotalar";
+            treeNode67.Text = "Rotalar";
+            treeNode68.Name = "ndRotaMusteri";
+            treeNode68.Text = "Rota Müşteri Bağlantıları";
+            treeNode69.Name = "ndTanimlar";
+            treeNode69.Text = "Tanımlar";
+            treeNode70.Name = "ndSevkiyat";
+            treeNode70.Text = "Sevkiyat";
+            treeNode71.Name = "ndBrosurHazirlama";
+            treeNode71.Text = "Broşür Hazırlama";
+            treeNode72.Name = "ndKampanyaHazirlama";
+            treeNode72.Text = "Kampanya Hazırlama";
+            treeNode73.Name = "ndTasarim";
+            treeNode73.Text = "Tasarım";
+            treeNode74.Name = "ndTekUrunSiparisler";
+            treeNode74.Text = "Siparişler";
+            treeNode75.Name = "ndTekUrunGenelBilgiler";
+            treeNode75.Text = "Genel Bilgiler";
+            treeNode76.Name = "ndTekUrunSiparisDurumlari";
+            treeNode76.Text = "Sipariş Durumları Listesi";
+            treeNode77.Name = "ndTekUrunKargoSirketleri";
+            treeNode77.Text = "Kargo Şirketleri Listesi";
+            treeNode78.Name = "ndTekUrun";
+            treeNode78.Text = "Tek Ürün Satışı";
+            treeNode79.Name = "ndEpostaGonderme";
+            treeNode79.Text = "Eposta Gönderme";
+            treeNode80.Name = "ndYetkiler";
+            treeNode80.Text = "Yetkiler";
+            treeNode81.Name = "ndHatalar";
+            treeNode81.Text = "Loglar";
+            treeNode82.Name = "ndUyeKayitFormuYetkileri";
+            treeNode82.Text = "Üye Kayıt Formu Yetkileri";
+            treeNode83.Name = "ndYonetimPaneli";
+            treeNode83.Text = "Yönetim Paneli";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode20,
             treeNode24,
-            treeNode38,
-            treeNode46,
+            treeNode39,
             treeNode47,
-            treeNode53,
-            treeNode58,
-            treeNode69,
-            treeNode72,
-            treeNode77,
+            treeNode48,
+            treeNode54,
+            treeNode59,
+            treeNode70,
+            treeNode73,
             treeNode78,
-            treeNode82});
+            treeNode79,
+            treeNode83});
             this.treeView1.Size = new System.Drawing.Size(200, 406);
             this.treeView1.TabIndex = 6;
             this.treeView1.Visible = false;
@@ -1515,6 +1521,14 @@
             this.txtKAdi.Size = new System.Drawing.Size(182, 20);
             this.txtKAdi.TabIndex = 0;
             // 
+            // veriÇekmeToolStripMenuItem
+            // 
+            this.veriÇekmeToolStripMenuItem.Enabled = false;
+            this.veriÇekmeToolStripMenuItem.Name = "veriÇekmeToolStripMenuItem";
+            this.veriÇekmeToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.veriÇekmeToolStripMenuItem.Text = "Veri Çekme";
+            this.veriÇekmeToolStripMenuItem.Click += new System.EventHandler(this.veriçekmeToolStripMenuItem_Click);
+            // 
             // frmAna
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1670,5 +1684,6 @@
         private System.Windows.Forms.Label lblSurum;
         private System.Windows.Forms.ToolStripMenuItem kütüphane2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem çokluMalzemeXMLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem veriÇekmeToolStripMenuItem;
     }
 }

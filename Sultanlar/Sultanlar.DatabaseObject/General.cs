@@ -31,6 +31,14 @@ namespace Sultanlar.DatabaseObject
                 return "Server=" + IP + "; Database=KurumsalWebSAP; User Id=sultanlar; Password=megastar; Trusted_Connection=False;";
             }
         }
+        public static string ConnectionStringDisVeri
+        {
+            get
+            {
+                string IP = Ag.DbIP == string.Empty ? "10.1.1.14" : Ag.DbIP;
+                return "Server=" + IP + "; Database=DisVeri; User Id=sultanlar; Password=megastar; Trusted_Connection=False;";
+            }
+        }
     }
     //
     //

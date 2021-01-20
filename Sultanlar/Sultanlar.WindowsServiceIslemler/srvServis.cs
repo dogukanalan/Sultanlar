@@ -174,7 +174,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
                     )
                 {
-                    if ((DateTime.Now.Minute > 15 && DateTime.Now.Minute <= 20))
+                    if ((DateTime.Now.Minute > 35 && DateTime.Now.Minute <= 40))
                     {
                         musteriguncelleniyor = true;
                         MusterilerC();
@@ -1210,7 +1210,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
 
 
-            if (oncekifiyatsayisi - 1000 < listMaterialPrices.Length)
+            if (oncekifiyatsayisi - 5000 < listMaterialPrices.Length)
             {
                 SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Fiyat_SAP]", conn);
                 cmd1.CommandTimeout = 1000;
@@ -1968,6 +1968,11 @@ namespace Sultanlar.WindowsServiceIslemler
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now);
 
+            SqlCommand cmd11 = new SqlCommand("SELECT count(*) FROM [Web-Musteri]", conn);
+            conn.Open();
+            int oncekimusterisayisi = Convert.ToInt32(cmd11.ExecuteScalar());
+            conn.Close();
+
 
 
             NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
@@ -1987,139 +1992,137 @@ namespace Sultanlar.WindowsServiceIslemler
                 return;
             }
 
-            SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Musteri] DELETE FROM [Web-Risk]", conn);
-            cmd1.CommandTimeout = 1000;
-            conn.Open();
-            cmd1.ExecuteNonQuery();
-            conn.Close();
-            
-            for (int i = 0; i < listCustomers.Length; i++)
+
+            if (oncekimusterisayisi - 2000 < listCustomers.Length)
             {
-                string active = listCustomers[i].Aufsd == string.Empty ? "0" : "1";
-                string bolgekod = listCustomers[i].Bzirk;
-                string bolge = listCustomers[i].Bztxt;
-                string ytkkod = listCustomers[i].Kdgrp;
-                string ilkod = listCustomers[i].Regio;
-                string il = listCustomers[i].Bezei;
-                string ilcekod = listCustomers[i].PostCode1;
-                string ilce = listCustomers[i].City1;
-                string mtkod = listCustomers[i].Kdgrp;
-                string mtaciklama = listCustomers[i].Kdgtx;
-                int slsref = 0; try { slsref = Convert.ToInt32(listCustomers[i].Pernr); }
-                catch { }
-                string satkod = Convert.ToInt32(listCustomers[i].Perno).ToString();
-                string satkod1 = listCustomers[i].Parvw;
-                int gmref = 0; try { gmref = Convert.ToInt32(listCustomers[i].Kunag); }
-                catch { }
-                string musteri = listCustomers[i].Namag;
-                int smref = 0; try { smref = Convert.ToInt32(listCustomers[i].Kunwe); }
-                catch { }
-                string sube = listCustomers[i].Namwe;
-                string adres = listCustomers[i].Adres;
-                string sehir = listCustomers[i].CommText;
-                string semt = listCustomers[i].Name3;
-                string vrgdaire = listCustomers[i].Stcd1;
-                string vrgno = listCustomers[i].Stcd2;
-                string tel = listCustomers[i].Telno;
-                string fax = listCustomers[i].Faxno;
-                string email = listCustomers[i].Email;
-                string cep = listCustomers[i].Mobno;
-                double risklimit = Convert.ToDouble(listCustomers[i].Klimk);
-                int muskod = 0; try { muskod = listCustomers[i].Altkn != string.Empty ? Convert.ToInt32(listCustomers[i].Altkn) : 0; }
-                catch { }
-
-                SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Musteri] " +
-                    "([ACTIVE],BOLGE,[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[MT KOD],[MT ACIKLAMA],[SLSREF],[SAT KOD],[SAT KOD1],[GMREF],[MUS KOD],[SAT TEM],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],SEMT,[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],ILGILI,[CEP-1],[NETTOP])" +
-                    "VALUES (@ACTIVE,@BOLGE,@YTKKOD,@ILKOD,@IL,@ILCEKOD,@ILCE,@MTKOD,@MTACIKLAMA,@SLSREF,@SATKOD,@SATKOD1,@GMREF,@MUSKOD,@SATTEM,@MUSTERI,@SMREF,@SUBKOD,@SUBE,@ADRES,@SEHIR,@SEMT,@VRGDAIRE,@VRGNO,@TEL,@FAX,@EMAIL,@ILGILI,@CEP,0)", conn);
-                cmd.CommandTimeout = 1000;
-                cmd.Parameters.AddWithValue("@ACTIVE", active);
-                cmd.Parameters.AddWithValue("@BOLGE", bolgekod);
-                cmd.Parameters.AddWithValue("@YTKKOD", ytkkod);
-                cmd.Parameters.AddWithValue("@ILKOD", ilkod);
-                cmd.Parameters.AddWithValue("@IL", il);
-                cmd.Parameters.AddWithValue("@ILCEKOD", ilcekod);
-                cmd.Parameters.AddWithValue("@ILCE", ilce);
-                cmd.Parameters.AddWithValue("@MTKOD", mtkod);
-                cmd.Parameters.AddWithValue("@MTACIKLAMA", mtaciklama);
-                cmd.Parameters.AddWithValue("@SLSREF", slsref);
-                cmd.Parameters.AddWithValue("@SATKOD", satkod);
-                cmd.Parameters.AddWithValue("@SATKOD1", satkod1);
-                cmd.Parameters.AddWithValue("@GMREF", gmref);
-                cmd.Parameters.AddWithValue("@MUSKOD", muskod);
-                cmd.Parameters.AddWithValue("@MUSTERI", musteri);
-                cmd.Parameters.AddWithValue("@SMREF", smref);
-                cmd.Parameters.AddWithValue("@SUBKOD", muskod);
-                cmd.Parameters.AddWithValue("@SUBE", sube);
-                cmd.Parameters.AddWithValue("@ADRES", adres);
-                cmd.Parameters.AddWithValue("@SEHIR", sehir);
-                cmd.Parameters.AddWithValue("@SEMT", semt);
-                cmd.Parameters.AddWithValue("@VRGDAIRE", vrgdaire);
-                cmd.Parameters.AddWithValue("@VRGNO", vrgno);
-                cmd.Parameters.AddWithValue("@TEL", tel);
-                cmd.Parameters.AddWithValue("@FAX", fax);
-                cmd.Parameters.AddWithValue("@EMAIL", email);
-                cmd.Parameters.AddWithValue("@ILGILI", bolge);
-                cmd.Parameters.AddWithValue("@CEP", cep);
-
-                SqlCommand cmd2 = new SqlCommand("SELECT count(GMREF) FROM [Web-Risk] WHERE GMREF = @GMREF", conn);
-                cmd2.CommandTimeout = 1000;
-                cmd2.Parameters.AddWithValue("@GMREF", gmref);
-
-                SqlCommand cmd3 = new SqlCommand("INSERT INTO [Web-Risk] ([SLSREF],[GMREF],[MUS KOD],[MUSTERI],[RISK LMT],[RISK TOP],[RISK BKY],[BAKIYE],[ACK GUN],[ACK TOP],[VB GUN],[VB TOP],[VGB GUN],[VGB TOP],[IRS TOP],[C/S TOP],[SIP TOPL],[SIP TOPLB],[SIP TOPQ]) VALUES (@SLSREF,@GMREF,@GMREF,@MUSTERI,@RISKLMT,0,@RISKBKY,0,0,0,0,0,0,0,0,0,0,0,0)", conn);
-                cmd3.CommandTimeout = 1000;
-                cmd3.Parameters.AddWithValue("@SLSREF", slsref);
-                cmd3.Parameters.AddWithValue("@GMREF", gmref);
-                cmd3.Parameters.AddWithValue("@MUSTERI", musteri);
-                cmd3.Parameters.AddWithValue("@RISKLMT", risklimit);
-                cmd3.Parameters.AddWithValue("@RISKBKY", risklimit);
-
-                SqlCommand cmd4 = new SqlCommand("SELECT [SAT TEM] FROM [Web-SatisTemsilcileri] WHERE SLSMANREF = @SLSMANREF", conn);
-                cmd4.CommandTimeout = 1000;
-                cmd4.Parameters.AddWithValue("@SLSMANREF", slsref);
-
-                try
+                SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Musteri] DELETE FROM [Web-Risk]", conn);
+                cmd1.CommandTimeout = 600;
+                conn.Open();
+                cmd1.ExecuteNonQuery();
+                conn.Close();
+            
+                for (int i = 0; i < listCustomers.Length; i++)
                 {
-                    conn.Open();
-                    cmd.Parameters.AddWithValue("@SATTEM", cmd4.ExecuteScalar().ToString());
-                    cmd.ExecuteNonQuery();
-                    if (!Convert.ToBoolean(cmd2.ExecuteScalar())) // risktablosunda yok ise
+                    string active = listCustomers[i].Aufsd == string.Empty ? "0" : "1";
+                    string bolgekod = listCustomers[i].Bzirk;
+                    string bolge = listCustomers[i].Bztxt;
+                    string ytkkod = listCustomers[i].Kdgrp;
+                    string ilkod = listCustomers[i].Regio;
+                    string il = listCustomers[i].Bezei;
+                    string ilcekod = listCustomers[i].PostCode1;
+                    string ilce = listCustomers[i].City1;
+                    string mtkod = listCustomers[i].Kdgrp;
+                    string mtaciklama = listCustomers[i].Kdgtx;
+                    int slsref = 0; try { slsref = Convert.ToInt32(listCustomers[i].Pernr); }
+                    catch { }
+                    string satkod = Convert.ToInt32(listCustomers[i].Perno).ToString();
+                    string satkod1 = listCustomers[i].Parvw;
+                    int gmref = 0; try { gmref = Convert.ToInt32(listCustomers[i].Kunag); }
+                    catch { }
+                    string musteri = listCustomers[i].Namag;
+                    int smref = 0; try { smref = Convert.ToInt32(listCustomers[i].Kunwe); }
+                    catch { }
+                    string sube = listCustomers[i].Namwe;
+                    string adres = listCustomers[i].Adres;
+                    string sehir = listCustomers[i].CommText;
+                    string semt = listCustomers[i].Name3;
+                    string vrgdaire = listCustomers[i].Stcd1;
+                    string vrgno = listCustomers[i].Stcd2;
+                    string tel = listCustomers[i].Telno;
+                    string fax = listCustomers[i].Faxno;
+                    string email = listCustomers[i].Email;
+                    string cep = listCustomers[i].Mobno;
+                    double risklimit = Convert.ToDouble(listCustomers[i].Klimk);
+                    int muskod = 0; try { muskod = listCustomers[i].Altkn != string.Empty ? Convert.ToInt32(listCustomers[i].Altkn) : 0; }
+                    catch { }
+
+                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Musteri] " +
+                        "([ACTIVE],BOLGE,[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[MT KOD],[MT ACIKLAMA],[SLSREF],[SAT KOD],[SAT KOD1],[GMREF],[MUS KOD],[SAT TEM],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],SEMT,[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],ILGILI,[CEP-1],[NETTOP])" +
+                        "VALUES (@ACTIVE,@BOLGE,@YTKKOD,@ILKOD,@IL,@ILCEKOD,@ILCE,@MTKOD,@MTACIKLAMA,@SLSREF,@SATKOD,@SATKOD1,@GMREF,@MUSKOD,@SATTEM,@MUSTERI,@SMREF,@SUBKOD,@SUBE,@ADRES,@SEHIR,@SEMT,@VRGDAIRE,@VRGNO,@TEL,@FAX,@EMAIL,@ILGILI,@CEP,0)", conn);
+                    //cmd.CommandTimeout = 1000;
+                    cmd.Parameters.AddWithValue("@ACTIVE", active);
+                    cmd.Parameters.AddWithValue("@BOLGE", bolgekod);
+                    cmd.Parameters.AddWithValue("@YTKKOD", ytkkod);
+                    cmd.Parameters.AddWithValue("@ILKOD", ilkod);
+                    cmd.Parameters.AddWithValue("@IL", il);
+                    cmd.Parameters.AddWithValue("@ILCEKOD", ilcekod);
+                    cmd.Parameters.AddWithValue("@ILCE", ilce);
+                    cmd.Parameters.AddWithValue("@MTKOD", mtkod);
+                    cmd.Parameters.AddWithValue("@MTACIKLAMA", mtaciklama);
+                    cmd.Parameters.AddWithValue("@SLSREF", slsref);
+                    cmd.Parameters.AddWithValue("@SATKOD", satkod);
+                    cmd.Parameters.AddWithValue("@SATKOD1", satkod1);
+                    cmd.Parameters.AddWithValue("@GMREF", gmref);
+                    cmd.Parameters.AddWithValue("@MUSKOD", muskod);
+                    cmd.Parameters.AddWithValue("@MUSTERI", musteri);
+                    cmd.Parameters.AddWithValue("@SMREF", smref);
+                    cmd.Parameters.AddWithValue("@SUBKOD", muskod);
+                    cmd.Parameters.AddWithValue("@SUBE", sube);
+                    cmd.Parameters.AddWithValue("@ADRES", adres);
+                    cmd.Parameters.AddWithValue("@SEHIR", sehir);
+                    cmd.Parameters.AddWithValue("@SEMT", semt);
+                    cmd.Parameters.AddWithValue("@VRGDAIRE", vrgdaire);
+                    cmd.Parameters.AddWithValue("@VRGNO", vrgno);
+                    cmd.Parameters.AddWithValue("@TEL", tel);
+                    cmd.Parameters.AddWithValue("@FAX", fax);
+                    cmd.Parameters.AddWithValue("@EMAIL", email);
+                    cmd.Parameters.AddWithValue("@ILGILI", bolge);
+                    cmd.Parameters.AddWithValue("@CEP", cep);
+
+                    SqlCommand cmd2 = new SqlCommand("SELECT count(GMREF) FROM [Web-Risk] WHERE GMREF = @GMREF", conn);
+                    cmd2.Parameters.AddWithValue("@GMREF", gmref);
+
+                    SqlCommand cmd3 = new SqlCommand("INSERT INTO [Web-Risk] ([SLSREF],[GMREF],[MUS KOD],[MUSTERI],[RISK LMT],[RISK TOP],[RISK BKY],[BAKIYE],[ACK GUN],[ACK TOP],[VB GUN],[VB TOP],[VGB GUN],[VGB TOP],[IRS TOP],[C/S TOP],[SIP TOPL],[SIP TOPLB],[SIP TOPQ]) VALUES (@SLSREF,@GMREF,@GMREF,@MUSTERI,@RISKLMT,0,@RISKBKY,0,0,0,0,0,0,0,0,0,0,0,0)", conn);
+                    //cmd3.CommandTimeout = 1000;
+                    cmd3.Parameters.AddWithValue("@SLSREF", slsref);
+                    cmd3.Parameters.AddWithValue("@GMREF", gmref);
+                    cmd3.Parameters.AddWithValue("@MUSTERI", musteri);
+                    cmd3.Parameters.AddWithValue("@RISKLMT", risklimit);
+                    cmd3.Parameters.AddWithValue("@RISKBKY", risklimit);
+
+                    SqlCommand cmd4 = new SqlCommand("SELECT [SAT TEM] FROM [Web-SatisTemsilcileri] WHERE SLSMANREF = @SLSMANREF", conn);
+                    cmd4.Parameters.AddWithValue("@SLSMANREF", slsref);
+
+                    try
                     {
-                        cmd3.ExecuteNonQuery();
+                        conn.Open();
+
+                        string sattemgelen = string.Empty;
+                        object obj = cmd4.ExecuteScalar();
+                        if (obj != null)
+                            sattemgelen = obj.ToString();
+                        cmd.Parameters.AddWithValue("@SATTEM", sattemgelen);
+
+                        cmd.ExecuteNonQuery();
+                        if (!Convert.ToBoolean(cmd2.ExecuteScalar())) // risktablosunda yok ise
+                        {
+                            cmd3.ExecuteNonQuery();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Hatalar.DoInsert(ex, "windows servis SAP musteriler");
+                    }
+                    finally
+                    {
+                        conn.Close();
                     }
                 }
-                catch (Exception ex)
-                {
-                    Hatalar.DoInsert(ex, "windows servis SAP musteriler");
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
 
-            SqlCommand cmd11 = new SqlCommand("SELECT count(*) FROM [Web-Musteri]", conn);
-            cmd11.CommandTimeout = 1000;
-            conn.Open();
-            int oncekimusterisayisi = Convert.ToInt32(cmd11.ExecuteScalar());
-            conn.Close();
-
-            if (oncekimusterisayisi - 1000 < listCustomers.Length)
-            {
                 SqlCommand cmd10 = new SqlCommand("DROP TABLE [Web-Musteri-Onceki] SELECT * INTO [Web-Musteri-Onceki] FROM [dbo].[Web-Musteri]", conn);
-                cmd10.CommandTimeout = 1000;
+                cmd10.CommandTimeout = 600;
                 conn.Open();
                 cmd10.ExecuteNonQuery();
                 conn.Close();
 
                 SqlCommand cmd5 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Musteri] INSERT INTO [Web-Musteri] SELECT * FROM [Web_Musteri] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
-                cmd5.CommandTimeout = 1000;
+                cmd5.CommandTimeout = 600;
                 conn.Open();
                 cmd5.ExecuteNonQuery();
                 conn.Close();
 
                 //üşengeçlik
                 SqlCommand cmd6 = new SqlCommand("UPDATE [KurumsalWebSAP].[dbo].[Web-Musteri] SET [GRP] = '',[EKP] = '',[TIP] = 0,UNVAN=''", conn);
-                cmd6.CommandTimeout = 1000;
                 conn.Open();
                 cmd6.ExecuteNonQuery();
                 conn.Close();

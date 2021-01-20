@@ -32,6 +32,7 @@ $(document).ready(function () {
     });
 
     $('#selectYil').empty();
+    $("#selectYil").append($("<option />").val("2021").text("2021"));
     $("#selectYil").append($("<option />").val("2020").text("2020"));
     $("#selectYil").append($("<option />").val("2019").text("2019"));
     $("#selectYil").append($("<option />").val("2018").text("2018"));
