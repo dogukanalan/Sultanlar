@@ -1,5 +1,5 @@
 ﻿@page
-@model IndexModel
+@model Sultanlar.WUI.Pages.Musteri.Resim.ZiyaretModel
 @{
     ViewData["Title"] = "Resimler";
 }
@@ -23,11 +23,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
 
     <script>
-        function getYil() { return getParameterByName("yil") ? getParameterByName("yil") : (new Date().getFullYear()).toString(); }
-        function getAy() { return getParameterByName("ay") ? getParameterByName("ay") : (new Date().getMonth() + 1).toString(); }
-        function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
-        function getTur() { return getParameterByName("tur") ? getParameterByName("tur") : $('select[name=selectTurler]').val(); }
-
         var kolonlar = [
             {
                 "data": "pkID", "class": "bgwhite keyTd w120", render: function (data, type, row) {
@@ -61,69 +56,11 @@
             }
         ];
 
-        function SaticilarGetir() {
-            var uyeid = window.localStorage["uyeid"];
-            $.ajax(
-                {
-                    xhr: function () { return xhrDownloadUpload(); },
-                    beforeSend: function (xhr) { xhrTicket(xhr); },
-                    type: 'POST',
-                    url: apiurl + "satici",
-                    data: '{ "uyeid": "' + uyeid + '" }',
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    success: function (data, textStatus, response) {
-                        checkAuth(response);
-
-                        //$("select[name=selectSaticilar]").empty().append($("<option></option>").text("Tümü").val("0"));
-                        $("select[name=selectAy] option[value='0']").remove();
-                        $.each(data, function (index, item) {
-                            $("#selectSaticilar").append(
-                                $("<option></option>")
-                                    .text(item.sattem)
-                                    .val(item.slsmanref)
-                            );
-                        });
-
-                        $('select[name=selectSaticilar]').val(getSlsref());
-                        TurlerGetir();
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
-                }
-            );
-        }
-
-        function TurlerGetir() {
-            $.ajax(
-                {
-                    xhr: function () { return xhrDownloadUpload(); },
-                    beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "resim/sderesimtur",
-                    success: function (data, textStatus, response) {
-                        checkAuth(response);
-
-                        $("select[name=selectTurler]").empty().append($("<option></option>").text("Tümü").val("0"));
-                        $.each(data, function (index, item) {
-                            $("select[name=selectTurler]").append(
-                                $("<option></option>")
-                                    .text(item.value)
-                                    .val(item.key)
-                            );
-                        });
-
-                        $('select[name=selectTurler]').val(getTur());
-                        getResimler();
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
-                }
-            );
-        }
-
         function getResimler() {
             $("#dtTable input[type=text]").each(function (index, element) {
                 $(element).val("");
             });
-            var url1 = apiurl + "rut/getirrutresimler/" + getSlsref() + "/0/0/" + getTur() + "/" + getYil() + "/" + getAy();
+            var url1 = apiurl + "rut/getirrutresimlerbyrutid/" + getParameterByName("rutid");
             var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
 
@@ -198,18 +135,11 @@
         }
 
         $(window).on("popstate", function (e) {
-            $('select[name=selectSaticilar]').val(getSlsref());
-            $('select[name=selectTurler]').val(getTur());
-            $('select[name=selectYil]').val(getYil());
-            $('select[name=selectAy]').val(getAy());
             getResimler();
         });
 
         $(document).ready(function () {
-            $('select[name=selectYil]').val(getYil());
-            $('select[name=selectAy]').val(getAy());
-            $('select[name=selectTurler]').val(getTur());
-            SaticilarGetir();
+            getResimler();
             $('#tarih').datepicker({
                 locale: "tr",
                 language: "tr",
@@ -219,30 +149,6 @@
             });
             $('#tarih').on('changeDate', function (ev) {
                 $(this).datepicker('hide');
-            });
-
-            $('#selectSaticilar').on('change', function (e) {
-                //if ($(this).val() == "0")
-                //    $("select[name=selectAy] option[value='0']").remove();
-                //else
-                //    $("select[name=selectAy]").append($("<option></option>").text("Tümü").val("0"));
-                window.history.pushState("", "Title", '?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&tur=' + $('select[name=selectTurler]').val());
-                getResimler();
-            });
-
-            $('#selectYil').on('change', function (e) {
-                window.history.pushState("", "Title", '?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&tur=' + $('select[name=selectTurler]').val());
-                getResimler();
-            });
-
-            $('#selectAy').on('change', function (e) {
-                window.history.pushState("", "Title", '?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&tur=' + $('select[name=selectTurler]').val());
-                getResimler();
-            });
-
-            $('#selectTurler').on('change', function (e) {
-                window.history.pushState("", "Title", '?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&tur=' + $('select[name=selectTurler]').val());
-                getResimler();
             });
         });
 
@@ -258,37 +164,6 @@
     </script>
 }
 
-<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
-
-<select id="selectYil" name="selectYil" class="dropDown selYil">
-    <option value="2021" selected="selected">2021</option>
-    <option value="2020">2020</option>
-    <option value="2019">2019</option>
-    <option value="2018">2018</option>
-    <option value="2017">2017</option>
-    <option value="2016">2016</option>
-    <option value="2015">2015</option>
-    <option value="2014">2014</option>
-</select>
-
-<select id="selectAy" name="selectAy" class="dropDown selYil">
-    <option value="0">Tümü</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-    <option value="6">6</option>
-    <option value="7">7</option>
-    <option value="8">8</option>
-    <option value="9">9</option>
-    <option value="10">10</option>
-    <option value="11">11</option>
-    <option value="12">12</option>
-</select>
-<br />
-<select id="selectTurler" name="selectTurler" class="dropDown selSaticilar"></select>
-<br />
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='100'>
     <thead>
         <tr>

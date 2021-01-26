@@ -107,6 +107,8 @@
             this.label25 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.button8 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -974,6 +976,27 @@
             this.label26.TabIndex = 3;
             this.label26.Text = "(Excel dosyasında 1. kolon kod, 2. kolon Tür Kodu olmalı.)";
             // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.ForeColor = System.Drawing.Color.Red;
+            this.label27.Location = new System.Drawing.Point(837, 228);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(250, 13);
+            this.label27.TabIndex = 3;
+            this.label27.Text = "(Excel dosyasında 1. kolon kod, 2. ilçe kodu olmalı.)";
+            // 
+            // button8
+            // 
+            this.button8.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button8.Location = new System.Drawing.Point(741, 223);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(90, 23);
+            this.button8.TabIndex = 2;
+            this.button8.Text = "Toplu İlçe";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // frmINTERNETticaripazarlamamusteriler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -983,6 +1006,7 @@
             this.Controls.Add(this.cmbAy);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.cmbYil);
             this.Controls.Add(this.groupBox3);
@@ -995,6 +1019,7 @@
             this.Controls.Add(this.label18);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label26);
+            this.Controls.Add(this.label27);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label16);
@@ -1107,5 +1132,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Button button8;
     }
 }

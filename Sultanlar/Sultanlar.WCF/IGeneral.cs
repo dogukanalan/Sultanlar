@@ -162,7 +162,23 @@ namespace Sultanlar.WCF
         //
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Orders/Pirim")]
-        XmlDocument GetOrders();
+        XmlDocument GetOrdersPirim();
+        //
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Orders/Boran")]
+        XmlDocument GetOrdersBoran();
+        //
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Orders/Yukseller")]
+        XmlDocument GetOrdersYukseller();
+        //
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Gokw3/Stok?yil={YIL}&ay={AY}")]
+        XmlDocument Gokw3stok(string YIL, string AY);
+        //
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Gokw3/Satis?yil={YIL}&ay={AY}")]
+        XmlDocument Gokw3satis(string YIL, string AY);
         //
         //[OperationContract, XmlSerializerFormat]
         //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Xml, ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/eczanem/Efatura/Post")]

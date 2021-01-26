@@ -758,7 +758,7 @@ function getDateNowStr() {
     var minute = date.getMinutes();
     var second = date.getSeconds();
     
-    return (day.toString().length === 2 ? day : "0" + day) + "." + (month.toString().length === 2 ? month : "0" + month) + "." + year + " " +
+    return (day.toString().length === 2 ? day : "0" + day) + "." + (month.toString().length === 2 ? month : "0" + month) + "." + year + "." +
         (hour.toString().length === 2 ? hour : "0" + hour) + ':' + (minute.toString().length === 2 ? minute : "0" + minute) + ':' + (second.toString().length === 2 ? second : "0" + second);
 }
 

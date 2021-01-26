@@ -41,6 +41,13 @@
             //check(false);
             if (!girissayfasi && !cikissayfasi)
                 MesajSayisi();
+
+            if (localStorage["ziyaret"] != null) {
+                document.getElementById("divZiy").style.display = "block";
+            }
+            else {
+                document.getElementById("divZiy").style.display = "none";
+            }
         });
 
         function MesajSayisi() {
@@ -131,6 +138,12 @@
             </div>
         </div>
     </nav>
+
+    <div class="ZiyaretDivDis" id="divZiy">
+        <div class="ZiyaretDivIc">
+            <a href="~/Ziyaret/Ziyaret">ziyaret</a>
+        </div>
+    </div>
 
     <partial name="_CookieConsentPartial" />
 

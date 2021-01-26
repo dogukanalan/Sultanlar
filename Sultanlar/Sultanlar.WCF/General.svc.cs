@@ -774,13 +774,13 @@ namespace Sultanlar.WCF
                 donendeger.Add(new ProductsF22(dt.Rows[i]["GRUP"].ToString(), dt.Rows[i]["KOD"].ToString(), dt.Rows[i]["MALZEME"].ToString(),
                     dt.Rows[i]["BARKOD"].ToString(), dt.Rows[i]["PAKET"].ToString(), dt.Rows[i]["KOLI"].ToString(),
                     Convert.ToDouble(dt.Rows[i]["KDV"]), Convert.ToDouble(dt.Rows[i]["FIYAT"]), Convert.ToDouble(dt.Rows[i]["ISK1"]),
-                    Convert.ToDouble(dt.Rows[i]["ISK2"]), Convert.ToDouble(dt.Rows[i]["ISK3"]), Convert.ToDouble(dt.Rows[i]["ISK4"]), 
-                    Convert.ToDouble(dt.Rows[i]["ISK5"]), Convert.ToDouble(dt.Rows[i]["ISK6"]), Convert.ToDouble(dt.Rows[i]["ISK7"]), 
+                    Convert.ToDouble(dt.Rows[i]["ISK2"]), Convert.ToDouble(dt.Rows[i]["ISK3"]), Convert.ToDouble(dt.Rows[i]["ISK4"]),
+                    Convert.ToDouble(dt.Rows[i]["ISK5"]), Convert.ToDouble(dt.Rows[i]["ISK6"]), Convert.ToDouble(dt.Rows[i]["ISK7"]),
                     Convert.ToDouble(dt.Rows[i]["ISK8"]), Convert.ToDouble(dt.Rows[i]["ISK9"]), Convert.ToDouble(dt.Rows[i]["ISK10"]),
                     Convert.ToDouble(dt.Rows[i]["NETKDV"]), dt.Rows[i]["VD"].ToString(), dt.Rows[i]["STOK"].ToString(),
                     dt.Rows[i]["KG"].ToString(), dt.Rows[i]["DM3"].ToString(), dt.Rows[i]["Resim"].ToString()));
             }
-            
+
             return donendeger;
         }
         /// <summary>
@@ -904,7 +904,7 @@ namespace Sultanlar.WCF
                 //var settings = new XmlWriterSettings();
                 //settings.OmitXmlDeclaration = true;
                 //var writer = XmlWriter.Create(TW, settings);
-                
+
 
                 MySerializer.Serialize(TW, emusiad, xsn);
 
@@ -944,7 +944,7 @@ namespace Sultanlar.WCF
         /// <summary>
         /// 
         /// </summary>
-        public XmlDocument GetOrders()
+        public XmlDocument GetOrdersPirim()
         {
             XmlDocument donendeger = new XmlDocument();
 
@@ -1003,7 +1003,7 @@ namespace Sultanlar.WCF
 "INNER JOIN tblINTERNET_Siparisler ON intSiparisID = pkSiparisID " +
 "INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID LEFT OUTER JOIN tblINTERNET_SiparislerDetayISK ON pkSiparisDetayID = bintSiparisDetayID" +
 ") AS TABLO1" +
-                    
+
                     "", new ArrayList() { "intSiparisID" }, new ArrayList() { siparis.SipNo }, "OrderDetail");
                 for (int j = 0; j < dt1.Rows.Count; j++)
                 {
@@ -1045,7 +1045,186 @@ namespace Sultanlar.WCF
 
             return donendeger;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public XmlDocument GetOrdersBoran()
+        {
+            return GetOrdersPirim();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public XmlDocument GetOrdersYukseller()
+        {
+            return GetOrdersPirim();
+        }
+        public class gokw3stoklar
+        {
+            [XmlElement(ElementName = "Stok", Order = 1)]
+            public List<gokw3stok> Stoklar { get; set; }
+        }
+        public class gokw3stok
+        {
+            public short A_P { get; set; } public short AMB_NO { get; set; } public string AMBAR { get; set; } public string STGRPCODE { get; set; } public string SPECODE { get; set; } public string CYPHCODE { get; set; } public string MARK_C { get; set; } public string MARK_A { get; set; } public string PRODUCERCODE { get; set; } public string CODE_M { get; set; } public string NAME_M { get; set; } public double STOK { get; set; } public DateTime LASTTRDATE { get; set; } public int YIL { get; set; } public int AY { get; set; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public XmlDocument Gokw3stok(string YIL, string AY)
+        {
+            XmlDocument donendeger = new XmlDocument();
 
+
+
+            ArrayList paramn = new ArrayList() { "YIL", "AY" };
+            ArrayList paramv = new ArrayList() { YIL, AY };
+            DataTable dt = WebGenel.WCFdata("SELECT * FROM (SELECT TOP (100) PERCENT GOKW3.dbo.LG_400_ITEMS.ACTIVE AS A_P, GOKW3.dbo.L_CAPIWHOUSE.NR AS AMB_NO, GOKW3.dbo.L_CAPIWHOUSE.NAME AS AMBAR, GOKW3.dbo.LG_400_ITEMS.STGRPCODE, GOKW3.dbo.LG_400_ITEMS.SPECODE, GOKW3.dbo.LG_400_ITEMS.CYPHCODE, GOKW3.dbo.LG_400_MARK.CODE AS MARK_C, GOKW3.dbo.LG_400_MARK.DESCR AS MARK_A, GOKW3.dbo.LG_400_ITEMS.PRODUCERCODE, GOKW3.dbo.LG_400_ITEMS.CODE AS CODE_M, GOKW3.dbo.LG_400_ITEMS.NAME AS NAME_M, SUM(GOKW3.dbo.LV_400_01_GNTOTST.ONHAND) AS STOK, GOKW3.dbo.LV_400_01_GNTOTST.LASTTRDATE, YEAR(GOKW3.dbo.LV_400_01_GNTOTST.LASTTRDATE) AS YIL, MONTH(GOKW3.dbo.LV_400_01_GNTOTST.LASTTRDATE) AS AY FROM GOKW3.dbo.LV_400_01_GNTOTST INNER JOIN GOKW3.dbo.L_CAPIWHOUSE ON GOKW3.dbo.LV_400_01_GNTOTST.INVENNO = GOKW3.dbo.L_CAPIWHOUSE.NR RIGHT OUTER JOIN GOKW3.dbo.LG_400_ITEMS ON GOKW3.dbo.LV_400_01_GNTOTST.STOCKREF = GOKW3.dbo.LG_400_ITEMS.LOGICALREF LEFT OUTER JOIN GOKW3.dbo.LG_400_MARK ON GOKW3.dbo.LG_400_ITEMS.MARKREF = GOKW3.dbo.LG_400_MARK.LOGICALREF WHERE (GOKW3.dbo.L_CAPIWHOUSE.FIRMNR = 400) AND (GOKW3.dbo.LV_400_01_GNTOTST.INVENNO <> - 1) AND (GOKW3.dbo.LG_400_ITEMS.STGRPCODE <> 'DB') GROUP BY GOKW3.dbo.LG_400_ITEMS.NAME, GOKW3.dbo.LG_400_ITEMS.CODE, GOKW3.dbo.L_CAPIWHOUSE.NAME, GOKW3.dbo.LG_400_ITEMS.STGRPCODE, GOKW3.dbo.LG_400_ITEMS.SPECODE, GOKW3.dbo.LG_400_ITEMS.ACTIVE, GOKW3.dbo.L_CAPIWHOUSE.NR, GOKW3.dbo.LG_400_MARK.CODE, GOKW3.dbo.LG_400_MARK.DESCR, GOKW3.dbo.LG_400_ITEMS.PRODUCERCODE, GOKW3.dbo.LG_400_ITEMS.CYPHCODE, GOKW3.dbo.LV_400_01_GNTOTST.LASTTRDATE HAVING (GOKW3.dbo.LG_400_ITEMS.STGRPCODE LIKE 'STG%') ORDER BY AMB_NO, GOKW3.dbo.LG_400_ITEMS.STGRPCODE, NAME_M) AS TABLO1", paramn, paramv, "Stok");
+
+            gokw3stoklar goklar = new gokw3stoklar();
+            goklar.Stoklar = new List<gokw3stok>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                gokw3stok gok = new gokw3stok()
+                {
+                    A_P = Convert.ToInt16(dt.Rows[i]["A_P"]), 
+                    AMB_NO = Convert.ToInt16(dt.Rows[i]["AMB_NO"]),
+                    AMBAR = dt.Rows[i]["AMBAR"].ToString(),
+                    STGRPCODE = dt.Rows[i]["STGRPCODE"].ToString(),
+                    SPECODE = dt.Rows[i]["SPECODE"].ToString(),
+                    CYPHCODE = dt.Rows[i]["CYPHCODE"].ToString(),
+                    MARK_C = dt.Rows[i]["MARK_C"].ToString(),
+                    MARK_A = dt.Rows[i]["MARK_A"].ToString(),
+                    PRODUCERCODE = dt.Rows[i]["PRODUCERCODE"].ToString(),
+                    CODE_M = dt.Rows[i]["CODE_M"].ToString(),
+                    NAME_M = dt.Rows[i]["NAME_M"].ToString(),
+                    STOK = Convert.ToInt32(dt.Rows[i]["STOK"]),
+                    LASTTRDATE = Convert.ToDateTime(dt.Rows[i]["LASTTRDATE"]),
+                    YIL = Convert.ToInt32(dt.Rows[i]["YIL"]),
+                    AY = Convert.ToInt32(dt.Rows[i]["AY"]),
+                };
+                goklar.Stoklar.Add(gok);
+            }
+            
+
+            XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
+            xsn.Add("g", "http://base.google.com/ns/1.0");
+            XmlSerializer MySerializer = new XmlSerializer(typeof(gokw3stoklar), "http://www.w3.org/2005/Atom");
+
+            TextWriter TW = new StringWriter();
+
+
+            MySerializer.Serialize(TW, goklar, xsn);
+
+
+
+            donendeger.LoadXml(TW.ToString());
+
+            return donendeger;
+        }
+        public class gokw3satislar
+        {
+            [XmlElement(ElementName = "Satis", Order = 1)]
+            public List<gokw3satis> Satislar { get; set; }
+        }
+        public class gokw3satis
+        { 
+            public short IOCODE { get; set; }public string ANA_ISLEM { get; set; }public short TRCODE { get; set; }public string TUR_ACK { get; set; }public short YON { get; set; }public short IPT { get; set; }public short FF { get; set; }public short TRCODE_I { get; set; }public int YIL { get; set; }public int AY { get; set; }public DateTime DATE__I { get; set; }public string FICHENO_I { get; set; }public string DOCODE_I { get; set; }public string INVNO_I { get; set; }public string SPECODE_I { get; set; }public string CYPHCODE_I { get; set; }public short BILLED { get; set; }public short TRCODE_F { get; set; }public DateTime DATE__F { get; set; }public string FICHENO_F { get; set; }public string DOCODE_F { get; set; }public string SPECODE_F { get; set; }public string CYPHCODE_F { get; set; }public string TRADINGGRP_F { get; set; }public int CLIENTREF_F { get; set; }public string TAXOFFICE_C { get; set; }public string TAXNR_C { get; set; }public string CODE_G { get; set; }public string DEFINITION_G { get; set; }public string CODE_SB { get; set; }public string DEFINITION_SB { get; set; }public string SPECODE_C { get; set; }public string CYPHCODE_C { get; set; }public string CODE_S { get; set; }public string DEFINITION__S { get; set; }public string SPECODE_S { get; set; }public string CYPHCODE_S { get; set; }public string STGRPCODE_S { get; set; }public string PRODUCERCODE_S { get; set; }public string MARK_C { get; set; }public string MARK_A { get; set; }public double AMOUNT { get; set; }public double PRICE { get; set; }public double TOTAL { get; set; }public double DISTCOST { get; set; }public double DISTDISC { get; set; }public double DISTEXP { get; set; }public double DISTPROM { get; set; }public double DISCPER { get; set; }public double VAT { get; set; }public double VATAMNT { get; set; }public double VATMATRAH { get; set; }public double NETKDV { get; set; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public XmlDocument Gokw3satis(string YIL, string AY)
+        {
+            XmlDocument donendeger = new XmlDocument();
+
+
+
+            ArrayList paramn = new ArrayList() { "YIL", "AY" };
+            ArrayList paramv = new ArrayList() { YIL, AY };
+            DataTable dt = WebGenel.WCFdata("SELECT * FROM (SELECT     TOP (100) PERCENT GOKW3.dbo.LG_400_01_STLINE.IOCODE, GOKW3.dbo.HareketYon.ANA_ISLEM, GOKW3.dbo.LG_400_01_STLINE.TRCODE, GOKW3.dbo.HareketYon.TUR_ACK, GOKW3.dbo.HareketYon.YON, GOKW3.dbo.LG_400_01_STLINE.CANCELLED AS IPT, GOKW3.dbo.LG_400_01_STLINE.DECPRDIFF AS FF, ISNULL(GOKW3.dbo.LG_400_01_STFICHE.TRCODE,0) AS TRCODE_I, YEAR(ISNULL(GOKW3.dbo.LG_400_01_INVOICE.DATE_, GOKW3.dbo.LG_400_01_STFICHE.DATE_)) AS YIL, MONTH(ISNULL(GOKW3.dbo.LG_400_01_INVOICE.DATE_, GOKW3.dbo.LG_400_01_STFICHE.DATE_)) AS AY, ISNULL(GOKW3.dbo.LG_400_01_STFICHE.DATE_,getdate()) AS DATE__I, ISNULL(GOKW3.dbo.LG_400_01_STFICHE.FICHENO,'') AS FICHENO_I, ISNULL(GOKW3.dbo.LG_400_01_STFICHE.DOCODE,'') AS DOCODE_I, ISNULL(GOKW3.dbo.LG_400_01_STFICHE.INVNO,'') AS INVNO_I, ISNULL(GOKW3.dbo.LG_400_01_STFICHE.SPECODE,'') AS SPECODE_I, ISNULL(GOKW3.dbo.LG_400_01_STFICHE.CYPHCODE,'') AS CYPHCODE_I, GOKW3.dbo.LG_400_01_STLINE.BILLED, ISNULL(GOKW3.dbo.LG_400_01_INVOICE.TRCODE,0) AS TRCODE_F, ISNULL(GOKW3.dbo.LG_400_01_INVOICE.DATE_,getdate()) AS DATE__F, ISNULL(GOKW3.dbo.LG_400_01_INVOICE.FICHENO,'') AS FICHENO_F, ISNULL(GOKW3.dbo.LG_400_01_INVOICE.DOCODE,'') AS DOCODE_F, ISNULL(GOKW3.dbo.LG_400_01_INVOICE.SPECODE,'') AS SPECODE_F, ISNULL(GOKW3.dbo.LG_400_01_INVOICE.CYPHCODE,'') AS CYPHCODE_F, ISNULL(GOKW3.dbo.LG_400_01_INVOICE.TRADINGGRP,'') AS TRADINGGRP_F, ISNULL(GOKW3.dbo.LG_400_01_INVOICE.CLIENTREF,0) AS CLIENTREF_F, GOKW3.dbo.LG_400_CLCARD.TAXOFFICE AS TAXOFFICE_C, GOKW3.dbo.LG_400_CLCARD.TAXNR AS TAXNR_C, ISNULL(LG_400_CLCARD_1.CODE, GOKW3.dbo.LG_400_CLCARD.CODE) AS CODE_G, ISNULL(LG_400_CLCARD_1.DEFINITION_, GOKW3.dbo.LG_400_CLCARD.DEFINITION_) AS DEFINITION_G, GOKW3.dbo.LG_400_CLCARD.CODE AS CODE_SB, GOKW3.dbo.LG_400_CLCARD.DEFINITION_ AS DEFINITION_SB, GOKW3.dbo.LG_400_CLCARD.SPECODE AS SPECODE_C, GOKW3.dbo.LG_400_CLCARD.CYPHCODE AS CYPHCODE_C, ISNULL(CASE GOKW3.dbo.LG_400_01_STLINE.LINETYPE WHEN 4 THEN GOKW3.dbo.LG_400_SRVCARD.CODE ELSE GOKW3.dbo.LG_400_ITEMS.CODE END, GOKW3.dbo.LG_400_DECARDS.CODE) AS CODE_S, ISNULL(CASE GOKW3.dbo.LG_400_01_STLINE.LINETYPE WHEN 4 THEN GOKW3.dbo.LG_400_SRVCARD.DEFINITION_ ELSE GOKW3.dbo.LG_400_ITEMS.NAME END, GOKW3.dbo.LG_400_DECARDS.DEFINITION_) AS DEFINITION__S, ISNULL(GOKW3.dbo.LG_400_ITEMS.SPECODE,'') AS SPECODE_S, ISNULL(GOKW3.dbo.LG_400_ITEMS.CYPHCODE,'') AS CYPHCODE_S, ISNULL(GOKW3.dbo.LG_400_ITEMS.STGRPCODE,'') AS STGRPCODE_S, ISNULL(GOKW3.dbo.LG_400_ITEMS.PRODUCERCODE,'') AS PRODUCERCODE_S, ISNULL(GOKW3.dbo.LG_400_MARK.CODE,'') AS MARK_C, ISNULL(GOKW3.dbo.LG_400_MARK.DESCR,'') AS MARK_A, CASE GOKW3.dbo.LG_400_01_STLINE.TRCODE WHEN 13 THEN 0 WHEN 14 THEN 0 ELSE GOKW3.dbo.LG_400_01_STLINE.AMOUNT END AS AMOUNT, SUM(GOKW3.dbo.LG_400_01_STLINE.PRICE) AS PRICE, SUM(GOKW3.dbo.LG_400_01_STLINE.TOTAL * GOKW3.dbo.HareketYon.YON) AS TOTAL, SUM(GOKW3.dbo.LG_400_01_STLINE.DISTCOST * GOKW3.dbo.HareketYon.YON) AS DISTCOST, SUM(GOKW3.dbo.LG_400_01_STLINE.DISTDISC * GOKW3.dbo.HareketYon.YON) AS DISTDISC, SUM(GOKW3.dbo.LG_400_01_STLINE.DISTEXP * GOKW3.dbo.HareketYon.YON) AS DISTEXP, SUM(GOKW3.dbo.LG_400_01_STLINE.DISTPROM * GOKW3.dbo.HareketYon.YON) AS DISTPROM, SUM(GOKW3.dbo.LG_400_01_STLINE.DISCPER * GOKW3.dbo.HareketYon.YON) AS DISCPER, GOKW3.dbo.LG_400_01_STLINE.VAT, SUM(GOKW3.dbo.LG_400_01_STLINE.VATAMNT * GOKW3.dbo.HareketYon.YON) AS VATAMNT, SUM(CASE GOKW3.dbo.LG_400_01_STLINE.LINETYPE WHEN 1 THEN 0 ELSE GOKW3.dbo.LG_400_01_STLINE.VATMATRAH END * GOKW3.dbo.HareketYon.YON) AS VATMATRAH, SUM((CASE GOKW3.dbo.LG_400_01_STLINE.LINETYPE WHEN 1 THEN 0 ELSE GOKW3.dbo.LG_400_01_STLINE.VATMATRAH END + GOKW3.dbo.LG_400_01_STLINE.VATAMNT) * GOKW3.dbo.HareketYon.YON) AS [NETKDV] FROM         GOKW3.dbo.LG_400_CLCARD AS LG_400_CLCARD_1 RIGHT OUTER JOIN GOKW3.dbo.LG_400_CLCARD ON LG_400_CLCARD_1.LOGICALREF = GOKW3.dbo.LG_400_CLCARD.PARENTCLREF RIGHT OUTER JOIN GOKW3.dbo.LG_400_MARK RIGHT OUTER JOIN GOKW3.dbo.LG_400_ITEMS ON GOKW3.dbo.LG_400_MARK.LOGICALREF = GOKW3.dbo.LG_400_ITEMS.MARKREF RIGHT OUTER JOIN GOKW3.dbo.LG_400_DECARDS RIGHT OUTER JOIN GOKW3.dbo.LG_400_01_STLINE ON GOKW3.dbo.LG_400_DECARDS.LOGICALREF = GOKW3.dbo.LG_400_01_STLINE.STOCKREF ON GOKW3.dbo.LG_400_ITEMS.LOGICALREF = GOKW3.dbo.LG_400_01_STLINE.STOCKREF LEFT OUTER JOIN GOKW3.dbo.HareketYon ON GOKW3.dbo.LG_400_01_STLINE.TRCODE = GOKW3.dbo.HareketYon.TUR_KOD AND GOKW3.dbo.LG_400_01_STLINE.DECPRDIFF = GOKW3.dbo.HareketYon.FF LEFT OUTER JOIN GOKW3.dbo.LG_400_SRVCARD ON GOKW3.dbo.LG_400_01_STLINE.STOCKREF = GOKW3.dbo.LG_400_SRVCARD.LOGICALREF ON GOKW3.dbo.LG_400_CLCARD.LOGICALREF = GOKW3.dbo.LG_400_01_STLINE.CLIENTREF LEFT OUTER JOIN GOKW3.dbo.LG_400_01_STFICHE ON GOKW3.dbo.LG_400_01_STLINE.STFICHEREF = GOKW3.dbo.LG_400_01_STFICHE.LOGICALREF AND GOKW3.dbo.HareketYon.TUR_KODI = GOKW3.dbo.LG_400_01_STFICHE.TRCODE LEFT OUTER JOIN GOKW3.dbo.LG_400_01_INVOICE ON GOKW3.dbo.LG_400_01_STLINE.INVOICEREF = GOKW3.dbo.LG_400_01_INVOICE.LOGICALREF AND GOKW3.dbo.HareketYon.TUR_KODF = GOKW3.dbo.LG_400_01_INVOICE.TRCODE WHERE     (NOT (GOKW3.dbo.LG_400_01_STLINE.STOCKREF IS NULL)) AND (GOKW3.dbo.LG_400_01_STLINE.STOCKREF <> 0) OR (NOT (GOKW3.dbo.LG_400_01_STLINE.STOCKREF IS NULL)) AND (GOKW3.dbo.LG_400_01_STLINE.STOCKREF <> 0) OR (NOT (GOKW3.dbo.LG_400_01_STLINE.STOCKREF IS NULL)) AND (GOKW3.dbo.LG_400_01_STLINE.STOCKREF <> 0) GROUP BY GOKW3.dbo.LG_400_01_STFICHE.TRCODE, MONTH(ISNULL(GOKW3.dbo.LG_400_01_INVOICE.DATE_, GOKW3.dbo.LG_400_01_STFICHE.DATE_)), YEAR(ISNULL(GOKW3.dbo.LG_400_01_INVOICE.DATE_, GOKW3.dbo.LG_400_01_STFICHE.DATE_)), GOKW3.dbo.LG_400_01_STFICHE.DATE_, GOKW3.dbo.LG_400_01_STFICHE.FICHENO, GOKW3.dbo.LG_400_01_STFICHE.DOCODE, GOKW3.dbo.LG_400_01_STFICHE.INVNO, GOKW3.dbo.LG_400_01_STFICHE.SPECODE, GOKW3.dbo.LG_400_01_STFICHE.CYPHCODE, GOKW3.dbo.LG_400_01_INVOICE.TRCODE, GOKW3.dbo.LG_400_01_INVOICE.DATE_, GOKW3.dbo.LG_400_01_INVOICE.FICHENO, GOKW3.dbo.LG_400_01_INVOICE.DOCODE, GOKW3.dbo.LG_400_01_INVOICE.SPECODE, GOKW3.dbo.LG_400_01_INVOICE.CYPHCODE, GOKW3.dbo.LG_400_CLCARD.CODE, GOKW3.dbo.LG_400_CLCARD.DEFINITION_, GOKW3.dbo.LG_400_CLCARD.SPECODE, GOKW3.dbo.LG_400_CLCARD.CYPHCODE, ISNULL(CASE GOKW3.dbo.LG_400_01_STLINE.LINETYPE WHEN 4 THEN GOKW3.dbo.LG_400_SRVCARD.DEFINITION_ ELSE GOKW3.dbo.LG_400_ITEMS.NAME END, GOKW3.dbo.LG_400_DECARDS.DEFINITION_), ISNULL(CASE GOKW3.dbo.LG_400_01_STLINE.LINETYPE WHEN 4 THEN GOKW3.dbo.LG_400_SRVCARD.CODE ELSE GOKW3.dbo.LG_400_ITEMS.CODE END, GOKW3.dbo.LG_400_DECARDS.CODE), GOKW3.dbo.LG_400_ITEMS.SPECODE, GOKW3.dbo.LG_400_ITEMS.CYPHCODE, GOKW3.dbo.LG_400_01_INVOICE.CLIENTREF, CASE GOKW3.dbo.LG_400_01_STLINE.TRCODE WHEN 13 THEN 0 WHEN 14 THEN 0 ELSE GOKW3.dbo.LG_400_01_STLINE.AMOUNT END, GOKW3.dbo.LG_400_01_STLINE.VAT, GOKW3.dbo.LG_400_01_STLINE.BILLED, GOKW3.dbo.LG_400_CLCARD.TAXOFFICE, GOKW3.dbo.LG_400_CLCARD.TAXNR, GOKW3.dbo.LG_400_01_STLINE.IOCODE, GOKW3.dbo.LG_400_ITEMS.STGRPCODE, GOKW3.dbo.LG_400_01_STLINE.CANCELLED, GOKW3.dbo.LG_400_01_STLINE.DECPRDIFF, GOKW3.dbo.LG_400_01_STLINE.TRCODE, GOKW3.dbo.HareketYon.YON, GOKW3.dbo.HareketYon.TUR_ACK, GOKW3.dbo.HareketYon.ANA_ISLEM, GOKW3.dbo.LG_400_01_INVOICE.TRADINGGRP, GOKW3.dbo.LG_400_MARK.CODE, GOKW3.dbo.LG_400_MARK.DESCR, ISNULL(LG_400_CLCARD_1.CODE, GOKW3.dbo.LG_400_CLCARD.CODE), ISNULL(LG_400_CLCARD_1.DEFINITION_, GOKW3.dbo.LG_400_CLCARD.DEFINITION_), GOKW3.dbo.LG_400_ITEMS.PRODUCERCODE HAVING      (GOKW3.dbo.LG_400_01_STFICHE.DATE_ >= CONVERT(DATETIME, '2014-01-01 00:00:00', 102)) AND (GOKW3.dbo.LG_400_01_STFICHE.DATE_ < CONVERT(DATETIME, '2014-01-02 00:00:00', 102)) AND (GOKW3.dbo.LG_400_01_INVOICE.DATE_ < CONVERT(DATETIME, '2014-01-02 00:00:00', 102)) AND (GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 1 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 2 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 3 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 4 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 5 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 6 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 7 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 8 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 9 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 10) AND (GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 1 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 2 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 3 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 4 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 5 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 6 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 7 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 8 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 9 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 10 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 13 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 14) AND (NOT (GOKW3.dbo.LG_400_CLCARD.CODE IS NULL)) AND (GOKW3.dbo.LG_400_01_INVOICE.DATE_ >= CONVERT(DATETIME, '2014-01-01 00:00:00', 102)) OR (GOKW3.dbo.LG_400_01_STFICHE.DATE_ IS NULL) AND (GOKW3.dbo.LG_400_01_INVOICE.DATE_ < CONVERT(DATETIME, '2014-01-02 00:00:00', 102)) AND (GOKW3.dbo.LG_400_01_STFICHE.TRCODE IS NULL) AND (GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 1 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 2 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 3 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 4 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 5 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 6 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 7 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 8 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 9 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 10 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 13 OR GOKW3.dbo.LG_400_01_INVOICE.TRCODE = 14) AND (NOT (GOKW3.dbo.LG_400_CLCARD.CODE IS NULL)) AND (GOKW3.dbo.LG_400_01_INVOICE.DATE_ >= CONVERT(DATETIME, '2014-01-01 00:00:00', 102)) OR (GOKW3.dbo.LG_400_01_STFICHE.DATE_ >= CONVERT(DATETIME, '2014-01-01 00:00:00', 102)) AND (GOKW3.dbo.LG_400_01_STFICHE.DATE_ < CONVERT(DATETIME, '2014-01-02 00:00:00', 102)) AND (GOKW3.dbo.LG_400_01_INVOICE.DATE_ IS NULL) AND (GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 1 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 2 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 3 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 4 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 5 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 6 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 7 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 8 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 9 OR GOKW3.dbo.LG_400_01_STFICHE.TRCODE = 10) AND (GOKW3.dbo.LG_400_01_INVOICE.TRCODE IS NULL) AND (NOT (GOKW3.dbo.LG_400_CLCARD.CODE IS NULL)) ORDER BY DATE__I, DATE__F) AS TABLO1", paramn, paramv, "Satis");
+
+            gokw3satislar goklar = new gokw3satislar();
+            goklar.Satislar = new List<gokw3satis>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                gokw3satis gok = new gokw3satis()
+                {
+                    IOCODE = Convert.ToInt16(dt.Rows[i]["IOCODE"]),
+                    ANA_ISLEM = dt.Rows[i]["ANA_ISLEM"].ToString(),
+                    TRCODE = Convert.ToInt16(dt.Rows[i]["TRCODE"]),
+                    TUR_ACK = dt.Rows[i]["TUR_ACK"].ToString(),
+                    YON = Convert.ToInt16(dt.Rows[i]["YON"]),
+                    IPT = Convert.ToInt16(dt.Rows[i]["IPT"]),
+                    FF = Convert.ToInt16(dt.Rows[i]["FF"]),
+                    TRCODE_I = Convert.ToInt16(dt.Rows[i]["TRCODE_I"]),
+                    YIL = Convert.ToInt32(dt.Rows[i]["YIL"]),
+                    AY = Convert.ToInt32(dt.Rows[i]["AY"]),
+                    DATE__I = Convert.ToDateTime(dt.Rows[i]["DATE__I"]),
+                    FICHENO_I = dt.Rows[i]["FICHENO_I"].ToString(),
+                    DOCODE_I = dt.Rows[i]["DOCODE_I"].ToString(),
+                    INVNO_I = dt.Rows[i]["INVNO_I"].ToString(),
+                    SPECODE_I = dt.Rows[i]["SPECODE_I"].ToString(),
+                    CYPHCODE_I = dt.Rows[i]["CYPHCODE_I"].ToString(),
+                    BILLED = Convert.ToInt16(dt.Rows[i]["BILLED"]),
+                    TRCODE_F = Convert.ToInt16(dt.Rows[i]["TRCODE_F"]),
+                    DATE__F = Convert.ToDateTime(dt.Rows[i]["DATE__F"]),
+                    FICHENO_F = dt.Rows[i]["FICHENO_F"].ToString(),
+                    DOCODE_F = dt.Rows[i]["DOCODE_F"].ToString(),
+                    SPECODE_F = dt.Rows[i]["SPECODE_F"].ToString(),
+                    CYPHCODE_F = dt.Rows[i]["CYPHCODE_F"].ToString(),
+                    TRADINGGRP_F = dt.Rows[i]["TRADINGGRP_F"].ToString(),
+                    CLIENTREF_F = Convert.ToInt32(dt.Rows[i]["CLIENTREF_F"]),
+                    TAXOFFICE_C = dt.Rows[i]["TAXOFFICE_C"].ToString(),
+                    TAXNR_C = dt.Rows[i]["TAXNR_C"].ToString(),
+                    CODE_G = dt.Rows[i]["CODE_G"].ToString(),
+                    DEFINITION_G = dt.Rows[i]["DEFINITION_G"].ToString(),
+                    CODE_SB = dt.Rows[i]["CODE_SB"].ToString(),
+                    DEFINITION_SB = dt.Rows[i]["DEFINITION_SB"].ToString(),
+                    SPECODE_C = dt.Rows[i]["SPECODE_C"].ToString(),
+                    CYPHCODE_C = dt.Rows[i]["CYPHCODE_C"].ToString(),
+                    CODE_S = dt.Rows[i]["CODE_S"].ToString(),
+                    DEFINITION__S = dt.Rows[i]["DEFINITION__S"].ToString(),
+                    SPECODE_S = dt.Rows[i]["SPECODE_S"].ToString(),
+                    CYPHCODE_S = dt.Rows[i]["CYPHCODE_S"].ToString(),
+                    STGRPCODE_S = dt.Rows[i]["STGRPCODE_S"].ToString(),
+                    PRODUCERCODE_S = dt.Rows[i]["PRODUCERCODE_S"].ToString(),
+                    MARK_C = dt.Rows[i]["MARK_C"].ToString(),
+                    MARK_A = dt.Rows[i]["MARK_A"].ToString(),
+                    AMOUNT = Convert.ToDouble(dt.Rows[i]["AMOUNT"]),
+                    PRICE = Convert.ToDouble(dt.Rows[i]["PRICE"]),
+                    TOTAL = Convert.ToDouble(dt.Rows[i]["TOTAL"]),
+                    DISTCOST = Convert.ToDouble(dt.Rows[i]["DISTCOST"]),
+                    DISTDISC = Convert.ToDouble(dt.Rows[i]["DISTDISC"]),
+                    DISTEXP = Convert.ToDouble(dt.Rows[i]["DISTEXP"]),
+                    DISTPROM = Convert.ToDouble(dt.Rows[i]["DISTPROM"]),
+                    DISCPER = Convert.ToDouble(dt.Rows[i]["DISCPER"]),
+                    VAT = Convert.ToDouble(dt.Rows[i]["VAT"]),
+                    VATAMNT = Convert.ToDouble(dt.Rows[i]["VATAMNT"]),
+                    VATMATRAH = Convert.ToDouble(dt.Rows[i]["VATMATRAH"]),
+                    NETKDV = Convert.ToDouble(dt.Rows[i]["NETKDV"])
+                };
+                goklar.Satislar.Add(gok);
+            }
+
+
+            XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
+            xsn.Add("g", "http://base.google.com/ns/1.0");
+            XmlSerializer MySerializer = new XmlSerializer(typeof(gokw3satislar), "http://www.w3.org/2005/Atom");
+
+            TextWriter TW = new StringWriter();
+
+
+            MySerializer.Serialize(TW, goklar, xsn);
+
+
+
+            donendeger.LoadXml(TW.ToString());
+
+            return donendeger;
+        }
         private void EmusiadDoldur(DataTable dt, int i, Sultanlar.Class.Entry entry)
         {
             entry.id = Convert.ToInt32(dt.Rows[i]["Kod"]);

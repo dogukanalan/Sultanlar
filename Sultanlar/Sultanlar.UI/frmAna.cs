@@ -79,7 +79,7 @@ namespace Sultanlar.UI
                 tmr.Start();
             }
 
-            //XmlDocument xml = GetOrders();
+            //XmlDocument xml = Gokw3satis("2014","1");
             //xml.Save("f:\\asd.xml");
         }
 

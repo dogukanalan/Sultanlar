@@ -1213,3 +1213,21 @@ input[type="number"]:disabled {
     background-color: #ffffff;
     border: gray 1px solid;
 }
+
+.ZiyaretDivDis {
+    position: fixed;
+    left: 50%;
+    z-index: 1;
+}
+.ZiyaretDivIc {
+    position: relative;
+    left: -50%;
+    font-size: small;
+    border: solid #080808 1px;
+    background-color: #222;
+    opacity: 0.85;
+    color: gray;
+    padding: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px
+}

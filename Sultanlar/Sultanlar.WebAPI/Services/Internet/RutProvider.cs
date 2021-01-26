@@ -22,6 +22,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             return new rutResimler().GetObjects(slsref, smref, tip, tur, Yil, ay);
         }
+        internal List<rutResimler> RutResimler(string RutID) => new rutResimler().GetObjects(RutID);
         internal DtAjaxResponse Musteriler(int Slsref, DataTableAjaxPostModel Req)
         {
             Dictionary<string, string> arama = new Dictionary<string, string>();

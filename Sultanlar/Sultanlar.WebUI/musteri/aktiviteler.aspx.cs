@@ -1054,7 +1054,7 @@ namespace Sultanlar.WebUI.musteri
 
                         if (FiyatTipleri.GetFiyatTipByGMREF(CariHesaplar.GetGMREFBySMREF(SMREF)) > 500) // kopyalanacak müşteri 500 lü ise
                         {
-                            double isk1 = anlasma == null ? 0 : (Urunler.GetProductGRPKOD(aktlerdet.intUrunID) == "STG-1" ? anlasma.flTAHIsk : anlasma.flYEGIsk); //Urunler.GetProductDiscountsAndPrice(aktlerdet.intUrunID, Aktivite.sintFiyatTipiID, Convert.ToInt32(ddlDonemYil.SelectedValue), Convert.ToInt32(ddlDonemAy.SelectedValue))[0];
+                            double isk1 = anlasma == null ? 5 : (Urunler.GetProductGRPKOD(aktlerdet.intUrunID) == "STG-1" ? anlasma.flTAHIsk : anlasma.flYEGIsk); //Urunler.GetProductDiscountsAndPrice(aktlerdet.intUrunID, Aktivite.sintFiyatTipiID, Convert.ToInt32(ddlDonemYil.SelectedValue), Convert.ToInt32(ddlDonemAy.SelectedValue))[0];
                             double isk2 = 0; // Urunler.GetProductDiscountsAndPrice(aktlerdet.intUrunID, Aktivite.sintFiyatTipiID, Convert.ToInt32(ddlDonemYil.SelectedValue), Convert.ToInt32(ddlDonemAy.SelectedValue))[1];
                             double birincidusulmus = 100 - isk1;
                             double ikincidusulmus = birincidusulmus - ((birincidusulmus / 100) * isk2);

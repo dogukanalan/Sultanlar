@@ -26,6 +26,12 @@ namespace Sultanlar.UI
             CariHesaplarTP.GetObjects(comboBox1.Items, 0);
             satisgeldi = false;
             stokgeldi = false;
+
+            /*System.Xml.XmlReader xmlFile;
+            xmlFile = System.Xml.XmlReader.Create(@"http://95.0.47.130/SulWCF/General.svc/web/xml/Gokw3/Stok?yil=2014&ay=1", new System.Xml.XmlReaderSettings());
+            DataSet ds = new DataSet("tbl");
+            ds.ReadXml(xmlFile);
+            dataGridView1.DataSource = ds.Tables[0];*/
         }
 
         private void TabloOlustur(string tabloadi)
@@ -104,11 +110,11 @@ namespace Sultanlar.UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DisVeri.DoInsert(((CariHesaplarTP)comboBox1.SelectedItem).SMREF, textBox1.Text.Trim(), textBox6.Text.Trim(), textBox2.Text.Trim(), textBox3.Text.Trim(), textBox4.Text.Trim(), textBox5.Text.Trim(), textBox7.Text.Trim(), textBox8.Text.Trim(), textBox11.Text.Trim(), textBox13.Text.Trim());
+            DisVeri.DoInsert(((CariHesaplarTP)comboBox1.SelectedItem).SMREF, textBox1.Text.Trim(), textBox6.Text.Trim(), textBox2.Text.Trim(), textBox3.Text.Trim(), textBox4.Text.Trim(), textBox5.Text.Trim(), textBox7.Text.Trim(), textBox8.Text.Trim(), textBox11.Text.Trim(), textBox13.Text.Trim(), textBox19.Text.Trim(), textBox20.Text.Trim());
             MessageBox.Show("Kaydedildi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void button2_Click(object sender, EventArgs e) // satis
+        private void button2_Click(object sender, EventArgs e) // satis sorgu
         {
             try
             {
@@ -119,12 +125,13 @@ namespace Sultanlar.UI
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 dataGridView1.DataSource = dt;
+
                 label11.Text = dt.Rows.Count.ToString();
                 textBox17.Text = textBox7.Text.Trim();
                 textBox18.Text = textBox8.Text.Trim();
                 textBox15.Text = textBox9.Text.Trim();
                 textBox16.Text = textBox10.Text.Trim();
-                label14.Text = "Satış";
+                label14.Text = "(Satış Query Verisi)";
 
                 satisgeldi = true;
                 stokgeldi = false;
@@ -137,7 +144,7 @@ namespace Sultanlar.UI
             }
         }
 
-        private void button3_Click(object sender, EventArgs e) // stok
+        private void button3_Click(object sender, EventArgs e) // stok sorgu
         {
             try
             {
@@ -148,12 +155,69 @@ namespace Sultanlar.UI
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 dataGridView1.DataSource = dt;
+
                 label11.Text = dt.Rows.Count.ToString();
                 textBox17.Text = textBox11.Text.Trim();
                 textBox18.Text = textBox13.Text.Trim();
                 textBox15.Text = textBox12.Text.Trim();
                 textBox16.Text = textBox14.Text.Trim();
-                label14.Text = "Stok";
+                label14.Text = "(Stok Query Verisi)";
+
+                satisgeldi = false;
+                stokgeldi = true;
+            }
+            catch (Exception ex)
+            {
+                satisgeldi = false;
+                stokgeldi = false;
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e) // satis xml
+        {
+            try
+            {
+                System.Xml.XmlReader xmlFile;
+                xmlFile = System.Xml.XmlReader.Create(textBox19.Text.Trim() + "?" + textBox7.Text.Trim() + "=" + textBox9.Text.Trim() + "&" + textBox8.Text.Trim() + "=" + textBox10.Text.Trim(), new System.Xml.XmlReaderSettings());
+                DataSet ds = new DataSet("tbl");
+                ds.ReadXml(xmlFile);
+                dataGridView1.DataSource = ds.Tables[0];
+
+                label11.Text = ds.Tables[0].Rows.Count.ToString();
+                textBox17.Text = textBox7.Text.Trim();
+                textBox18.Text = textBox8.Text.Trim();
+                textBox15.Text = textBox9.Text.Trim();
+                textBox16.Text = textBox10.Text.Trim();
+                label14.Text = "(Satış XML Verisi)";
+
+                satisgeldi = true;
+                stokgeldi = false;
+            }
+            catch (Exception ex)
+            {
+                satisgeldi = false;
+                stokgeldi = false;
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e) // stok xml
+        {
+            try
+            {
+                System.Xml.XmlReader xmlFile;
+                xmlFile = System.Xml.XmlReader.Create(textBox20.Text.Trim() + "?" + textBox11.Text.Trim() + "=" + textBox12.Text.Trim() + "&" + textBox13.Text.Trim() + "=" + textBox14.Text.Trim(), new System.Xml.XmlReaderSettings());
+                DataSet ds = new DataSet("tbl");
+                ds.ReadXml(xmlFile);
+                dataGridView1.DataSource = ds.Tables[0];
+
+                label11.Text = ds.Tables[0].Rows.Count.ToString();
+                textBox17.Text = textBox11.Text.Trim();
+                textBox18.Text = textBox13.Text.Trim();
+                textBox15.Text = textBox12.Text.Trim();
+                textBox16.Text = textBox14.Text.Trim();
+                label14.Text = "(Stok XML Verisi)";
 
                 satisgeldi = false;
                 stokgeldi = true;
@@ -179,6 +243,8 @@ namespace Sultanlar.UI
             textBox8.Text = dis.AYKOLON;
             textBox11.Text = dis.YILKOLON1;
             textBox13.Text = dis.AYKOLON1;
+            textBox19.Text = dis.VERIXML;
+            textBox20.Text = dis.STOKXML;
 
             dataGridView1.DataSource = null;
             textBox9.Text = "2014";
@@ -189,6 +255,8 @@ namespace Sultanlar.UI
             button1.Enabled = true;
             button2.Enabled = dis.SUNUCU != null;
             button3.Enabled = dis.SUNUCU != null;
+            button8.Enabled = dis.SUNUCU != null;
+            button9.Enabled = dis.SUNUCU != null;
             button4.Enabled = true;
             button5.Enabled = true;
         }

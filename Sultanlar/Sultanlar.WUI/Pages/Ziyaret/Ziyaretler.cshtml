@@ -136,8 +136,8 @@
                         "width": "30%"
                     },
                     {
-                        "data": "ziyaretNeden", "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data.value + '</span>'
+                        "data": null, "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli"><a href="../Musteri/Resim/Ziyaret?rutid=' + data.ruT_ID + '">' + data.ziyaretNeden.value + '</a></span>'
                         },
                         "width": "20%"
                     },

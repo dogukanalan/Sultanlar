@@ -22,6 +22,8 @@ namespace Sultanlar.DatabaseObject.Internet
         public string AYKOLON { get; set; }
         public string YILKOLON1 { get; set; }
         public string AYKOLON1 { get; set; }
+        public string VERIXML { get; set; }
+        public string STOKXML { get; set; }
 
         private static bool IsExist(int SMREF)
         {
@@ -71,7 +73,7 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
 
-        public static int DoInsert(int SMREF, string SUNUCU, string VERITABANI, string KULLANICI, string SIFRE, string VERISORGU, string STOKSORGU, string YILKOLON, string AYKOLON, string YILKOLON1, string AYKOLON1)
+        public static int DoInsert(int SMREF, string SUNUCU, string VERITABANI, string KULLANICI, string SIFRE, string VERISORGU, string STOKSORGU, string YILKOLON, string AYKOLON, string YILKOLON1, string AYKOLON1, string VERIXML, string STOKXML)
         {
             int donendeger = 0;
 
@@ -80,7 +82,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 if (IsExist(SMREF))
                     DoDelete(SMREF);
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Dis-VeriCekme] ([SMREF],[SUNUCU],[VERITABANI],[KULLANICI],[SIFRE],[VERISORGU],[STOKSORGU],YILKOLON,AYKOLON,YILKOLON1,AYKOLON1) VALUES (@SMREF,@SUNUCU,@VERITABANI,@KULLANICI,@SIFRE,@VERISORGU,@STOKSORGU,@YILKOLON,@AYKOLON,@YILKOLON1,@AYKOLON1)", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Dis-VeriCekme] ([SMREF],[SUNUCU],[VERITABANI],[KULLANICI],[SIFRE],[VERISORGU],[STOKSORGU],YILKOLON,AYKOLON,YILKOLON1,AYKOLON1,VERIXML,STOKXML) VALUES (@SMREF,@SUNUCU,@VERITABANI,@KULLANICI,@SIFRE,@VERISORGU,@STOKSORGU,@YILKOLON,@AYKOLON,@YILKOLON1,@AYKOLON1,@VERIXML,@STOKXML)", conn);
                 cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
                 cmd.Parameters.Add("@SUNUCU", SqlDbType.NVarChar).Value = SUNUCU;
                 cmd.Parameters.Add("@VERITABANI", SqlDbType.NVarChar).Value = VERITABANI;
@@ -92,6 +94,8 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@AYKOLON", SqlDbType.NVarChar).Value = AYKOLON;
                 cmd.Parameters.Add("@YILKOLON1", SqlDbType.NVarChar).Value = YILKOLON1;
                 cmd.Parameters.Add("@AYKOLON1", SqlDbType.NVarChar).Value = AYKOLON1;
+                cmd.Parameters.Add("@VERIXML", SqlDbType.NVarChar).Value = VERIXML;
+                cmd.Parameters.Add("@STOKXML", SqlDbType.NVarChar).Value = STOKXML;
                 try
                 {
                     conn.Open();
@@ -116,7 +120,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT pkID,[SMREF],[SUNUCU],[VERITABANI],[KULLANICI],[SIFRE],[VERISORGU],[STOKSORGU],YILKOLON,AYKOLON,YILKOLON1,AYKOLON1 FROM [Web-Dis-VeriCekme] WHERE SMREF = @SMREF", conn);
+                SqlCommand cmd = new SqlCommand("SELECT pkID,[SMREF],[SUNUCU],[VERITABANI],[KULLANICI],[SIFRE],[VERISORGU],[STOKSORGU],YILKOLON,AYKOLON,YILKOLON1,AYKOLON1,VERIXML,STOKXML FROM [Web-Dis-VeriCekme] WHERE SMREF = @SMREF", conn);
                 cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
                 SqlDataReader dr;
                 try
@@ -137,6 +141,8 @@ namespace Sultanlar.DatabaseObject.Internet
                         donendeger.AYKOLON = dr[9].ToString();
                         donendeger.YILKOLON1 = dr[10].ToString();
                         donendeger.AYKOLON1 = dr[11].ToString();
+                        donendeger.VERIXML = dr[12].ToString();
+                        donendeger.STOKXML = dr[13].ToString();
                     }
                 }
                 catch (SqlException ex)

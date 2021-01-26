@@ -110,6 +110,21 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<rutResimler> GetObjects(string RutID)
+        {
+            List<rutResimler> donendeger = new List<rutResimler>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_rutResimlerGetirByRutID", new Dictionary<string, object>() { { "RutID", RutID } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new rutResimler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), dic[i][5].ToString(), ConvertToInt32(dic[i][6]), ConvertToDateTime(dic[i][7]), null, dic[i][9].ToString(), dic[i][10].ToString(), false, false));
+
+            return donendeger;
+        }
     }
 
     public class rutResimTurler : StandartClass, IStandartClass

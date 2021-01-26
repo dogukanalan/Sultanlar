@@ -244,7 +244,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     {
                         SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
                         LogYaz(conn, "ekstre oncesi", true, "ekstre fonksiyonu simdi baslayacak", DateTime.Now, DateTime.Now);
-                        GetEkstre(DateTime.Now.AddYears(-2)); // Convert.ToDateTime("01.01.2014") DateTime.Now.AddYears(-2)
+                        GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014") DateTime.Now.AddYears(-2)
                         LogYaz(conn, "ekstre sonrasi", true, "ekstre fonksiyonu simdi bitmis olmasi lazim, satis yeni baslayacak", DateTime.Now, DateTime.Now);
                         GetSatisJob();
                         LogYaz(conn, "ekstre sonrasi", true, "satis yeni simdi bitmis olmasi lazim", DateTime.Now, DateTime.Now);
@@ -278,7 +278,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 {
                     if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
                     {
-                        GetEkstre(DateTime.Now.AddYears(-2)); // DateTime.Now.AddYears(-2)
+                        GetEkstre(Convert.ToDateTime("01.01.2014")); // DateTime.Now.AddYears(-2)
                         GetSatisJob();
                     }
                 }
@@ -1734,6 +1734,12 @@ namespace Sultanlar.WindowsServiceIslemler
                     }
                 }
 
+                SqlCommand cmd12 = new SqlCommand("DROP TABLE [Web-Malzeme-Full-Onceki] SELECT * INTO [Web-Malzeme-Full-Onceki] FROM [dbo].[Web-Malzeme-Full] DROP TABLE [Web-Malzeme-Onceki] SELECT * INTO [Web-Malzeme-Onceki] FROM [dbo].[Web-Malzeme]", conn);
+                cmd12.CommandTimeout = 600;
+                conn.Open();
+                cmd12.ExecuteNonQuery();
+                conn.Close();
+
                 SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Malzeme-Full] INSERT INTO [Web-Malzeme-Full] SELECT * FROM [Web_Malzeme] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
                 cmd2.CommandTimeout = 1000;
                 SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-GrupKodlar] INSERT INTO [Web-GrupKodlar] SELECT DISTINCT [GRUP KOD],[GRUP ACIK] FROM [Web_Malzeme]   DELETE FROM [Web-OzelKodlar] INSERT INTO [Web-OzelKodlar] SELECT DISTINCT [OZEL KOD],[HK],[OZEL ACIK],[GRUP KOD] FROM [Web_Malzeme]   DELETE FROM [Web-Kategoriler] INSERT INTO [Web-Kategoriler] SELECT DISTINCT [REY KOD] AS CODE,[RK],[REY ACIK] AS NAME FROM [Web_Malzeme]", conn);
@@ -2839,7 +2845,10 @@ namespace Sultanlar.WindowsServiceIslemler
                 SqlCommand cmdEkstreJob = new SqlCommand("msdb.dbo.sp_start_job", conn);
                 cmdEkstreJob.CommandTimeout = 1000;
                 cmdEkstreJob.CommandType = CommandType.StoredProcedure;
-                cmdEkstreJob.Parameters.AddWithValue("@job_name", "Web_Ekstre_Yeni");
+                if (Baslangic.Year == 2014)
+                    cmdEkstreJob.Parameters.AddWithValue("@job_name", "Web_Ekstre_Yeni_Gece");
+                else
+                    cmdEkstreJob.Parameters.AddWithValue("@job_name", "Web_Ekstre_Yeni");
 
                 DateTime bastarih = DateTime.Now;
                 string hataa = string.Empty;
