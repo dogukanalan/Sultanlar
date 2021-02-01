@@ -896,6 +896,43 @@ function AdresGetir(adres) {
     }
 }
 
+function geocodePosition(pos) {
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({
+        latLng: pos
+    }, function (responses) {
+        if (responses && responses.length > 0) {
+            document.getElementById("inputCoordAddress").value = responses[0].formatted_address;
+        } else {
+            document.getElementById("inputCoordAddress").value = "Adres bulunamadý.";
+        }
+    });
+}
+
+function KayitliAdresiGetir(koordinatlar) {
+    var lat = koordinatlar.split(",")[0];
+    var lng = koordinatlar.split(",")[1];
+    var marker = new google.maps.Marker({ position: { lat: parseFloat(lat), lng: parseFloat(lng) }, title: "", label: "", draggable: true });
+    var mapProp = { center: marker.position, zoom: 14, styles: JSON.parse(MapStyle()) };
+    map = new google.maps.Map(document.getElementById("divMap"), mapProp);
+    geocodePosition(marker.getPosition());
+
+    google.maps.event.addListener(marker, 'dragend', function (evt) {
+        document.getElementById("inputCoords").value = evt.latLng.lat().toFixed(6) + ", " + evt.latLng.lng().toFixed(6);
+        geocodePosition(evt.latLng);
+        $('.konumTamam').prop('disabled', false);
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+        map.setZoom(16);
+        map.setCenter(marker.getPosition());
+    });
+
+    marker.setMap(map);
+    markers.push(marker);
+    map.setCenter(marker.getPosition());
+}
+
 function SifirlaMarkers() {
     for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);

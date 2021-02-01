@@ -132,6 +132,9 @@
         }
 
         function getEkstre() {
+            if (getGmref() == "0") {
+                return;
+            }
             var url1 = apiurl + "ekstre/getir/" + getGmref() + "/" + (getGmref() == "0" ? "0" : getAy());
             var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);

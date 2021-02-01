@@ -55,10 +55,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>DF1B4553725F676D3DEE4920DA4C987753935C40</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>BFABA59F81E7335F26E5F1424F25F7C622C110C2</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Sultanlar.WindowsServiceIslemler_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Sultanlar.WindowsServiceIslemler_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -216,6 +216,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Sultanlar.WindowsServiceIslemler_1_TemporaryKey.pfx" />
     <None Include="Sultanlar.WindowsServiceIslemler_TemporaryKey.pfx" />
     <None Include="Web References\efaturaC\EFaturaInfoService.wsdl" />
     <None Include="Web References\efaturaC\Reference.map">

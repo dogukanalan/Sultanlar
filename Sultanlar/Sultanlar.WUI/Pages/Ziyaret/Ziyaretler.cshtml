@@ -139,19 +139,25 @@
                         "data": null, "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli"><a href="../Musteri/Resim/Ziyaret?rutid=' + data.ruT_ID + '">' + data.ziyaretNeden.value + '</a></span>'
                         },
-                        "width": "20%"
+                        "width": "15%"
                     },
                     {
                         "data": "ziY_BAS_TAR", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>'
                         },
-                        "width": "15%"
+                        "width": "10%"
                     },
                     {
                         "data": "ziY_BIT_TAR", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>'
                         },
-                        "width": "15%"
+                        "width": "10%"
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli"><a target="_blank" href="https://www.sultanlar.com.tr/musteri/map.aspx?konum1=' + data.cari.konumA.konum + '&konum2=' + data.ziY_KONUM + '">' + data.farK_KNM_ZIY + 'm</a></span>'
+                        },
+                        "width": "5%"
                     },
                     {
                         "data": "ziY_NOTLARI", "class": "valueTd", render: function (data, type, row) {
@@ -276,6 +282,7 @@
             <th class="keyTd"><span class="">Neden</span></th>
             <th class="keyTd"><span class="">Başlangıç</span></th>
             <th class="keyTd"><span class="">Bitiş</span></th>
+            <th class="keyTd"><span class="">Fark</span></th>
             <th class="keyTd"><span class="">Açıklama</span></th>
         </tr>
     </thead>

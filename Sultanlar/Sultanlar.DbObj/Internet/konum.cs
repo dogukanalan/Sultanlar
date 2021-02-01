@@ -84,5 +84,17 @@ namespace Sultanlar.DbObj.Internet
             
             return donendeger;
         }
+
+        public konumListe GetObject(int SMREF)
+        {
+            konumListe donendeger = new konumListe();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_konumGetir", new Dictionary<string, object>() { { "SMREF", SMREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger = new konumListe(dic[i][0].ToString(), dic[i][1].ToString(), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), "");
+
+            return donendeger;
+        }
     }
 }

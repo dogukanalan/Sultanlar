@@ -16,13 +16,21 @@ namespace Sultanlar.Class
     public class XmlSiparisDis
     {
         public string SipNo { get; set; }
-        public string Uye { get; set; }
+        public string PlasiyerKodu { get; set; }
+        public string PlasiyerAdi { get; set; }
+        public string Telefon { get; set; }
+        public string Bolge { get; set; }
         public DateTime Tarih { get; set; }
         //public double Tutar { get; set; }
         public string Aciklama { get; set; }
         [XmlElement("Musteri")]
         public XmlSiparisMusteri Musteri { get; set; }
         public List<XmlSiparisDisDetay> Kalemler { get; set; }
+        public double ToplamBrut { get; set; }
+        public double ToplamNet { get; set; }
+        public double ToplamIskonto { get; set; }
+        public double ToplamKDV { get; set; }
+        public double ToplamNetKDV { get; set; }
     }
 
     public class XmlSiparisMusteri

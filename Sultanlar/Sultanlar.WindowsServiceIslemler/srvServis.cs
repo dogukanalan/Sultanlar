@@ -238,7 +238,7 @@ namespace Sultanlar.WindowsServiceIslemler
         {
             if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
             {
-                if (DateTime.Now.Hour == 2)
+                if (DateTime.Now.Hour == 22)
                 {
                     if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
                     {
@@ -274,7 +274,7 @@ namespace Sultanlar.WindowsServiceIslemler
             }
             else
             {
-                if (DateTime.Now.Hour == 2)
+                if (DateTime.Now.Hour == 22)
                 {
                     if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
                     {

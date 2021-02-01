@@ -9,6 +9,7 @@
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
 
     <script>
         var paramsmref;
@@ -49,7 +50,14 @@
                 "ordering": true,
                 "info": false,
                 "searching": true,
-                "order": [[1, "asc"]]
+                "order": [[1, "asc"]],
+                "fnDrawCallback": function (oSettings) {
+                    var toplam = 0;
+                    for (var i = 0; i < oSettings.aoData.length; i++) {
+                        toplam += oSettings.aoData[i]._aData.miktar * oSettings.aoData[i]._aData.netkdv;
+                    }
+                    $("#spFtTop").html(toplam.formatMoney(2, ',', '.'));
+                }
             });
         }
 
@@ -113,7 +121,7 @@
                     yenisepet.push({
                         itemref: sepet[i].itemref,
                         malacik: sepet[i].malacik,
-                        miktar: miktar,
+                        miktar: parseInt(miktar),
                         miktartur: sepet[i].miktartur,
                         isk1: sepet[i].isk1,
                         isk2: sepet[i].isk2,
@@ -126,7 +134,7 @@
                     yenisepet.push({
                         itemref: sepet[i].itemref,
                         malacik: sepet[i].malacik,
-                        miktar: sepet[i].miktar,
+                        miktar: parseInt(sepet[i].miktar),
                         miktartur: sepet[i].miktartur,
                         isk1: sepet[i].isk1,
                         isk2: sepet[i].isk2,
@@ -138,7 +146,7 @@
             }
             sepet = yenisepet;
             senkRoot();
-            //window.location.href = window.location.href;
+            window.location.href = window.location.href;
         }
 
         function sil() {
@@ -216,3 +224,5 @@
         </tr>
     </thead>
 </table>
+<br /><strong>Sipariş Toplamı: <span class="spanCiplak" id="spFtTop">0</span> TL</strong>
+@*<br /><strong>Ortalama Vade: <span class="spanCiplak" id="spVade">0</span></strong>*@

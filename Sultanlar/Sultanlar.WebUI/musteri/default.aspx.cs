@@ -1163,6 +1163,8 @@ namespace Sultanlar.WebUI.musteri
                     //Class.Eposta.EpostaGonder("Sistem", "ndemirbas@tibet.com.tr", "Yeni Anlaşma", "Sisteme yeni bir anlaşma girildi. Anlaşma ile gönderilen dosya ektedir.<br><br>Girilen anlaşma numarası: " + anlasma.pkID.ToString(), resim, fuAnlasma.PostedFile.FileName);
                 }
 
+                Class.Eposta.EpostaGonder("Sistem", "demetdogan@tibet.com.tr", "Yeni Anlaşma", "Sisteme yeni bir anlaşma girildi. Anlaşma ile gönderilen dosya ektedir.<br><br>Girilen anlaşma numarası: " + anlasma.pkID.ToString());
+
                 AnlasmaSMREF.Value = "0";
 
                 divAnlasma.Visible = false;

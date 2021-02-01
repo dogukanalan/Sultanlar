@@ -950,7 +950,7 @@ namespace Sultanlar.WCF
 
 
 
-            DataTable dt = WebGenel.WCFdata("SELECT TOP (1000) [pkSiparisID] AS SipNo,sintFiyatTipiID, strAd + ' ' + strSoyad AS Uye,[SMREF] AS MusKod,[dtOlusmaTarihi] AS Tarih,[mnToplamTutar] AS Tutar,strAciklama FROM [tblINTERNET_Siparisler] INNER JOIN tblINTERNET_Musteriler ON intMusteriID = pkMusteriID INNER JOIN [Web-Dis-Siparis] ON [pkSiparisID] = intSiparisID WHERE blAktarilmis = 'True' ORDER BY pkSiparisID DESC", new ArrayList(), new ArrayList(), "Orders");
+            DataTable dt = WebGenel.WCFdata("SELECT TOP (1000) [pkSiparisID] AS SipNo,sintFiyatTipiID, intSLSREF AS [PlasiyerKodu], strAd + ' ' + strSoyad AS [PlasiyerAdi],strTelefon AS Telefon,BOLGE AS [Bölge],[SMREF] AS MusKod,[dtOlusmaTarihi] AS Tarih,[mnToplamTutar] AS Tutar,strAciklama FROM [tblINTERNET_Siparisler] INNER JOIN tblINTERNET_Musteriler ON [tblINTERNET_Siparisler].intMusteriID = pkMusteriID INNER JOIN tblINTERNET_Musteriler_Ek ON tblINTERNET_Musteriler_Ek.intMusteriID = pkMusteriID INNER JOIN [Web-Dis-Siparis] ON [pkSiparisID] = intSiparisID WHERE blAktarilmis = 'True' ORDER BY pkSiparisID DESC", new ArrayList(), new ArrayList(), "Orders");
 
 
 
@@ -979,7 +979,10 @@ namespace Sultanlar.WCF
                 siparis.Musteri.Eposta = dt2.Rows[0]["Eposta"].ToString();
 
                 siparis.SipNo = dt.Rows[i]["SipNo"].ToString();
-                siparis.Uye = dt.Rows[i]["Uye"].ToString();
+                siparis.PlasiyerKodu = dt.Rows[i]["PlasiyerKodu"].ToString();
+                siparis.PlasiyerAdi = dt.Rows[i]["PlasiyerAdi"].ToString();
+                siparis.Telefon = dt.Rows[i]["Telefon"].ToString();
+                siparis.Bolge = dt.Rows[i]["Bölge"].ToString();
                 siparis.Tarih = Convert.ToDateTime(dt.Rows[i]["Tarih"]);
                 //siparis.Tutar = Convert.ToDouble(dt.Rows[i]["Tutar"]);
                 siparis.Aciklama = dt.Rows[i]["strAciklama"].ToString().Split(new string[] { ";;;" }, StringSplitOptions.None)[1];
@@ -987,24 +990,30 @@ namespace Sultanlar.WCF
 
                 DataTable dt1 = WebGenel.WCFdata("" +
 
-                    "SELECT UrunKod,Bolum,Barkod,KdvOran,KoliAdet,UrunAd,Adet,BrutFiyat,Isk1,Isk2,Isk3,Isk4" +
+                    "SELECT UrunKod,Bolum,Barkod,KdvOran,KoliAdet,UrunAd,Adet,ISNULL(BrutFiyat,0) AS BrutFiyat,ISNULL(Isk1,0) AS Isk1,ISNULL(Isk2,0) AS Isk2,ISNULL(Isk3,0) AS Isk3,ISNULL(Isk4,0) AS Isk4" +
 ",CONVERT(decimal(18,2),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0),0)) AS NetFiyat" +
 ",CONVERT(decimal(18,2),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) / 100 * KdvOran,0)) AS Kdv" +
 ",CONVERT(decimal(18,2),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) + (dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) / 100 * KdvOran),0)) AS KdvDahilNet " +
 "FROM " +
 "(" +
 "SELECT intSiparisID,[intUrunID] AS UrunKod,[OZEL ACIK] AS Bolum,BARKOD AS Barkod,KDV AS KdvOran,KOLI AS KoliAdet,[strUrunAdi] AS UrunAd,[intMiktar] AS Adet" +
-",ISNULL(FIYAT,(SELECT FIYAT FROM [Web-Fiyat-TP] WHERE TIP = 20 AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS BrutFiyat" +
-",ISNULL(ISK1,(SELECT ISK1 FROM [Web-Fiyat-TP] WHERE TIP = 7 AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk1" +
-",ISNULL(ISK2,(SELECT ISK2 FROM [Web-Fiyat-TP] WHERE TIP = 7 AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk2" +
-",ISNULL(ISK3,(SELECT ISK3 FROM [Web-Fiyat-TP] WHERE TIP = 7 AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk3" +
-",ISNULL(ISK4,(SELECT ISK6 FROM [Web-Fiyat-TP] WHERE TIP = 7 AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk4 " +
+",ISNULL(FIYAT,(SELECT FIYAT FROM [Web-Fiyat-TP] WHERE TIP = tblINTERNET_Siparisler.sintFiyatTipiID AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS BrutFiyat" +
+",ISNULL(ISK1,(SELECT ISK1 FROM [Web-Fiyat-TP] WHERE TIP = tblINTERNET_Siparisler.sintFiyatTipiID AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk1" +
+",ISNULL(ISK2,(SELECT ISK2 FROM [Web-Fiyat-TP] WHERE TIP = tblINTERNET_Siparisler.sintFiyatTipiID AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk2" +
+",ISNULL(ISK3,(SELECT ISK3 FROM [Web-Fiyat-TP] WHERE TIP = tblINTERNET_Siparisler.sintFiyatTipiID AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk3" +
+",ISNULL(ISK4,(SELECT ISK6 FROM [Web-Fiyat-TP] WHERE TIP = tblINTERNET_Siparisler.sintFiyatTipiID AND YIL = YEAR(dtOnaylamaTarihi) AND AY = MONTH(dtOnaylamaTarihi) AND ITEMREF = intUrunID)) AS Isk4 " +
 "FROM [tblINTERNET_SiparislerDetay] " +
 "INNER JOIN tblINTERNET_Siparisler ON intSiparisID = pkSiparisID " +
 "INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID LEFT OUTER JOIN tblINTERNET_SiparislerDetayISK ON pkSiparisDetayID = bintSiparisDetayID" +
 ") AS TABLO1" +
 
                     "", new ArrayList() { "intSiparisID" }, new ArrayList() { siparis.SipNo }, "OrderDetail");
+
+                double toplambrut = 0;
+                double toplamiskonto = 0;
+                double toplamkdv = 0;
+                double toplamnet = 0;
+                double toplamnetkdv = 0;
                 for (int j = 0; j < dt1.Rows.Count; j++)
                 {
                     Sultanlar.Class.XmlSiparisDisDetay detay = new Class.XmlSiparisDisDetay();
@@ -1024,7 +1033,18 @@ namespace Sultanlar.WCF
                     detay.Kdv = Convert.ToDouble(dt1.Rows[j]["Kdv"]);
                     detay.KdvDahilNet = Convert.ToDouble(dt1.Rows[j]["KdvDahilNet"]);
                     siparis.Kalemler.Add(detay);
+
+                    toplambrut += detay.BrutFiyat;
+                    toplamiskonto += detay.BrutFiyat - detay.NetFiyat;
+                    toplamkdv += detay.KdvDahilNet - detay.NetFiyat;
+                    toplamnet += detay.NetFiyat;
+                    toplamnetkdv += detay.KdvDahilNet;
                 }
+                siparis.ToplamBrut = Convert.ToDouble(toplambrut.ToString("N2"));
+                siparis.ToplamIskonto = Convert.ToDouble(toplamiskonto.ToString("N2"));
+                siparis.ToplamKDV = Convert.ToDouble(toplamkdv.ToString("N2"));
+                siparis.ToplamNet = Convert.ToDouble(toplamnet.ToString("N2"));
+                siparis.ToplamNetKDV = Convert.ToDouble(toplamnetkdv.ToString("N2"));
 
                 siparisler.Siparisler.Add(siparis);
             }
