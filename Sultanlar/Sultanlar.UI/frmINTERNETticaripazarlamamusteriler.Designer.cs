@@ -109,6 +109,8 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
+            this.label28 = new System.Windows.Forms.Label();
+            this.txtM2 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -712,6 +714,8 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.checkBox1);
+            this.groupBox3.Controls.Add(this.txtM2);
+            this.groupBox3.Controls.Add(this.label28);
             this.groupBox3.Controls.Add(this.txtAltCariDuzenleIsim);
             this.groupBox3.Controls.Add(this.label19);
             this.groupBox3.Controls.Add(this.btnAltCariDuzenlemeSil);
@@ -728,9 +732,9 @@
             this.groupBox3.Controls.Add(this.cmbIl);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.groupBox3.Location = new System.Drawing.Point(732, 370);
+            this.groupBox3.Location = new System.Drawing.Point(732, 339);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(440, 190);
+            this.groupBox3.Size = new System.Drawing.Size(440, 221);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Alt Cari Düzenleme";
@@ -738,7 +742,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(268, 159);
+            this.checkBox1.Location = new System.Drawing.Point(268, 177);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(49, 17);
             this.checkBox1.TabIndex = 15;
@@ -767,7 +771,7 @@
             // btnAltCariDuzenlemeSil
             // 
             this.btnAltCariDuzenlemeSil.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAltCariDuzenlemeSil.Location = new System.Drawing.Point(9, 155);
+            this.btnAltCariDuzenlemeSil.Location = new System.Drawing.Point(9, 173);
             this.btnAltCariDuzenlemeSil.Name = "btnAltCariDuzenlemeSil";
             this.btnAltCariDuzenlemeSil.Size = new System.Drawing.Size(79, 23);
             this.btnAltCariDuzenlemeSil.TabIndex = 2;
@@ -778,7 +782,7 @@
             // btnGuncelle
             // 
             this.btnGuncelle.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnGuncelle.Location = new System.Drawing.Point(323, 155);
+            this.btnGuncelle.Location = new System.Drawing.Point(323, 173);
             this.btnGuncelle.Name = "btnGuncelle";
             this.btnGuncelle.Size = new System.Drawing.Size(111, 23);
             this.btnGuncelle.TabIndex = 2;
@@ -789,7 +793,7 @@
             // btnAltCariDuzenleGuncelle
             // 
             this.btnAltCariDuzenleGuncelle.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAltCariDuzenleGuncelle.Location = new System.Drawing.Point(169, 155);
+            this.btnAltCariDuzenleGuncelle.Location = new System.Drawing.Point(169, 173);
             this.btnAltCariDuzenleGuncelle.Name = "btnAltCariDuzenleGuncelle";
             this.btnAltCariDuzenleGuncelle.Size = new System.Drawing.Size(95, 23);
             this.btnAltCariDuzenleGuncelle.TabIndex = 2;
@@ -997,6 +1001,25 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label28.Location = new System.Drawing.Point(6, 147);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(55, 13);
+            this.label28.TabIndex = 3;
+            this.label28.Text = "Metrekare";
+            // 
+            // txtM2
+            // 
+            this.txtM2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.txtM2.Location = new System.Drawing.Point(58, 145);
+            this.txtM2.Name = "txtM2";
+            this.txtM2.Size = new System.Drawing.Size(376, 18);
+            this.txtM2.TabIndex = 1;
+            this.txtM2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtArama_KeyDown);
+            // 
             // frmINTERNETticaripazarlamamusteriler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1134,5 +1157,7 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.TextBox txtM2;
+        private System.Windows.Forms.Label label28;
     }
 }

@@ -538,6 +538,7 @@ namespace Sultanlar.UI
         private void lbAltCariler_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtAltCariDuzenleIsim.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).SUBE;
+            txtM2.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).Metrekare;
 
             cmbTur.SelectedIndex = -1;
             if (((CariHesaplarTP)lbAltCariler.SelectedItem).MTKOD != string.Empty)
@@ -652,6 +653,8 @@ namespace Sultanlar.UI
             cari.NETTOP = cmbEsNokta.SelectedIndex > -1 ? ((CariHesaplarTP)cmbEsNokta.SelectedItem).SMREF : 0;
 
             cari.DoUpdate();
+
+            CariHesaplar.SetYuzolcum(cari.SMREF, 4, txtM2.Text.Trim());
 
             MessageBox.Show("Kayıt güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }

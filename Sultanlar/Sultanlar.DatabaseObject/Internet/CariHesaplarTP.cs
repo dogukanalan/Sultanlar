@@ -178,6 +178,7 @@ namespace Sultanlar.DatabaseObject.Internet
         public string ILGILI { get { return this._ILGILI; } set { this._ILGILI = value; } }
         public string CEP1 { get { return this._CEP1; } set { this._CEP1 = value; } }
         public double NETTOP { get { return this._NETTOP; } set { this._NETTOP = value; } }
+        public string Metrekare { get { return CariHesaplar.GetYuzolcum(this._SMREF, 4); } }
         //
         //
         //

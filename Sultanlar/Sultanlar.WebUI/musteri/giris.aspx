@@ -562,7 +562,7 @@ input[type=checkbox],
             <img src="img/logoSAP.png" alt="" style="padding-bottom: 7px" />
             <div style="margin-top: 5px; width: 100%; text-align: center; font-family: Tahoma;
                 font-size: 12px; color: #808080">
-                Copyright © 2011-2019 Sultanlar Pazarlama A.Ş. Tüm hakları saklıdır.
+                Copyright © 2011-2021 Sultanlar Pazarlama A.Ş. Tüm hakları saklıdır.
                 <br />
                 Sitede yer alan resim, yazı ve içerikler kaynak gösterilerek dahi olsa kopyalanamaz.
             </div>
