@@ -31,7 +31,7 @@
                                 htmlText += '<td class="keyTd"><a href="javascript:showSubMenu(div' + data[i].smref + ')" class="btn btn-primary">İşlemler</a><div class="subMenu" id="div' + data[i].smref + '">' +
                                     (data[i].tip == 4 ? '<a href="../Anlasma/?smref=' + data[i].smref + '&tip=' + data[i].tip + '">Anlaşma</a>' : '') +
                                     (data[i].tip == 4 ? '<a href="../Aktivite/?smref=' + data[i].smref + '&ftip=25&tip=1&aktiviteid=0">Aktivite</a>' : '') +
-                                    '<a href="../Ziyaret/?smref=' + data[i].smref + '&gmref=' + gmref + '&slsref=' + getParameterByName("slsref") + '&tip=' + data[i].tip + '">Ziyaret</a>' +
+                                    '<a href="../Ziyaret/?smref=' + data[i].smref + '&gmref=' + gmref + '&slsref=' + getParameterByName("slsref") + '&tip=' + data[i].tip + '&konum=' + data[i].konumA.konum + '">Ziyaret</a>' +
                                     (data[i].tip == 1 ? '<a href="../Siparis/?smref=' + data[i].smref + '">Sipariş</a>' : '') +
                                     (data[i].tip == 1 ? '<a href="../Iade/?smref=' + data[i].smref + '">İade</a></div>' : '');
                                 htmlText += '</td></tr>';

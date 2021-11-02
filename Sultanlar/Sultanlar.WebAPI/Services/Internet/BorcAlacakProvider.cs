@@ -9,5 +9,6 @@ namespace Sultanlar.WebAPI.Services.Internet
     public class BorcAlacakProvider
     {
         internal List<borcAlacakRaporu> BorcAlacak(int Slsref) => new borcAlacakRaporu().GetObjects(Slsref);
+        internal List<borcAlacakRaporu> BorcAlacakCH(int Smref) => new borcAlacakRaporu().GetObject(Smref);
     }
 }

@@ -23,13 +23,13 @@ namespace Sultanlar.WebAPI.Services.Internet
             return new rutResimler().GetObjects(slsref, smref, tip, tur, Yil, ay);
         }
         internal List<rutResimler> RutResimler(string RutID) => new rutResimler().GetObjects(RutID);
-        internal DtAjaxResponse Musteriler(int Slsref, DataTableAjaxPostModel Req)
+        internal DtAjaxResponse Musteriler(int Slsref, int Sira, int Rutlu, DataTableAjaxPostModel Req)
         {
             Dictionary<string, string> arama = new Dictionary<string, string>();
             for (int i = 0; i < Req.columns.Count; i++)
                 if (Req.columns[i].search.value != string.Empty)
                     arama.Add(Req.columns[i].data, Req.columns[i].search.value);
-            return new rutlar().GetObjects(Slsref, Req.length, Req.start, arama);
+            return new rutlar().GetObjects(Slsref, Sira, Rutlu, Req.length, Req.start, arama);
         }
         //databaseobject
         internal string RutEkle(string mtip, string slsref, string gmref, string smref, string kacinci, string periyod, string gun, string baslangic, string bitis, string islemyapan)

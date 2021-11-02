@@ -13,6 +13,11 @@ namespace Sultanlar.WCF
 {
     public class Database : IDatabase
     {
+        public string Test()
+        {
+            return "Sultanlar WCF çalışıyör.";
+        }
+
         public List<SatisTemsilcileri> SaticilarGet()
         {
             return SatisTemsilcileri.GetObjects();

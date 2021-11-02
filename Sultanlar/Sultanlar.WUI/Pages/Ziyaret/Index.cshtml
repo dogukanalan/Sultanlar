@@ -16,8 +16,26 @@
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
 
-            KoordinatBaslat();
-            getCari(getParameterByName("tip"), getParameterByName("smref"), getCariSube, "ziyMus");
+            if (getParameterByName("konum") == "") {
+                alert("Müşterinin konumu sistemde kayıtlı değil. Konum alma sayfasına yönlendiriliyorsunuz.");
+                window.location.href = '../Musteri/Konum/Al?smref=' + getParameterByName("smref") + '&tip=' + getParameterByName("tip") + '&deg=0';
+            }
+            else {
+                KoordinatBaslat();
+                getCari(getParameterByName("tip"), getParameterByName("smref"), getCariSube, "ziyMus");
+
+                var latMus = getParameterByName("konum").split(",")[0];
+                var lngMus = getParameterByName("konum").split(",")[1];
+                var markerMus = new google.maps.Marker({ position: { lat: parseFloat(latMus), lng: parseFloat(lngMus) }, title: "Müşteri", label: "M" });
+                
+                setTimeout(function () {
+                    try {
+                        markerMus.setMap(map);
+                    } catch (e) {
+
+                    }
+                }, 1000);
+            }
         });
 
         function Sonlanmamis() {

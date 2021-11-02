@@ -16,7 +16,7 @@ $('.validate-form').on('submit', function () {
     return check;
 });*/
 
-var apiurl = "https://www.happyfamily.com.tr:442/internet/";
+var apiurl = "http://localhost:50544/internet/";
 //http://localhost:50544/internet/
 //http://95.0.47.130/SulAPI/internet/
 //https://www.happyfamily.com.tr:442/internet/
@@ -702,6 +702,7 @@ function sipSil(cookie) {
         }
     }
     window.localStorage['sepet'] = JSON.stringify(yenicookie);
+    window.localStorage['sepetU'] = "[]";
 }
 
 function iadeSil(cookie) {
@@ -823,7 +824,7 @@ function MapStyle() {
 var map;
 var markers = [];
 function myMap() {
-    var marker = new google.maps.Marker({ position: { lat: parseFloat($("#inputCoordsLat").val()), lng: parseFloat($("#inputCoordsLng").val()) }, title: "Buradasýnýz", label: "B" });
+    var marker = new google.maps.Marker({ position: { lat: parseFloat($("#inputCoordsLat").val()), lng: parseFloat($("#inputCoordsLng").val()) }, title: "Buradasiniz", label: "B" });
     var mapProp = { center: marker.position, zoom: 14, styles: JSON.parse(MapStyle()) };
     map = new google.maps.Map(document.getElementById("divMap"), mapProp);
     marker.setMap(map);
@@ -887,10 +888,10 @@ function AdresGetir(adres) {
 
                     $('.konumTamam').prop('disabled', false);
                 } else {
-                    alert("Adres bulunamadý.");
+                    alert("Adres bulunamadi.");
                 }
             } else {
-                alert("Adres bulunamadý.");
+                alert("Adres bulunamadi.");
             }
         });
     }
@@ -904,7 +905,7 @@ function geocodePosition(pos) {
         if (responses && responses.length > 0) {
             document.getElementById("inputCoordAddress").value = responses[0].formatted_address;
         } else {
-            document.getElementById("inputCoordAddress").value = "Adres bulunamadý.";
+            document.getElementById("inputCoordAddress").value = "Adres bulunamadi.";
         }
     });
 }

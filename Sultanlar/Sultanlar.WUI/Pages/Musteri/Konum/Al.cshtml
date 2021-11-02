@@ -11,7 +11,7 @@
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "konum/konumset/" + getParameterByName("smref") + "/" + getParameterByName("tip") + "/" + document.getElementById("inputCoordAddress").value + "/" + document.getElementById("inputCoords").value,
+                    url: apiurl + "konum/konumset/" + getParameterByName("smref") + "/" + getParameterByName("tip") + "/" + document.getElementById("inputCoordAddress").value.split("/").join("-") + "/" + document.getElementById("inputCoords").value,
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                         if (data == "") {
@@ -61,6 +61,7 @@
 <div>
     <input type="text" class="form-control" id="inputAdres" placeholder="Adres arayın" style="width: 100%;" />
     <input type="button" id="btnAra" class="btn btn-success" value="Ara" onclick="adresara()" style="width: 100%" />
+    <input type="button" id="btnKonumGoster" class="btn btn-success" value="Mevcut Konumu Göster" onclick="KoordinatBaslat()" style="width: 100%" />
 </div>
 <br />
 <input type="button" class="btn btn-danger" value="Geri Dön" onclick="window.history.back()" />

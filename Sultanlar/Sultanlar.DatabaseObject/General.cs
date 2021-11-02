@@ -11,7 +11,7 @@ namespace Sultanlar.DatabaseObject
             get
             {
                 string IP = Ag.DbIP == string.Empty ? "10.1.1.14" : Ag.DbIP;
-                return "Server=" + IP + "; Database=KurumsalWebSAP; User Id=sultanlar; Password=megastar; Trusted_Connection=False;";
+                return "Server=" + IP + "; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;";
                 // dis ip: 95.0.47.133 - SERVERDB01 - 10.1.1.14
             }
         }
@@ -20,7 +20,7 @@ namespace Sultanlar.DatabaseObject
             get
             {
                 string IP = Ag.DbIP == string.Empty ? "10.1.1.14" : Ag.DbIP;
-                return "Server=" + IP + "; Database=KurumsalWebSAP; User Id=sultanlar; Password=megastar; Trusted_Connection=False;";
+                return "Server=" + IP + "; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;";
             }
         }
         public static string ConnectionStringGOKW3sa
@@ -28,7 +28,7 @@ namespace Sultanlar.DatabaseObject
             get
             {
                 string IP = Ag.DbIP == string.Empty ? "10.1.1.14" : Ag.DbIP;
-                return "Server=" + IP + "; Database=KurumsalWebSAP; User Id=sultanlar; Password=megastar; Trusted_Connection=False;";
+                return "Server=" + IP + "; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;";
             }
         }
         public static string ConnectionStringDisVeri
@@ -36,7 +36,7 @@ namespace Sultanlar.DatabaseObject
             get
             {
                 string IP = Ag.DbIP == string.Empty ? "10.1.1.14" : Ag.DbIP;
-                return "Server=" + IP + "; Database=DisVeri; User Id=sultanlar; Password=megastar; Trusted_Connection=False;";
+                return "Server=" + IP + "; Database=DisVeri; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;";
             }
         }
     }

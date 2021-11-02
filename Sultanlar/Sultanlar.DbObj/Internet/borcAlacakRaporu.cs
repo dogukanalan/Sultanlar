@@ -49,5 +49,16 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        public List<borcAlacakRaporu> GetObject(int SMREF)
+        {
+            List<borcAlacakRaporu> donendeger = new List<borcAlacakRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_borcAlacakGetir", new Dictionary<string, object>() { { "SMREF", SMREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new borcAlacakRaporu(ConvertToInt32(dic[i][0]), ConvertToDouble(dic[i][1]), ConvertToDouble(dic[i][2]), ConvertToDouble(dic[i][3]), ConvertToDateTime(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToInt32(dic[i][6]), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8])));
+
+            return donendeger;
+        }
     }
 }

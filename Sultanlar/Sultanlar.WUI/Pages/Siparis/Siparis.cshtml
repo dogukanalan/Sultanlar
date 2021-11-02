@@ -24,6 +24,11 @@
             var url1 = apiurl + "fiyat/getbytip/" + getParameterByName("ftip");
             $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
+                window.localStorage['sepetU'] = JSON.stringify(json);
+                
+                if (getParameterByName("ftipdegisti") == "1") {
+                    ftipdegisti();
+                }
             }).DataTable({
                 ajax: {
                     dataSrc: "",
@@ -174,6 +179,43 @@
                 );
                 sencLocal(cookie);
             }
+        }
+
+        function ftipdegisti() {
+            var cookie = JSON.parse(getLocal());
+            for (var i = 0; i < cookie.length; i++) {
+                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].siparisid == siparisid) {
+                    var yenidetaylar = [];
+                    console.log(JSON.stringify(cookie[i].detaylar));
+                    for (var j = 0; j < cookie[i].detaylar.length; j++) {
+                        yenidetaylar.push(
+                            {
+                                itemref: cookie[i].detaylar[j].itemref,
+                                malacik: cookie[i].detaylar[j].malacik,
+                                miktar: cookie[i].detaylar[j].miktar,
+                                miktartur: cookie[i].detaylar[j].miktartur,
+                                isk1: cookie[i].detaylar[j].isk1,
+                                isk2: cookie[i].detaylar[j].isk2,
+                                isk3: cookie[i].detaylar[j].isk3,
+                                isk4: cookie[i].detaylar[j].isk4,
+                                netkdv: fiyatgetir(cookie[i].detaylar[j].itemref)
+                            });
+                    }
+                    console.log(JSON.stringify(yenidetaylar));
+                    cookie[i].detaylar = yenidetaylar;
+                }
+            }
+            window.localStorage["sepet"] = JSON.stringify(cookie);
+        }
+
+        function fiyatgetir(itemref) {
+            var malzemeler = JSON.parse(window.localStorage["sepetU"]);
+            for (var i = 0; i < malzemeler.length; i++) {
+                if (malzemeler[i].itemref == itemref) {
+                    return malzemeler[i].netkdv;
+                }
+            }
+            return 0;
         }
 
         $(document).ready(function () {

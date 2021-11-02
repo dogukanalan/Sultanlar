@@ -944,13 +944,21 @@ namespace Sultanlar.WCF
         /// <summary>
         /// 
         /// </summary>
-        public XmlDocument GetOrdersPirim()
+        public XmlDocument GetOrdersPirpa()
         {
             XmlDocument donendeger = new XmlDocument();
 
 
 
-            DataTable dt = WebGenel.WCFdata("SELECT TOP (1000) [pkSiparisID] AS SipNo,sintFiyatTipiID, intSLSREF AS [PlasiyerKodu], strAd + ' ' + strSoyad AS [PlasiyerAdi],strTelefon AS Telefon,BOLGE AS [Bölge],[SMREF] AS MusKod,[dtOlusmaTarihi] AS Tarih,[mnToplamTutar] AS Tutar,strAciklama FROM [tblINTERNET_Siparisler] INNER JOIN tblINTERNET_Musteriler ON [tblINTERNET_Siparisler].intMusteriID = pkMusteriID INNER JOIN tblINTERNET_Musteriler_Ek ON tblINTERNET_Musteriler_Ek.intMusteriID = pkMusteriID INNER JOIN [Web-Dis-Siparis] ON [pkSiparisID] = intSiparisID WHERE blAktarilmis = 'True' ORDER BY pkSiparisID DESC", new ArrayList(), new ArrayList(), "Orders");
+            DataTable dt = WebGenel.WCFdata("SELECT TOP (1000) [pkSiparisID] AS SipNo,sintFiyatTipiID, intSLSREF AS [PlasiyerKodu], strAd + ' ' + strSoyad AS [PlasiyerAdi],strTelefon AS Telefon,BOLGE AS [Bölge],[SMREF] AS MusKod"
++ " ,[dtOlusmaTarihi] AS Tarih,[mnToplamTutar] AS Tutar, strAciklama "
++ "FROM[tblINTERNET_Siparisler] "
++ "INNER JOIN tblINTERNET_Musteriler ON[tblINTERNET_Siparisler].intMusteriID = pkMusteriID "
++ "INNER JOIN tblINTERNET_Musteriler_Ek ON tblINTERNET_Musteriler_Ek.intMusteriID = pkMusteriID "
++ "INNER JOIN[Web-Dis-Siparis] ON [pkSiparisID] = intSiparisID "
++ "WHERE blAktarilmis = 'True' "
++ "AND (intSLSREF = 830222 OR intSLSREF = 830226 OR intSLSREF = 830227 OR intSLSREF = 830223 OR intSLSREF = 830107 OR intSLSREF = 830228 OR intSLSREF = 830224 OR intSLSREF = 830225 OR intSLSREF = 830229 OR intSLSREF = 830221) "
++ "ORDER BY pkSiparisID DESC", new ArrayList(), new ArrayList(), "Orders");
 
 
 
@@ -991,9 +999,9 @@ namespace Sultanlar.WCF
                 DataTable dt1 = WebGenel.WCFdata("" +
 
                     "SELECT UrunKod,Bolum,Barkod,KdvOran,KoliAdet,UrunAd,Adet,ISNULL(BrutFiyat,0) AS BrutFiyat,ISNULL(Isk1,0) AS Isk1,ISNULL(Isk2,0) AS Isk2,ISNULL(Isk3,0) AS Isk3,ISNULL(Isk4,0) AS Isk4" +
-",CONVERT(decimal(18,2),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0),0)) AS NetFiyat" +
-",CONVERT(decimal(18,2),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) / 100 * KdvOran,0)) AS Kdv" +
-",CONVERT(decimal(18,2),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) + (dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) / 100 * KdvOran),0)) AS KdvDahilNet " +
+",CONVERT(decimal(18,3),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0),0)) AS NetFiyat" +
+",CONVERT(decimal(18,3),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) / 100 * KdvOran,0)) AS Kdv" +
+",CONVERT(decimal(18,3),ISNULL(dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) + (dbo.IskontoDusCoklu(BrutFiyat,Isk1,Isk2,Isk3,Isk4,0,0,0,0,0,0) / 100 * KdvOran),0)) AS KdvDahilNet " +
 "FROM " +
 "(" +
 "SELECT intSiparisID,[intUrunID] AS UrunKod,[OZEL ACIK] AS Bolum,BARKOD AS Barkod,KDV AS KdvOran,KOLI AS KoliAdet,[strUrunAdi] AS UrunAd,[intMiktar] AS Adet" +
@@ -1034,17 +1042,17 @@ namespace Sultanlar.WCF
                     detay.KdvDahilNet = Convert.ToDouble(dt1.Rows[j]["KdvDahilNet"]);
                     siparis.Kalemler.Add(detay);
 
-                    toplambrut += detay.BrutFiyat;
-                    toplamiskonto += detay.BrutFiyat - detay.NetFiyat;
-                    toplamkdv += detay.KdvDahilNet - detay.NetFiyat;
-                    toplamnet += detay.NetFiyat;
-                    toplamnetkdv += detay.KdvDahilNet;
+                    toplambrut += detay.BrutFiyat * detay.Adet;
+                    toplamiskonto += (detay.BrutFiyat - detay.NetFiyat) * detay.Adet;
+                    toplamkdv += (detay.KdvDahilNet - detay.NetFiyat) * detay.Adet;
+                    toplamnet += detay.NetFiyat * detay.Adet;
+                    toplamnetkdv += detay.KdvDahilNet * detay.Adet;
                 }
-                siparis.ToplamBrut = Convert.ToDouble(toplambrut.ToString("N2"));
-                siparis.ToplamIskonto = Convert.ToDouble(toplamiskonto.ToString("N2"));
-                siparis.ToplamKDV = Convert.ToDouble(toplamkdv.ToString("N2"));
-                siparis.ToplamNet = Convert.ToDouble(toplamnet.ToString("N2"));
-                siparis.ToplamNetKDV = Convert.ToDouble(toplamnetkdv.ToString("N2"));
+                siparis.ToplamBrut = Convert.ToDouble(toplambrut.ToString("N3"));
+                siparis.ToplamIskonto = Convert.ToDouble(toplamiskonto.ToString("N3"));
+                siparis.ToplamKDV = Convert.ToDouble(toplamkdv.ToString("N3"));
+                siparis.ToplamNet = Convert.ToDouble(toplamnet.ToString("N3"));
+                siparis.ToplamNetKDV = Convert.ToDouble(toplamnetkdv.ToString("N3"));
 
                 siparisler.Siparisler.Add(siparis);
             }
@@ -1068,24 +1076,14 @@ namespace Sultanlar.WCF
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
-        public XmlDocument GetOrdersBoran()
-        {
-            return GetOrdersPirim();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public XmlDocument GetOrdersYukseller()
-        {
-            return GetOrdersPirim();
-        }
         public class gokw3stoklar
         {
             [XmlElement(ElementName = "Stok", Order = 1)]
             public List<gokw3stok> Stoklar { get; set; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public class gokw3stok
         {
             public short A_P { get; set; } public short AMB_NO { get; set; } public string AMBAR { get; set; } public string STGRPCODE { get; set; } public string SPECODE { get; set; } public string CYPHCODE { get; set; } public string MARK_C { get; set; } public string MARK_A { get; set; } public string PRODUCERCODE { get; set; } public string CODE_M { get; set; } public string NAME_M { get; set; } public double STOK { get; set; } public DateTime LASTTRDATE { get; set; } public int YIL { get; set; } public int AY { get; set; }

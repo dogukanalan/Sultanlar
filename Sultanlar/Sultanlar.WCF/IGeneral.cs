@@ -161,16 +161,8 @@ namespace Sultanlar.WCF
         XmlDocument GetView(string Sifre, string Name, string ParamNames, string ParamValues);
         //
         [OperationContract, XmlSerializerFormat]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Orders/Pirim")]
-        XmlDocument GetOrdersPirim();
-        //
-        [OperationContract, XmlSerializerFormat]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Orders/Boran")]
-        XmlDocument GetOrdersBoran();
-        //
-        [OperationContract, XmlSerializerFormat]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Orders/Yukseller")]
-        XmlDocument GetOrdersYukseller();
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Orders/Pirpa")]
+        XmlDocument GetOrdersPirpa();
         //
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Gokw3/Stok?yil={YIL}&ay={AY}")]

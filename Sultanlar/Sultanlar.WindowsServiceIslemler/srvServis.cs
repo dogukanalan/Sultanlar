@@ -244,7 +244,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     {
                         SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
                         LogYaz(conn, "ekstre oncesi", true, "ekstre fonksiyonu simdi baslayacak", DateTime.Now, DateTime.Now);
-                        GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014") DateTime.Now.AddYears(-2)
+                        GetEkstre(DateTime.Now.AddYears(-2)); // Convert.ToDateTime("01.01.2014") 
                         LogYaz(conn, "ekstre sonrasi", true, "ekstre fonksiyonu simdi bitmis olmasi lazim, satis yeni baslayacak", DateTime.Now, DateTime.Now);
                         GetSatisJob();
                         LogYaz(conn, "ekstre sonrasi", true, "satis yeni simdi bitmis olmasi lazim", DateTime.Now, DateTime.Now);
@@ -278,7 +278,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 {
                     if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
                     {
-                        GetEkstre(Convert.ToDateTime("01.01.2014")); // DateTime.Now.AddYears(-2)
+                        GetEkstre(DateTime.Now.AddYears(-2)); // Convert.ToDateTime("01.01.2014")
                         GetSatisJob();
                     }
                 }
