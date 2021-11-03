@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s0="urn:sap-com:document:sap:soap:functions:mc-style" targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style">
+      <xsd:element name="ZwebGetCustomers">
+        <xsd:complexType>
+          <xsd:all />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ZwebGetCustomersResult">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="EtCustomers">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element minOccurs="0" maxOccurs="unbounded" name="Zwebt002" type="s0:Zwebt002" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="Zwebt002">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Mandt">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Parvw">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="2" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Pernr">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="8" />
+                <xsd:pattern value="\d*" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Kunwe">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Kunag">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Kdgrp">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="2" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Kdgtx">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="20" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Regio">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Bezei">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="20" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Namag">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="30" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Namwe">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="30" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Adres">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="100" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Stcd1">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="16" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Stcd2">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="11" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Telno">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="30" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Faxno">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="30" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Mobno">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="30" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Email">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="241" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Klimk">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15" />
+                <xsd:fractionDigits value="2" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Perno">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="8" />
+                <xsd:pattern value="\d*" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Aedat" type="s0:date" />
+          <xsd:element minOccurs="0" name="Aezet" type="s0:time" />
+          <xsd:element minOccurs="0" name="Aufsd">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="2" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Name3">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="40" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="DefltComm">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="CommText">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="20" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="City1">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="40" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="PostCode1">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Altkn">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Bzirk">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="6" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Bztxt">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="20" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="date">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+          <xsd:pattern value="....-..-.." />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="time">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="8" />
+          <xsd:pattern value="..:..:.." />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+  </types>
+  <message name="ZwebGetCustomersInput">
+    <part name="parameters" element="s0:ZwebGetCustomers" />
+  </message>
+  <message name="ZwebGetCustomersOutput">
+    <part name="parameters" element="s0:ZwebGetCustomersResult" />
+  </message>
+  <portType name="ZwebGetCustomersPortType">
+    <operation name="ZwebGetCustomers">
+      <input message="s0:ZwebGetCustomersInput" />
+      <output message="s0:ZwebGetCustomersOutput" />
+    </operation>
+  </portType>
+  <binding name="ZwebGetCustomersBinding" type="s0:ZwebGetCustomersPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="ZwebGetCustomers">
+      <soap:operation soapAction="http://www.sap.com/ZwebGetCustomers" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ZwebGetCustomersService">
+    <documentation>SAP Service ZwebGetCustomers via SOAP</documentation>
+    <port name="ZwebGetCustomersPortType" binding="s0:ZwebGetCustomersBinding">
+      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+    </port>
+  </service>
+</definitions>

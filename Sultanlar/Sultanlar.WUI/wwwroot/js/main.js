@@ -16,10 +16,11 @@ $('.validate-form').on('submit', function () {
     return check;
 });*/
 
-var apiurl = "https://www.happyfamily.com.tr:442/internet/";
-//http://localhost:50544/internet/
-//http://95.0.47.130/SulAPI/internet/
-//https://www.happyfamily.com.tr:442/internet/
+var apiurl = "http://localhost:50544/internet/";
+// /internet/
+// http://localhost:50544/internet/
+// http://95.0.47.130/SulAPI/internet/
+// https://www.happyfamily.com.tr:442/internet/
 
 var aramadelay = 1000;
 var surum = '1.3.2';
@@ -32,6 +33,7 @@ $(document).ready(function () {
     });
 
     $('#selectYil').empty();
+    $("#selectYil").append($("<option />").val("2021").text("2021"));
     $("#selectYil").append($("<option />").val("2020").text("2020"));
     $("#selectYil").append($("<option />").val("2019").text("2019"));
     $("#selectYil").append($("<option />").val("2018").text("2018"));
@@ -766,7 +768,7 @@ function KoordinatBaslat() {
         navigator.geolocation.getCurrentPosition(positionSuccess, displayError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: false });
     } else {
         document.getElementById('inputCoords').value = '0,0';
-        document.getElementById('inputCoordAddress').value = 'Konuma eriþim desteklenmiyor.';
+        document.getElementById('inputCoordAddress').value = 'Konuma eriï¿½im desteklenmiyor.';
     }
 }
 
@@ -822,7 +824,7 @@ function MapStyle() {
 var map;
 var markers = [];
 function myMap() {
-    var marker = new google.maps.Marker({ position: { lat: parseFloat($("#inputCoordsLat").val()), lng: parseFloat($("#inputCoordsLng").val()) }, title: "Buradasýnýz", label: "B" });
+    var marker = new google.maps.Marker({ position: { lat: parseFloat($("#inputCoordsLat").val()), lng: parseFloat($("#inputCoordsLng").val()) }, title: "Buradasï¿½nï¿½z", label: "B" });
     var mapProp = { center: marker.position, zoom: 14, styles: JSON.parse(MapStyle()) };
     map = new google.maps.Map(document.getElementById("divMap"), mapProp);
     marker.setMap(map);
@@ -886,10 +888,10 @@ function AdresGetir(adres) {
 
                     $('.konumTamam').prop('disabled', false);
                 } else {
-                    alert("Adres bulunamadý.");
+                    alert("Adres bulunamadï¿½.");
                 }
             } else {
-                alert("Adres bulunamadý.");
+                alert("Adres bulunamadï¿½.");
             }
         });
     }

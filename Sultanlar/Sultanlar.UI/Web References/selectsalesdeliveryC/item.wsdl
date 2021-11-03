@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s0="urn:sap-com:document:sap:soap:functions:mc-style" targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style">
+      <xsd:element name="ZwebSelectSalesDelivery">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="IBegda" type="s0:date" />
+            <xsd:element minOccurs="0" name="IEndda" type="s0:date" />
+            <xsd:element minOccurs="0" name="ITime" type="s0:time" />
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ZwebSelectSalesDeliveryResult">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="EtDeliveryHead">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element minOccurs="0" maxOccurs="unbounded" name="Zwebs006" type="s0:Zwebs006" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="EtDeliveryItem">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element minOccurs="0" maxOccurs="unbounded" name="Zwebs013" type="s0:Zwebs013" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="EtLogDel">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element minOccurs="0" maxOccurs="unbounded" name="Zwebs021" type="s0:Zwebs021" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="EtVbfa">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element minOccurs="0" maxOccurs="unbounded" name="Zwebs009" type="s0:Zwebs009" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="Zwebs006">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Lfart">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="4" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Vtext">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="20" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Vbeln">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Ernam">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="12" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Erzet" type="s0:time" />
+          <xsd:element minOccurs="0" name="Erdat" type="s0:date" />
+          <xsd:element minOccurs="0" name="Sevkalani">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="132" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Sevkyeri">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="132" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="TeslimatAciklama">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="132" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Volum">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Btgew">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Voleh">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Gewei">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Lifex">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="35" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Zwebs009">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Mandt">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Vbelv">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Posnv">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="6" />
+                <xsd:pattern value="\d*" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Vbeln">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Posnn">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="6" />
+                <xsd:pattern value="\d*" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="VbtypN">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Rfmng">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Meins">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Rfwrt">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15" />
+                <xsd:fractionDigits value="2" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Waers">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="5" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="VbtypV">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Plmin">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Taqui">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Erdat" type="s0:date" />
+          <xsd:element minOccurs="0" name="Erzet" type="s0:time" />
+          <xsd:element minOccurs="0" name="Matnr">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Bwart">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Bdart">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="2" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Plart">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Stufe">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="2" />
+                <xsd:pattern value="\d*" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Lgnum">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Aedat" type="s0:date" />
+          <xsd:element minOccurs="0" name="Fktyp">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Brgew">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Gewei">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Volum">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Voleh">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Fplnr">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Fpltr">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="6" />
+                <xsd:pattern value="\d*" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="RfmngFlo" type="xsd:float" />
+          <xsd:element minOccurs="0" name="RfmngFlt" type="xsd:float" />
+          <xsd:element minOccurs="0" name="Vrkme">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Abges" type="xsd:float" />
+          <xsd:element minOccurs="0" name="Sobkz">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Sonum">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="16" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Kzbef">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Ntgew">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Logsys">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Wbsta">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Cmeth">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Mjahr">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="4" />
+                <xsd:pattern value="\d*" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Zwebs013">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Vbeln">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Posnr">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="6" />
+                <xsd:pattern value="\d*" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Matnr">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Ernam">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="12" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Erzet" type="s0:time" />
+          <xsd:element minOccurs="0" name="Erdat" type="s0:date" />
+          <xsd:element minOccurs="0" name="Matkl">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="9" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Werks">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="4" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Lgort">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="4" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Charg">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Lfimg">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Meins">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="MeinsText">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Ntgew">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Brgew">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Gewei">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Volum">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="15" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Voleh">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Hsdat" type="s0:date" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Zwebs021">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Vbeln">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="10" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Vbtyp">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Erdat" type="s0:date" />
+          <xsd:element minOccurs="0" name="Erzet" type="s0:time" />
+          <xsd:element minOccurs="0" name="Updkz">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="date">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="10" />
+          <xsd:pattern value="....-..-.." />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="time">
+        <xsd:restriction base="xsd:string">
+          <xsd:maxLength value="8" />
+          <xsd:pattern value="..:..:.." />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+  </types>
+  <message name="ZwebSelectSalesDeliveryInput">
+    <part name="parameters" element="s0:ZwebSelectSalesDelivery" />
+  </message>
+  <message name="ZwebSelectSalesDeliveryOutput">
+    <part name="parameters" element="s0:ZwebSelectSalesDeliveryResult" />
+  </message>
+  <portType name="ZwebSelectSalesDeliveryPortType">
+    <operation name="ZwebSelectSalesDelivery">
+      <input message="s0:ZwebSelectSalesDeliveryInput" />
+      <output message="s0:ZwebSelectSalesDeliveryOutput" />
+    </operation>
+  </portType>
+  <binding name="ZwebSelectSalesDeliveryBinding" type="s0:ZwebSelectSalesDeliveryPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="ZwebSelectSalesDelivery">
+      <soap:operation soapAction="http://www.sap.com/ZwebSelectSalesDelivery" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ZwebSelectSalesDeliveryService">
+    <documentation>SAP Service ZwebSelectSalesDelivery via SOAP</documentation>
+    <port name="ZwebSelectSalesDeliveryPortType" binding="s0:ZwebSelectSalesDeliveryBinding">
+      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+    </port>
+  </service>
+</definitions>
