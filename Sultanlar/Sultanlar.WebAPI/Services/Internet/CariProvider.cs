@@ -11,9 +11,9 @@ namespace Sultanlar.WebAPI.Services.Internet
     {
         internal List<cariHesaplar> Cariler(int SLSREF) => new cariHesaplar().GetObjectsOnlyMain(SLSREF);
 
-        internal List<cariHesaplar> CarilerSub(int GMREF) => new cariHesaplar().GetObjectsOnlySub(GMREF);
+        internal List<cariHesaplar> CarilerSub(int GMREF, int SLSREF) => new cariHesaplar().GetObjectsOnlySub(GMREF, SLSREF);
 
-        internal List<cariHesaplar> Cariler1Sub(int GMREF) => new cariHesaplar().GetObjects1OnlySub(GMREF);
+        internal List<cariHesaplar> Cariler1Sub(int GMREF, int SLSREF) => new cariHesaplar().GetObjects1OnlySub(GMREF, SLSREF);
 
         internal List<cariHesaplar> CarilerTpSub(int GMREF) => new cariHesaplar().GetObjectsTPOnlySub(GMREF);
 

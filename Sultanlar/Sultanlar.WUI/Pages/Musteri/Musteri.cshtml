@@ -11,12 +11,12 @@
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
 
     <script>
-        function MusteriGetir(gmref) {
+        function MusteriGetir(gmref, slsref) {
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "cari/getsube1/" + gmref,
+                    url: apiurl + "cari/getsube1/" + gmref + '/' + slsref,
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
@@ -46,7 +46,7 @@
         }
 
         $(document).ready(function () {
-            MusteriGetir(getParameterByName("gmref"));
+            MusteriGetir(getParameterByName("gmref"), getParameterByName("slsref"));
 
             window.onclick = function (event) {
                 if (!event.target.matches('.dropbtn')) {

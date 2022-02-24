@@ -19,7 +19,7 @@ $('.validate-form').on('submit', function () {
 var apiurl = "http://localhost:50544/internet/";
 //http://localhost:50544/internet/
 //http://95.0.47.130/SulAPI/internet/
-//https://www.happyfamily.com.tr:442/internet/
+//https://www.ittihadteknoloji.com.tr/internet/
 
 var aramadelay = 1000;
 var surum = '1.3.2';

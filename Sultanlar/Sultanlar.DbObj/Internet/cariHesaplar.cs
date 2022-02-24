@@ -196,11 +196,11 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<cariHesaplar> GetObjectsOnlySub(int GMREF)
+        public List<cariHesaplar> GetObjectsOnlySub(int GMREF, int SLSREF)
         {
             List<cariHesaplar> donendeger = new List<cariHesaplar>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_cariHesaplarGetirSubelerByGMREF", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_cariHesaplarGetirSubelerBySLSREFGMREF", new Dictionary<string, object>() { { "SLSREF", SLSREF }, { "GMREF", GMREF } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new cariHesaplar(ConvertToInt16(dic[i][0]), dic[i][1].ToString(), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToInt32(dic[i][13]), dic[i][14].ToString(), dic[i][15].ToString(), dic[i][16].ToString(), ConvertToInt32(dic[i][17]), dic[i][18].ToString(), dic[i][19].ToString(), ConvertToInt32(dic[i][20]), dic[i][21].ToString(), dic[i][22].ToString(), dic[i][23].ToString(), dic[i][24].ToString(), dic[i][25].ToString(), dic[i][26].ToString(), dic[i][27].ToString(), dic[i][28].ToString(), dic[i][29].ToString(), dic[i][30].ToString(), dic[i][31].ToString(), dic[i][32].ToString(), ConvertToDouble(dic[i][33])));
@@ -211,11 +211,11 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<cariHesaplar> GetObjects1OnlySub(int GMREF)
+        public List<cariHesaplar> GetObjects1OnlySub(int GMREF, int SLSREF)
         {
             List<cariHesaplar> donendeger = new List<cariHesaplar>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_cariHesaplarGetir1SubelerByGMREF", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_cariHesaplarGetir1SubelerBySLSREFGMREF", new Dictionary<string, object>() { { "SLSREF", SLSREF }, { "GMREF", GMREF } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new cariHesaplar(ConvertToInt16(dic[i][0]), dic[i][1].ToString(), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToInt32(dic[i][13]), dic[i][14].ToString(), dic[i][15].ToString(), dic[i][16].ToString(), ConvertToInt32(dic[i][17]), dic[i][18].ToString(), dic[i][19].ToString(), ConvertToInt32(dic[i][20]), dic[i][21].ToString(), dic[i][22].ToString(), dic[i][23].ToString(), dic[i][24].ToString(), dic[i][25].ToString(), dic[i][26].ToString(), dic[i][27].ToString(), dic[i][28].ToString(), dic[i][29].ToString(), dic[i][30].ToString(), dic[i][31].ToString(), dic[i][32].ToString(), ConvertToDouble(dic[i][33])));
