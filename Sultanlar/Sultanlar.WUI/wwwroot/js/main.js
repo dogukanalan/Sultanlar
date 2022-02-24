@@ -32,6 +32,7 @@ $(document).ready(function () {
     });
 
     $('#selectYil').empty();
+    $("#selectYil").append($("<option />").val("2022").text("2022"));
     $("#selectYil").append($("<option />").val("2021").text("2021"));
     $("#selectYil").append($("<option />").val("2020").text("2020"));
     $("#selectYil").append($("<option />").val("2019").text("2019"));
@@ -472,6 +473,11 @@ var siparisiadeaktiviteicerikcolumns = [
     {
         "mDataProp": "isk4", title: "i4", "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
             return '<input type="number" class="inputSecim" value="' + data.toFixed(2) + '" disabled />';
+        }
+    },
+    {
+        "mDataProp": null, title: "Top.", "class": "floaTd", render: function (data, type, row) {
+            return '<span class="sinirli">' + parseFloat(parseFloat(data.netkdv) * parseFloat(data.miktar)).formatMoney(2, ',', '.') + '</span>';
         }
     },
     {
