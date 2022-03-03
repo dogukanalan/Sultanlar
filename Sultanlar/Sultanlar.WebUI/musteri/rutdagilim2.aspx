@@ -160,9 +160,9 @@
                         SummaryType="Sum" DisplayFormat="{0:###,###,##0.##;-0.##;0}" />
                     <dx:ASPxSummaryItem FieldName="28" ShowInGroupFooterColumn="28"  
                         SummaryType="Sum" DisplayFormat="{0:###,###,##0.##;-0.##;0}" />
-                    <dx:ASPxSummaryItem FieldName="NETT_2016" ShowInGroupFooterColumn="NETT_2016"  
+                    <dx:ASPxSummaryItem FieldName="NETT_GY" ShowInGroupFooterColumn="NETT_GY"  
                         SummaryType="Sum" DisplayFormat="{0:###,###,##0.##;-0.##;0}" />
-                    <dx:ASPxSummaryItem FieldName="NETT_2017" ShowInGroupFooterColumn="NETT_2017"  
+                    <dx:ASPxSummaryItem FieldName="NETT_BY" ShowInGroupFooterColumn="NETT_BY"  
                         SummaryType="Sum" DisplayFormat="{0:###,###,##0.##;-0.##;0}" />
                     </TotalSummary>
                     <SettingsBehavior ColumnResizeMode="Control" />
@@ -180,9 +180,9 @@
                 </dx:ASPxGridView>
                 
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" ProviderName="System.Data.SqlClient" 
-                ConnectionString="Data Source=10.1.1.14;Initial Catalog=KurumsalWebSAP;User ID=sultanlar;Password=megastar" 
+                ConnectionString="Data Source=10.10.41.2;Initial Catalog=KurumsalWebSAP;User ID=sa;Password=sdl580g5p9+-" 
                 OnSelecting="SqlDataSource1_Selecting" 
-                SelectCommand="SET LANGUAGE Turkish; IF @SLSREF != 0 BEGIN SELECT PRYD_KOD,[SUBE],A_P,[01],[02],[03],[04],[05],[06],[07],[08],[09],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],NETT_2016,NETT_2017 FROM dbo.RutDagilim(@SLSREF) END ELSE BEGIN SELECT * FROM dbo.RutDagilimBos() ORDER BY SUBE END">
+                SelectCommand="SET LANGUAGE Turkish; IF @SLSREF != 0 BEGIN SELECT PRYD_KOD,[SUBE],A_P,[01],[02],[03],[04],[05],[06],[07],[08],[09],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],NETT_GY,NETT_BY FROM dbo.RutDagilim(@SLSREF) END ELSE BEGIN SELECT * FROM dbo.RutDagilimBos() ORDER BY SUBE END">
                 <SelectParameters>
                     <asp:ControlParameter ControlID="ddlTemsilciler" DefaultValue="0" Name="SLSREF" 
                         PropertyName="SelectedValue" />

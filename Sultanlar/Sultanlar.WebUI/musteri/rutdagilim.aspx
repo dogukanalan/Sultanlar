@@ -184,7 +184,7 @@
                 </dx:ASPxGridView>
                 
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" ProviderName="System.Data.SqlClient" 
-                ConnectionString="Data Source=10.1.1.14;Initial Catalog=KurumsalWebSAP;User ID=sultanlar;Password=megastar" 
+                ConnectionString="Data Source=10.10.41.2;Initial Catalog=KurumsalWebSAP;User ID=sa;Password=sdl580g5p9+-" 
                 SelectCommand="IF @SLSREF != 0 BEGIN SELECT [RUT_ TIP],[SB_ACK] AS SUBE,[RUT_PRD] AS PERIYOD,[TARIH],[GUN],convert(char(5), [ZIY_BAS_TAR], 108) AS ZIY_BAS,convert(char(5), [ZIY_BIT_TAR], 108) AS ZIY_BIT,[ZIY_NDN] AS NEDEN,[RUT_KONUM_ADRES] AS KNM_ADR,[ZIY_KONUM_ADRES_CIKIS] AS ZIY_ADR,FARK_KNM_ZIY AS FARK,[ZIY_NOTLARI] AS NOTLAR,RUT_KONUM,ZIY_KONUM_CIKIS AS ZIY_KONUM FROM [Web_Rut_9_Ziyaretler] WHERE SAT_KOD = @SLSREF ORDER BY ZIY_BAS_TAR END">
                 <SelectParameters>
                     <asp:ControlParameter ControlID="ddlTemsilciler" DefaultValue="0" Name="SLSREF" 

@@ -5426,7 +5426,35 @@ namespace Sultanlar.WindowsServiceIslemler
                 conn.Close();
             }
 
+            GetSatisJob2();
+
             LogYaz(conn, "satis update", hata == string.Empty ? true : false, hata, baslangic, DateTime.Now);
+        }
+
+        private void GetSatisJob2()
+        {
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlCommand cmdSatisJob = new SqlCommand("msdb.dbo.sp_start_job", conn);
+            cmdSatisJob.CommandTimeout = 1000;
+            cmdSatisJob.CommandType = CommandType.StoredProcedure;
+            cmdSatisJob.Parameters.AddWithValue("@job_name", "SatisRapor");
+
+            DateTime bastarih = DateTime.Now;
+            string hataa = string.Empty;
+            try
+            {
+                conn.Open();
+                cmdSatisJob.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                hataa = ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+                LogYaz(conn, "satis yeni", hataa != string.Empty ? false : true, hataa, bastarih, DateTime.Now);
+            }
         }
 
         private void EntegraSiparis()

@@ -135,7 +135,7 @@
                 </dx:ASPxGridView>
 
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" ProviderName="System.Data.SqlClient" 
-                ConnectionString="Data Source=10.1.1.14;Initial Catalog=KurumsalWebSAP;User ID=sultanlar;Password=megastar" 
+                ConnectionString="Data Source=10.10.41.2;Initial Catalog=KurumsalWebSAP;User ID=sa;Password=sdl580g5p9+-" 
                 SelectCommand="SELECT [Bayi],[Ürün Kod],[Ürün],[Stok TL],[Stok Koli],[Yıllık Bayiden Satılan Koli],[Stok-Ay],[Stok-Gün] FROM [dbo].[Web-Stok] WHERE SLSREF = @SLSREF"
                 onselecting="SqlDataSource1_Selecting">
                 <SelectParameters>
@@ -145,7 +145,7 @@
                 </asp:SqlDataSource>
 
                 <asp:SqlDataSource ID="SqlDataSource2" runat="server" ProviderName="System.Data.SqlClient" 
-                ConnectionString="Data Source=10.1.1.14;Initial Catalog=KurumsalWebSAP;User ID=sultanlar;Password=megastar" 
+                ConnectionString="Data Source=10.10.41.2;Initial Catalog=KurumsalWebSAP;User ID=sa;Password=sdl580g5p9+-" 
                 SelectCommand="SELECT TOP 1 '(Ay: ' + CONVERT(varchar(max),AY) + ')' AS clAY FROM [Web-Bayi-Stok] ORDER BY YIL DESC, AY DESC">
                 </asp:SqlDataSource>
             </div>
