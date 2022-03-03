@@ -93,6 +93,9 @@ namespace Sultanlar.WindowsServiceIslemler
             tmrSAPekstre2.Elapsed += new ElapsedEventHandler(tmrSAPekstre2_Elapsed);
             tmrSAPekstre2.Enabled = true;
             tmrSAPekstre2.Start();
+
+            //ilk başta çalıştır
+            GetSAP();
         }
 
         protected override void OnStop()
@@ -242,9 +245,9 @@ namespace Sultanlar.WindowsServiceIslemler
                 {
                     if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
                     {
-                        SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+                        SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
                         LogYaz(conn, "ekstre oncesi", true, "ekstre fonksiyonu simdi baslayacak", DateTime.Now, DateTime.Now);
-                        GetEkstre(DateTime.Now.AddYears(-2)); // Convert.ToDateTime("01.01.2014") 
+                        GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014") 
                         LogYaz(conn, "ekstre sonrasi", true, "ekstre fonksiyonu simdi bitmis olmasi lazim, satis yeni baslayacak", DateTime.Now, DateTime.Now);
                         GetSatisJob();
                         LogYaz(conn, "ekstre sonrasi", true, "satis yeni simdi bitmis olmasi lazim", DateTime.Now, DateTime.Now);
@@ -278,7 +281,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 {
                     if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
                     {
-                        GetEkstre(DateTime.Now.AddYears(-2)); // Convert.ToDateTime("01.01.2014")
+                        GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014")
                         GetSatisJob();
                     }
                 }
@@ -293,7 +296,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 {
                     if (DateTime.Now.Minute > 33 && DateTime.Now.Minute <= 38)
                     {
-                        GetEkstre(DateTime.Now.AddYears(-1)); //Convert.ToDateTime("01.01.2014")
+                        GetEkstre(Convert.ToDateTime("01.01.2014")); //Convert.ToDateTime("01.01.2014")
                     }
                 }
             }
@@ -741,14 +744,14 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void KampanyalarC()
         {
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Kampanyalar");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getcampaignsC.ZwebGetCampaignsService clCampaigns = new getcampaignsC.ZwebGetCampaignsService();
             clCampaigns.Timeout = 6000000;
@@ -886,14 +889,14 @@ namespace Sultanlar.WindowsServiceIslemler
             FiyatlarCsap();
             return;
 
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Fiyatlar"); cmdLog.Parameters.AddWithValue("@strLog", "");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
@@ -1178,7 +1181,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void FiyatlarCsap()
         {
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Fiyatlar");
@@ -1191,7 +1194,7 @@ namespace Sultanlar.WindowsServiceIslemler
             int oncekifiyatsayisi = Convert.ToInt32(cmd11.ExecuteScalar());
             conn.Close();
 
-            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
@@ -1316,14 +1319,14 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void FiyatlarCmt()
         {
-            SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Fiyatlar"); cmdLog.Parameters.AddWithValue("@strLog", "");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
@@ -1359,7 +1362,7 @@ namespace Sultanlar.WindowsServiceIslemler
         {
             if (Fiyatbirbitti && Fiyatikibitti && Fiyatucbitti && Fiyatdortbitti)
             {
-                SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+                SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
                 SqlCommand cmdBilgiler = new SqlCommand("UPDATE [Web_Fiyat] SET [Web_Fiyat].[GRUP KOD] = [Web-Malzeme-Full].[GRUP KOD],[Web_Fiyat].[OZEL KOD] = [Web-Malzeme-Full].[OZEL KOD],[Web_Fiyat].[HK] = [Web-Malzeme-Full].[HK],[Web_Fiyat].[OZEL ACIK] = [Web-Malzeme-Full].[OZEL ACIK],[Web_Fiyat].[REY KOD] = [Web-Malzeme-Full].[REY KOD],[Web_Fiyat].[RK] = [Web-Malzeme-Full].[RK],[Web_Fiyat].[REY ACIK] = [Web-Malzeme-Full].[REY ACIK],[Web_Fiyat].[MAL ACIK] = [Web-Malzeme-Full].[MAL ACIK],[Web_Fiyat].[NET] = dbo.IskontoDusCoklu([Web_Fiyat].FIYAT, [Web_Fiyat].ISK1, [Web_Fiyat].ISK2, [Web_Fiyat].ISK3, [Web_Fiyat].ISK4, [Web_Fiyat].ISK5, [Web_Fiyat].ISK6, [Web_Fiyat].ISK7, [Web_Fiyat].ISK8, [Web_Fiyat].ISK9, [Web_Fiyat].ISK10),[Web_Fiyat].[NET+KDV] = dbo.IskontoDusCoklu([Web_Fiyat].FIYAT, [Web_Fiyat].ISK1, [Web_Fiyat].ISK2, [Web_Fiyat].ISK3, [Web_Fiyat].ISK4, [Web_Fiyat].ISK5, [Web_Fiyat].ISK6, [Web_Fiyat].ISK7, [Web_Fiyat].ISK8, [Web_Fiyat].ISK9, [Web_Fiyat].ISK10) * ((100 + [Web-Malzeme-Full].KDV) / 100) FROM [Web_Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web_Fiyat].[ITEMREF] = [Web-Malzeme-Full].[ITEMREF]", conn);
                 cmdBilgiler.CommandTimeout = 1000;
@@ -1416,7 +1419,7 @@ namespace Sultanlar.WindowsServiceIslemler
             int bitis = gelen.bitis;
             int kacinci = gelen.kacinci;
             SqlCommand cmdLog = gelen.cmdLog;
-            SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
 
 
@@ -1600,14 +1603,14 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void MalzemelerC(bool malzeme, bool olcubirim)
         {
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Malzemeler");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialsC.ZwebGetMaterialsService clMaterials = new getmaterialsC.ZwebGetMaterialsService();
             clMaterials.Timeout = 6000000;
@@ -1901,14 +1904,14 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void PersonellerC()
         {
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Personeller");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getpersonalsC.ZwebGetPersonalsService clPersonals = new getpersonalsC.ZwebGetPersonalsService();
             clPersonals.Timeout = 6000000;
@@ -1969,7 +1972,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void MusterilerC()
         {
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now);
@@ -1981,7 +1984,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getcustomersC.ZwebGetCustomersService clCustomers = new getcustomersC.ZwebGetCustomersService();
             clCustomers.Timeout = 6000000;
@@ -2535,7 +2538,7 @@ namespace Sultanlar.WindowsServiceIslemler
             for (int i = 0; i < DateTime.Now.Year - Baslangic.Year + 1; i++)
                 yillar.Add(Baslangic.Year + i);
             
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
             for (int j = 0; j < yillar.Count; j++)
             {
                 //Baslangic = Convert.ToDateTime("01.01." + yillar[j].ToString());
@@ -2544,7 +2547,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
                 selectekstreC.ZwebSelectEkstreService ekstre = new selectekstreC.ZwebSelectEkstreService();
                 ekstre.Timeout = 6000000;
-                ekstre.Credentials = new NetworkCredential("MISTIF", "123456q");
+                ekstre.Credentials = new NetworkCredential("ngunay", "abc1234");
                 selectekstreC.Zwebs023[] yirmiuc = null;
                 selectekstreC.Zwebs023[] yirmiuc2 = null;
 
@@ -2845,10 +2848,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 SqlCommand cmdEkstreJob = new SqlCommand("msdb.dbo.sp_start_job", conn);
                 cmdEkstreJob.CommandTimeout = 1000;
                 cmdEkstreJob.CommandType = CommandType.StoredProcedure;
-                if (Baslangic.Year == 2014)
-                    cmdEkstreJob.Parameters.AddWithValue("@job_name", "Web_Ekstre_Yeni_Gece");
-                else
-                    cmdEkstreJob.Parameters.AddWithValue("@job_name", "Web_Ekstre_Yeni");
+                cmdEkstreJob.Parameters.AddWithValue("@job_name", "Web_Ekstre");
 
                 DateTime bastarih = DateTime.Now;
                 string hataa = string.Empty;
@@ -2871,8 +2871,8 @@ namespace Sultanlar.WindowsServiceIslemler
 
         void GetSAP()
         {
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
-            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             bool vbfa = true;
             bool siparis = true;
@@ -4114,14 +4114,14 @@ namespace Sultanlar.WindowsServiceIslemler
 
             if (ekstre)
             {
-                GetEkstre(DateTime.Now.AddYears(-1)); // Convert.ToDateTime("01.01.2014")
+                GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014")
                 GetSatisJob();
             }
         }
 
         private void GetSatisJob()
         {
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
             SqlCommand cmdSatisJob = new SqlCommand("msdb.dbo.sp_start_job", conn);
             cmdSatisJob.CommandTimeout = 1000;
             cmdSatisJob.CommandType = CommandType.StoredProcedure;
@@ -4147,7 +4147,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void Satis()
         {
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
             SqlCommand cmd = new SqlCommand("sp_SAP_SATIS_YENI", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandTimeout = 3000;
@@ -4173,7 +4173,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void SatisIade()
         {
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
             SqlCommand cmd = new SqlCommand("sp_SAP_IADE_YENI", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandTimeout = 3000;
@@ -4199,8 +4199,8 @@ namespace Sultanlar.WindowsServiceIslemler
 
         void GetSAPgece(bool satisupdate)
         {
-            SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
-            NetworkCredential nc1 = new NetworkCredential("MISTIF", "123456q");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             bool vbfa = true;
             bool siparis = true;

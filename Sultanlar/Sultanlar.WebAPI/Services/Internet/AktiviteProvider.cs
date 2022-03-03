@@ -43,7 +43,7 @@ namespace Sultanlar.WebAPI.Services.Internet
         {
             string Donen = string.Empty;
             aktiviteler akt = new aktiviteler(AktiviteID).GetObject();
-            akt.blAktarilmis = null;
+            akt.blAktarilmis = DBNull.Value;
             akt.DoUpdate();
             return Donen;
         }
