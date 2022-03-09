@@ -1081,6 +1081,7 @@ input::-webkit-inner-spin-button {
 .navbar-ic {
     margin: 0 auto;
     width: 1000px;
+    font-size: 0.9rem;
 }
 
 ::-webkit-scrollbar {

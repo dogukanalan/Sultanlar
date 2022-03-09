@@ -1,0 +1,186 @@
+﻿@page
+@model Sultanlar.WUI.Pages.Dashboard.IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@section head {
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script>
+        function SaticilarGetir(uyeid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "satici",
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        
+                        $("#selectSaticilar option").remove();
+                        if (window.localStorage["uyetipiid"] == "aZZA1PyhVTw=") {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text("Tümü")
+                                    .val("1")
+                            );
+                        }
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        HedefGetir(1);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function HedefGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "satishedefraporu/hedeffordashboard/" + yil + "/" + slsref,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        hedefdata = data;
+                        SatisGetir(slsref);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function SatisGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "satishedefraporu/satisfordashboard/" + yil + "/" + slsref,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        satisdata = data;
+                        getSatisHedefGraph();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        slsref = 1;
+        yil = new Date().getFullYear();
+        satisdata = [];
+        hedefdata = [];
+
+        function toplamhedef() {
+            var toplam = 0;
+            for (var i = 0; i < hedefdata.length; i++) {
+                toplam += hedefdata[i];
+            }
+            return toplam.toFixed(0);
+        }
+
+        function toplamsatis() {
+            var toplam = 0;
+            for (var i = 0; i < satisdata.length; i++) {
+                toplam += satisdata[i];
+            }
+            return toplam.toFixed(0);
+        }
+
+        function getSatisHedefGraph() {
+            Highcharts.chart('divData', {
+
+                title: {
+                    text: 'Satış-Hedef aylık gösterim'
+                },
+
+                subtitle: {
+                    text: "Hedef: " + toplamhedef().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " Satış: " + toplamsatis().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Satış-Hedef Koli'
+                    }
+                },
+
+                xAxis: {
+                    accessibility: {
+                        rangeDescription: 'Ocak - Aralık'
+                    }
+                },
+
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 1
+                    }
+                },
+
+                series: [{
+                    name: 'Satış',
+                    data: satisdata
+                }, {
+                    name: 'Hedef',
+                    data: hedefdata
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+
+            });
+        }
+
+        $(document).ready(function () {
+            SaticilarGetir(window.localStorage["uyeid"]);
+            $('#selectSaticilar').on('change', function (e) {
+                slsref = this.value;
+                HedefGetir();
+            });
+            $('#selectYil').on('change', function (e) {
+                yil = this.value;
+                HedefGetir();
+            });
+        });
+    </script>
+}
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar">
+    <option value="1" selected="selected">Seçiniz</option>
+</select>
+
+<select id="selectYil" name="selectYil" class="dropDown selYil">
+</select>
+
+<div id="divData"></div>
