@@ -901,7 +901,7 @@ namespace Sultanlar.UI
 
                 ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
 
-                range = ws.get_Range("A1", "AH10000");
+                range = ws.get_Range("A1", "AG10000");
 
                 values = (object[,])range.Value2;
             }
@@ -932,45 +932,54 @@ namespace Sultanlar.UI
 
                 try
                 {
-                    string sorgu = "INSERT INTO [WEB_RUT_3_GIRIS_BETA]([MTIP],[ID1],[SLSREF],[GMREF],[SMREF],[RUT_1],[GUN_1],[BAS_TAR_1],[BIT_TAR_1],[ID2],[RUT_2],[GUN_2],[BAS_TAR_2],[BIT_TAR_2],[ID3],[RUT_3],[GUN_3],[BAS_TAR_3],[BIT_TAR_3],[ID4],[RUT_4],[GUN_4],[BAS_TAR_4],[BIT_TAR_4],[ID5],[RUT_5],[GUN_5],[BAS_TAR_5],[BIT_TAR_5],[ID6],[RUT_6],[GUN_6],[BAS_TAR_6],[BIT_TAR_6],[ISLEM_YAPAN],[ISLEM_TARIH]) VALUES (" + 
-                        Convert.ToInt32(values[i, 1]) + "," +
-                        "'" + values[i, 2].ToString() + "'," +
-                        Convert.ToInt32(values[i, 3]) + "," +
-                        Convert.ToInt32(values[i, 4]) + "," +
-                        Convert.ToInt32(values[i, 5]) + "," +
-                        Convert.ToInt32(values[i, 6]) + "," +
-                        Convert.ToInt32(values[i, 7]) + "," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 8]))) + "'," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 9]))) + "'," +
-                        "'" + values[i, 10].ToString() + "'," +
-                        Convert.ToInt32(values[i, 11]) + "," +
-                        Convert.ToInt32(values[i, 12]) + "," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 13]))) + "'," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 14]))) + "'," +
-                        "'" + values[i, 15].ToString() + "'," +
-                        Convert.ToInt32(values[i, 16]) + "," +
-                        Convert.ToInt32(values[i, 17]) + "," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 18]))) + "'," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 19]))) + "'," +
-                        "'" + values[i, 20].ToString() + "'," +
-                        Convert.ToInt32(values[i, 21]) + "," +
-                        Convert.ToInt32(values[i, 22]) + "," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 23]))) + "'," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 24]))) + "'," +
-                        "'" + values[i, 25].ToString() + "'," +
-                        Convert.ToInt32(values[i, 26]) + "," +
-                        Convert.ToInt32(values[i, 27]) + "," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 28]))) + "'," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 29]))) + "'," +
-                        "'" + values[i, 30].ToString() + "'," +
-                        Convert.ToInt32(values[i, 31]) + "," +
-                        Convert.ToInt32(values[i, 32]) + "," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 33]))) + "'," +
-                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 34]))) + "'," +
-                        "'" + frmAna.KAdi + "'," +
-                        "'" + DateNormalize(DateTime.Now) + "')";
+                    if (values[i, 10] != null)
+                    {
 
-                    WebGenel.ExecNQ(sorgu);
+                        if (i == 760)
+                        {
+                            string asd = "aaa";
+                        }
+
+                        string sorgu = "INSERT INTO [WEB_RUT_3_GIRIS_BETA]([MTIP],[ID1],[SLSREF],[GMREF],[SMREF],[RUT_1],[GUN_1],[BAS_TAR_1],[BIT_TAR_1],[ID2],[RUT_2],[GUN_2],[BAS_TAR_2],[BIT_TAR_2],[ID3],[RUT_3],[GUN_3],[BAS_TAR_3],[BIT_TAR_3],[ID4],[RUT_4],[GUN_4],[BAS_TAR_4],[BIT_TAR_4],[ID5],[RUT_5],[GUN_5],[BAS_TAR_5],[BIT_TAR_5],[ID6],[RUT_6],[GUN_6],[BAS_TAR_6],[BIT_TAR_6],[ISLEM_YAPAN],[ISLEM_TARIH]) VALUES (" +
+                            IntNormalize(values[i, 1]) + "," +
+                            "''," +
+                            IntNormalize(values[i, 4]) + "," +
+                            IntNormalize(values[i, 6]) + "," +
+                            IntNormalize(values[i, 8]) + "," +
+                            IntNormalize(values[i, 10]) + "," +
+                            IntNormalize(values[i, 11]) + "," +
+                            DateNormalize(values[i, 12]) + "," +
+                            DateNormalize(values[i, 13]) + "," +
+                            "''," +
+                            IntNormalize(values[i, 14]) + "," +
+                            IntNormalize(values[i, 15]) + "," +
+                            DateNormalize(values[i, 16]) + "," +
+                            DateNormalize(values[i, 17]) + "," +
+                            "''," +
+                            IntNormalize(values[i, 18]) + "," +
+                            IntNormalize(values[i, 19]) + "," +
+                            DateNormalize(values[i, 20]) + "," +
+                            DateNormalize(values[i, 21]) + "," +
+                            "''," +
+                            IntNormalize(values[i, 22]) + "," +
+                            IntNormalize(values[i, 23]) + "," +
+                            DateNormalize(values[i, 24]) + "," +
+                            DateNormalize(values[i, 25]) + "," +
+                            "''," +
+                            IntNormalize(values[i, 26]) + "," +
+                            IntNormalize(values[i, 27]) + "," +
+                            DateNormalize(values[i, 28]) + "," +
+                            DateNormalize(values[i, 29]) + "," +
+                            "''," +
+                            IntNormalize(values[i, 30]) + "," +
+                            IntNormalize(values[i, 31]) + "," +
+                            DateNormalize(values[i, 32]) + "," +
+                            DateNormalize(values[i, 33]) + "," +
+                            "'" + frmAna.KAdi + "'," +
+                            DateNormalize(DateTime.Now.ToOADate()) + ")";
+
+                        WebGenel.ExecNQ(sorgu);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -981,13 +990,32 @@ namespace Sultanlar.UI
             MessageBox.Show("Tüm satırlardaki rutlar başarıyla girildi", "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private string DateNormalize(DateTime date)
+        private string DateNormalize(object data)
         {
+            DateTime date = DateTime.MinValue;
+
+            if (data != null)
+                date = DateTime.FromOADate(Convert.ToDouble(data));
+            else
+                return "NULL";
+
             int day = date.Day;
             int month = date.Month;
             int year = date.Year;
 
-            return month + "." + day + "." + year;
+            return "'" + month + "." + day + "." + year + "'";
+        }
+
+        private string IntNormalize(object data)
+        {
+            int sayi = 0;
+
+            if (data != null && data != "")
+                sayi = Convert.ToInt32(data);
+            else
+                return "NULL";
+
+            return sayi.ToString();
         }
     }
 }
