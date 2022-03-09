@@ -874,5 +874,120 @@ namespace Sultanlar.UI
             frmINTERNETrutnotlar frm = new frmINTERNETrutnotlar();
             frm.ShowDialog();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK)
+                ExceldenAl(ofd.FileName);
+        }
+
+        private void ExceldenAl(string dosya)
+        {
+            Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook wb = null;
+            Microsoft.Office.Interop.Excel.Worksheet ws = null;
+            Microsoft.Office.Interop.Excel.Range range = null;
+
+            object[,] values = null;
+
+            try
+            {
+                wb = ap.Workbooks.Open(dosya, false, true,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, true);
+
+                ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+
+                range = ws.get_Range("A1", "AH10000");
+
+                values = (object[,])range.Value2;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+            finally
+            {
+                range = null;
+                ws = null;
+                if (wb != null)
+                    wb.Close(false, System.Reflection.Missing.Value, System.Reflection.Missing.Value);
+                wb = null;
+                if (ap != null)
+                    ap.Quit();
+                ap = null;
+            }
+
+            string delsorgu = "DELETE FROM WEB_RUT_3_GIRIS_BETA";
+            WebGenel.ExecNQ(delsorgu);
+
+            for (int i = 2; i <= values.GetLength(0); i++) // 1.satır başlıklar
+            {
+                if (values[i, 1] == null) // 1.kolon boş ise bu satırdan sonrasına bakmasın
+                    break;
+
+                try
+                {
+                    string sorgu = "INSERT INTO [WEB_RUT_3_GIRIS_BETA]([MTIP],[ID1],[SLSREF],[GMREF],[SMREF],[RUT_1],[GUN_1],[BAS_TAR_1],[BIT_TAR_1],[ID2],[RUT_2],[GUN_2],[BAS_TAR_2],[BIT_TAR_2],[ID3],[RUT_3],[GUN_3],[BAS_TAR_3],[BIT_TAR_3],[ID4],[RUT_4],[GUN_4],[BAS_TAR_4],[BIT_TAR_4],[ID5],[RUT_5],[GUN_5],[BAS_TAR_5],[BIT_TAR_5],[ID6],[RUT_6],[GUN_6],[BAS_TAR_6],[BIT_TAR_6],[ISLEM_YAPAN],[ISLEM_TARIH]) VALUES (" + 
+                        Convert.ToInt32(values[i, 1]) + "," +
+                        "'" + values[i, 2].ToString() + "'," +
+                        Convert.ToInt32(values[i, 3]) + "," +
+                        Convert.ToInt32(values[i, 4]) + "," +
+                        Convert.ToInt32(values[i, 5]) + "," +
+                        Convert.ToInt32(values[i, 6]) + "," +
+                        Convert.ToInt32(values[i, 7]) + "," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 8]))) + "'," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 9]))) + "'," +
+                        "'" + values[i, 10].ToString() + "'," +
+                        Convert.ToInt32(values[i, 11]) + "," +
+                        Convert.ToInt32(values[i, 12]) + "," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 13]))) + "'," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 14]))) + "'," +
+                        "'" + values[i, 15].ToString() + "'," +
+                        Convert.ToInt32(values[i, 16]) + "," +
+                        Convert.ToInt32(values[i, 17]) + "," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 18]))) + "'," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 19]))) + "'," +
+                        "'" + values[i, 20].ToString() + "'," +
+                        Convert.ToInt32(values[i, 21]) + "," +
+                        Convert.ToInt32(values[i, 22]) + "," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 23]))) + "'," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 24]))) + "'," +
+                        "'" + values[i, 25].ToString() + "'," +
+                        Convert.ToInt32(values[i, 26]) + "," +
+                        Convert.ToInt32(values[i, 27]) + "," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 28]))) + "'," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 29]))) + "'," +
+                        "'" + values[i, 30].ToString() + "'," +
+                        Convert.ToInt32(values[i, 31]) + "," +
+                        Convert.ToInt32(values[i, 32]) + "," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 33]))) + "'," +
+                        "'" + DateNormalize(DateTime.FromOADate(Convert.ToDouble(values[i, 34]))) + "'," +
+                        "'" + frmAna.KAdi + "'," +
+                        "'" + DateNormalize(DateTime.Now) + "')";
+
+                    WebGenel.ExecNQ(sorgu);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hata oluşan satır: " + i.ToString() + "\r\nHata ayrıntısı: " + ex.Message);
+                }
+            }
+
+            MessageBox.Show("Tüm satırlardaki rutlar başarıyla girildi", "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private string DateNormalize(DateTime date)
+        {
+            int day = date.Day;
+            int month = date.Month;
+            int year = date.Year;
+
+            return month + "." + day + "." + year;
+        }
     }
 }

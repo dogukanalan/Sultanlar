@@ -550,5 +550,25 @@ namespace Sultanlar.DatabaseObject
 
             return dt;
         }
+        public static void ExecNQ(string command)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand(command, conn);
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex, " " + cmd.CommandText);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
     }
 }
