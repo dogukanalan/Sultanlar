@@ -34,6 +34,31 @@
 
                         HedefGetir();
                         BolumGetir();
+                        BayiSatisHedefGetir();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function BayiSatisHedefGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "dashboard/bayisatishedef/" + yilbayisatishedef + "/" + aybayisatishedef,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        bayisatishedefcat = [];
+                        bayisatishedefhed = [];
+                        bayisatishedefsat = [];
+                        for (var i = 0; i < data.length; i++) {
+                            bayisatishedefcat.push(data[i].musteri);
+                            bayisatishedefhed.push(data[i].hedef);
+                            bayisatishedefsat.push(data[i].satis);
+                        }
+                        getBayiSatisHedefGraph();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
@@ -225,18 +250,18 @@
         slsrefbolum = 1;
         yilbolum = new Date().getFullYear();
         bolumdata = [{
-                name: 'ARI',
-                data: []
-            }, {
-                name: 'HAYAT',
-                data: []
-            }, {
-                name: 'TEMİZLİK',
-                data: []
-            }, {
-                name: 'YEG',
-                data: []
-            }];
+            name: 'ARI',
+            data: []
+        }, {
+            name: 'HAYAT',
+            data: []
+        }, {
+            name: 'TEMİZLİK',
+            data: []
+        }, {
+            name: 'YEG',
+            data: []
+        }];
 
         function getBolumGraph() {
             Highcharts.chart('divBolum', {
@@ -296,7 +321,92 @@
             });
         }
 
+        aybayisatishedef = new Date().getMonth() + 1;
+        yilbayisatishedef = new Date().getFullYear();
+        bayisatishedefcat = [];
+        bayisatishedefhed = [];
+        bayisatishedefsat = [];
+
+        function getBayiSatisHedefGraph() {
+            Highcharts.chart('divBayiSatisHedef', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Bayi üzerinde Hedef-Satış'
+                },
+
+                subtitle: {
+                    text: "Toplam satış"
+                },
+
+                xAxis: {
+                    categories: bayisatishedefcat
+                },
+                yAxis: [{
+                    min: 0,
+                    title: {
+                        text: 'Hedef'
+                    }
+                }, {
+                    title: {
+                        text: 'Satış'
+                    },
+                    opposite: true
+                }],
+                legend: {
+                    shadow: false
+                },
+                tooltip: {
+                    shared: true
+                },
+                plotOptions: {
+                    column: {
+                        grouping: false,
+                        shadow: false,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Hedef',
+                    color: 'rgba(165,170,217,1)',
+                    data: bayisatishedefhed,
+                    pointPadding: 0.3,
+                    pointPlacement: -0.2
+                }, {
+                    name: 'Satış',
+                    color: 'rgba(186,60,61,.9)',
+                    data: bayisatishedefsat,
+                    pointPadding: 0.4,
+                    pointPlacement: -0.2
+                }]
+            });
+        }
+
         $(document).ready(function () {
+            $('#selectYilBolum').empty();
+            $("#selectYilBolum").append($("<option />").val("2022").text("2022"));
+            $("#selectYilBolum").append($("<option />").val("2021").text("2021"));
+            $("#selectYilBolum").append($("<option />").val("2020").text("2020"));
+            $("#selectYilBolum").append($("<option />").val("2019").text("2019"));
+            $("#selectYilBolum").append($("<option />").val("2018").text("2018"));
+            $("#selectYilBolum").append($("<option />").val("2017").text("2017"));
+            $("#selectYilBolum").append($("<option />").val("2016").text("2016"));
+            $("#selectYilBolum").append($("<option />").val("2015").text("2015"));
+            $("#selectYilBolum").append($("<option />").val("2014").text("2014"));
+
+            $('#selectYilBayiSatisHedef').empty();
+            $("#selectYilBayiSatisHedef").append($("<option />").val("2022").text("2022"));
+            $("#selectYilBayiSatisHedef").append($("<option />").val("2021").text("2021"));
+            $("#selectYilBayiSatisHedef").append($("<option />").val("2020").text("2020"));
+            $("#selectYilBayiSatisHedef").append($("<option />").val("2019").text("2019"));
+            $("#selectYilBayiSatisHedef").append($("<option />").val("2018").text("2018"));
+            $("#selectYilBayiSatisHedef").append($("<option />").val("2017").text("2017"));
+            $("#selectYilBayiSatisHedef").append($("<option />").val("2016").text("2016"));
+            $("#selectYilBayiSatisHedef").append($("<option />").val("2015").text("2015"));
+            $("#selectYilBayiSatisHedef").append($("<option />").val("2014").text("2014"));
+            $('select[name=selectAyBayiSatisHedef]').val((new Date().getMonth() + 1).toString());
+
             SaticilarGetir(window.localStorage["uyeid"]);
             $('#selectSaticilar').on('change', function (e) {
                 slsref = this.value;
@@ -314,6 +424,14 @@
                 yilbolum = this.value;
                 BolumGetir();
             });
+            $('#selectYilBayiSatisHedef').on('change', function (e) {
+                yilbayisatishedef = this.value;
+                BayiSatisHedefGetir();
+            });
+            $('#selectAyBayiSatisHedef').on('change', function (e) {
+                aybayisatishedef = this.value;
+                BayiSatisHedefGetir();
+            });
         });
     </script>
 }
@@ -323,6 +441,26 @@
 <select id="selectYil" name="selectYil" class="dropDown selYil grafikUstu">
 </select>
 <div id="divData"></div>
+<br />
+<div>
+    <select id="selectYilBayiSatisHedef" name="selectYilBayiSatisHedef" class="dropDown selYil grafikUstu">
+    </select>
+    <select id="selectAyBayiSatisHedef" name="selectAyBayiSatisHedef" class="dropDown selSaticilar grafikUstu">
+        <option value="1">Ocak</option>
+        <option value="2">Şubat</option>
+        <option value="3">Mart</option>
+        <option value="4">Nisan</option>
+        <option value="5">Mayıs</option>
+        <option value="6">Haziran</option>
+        <option value="7">Temmuz</option>
+        <option value="8">Ağustos</option>
+        <option value="9">Eylül</option>
+        <option value="10">Ekim</option>
+        <option value="11">Kasım</option>
+        <option value="12">Aralık</option>
+    </select>
+    <div id="divBayiSatisHedef"></div>
+</div>
 <br />
 <select id="selectSaticilarBolum" name="selectSaticilarBolum" class="dropDown selSaticilar grafikUstu">
     <option value="1" selected="selected">Seçiniz</option>

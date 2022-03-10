@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Sultanlar.DatabaseObject.Internet;
 using Sultanlar.DatabaseObject;
+using System.Threading;
 
 namespace Sultanlar.UI
 {
@@ -877,13 +878,14 @@ namespace Sultanlar.UI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Thread thr = new Thread(new ParameterizedThreadStart(ExceldenAl));
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
             if (ofd.ShowDialog() == DialogResult.OK)
-                ExceldenAl(ofd.FileName);
+                thr.Start(ofd.FileName);
         }
 
-        private void ExceldenAl(string dosya)
+        private void ExceldenAl(object dosya)
         {
             Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
             Microsoft.Office.Interop.Excel.Workbook wb = null;
@@ -894,7 +896,7 @@ namespace Sultanlar.UI
 
             try
             {
-                wb = ap.Workbooks.Open(dosya, false, true,
+                wb = ap.Workbooks.Open(dosya.ToString(), false, true,
                     Type.Missing, Type.Missing, Type.Missing, Type.Missing,
                     Type.Missing, Type.Missing, Type.Missing, Type.Missing,
                     Type.Missing, Type.Missing, Type.Missing, true);
@@ -942,35 +944,35 @@ namespace Sultanlar.UI
                             IntNormalize(values[i, 8]) + "," +
                             IntNormalize(values[i, 10]) + "," +
                             IntNormalize(values[i, 11]) + "," +
-                            DateNormalize(values[i, 12]) + "," +
-                            DateNormalize(values[i, 13]) + "," +
+                            DateNormalize(values[i, 12], true) + "," +
+                            DateNormalize(values[i, 13], false) + "," +
                             "''," +
                             IntNormalize(values[i, 14]) + "," +
                             IntNormalize(values[i, 15]) + "," +
-                            DateNormalize(values[i, 16]) + "," +
-                            DateNormalize(values[i, 17]) + "," +
+                            DateNormalize(values[i, 16], true) + "," +
+                            DateNormalize(values[i, 17], false) + "," +
                             "''," +
                             IntNormalize(values[i, 18]) + "," +
                             IntNormalize(values[i, 19]) + "," +
-                            DateNormalize(values[i, 20]) + "," +
-                            DateNormalize(values[i, 21]) + "," +
+                            DateNormalize(values[i, 20], true) + "," +
+                            DateNormalize(values[i, 21], false) + "," +
                             "''," +
                             IntNormalize(values[i, 22]) + "," +
                             IntNormalize(values[i, 23]) + "," +
-                            DateNormalize(values[i, 24]) + "," +
-                            DateNormalize(values[i, 25]) + "," +
+                            DateNormalize(values[i, 24], true) + "," +
+                            DateNormalize(values[i, 25], false) + "," +
                             "''," +
                             IntNormalize(values[i, 26]) + "," +
                             IntNormalize(values[i, 27]) + "," +
-                            DateNormalize(values[i, 28]) + "," +
-                            DateNormalize(values[i, 29]) + "," +
+                            DateNormalize(values[i, 28], true) + "," +
+                            DateNormalize(values[i, 29], false) + "," +
                             "''," +
                             IntNormalize(values[i, 30]) + "," +
                             IntNormalize(values[i, 31]) + "," +
-                            DateNormalize(values[i, 32]) + "," +
-                            DateNormalize(values[i, 33]) + "," +
+                            DateNormalize(values[i, 32], true) + "," +
+                            DateNormalize(values[i, 33], false) + "," +
                             "'" + frmAna.KAdi + "'," +
-                            DateNormalize(DateTime.Now.ToOADate()) + ")";
+                            DateNormalize(DateTime.Now.ToOADate(), true) + ")";
 
                         WebGenel.ExecNQ(sorgu);
                     }
@@ -984,14 +986,14 @@ namespace Sultanlar.UI
             MessageBox.Show("Tüm satırlardaki rutlar başarıyla girildi", "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private string DateNormalize(object data)
+        private string DateNormalize(object data, bool baslangic)
         {
-            DateTime date = DateTime.MinValue;
+            DateTime date = baslangic ? DateTime.Now : Convert.ToDateTime("09.01.2028");
 
             if (data != null)
                 date = DateTime.FromOADate(Convert.ToDouble(data));
-            else
-                return "NULL";
+            /*else
+                return "NULL";*/
 
             int day = date.Day;
             int month = date.Month;

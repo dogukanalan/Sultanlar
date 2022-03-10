@@ -539,6 +539,11 @@ iframe {
     .container {
         width: 1280px;
     }
+
+    .grafikUstu {
+        top: 50px;
+        z-index: 1;
+    }
 }
 
 @media (max-width: 992px) {
@@ -707,6 +712,11 @@ iframe {
 
     .subMenu {
         font-size: 0.85rem;
+    }
+
+    .grafikUstu {
+        top: 5px;
+        z-index: 1;
     }
 }
 
@@ -1233,7 +1243,6 @@ input[type="number"]:disabled {
     border-bottom-right-radius: 5px
 }
 
-.grafikUstu {
-    top: 50px;
-    z-index: 1;
+.highcharts-credits {
+    display: none !important;
 }

@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Sultanlar.Model;
+using Sultanlar.Model.Dashboard;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -14,6 +14,7 @@ namespace Sultanlar.WebAPI.Services.Internet
     {
         internal List<satisHedefRaporu> DashboardYillikSatis(int Yil, int Slsref) => new satisHedefRaporu().GetSatisForDashboard(Yil, Slsref);
         internal List<satisHedefRaporu> DashboardYillikHedef(int Yil, int Slsref) => new satisHedefRaporu().GetHedefForDashboard(Yil, Slsref);
-        internal List<BolumYillik> DashboardYillikBolum(int Yil, int Slsref) => new satisRaporu().GetBolumYillik(Yil, Slsref);
+        internal List<BolumYillik> DashboardYillikBolum(int Yil, int Slsref) => new satisDashboard().GetBolumYillik(Yil, Slsref);
+        internal List<BayiSatisHedef> DashboardBayiSatisHedef(int Yil, int Ay) => new satisDashboard().GetBayiSatisHedef(Yil, Ay);
     }
 }

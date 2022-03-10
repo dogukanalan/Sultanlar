@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sultanlar.Model
+namespace Sultanlar.Model.Dashboard
 {
     public class BolumYillik
     {
-        public BolumYillik(string BOLUM, int AY, int KOLI) 
+        public BolumYillik(string BOLUM, int AY, int KOLI)
         {
             this.BOLUM = BOLUM;
             this.AY = AY;

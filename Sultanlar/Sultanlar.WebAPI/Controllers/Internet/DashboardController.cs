@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sultanlar.DbObj.Internet;
 using Sultanlar.WebAPI.Models.Internet;
 using Sultanlar.WebAPI.Services.Internet;
-using Sultanlar.Model;
+using Sultanlar.Model.Dashboard;
 
 namespace Sultanlar.WebAPI.Controllers.Internet
 {
@@ -46,6 +46,12 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public List<BolumYillik> Bolum(int YIL, int SLSREF)
         {
             return new DashboardProvider().DashboardYillikBolum(YIL, SLSREF);
+        }
+
+        [HttpGet, Route("internet/[controller]/[action]/{YIL}/{AY}")]
+        public List<BayiSatisHedef> BayiSatisHedef(int YIL, int AY)
+        {
+            return new DashboardProvider().DashboardBayiSatisHedef(YIL, AY);
         }
     }
 }
