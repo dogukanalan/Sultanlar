@@ -22,7 +22,7 @@ var apiurl = "http://localhost:50544/internet/";
 //https://www.ittihadteknoloji.com.tr/internet/
 
 var aramadelay = 1000;
-var surum = '1.3.2';
+var surum = '1.4';
 
 
 
@@ -31,16 +31,16 @@ $(document).ready(function () {
         $(this).val($(this).val().toLocaleUpperCase());
     });
 
-    $('#selectYil').empty();
-    $("#selectYil").append($("<option />").val("2022").text("2022"));
-    $("#selectYil").append($("<option />").val("2021").text("2021"));
-    $("#selectYil").append($("<option />").val("2020").text("2020"));
-    $("#selectYil").append($("<option />").val("2019").text("2019"));
-    $("#selectYil").append($("<option />").val("2018").text("2018"));
-    $("#selectYil").append($("<option />").val("2017").text("2017"));
-    $("#selectYil").append($("<option />").val("2016").text("2016"));
-    $("#selectYil").append($("<option />").val("2015").text("2015"));
-    $("#selectYil").append($("<option />").val("2014").text("2014"));
+    $('.selYil').empty();
+    $(".selYil").append($("<option />").val("2022").text("2022"));
+    $(".selYil").append($("<option />").val("2021").text("2021"));
+    $(".selYil").append($("<option />").val("2020").text("2020"));
+    $(".selYil").append($("<option />").val("2019").text("2019"));
+    $(".selYil").append($("<option />").val("2018").text("2018"));
+    $(".selYil").append($("<option />").val("2017").text("2017"));
+    $(".selYil").append($("<option />").val("2016").text("2016"));
+    $(".selYil").append($("<option />").val("2015").text("2015"));
+    $(".selYil").append($("<option />").val("2014").text("2014"));
 
     if (typeof Android !== "undefined") {
         $("input").focus(function () {

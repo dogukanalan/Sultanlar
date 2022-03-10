@@ -901,7 +901,7 @@ namespace Sultanlar.UI
 
                 ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
 
-                range = ws.get_Range("A1", "AG10000");
+                range = ws.get_Range("A1", "AG100000");
 
                 values = (object[,])range.Value2;
             }
@@ -934,12 +934,6 @@ namespace Sultanlar.UI
                 {
                     if (values[i, 10] != null)
                     {
-
-                        if (i == 760)
-                        {
-                            string asd = "aaa";
-                        }
-
                         string sorgu = "INSERT INTO [WEB_RUT_3_GIRIS_BETA]([MTIP],[ID1],[SLSREF],[GMREF],[SMREF],[RUT_1],[GUN_1],[BAS_TAR_1],[BIT_TAR_1],[ID2],[RUT_2],[GUN_2],[BAS_TAR_2],[BIT_TAR_2],[ID3],[RUT_3],[GUN_3],[BAS_TAR_3],[BIT_TAR_3],[ID4],[RUT_4],[GUN_4],[BAS_TAR_4],[BIT_TAR_4],[ID5],[RUT_5],[GUN_5],[BAS_TAR_5],[BIT_TAR_5],[ID6],[RUT_6],[GUN_6],[BAS_TAR_6],[BIT_TAR_6],[ISLEM_YAPAN],[ISLEM_TARIH]) VALUES (" +
                             IntNormalize(values[i, 1]) + "," +
                             "''," +

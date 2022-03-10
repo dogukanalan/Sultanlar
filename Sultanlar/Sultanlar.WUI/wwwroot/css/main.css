@@ -1232,3 +1232,8 @@ input[type="number"]:disabled {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px
 }
+
+.grafikUstu {
+    top: 50px;
+    z-index: 1;
+}

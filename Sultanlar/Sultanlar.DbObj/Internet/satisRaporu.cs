@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sultanlar.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -80,6 +81,18 @@ namespace Sultanlar.DbObj.Internet
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new satisRaporu(dic[i][0].ToString(), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToDateTime(dic[i][3]), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), ConvertToInt32(dic[i][10]), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), true, true, true));
+
+            return donendeger;
+        }
+
+        public List<BolumYillik> GetBolumYillik(int YIL, int SLSREF)
+        {
+            List<BolumYillik> donendeger = new List<BolumYillik>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_dashboardYillikBolum", new Dictionary<string, object>() { { "YIL", YIL }, { "SLSREF", SLSREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new BolumYillik(dic[i][0].ToString(), ConvertToInt32(dic[i][1]), Convert.ToInt32(dic[i][2])));
 
             return donendeger;
         }

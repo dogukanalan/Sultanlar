@@ -95,6 +95,10 @@
       <Project>{6368880d-50c3-4e33-9ecf-2c416e832be9}</Project>
       <Name>Sultanlar.Class</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sultanlar.Model\Sultanlar.Model.csproj">
+      <Project>{07195502-5e83-4505-b932-f1fa1eff768e}</Project>
+      <Name>Sultanlar.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
