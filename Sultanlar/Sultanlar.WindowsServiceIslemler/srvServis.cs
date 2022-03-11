@@ -2158,6 +2158,8 @@ namespace Sultanlar.WindowsServiceIslemler
                 conn.Close();*/
 
                 cmdLog.Parameters.AddWithValue("@strLog", listCustomers.Length.ToString() + " Satır");
+                
+                WebRutJob();
             }
             else
             {
@@ -5454,6 +5456,32 @@ namespace Sultanlar.WindowsServiceIslemler
             {
                 conn.Close();
                 LogYaz(conn, "satis yeni", hataa != string.Empty ? false : true, hataa, bastarih, DateTime.Now);
+            }
+        }
+
+        private void WebRutJob()
+        {
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlCommand cmd = new SqlCommand("msdb.dbo.sp_start_job", conn);
+            cmd.CommandTimeout = 1000;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@job_name", "Web_Rut");
+
+            DateTime bastarih = DateTime.Now;
+            string hataa = string.Empty;
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                hataa = ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+                LogYaz(conn, "Web_Rut", hataa != string.Empty ? false : true, hataa, bastarih, DateTime.Now);
             }
         }
 

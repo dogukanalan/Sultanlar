@@ -212,6 +212,12 @@
                 },
 
                 plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    },
                     series: {
                         label: {
                             connectorAllowed: false
@@ -265,7 +271,7 @@
 
         function getBolumGraph() {
             Highcharts.chart('divBolum', {
-
+                
                 title: {
                     text: 'Bölüm bazında satış'
                 },

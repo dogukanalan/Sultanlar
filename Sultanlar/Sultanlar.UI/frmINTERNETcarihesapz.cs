@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Sultanlar.DatabaseObject.Internet;
 using Sultanlar.DatabaseObject;
 using System.Threading;
+using System.Data.SqlClient;
 
 namespace Sultanlar.UI
 {
@@ -984,6 +985,7 @@ namespace Sultanlar.UI
             }
 
             MessageBox.Show("Tüm satırlardaki rutlar başarıyla girildi", "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            WebRut2Job();
         }
 
         private string DateNormalize(object data, bool baslangic)
@@ -1012,6 +1014,31 @@ namespace Sultanlar.UI
                 return "NULL";
 
             return sayi.ToString();
+        }
+
+        private void WebRut2Job()
+        {
+            SqlConnection conn = new SqlConnection(General.ConnectionString);
+            SqlCommand cmd = new SqlCommand("msdb.dbo.sp_start_job", conn);
+            cmd.CommandTimeout = 1000;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@job_name", "Web_Rut_2");
+
+            DateTime bastarih = DateTime.Now;
+            string hataa = string.Empty;
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                hataa = ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }

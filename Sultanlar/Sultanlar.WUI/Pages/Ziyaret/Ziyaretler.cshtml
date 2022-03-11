@@ -6,9 +6,11 @@
 
 @section head {
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.5.5/css/colReorder.dataTables.min.css" />
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
 
     <script>
         function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
@@ -110,6 +112,8 @@
             }).DataTable({
                 "responsive": true,
                 "destroy": true,
+                "colReorder": true,
+                "stateSave": true,
                 ajax: {
                     dataSrc: "",
                     xhr: function () { return xhrDownloadUpload(); },
