@@ -42,6 +42,7 @@ namespace Sultanlar.DatabaseObject.Internet
         private decimal _mnFaturadanKapatilan;
         private int _intFaturaID;
         private string _IL;
+        private string _NOKTAKOD;
         //
         //
         //
@@ -57,7 +58,7 @@ namespace Sultanlar.DatabaseObject.Internet
             string URUNAD, int NOKTASATADET, decimal NOKTASATNET, byte NOKTASATAY, short NOKTASATYIL, 
             int intAnlasmaID, int intAktiviteID, double flIsk1, double flIsk2, double flIsk3, double flIsk4, decimal mnListeFiyat, decimal mnListeFiyatKarli, 
             decimal mnNetBirimFiyat, decimal mnNetToplam, decimal mnBirimFark, decimal mnToplamFark,
-            bool blGeriyeDonuk, decimal mnFaturadanKapatilan, int intFaturaID, string IL)
+            bool blGeriyeDonuk, decimal mnFaturadanKapatilan, int intFaturaID, string IL, string NOKTAKOD)
         {
             this._REF = REF;
             this._BAYIKOD = BAYIKOD;
@@ -86,6 +87,7 @@ namespace Sultanlar.DatabaseObject.Internet
             this._mnFaturadanKapatilan = mnFaturadanKapatilan;
             this._intFaturaID = intFaturaID;
             this._IL = IL;
+            this._NOKTAKOD = NOKTAKOD;
         }
         //
         //
@@ -93,7 +95,7 @@ namespace Sultanlar.DatabaseObject.Internet
             string URUNAD, int NOKTASATADET, decimal NOKTASATNET, byte NOKTASATAY, short NOKTASATYIL, 
             int intAnlasmaID, int intAktiviteID, double flIsk1, double flIsk2, double flIsk3, double flIsk4, decimal mnListeFiyat, decimal mnListeFiyatKarli,
             decimal mnNetBirimFiyat, decimal mnNetToplam, decimal mnBirimFark, decimal mnToplamFark,
-            bool blGeriyeDonuk, decimal mnFaturadanKapatilan, int intFaturaID, string IL)
+            bool blGeriyeDonuk, decimal mnFaturadanKapatilan, int intFaturaID, string IL, string NOKTAKOD)
         {
             this._BAYIKOD = BAYIKOD;
             this._NOKTAAD = NOKTAAD;
@@ -121,6 +123,7 @@ namespace Sultanlar.DatabaseObject.Internet
             this._mnFaturadanKapatilan = mnFaturadanKapatilan;
             this._intFaturaID = intFaturaID;
             this._IL = IL;
+            this._NOKTAKOD = NOKTAKOD;
         }
         //
         //
@@ -154,6 +157,7 @@ namespace Sultanlar.DatabaseObject.Internet
         public decimal mnFaturadanKapatilan { get { return this._mnFaturadanKapatilan; } set { this._mnFaturadanKapatilan = value; } }
         public int intFaturaID { get { return this._intFaturaID; } set { this._intFaturaID = value; } }
         public string IL { get { return this._IL; } set { this._IL = value; } }
+        public string NOKTAKOD { get { return this._NOKTAKOD; } set { this._NOKTAKOD = value; } }
         //
         //
         //
@@ -181,7 +185,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Satis-Rapor-TP] ([BAYIKOD],[NOKTAAD],[NOKTAEVRAKNO],[NOKTAEVREKTARIH],[URUNKOD],[URUNAD],[NOKTASATADET],[NOKTASATNET],[NOKTASATAY],[NOKTASATYIL],intAnlasmaID,intAktiviteID,flIsk1,flIsk2,flIsk3,flIsk4,mnListeFiyat,mnListeFiyatKarli,mnNetBirimFiyat,mnNetToplam,mnBirimFark,mnToplamFark,blGeriyeDonuk,mnFaturadanKapatilan,intFaturaID) VALUES (@BAYIKOD,@NOKTAAD,@NOKTAEVRAKNO,@NOKTAEVREKTARIH,@URUNKOD,@URUNAD,@NOKTASATADET,@NOKTASATNET,@NOKTASATAY,@NOKTASATYIL,@intAnlasmaID,@intAktiviteID,@flIsk1,@flIsk2,@flIsk3,@flIsk4,@mnListeFiyat,@mnListeFiyatKarli,@mnNetBirimFiyat,@mnNetToplam,@mnBirimFark,@mnToplamFark,@blGeriyeDonuk,@mnFaturadanKapatilan,@intFaturaID) SELECT @REF = SCOPE_IDENTITY()", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Satis-Rapor-TP] ([BAYIKOD],[NOKTAAD],[NOKTAEVRAKNO],[NOKTAEVREKTARIH],[URUNKOD],[URUNAD],[NOKTASATADET],[NOKTASATNET],[NOKTASATAY],[NOKTASATYIL],intAnlasmaID,intAktiviteID,flIsk1,flIsk2,flIsk3,flIsk4,mnListeFiyat,mnListeFiyatKarli,mnNetBirimFiyat,mnNetToplam,mnBirimFark,mnToplamFark,blGeriyeDonuk,mnFaturadanKapatilan,intFaturaID,NOKTAKOD) VALUES (@BAYIKOD,@NOKTAAD,@NOKTAEVRAKNO,@NOKTAEVREKTARIH,@URUNKOD,@URUNAD,@NOKTASATADET,@NOKTASATNET,@NOKTASATAY,@NOKTASATYIL,@intAnlasmaID,@intAktiviteID,@flIsk1,@flIsk2,@flIsk3,@flIsk4,@mnListeFiyat,@mnListeFiyatKarli,@mnNetBirimFiyat,@mnNetToplam,@mnBirimFark,@mnToplamFark,@blGeriyeDonuk,@mnFaturadanKapatilan,@intFaturaID,@NOKTAKOD) SELECT @REF = SCOPE_IDENTITY()", conn);
                 cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar).Value = this._BAYIKOD;
                 cmd.Parameters.Add("@NOKTAAD", SqlDbType.NVarChar).Value = this._NOKTAAD;
                 cmd.Parameters.Add("@NOKTAEVRAKNO", SqlDbType.NVarChar).Value = this._NOKTAEVRAKNO;
@@ -207,6 +211,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@blGeriyeDonuk", SqlDbType.Bit).Value = this._blGeriyeDonuk;
                 cmd.Parameters.Add("@mnFaturadanKapatilan", SqlDbType.Money).Value = this._mnFaturadanKapatilan;
                 cmd.Parameters.Add("@intFaturaID", SqlDbType.Int).Value = this._intFaturaID;
+                cmd.Parameters.Add("@NOKTAKOD", SqlDbType.NVarChar).Value = this._NOKTAKOD;
                 cmd.Parameters.Add("@REF", SqlDbType.BigInt).Direction = ParameterDirection.Output;
                 try
                 {
@@ -230,7 +235,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("UPDATE [Web-Satis-Rapor-TP] SET [BAYIKOD] = @BAYIKOD,[NOKTAAD] = @NOKTAAD,[NOKTAEVRAKNO] = @NOKTAEVRAKNO,[NOKTAEVREKTARIH] = @NOKTAEVREKTARIH,[URUNKOD] = @URUNKOD,[URUNAD] = @URUNAD,[NOKTASATADET] = @NOKTASATADET,[NOKTASATNET] = @NOKTASATNET,[NOKTASATAY] = @NOKTASATAY,[NOKTASATYIL] = @NOKTASATYIL, intAnlasmaID = @intAnlasmaID, intAktiviteID = @intAktiviteID, flIsk1 = @flIsk1, flIsk2 = @flIsk2, flIsk3 = @flIsk3, flIsk4 = @flIsk4,mnListeFiyat=@mnListeFiyat,mnListeFiyatKarli=@mnListeFiyatKarli,mnNetBirimFiyat=@mnNetBirimFiyat,mnNetToplam=@mnNetToplam,mnBirimFark=@mnBirimFark,mnToplamFark=@mnToplamFark,blGeriyeDonuk=@blGeriyeDonuk,mnFaturadanKapatilan=@mnFaturadanKapatilan,intFaturaID=@intFaturaID WHERE [REF] = @REF", conn);
+                SqlCommand cmd = new SqlCommand("UPDATE [Web-Satis-Rapor-TP] SET [BAYIKOD] = @BAYIKOD,[NOKTAAD] = @NOKTAAD,[NOKTAEVRAKNO] = @NOKTAEVRAKNO,[NOKTAEVREKTARIH] = @NOKTAEVREKTARIH,[URUNKOD] = @URUNKOD,[URUNAD] = @URUNAD,[NOKTASATADET] = @NOKTASATADET,[NOKTASATNET] = @NOKTASATNET,[NOKTASATAY] = @NOKTASATAY,[NOKTASATYIL] = @NOKTASATYIL, intAnlasmaID = @intAnlasmaID, intAktiviteID = @intAktiviteID, flIsk1 = @flIsk1, flIsk2 = @flIsk2, flIsk3 = @flIsk3, flIsk4 = @flIsk4,mnListeFiyat=@mnListeFiyat,mnListeFiyatKarli=@mnListeFiyatKarli,mnNetBirimFiyat=@mnNetBirimFiyat,mnNetToplam=@mnNetToplam,mnBirimFark=@mnBirimFark,mnToplamFark=@mnToplamFark,blGeriyeDonuk=@blGeriyeDonuk,mnFaturadanKapatilan=@mnFaturadanKapatilan,intFaturaID=@intFaturaID,NOKTAKOD=@NOKTAKOD WHERE [REF] = @REF", conn);
                 cmd.Parameters.Add("@REF", SqlDbType.BigInt).Value = this._REF;
                 cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar).Value = this._BAYIKOD;
                 cmd.Parameters.Add("@NOKTAAD", SqlDbType.NVarChar).Value = this._NOKTAAD;
@@ -257,6 +262,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@blGeriyeDonuk", SqlDbType.Bit).Value = this._blGeriyeDonuk;
                 cmd.Parameters.Add("@mnFaturadanKapatilan", SqlDbType.Money).Value = this._mnFaturadanKapatilan;
                 cmd.Parameters.Add("@intFaturaID", SqlDbType.Int).Value = this._intFaturaID;
+                cmd.Parameters.Add("@NOKTAKOD", SqlDbType.NVarChar).Value = this._NOKTAKOD;
                 try
                 {
                     conn.Open();
@@ -409,7 +415,7 @@ namespace Sultanlar.DatabaseObject.Internet
                     "SELECT REF,GMREF,[BAYIKOD],BAYIUNVAN,BOLGE,SEHIR,[NOKTAAD]," + noktaad + ",[NOKTAEVRAKNO],[NOKTAEVREKTARIH],[URUNKOD],CASE WHEN GRUPKOD = 'STG-1' THEN 'KGT' WHEN GRUPKOD = 'STG-2' THEN 'NF' ELSE 'DİĞER' END AS GRUPKOD,CASE WHEN OZELKOD = 'T4' THEN 'ARI' WHEN OZELKOD = 'T1' THEN 'TİBET' WHEN OZELKOD = 'T3' THEN 'HAYAT' WHEN OZELKOD = 'T2' THEN 'NON-FOOD' ELSE 'DİĞER' END AS KATEGORI,[URUNAD],KDV,KOLI,[NOKTASATADET],[NOKTASATADET] / KOLI AS NOKTASATKOLI,[NOKTASATAY],[NOKTASATYIL],intAnlasmaID,intAktiviteID,[NOKTASATNET],[NOKTASATNET] * [NOKTASATADET] AS NOKTASATNETT,flIsk1,flIsk2,flIsk3,flIsk4,mnListeFiyat,mnListeFiyat * [NOKTASATADET] AS mnListeFiyatT," +
                     "CASE WHEN (SELECT FIYAT FROM [Web-Fiyat-TP] WHERE TIP = (CASE WHEN [BAYIKOD] = '1001327' OR BAYIKOD = '1000951' OR BAYIKOD = '1005405' THEN 7 ELSE 22 END) AND YIL = [vw_Web-Satis-Rapor-TP].[NOKTASATYIL] AND AY = [vw_Web-Satis-Rapor-TP].[NOKTASATAY] AND ITEMREF = [vw_Web-Satis-Rapor-TP].ITEMREF) IS NOT NULL THEN (SELECT FIYAT FROM [Web-Fiyat-TP] WHERE TIP = (CASE WHEN [BAYIKOD] = '1001327' OR BAYIKOD = '1000951' OR BAYIKOD = '1005405' THEN 7 ELSE 22 END) AND YIL = [vw_Web-Satis-Rapor-TP].[NOKTASATYIL] AND AY = [vw_Web-Satis-Rapor-TP].[NOKTASATAY] AND ITEMREF = [vw_Web-Satis-Rapor-TP].ITEMREF) ELSE (SELECT TOP 1 FIYAT FROM [Web-Fiyat-Full] WHERE TIP = (CASE WHEN [BAYIKOD] = '1001327' OR BAYIKOD = '1000951' OR BAYIKOD = '1005405' THEN 7 ELSE 22 END) AND ITEMREF = [vw_Web-Satis-Rapor-TP].ITEMREF ORDER BY FIYAT DESC) END AS BAYISATIS," +
                     "[NOKTASATADET] * CASE WHEN (SELECT FIYAT FROM [Web-Fiyat-TP] WHERE TIP = (CASE WHEN [BAYIKOD] = '1001327' OR BAYIKOD = '1000951' OR BAYIKOD = '1005405' THEN 7 ELSE 22 END) AND YIL = [vw_Web-Satis-Rapor-TP].[NOKTASATYIL] AND AY = [vw_Web-Satis-Rapor-TP].[NOKTASATAY] AND ITEMREF = [vw_Web-Satis-Rapor-TP].ITEMREF) IS NOT NULL THEN (SELECT FIYAT FROM [Web-Fiyat-TP] WHERE TIP = (CASE WHEN [BAYIKOD] = '1001327' OR BAYIKOD = '1000951' OR BAYIKOD = '1005405' THEN 7 ELSE 22 END) AND YIL = [vw_Web-Satis-Rapor-TP].[NOKTASATYIL] AND AY = [vw_Web-Satis-Rapor-TP].[NOKTASATAY] AND ITEMREF = [vw_Web-Satis-Rapor-TP].ITEMREF) ELSE (SELECT TOP 1 FIYAT FROM [Web-Fiyat-Full] WHERE TIP = (CASE WHEN [BAYIKOD] = '1001327' OR BAYIKOD = '1000951' OR BAYIKOD = '1005405' THEN 7 ELSE 22 END) AND ITEMREF = [vw_Web-Satis-Rapor-TP].ITEMREF ORDER BY FIYAT DESC) END AS BAYISATIST," +
-                    "([NOKTASATNET] * [NOKTASATADET]) - (mnListeFiyat * [NOKTASATADET]) AS BUTCE,(mnListeFiyat * [NOKTASATADET]) * CASE WHEN GRUPKOD = 'STG-1' THEN (SELECT TAH_KAR FROM [Web-Musteri-TP-Ek2] WHERE GMREF = [vw_Web-Satis-Rapor-TP].GMREF AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + ") ELSE (SELECT YEG_KAR FROM [Web-Musteri-TP-Ek2] WHERE GMREF = [vw_Web-Satis-Rapor-TP].GMREF AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + ") END / 100 AS BAYIKAR,([NOKTASATNET] * [NOKTASATADET]) - (mnListeFiyat * [NOKTASATADET]) - ((mnListeFiyat * [NOKTASATADET]) * CASE WHEN GRUPKOD = 'STG-1' THEN (SELECT TAH_KAR FROM [Web-Musteri-TP-Ek2] WHERE GMREF = [vw_Web-Satis-Rapor-TP].GMREF AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + ") ELSE (SELECT YEG_KAR FROM [Web-Musteri-TP-Ek2] WHERE GMREF = [vw_Web-Satis-Rapor-TP].GMREF AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + ") END / 100) AS KALANBUTCE,mnListeFiyatKarli,mnListeFiyatKarli * [NOKTASATADET] AS mnListeFiyatKarliT,mnNetBirimFiyat,mnNetToplam,CASE WHEN [NOKTASATNET] < mnNetBirimFiyat THEN mnNetBirimFiyat - [NOKTASATNET] ELSE 0 END AS KARSFARK,CASE WHEN [NOKTASATNET] < mnNetBirimFiyat THEN (mnNetBirimFiyat - [NOKTASATNET]) * [NOKTASATADET] ELSE 0 END AS KARSFARKTOPLAM,CASE WHEN [NOKTASATNET] < mnNetBirimFiyat AND mnNetBirimFiyat != 0 THEN ((mnNetBirimFiyat - [NOKTASATNET]) * 100 / mnNetBirimFiyat) / 100 ELSE 0 END AS KARSFARKYUZDE,CASE WHEN [NOKTASATNET] > mnNetBirimFiyat AND [NOKTASATADET] > 0 THEN BAYIFIYATFARK * -1 ELSE 0 END AS KARSFARK1,CASE WHEN [NOKTASATNET] > mnNetBirimFiyat AND [NOKTASATADET] > 0 THEN BAYIFIYATFARK * -1 * [NOKTASATADET] ELSE 0 END AS KARSFARK1TOPLAM,BAYIFIYATFARK AS FARK,BAYIFIYATFARK * [NOKTASATADET] AS FARKTOPLAM,CASE WHEN [NOKTASATADET] > 0 AND mnNetBirimFiyat >= [NOKTASATNET] THEN BAYIFIYATFARK * [NOKTASATADET] ELSE 0 END AS ALTINDA,CASE WHEN [NOKTASATADET] > 0 AND mnNetBirimFiyat < [NOKTASATNET] THEN BAYIFIYATFARK * [NOKTASATADET] ELSE 0 END AS USTUNDE,mnBirimFark,CASE WHEN GRUPKOD = 'STG-1' THEN mnToplamFark ELSE 0 END AS TAHmnToplamFark,CASE WHEN GRUPKOD = 'STG-2' THEN mnToplamFark ELSE 0 END AS YEGmnToplamFark,mnToplamFark,blGeriyeDonuk,mnFaturadanKapatilan,intFaturaID,0 AS Degistirildi FROM [vw_Web-Satis-Rapor-TP]" + where + " ORDER BY BOLGE,BAYIUNVAN,NOKTAAD,URUNAD", conn);
+                    "([NOKTASATNET] * [NOKTASATADET]) - (mnListeFiyat * [NOKTASATADET]) AS BUTCE,(mnListeFiyat * [NOKTASATADET]) * CASE WHEN GRUPKOD = 'STG-1' THEN (SELECT TAH_KAR FROM [Web-Musteri-TP-Ek2] WHERE GMREF = [vw_Web-Satis-Rapor-TP].GMREF AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + ") ELSE (SELECT YEG_KAR FROM [Web-Musteri-TP-Ek2] WHERE GMREF = [vw_Web-Satis-Rapor-TP].GMREF AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + ") END / 100 AS BAYIKAR,([NOKTASATNET] * [NOKTASATADET]) - (mnListeFiyat * [NOKTASATADET]) - ((mnListeFiyat * [NOKTASATADET]) * CASE WHEN GRUPKOD = 'STG-1' THEN (SELECT TAH_KAR FROM [Web-Musteri-TP-Ek2] WHERE GMREF = [vw_Web-Satis-Rapor-TP].GMREF AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + ") ELSE (SELECT YEG_KAR FROM [Web-Musteri-TP-Ek2] WHERE GMREF = [vw_Web-Satis-Rapor-TP].GMREF AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + ") END / 100) AS KALANBUTCE,mnListeFiyatKarli,mnListeFiyatKarli * [NOKTASATADET] AS mnListeFiyatKarliT,mnNetBirimFiyat,mnNetToplam,CASE WHEN [NOKTASATNET] < mnNetBirimFiyat THEN mnNetBirimFiyat - [NOKTASATNET] ELSE 0 END AS KARSFARK,CASE WHEN [NOKTASATNET] < mnNetBirimFiyat THEN (mnNetBirimFiyat - [NOKTASATNET]) * [NOKTASATADET] ELSE 0 END AS KARSFARKTOPLAM,CASE WHEN [NOKTASATNET] < mnNetBirimFiyat AND mnNetBirimFiyat != 0 THEN ((mnNetBirimFiyat - [NOKTASATNET]) * 100 / mnNetBirimFiyat) / 100 ELSE 0 END AS KARSFARKYUZDE,CASE WHEN [NOKTASATNET] > mnNetBirimFiyat AND [NOKTASATADET] > 0 THEN BAYIFIYATFARK * -1 ELSE 0 END AS KARSFARK1,CASE WHEN [NOKTASATNET] > mnNetBirimFiyat AND [NOKTASATADET] > 0 THEN BAYIFIYATFARK * -1 * [NOKTASATADET] ELSE 0 END AS KARSFARK1TOPLAM,BAYIFIYATFARK AS FARK,BAYIFIYATFARK * [NOKTASATADET] AS FARKTOPLAM,CASE WHEN [NOKTASATADET] > 0 AND mnNetBirimFiyat >= [NOKTASATNET] THEN BAYIFIYATFARK * [NOKTASATADET] ELSE 0 END AS ALTINDA,CASE WHEN [NOKTASATADET] > 0 AND mnNetBirimFiyat < [NOKTASATNET] THEN BAYIFIYATFARK * [NOKTASATADET] ELSE 0 END AS USTUNDE,mnBirimFark,CASE WHEN GRUPKOD = 'STG-1' THEN mnToplamFark ELSE 0 END AS TAHmnToplamFark,CASE WHEN GRUPKOD = 'STG-2' THEN mnToplamFark ELSE 0 END AS YEGmnToplamFark,mnToplamFark,blGeriyeDonuk,mnFaturadanKapatilan,intFaturaID,NOKTAREF,NOKTAKOD,0 AS Degistirildi FROM [vw_Web-Satis-Rapor-TP]" + where + " ORDER BY BOLGE,BAYIUNVAN,NOKTAAD,URUNAD", conn);
                 da.SelectCommand.CommandTimeout = 200;
                 try
                 {
@@ -556,7 +562,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT REF,[BAYIKOD],[NOKTAAD],[NOKTAEVRAKNO],[NOKTAEVREKTARIH],[URUNKOD],[URUNAD],[NOKTASATADET],[NOKTASATNET],[NOKTASATAY],[NOKTASATYIL],intAnlasmaID,intAktiviteID,flIsk1,flIsk2,flIsk3,flIsk4,mnListeFiyat,mnListeFiyatKarli,mnNetBirimFiyat,mnNetToplam,mnBirimFark,mnToplamFark,blGeriyeDonuk,mnFaturadanKapatilan,intFaturaID FROM [Web-Satis-Rapor-TP] WHERE [REF] = @REF", conn);
+                SqlCommand cmd = new SqlCommand("SELECT REF,[BAYIKOD],[NOKTAAD],[NOKTAEVRAKNO],[NOKTAEVREKTARIH],[URUNKOD],[URUNAD],[NOKTASATADET],[NOKTASATNET],[NOKTASATAY],[NOKTASATYIL],intAnlasmaID,intAktiviteID,flIsk1,flIsk2,flIsk3,flIsk4,mnListeFiyat,mnListeFiyatKarli,mnNetBirimFiyat,mnNetToplam,mnBirimFark,mnToplamFark,blGeriyeDonuk,mnFaturadanKapatilan,intFaturaID,NOKTAKOD FROM [Web-Satis-Rapor-TP] WHERE [REF] = @REF", conn);
                 cmd.Parameters.Add("@REF", SqlDbType.BigInt).Value = REF;
                 SqlDataReader dr;
                 try
@@ -572,7 +578,7 @@ namespace Sultanlar.DatabaseObject.Internet
                             Convert.ToDouble(dr[14]), Convert.ToDouble(dr[15]), Convert.ToDouble(dr[16]), Convert.ToDecimal(dr[17]), 
                             Convert.ToDecimal(dr[18]), Convert.ToDecimal(dr[19]),
                             Convert.ToDecimal(dr[20]), Convert.ToDecimal(dr[21]), Convert.ToDecimal(dr[22]),
-                            Convert.ToBoolean(dr[23]), Convert.ToDecimal(dr[24]), Convert.ToInt32(dr[25]), "");
+                            Convert.ToBoolean(dr[23]), Convert.ToDecimal(dr[24]), Convert.ToInt32(dr[25]), "", dr[26].ToString());
                     }
                 }
                 catch (SqlException ex)
