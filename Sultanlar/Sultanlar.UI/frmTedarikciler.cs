@@ -10,7 +10,6 @@ using Sultanlar.DatabaseObject;
 using Sultanlar.Class;
 using System.IO;
 using Design;
-using mshtml;
 
 namespace Sultanlar.UI
 {

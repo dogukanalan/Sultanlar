@@ -10,7 +10,6 @@ using Design;
 using Sultanlar.DatabaseObject.Kenton;
 using Sultanlar.Class;
 using System.IO;
-using mshtml;
 using Sultanlar.DatabaseObject;
 
 namespace Sultanlar.UI

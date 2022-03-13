@@ -21,6 +21,7 @@ var apiurl = "http://localhost:50544/internet/";
 //http://95.0.47.130/SulAPI/internet/
 //https://www.ittihadteknoloji.com.tr/internet/
 
+
 var aramadelay = 1000;
 var surum = '1.4';
 
@@ -774,7 +775,7 @@ function KoordinatBaslat() {
         navigator.geolocation.getCurrentPosition(positionSuccess, displayError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: false });
     } else {
         document.getElementById('inputCoords').value = '0,0';
-        document.getElementById('inputCoordAddress').value = 'Konuma eriþim desteklenmiyor.';
+        document.getElementById('inputCoordAddress').value = 'Konuma eriï¿½im desteklenmiyor.';
     }
 }
 

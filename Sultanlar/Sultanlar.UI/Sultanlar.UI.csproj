@@ -24,8 +24,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://www.sultanlar.com.tr/sultanlarui/</InstallUrl>
-    <UpdateUrl>https://www.sultanlar.com.tr/sultanlarui/</UpdateUrl>
+    <InstallUrl>http://www.ittihadteknoloji.com.tr/ui/</InstallUrl>
+    <UpdateUrl>https://www.ittihadteknoloji.com.tr/ui/</UpdateUrl>
     <SupportUrl>https://www.sultanlar.com.tr</SupportUrl>
     <ErrorReportUrl>https://www.sultanlar.com.tr</ErrorReportUrl>
     <ProductName>Sultanlar UI</ProductName>
@@ -122,6 +122,9 @@
     <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Office.Interop.Outlook.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Outlook.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -952,6 +955,26 @@
     <Compile Include="VListBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Web References\getcustomersC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\getmaterialpricesC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\getmaterialsC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\getpersonalsC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\getsalesreportC\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -968,6 +991,46 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="Web References\SAPsendorder\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\selectaccountingC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\selectekstreC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\selectkolietiketC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\selectsalesdeliveryC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\selectsalesgoodsmoveC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\selectsalesorderC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\selectsalestransportC\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\selectsalesvbfaC\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
@@ -1415,6 +1478,44 @@
     <None Include="Service References\QuantumWeb\svclibrabiz.wsdl" />
     <None Include="Sultanlar.UI_1_TemporaryKey.pfx" />
     <None Include="Sultanlar.UI_TemporaryKey.pfx" />
+    <None Include="Web References\getcustomersC\item.wsdl" />
+    <None Include="Web References\getcustomersC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\getcustomersC\Zwebt002.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\getmaterialpricesC\item.wsdl" />
+    <None Include="Web References\getmaterialpricesC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\getmaterialpricesC\Zwebt004.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\getmaterialsC\item.wsdl" />
+    <None Include="Web References\getmaterialsC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\getmaterialsC\Zwebs025.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\getmaterialsC\Zwebt001.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\getmaterialsC\Zwebt001St.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\getpersonalsC\item.wsdl" />
+    <None Include="Web References\getpersonalsC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\getpersonalsC\Zwebt003.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <None Include="Web References\getsalesreportC\item.wsdl" />
     <None Include="Web References\getsalesreportC\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -1443,6 +1544,112 @@
     <None Include="Web References\SAPsendorder\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\selectaccountingC\item.wsdl" />
+    <None Include="Web References\selectaccountingC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\selectaccountingC\Zwebs020.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectekstreC\item.wsdl" />
+    <None Include="Web References\selectekstreC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\selectekstreC\Zwebs023.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectkolietiketC\item.wsdl" />
+    <None Include="Web References\selectkolietiketC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\selectkolietiketC\Zwebs019.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesdeliveryC\item.wsdl" />
+    <None Include="Web References\selectsalesdeliveryC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\selectsalesdeliveryC\Zwebs006.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesdeliveryC\Zwebs009.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesdeliveryC\Zwebs013.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesdeliveryC\Zwebs021.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesgoodsmoveC\item.wsdl" />
+    <None Include="Web References\selectsalesgoodsmoveC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\selectsalesgoodsmoveC\Zwebs007.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesgoodsmoveC\Zwebs014.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesgoodsmoveC\Zwebs015.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesgoodsmoveC\Zwebs016.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesorderC\item.wsdl" />
+    <None Include="Web References\selectsalesorderC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\selectsalesorderC\Zwebs005.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesorderC\Zwebs009.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesorderC\Zwebs012.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesorderC\Zwebs021.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalestransportC\item.wsdl" />
+    <None Include="Web References\selectsalestransportC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\selectsalestransportC\Zwebs007.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalestransportC\Zwebs014.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalestransportC\Zwebs015.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalestransportC\Zwebs016.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalestransportC\Zwebs017.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalestransportC\Zwebs018.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\selectsalesvbfaC\item.wsdl" />
+    <None Include="Web References\selectsalesvbfaC\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\selectsalesvbfaC\Zwebs009.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -1525,6 +1732,116 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_SAPsendorder_ZwebSendSalesOrderService</CachedSettingsPropName>
     </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetCustomers">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\getcustomersC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetCustomers</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_getcustomersC_ZwebGetCustomersService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterialPrices">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\getmaterialpricesC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterialPrices</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_getmaterialpricesC_ZwebGetMaterialPricesService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterials">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\getmaterialsC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterials</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_getmaterialsC_ZwebGetMaterialsService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetPersonals">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\getpersonalsC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetPersonals</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_getpersonalsC_ZwebGetPersonalsService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectAccounting">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\selectaccountingC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectAccounting</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_selectaccountingC_ZwebSelectAccountingService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectEkstre">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\selectekstreC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectEkstre</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_selectekstreC_ZwebSelectEkstreService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectKoliEtiket">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\selectkolietiketC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectKoliEtiket</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_selectkolietiketC_ZwebSelectKoliEtiketService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesDelivery">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\selectsalesdeliveryC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesDelivery</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_selectsalesdeliveryC_ZwebSelectSalesDeliveryService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesGoodsMove">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\selectsalesgoodsmoveC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesGoodsMove</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_selectsalesgoodsmoveC_ZwebSelectSalesGoodsMoveService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesOrder">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\selectsalesorderC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesOrder</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_selectsalesorderC_ZwebSelectSalesOrderService</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesReport">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\getsalesreportC\</RelPath>
@@ -1535,6 +1852,28 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_getsalesreportC_ZwebSelectSalesReportService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesTransport">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\selectsalestransportC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesTransport</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_selectsalestransportC_ZwebSelectSalesTransportService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesVbfa">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\selectsalesvbfaC\</RelPath>
+      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesVbfa</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_selectsalesvbfaC_ZwebSelectSalesVbfaService</CachedSettingsPropName>
     </WebReferenceUrl>
     <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder">
       <UrlBehavior>Dynamic</UrlBehavior>

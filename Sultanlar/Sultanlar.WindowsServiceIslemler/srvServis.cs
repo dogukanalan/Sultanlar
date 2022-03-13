@@ -118,6 +118,7 @@ namespace Sultanlar.WindowsServiceIslemler
             tmrSAPpersonals.Enabled = false;
         }
 
+        #region tmrelapsed
         void tmrSAPcampaigns_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
@@ -180,7 +181,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     if ((DateTime.Now.Minute > 35 && DateTime.Now.Minute <= 40))
                     {
                         musteriguncelleniyor = true;
-                        MusterilerC();
+                        //MusterilerC();
                         musteriguncelleniyor = false;
                     }
                 }
@@ -198,7 +199,9 @@ namespace Sultanlar.WindowsServiceIslemler
                     )
                 {
                     if (!musteriguncelleniyor)
+                    {
                         PersonellerC();
+                    }
                 }
             }
         }
@@ -216,7 +219,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     )
                 {
                     GetSAP();
-                    EntegraSiparis();
+                    //EntegraSiparis();
                 }
                 //else if (DateTime.Now.Hour == 23 && DateTime.Now.Minute >= 30 && DateTime.Now.Minute < 40) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
                 //{
@@ -265,13 +268,13 @@ namespace Sultanlar.WindowsServiceIslemler
                 {
                     if (DateTime.Now.Minute > 50 && DateTime.Now.Minute <= 55)
                     {
-                        ServicePointManager.Expect100Continue = true;
-                        ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+                        //ServicePointManager.Expect100Continue = true;
+                        //ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
 
-                        //RssKenton("https://www.kenton.com.tr/kategori/tarifler/feed/");
-                        RssKenton("https://www.kenton.com.tr/kategori/tatli-tarifleri/feed/");
-                        RssVideo("https://www.kenton.com.tr/kategori/kenton-video/feed/");
-                        //RssVideo("https://www.kenton.com.tr/kategori/tatli-sefi-video/feed/");
+                        ////RssKenton("https://www.kenton.com.tr/kategori/tarifler/feed/");
+                        //RssKenton("https://www.kenton.com.tr/kategori/tatli-tarifleri/feed/");
+                        //RssVideo("https://www.kenton.com.tr/kategori/kenton-video/feed/");
+                        ////RssVideo("https://www.kenton.com.tr/kategori/tatli-sefi-video/feed/");
                     }
                 }
             }
@@ -304,8 +307,9 @@ namespace Sultanlar.WindowsServiceIslemler
 
         void tmr_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            IslemYap();
+            //IslemYap();
         }
+        #endregion
 
         void IslemYap()
         {
@@ -602,7 +606,6 @@ namespace Sultanlar.WindowsServiceIslemler
                 videolar[i].DoInsert();
         }
 
-
         #region sqlite
         /*
         SQLiteConnection conn;
@@ -740,7 +743,6 @@ namespace Sultanlar.WindowsServiceIslemler
 
         */
         #endregion
-
 
         private void KampanyalarC()
         {
@@ -1981,7 +1983,6 @@ namespace Sultanlar.WindowsServiceIslemler
             conn.Open();
             int oncekimusterisayisi = Convert.ToInt32(cmd11.ExecuteScalar());
             conn.Close();
-
 
 
             NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
@@ -5354,7 +5355,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 (cekilecektarih.Day.ToString().Length == 1 ? "0" + cekilecektarih.Day.ToString() : cekilecektarih.Day.ToString());
 
             if (Convert.ToDateTime(maxtarih.ToShortDateString()) == Convert.ToDateTime(cekilecektarih.ToShortDateString()))
-                saat = cekilecektarih.AddMinutes(-30).ToShortTimeString() + ":00"; // -30 değişirse gece fonksiyonunun saati olan 00:30:00 ıda değiştir
+                saat = cekilecektarih.AddMinutes(-30).ToString("HH:mm") + ":00"; // -30 değişirse gece fonksiyonunun saati olan 00:30:00 ıda değiştir
             else
                 saat = "00:00:00";
         }
