@@ -46,6 +46,7 @@ namespace Sultanlar.UI
                     ch.SUBKOD = DateTime.Now.ToString();
                     ch.IL = ((SatisRaporTP)checkedListBox1.CheckedItems[i]).IL;
                     ch.ILKOD = Iller.GetKODByIL(ch.IL).ToString();
+                    ch.MUSKOD = ((SatisRaporTP)checkedListBox1.CheckedItems[i]).NOKTAKOD;
                     ch.DoInsert();
 
                     eklenenler.Add(checkedListBox1.CheckedItems[i]);

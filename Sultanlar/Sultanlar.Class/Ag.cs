@@ -10,7 +10,7 @@ namespace Sultanlar.Class
 {
     public class Ag
     {
-        public static string IP = "1.1.1.1";
+        public static string IP = ".";
 
         public static string DbIP 
         { 

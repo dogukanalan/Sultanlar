@@ -11,7 +11,7 @@
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
 
     <style>
-        table {
+        table.dtFiyat {
             width: 0px !important;
             min-width: 270px;
             margin: 0 auto;
@@ -30,7 +30,7 @@
 
                         var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
 
-                        var htmlText = '<table id="dtTable" class="table table-striped table-bordered"><thead><tr><th class="keyTd">Fiyat Tipi Belirleyiniz</th></tr></thead><tbody>';
+                        var htmlText = '<table id="dtTable1" class="dtFiyat table table-striped table-bordered"><thead><tr><th class="keyTd">Fiyat Tipi Belirleyiniz</th></tr></thead><tbody>';
                         $.each(rootData, function (i, item) {
                             htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
                             htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
@@ -44,9 +44,92 @@
             );
         }
 
+        function Bilgiler() {
+            var url1 = apiurl + "borcalacak/getirch/" + getParameterByName("smref");
+            $('#dtTable2').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    //console.log(JSON.stringify(json));
+                },
+                columns: [
+                    /*{
+                        "data": "borc", "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                        }
+                    },
+                    {
+                        "data": "alacak", "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                        }
+                    },*/
+                    {
+                        "data": "bakiye", "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                        }
+                    },
+                    {
+                        "data": "ortvade", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.substring(0, 10).replace("0001-01-01", "") + '</span>';
+                        }
+                    },
+                    {
+                        "data": "vgb", "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                        }
+                    },
+                    {
+                        "data": "vgbvade", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "risktop", "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                        }
+                    },
+                    {
+                        "data": "risklmt", "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                        }
+                    }
+                ],
+                "scrollX": true,
+                "language": defaultDtLang,
+                "paging": false,
+                "ordering": false,
+                "info": false,
+                "searching": false,
+                "deferRender": true
+            });
+        }
+
         $(document).ready(function () {
-            UyeYetkileri(localStorage["uyeid"]);
+            Bilgiler();
+            UyeYetkileri(localStorage["musteri"]);
         });
     </script>
 }
+
+<table id="dtTable2" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            @*<th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Borç</span></th>
+            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Alacak</span></th>*@
+            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Bakiye</span></th>
+            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Ort.Vade</span></th>
+            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">VGB</span></th>
+            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">VGB Vade</span></th>
+            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Risk Top.</span></th>
+            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Risk Lmt.</span></th>
+        </tr>
+    </thead>
+</table>
+<br />
 <div id="divData"></div>

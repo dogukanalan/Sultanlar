@@ -107,6 +107,7 @@
     <Compile Include="Internet\Depolar.cs" />
     <Compile Include="Internet\DisSiparisler.cs" />
     <Compile Include="Internet\DisSiparislerDetay.cs" />
+    <Compile Include="Internet\DisVeri.cs" />
     <Compile Include="Internet\Efatura.cs" />
     <Compile Include="Internet\Ekstreler.cs" />
     <Compile Include="Internet\Entegra.cs" />

@@ -3374,6 +3374,71 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// [Web-Musteri-Acik]
+        /// </summary>
+        public static string GetYuzolcum(int SMREF, int TIP)
+        {
+            string donendeger = "";
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT [YUZOLCUMU] FROM [Web-Musteri-Acik] WHERE [SMREF] = @SMREF AND TIP = @TIP", conn);
+                cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
+                cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                        donendeger = obj.ToString();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        /// <summary>
+        /// [Web-Musteri-Acik]
+        /// </summary>
+        public static void SetYuzolcum(int SMREF, int TIP, string YUZOLCUMU)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmdVarMi = new SqlCommand("SELECT count(*) FROM [Web-Musteri-Acik] WHERE [SMREF] = @SMREF AND TIP = @TIP", conn);
+                cmdVarMi.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
+                cmdVarMi.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+
+                SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Musteri-Acik] ([SMREF],[TIP],[TARIH],[PASIF],[KAYNAK_KOD],[KONUM],[KONUM_ADRES],[KONUM_RESIM],[TABELA_UNVANI],[TUR_KOD],[KASA_SAYISI],[YUZOLCUMU]) VALUES (@SMREF,4,getdate(),0,1,'','',NULL,'',NULL,NULL,@YUZOLCUMU)", conn);
+                cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
+                cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                cmd.Parameters.Add("@YUZOLCUMU", SqlDbType.NVarChar, 50).Value = YUZOLCUMU;
+                try
+                {
+                    conn.Open();
+                    if (Convert.ToBoolean(cmdVarMi.ExecuteScalar()))
+                    {
+                        cmd.CommandText = "UPDATE [Web-Musteri-Acik] SET YUZOLCUMU = @YUZOLCUMU WHERE [SMREF] = @SMREF AND TIP = @TIP";
+                    }
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
 
 
 

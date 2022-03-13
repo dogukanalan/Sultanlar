@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sultanlar.Model.Dashboard;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -180,6 +181,32 @@ namespace Sultanlar.DbObj.Internet
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new satisRaporuKars(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), dic[i][4].ToString(), ConvertToDouble(dic[i][5]), ConvertToDouble(dic[i][6]), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8]), ConvertToDouble(dic[i][9]), ConvertToDouble(dic[i][10]), false));
+
+            return donendeger;
+        }
+    }
+
+    public class satisDashboard : DbObj
+    {
+        public List<BolumYillik> GetBolumYillik(int YIL, int SLSREF)
+        {
+            List<BolumYillik> donendeger = new List<BolumYillik>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_dashboardYillikBolum", new Dictionary<string, object>() { { "YIL", YIL }, { "SLSREF", SLSREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new BolumYillik(dic[i][0].ToString(), ConvertToInt32(dic[i][1]), Convert.ToInt32(dic[i][2])));
+
+            return donendeger;
+        }
+        public List<BayiSatisHedef> GetBayiSatisHedef(int YIL, int AY)
+        {
+            List<BayiSatisHedef> donendeger = new List<BayiSatisHedef>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_dashboardBayiSatisHedef", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new BayiSatisHedef(dic[i][0].ToString(), Convert.ToInt32(dic[i][1]), Convert.ToInt32(dic[i][2])));
 
             return donendeger;
         }

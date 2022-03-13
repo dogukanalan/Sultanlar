@@ -415,8 +415,8 @@ namespace Sultanlar.WebUI.musteri
             }
             else if (ddlCariHesaplar.SelectedValue == "1") // satış temsilcisi tümü
             {
-                //GetAnlasmalarCountBySLSREF(Convert.ToInt32(ddlTemsilciler.SelectedValue));
-                //GetAnlasmalarBySLSREF(Convert.ToInt32(ddlTemsilciler.SelectedValue), Baslangic, (int)Session["AnlasmalarSayfaBasiGosterim"]);
+                GetAnlasmalarCountBySLSREF(Convert.ToInt32(ddlTemsilciler.SelectedValue));
+                GetAnlasmalarBySLSREF(Convert.ToInt32(ddlTemsilciler.SelectedValue), Baslangic, (int)Session["AnlasmalarSayfaBasiGosterim"]);
             }
             else if (ddlCariHesaplarSubeler.SelectedValue == "TUM1" || !ddlCariHesaplarSubeler.Visible) // şubeler tümü
             {
@@ -469,8 +469,8 @@ namespace Sultanlar.WebUI.musteri
 
             ddlCariHesaplar.Items.Clear();
             ddlCariHesaplar.Items.Add(new ListItem("Seçiniz", "0"));
-            //if (ddlTemsilciler.SelectedValue != "0")
-            //    ddlCariHesaplar.Items.Add(new ListItem("Tümü", "1"));
+            if (ddlTemsilciler.SelectedValue != "0")
+                ddlCariHesaplar.Items.Add(new ListItem("Tümü", "1"));
 
             ddlCariHesaplarSubeler.Items.Clear();
             ddlCariHesaplarSubeler.Visible = false;

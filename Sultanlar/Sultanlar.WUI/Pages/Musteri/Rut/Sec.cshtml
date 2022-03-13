@@ -1,7 +1,7 @@
 ﻿@page
 @model Sultanlar.WUI.SecModel
 @{
-    ViewData["Title"] = "Rut Ekleme";
+    ViewData["Title"] = "Rut Düzenleme";
 }
 
 @section head {
@@ -20,6 +20,7 @@
         function getGmref() { return getParameterByName("gmref"); }
         function getSmref() { return getParameterByName("smref"); }
         function getKacinci() { return getParameterByName("sira"); }
+        function getRutlu() { return getParameterByName("rutlu"); }
 
         function Ekle() {
             if ($('#inputBaslangic').val() == "") {
@@ -237,4 +238,4 @@ Gün
 <input type="button" id="buttonEkle" class="btn btn-success secimTus marginUstAlt" value="Rutu Ekle" style="width: 100%" onclick="Ekle()" />
 <input type="button" class="btn btn-info secimTus marginUstAlt" value="Rutu Başlat" style="width: 100%" onclick="Baslat()" />
 <input type="button" class="btn btn-primary secimTus marginUstAlt" value="Rutu Bitir" style="width: 100%" onclick="Bitir()" />
-<input type="button" class="btn btn-danger secimTus marginUstAlt" value="Geri Dön" style="width: 100%" onclick="window.location.href = 'Ekle?slsref=' + getSlsref() + '&sira=' + getKacinci()" />
+<input type="button" class="btn btn-danger secimTus marginUstAlt" value="Geri Dön" style="width: 100%" onclick="window.location.href = 'Ekle?slsref=' + getSlsref() + '&sira=' + getKacinci() + '&rutlu=' + getRutlu()" />

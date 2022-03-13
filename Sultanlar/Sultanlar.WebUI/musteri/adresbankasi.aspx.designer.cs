@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sultanlar.WebUI.musteri {
-    
-    
-    public partial class adresbankasi {
-        
+namespace Sultanlar.WebUI.musteri
+{
+
+
+    public partial class adresbankasi
+    {
+
         /// <summary>
         /// form1 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
         /// <summary>
         /// AjaxScripts control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.ScriptManager AjaxScripts;
-        
+
         /// <summary>
         /// inputH control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden inputH;
-        
+
         /// <summary>
         /// Label1 control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label1;
-        
+
         /// <summary>
         /// ImageButton1 control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
-        
+
         /// <summary>
         /// ddlTemsilciler control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTemsilciler;
-        
+
         /// <summary>
         /// ASPxGridView1 control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxGridView.ASPxGridView ASPxGridView1;
-        
+
         /// <summary>
         /// SqlDataSource1 control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace Sultanlar.WebUI.musteri {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
-        
+
         /// <summary>
         /// ucAlt1 control.
         /// </summary>

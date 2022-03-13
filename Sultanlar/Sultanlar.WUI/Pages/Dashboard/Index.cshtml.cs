@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Sultanlar.WUI.Pages.Musteri.Konum
+namespace Sultanlar.WUI.Pages.Dashboard
 {
-    public class DegistirModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {

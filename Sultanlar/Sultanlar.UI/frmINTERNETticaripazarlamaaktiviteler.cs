@@ -1076,7 +1076,7 @@ namespace Sultanlar.UI
 
                 ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
 
-                range = ws.get_Range("A1", "D6666");
+                range = ws.get_Range("A1", "E6666");
 
                 values = (object[,])range.Value2;
             }

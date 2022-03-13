@@ -31,6 +31,7 @@
     <ProjectReference Include="..\Sultanlar.Class\Sultanlar.Class.csproj" />
     <ProjectReference Include="..\Sultanlar.DatabaseObject\Sultanlar.DatabaseObject.csproj" />
     <ProjectReference Include="..\Sultanlar.DbObj\Sultanlar.DbObj.csproj" />
+    <ProjectReference Include="..\Sultanlar.Model\Sultanlar.Model.csproj" />
   </ItemGroup>
 
 </Project>

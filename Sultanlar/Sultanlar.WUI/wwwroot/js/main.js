@@ -17,13 +17,13 @@ $('.validate-form').on('submit', function () {
 });*/
 
 var apiurl = "http://localhost:50544/internet/";
-// /internet/
-// http://localhost:50544/internet/
-// http://95.0.47.130/SulAPI/internet/
-// https://www.happyfamily.com.tr:442/internet/
+//http://localhost:50544/internet/
+//http://95.0.47.130/SulAPI/internet/
+//https://www.ittihadteknoloji.com.tr/internet/
+
 
 var aramadelay = 1000;
-var surum = '1.3.2';
+var surum = '1.4';
 
 
 
@@ -33,6 +33,7 @@ $(document).ready(function () {
     });
 
     $('#selectYil').empty();
+    $("#selectYil").append($("<option />").val("2022").text("2022"));
     $("#selectYil").append($("<option />").val("2021").text("2021"));
     $("#selectYil").append($("<option />").val("2020").text("2020"));
     $("#selectYil").append($("<option />").val("2019").text("2019"));
@@ -476,6 +477,11 @@ var siparisiadeaktiviteicerikcolumns = [
         }
     },
     {
+        "mDataProp": null, title: "Top.", "class": "floaTd", render: function (data, type, row) {
+            return '<span class="sinirli">' + parseFloat(parseFloat(data.netkdv) * parseFloat(data.miktar)).formatMoney(2, ',', '.') + '</span>';
+        }
+    },
+    {
         "mDataProp": null, title: "", "class": "keyTd", render: function (data, type, row) {
             return '<input type="button" class="btn btn-danger" value="Sil" onclick="urunSil(' + data.itemref + ', \'' + data.miktartur + '\')" />';
         }
@@ -703,6 +709,7 @@ function sipSil(cookie) {
         }
     }
     window.localStorage['sepet'] = JSON.stringify(yenicookie);
+    window.localStorage['sepetU'] = "[]";
 }
 
 function iadeSil(cookie) {
@@ -759,7 +766,7 @@ function getDateNowStr() {
     var minute = date.getMinutes();
     var second = date.getSeconds();
     
-    return (day.toString().length === 2 ? day : "0" + day) + "." + (month.toString().length === 2 ? month : "0" + month) + "." + year + " " +
+    return (day.toString().length === 2 ? day : "0" + day) + "." + (month.toString().length === 2 ? month : "0" + month) + "." + year + "." +
         (hour.toString().length === 2 ? hour : "0" + hour) + ':' + (minute.toString().length === 2 ? minute : "0" + minute) + ':' + (second.toString().length === 2 ? second : "0" + second);
 }
 
@@ -824,7 +831,7 @@ function MapStyle() {
 var map;
 var markers = [];
 function myMap() {
-    var marker = new google.maps.Marker({ position: { lat: parseFloat($("#inputCoordsLat").val()), lng: parseFloat($("#inputCoordsLng").val()) }, title: "Buradas�n�z", label: "B" });
+    var marker = new google.maps.Marker({ position: { lat: parseFloat($("#inputCoordsLat").val()), lng: parseFloat($("#inputCoordsLng").val()) }, title: "Buradasiniz", label: "B" });
     var mapProp = { center: marker.position, zoom: 14, styles: JSON.parse(MapStyle()) };
     map = new google.maps.Map(document.getElementById("divMap"), mapProp);
     marker.setMap(map);
@@ -888,13 +895,50 @@ function AdresGetir(adres) {
 
                     $('.konumTamam').prop('disabled', false);
                 } else {
-                    alert("Adres bulunamad�.");
+                    alert("Adres bulunamadi.");
                 }
             } else {
-                alert("Adres bulunamad�.");
+                alert("Adres bulunamadi.");
             }
         });
     }
+}
+
+function geocodePosition(pos) {
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({
+        latLng: pos
+    }, function (responses) {
+        if (responses && responses.length > 0) {
+            document.getElementById("inputCoordAddress").value = responses[0].formatted_address;
+        } else {
+            document.getElementById("inputCoordAddress").value = "Adres bulunamadi.";
+        }
+    });
+}
+
+function KayitliAdresiGetir(koordinatlar) {
+    var lat = koordinatlar.split(",")[0];
+    var lng = koordinatlar.split(",")[1];
+    var marker = new google.maps.Marker({ position: { lat: parseFloat(lat), lng: parseFloat(lng) }, title: "", label: "", draggable: true });
+    var mapProp = { center: marker.position, zoom: 14, styles: JSON.parse(MapStyle()) };
+    map = new google.maps.Map(document.getElementById("divMap"), mapProp);
+    geocodePosition(marker.getPosition());
+
+    google.maps.event.addListener(marker, 'dragend', function (evt) {
+        document.getElementById("inputCoords").value = evt.latLng.lat().toFixed(6) + ", " + evt.latLng.lng().toFixed(6);
+        geocodePosition(evt.latLng);
+        $('.konumTamam').prop('disabled', false);
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+        map.setZoom(16);
+        map.setCenter(marker.getPosition());
+    });
+
+    marker.setMap(map);
+    markers.push(marker);
+    map.setCenter(marker.getPosition());
 }
 
 function SifirlaMarkers() {

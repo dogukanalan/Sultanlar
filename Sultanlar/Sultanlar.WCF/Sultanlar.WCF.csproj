@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database.svc" />
+    <Content Include="Direct.svc" />
     <Content Include="dlls\DevExpress.Data.v12.2.dll" />
     <Content Include="dlls\DevExpress.Data.v12.2.xml" />
     <Content Include="dlls\DevExpress.Web.v12.2.dll" />
@@ -122,6 +123,7 @@
     <Content Include="ilkyuz.aspx" />
     <Content Include="JScript.js" />
     <Content Include="matruska.aspx" />
+    <Content Include="Pirpa.svc" />
     <Content Include="StyleSheet.css" />
     <Content Include="TarifSepeti.svc" />
     <Content Include="ucProgress.ascx" />
@@ -138,6 +140,9 @@
   <ItemGroup>
     <Compile Include="Database.svc.cs">
       <DependentUpon>Database.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Direct.svc.cs">
+      <DependentUpon>Direct.svc</DependentUpon>
     </Compile>
     <Compile Include="General.svc.cs">
       <DependentUpon>General.svc</DependentUpon>
@@ -157,6 +162,7 @@
       <DependentUpon>hedefanadolu.aspx</DependentUpon>
     </Compile>
     <Compile Include="IDatabase.cs" />
+    <Compile Include="IDirect.cs" />
     <Compile Include="IGeneral.cs" />
     <Compile Include="ilkyuz.aspx.cs">
       <DependentUpon>ilkyuz.aspx</DependentUpon>
@@ -165,6 +171,7 @@
     <Compile Include="ilkyuz.aspx.designer.cs">
       <DependentUpon>ilkyuz.aspx</DependentUpon>
     </Compile>
+    <Compile Include="IPirpa.cs" />
     <Compile Include="ITarifSepeti.cs" />
     <Compile Include="matruska.aspx.cs">
       <DependentUpon>matruska.aspx</DependentUpon>
@@ -172,6 +179,9 @@
     </Compile>
     <Compile Include="matruska.aspx.designer.cs">
       <DependentUpon>matruska.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pirpa.svc.cs">
+      <DependentUpon>Pirpa.svc</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sanalpos.ashx.cs">

@@ -7,17 +7,45 @@
 @section head {
     <script>
         function kaydet() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "konum/konumset/" + getParameterByName("smref") + "/" + getParameterByName("tip") + "/" + document.getElementById("inputCoordAddress").value.split("/").join("-") + "/" + document.getElementById("inputCoords").value,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data == "") {
+                            alert("Konum kaydedildi.");
+                            window.history.back();
+                        }
+                        else {
+                            alert(data);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
 
+        function adresara() {
+            AdresGetir(document.getElementById("inputAdres").value);
         }
 
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
-            KoordinatBaslat();
             getCari(getParameterByName("tip"), getParameterByName("smref"), getCariSube, "konMus");
+
+            if (getParameterByName("deg") == "0") { // konum alma
+                KoordinatBaslat();
+            }
+            else { // konum değiştirme
+                document.getElementById("inputCoords").value = getParameterByName("coords");
+                KayitliAdresiGetir(getParameterByName("coords"));
+            }
 
             $("#inputAdres").keyup(function (e) {
                 if (e.which == 13)
-                    AdresGetir($(this).val());
+                    adresara();
             });
         });
     </script>
@@ -30,7 +58,11 @@
 <br />
 <input type="text" class="form-control" id="inputCoordAddress" value="Konumunuz bulunuyor..." disabled />
 <br />
-<input type="text" class="form-control" id="inputAdres" placeholder="Adres arayın" />
+<div>
+    <input type="text" class="form-control" id="inputAdres" placeholder="Adres arayın" style="width: 100%;" />
+    <input type="button" id="btnAra" class="btn btn-success" value="Ara" onclick="adresara()" style="width: 100%" />
+    <input type="button" id="btnKonumGoster" class="btn btn-success" value="Mevcut Konumu Göster" onclick="KoordinatBaslat()" style="width: 100%" />
+</div>
 <br />
 <input type="button" class="btn btn-danger" value="Geri Dön" onclick="window.history.back()" />
 <input type="button" id="btnKaydet" class="btn btn-success konumTamam" value="Konumu Kaydet" onclick="kaydet()" disabled />

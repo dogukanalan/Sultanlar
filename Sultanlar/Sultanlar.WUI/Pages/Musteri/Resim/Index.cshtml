@@ -75,7 +75,7 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        $("select[name=selectSaticilar]").empty().append($("<option></option>").text("Tümü").val("0"));
+                        //$("select[name=selectSaticilar]").empty().append($("<option></option>").text("Tümü").val("0"));
                         $("select[name=selectAy] option[value='0']").remove();
                         $.each(data, function (index, item) {
                             $("#selectSaticilar").append(
@@ -261,7 +261,9 @@
 <select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
 
 <select id="selectYil" name="selectYil" class="dropDown selYil">
-    <option value="2019" selected="selected">2019</option>
+    <option value="2021" selected="selected">2021</option>
+    <option value="2020">2020</option>
+    <option value="2019">2019</option>
     <option value="2018">2018</option>
     <option value="2017">2017</option>
     <option value="2016">2016</option>

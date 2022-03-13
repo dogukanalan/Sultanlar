@@ -16,6 +16,6 @@ namespace Sultanlar.WebAPI.Controllers.Internet
     public class UyeYetkiController : Controller
     {
         [HttpGet("{id}")]
-        public uyeYetkileri GetAna(string id) => new UyeYetkiProvider().UyeYetkileri(Convert.ToInt32(Sifreleme.Decrypt(id)));
+        public uyeYetkileri GetAna(string id) => new UyeYetkiProvider().UyeYetkileri(Convert.ToInt32(id));
     }
 }

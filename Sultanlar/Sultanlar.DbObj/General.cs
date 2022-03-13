@@ -14,7 +14,7 @@ namespace Sultanlar.DbObj
             get
             {
                 //string IP = Ag.DbIP == string.Empty ? "10.1.1.14" : Ag.DbIP;
-                return "Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-;";
+                return "Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-;";
                 // dis ip: 95.0.47.133 - SERVERDB01 - 10.1.1.14 --- Trusted_Connection=True; --- User Id=sa; Password=sdl580g5p9;
             }
         }

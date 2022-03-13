@@ -52,5 +52,35 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<satisHedefRaporu> GetSatisForDashboard(int YIL, int SLSREF)
+        {
+            List<satisHedefRaporu> donendeger = new List<satisHedefRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_dashboardYillikSatis", new Dictionary<string, object>() { { "YIL", YIL }, { "SLSREF", SLSREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new satisHedefRaporu(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToDouble(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToDouble(dic[i][6]), false));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<satisHedefRaporu> GetHedefForDashboard(int YIL, int SLSREF)
+        {
+            List<satisHedefRaporu> donendeger = new List<satisHedefRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_dashboardYillikHedef", new Dictionary<string, object>() { { "YIL", YIL }, { "SLSREF", SLSREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new satisHedefRaporu(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToDouble(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToDouble(dic[i][6]), false));
+
+            return donendeger;
+        }
     }
 }

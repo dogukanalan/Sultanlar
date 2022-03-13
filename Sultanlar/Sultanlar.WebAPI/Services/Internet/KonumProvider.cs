@@ -19,5 +19,18 @@ namespace Sultanlar.WebAPI.Services.Internet
                     arama.Add(Req.columns[i].data, Req.columns[i].search.value);
             return new konumListe().GetObjects(Slsref, Req.length, Req.start, arama);
         }
+
+        //databaseobject
+        internal string KonumSet(string smref, string tip, string Coords, string Coords1)
+        {
+            string lat = Coords1.ToString().Substring(0, Coords1.ToString().IndexOf(",")).Trim();
+            string lng = Coords1.Substring(Coords1.IndexOf(",") + 1).Trim();
+            string adres = Coords;
+
+            Sultanlar.DatabaseObject.Internet.Rutlar.SetKonum(Convert.ToInt32(smref), Convert.ToInt32(tip), lat + "," + lng);
+            Sultanlar.DatabaseObject.Internet.Rutlar.SetKonumAdres(Convert.ToInt32(smref), Convert.ToInt32(tip), adres);
+
+            return "";
+        }
     }
 }

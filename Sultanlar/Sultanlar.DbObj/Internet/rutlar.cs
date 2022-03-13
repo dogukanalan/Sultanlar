@@ -50,7 +50,7 @@ namespace Sultanlar.DbObj.Internet
             return donendeger;
         }
 
-        public DtAjaxResponse GetObjects(int SLSREF, int Kactane, int Baslangic, Dictionary<string, string> arama)
+        public DtAjaxResponse GetObjects(int SLSREF, int Sira, int Rutlu, int Kactane, int Baslangic, Dictionary<string, string> arama)
         {
             DtAjaxResponse donendeger = new DtAjaxResponse();
 
@@ -61,7 +61,6 @@ namespace Sultanlar.DbObj.Internet
                     donendeger2.Add(new cariHesaplar(ConvertToInt16(dic[i][0]), dic[i][1].ToString(), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToInt32(dic[i][13]), dic[i][14].ToString(), dic[i][15].ToString(), dic[i][16].ToString(), ConvertToInt32(dic[i][17]), dic[i][18].ToString(), dic[i][19].ToString(), ConvertToInt32(dic[i][20]), dic[i][21].ToString(), dic[i][22].ToString(), dic[i][23].ToString(), dic[i][24].ToString(), dic[i][25].ToString(), dic[i][26].ToString(), dic[i][27].ToString(), dic[i][28].ToString(), dic[i][29].ToString(), dic[i][30].ToString(), dic[i][31].ToString(), dic[i][32].ToString(), ConvertToDouble(dic[i][33])));
 
             donendeger.recordsTotal = donendeger2.Count;
-
             for (int i = 0; i < arama.Count; i++)
             {
                 if (arama.ToArray()[i].Key == "musteri")
@@ -72,6 +71,16 @@ namespace Sultanlar.DbObj.Internet
                     donendeger2 = donendeger2.ToList().Where(k => k.TIP == Convert.ToInt32(arama.ToArray()[i].Value)).ToList();
             }
 
+            //donendeger2 = donendeger2.ToList().Where(k => Convert.ToInt32(k.EKP) == Sira).ToList(); // Sira
+
+            if (Rutlu == 2) // sadece rutlular
+            {
+                donendeger2 = donendeger2.ToList().Where(k => Convert.ToInt32(k.GRP) > 0).ToList();
+            }
+            else if (Rutlu == 3) // sadece rutsuzlar
+            {
+                donendeger2 = donendeger2.ToList().Where(k => k.GRP == "0").ToList();
+            }
             donendeger.recordsFiltered = donendeger2.Count;
 
             int sinir = (Baslangic + Kactane) < donendeger2.Count ? (Baslangic + Kactane) : donendeger2.Count;

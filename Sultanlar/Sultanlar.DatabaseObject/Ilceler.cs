@@ -339,6 +339,34 @@ namespace Sultanlar.DatabaseObject
         }
         //
         //
+        public static string GetIlceKodByID(short IlceID)
+        {
+            string donendeger = string.Empty;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_IlceKodGetirByID", conn);
+                cmd.Parameters.Add("@pkIlceID", SqlDbType.SmallInt).Value = IlceID;
+                cmd.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    conn.Open();
+                    donendeger = cmd.ExecuteScalar().ToString();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        //
+        //
         public static void GetObjectIllerIlceler(DataTable dt)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))

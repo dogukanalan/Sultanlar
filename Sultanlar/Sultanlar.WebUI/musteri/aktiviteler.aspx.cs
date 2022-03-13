@@ -472,20 +472,20 @@ namespace Sultanlar.WebUI.musteri
             }
             else if (ddlCariHesaplar.SelectedValue == "1") // satış temsilcisi tümü
             {
-                //short FiyatTipi = 0;
+                short FiyatTipi = 0;
 
-                //if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
-                //{
-                //    Musteriler mus = Musteriler.GetMusteriByID(Musteriler.GetMusteriIDbySLSREF(Convert.ToInt32(ddlTemsilciler.SelectedValue)));
-                //    FiyatTipi = mus.tintUyeTipiID == 4 ? (short)7 : (short)25;
-                //}
-                //else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6) // satıcı veya bayi yöneticisi
-                //{
-                //    FiyatTipi = ((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 ? (short)7 : (short)25;
-                //}
+                if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 2) // yönetici ise
+                {
+                    Musteriler mus = Musteriler.GetMusteriByID(Musteriler.GetMusteriIDbySLSREF(Convert.ToInt32(ddlTemsilciler.SelectedValue)));
+                    FiyatTipi = mus.tintUyeTipiID == 4 ? (short)7 : (short)25;
+                }
+                else if (((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 || ((Musteriler)Session["Musteri"]).tintUyeTipiID == 6) // satıcı veya bayi yöneticisi
+                {
+                    FiyatTipi = ((Musteriler)Session["Musteri"]).tintUyeTipiID == 4 ? (short)7 : (short)25;
+                }
 
-                //GetSiparisCountBySLSREF(Convert.ToInt32(ddlTemsilciler.SelectedValue), FiyatTipi);
-                //GetSiparislerBySLSREF(Convert.ToInt32(ddlTemsilciler.SelectedValue), FiyatTipi, Baslangic, (int)Session["AktivitelerSayfaBasiGosterim"]);
+                GetSiparisCountBySLSREF(Convert.ToInt32(ddlTemsilciler.SelectedValue), FiyatTipi);
+                GetSiparislerBySLSREF(Convert.ToInt32(ddlTemsilciler.SelectedValue), FiyatTipi, Baslangic, (int)Session["AktivitelerSayfaBasiGosterim"]);
             }
             else if (ddlCariHesaplarSubeler.SelectedValue == "TUM1" || !ddlCariHesaplarSubeler.Visible) // şubeler tümü
             {
@@ -1054,7 +1054,7 @@ namespace Sultanlar.WebUI.musteri
 
                         if (FiyatTipleri.GetFiyatTipByGMREF(CariHesaplar.GetGMREFBySMREF(SMREF)) > 500) // kopyalanacak müşteri 500 lü ise
                         {
-                            double isk1 = anlasma == null ? 0 : (Urunler.GetProductGRPKOD(aktlerdet.intUrunID) == "STG-1" ? anlasma.flTAHIsk : anlasma.flYEGIsk); //Urunler.GetProductDiscountsAndPrice(aktlerdet.intUrunID, Aktivite.sintFiyatTipiID, Convert.ToInt32(ddlDonemYil.SelectedValue), Convert.ToInt32(ddlDonemAy.SelectedValue))[0];
+                            double isk1 = anlasma == null ? 5 : (Urunler.GetProductGRPKOD(aktlerdet.intUrunID) == "STG-1" ? anlasma.flTAHIsk : anlasma.flYEGIsk); //Urunler.GetProductDiscountsAndPrice(aktlerdet.intUrunID, Aktivite.sintFiyatTipiID, Convert.ToInt32(ddlDonemYil.SelectedValue), Convert.ToInt32(ddlDonemAy.SelectedValue))[0];
                             double isk2 = 0; // Urunler.GetProductDiscountsAndPrice(aktlerdet.intUrunID, Aktivite.sintFiyatTipiID, Convert.ToInt32(ddlDonemYil.SelectedValue), Convert.ToInt32(ddlDonemAy.SelectedValue))[1];
                             double birincidusulmus = 100 - isk1;
                             double ikincidusulmus = birincidusulmus - ((birincidusulmus / 100) * isk2);

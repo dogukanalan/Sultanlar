@@ -275,7 +275,7 @@ namespace Sultanlar.UI
                         Convert.ToDecimal(values[i, 8]) / Convert.ToInt32(values[i, 7]),
                         Convert.ToByte(DateTime.FromOADate(Convert.ToDouble(values[i, 4])).Month),
                         Convert.ToInt16(DateTime.FromOADate(Convert.ToDouble(values[i, 4])).Year),
-                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, values[i, 9].ToString().ToUpper());
+                        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, values[i, 9].ToString().ToUpper(), values[i, 10].ToString().ToUpper());
 
                     if (values[i, 5].ToString() != string.Empty && Iller.GetKODByIL(values[i, 9].ToString().ToUpper()) > 0) // üretici kodu boş değil ise ve il geçerli ise
                     {
@@ -288,8 +288,10 @@ namespace Sultanlar.UI
                         else
                         {
                             int GMREF = CariHesaplarTP.GetGMREFByBAYIKOD(values[i, 1].ToString());
-                            if (CariHesaplarTP.GetNoktaVarMi(values[i, 2].ToString().ToUpper(), GMREF))
+                            string SUBE = CariHesaplarTP.GetNoktaVarMi2(values[i, 10].ToString(), GMREF);
+                            if (SUBE != string.Empty || CariHesaplarTP.GetNoktaVarMi(values[i, 2].ToString().ToUpper(), GMREF))
                             {
+                                satisrapor.NOKTAAD = SUBE != string.Empty ? SUBE : satisrapor.NOKTAAD;
                                 satisraporlar.Add(satisrapor);
                             }
                             else
@@ -345,18 +347,17 @@ namespace Sultanlar.UI
                 frm.ShowDialog();
                 satisraporlarolmayancariler.Clear();
 
-                //if (frm.aktarilmamissayisi == 0)
-                //{
-                //    if (MessageBox.Show("Tüm nokta isimleri aktarım için hazır. Devam etmek istediğinize emin misiniz?", "Aktarım", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
-                //    {
-                //        Thread thr1 = new Thread(new ParameterizedThreadStart(AktarimYap));
-                //        thr1.Start(satisraporlar);
-                //    }
-                //}
-                //else
-                //{
+                if (frm.aktarilmamissayisi == 0)
+                {
+                    //ExceldenAl(dosya);
+                    thr = new Thread(new ParameterizedThreadStart(ExceldenAl));
+                    thr.Start(dosya);
+                }
+                else
+                {
                     satisraporlar.Clear();
-                //}
+                }
+
             }
             else
             {
@@ -1130,7 +1131,9 @@ namespace Sultanlar.UI
                         {
                             kar = karTAH ? CariHesaplarTPEk2.GetObject(Convert.ToInt32(dt.Rows[i]["GMREF"]), noktasatyil, noktasatay).TAH_KAR : CariHesaplarTPEk2.GetObject(Convert.ToInt32(dt.Rows[i]["GMREF"]), noktasatyil, noktasatay).YEG_KAR;
 
-                            int SMREF = CariHesaplarTP.GetSMREFBySUBE(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAAD"].ToString().ToUpper());
+                            int SMREF = dt.Rows[i]["NOKTAKOD"].ToString() != string.Empty ? 
+                                CariHesaplarTP.GetSMREFByMUSKOD(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAKOD"].ToString()) 
+                                : CariHesaplarTP.GetSMREFBySUBE(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAAD"].ToString().ToUpper());
                             
                             long aktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(
                                 SMREF,

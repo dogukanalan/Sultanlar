@@ -178,6 +178,7 @@ namespace Sultanlar.DatabaseObject.Internet
         public string ILGILI { get { return this._ILGILI; } set { this._ILGILI = value; } }
         public string CEP1 { get { return this._CEP1; } set { this._CEP1 = value; } }
         public double NETTOP { get { return this._NETTOP; } set { this._NETTOP = value; } }
+        public string Metrekare { get { return CariHesaplar.GetYuzolcum(this._SMREF, 4); } }
         //
         //
         //
@@ -643,6 +644,36 @@ namespace Sultanlar.DatabaseObject.Internet
                 {
                     conn.Open();
                     donendeger = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        //
+        //
+        public static string GetNoktaVarMi2(string NoktaKod, int GMREF)
+        {
+            string donendeger = string.Empty;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT SUBE FROM [Web-Musteri-TP] WHERE [MUS KOD] = @MUSKOD AND GMREF = @GMREF", conn);
+                cmd.Parameters.Add("@MUSKOD", SqlDbType.NVarChar).Value = NoktaKod;
+                cmd.Parameters.Add("@GMREF", SqlDbType.Int).Value = GMREF;
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                        donendeger = obj.ToString();
                 }
                 catch (SqlException ex)
                 {
@@ -1221,6 +1252,35 @@ namespace Sultanlar.DatabaseObject.Internet
                 SqlCommand cmd = new SqlCommand("SELECT [SMREF] FROM [Web-Musteri-TP] WHERE GMREF = @GMREF AND UPPER([SUBE]) = @SUBE", conn);
                 cmd.Parameters.Add("@GMREF", SqlDbType.Int).Value = GMREF;
                 cmd.Parameters.Add("@SUBE", SqlDbType.NVarChar).Value = SUBE;
+                try
+                {
+                    conn.Open();
+                    donendeger = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public static int GetSMREFByMUSKOD(int GMREF, string MUSKOD)
+        {
+            int donendeger = 0;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT [SMREF] FROM [Web-Musteri-TP] WHERE GMREF = @GMREF AND [MUS KOD] = @MUSKOD", conn);
+                cmd.Parameters.Add("@GMREF", SqlDbType.Int).Value = GMREF;
+                cmd.Parameters.Add("@MUSKOD", SqlDbType.NVarChar).Value = MUSKOD;
                 try
                 {
                     conn.Open();

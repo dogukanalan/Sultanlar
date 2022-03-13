@@ -515,13 +515,13 @@ namespace Sultanlar.DatabaseObject
 
             string where = string.Empty;
             bool var = false;
-            for (int i = 0; i < ParameterNames.Count - 1; i++)
+            for (int i = 0; i < ParameterNames.Count; i++)
             {
                 if (ParameterNames[i].ToString().Length > 0)
                 {
                     var = true;
                     if (i == 0)
-                        where = "WHERE ";
+                        where = " WHERE ";
                     where += "[" + ParameterNames[i] + "] = @" + ParameterNames[i] + " AND ";
                 }
             }
@@ -549,6 +549,26 @@ namespace Sultanlar.DatabaseObject
             }
 
             return dt;
+        }
+        public static void ExecNQ(string command)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand(command, conn);
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex, " " + cmd.CommandText);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
     }
 }

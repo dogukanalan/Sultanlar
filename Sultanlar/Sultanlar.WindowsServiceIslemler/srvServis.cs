@@ -93,6 +93,9 @@ namespace Sultanlar.WindowsServiceIslemler
             tmrSAPekstre2.Elapsed += new ElapsedEventHandler(tmrSAPekstre2_Elapsed);
             tmrSAPekstre2.Enabled = true;
             tmrSAPekstre2.Start();
+
+            //ilk başta çalıştır
+            GetSAP();
         }
 
         protected override void OnStop()
@@ -175,7 +178,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
                     )
                 {
-                    if ((DateTime.Now.Minute > 15 && DateTime.Now.Minute <= 20))
+                    if ((DateTime.Now.Minute > 35 && DateTime.Now.Minute <= 40))
                     {
                         musteriguncelleniyor = true;
                         //MusterilerC();
@@ -241,13 +244,13 @@ namespace Sultanlar.WindowsServiceIslemler
         {
             if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
             {
-                if (DateTime.Now.Hour == 2)
+                if (DateTime.Now.Hour == 22)
                 {
                     if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
                     {
-                        SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+                        SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
                         LogYaz(conn, "ekstre oncesi", true, "ekstre fonksiyonu simdi baslayacak", DateTime.Now, DateTime.Now);
-                        //GetEkstre(DateTime.Now.AddYears(-2)); // Convert.ToDateTime("01.01.2014") DateTime.Now.AddYears(-2)
+                        GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014") 
                         LogYaz(conn, "ekstre sonrasi", true, "ekstre fonksiyonu simdi bitmis olmasi lazim, satis yeni baslayacak", DateTime.Now, DateTime.Now);
                         GetSatisJob();
                         LogYaz(conn, "ekstre sonrasi", true, "satis yeni simdi bitmis olmasi lazim", DateTime.Now, DateTime.Now);
@@ -277,11 +280,11 @@ namespace Sultanlar.WindowsServiceIslemler
             }
             else
             {
-                if (DateTime.Now.Hour == 2)
+                if (DateTime.Now.Hour == 22)
                 {
                     if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
                     {
-                        //GetEkstre(DateTime.Now.AddYears(-2)); // DateTime.Now.AddYears(-2)
+                        GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014")
                         GetSatisJob();
                     }
                 }
@@ -292,11 +295,11 @@ namespace Sultanlar.WindowsServiceIslemler
         {
             if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
             {
-                if (DateTime.Now.Hour == 9 || DateTime.Now.Hour == 15 || DateTime.Now.Hour == 18)
+                if (/*DateTime.Now.Hour == 9 || */DateTime.Now.Hour == 15 || DateTime.Now.Hour == 18)
                 {
                     if (DateTime.Now.Minute > 33 && DateTime.Now.Minute <= 38)
                     {
-                        //GetEkstre(DateTime.Now.AddYears(-1)); //Convert.ToDateTime("01.01.2014")
+                        GetEkstre(Convert.ToDateTime("01.01.2014")); //Convert.ToDateTime("01.01.2014")
                     }
                 }
             }
@@ -743,14 +746,14 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void KampanyalarC()
         {
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Kampanyalar");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "123456");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getcampaignsC.ZwebGetCampaignsService clCampaigns = new getcampaignsC.ZwebGetCampaignsService();
             clCampaigns.Timeout = 6000000;
@@ -888,14 +891,14 @@ namespace Sultanlar.WindowsServiceIslemler
             FiyatlarCsap();
             return;
 
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Fiyatlar"); cmdLog.Parameters.AddWithValue("@strLog", "");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "123456");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
@@ -1180,14 +1183,20 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void FiyatlarCsap()
         {
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Fiyatlar");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "123456");
+            SqlCommand cmd11 = new SqlCommand("SELECT count(*) FROM [Web_Fiyat_SAP]", conn);
+            cmd11.CommandTimeout = 1000;
+            conn.Open();
+            int oncekifiyatsayisi = Convert.ToInt32(cmd11.ExecuteScalar());
+            conn.Close();
+
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
@@ -1204,94 +1213,103 @@ namespace Sultanlar.WindowsServiceIslemler
                 return;
             }
 
-            cmdLog.Parameters.AddWithValue("@strLog", listMaterialPrices.Length.ToString() + " Satır");
 
-            SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Fiyat_SAP]", conn);
-            cmd1.CommandTimeout = 1000;
-            conn.Open();
-            cmd1.ExecuteNonQuery();
-            conn.Close();
 
-            for (int i = 0; i < listMaterialPrices.Length; i++)
+            if (oncekifiyatsayisi - 5000 < listMaterialPrices.Length)
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Fiyat_SAP] " +
-                "(Aedat,Aezet,Kbetr,Kdgrp,Kmein,Konwa,Kpein,Kschl,Kunnr,Mandt,Matnr,Pltyp,Valdt,Zterm)" +
-                "VALUES (@Aedat,@Aezet,@Kbetr,@Kdgrp,@Kmein,@Konwa,@Kpein,@Kschl,@Kunnr,@Mandt,@Matnr,@Pltyp,@Valdt,@Zterm)", conn);
-                cmd.CommandTimeout = 1000;
-                cmd.Parameters.AddWithValue("@Aedat", listMaterialPrices[i].Aedat);
-                cmd.Parameters.AddWithValue("@Aezet", listMaterialPrices[i].Aezet);
-                cmd.Parameters.AddWithValue("@Kbetr", listMaterialPrices[i].Kbetr);
-                cmd.Parameters.AddWithValue("@Kdgrp", listMaterialPrices[i].Kdgrp);
-                cmd.Parameters.AddWithValue("@Kmein", listMaterialPrices[i].Kmein);
-                cmd.Parameters.AddWithValue("@Konwa", listMaterialPrices[i].Konwa);
-                cmd.Parameters.AddWithValue("@Kpein", listMaterialPrices[i].Kpein);
-                cmd.Parameters.AddWithValue("@Kschl", listMaterialPrices[i].Kschl);
-                cmd.Parameters.AddWithValue("@Kunnr", listMaterialPrices[i].Kunnr);
-                cmd.Parameters.AddWithValue("@Mandt", listMaterialPrices[i].Mandt);
-                cmd.Parameters.AddWithValue("@Matnr", listMaterialPrices[i].Matnr);
-                cmd.Parameters.AddWithValue("@Pltyp", listMaterialPrices[i].Pltyp);
-                cmd.Parameters.AddWithValue("@Valdt", listMaterialPrices[i].Valdt);
-                cmd.Parameters.AddWithValue("@Zterm", listMaterialPrices[i].Zterm);
-                try
+                SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Fiyat_SAP]", conn);
+                cmd1.CommandTimeout = 1000;
+                conn.Open();
+                cmd1.ExecuteNonQuery();
+                conn.Close();
+
+                for (int i = 0; i < listMaterialPrices.Length; i++)
                 {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Fiyat_SAP] " +
+                    "(Aedat,Aezet,Kbetr,Kdgrp,Kmein,Konwa,Kpein,Kschl,Kunnr,Mandt,Matnr,Pltyp,Valdt,Zterm)" +
+                    "VALUES (@Aedat,@Aezet,@Kbetr,@Kdgrp,@Kmein,@Konwa,@Kpein,@Kschl,@Kunnr,@Mandt,@Matnr,@Pltyp,@Valdt,@Zterm)", conn);
+                    cmd.CommandTimeout = 1000;
+                    cmd.Parameters.AddWithValue("@Aedat", listMaterialPrices[i].Aedat);
+                    cmd.Parameters.AddWithValue("@Aezet", listMaterialPrices[i].Aezet);
+                    cmd.Parameters.AddWithValue("@Kbetr", listMaterialPrices[i].Kbetr);
+                    cmd.Parameters.AddWithValue("@Kdgrp", listMaterialPrices[i].Kdgrp);
+                    cmd.Parameters.AddWithValue("@Kmein", listMaterialPrices[i].Kmein);
+                    cmd.Parameters.AddWithValue("@Konwa", listMaterialPrices[i].Konwa);
+                    cmd.Parameters.AddWithValue("@Kpein", listMaterialPrices[i].Kpein);
+                    cmd.Parameters.AddWithValue("@Kschl", listMaterialPrices[i].Kschl);
+                    cmd.Parameters.AddWithValue("@Kunnr", listMaterialPrices[i].Kunnr);
+                    cmd.Parameters.AddWithValue("@Mandt", listMaterialPrices[i].Mandt);
+                    cmd.Parameters.AddWithValue("@Matnr", listMaterialPrices[i].Matnr);
+                    cmd.Parameters.AddWithValue("@Pltyp", listMaterialPrices[i].Pltyp);
+                    cmd.Parameters.AddWithValue("@Valdt", listMaterialPrices[i].Valdt);
+                    cmd.Parameters.AddWithValue("@Zterm", listMaterialPrices[i].Zterm);
+                    try
+                    {
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        Hatalar.DoInsert(ex, "windows servis SAP fiyatlar");
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Hatalar.DoInsert(ex, "windows servis SAP fiyatlar");
-                }
-                finally
-                {
-                    conn.Close();
-                }
+
+
+
+                /*SqlCommand cmd5 = new SqlCommand("INSERT INTO [Web_Fiyat] SELECT *,NULL,NULL,NULL FROM [Web_Fiyat_SAP_aktarim]", conn);
+                cmd5.CommandTimeout = 1000;
+                conn.Open();
+                cmd5.ExecuteNonQuery();
+                conn.Close();*/
+
+                /*SqlCommand cmd4 = new SqlCommand("DELETE FROM [Web_Fiyat] WHERE [NET] IS NULL", conn);
+                cmd4.CommandTimeout = 1000;
+                conn.Open();
+                cmd4.ExecuteNonQuery();
+                conn.Close();*/
+
+                SqlCommand cmd10 = new SqlCommand("DROP TABLE [Web-Fiyat-Onceki] SELECT * INTO [Web-Fiyat-Onceki] FROM [dbo].[Web-Fiyat]", conn);
+                cmd10.CommandTimeout = 1000;
+                conn.Open();
+                cmd10.ExecuteNonQuery();
+                conn.Close();
+
+                SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Fiyat] INSERT INTO [Web-Fiyat] SELECT *,NULL,NULL,NULL FROM [Web_Fiyat_SAP_aktarim] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
+                cmd2.CommandTimeout = 1000;
+                conn.Open();
+                cmd2.ExecuteNonQuery();
+                conn.Close();
+
+                SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-Fiyat] WHERE TIP = 21 " +
+
+                    "INSERT INTO [Web-Fiyat] ([TIP],[GMREF],[GRUP KOD],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[ITEMREF],[MAL ACIK],[FIYAT],[ISK1],[ISK2],[ISK3],[ISK4],[ISK5],[ISK6],[ISK7],[ISK8],[ISK9],[ISK10],[NET],[NET+KDV],[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH])" +
+
+                    "SELECT 21,0,[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK],FIYAT,0,0,0,0,0,0,0,0,0,0,FIYAT - (FIYAT / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel)),(FIYAT - (FIYAT / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))) * ((100 + KDV) / 100),[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7"
+
+                    /*"SELECT 21,0,[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK]," +
+                    "(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF)" +
+                    ",0,0,0,0,0,0,0,0,0,0" +
+                    ",(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))" +
+                    ",((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))) * ((100 + KDV) / 100)" +
+                    ",[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]" +
+
+                    "FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7"*/
+                    , conn);
+                cmd3.CommandTimeout = 1000;
+                conn.Open();
+                cmd3.ExecuteNonQuery();
+                conn.Close();
+
+                cmdLog.Parameters.AddWithValue("@strLog", listMaterialPrices.Length.ToString() + " Satır");
             }
-
-
-
-            /*SqlCommand cmd5 = new SqlCommand("INSERT INTO [Web_Fiyat] SELECT *,NULL,NULL,NULL FROM [Web_Fiyat_SAP_aktarim]", conn);
-            cmd5.CommandTimeout = 1000;
-            conn.Open();
-            cmd5.ExecuteNonQuery();
-            conn.Close();*/
-
-            /*SqlCommand cmd4 = new SqlCommand("DELETE FROM [Web_Fiyat] WHERE [NET] IS NULL", conn);
-            cmd4.CommandTimeout = 1000;
-            conn.Open();
-            cmd4.ExecuteNonQuery();
-            conn.Close();*/
-
-            SqlCommand cmd10 = new SqlCommand("DROP TABLE [Web-Fiyat-Onceki] SELECT * INTO [Web-Fiyat-Onceki] FROM [dbo].[Web-Fiyat]", conn);
-            cmd10.CommandTimeout = 1000;
-            conn.Open();
-            cmd10.ExecuteNonQuery();
-            conn.Close();
-
-            SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Fiyat] INSERT INTO [Web-Fiyat] SELECT *,NULL,NULL,NULL FROM [Web_Fiyat_SAP_aktarim] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
-            cmd2.CommandTimeout = 1000;
-            conn.Open();
-            cmd2.ExecuteNonQuery();
-            conn.Close();
-
-            SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-Fiyat] WHERE TIP = 21 " +
-
-                "INSERT INTO [Web-Fiyat] ([TIP],[GMREF],[GRUP KOD],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[ITEMREF],[MAL ACIK],[FIYAT],[ISK1],[ISK2],[ISK3],[ISK4],[ISK5],[ISK6],[ISK7],[ISK8],[ISK9],[ISK10],[NET],[NET+KDV],[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH])" +
-
-                "SELECT 21,0,[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK],FIYAT,0,0,0,0,0,0,0,0,0,0,FIYAT - (FIYAT / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel)),(FIYAT - (FIYAT / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))) * ((100 + KDV) / 100),[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7"
-
-                /*"SELECT 21,0,[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK]," +
-                "(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF)" +
-                ",0,0,0,0,0,0,0,0,0,0" +
-                ",(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))" +
-                ",((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))) * ((100 + KDV) / 100)" +
-                ",[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]" +
-
-                "FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7"*/
-                , conn);
-            cmd3.CommandTimeout = 1000;
-            conn.Open();
-            cmd3.ExecuteNonQuery();
-            conn.Close();
+            else
+            {
+                cmdLog.Parameters.AddWithValue("@strLog", listMaterialPrices.Length.ToString() + " Satır" + " (Yazma yapılmadı)");
+            }
 
 
 
@@ -1303,14 +1321,14 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void FiyatlarCmt()
         {
-            SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Fiyatlar"); cmdLog.Parameters.AddWithValue("@strLog", "");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "123456");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
@@ -1346,7 +1364,7 @@ namespace Sultanlar.WindowsServiceIslemler
         {
             if (Fiyatbirbitti && Fiyatikibitti && Fiyatucbitti && Fiyatdortbitti)
             {
-                SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+                SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
                 SqlCommand cmdBilgiler = new SqlCommand("UPDATE [Web_Fiyat] SET [Web_Fiyat].[GRUP KOD] = [Web-Malzeme-Full].[GRUP KOD],[Web_Fiyat].[OZEL KOD] = [Web-Malzeme-Full].[OZEL KOD],[Web_Fiyat].[HK] = [Web-Malzeme-Full].[HK],[Web_Fiyat].[OZEL ACIK] = [Web-Malzeme-Full].[OZEL ACIK],[Web_Fiyat].[REY KOD] = [Web-Malzeme-Full].[REY KOD],[Web_Fiyat].[RK] = [Web-Malzeme-Full].[RK],[Web_Fiyat].[REY ACIK] = [Web-Malzeme-Full].[REY ACIK],[Web_Fiyat].[MAL ACIK] = [Web-Malzeme-Full].[MAL ACIK],[Web_Fiyat].[NET] = dbo.IskontoDusCoklu([Web_Fiyat].FIYAT, [Web_Fiyat].ISK1, [Web_Fiyat].ISK2, [Web_Fiyat].ISK3, [Web_Fiyat].ISK4, [Web_Fiyat].ISK5, [Web_Fiyat].ISK6, [Web_Fiyat].ISK7, [Web_Fiyat].ISK8, [Web_Fiyat].ISK9, [Web_Fiyat].ISK10),[Web_Fiyat].[NET+KDV] = dbo.IskontoDusCoklu([Web_Fiyat].FIYAT, [Web_Fiyat].ISK1, [Web_Fiyat].ISK2, [Web_Fiyat].ISK3, [Web_Fiyat].ISK4, [Web_Fiyat].ISK5, [Web_Fiyat].ISK6, [Web_Fiyat].ISK7, [Web_Fiyat].ISK8, [Web_Fiyat].ISK9, [Web_Fiyat].ISK10) * ((100 + [Web-Malzeme-Full].KDV) / 100) FROM [Web_Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web_Fiyat].[ITEMREF] = [Web-Malzeme-Full].[ITEMREF]", conn);
                 cmdBilgiler.CommandTimeout = 1000;
@@ -1403,7 +1421,7 @@ namespace Sultanlar.WindowsServiceIslemler
             int bitis = gelen.bitis;
             int kacinci = gelen.kacinci;
             SqlCommand cmdLog = gelen.cmdLog;
-            SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=95.0.47.133; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
 
 
@@ -1587,14 +1605,14 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void MalzemelerC(bool malzeme, bool olcubirim)
         {
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Malzemeler");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "123456");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialsC.ZwebGetMaterialsService clMaterials = new getmaterialsC.ZwebGetMaterialsService();
             clMaterials.Timeout = 6000000;
@@ -1720,6 +1738,12 @@ namespace Sultanlar.WindowsServiceIslemler
                         conn.Close();
                     }
                 }
+
+                SqlCommand cmd12 = new SqlCommand("DROP TABLE [Web-Malzeme-Full-Onceki] SELECT * INTO [Web-Malzeme-Full-Onceki] FROM [dbo].[Web-Malzeme-Full] DROP TABLE [Web-Malzeme-Onceki] SELECT * INTO [Web-Malzeme-Onceki] FROM [dbo].[Web-Malzeme]", conn);
+                cmd12.CommandTimeout = 600;
+                conn.Open();
+                cmd12.ExecuteNonQuery();
+                conn.Close();
 
                 SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Malzeme-Full] INSERT INTO [Web-Malzeme-Full] SELECT * FROM [Web_Malzeme] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
                 cmd2.CommandTimeout = 1000;
@@ -1882,14 +1906,14 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void PersonellerC()
         {
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Personeller");
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "123456");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getpersonalsC.ZwebGetPersonalsService clPersonals = new getpersonalsC.ZwebGetPersonalsService();
             clPersonals.Timeout = 6000000;
@@ -1950,14 +1974,18 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void MusterilerC()
         {
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
 
             SqlCommand cmdLog = new SqlCommand("INSERT INTO [KurumsalWebSAP].[dbo].[tblINTERNET_LogTabloGuncellemeler] ([dtBaslangic],[dtBitis],[strYer],[strLog]) VALUES (@dtBaslangic,@dtBitis,@strYer,@strLog)", conn);
-            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Musteriler");
+            cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now);
+
+            SqlCommand cmd11 = new SqlCommand("SELECT count(*) FROM [Web-Musteri]", conn);
+            conn.Open();
+            int oncekimusterisayisi = Convert.ToInt32(cmd11.ExecuteScalar());
+            conn.Close();
 
 
-
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "123456");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getcustomersC.ZwebGetCustomersService clCustomers = new getcustomersC.ZwebGetCustomersService();
             clCustomers.Timeout = 6000000;
@@ -1974,150 +2002,171 @@ namespace Sultanlar.WindowsServiceIslemler
                 return;
             }
 
-            cmdLog.Parameters.AddWithValue("@strLog", listCustomers.Length.ToString() + " Satır");
 
-            SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Musteri] DELETE FROM [Web-Risk]", conn);
-            cmd1.CommandTimeout = 1000;
-            conn.Open();
-            cmd1.ExecuteNonQuery();
-            conn.Close();
-            
-            for (int i = 0; i < listCustomers.Length; i++)
+            if (oncekimusterisayisi - 2000 < listCustomers.Length)
             {
-                string active = listCustomers[i].Aufsd == string.Empty ? "0" : "1";
-                string bolgekod = listCustomers[i].Bzirk;
-                string bolge = listCustomers[i].Bztxt;
-                string ytkkod = listCustomers[i].Kdgrp;
-                string ilkod = listCustomers[i].Regio;
-                string il = listCustomers[i].Bezei;
-                string ilcekod = listCustomers[i].PostCode1;
-                string ilce = listCustomers[i].City1;
-                string mtkod = listCustomers[i].Kdgrp;
-                string mtaciklama = listCustomers[i].Kdgtx;
-                int slsref = 0; try { slsref = Convert.ToInt32(listCustomers[i].Pernr); }
-                catch { }
-                string satkod = Convert.ToInt32(listCustomers[i].Perno).ToString();
-                string satkod1 = listCustomers[i].Parvw;
-                int gmref = 0; try { gmref = Convert.ToInt32(listCustomers[i].Kunag); }
-                catch { }
-                string musteri = listCustomers[i].Namag;
-                int smref = 0; try { smref = Convert.ToInt32(listCustomers[i].Kunwe); }
-                catch { }
-                string sube = listCustomers[i].Namwe;
-                string adres = listCustomers[i].Adres;
-                string sehir = listCustomers[i].CommText;
-                string semt = listCustomers[i].Name3;
-                string vrgdaire = listCustomers[i].Stcd1;
-                string vrgno = listCustomers[i].Stcd2;
-                string tel = listCustomers[i].Telno;
-                string fax = listCustomers[i].Faxno;
-                string email = listCustomers[i].Email;
-                string cep = listCustomers[i].Mobno;
-                double risklimit = Convert.ToDouble(listCustomers[i].Klimk);
-                int muskod = 0; try { muskod = listCustomers[i].Altkn != string.Empty ? Convert.ToInt32(listCustomers[i].Altkn) : 0; }
-                catch { }
+                SqlCommand cmd1 = new SqlCommand("DELETE FROM [Web_Musteri] DELETE FROM [Web-Risk]", conn);
+                cmd1.CommandTimeout = 600;
+                conn.Open();
+                cmd1.ExecuteNonQuery();
+                conn.Close();
+            
+                for (int i = 0; i < listCustomers.Length; i++)
+                {
+                    string active = listCustomers[i].Aufsd == string.Empty ? "0" : "1";
+                    string bolgekod = listCustomers[i].Bzirk;
+                    string bolge = listCustomers[i].Bztxt;
+                    string ytkkod = listCustomers[i].Kdgrp;
+                    string ilkod = listCustomers[i].Regio;
+                    string il = listCustomers[i].Bezei;
+                    string ilcekod = listCustomers[i].PostCode1;
+                    string ilce = listCustomers[i].City1;
+                    string mtkod = listCustomers[i].Kdgrp;
+                    string mtaciklama = listCustomers[i].Kdgtx;
+                    int slsref = 0; try { slsref = Convert.ToInt32(listCustomers[i].Pernr); }
+                    catch { }
+                    string satkod = Convert.ToInt32(listCustomers[i].Perno).ToString();
+                    string satkod1 = listCustomers[i].Parvw;
+                    int gmref = 0; try { gmref = Convert.ToInt32(listCustomers[i].Kunag); }
+                    catch { }
+                    string musteri = listCustomers[i].Namag;
+                    int smref = 0; try { smref = Convert.ToInt32(listCustomers[i].Kunwe); }
+                    catch { }
+                    string sube = listCustomers[i].Namwe;
+                    string adres = listCustomers[i].Adres;
+                    string sehir = listCustomers[i].CommText;
+                    string semt = listCustomers[i].Name3;
+                    string vrgdaire = listCustomers[i].Stcd1;
+                    string vrgno = listCustomers[i].Stcd2;
+                    string tel = listCustomers[i].Telno;
+                    string fax = listCustomers[i].Faxno;
+                    string email = listCustomers[i].Email;
+                    string cep = listCustomers[i].Mobno;
+                    double risklimit = Convert.ToDouble(listCustomers[i].Klimk);
+                    int muskod = 0; try { muskod = listCustomers[i].Altkn != string.Empty ? Convert.ToInt32(listCustomers[i].Altkn) : 0; }
+                    catch { }
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Musteri] " +
-                    "([ACTIVE],BOLGE,[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[MT KOD],[MT ACIKLAMA],[SLSREF],[SAT KOD],[SAT KOD1],[GMREF],[MUS KOD],[SAT TEM],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],SEMT,[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],ILGILI,[CEP-1],[NETTOP])" +
-                    "VALUES (@ACTIVE,@BOLGE,@YTKKOD,@ILKOD,@IL,@ILCEKOD,@ILCE,@MTKOD,@MTACIKLAMA,@SLSREF,@SATKOD,@SATKOD1,@GMREF,@MUSKOD,@SATTEM,@MUSTERI,@SMREF,@SUBKOD,@SUBE,@ADRES,@SEHIR,@SEMT,@VRGDAIRE,@VRGNO,@TEL,@FAX,@EMAIL,@ILGILI,@CEP,0)", conn);
-                cmd.CommandTimeout = 1000;
-                cmd.Parameters.AddWithValue("@ACTIVE", active);
-                cmd.Parameters.AddWithValue("@BOLGE", bolgekod);
-                cmd.Parameters.AddWithValue("@YTKKOD", ytkkod);
-                cmd.Parameters.AddWithValue("@ILKOD", ilkod);
-                cmd.Parameters.AddWithValue("@IL", il);
-                cmd.Parameters.AddWithValue("@ILCEKOD", ilcekod);
-                cmd.Parameters.AddWithValue("@ILCE", ilce);
-                cmd.Parameters.AddWithValue("@MTKOD", mtkod);
-                cmd.Parameters.AddWithValue("@MTACIKLAMA", mtaciklama);
-                cmd.Parameters.AddWithValue("@SLSREF", slsref);
-                cmd.Parameters.AddWithValue("@SATKOD", satkod);
-                cmd.Parameters.AddWithValue("@SATKOD1", satkod1);
-                cmd.Parameters.AddWithValue("@GMREF", gmref);
-                cmd.Parameters.AddWithValue("@MUSKOD", muskod);
-                cmd.Parameters.AddWithValue("@MUSTERI", musteri);
-                cmd.Parameters.AddWithValue("@SMREF", smref);
-                cmd.Parameters.AddWithValue("@SUBKOD", muskod);
-                cmd.Parameters.AddWithValue("@SUBE", sube);
-                cmd.Parameters.AddWithValue("@ADRES", adres);
-                cmd.Parameters.AddWithValue("@SEHIR", sehir);
-                cmd.Parameters.AddWithValue("@SEMT", semt);
-                cmd.Parameters.AddWithValue("@VRGDAIRE", vrgdaire);
-                cmd.Parameters.AddWithValue("@VRGNO", vrgno);
-                cmd.Parameters.AddWithValue("@TEL", tel);
-                cmd.Parameters.AddWithValue("@FAX", fax);
-                cmd.Parameters.AddWithValue("@EMAIL", email);
-                cmd.Parameters.AddWithValue("@ILGILI", bolge);
-                cmd.Parameters.AddWithValue("@CEP", cep);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Musteri] " +
+                        "([ACTIVE],BOLGE,[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[MT KOD],[MT ACIKLAMA],[SLSREF],[SAT KOD],[SAT KOD1],[GMREF],[MUS KOD],[SAT TEM],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],SEMT,[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],ILGILI,[CEP-1],[NETTOP])" +
+                        "VALUES (@ACTIVE,@BOLGE,@YTKKOD,@ILKOD,@IL,@ILCEKOD,@ILCE,@MTKOD,@MTACIKLAMA,@SLSREF,@SATKOD,@SATKOD1,@GMREF,@MUSKOD,@SATTEM,@MUSTERI,@SMREF,@SUBKOD,@SUBE,@ADRES,@SEHIR,@SEMT,@VRGDAIRE,@VRGNO,@TEL,@FAX,@EMAIL,@ILGILI,@CEP,0)", conn);
+                    //cmd.CommandTimeout = 1000;
+                    cmd.Parameters.AddWithValue("@ACTIVE", active);
+                    cmd.Parameters.AddWithValue("@BOLGE", bolgekod);
+                    cmd.Parameters.AddWithValue("@YTKKOD", ytkkod);
+                    cmd.Parameters.AddWithValue("@ILKOD", ilkod);
+                    cmd.Parameters.AddWithValue("@IL", il);
+                    cmd.Parameters.AddWithValue("@ILCEKOD", ilcekod);
+                    cmd.Parameters.AddWithValue("@ILCE", ilce);
+                    cmd.Parameters.AddWithValue("@MTKOD", mtkod);
+                    cmd.Parameters.AddWithValue("@MTACIKLAMA", mtaciklama);
+                    cmd.Parameters.AddWithValue("@SLSREF", slsref);
+                    cmd.Parameters.AddWithValue("@SATKOD", satkod);
+                    cmd.Parameters.AddWithValue("@SATKOD1", satkod1);
+                    cmd.Parameters.AddWithValue("@GMREF", gmref);
+                    cmd.Parameters.AddWithValue("@MUSKOD", muskod);
+                    cmd.Parameters.AddWithValue("@MUSTERI", musteri);
+                    cmd.Parameters.AddWithValue("@SMREF", smref);
+                    cmd.Parameters.AddWithValue("@SUBKOD", muskod);
+                    cmd.Parameters.AddWithValue("@SUBE", sube);
+                    cmd.Parameters.AddWithValue("@ADRES", adres);
+                    cmd.Parameters.AddWithValue("@SEHIR", sehir);
+                    cmd.Parameters.AddWithValue("@SEMT", semt);
+                    cmd.Parameters.AddWithValue("@VRGDAIRE", vrgdaire);
+                    cmd.Parameters.AddWithValue("@VRGNO", vrgno);
+                    cmd.Parameters.AddWithValue("@TEL", tel);
+                    cmd.Parameters.AddWithValue("@FAX", fax);
+                    cmd.Parameters.AddWithValue("@EMAIL", email);
+                    cmd.Parameters.AddWithValue("@ILGILI", bolge);
+                    cmd.Parameters.AddWithValue("@CEP", cep);
 
-                SqlCommand cmd2 = new SqlCommand("SELECT count(GMREF) FROM [Web-Risk] WHERE GMREF = @GMREF", conn);
-                cmd2.CommandTimeout = 1000;
-                cmd2.Parameters.AddWithValue("@GMREF", gmref);
+                    SqlCommand cmd2 = new SqlCommand("SELECT count(GMREF) FROM [Web-Risk] WHERE GMREF = @GMREF", conn);
+                    cmd2.Parameters.AddWithValue("@GMREF", gmref);
 
-                SqlCommand cmd3 = new SqlCommand("INSERT INTO [Web-Risk] ([SLSREF],[GMREF],[MUS KOD],[MUSTERI],[RISK LMT],[RISK TOP],[RISK BKY],[BAKIYE],[ACK GUN],[ACK TOP],[VB GUN],[VB TOP],[VGB GUN],[VGB TOP],[IRS TOP],[C/S TOP],[SIP TOPL],[SIP TOPLB],[SIP TOPQ]) VALUES (@SLSREF,@GMREF,@GMREF,@MUSTERI,@RISKLMT,0,@RISKBKY,0,0,0,0,0,0,0,0,0,0,0,0)", conn);
-                cmd3.CommandTimeout = 1000;
-                cmd3.Parameters.AddWithValue("@SLSREF", slsref);
-                cmd3.Parameters.AddWithValue("@GMREF", gmref);
-                cmd3.Parameters.AddWithValue("@MUSTERI", musteri);
-                cmd3.Parameters.AddWithValue("@RISKLMT", risklimit);
-                cmd3.Parameters.AddWithValue("@RISKBKY", risklimit);
+                    SqlCommand cmd3 = new SqlCommand("INSERT INTO [Web-Risk] ([SLSREF],[GMREF],[MUS KOD],[MUSTERI],[RISK LMT],[RISK TOP],[RISK BKY],[BAKIYE],[ACK GUN],[ACK TOP],[VB GUN],[VB TOP],[VGB GUN],[VGB TOP],[IRS TOP],[C/S TOP],[SIP TOPL],[SIP TOPLB],[SIP TOPQ]) VALUES (@SLSREF,@GMREF,@GMREF,@MUSTERI,@RISKLMT,0,@RISKBKY,0,0,0,0,0,0,0,0,0,0,0,0)", conn);
+                    //cmd3.CommandTimeout = 1000;
+                    cmd3.Parameters.AddWithValue("@SLSREF", slsref);
+                    cmd3.Parameters.AddWithValue("@GMREF", gmref);
+                    cmd3.Parameters.AddWithValue("@MUSTERI", musteri);
+                    cmd3.Parameters.AddWithValue("@RISKLMT", risklimit);
+                    cmd3.Parameters.AddWithValue("@RISKBKY", risklimit);
 
-                SqlCommand cmd4 = new SqlCommand("SELECT [SAT TEM] FROM [Web-SatisTemsilcileri] WHERE SLSMANREF = @SLSMANREF", conn);
-                cmd4.CommandTimeout = 1000;
-                cmd4.Parameters.AddWithValue("@SLSMANREF", slsref);
+                    SqlCommand cmd4 = new SqlCommand("SELECT [SAT TEM] FROM [Web-SatisTemsilcileri] WHERE SLSMANREF = @SLSMANREF", conn);
+                    cmd4.Parameters.AddWithValue("@SLSMANREF", slsref);
+
+                    try
+                    {
+                        conn.Open();
+
+                        string sattemgelen = string.Empty;
+                        object obj = cmd4.ExecuteScalar();
+                        if (obj != null)
+                            sattemgelen = obj.ToString();
+                        cmd.Parameters.AddWithValue("@SATTEM", sattemgelen);
+
+                        cmd.ExecuteNonQuery();
+                        if (!Convert.ToBoolean(cmd2.ExecuteScalar())) // risktablosunda yok ise
+                        {
+                            cmd3.ExecuteNonQuery();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Hatalar.DoInsert(ex, "windows servis SAP musteriler");
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+
+                SqlCommand cmd10 = new SqlCommand("DROP TABLE [Web-Musteri-Onceki] SELECT * INTO [Web-Musteri-Onceki] FROM [dbo].[Web-Musteri]", conn);
+                cmd10.CommandTimeout = 600;
+                conn.Open();
+                cmd10.ExecuteNonQuery();
+                conn.Close();
+
+                SqlCommand cmd5 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Musteri] INSERT INTO [Web-Musteri] SELECT * FROM [Web_Musteri] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
+                cmd5.CommandTimeout = 600;
+                conn.Open();
+                cmd5.ExecuteNonQuery();
+                conn.Close();
+
+                //üşengeçlik
+                SqlCommand cmd6 = new SqlCommand("UPDATE [KurumsalWebSAP].[dbo].[Web-Musteri] SET [GRP] = '',[EKP] = '',[TIP] = 0,UNVAN=''", conn);
+                conn.Open();
+                cmd6.ExecuteNonQuery();
+                conn.Close();
 
                 try
                 {
+                    SqlCommand cmd7 = new SqlCommand("TRUNCATE TABLE [Web-Risk-2] INSERT INTO [Web-Risk-2] ([SLSREF],[GMREF],[MUS KOD],[MUSTERI],[RISK LMT],[RISK TOP],[RISK BKY],[BAKIYE],[ACK GUN],[ACK TOP],[VB GUN],[VB TOP],[VGB GUN],[VGB TOP],[IRS TOP],[C/S TOP],[SIP TOPL],[SIP TOPLB],[SIP TOPQ]) SELECT [SAT KOD],[MUS KOD],[MUS KOD],[MUSTERI],[RISK LMT],0,[RISK LMT],[BAKIYE],0,0,0,0,0,0,[BORC],0,[ALACAK],0,0 FROM [SAP_B_A_2017] WHERE [SAT KOD] IS NOT NULL", conn);
+                    cmd7.CommandTimeout = 60;
                     conn.Open();
-                    cmd.Parameters.AddWithValue("@SATTEM", cmd4.ExecuteScalar().ToString());
-                    cmd.ExecuteNonQuery();
-                    if (!Convert.ToBoolean(cmd2.ExecuteScalar())) // risktablosunda yok ise
-                    {
-                        cmd3.ExecuteNonQuery();
-                    }
+                    cmd7.ExecuteNonQuery();
+                    conn.Close();
+                    cmdLog.Parameters.AddWithValue("@strYer", "SAP Musteriler");
                 }
                 catch (Exception ex)
                 {
-                    Hatalar.DoInsert(ex, "windows servis SAP musteriler");
+                    cmdLog.Parameters.AddWithValue("@strYer", "SAP Musteriler (web-risk-2 yazılamadı)");
+                    Hatalar.DoInsert(ex, "windows servis SAP musteriler web-risk-2");
                 }
-                finally
-                {
-                    conn.Close();
-                }
+
+                /*SqlCommand cmd8 = new SqlCommand("UPDATE [Web-Musteri] SET [Web-Musteri].BOLGE = ISNULL(SATRAP.BLG_KOD,''),[Web-Musteri].ILGILI = ISNULL(SATRAP.[BOLGE],'') FROM [Web-Musteri] LEFT OUTER JOIN (SELECT DISTINCT SMREF,BLG_KOD,[BOLGE] FROM [KurumsalWebSAP].[dbo].[Web-Satis-Rapor-1] WHERE YIL > YEAR(getdate()) - 4) AS SATRAP ON [Web-Musteri].SMREF = SATRAP.SMREF", conn);
+                cmd8.CommandTimeout = 1000;
+                conn.Open();
+                cmd8.ExecuteNonQuery();
+                conn.Close();*/
+
+                cmdLog.Parameters.AddWithValue("@strLog", listCustomers.Length.ToString() + " Satır");
+                
+                WebRutJob();
             }
-
-            SqlCommand cmd10 = new SqlCommand("DROP TABLE [Web-Musteri-Onceki] SELECT * INTO [Web-Musteri-Onceki] FROM [dbo].[Web-Musteri]", conn);
-            cmd10.CommandTimeout = 1000;
-            conn.Open();
-            cmd10.ExecuteNonQuery();
-            conn.Close();
-
-            SqlCommand cmd5 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Musteri] INSERT INTO [Web-Musteri] SELECT * FROM [Web_Musteri] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
-            cmd5.CommandTimeout = 1000;
-            conn.Open();
-            cmd5.ExecuteNonQuery();
-            conn.Close();
-
-            //üşengeçlik
-            SqlCommand cmd6 = new SqlCommand("UPDATE [KurumsalWebSAP].[dbo].[Web-Musteri] SET [GRP] = '',[EKP] = '',[TIP] = 0,UNVAN=''", conn);
-            cmd6.CommandTimeout = 1000;
-            conn.Open();
-            cmd6.ExecuteNonQuery();
-            conn.Close();
-
-            SqlCommand cmd7 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Risk-2] INSERT INTO [Web-Risk-2] ([SLSREF],[GMREF],[MUS KOD],[MUSTERI],[RISK LMT],[RISK TOP],[RISK BKY],[BAKIYE],[ACK GUN],[ACK TOP],[VB GUN],[VB TOP],[VGB GUN],[VGB TOP],[IRS TOP],[C/S TOP],[SIP TOPL],[SIP TOPLB],[SIP TOPQ]) SELECT [SAT KOD],[MUS KOD],[MUS KOD],[MUSTERI],[RISK LMT],0,[RISK LMT],[BAKIYE],0,0,0,0,0,0,[BORC],0,[ALACAK],0,0 FROM [SAP_B_A_2017] WITH (HOLDLOCK) WHERE [SAT KOD] IS NOT NULL COMMIT TRANSACTION t_Transaction", conn);
-            cmd7.CommandTimeout = 1000;
-            conn.Open();
-            cmd7.ExecuteNonQuery();
-            conn.Close();
-
-            /*SqlCommand cmd8 = new SqlCommand("UPDATE [Web-Musteri] SET [Web-Musteri].BOLGE = ISNULL(SATRAP.BLG_KOD,''),[Web-Musteri].ILGILI = ISNULL(SATRAP.[BOLGE],'') FROM [Web-Musteri] LEFT OUTER JOIN (SELECT DISTINCT SMREF,BLG_KOD,[BOLGE] FROM [KurumsalWebSAP].[dbo].[Web-Satis-Rapor-1] WHERE YIL > YEAR(getdate()) - 4) AS SATRAP ON [Web-Musteri].SMREF = SATRAP.SMREF", conn);
-            cmd8.CommandTimeout = 1000;
-            conn.Open();
-            cmd8.ExecuteNonQuery();
-            conn.Close();*/
-
-
+            else
+            {
+                cmdLog.Parameters.AddWithValue("@strYer", "SAP Musteriler");
+                cmdLog.Parameters.AddWithValue("@strLog", listCustomers.Length.ToString() + " Satır" + " (Yazma yapılmadı)");
+            }
 
             conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
         }
@@ -2492,7 +2541,7 @@ namespace Sultanlar.WindowsServiceIslemler
             for (int i = 0; i < DateTime.Now.Year - Baslangic.Year + 1; i++)
                 yillar.Add(Baslangic.Year + i);
             
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
             for (int j = 0; j < yillar.Count; j++)
             {
                 //Baslangic = Convert.ToDateTime("01.01." + yillar[j].ToString());
@@ -2501,7 +2550,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
                 selectekstreC.ZwebSelectEkstreService ekstre = new selectekstreC.ZwebSelectEkstreService();
                 ekstre.Timeout = 6000000;
-                ekstre.Credentials = new NetworkCredential("ngunay", "123456");
+                ekstre.Credentials = new NetworkCredential("ngunay", "abc1234");
                 selectekstreC.Zwebs023[] yirmiuc = null;
                 selectekstreC.Zwebs023[] yirmiuc2 = null;
 
@@ -2802,7 +2851,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 SqlCommand cmdEkstreJob = new SqlCommand("msdb.dbo.sp_start_job", conn);
                 cmdEkstreJob.CommandTimeout = 1000;
                 cmdEkstreJob.CommandType = CommandType.StoredProcedure;
-                cmdEkstreJob.Parameters.AddWithValue("@job_name", "Web_Ekstre_Yeni");
+                cmdEkstreJob.Parameters.AddWithValue("@job_name", "Web_Ekstre");
 
                 DateTime bastarih = DateTime.Now;
                 string hataa = string.Empty;
@@ -2825,8 +2874,8 @@ namespace Sultanlar.WindowsServiceIslemler
 
         void GetSAP()
         {
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "123456");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             bool vbfa = true;
             bool siparis = true;
@@ -4068,14 +4117,14 @@ namespace Sultanlar.WindowsServiceIslemler
 
             if (ekstre)
             {
-                //GetEkstre(DateTime.Now.AddYears(-1)); // Convert.ToDateTime("01.01.2014")
+                GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014")
                 GetSatisJob();
             }
         }
 
         private void GetSatisJob()
         {
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
             SqlCommand cmdSatisJob = new SqlCommand("msdb.dbo.sp_start_job", conn);
             cmdSatisJob.CommandTimeout = 1000;
             cmdSatisJob.CommandType = CommandType.StoredProcedure;
@@ -4101,7 +4150,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void Satis()
         {
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
             SqlCommand cmd = new SqlCommand("sp_SAP_SATIS_YENI", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandTimeout = 3000;
@@ -4127,7 +4176,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
         private void SatisIade()
         {
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
             SqlCommand cmd = new SqlCommand("sp_SAP_IADE_YENI", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandTimeout = 3000;
@@ -4153,8 +4202,8 @@ namespace Sultanlar.WindowsServiceIslemler
 
         void GetSAPgece(bool satisupdate)
         {
-            SqlConnection conn = new SqlConnection("Server=.; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "123456");
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             bool vbfa = true;
             bool siparis = true;
@@ -5380,7 +5429,61 @@ namespace Sultanlar.WindowsServiceIslemler
                 conn.Close();
             }
 
+            GetSatisJob2();
+
             LogYaz(conn, "satis update", hata == string.Empty ? true : false, hata, baslangic, DateTime.Now);
+        }
+
+        private void GetSatisJob2()
+        {
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlCommand cmdSatisJob = new SqlCommand("msdb.dbo.sp_start_job", conn);
+            cmdSatisJob.CommandTimeout = 1000;
+            cmdSatisJob.CommandType = CommandType.StoredProcedure;
+            cmdSatisJob.Parameters.AddWithValue("@job_name", "SatisRapor");
+
+            DateTime bastarih = DateTime.Now;
+            string hataa = string.Empty;
+            try
+            {
+                conn.Open();
+                cmdSatisJob.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                hataa = ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+                LogYaz(conn, "satis yeni", hataa != string.Empty ? false : true, hataa, bastarih, DateTime.Now);
+            }
+        }
+
+        private void WebRutJob()
+        {
+            SqlConnection conn = new SqlConnection("Server=10.10.41.2; Database=KurumsalWebSAP; User Id=sa; Password=sdl580g5p9+-; Trusted_Connection=False;");
+            SqlCommand cmd = new SqlCommand("msdb.dbo.sp_start_job", conn);
+            cmd.CommandTimeout = 1000;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@job_name", "Web_Rut");
+
+            DateTime bastarih = DateTime.Now;
+            string hataa = string.Empty;
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                hataa = ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+                LogYaz(conn, "Web_Rut", hataa != string.Empty ? false : true, hataa, bastarih, DateTime.Now);
+            }
         }
 
         private void EntegraSiparis()

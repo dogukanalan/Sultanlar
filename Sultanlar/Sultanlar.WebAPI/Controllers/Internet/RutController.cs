@@ -20,9 +20,11 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public List<rutlar> GetirRutlarBugun(int SLSREF) => new RutProvider().RutlarBugun(SLSREF);
         [HttpGet, Route("internet/[controller]/[action]/{SLSREF}/{SMREF}/{TIP}/{TUR}/{YIL}/{AY}")]
         public List<rutResimler> GetirRutResimler(int SLSREF, int SMREF, int TIP, int TUR, int YIL, int AY) => new RutProvider().RutResimler(SLSREF, SMREF, TIP, TUR, YIL, AY);
+        [HttpGet, Route("internet/[controller]/[action]/{RutID}")]
+        public List<rutResimler> GetirRutResimlerByRutID(string RutID) => new RutProvider().RutResimler(RutID);
 
-        [HttpPost, Route("internet/[controller]/[action]/{SLSREF}")]
-        public DtAjaxResponse Musteriler(int SLSREF, [FromBody]DataTableAjaxPostModel req) => new RutProvider().Musteriler(SLSREF, req);
+        [HttpPost, Route("internet/[controller]/[action]/{SLSREF}/{Sira}/{Rutlu}")]
+        public DtAjaxResponse Musteriler(int SLSREF, int Sira, int Rutlu, [FromBody]DataTableAjaxPostModel req) => new RutProvider().Musteriler(SLSREF, Sira, Rutlu, req);
 
         [HttpGet, Route("internet/[controller]/[action]/{slsref}/{gmref}/{smref}/{kacinci}")]
         public Rut GetirRut(string slsref, string gmref, string smref, string kacinci) => new RutProvider().RutGetir(slsref, gmref, smref, kacinci);

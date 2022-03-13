@@ -16,11 +16,11 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpGet, Route("internet/[controller]/[action]/{slsref}")]
         public List<cariHesaplar> GetAna(int slsref) => new CariProvider().Cariler(slsref);
         
-        [HttpGet, Route("internet/[controller]/[action]/{gmref}")]
-        public List<cariHesaplar> GetSube(int gmref) => new CariProvider().CarilerSub(gmref);
+        [HttpGet, Route("internet/[controller]/[action]/{gmref}/{slsref}")]
+        public List<cariHesaplar> GetSube(int gmref, int slsref) => new CariProvider().CarilerSub(gmref, slsref);
 
-        [HttpGet, Route("internet/[controller]/[action]/{gmref}")]
-        public List<cariHesaplar> GetSube1(int gmref) => new CariProvider().Cariler1Sub(gmref);
+        [HttpGet, Route("internet/[controller]/[action]/{gmref}/{slsref}")]
+        public List<cariHesaplar> GetSube1(int gmref, int slsref) => new CariProvider().Cariler1Sub(gmref, slsref);
 
         [HttpGet, Route("internet/[controller]/[action]/{gmref}")]
         public List<cariHesaplar> GetSubeTp(int gmref) => new CariProvider().CarilerTpSub(gmref);

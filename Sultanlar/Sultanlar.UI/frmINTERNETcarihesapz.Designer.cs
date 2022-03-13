@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmINTERNETcarihesapz));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.sbRutlar = new DevExpress.XtraEditors.SimpleButton();
             this.sbDetay = new DevExpress.XtraEditors.SimpleButton();
             this.btnYenile = new System.Windows.Forms.Button();
             this.cmbTipler = new System.Windows.Forms.ComboBox();
@@ -146,7 +147,7 @@
             this.cmbZiyIl = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
             this.cbZiyPasif = new System.Windows.Forms.CheckBox();
-            this.sbRutlar = new DevExpress.XtraEditors.SimpleButton();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -167,6 +168,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Controls.Add(this.sbRutlar);
             this.splitContainer1.Panel1.Controls.Add(this.sbDetay);
             this.splitContainer1.Panel1.Controls.Add(this.btnYenile);
@@ -185,6 +187,15 @@
             this.splitContainer1.Size = new System.Drawing.Size(1064, 481);
             this.splitContainer1.SplitterDistance = 261;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // sbRutlar
+            // 
+            this.sbRutlar.Location = new System.Drawing.Point(480, 0);
+            this.sbRutlar.Name = "sbRutlar";
+            this.sbRutlar.Size = new System.Drawing.Size(104, 24);
+            this.sbRutlar.TabIndex = 7;
+            this.sbRutlar.Text = "Rut Notu Girişi";
+            this.sbRutlar.Click += new System.EventHandler(this.sbRutlar_Click);
             // 
             // sbDetay
             // 
@@ -1252,14 +1263,15 @@
             this.cbZiyPasif.Text = "Pasif";
             this.cbZiyPasif.UseVisualStyleBackColor = true;
             // 
-            // sbRutlar
+            // button1
             // 
-            this.sbRutlar.Location = new System.Drawing.Point(480, 0);
-            this.sbRutlar.Name = "sbRutlar";
-            this.sbRutlar.Size = new System.Drawing.Size(104, 24);
-            this.sbRutlar.TabIndex = 7;
-            this.sbRutlar.Text = "Rut Notu Girişi";
-            this.sbRutlar.Click += new System.EventHandler(this.sbRutlar_Click);
+            this.button1.Location = new System.Drawing.Point(592, 1);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(124, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Excel\'den Rut Yükle";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // frmINTERNETcarihesapz
             // 
@@ -1407,5 +1419,6 @@
         private DevExpress.XtraEditors.SimpleButton sbZiySaticiKopyala;
         private DevExpress.XtraEditors.SimpleButton sbBayiSaticiKopyala;
         private DevExpress.XtraEditors.SimpleButton sbRutlar;
+        private System.Windows.Forms.Button button1;
     }
 }

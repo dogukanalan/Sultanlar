@@ -883,7 +883,20 @@ namespace Sultanlar.WebUI.musteri
         private bool SiparisOnayla(int siparisid, int sevkref)
         {
             string donen = string.Empty;
-            bool aktarildimi = Siparis.SiparisOnayla(siparisid, sevkref, Session["DepoID"] != null ? Convert.ToInt32(Session["DepoID"]) : 0, cbBakiyeSiparis.Checked, (Musteriler)Session["Musteri"], out donen);
+            bool aktarildimi = false;
+            if (((Musteriler)Session["Musteri"]).blTaksitPlani) // harici bayi elemanı
+            {
+                Siparisler sip = Siparisler.GetObjectsBySiparisID(siparisid);
+                sip.dtOnaylamaTarihi = DateTime.Now;
+                sip.blAktarilmis = true;
+                sip.DoUpdate();
+                aktarildimi = true;
+            }
+            else
+            {
+                aktarildimi = Siparis.SiparisOnayla(siparisid, sevkref, Session["DepoID"] != null ? Convert.ToInt32(Session["DepoID"]) : 0, cbBakiyeSiparis.Checked, (Musteriler)Session["Musteri"], out donen);
+            }
+
             if (!aktarildimi)
             {
                 lblSiparisOnaylanamadiHata.Text = donen;

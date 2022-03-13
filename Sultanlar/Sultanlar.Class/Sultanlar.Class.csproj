@@ -91,6 +91,7 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
     <Compile Include="XmlEmusiad.cs" />
+    <Compile Include="XmlSiparisDis.cs" />
     <Compile Include="Yardimcilar.cs" />
   </ItemGroup>
   <ItemGroup>

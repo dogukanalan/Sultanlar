@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using Sultanlar.DatabaseObject.Internet;
 using Sultanlar.DatabaseObject;
+using System.Threading;
+using System.Data.SqlClient;
 
 namespace Sultanlar.UI
 {
@@ -873,6 +875,170 @@ namespace Sultanlar.UI
         {
             frmINTERNETrutnotlar frm = new frmINTERNETrutnotlar();
             frm.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Thread thr = new Thread(new ParameterizedThreadStart(ExceldenAl));
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK)
+                thr.Start(ofd.FileName);
+        }
+
+        private void ExceldenAl(object dosya)
+        {
+            Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook wb = null;
+            Microsoft.Office.Interop.Excel.Worksheet ws = null;
+            Microsoft.Office.Interop.Excel.Range range = null;
+
+            object[,] values = null;
+
+            try
+            {
+                wb = ap.Workbooks.Open(dosya.ToString(), false, true,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, true);
+
+                ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+
+                range = ws.get_Range("A1", "AG100000");
+
+                values = (object[,])range.Value2;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+            finally
+            {
+                range = null;
+                ws = null;
+                if (wb != null)
+                    wb.Close(false, System.Reflection.Missing.Value, System.Reflection.Missing.Value);
+                wb = null;
+                if (ap != null)
+                    ap.Quit();
+                ap = null;
+            }
+
+            string delsorgu = "DELETE FROM WEB_RUT_3_GIRIS_BETA";
+            WebGenel.ExecNQ(delsorgu);
+
+            for (int i = 2; i <= values.GetLength(0); i++) // 1.satır başlıklar
+            {
+                if (values[i, 1] == null) // 1.kolon boş ise bu satırdan sonrasına bakmasın
+                    break;
+
+                try
+                {
+                    if (values[i, 10] != null)
+                    {
+                        string sorgu = "INSERT INTO [WEB_RUT_3_GIRIS_BETA]([MTIP],[ID1],[SLSREF],[GMREF],[SMREF],[RUT_1],[GUN_1],[BAS_TAR_1],[BIT_TAR_1],[ID2],[RUT_2],[GUN_2],[BAS_TAR_2],[BIT_TAR_2],[ID3],[RUT_3],[GUN_3],[BAS_TAR_3],[BIT_TAR_3],[ID4],[RUT_4],[GUN_4],[BAS_TAR_4],[BIT_TAR_4],[ID5],[RUT_5],[GUN_5],[BAS_TAR_5],[BIT_TAR_5],[ID6],[RUT_6],[GUN_6],[BAS_TAR_6],[BIT_TAR_6],[ISLEM_YAPAN],[ISLEM_TARIH]) VALUES (" +
+                            IntNormalize(values[i, 1]) + "," +
+                            "''," +
+                            IntNormalize(values[i, 5]) + "," +
+                            IntNormalize(values[i, 7]) + "," +
+                            IntNormalize(values[i, 9]) + "," +
+                            IntNormalize(values[i, 11]) + "," +
+                            IntNormalize(values[i, 12]) + "," +
+                            DateNormalize(values[i, 13], true) + "," +
+                            DateNormalize(values[i, 14], false) + "," +
+                            "''," +
+                            IntNormalize(values[i, 15]) + "," +
+                            IntNormalize(values[i, 16]) + "," +
+                            DateNormalize(values[i, 17], true) + "," +
+                            DateNormalize(values[i, 18], false) + "," +
+                            "''," +
+                            IntNormalize(values[i, 19]) + "," +
+                            IntNormalize(values[i, 20]) + "," +
+                            DateNormalize(values[i, 21], true) + "," +
+                            DateNormalize(values[i, 22], false) + "," +
+                            "''," +
+                            IntNormalize(values[i, 23]) + "," +
+                            IntNormalize(values[i, 24]) + "," +
+                            DateNormalize(values[i, 25], true) + "," +
+                            DateNormalize(values[i, 26], false) + "," +
+                            "''," +
+                            IntNormalize(values[i, 27]) + "," +
+                            IntNormalize(values[i, 28]) + "," +
+                            DateNormalize(values[i, 29], true) + "," +
+                            DateNormalize(values[i, 30], false) + "," +
+                            "''," +
+                            IntNormalize(values[i, 31]) + "," +
+                            IntNormalize(values[i, 32]) + "," +
+                            DateNormalize(values[i, 33], true) + "," +
+                            DateNormalize(values[i, 34], false) + "," +
+                            "'" + frmAna.KAdi + "'," +
+                            DateNormalize(DateTime.Now.ToOADate(), true) + ")";
+
+                        WebGenel.ExecNQ(sorgu);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hata oluşan satır: " + i.ToString() + "\r\nHata ayrıntısı: " + ex.Message);
+                }
+            }
+
+            MessageBox.Show("Tüm satırlardaki rutlar başarıyla girildi", "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            WebRut2Job();
+        }
+
+        private string DateNormalize(object data, bool baslangic)
+        {
+            DateTime date = baslangic ? DateTime.Now : Convert.ToDateTime("09.01.2028");
+
+            if (data != null)
+                date = DateTime.FromOADate(Convert.ToDouble(data));
+            /*else
+                return "NULL";*/
+
+            int day = date.Day;
+            int month = date.Month;
+            int year = date.Year;
+
+            return "'" + month + "." + day + "." + year + "'";
+        }
+
+        private string IntNormalize(object data)
+        {
+            int sayi = 0;
+
+            if (data != null && data != "")
+                sayi = Convert.ToInt32(data);
+            else
+                return "NULL";
+
+            return sayi.ToString();
+        }
+
+        private void WebRut2Job()
+        {
+            SqlConnection conn = new SqlConnection(General.ConnectionString);
+            SqlCommand cmd = new SqlCommand("msdb.dbo.sp_start_job", conn);
+            cmd.CommandTimeout = 1000;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@job_name", "Web_Rut_2");
+
+            DateTime bastarih = DateTime.Now;
+            string hataa = string.Empty;
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                hataa = ex.Message;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }

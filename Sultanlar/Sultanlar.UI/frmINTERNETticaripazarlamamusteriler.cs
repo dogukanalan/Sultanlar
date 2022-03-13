@@ -426,7 +426,10 @@ namespace Sultanlar.UI
                 CariHesaplarTP cari = (CariHesaplarTP)lbAltCariler.SelectedItem;
 
                 SatisRaporTP.DoUpdateNoktaAd(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)lbBayiler.SelectedItem).GMREF), cari.MUSTERI, txtAltCariDuzenleIsim.Text);
+                if (SatisRaporTP.VarMi(cari.MUSKOD))
+                    SatisRaporTP.DoUpdateNoktaKod(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)lbBayiler.SelectedItem).GMREF), cari.MUSKOD, txtMUSKOD.Text.Trim());
 
+                cari.MUSKOD = txtMUSKOD.Text.Trim();
                 cari.MUSTERI = txtAltCariDuzenleIsim.Text;
                 cari.SUBE = txtAltCariDuzenleIsim.Text;
 
@@ -538,6 +541,7 @@ namespace Sultanlar.UI
         private void lbAltCariler_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtAltCariDuzenleIsim.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).SUBE;
+            txtM2.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).Metrekare;
 
             cmbTur.SelectedIndex = -1;
             if (((CariHesaplarTP)lbAltCariler.SelectedItem).MTKOD != string.Empty)
@@ -652,6 +656,8 @@ namespace Sultanlar.UI
             cari.NETTOP = cmbEsNokta.SelectedIndex > -1 ? ((CariHesaplarTP)cmbEsNokta.SelectedItem).SMREF : 0;
 
             cari.DoUpdate();
+
+            CariHesaplar.SetYuzolcum(cari.SMREF, 4, txtM2.Text.Trim());
 
             MessageBox.Show("Kayıt güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -893,6 +899,83 @@ namespace Sultanlar.UI
                 {
                     chtps.Clear();
                     MessageBox.Show(ex.Message);
+                    return;
+                }
+            }
+
+            for (int i = 0; i < chtps.Count; i++)
+                ((CariHesaplarTP)chtps[i]).DoUpdate();
+
+            MessageBox.Show("Aktarım tamamlandı.", "Başarılı");
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            string dosya = "";
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK)
+                dosya = ofd.FileName;
+            else
+                return;
+
+            Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook wb = null;
+            Microsoft.Office.Interop.Excel.Worksheet ws = null;
+            Microsoft.Office.Interop.Excel.Range range = null;
+
+            object[,] values = null;
+
+            try
+            {
+                wb = ap.Workbooks.Open(dosya, false, true,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, true);
+
+                ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+
+                range = ws.get_Range("A1", "B6666");
+
+                values = (object[,])range.Value2;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                range = null;
+                ws = null;
+                if (wb != null)
+                    wb.Close(false, System.Reflection.Missing.Value, System.Reflection.Missing.Value);
+                wb = null;
+                if (ap != null)
+                    ap.Quit();
+                ap = null;
+            }
+
+            ArrayList chtps = new ArrayList();
+            for (int i = 2; i <= values.GetLength(0); i++)
+            {
+                if (values[i, 1] == null) // 1.kolon boş ise bu satırdan sonrasına bakmasın
+                    break;
+
+                try
+                {
+                    CariHesaplarTP chtp = CariHesaplarTP.GetObject(Convert.ToInt32(values[i, 1]), false);
+
+                    chtp.ILCEKOD = values[i, 2].ToString();
+                    chtp.ILCE = Ilceler.GetObjectByID(Convert.ToInt16(chtp.ILCEKOD));
+                    chtp.ILKOD = Ilceler.GetIlceKodByID(Convert.ToInt16(chtp.ILCEKOD)).Substring(0, 2);
+                    chtp.IL = Iller.GetObjectByILKOD(chtp.ILKOD);
+
+                    chtps.Add(chtp);
+                }
+                catch (Exception ex)
+                {
+                    chtps.Clear();
+                    MessageBox.Show(i.ToString() + ". satırda hata: " + ex.Message);
                     return;
                 }
             }

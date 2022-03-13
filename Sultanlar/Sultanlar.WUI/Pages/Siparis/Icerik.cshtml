@@ -9,6 +9,7 @@
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
 
     <script>
         var paramsmref;
@@ -49,7 +50,14 @@
                 "ordering": true,
                 "info": false,
                 "searching": true,
-                "order": [[1, "asc"]]
+                "order": [[1, "asc"]],
+                "fnDrawCallback": function (oSettings) {
+                    var toplam = 0;
+                    for (var i = 0; i < oSettings.aoData.length; i++) {
+                        toplam += oSettings.aoData[i]._aData.miktar * oSettings.aoData[i]._aData.netkdv;
+                    }
+                    $("#spFtTop").html(toplam.formatMoney(2, ',', '.'));
+                }
             });
         }
 
@@ -113,7 +121,7 @@
                     yenisepet.push({
                         itemref: sepet[i].itemref,
                         malacik: sepet[i].malacik,
-                        miktar: miktar,
+                        miktar: parseInt(miktar),
                         miktartur: sepet[i].miktartur,
                         isk1: sepet[i].isk1,
                         isk2: sepet[i].isk2,
@@ -126,7 +134,7 @@
                     yenisepet.push({
                         itemref: sepet[i].itemref,
                         malacik: sepet[i].malacik,
-                        miktar: sepet[i].miktar,
+                        miktar: parseInt(sepet[i].miktar),
                         miktartur: sepet[i].miktartur,
                         isk1: sepet[i].isk1,
                         isk2: sepet[i].isk2,
@@ -138,7 +146,7 @@
             }
             sepet = yenisepet;
             senkRoot();
-            //window.location.href = window.location.href;
+            window.location.href = window.location.href;
         }
 
         function sil() {
@@ -176,9 +184,44 @@
             }
         }
 
+        function ftipdegistir(yeniftip) {
+            var cookie = JSON.parse(getLocal());
+            for (var i = 0; i < cookie.length; i++) {
+                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].siparisid == siparisid) {
+                    cookie[i].ftip = yeniftip;
+                }
+            }
+            window.localStorage["sepet"] = JSON.stringify(cookie);
+            window.location.href = 'Siparis?smref=' + paramsmref + '&ftip=' + yeniftip + '&siparisid=' + siparisid + '&ftipdegisti=1';
+        }
+
         function sepetBosalt() {
             sepet = [];
             senkRoot();
+        }
+
+        function UyeYetkileri(uyeid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "uyeyetki/" + uyeid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        
+                        var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
+                        $.each(rootData, function (index, item) {
+                            $("#fiyattipleri").append(
+                                $("<option></option>")
+                                    .text(item.fiyatTipi.aciklama)
+                                    .val(item.sintFiyatTipiID)
+                            );
+                        });
+                        $('select[id=fiyattipleri]').val(getParameterByName('fiyattipi'));
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
         }
 
         $(document).ready(function () {
@@ -189,13 +232,19 @@
             sepet = [];
             initSepet();
             sipGoster();
+            UyeYetkileri(localStorage["musteri"]);
+            $('#fiyattipleri').on('change', function (e) {
+                ftipdegistir($(this).val());
+            });
             $('.inputSecim').on('input', delay(function (e) {
                 urunGuncelle($(this).closest("tr").find(".itemref").text(), $(this).closest("tr").find(".spMiktarTur").attr("rel"), this.value);
             }, 1));
         });
     </script>
 }
-<input type="button" class="btn btn-info secimTus" value="Ürün Listesine Dön" onclick="window.history.back()" />
+<select id="fiyattipleri"></select>
+<br /><br />
+<input type="button" class="btn btn-info secimTus" value="Ürün Listesine Dön" onclick="window.location.href = 'Siparis?smref=1000072&siparisid=' + siparisid + '&ftip=' + paramftip" />
 <input type="button" class="btn btn-danger secimTus" value="İçeriği Sil" onclick="sil()" />
 <input type="button" class="btn btn-danger secimTus" value="Siparişi Sil" onclick="sSil()" />
 <input type="button" class="btn btn-success secimTus" value="Siparişi Kaydet" onclick="kaydet()" />
@@ -213,6 +262,9 @@
             <th class="keyTd"></th>
             <th class="keyTd"></th>
             <th class="keyTd"></th>
+            <th class="keyTd"></th>
         </tr>
     </thead>
 </table>
+<br /><strong>Sipariş Toplamı: <span class="spanCiplak" id="spFtTop">0</span> TL</strong>
+@*<br /><strong>Ortalama Vade: <span class="spanCiplak" id="spVade">0</span></strong>*@

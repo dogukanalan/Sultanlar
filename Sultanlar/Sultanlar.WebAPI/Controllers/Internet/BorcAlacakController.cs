@@ -15,5 +15,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
     {
         [HttpGet, Route("internet/[controller]/[action]/{SLSREF}")]
         public List<borcAlacakRaporu> Getir(int SLSREF) => new BorcAlacakProvider().BorcAlacak(SLSREF);
+
+        [HttpGet, Route("internet/[controller]/[action]/{SMREF}")]
+        public List<borcAlacakRaporu> GetirCH(int SMREF) => new BorcAlacakProvider().BorcAlacakCH(SMREF);
     }
 }

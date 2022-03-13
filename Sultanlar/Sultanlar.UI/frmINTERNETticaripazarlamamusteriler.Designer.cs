@@ -87,6 +87,8 @@
             this.lblBayiKod = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.txtM2 = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.txtAltCariDuzenleIsim = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.btnAltCariDuzenlemeSil = new System.Windows.Forms.Button();
@@ -107,6 +109,10 @@
             this.label25 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.button8 = new System.Windows.Forms.Button();
+            this.label29 = new System.Windows.Forms.Label();
+            this.txtMUSKOD = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -523,7 +529,7 @@
             this.cmbIlce.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbIlce.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.cmbIlce.FormattingEnabled = true;
-            this.cmbIlce.Location = new System.Drawing.Point(58, 82);
+            this.cmbIlce.Location = new System.Drawing.Point(58, 115);
             this.cmbIlce.Name = "cmbIlce";
             this.cmbIlce.Size = new System.Drawing.Size(376, 20);
             this.cmbIlce.TabIndex = 4;
@@ -532,7 +538,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label10.Location = new System.Drawing.Point(6, 85);
+            this.label10.Location = new System.Drawing.Point(6, 118);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 13);
             this.label10.TabIndex = 3;
@@ -543,7 +549,7 @@
             this.cmbIl.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbIl.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.cmbIl.FormattingEnabled = true;
-            this.cmbIl.Location = new System.Drawing.Point(58, 61);
+            this.cmbIl.Location = new System.Drawing.Point(58, 94);
             this.cmbIl.Name = "cmbIl";
             this.cmbIl.Size = new System.Drawing.Size(376, 20);
             this.cmbIl.TabIndex = 4;
@@ -553,7 +559,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label9.Location = new System.Drawing.Point(6, 64);
+            this.label9.Location = new System.Drawing.Point(6, 97);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(12, 13);
             this.label9.TabIndex = 3;
@@ -710,6 +716,10 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.checkBox1);
+            this.groupBox3.Controls.Add(this.txtM2);
+            this.groupBox3.Controls.Add(this.label28);
+            this.groupBox3.Controls.Add(this.txtMUSKOD);
+            this.groupBox3.Controls.Add(this.label29);
             this.groupBox3.Controls.Add(this.txtAltCariDuzenleIsim);
             this.groupBox3.Controls.Add(this.label19);
             this.groupBox3.Controls.Add(this.btnAltCariDuzenlemeSil);
@@ -726,9 +736,9 @@
             this.groupBox3.Controls.Add(this.cmbIl);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.groupBox3.Location = new System.Drawing.Point(732, 370);
+            this.groupBox3.Location = new System.Drawing.Point(732, 310);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(440, 190);
+            this.groupBox3.Size = new System.Drawing.Size(440, 250);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Alt Cari Düzenleme";
@@ -736,17 +746,36 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(268, 159);
+            this.checkBox1.Location = new System.Drawing.Point(268, 223);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(49, 17);
             this.checkBox1.TabIndex = 15;
             this.checkBox1.Text = "Pasif";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // txtM2
+            // 
+            this.txtM2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.txtM2.Location = new System.Drawing.Point(58, 178);
+            this.txtM2.Name = "txtM2";
+            this.txtM2.Size = new System.Drawing.Size(376, 18);
+            this.txtM2.TabIndex = 1;
+            this.txtM2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtArama_KeyDown);
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label28.Location = new System.Drawing.Point(6, 180);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(55, 13);
+            this.label28.TabIndex = 3;
+            this.label28.Text = "Metrekare";
+            // 
             // txtAltCariDuzenleIsim
             // 
             this.txtAltCariDuzenleIsim.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.txtAltCariDuzenleIsim.Location = new System.Drawing.Point(58, 21);
+            this.txtAltCariDuzenleIsim.Location = new System.Drawing.Point(58, 54);
             this.txtAltCariDuzenleIsim.Name = "txtAltCariDuzenleIsim";
             this.txtAltCariDuzenleIsim.Size = new System.Drawing.Size(376, 18);
             this.txtAltCariDuzenleIsim.TabIndex = 1;
@@ -756,7 +785,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label19.Location = new System.Drawing.Point(6, 22);
+            this.label19.Location = new System.Drawing.Point(6, 55);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(25, 13);
             this.label19.TabIndex = 3;
@@ -765,7 +794,7 @@
             // btnAltCariDuzenlemeSil
             // 
             this.btnAltCariDuzenlemeSil.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAltCariDuzenlemeSil.Location = new System.Drawing.Point(9, 155);
+            this.btnAltCariDuzenlemeSil.Location = new System.Drawing.Point(9, 219);
             this.btnAltCariDuzenlemeSil.Name = "btnAltCariDuzenlemeSil";
             this.btnAltCariDuzenlemeSil.Size = new System.Drawing.Size(79, 23);
             this.btnAltCariDuzenlemeSil.TabIndex = 2;
@@ -776,7 +805,7 @@
             // btnGuncelle
             // 
             this.btnGuncelle.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnGuncelle.Location = new System.Drawing.Point(323, 155);
+            this.btnGuncelle.Location = new System.Drawing.Point(323, 219);
             this.btnGuncelle.Name = "btnGuncelle";
             this.btnGuncelle.Size = new System.Drawing.Size(111, 23);
             this.btnGuncelle.TabIndex = 2;
@@ -787,11 +816,11 @@
             // btnAltCariDuzenleGuncelle
             // 
             this.btnAltCariDuzenleGuncelle.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAltCariDuzenleGuncelle.Location = new System.Drawing.Point(169, 155);
+            this.btnAltCariDuzenleGuncelle.Location = new System.Drawing.Point(133, 219);
             this.btnAltCariDuzenleGuncelle.Name = "btnAltCariDuzenleGuncelle";
-            this.btnAltCariDuzenleGuncelle.Size = new System.Drawing.Size(95, 23);
+            this.btnAltCariDuzenleGuncelle.Size = new System.Drawing.Size(131, 23);
             this.btnAltCariDuzenleGuncelle.TabIndex = 2;
-            this.btnAltCariDuzenleGuncelle.Text = "İsim Değiştir";
+            this.btnAltCariDuzenleGuncelle.Text = "İsim ve Kod Değiştir";
             this.btnAltCariDuzenleGuncelle.UseVisualStyleBackColor = true;
             this.btnAltCariDuzenleGuncelle.Click += new System.EventHandler(this.btnAltCariDuzenleGuncelle_Click);
             // 
@@ -800,7 +829,7 @@
             this.cmbEsNokta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEsNokta.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.cmbEsNokta.FormattingEnabled = true;
-            this.cmbEsNokta.Location = new System.Drawing.Point(58, 124);
+            this.cmbEsNokta.Location = new System.Drawing.Point(58, 157);
             this.cmbEsNokta.Name = "cmbEsNokta";
             this.cmbEsNokta.Size = new System.Drawing.Size(376, 20);
             this.cmbEsNokta.TabIndex = 4;
@@ -811,7 +840,7 @@
             this.cmbEsBayi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbEsBayi.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.cmbEsBayi.FormattingEnabled = true;
-            this.cmbEsBayi.Location = new System.Drawing.Point(58, 103);
+            this.cmbEsBayi.Location = new System.Drawing.Point(58, 136);
             this.cmbEsBayi.Name = "cmbEsBayi";
             this.cmbEsBayi.Size = new System.Drawing.Size(376, 20);
             this.cmbEsBayi.TabIndex = 4;
@@ -821,7 +850,7 @@
             // 
             this.label23.AutoSize = true;
             this.label23.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label23.Location = new System.Drawing.Point(6, 127);
+            this.label23.Location = new System.Drawing.Point(6, 160);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(51, 13);
             this.label23.TabIndex = 3;
@@ -831,7 +860,7 @@
             // 
             this.label22.AutoSize = true;
             this.label22.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label22.Location = new System.Drawing.Point(6, 106);
+            this.label22.Location = new System.Drawing.Point(6, 139);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(42, 13);
             this.label22.TabIndex = 3;
@@ -842,7 +871,7 @@
             this.cmbTur.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTur.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.cmbTur.FormattingEnabled = true;
-            this.cmbTur.Location = new System.Drawing.Point(58, 40);
+            this.cmbTur.Location = new System.Drawing.Point(58, 73);
             this.cmbTur.Name = "cmbTur";
             this.cmbTur.Size = new System.Drawing.Size(376, 20);
             this.cmbTur.TabIndex = 4;
@@ -851,7 +880,7 @@
             // 
             this.label21.AutoSize = true;
             this.label21.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label21.Location = new System.Drawing.Point(6, 43);
+            this.label21.Location = new System.Drawing.Point(6, 76);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(23, 13);
             this.label21.TabIndex = 3;
@@ -914,7 +943,7 @@
             // button5
             // 
             this.button5.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button5.Location = new System.Drawing.Point(741, 252);
+            this.button5.Location = new System.Drawing.Point(741, 220);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(90, 23);
             this.button5.TabIndex = 2;
@@ -926,7 +955,7 @@
             // 
             this.label24.AutoSize = true;
             this.label24.ForeColor = System.Drawing.Color.Red;
-            this.label24.Location = new System.Drawing.Point(837, 257);
+            this.label24.Location = new System.Drawing.Point(837, 225);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(268, 13);
             this.label24.TabIndex = 3;
@@ -935,7 +964,7 @@
             // button6
             // 
             this.button6.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button6.Location = new System.Drawing.Point(741, 281);
+            this.button6.Location = new System.Drawing.Point(741, 249);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(90, 23);
             this.button6.TabIndex = 2;
@@ -947,7 +976,7 @@
             // 
             this.label25.AutoSize = true;
             this.label25.ForeColor = System.Drawing.Color.Red;
-            this.label25.Location = new System.Drawing.Point(837, 286);
+            this.label25.Location = new System.Drawing.Point(837, 254);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(337, 13);
             this.label25.TabIndex = 3;
@@ -956,7 +985,7 @@
             // button7
             // 
             this.button7.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button7.Location = new System.Drawing.Point(741, 310);
+            this.button7.Location = new System.Drawing.Point(741, 278);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(90, 23);
             this.button7.TabIndex = 2;
@@ -968,11 +997,51 @@
             // 
             this.label26.AutoSize = true;
             this.label26.ForeColor = System.Drawing.Color.Red;
-            this.label26.Location = new System.Drawing.Point(837, 315);
+            this.label26.Location = new System.Drawing.Point(837, 283);
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(280, 13);
             this.label26.TabIndex = 3;
             this.label26.Text = "(Excel dosyasında 1. kolon kod, 2. kolon Tür Kodu olmalı.)";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.ForeColor = System.Drawing.Color.Red;
+            this.label27.Location = new System.Drawing.Point(837, 196);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(250, 13);
+            this.label27.TabIndex = 3;
+            this.label27.Text = "(Excel dosyasında 1. kolon kod, 2. ilçe kodu olmalı.)";
+            // 
+            // button8
+            // 
+            this.button8.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button8.Location = new System.Drawing.Point(741, 191);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(90, 23);
+            this.button8.TabIndex = 2;
+            this.button8.Text = "Toplu İlçe";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label29.Location = new System.Drawing.Point(6, 36);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(49, 13);
+            this.label29.TabIndex = 3;
+            this.label29.Text = "Müş.Kod";
+            // 
+            // txtMUSKOD
+            // 
+            this.txtMUSKOD.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.txtMUSKOD.Location = new System.Drawing.Point(58, 35);
+            this.txtMUSKOD.Name = "txtMUSKOD";
+            this.txtMUSKOD.Size = new System.Drawing.Size(376, 18);
+            this.txtMUSKOD.TabIndex = 1;
+            this.txtMUSKOD.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtArama_KeyDown);
             // 
             // frmINTERNETticaripazarlamamusteriler
             // 
@@ -983,6 +1052,7 @@
             this.Controls.Add(this.cmbAy);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.cmbYil);
             this.Controls.Add(this.groupBox3);
@@ -995,6 +1065,7 @@
             this.Controls.Add(this.label18);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label26);
+            this.Controls.Add(this.label27);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label16);
@@ -1107,5 +1178,11 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.TextBox txtM2;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox txtMUSKOD;
+        private System.Windows.Forms.Label label29;
     }
 }
