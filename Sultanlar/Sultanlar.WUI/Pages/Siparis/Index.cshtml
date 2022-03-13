@@ -59,7 +59,7 @@
                     //console.log(JSON.stringify(json));
                 },
                 columns: [
-                    {
+                    /*{
                         "data": "borc", "class": "floaTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
                         }
@@ -68,7 +68,7 @@
                         "data": "alacak", "class": "floaTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
                         }
-                    },
+                    },*/
                     {
                         "data": "bakiye", "class": "floaTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
@@ -120,8 +120,8 @@
 <table id="dtTable2" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>
         <tr>
-            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Borç</span></th>
-            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Alacak</span></th>
+            @*<th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Borç</span></th>
+            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Alacak</span></th>*@
             <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Bakiye</span></th>
             <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Ort.Vade</span></th>
             <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">VGB</span></th>

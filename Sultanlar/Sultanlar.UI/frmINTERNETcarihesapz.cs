@@ -940,38 +940,38 @@ namespace Sultanlar.UI
                         string sorgu = "INSERT INTO [WEB_RUT_3_GIRIS_BETA]([MTIP],[ID1],[SLSREF],[GMREF],[SMREF],[RUT_1],[GUN_1],[BAS_TAR_1],[BIT_TAR_1],[ID2],[RUT_2],[GUN_2],[BAS_TAR_2],[BIT_TAR_2],[ID3],[RUT_3],[GUN_3],[BAS_TAR_3],[BIT_TAR_3],[ID4],[RUT_4],[GUN_4],[BAS_TAR_4],[BIT_TAR_4],[ID5],[RUT_5],[GUN_5],[BAS_TAR_5],[BIT_TAR_5],[ID6],[RUT_6],[GUN_6],[BAS_TAR_6],[BIT_TAR_6],[ISLEM_YAPAN],[ISLEM_TARIH]) VALUES (" +
                             IntNormalize(values[i, 1]) + "," +
                             "''," +
-                            IntNormalize(values[i, 4]) + "," +
-                            IntNormalize(values[i, 6]) + "," +
-                            IntNormalize(values[i, 8]) + "," +
-                            IntNormalize(values[i, 10]) + "," +
+                            IntNormalize(values[i, 5]) + "," +
+                            IntNormalize(values[i, 7]) + "," +
+                            IntNormalize(values[i, 9]) + "," +
                             IntNormalize(values[i, 11]) + "," +
-                            DateNormalize(values[i, 12], true) + "," +
-                            DateNormalize(values[i, 13], false) + "," +
+                            IntNormalize(values[i, 12]) + "," +
+                            DateNormalize(values[i, 13], true) + "," +
+                            DateNormalize(values[i, 14], false) + "," +
                             "''," +
-                            IntNormalize(values[i, 14]) + "," +
                             IntNormalize(values[i, 15]) + "," +
-                            DateNormalize(values[i, 16], true) + "," +
-                            DateNormalize(values[i, 17], false) + "," +
+                            IntNormalize(values[i, 16]) + "," +
+                            DateNormalize(values[i, 17], true) + "," +
+                            DateNormalize(values[i, 18], false) + "," +
                             "''," +
-                            IntNormalize(values[i, 18]) + "," +
                             IntNormalize(values[i, 19]) + "," +
-                            DateNormalize(values[i, 20], true) + "," +
-                            DateNormalize(values[i, 21], false) + "," +
+                            IntNormalize(values[i, 20]) + "," +
+                            DateNormalize(values[i, 21], true) + "," +
+                            DateNormalize(values[i, 22], false) + "," +
                             "''," +
-                            IntNormalize(values[i, 22]) + "," +
                             IntNormalize(values[i, 23]) + "," +
-                            DateNormalize(values[i, 24], true) + "," +
-                            DateNormalize(values[i, 25], false) + "," +
+                            IntNormalize(values[i, 24]) + "," +
+                            DateNormalize(values[i, 25], true) + "," +
+                            DateNormalize(values[i, 26], false) + "," +
                             "''," +
-                            IntNormalize(values[i, 26]) + "," +
                             IntNormalize(values[i, 27]) + "," +
-                            DateNormalize(values[i, 28], true) + "," +
-                            DateNormalize(values[i, 29], false) + "," +
+                            IntNormalize(values[i, 28]) + "," +
+                            DateNormalize(values[i, 29], true) + "," +
+                            DateNormalize(values[i, 30], false) + "," +
                             "''," +
-                            IntNormalize(values[i, 30]) + "," +
                             IntNormalize(values[i, 31]) + "," +
-                            DateNormalize(values[i, 32], true) + "," +
-                            DateNormalize(values[i, 33], false) + "," +
+                            IntNormalize(values[i, 32]) + "," +
+                            DateNormalize(values[i, 33], true) + "," +
+                            DateNormalize(values[i, 34], false) + "," +
                             "'" + frmAna.KAdi + "'," +
                             DateNormalize(DateTime.Now.ToOADate(), true) + ")";
 

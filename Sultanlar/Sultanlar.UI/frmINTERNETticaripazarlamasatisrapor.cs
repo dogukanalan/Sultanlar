@@ -347,18 +347,17 @@ namespace Sultanlar.UI
                 frm.ShowDialog();
                 satisraporlarolmayancariler.Clear();
 
-                //if (frm.aktarilmamissayisi == 0)
-                //{
-                //    if (MessageBox.Show("Tüm nokta isimleri aktarım için hazır. Devam etmek istediğinize emin misiniz?", "Aktarım", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
-                //    {
-                //        Thread thr1 = new Thread(new ParameterizedThreadStart(AktarimYap));
-                //        thr1.Start(satisraporlar);
-                //    }
-                //}
-                //else
-                //{
+                if (frm.aktarilmamissayisi == 0)
+                {
+                    //ExceldenAl(dosya);
+                    thr = new Thread(new ParameterizedThreadStart(ExceldenAl));
+                    thr.Start(dosya);
+                }
+                else
+                {
                     satisraporlar.Clear();
-                //}
+                }
+
             }
             else
             {

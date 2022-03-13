@@ -426,6 +426,8 @@ namespace Sultanlar.UI
                 CariHesaplarTP cari = (CariHesaplarTP)lbAltCariler.SelectedItem;
 
                 SatisRaporTP.DoUpdateNoktaAd(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)lbBayiler.SelectedItem).GMREF), cari.MUSTERI, txtAltCariDuzenleIsim.Text);
+                if (SatisRaporTP.VarMi(cari.MUSKOD))
+                    SatisRaporTP.DoUpdateNoktaKod(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)lbBayiler.SelectedItem).GMREF), cari.MUSKOD, txtMUSKOD.Text.Trim());
 
                 cari.MUSKOD = txtMUSKOD.Text.Trim();
                 cari.MUSTERI = txtAltCariDuzenleIsim.Text;

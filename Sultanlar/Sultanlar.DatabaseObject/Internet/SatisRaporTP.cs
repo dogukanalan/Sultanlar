@@ -174,7 +174,7 @@ namespace Sultanlar.DatabaseObject.Internet
         //
         public override string ToString()
         {
-            return "(" + this._BAYIKOD + ") "+ this._NOKTAAD.ToString();
+            return "(" + this._BAYIKOD + ") (" + this._NOKTAKOD + ") " + this._NOKTAAD.ToString();
         }
         //
         //
@@ -336,6 +336,31 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar, 7).Value = BAYIKOD;
                 cmd.Parameters.Add("@YENINOKTAAD", SqlDbType.NVarChar).Value = YeniNoktaAd;
                 cmd.Parameters.Add("@NOKTAAD", SqlDbType.NVarChar).Value = NoktaAd;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        //
+        //
+        public static void DoUpdateNoktaKod(string BAYIKOD, string NoktaKod, string YeniNoktaKod)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE [Web-Satis-Rapor-TP] SET NOKTAKOD = @YENINOKTAKOD WHERE BAYIKOD = @BAYIKOD AND NOKTAKOD = @NOKTAKOD", conn);
+                cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar, 7).Value = BAYIKOD;
+                cmd.Parameters.Add("@YENINOKTAKOD", SqlDbType.NVarChar).Value = YeniNoktaKod;
+                cmd.Parameters.Add("@NOKTAKOD", SqlDbType.NVarChar).Value = NoktaKod;
                 try
                 {
                     conn.Open();
@@ -635,6 +660,33 @@ namespace Sultanlar.DatabaseObject.Internet
                 SqlCommand cmd = new SqlCommand("SELECT count(*) FROM [Web-Satis-Rapor-TP] WHERE BAYIKOD = @BAYIKOD AND NOKTAAD = @NOKTAAD", conn);
                 cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar, 7).Value = BAYIKOD;
                 cmd.Parameters.Add("@NOKTAAD", SqlDbType.NVarChar).Value = NOKTAAD;
+                try
+                {
+                    conn.Open();
+                    donendeger = Convert.ToBoolean(cmd.ExecuteScalar());
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        //
+        //
+        public static bool VarMi(string NOKTAKOD)
+        {
+            bool donendeger = false;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT count(*) FROM [Web-Satis-Rapor-TP] WHERE NOKTAKOD = @NOKTAKOD", conn);
+                cmd.Parameters.Add("@NOKTAKOD", SqlDbType.NVarChar).Value = NOKTAKOD;
                 try
                 {
                     conn.Open();
