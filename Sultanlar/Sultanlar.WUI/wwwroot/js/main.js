@@ -775,7 +775,7 @@ function KoordinatBaslat() {
         navigator.geolocation.getCurrentPosition(positionSuccess, displayError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: false });
     } else {
         document.getElementById('inputCoords').value = '0,0';
-        document.getElementById('inputCoordAddress').value = 'Konuma eri�im desteklenmiyor.';
+        document.getElementById('inputCoordAddress').value = 'Konuma erişim desteklenmiyor.';
     }
 }
 
