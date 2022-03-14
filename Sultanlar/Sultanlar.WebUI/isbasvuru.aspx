@@ -70,7 +70,7 @@
             document.getElementById('kacprogram2').style.display = 'none';
             document.getElementById('kacprogram3').style.display = 'none';
             document.getElementById('kacprogram4').style.display = 'none';
-            document.getElementById('kacprogram5').style.display = 'none';
+            
 
             document.getElementById('suandacalisiyor').style.display = 'none';
 
