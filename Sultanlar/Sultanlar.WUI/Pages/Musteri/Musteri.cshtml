@@ -27,7 +27,7 @@
                             if (data[i].smref != gmref || data[i].tip != 4) { // tp den bayi tekrar gelmesin
                                 htmlText += '<tr>';
                                 htmlText += '<td class="keyTd hidewhenmobile"><span class="sinirli">' + data[i].smref + '</span></td>';
-                                htmlText += '<td class="valueTd"><span class="sinirli3">' + data[i].sube + '</span></td>';
+                                htmlText += '<td class="valueTd"><span class="sinirli3" data-toggle="tooltip" title="' + data[i].musteri + '">' + data[i].sube + '</span></td>';
                                 htmlText += '<td class="keyTd"><a href="javascript:showSubMenu(div' + data[i].smref + ')" class="btn btn-primary">İşlemler</a><div class="subMenu" id="div' + data[i].smref + '">' +
                                     (data[i].tip == 4 ? '<a href="../Anlasma/?smref=' + data[i].smref + '&tip=' + data[i].tip + '">Anlaşma</a>' : '') +
                                     (data[i].tip == 4 ? '<a href="../Aktivite/?smref=' + data[i].smref + '&ftip=25&tip=1&aktiviteid=0">Aktivite</a>' : '') +
@@ -39,6 +39,9 @@
                         });
                         divData.innerHTML = htmlText + '</table>';
                         initDt(1, true, true, true);
+
+                        $('[data-toggle="tooltip"]').tooltip();
+                        $('[data-toggle="tooltip"]').css("cursor", "pointer");
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }

@@ -5,6 +5,16 @@
 }
 
 @section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script>
@@ -27,7 +37,9 @@
                             $("#selectSaticilar").append($("<option></option>").text("Tümü").val("1"));
                             $("#selectSaticilarBolum").append($("<option></option>").text("Tümü").val("1"));
                             $("#bayisatishedef").css("display", "block");
+                            $("#satishedefvgb").css("display", "block");
                             BayiSatisHedefGetir();
+                            SatisHedefVgbGetir();
                         }
                         $.each(data, function (index, item) {
                             $("#selectSaticilar").append($("<option></option>").text(item.sattem).val(item.slsmanref));
@@ -40,6 +52,69 @@
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
             );
+        }
+
+        var kolonSatisHedefVgb = [
+            {
+                "data": "musteri", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirli4">' + data + '</span>';
+                }
+            },
+            {
+                "data": "hedef", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "satis", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "vgb", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "vgbgun", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(1, ',', '.') + '</span>';
+                }
+            }
+        ];
+        aysatishedefvgb = new Date().getMonth() + 1;
+        yilsatishedefvgb = new Date().getFullYear();
+        function SatisHedefVgbGetir() {
+            var url1 = apiurl + "dashboard/satishedefvgb/" + yilsatishedefvgb + "/" + aysatishedefvgb;
+            var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                "responsive": true,
+                "destroy": true,
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+
+                },
+                "fnDrawCallback": function (oSettings) {
+                    var api = this.api();
+                    $("#spHedef").html(api.column(1, { page: 'all' }).data().sum().formatMoney(2, ',', '.'));
+                    $("#spSatis").html(api.column(2, { page: 'all' }).data().sum().formatMoney(2, ',', '.'));
+                },
+                dom: 'Bfrtip',
+                buttons: ['excel', 'pdf', 'print'],
+                columns: kolonSatisHedefVgb,
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[0, "asc"]]
+            });
         }
 
         function BayiSatisHedefGetir() {
@@ -272,7 +347,7 @@
 
         function getBolumGraph() {
             Highcharts.chart('divBolum', {
-                
+
                 title: {
                     text: 'Bölüm bazında satış'
                 },
@@ -391,6 +466,18 @@
         }
 
         $(document).ready(function () {
+            $('#selectYilSatishedefvgb').empty();
+            $("#selectYilSatishedefvgb").append($("<option />").val("2022").text("2022"));
+            $("#selectYilSatishedefvgb").append($("<option />").val("2021").text("2021"));
+            $("#selectYilSatishedefvgb").append($("<option />").val("2020").text("2020"));
+            $("#selectYilSatishedefvgb").append($("<option />").val("2019").text("2019"));
+            $("#selectYilSatishedefvgb").append($("<option />").val("2018").text("2018"));
+            $("#selectYilSatishedefvgb").append($("<option />").val("2017").text("2017"));
+            $("#selectYilSatishedefvgb").append($("<option />").val("2016").text("2016"));
+            $("#selectYilSatishedefvgb").append($("<option />").val("2015").text("2015"));
+            $("#selectYilSatishedefvgb").append($("<option />").val("2014").text("2014"));
+            $('select[name=selectAySatishedefvgb]').val((new Date().getMonth() + 1).toString());
+
             $('#selectYilBolum').empty();
             $("#selectYilBolum").append($("<option />").val("2022").text("2022"));
             $("#selectYilBolum").append($("<option />").val("2021").text("2021"));
@@ -439,9 +526,56 @@
                 aybayisatishedef = this.value;
                 BayiSatisHedefGetir();
             });
+            $('#selectYilSatishedefvgb').on('change', function (e) {
+                yilsatishedefvgb = this.value;
+                SatisHedefVgbGetir();
+            });
+            $('#selectAySatishedefvgb').on('change', function (e) {
+                aysatishedefvgb = this.value;
+                SatisHedefVgbGetir();
+            });
         });
     </script>
 }
+<div id="satishedefvgb" style="display: none">
+    <select id="selectYilSatishedefvgb" name="selectYilSatishedefvgb" class="dropDown selYil">
+    </select>
+    <select id="selectAySatishedefvgb" name="selectAySatishedefvgb" class="dropDown selSaticilar">
+        <option value="1">Ocak</option>
+        <option value="2">Şubat</option>
+        <option value="3">Mart</option>
+        <option value="4">Nisan</option>
+        <option value="5">Mayıs</option>
+        <option value="6">Haziran</option>
+        <option value="7">Temmuz</option>
+        <option value="8">Ağustos</option>
+        <option value="9">Eylül</option>
+        <option value="10">Ekim</option>
+        <option value="11">Kasım</option>
+        <option value="12">Aralık</option>
+    </select>
+    <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='10'>
+        <thead>
+            <tr>
+                <th class="keyTd" data-priority="1"><span class="spanCiplak">Müşteri</span></th>
+                <th class="keyTd" data-priority="2"><span class="spanCiplak">Hedef</span></th>
+                <th class="keyTd" data-priority="3"><span class="spanCiplak">Satış</span></th>
+                <th class="keyTd"><span class="spanCiplak">Vgb</span></th>
+                <th class="keyTd"><span class="spanCiplak">Vgb Gün</span></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th class="keyTd"><span class="spanCiplak">Toplam</span></th>
+                <th class="keyTd"><span class="spanCiplak" id="spHedef">0</span></th>
+                <th class="keyTd"><span class="spanCiplak" id="spSatis">0</span></th>
+                <th class="keyTd"><span class="spanCiplak" id="spVgb"></span></th>
+                <th class="keyTd"><span class="spanCiplak" id="spVgbgun"></span></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<br />
 <select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar grafikUstu">
     <option value="1" selected="selected">Seçiniz</option>
 </select>

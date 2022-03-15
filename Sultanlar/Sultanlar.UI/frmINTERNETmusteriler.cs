@@ -58,8 +58,8 @@ namespace Sultanlar.UI
             btnTalepEposta.Visible = false;
             btnOnayEposta.Visible = false;
 
-            int Tip = -1;
-            if (frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR")
+            int Tip = 0;
+            /*if (frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR")
                 Tip = 0;
             else if (frmAna.KAdi.ToUpper() == "ST09" || frmAna.KAdi.ToUpper() == "YN02")
                 Tip = 1;
@@ -68,7 +68,7 @@ namespace Sultanlar.UI
             else if (frmAna.KAdi.ToUpper() == "ST01")
                 Tip = 3;
             else if (frmAna.KAdi.ToUpper() == "ST12")
-                Tip = 4;
+                Tip = 4;*/
 
             KontrollerKontrolu(Tip);
         }

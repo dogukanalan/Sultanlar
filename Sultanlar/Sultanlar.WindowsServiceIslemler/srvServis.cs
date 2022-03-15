@@ -41,8 +41,12 @@ namespace Sultanlar.WindowsServiceIslemler
         Timer tmrSAPekstre;
         Timer tmrSAPekstre2;
 
+        NetworkCredential nc1;
+
         protected override void OnStart(string[] args)
         {
+            nc1 = new NetworkCredential("mehmetistif", "123456q");
+
             eczaneleregirdi = false;
             androidveritabanigirdi = false;
             iademailgirdi = false;
@@ -753,7 +757,6 @@ namespace Sultanlar.WindowsServiceIslemler
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getcampaignsC.ZwebGetCampaignsService clCampaigns = new getcampaignsC.ZwebGetCampaignsService();
             clCampaigns.Timeout = 6000000;
@@ -898,7 +901,6 @@ namespace Sultanlar.WindowsServiceIslemler
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
@@ -1196,8 +1198,6 @@ namespace Sultanlar.WindowsServiceIslemler
             int oncekifiyatsayisi = Convert.ToInt32(cmd11.ExecuteScalar());
             conn.Close();
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
-
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
             clMaterialPrices.Credentials = nc1;
@@ -1327,8 +1327,6 @@ namespace Sultanlar.WindowsServiceIslemler
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Fiyatlar"); cmdLog.Parameters.AddWithValue("@strLog", "");
 
 
-
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
@@ -1611,8 +1609,6 @@ namespace Sultanlar.WindowsServiceIslemler
             cmdLog.Parameters.AddWithValue("@dtBaslangic", DateTime.Now); cmdLog.Parameters.AddWithValue("@strYer", "SAP Malzemeler");
 
 
-
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getmaterialsC.ZwebGetMaterialsService clMaterials = new getmaterialsC.ZwebGetMaterialsService();
             clMaterials.Timeout = 6000000;
@@ -1913,8 +1909,6 @@ namespace Sultanlar.WindowsServiceIslemler
 
 
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
-
             getpersonalsC.ZwebGetPersonalsService clPersonals = new getpersonalsC.ZwebGetPersonalsService();
             clPersonals.Timeout = 6000000;
             clPersonals.Credentials = nc1;
@@ -1985,7 +1979,6 @@ namespace Sultanlar.WindowsServiceIslemler
             conn.Close();
 
 
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             getcustomersC.ZwebGetCustomersService clCustomers = new getcustomersC.ZwebGetCustomersService();
             clCustomers.Timeout = 6000000;
@@ -2141,8 +2134,11 @@ namespace Sultanlar.WindowsServiceIslemler
                 {
                     SqlCommand cmd7 = new SqlCommand("TRUNCATE TABLE [Web-Risk-2] INSERT INTO [Web-Risk-2] ([SLSREF],[GMREF],[MUS KOD],[MUSTERI],[RISK LMT],[RISK TOP],[RISK BKY],[BAKIYE],[ACK GUN],[ACK TOP],[VB GUN],[VB TOP],[VGB GUN],[VGB TOP],[IRS TOP],[C/S TOP],[SIP TOPL],[SIP TOPLB],[SIP TOPQ]) SELECT [SAT KOD],[MUS KOD],[MUS KOD],[MUSTERI],[RISK LMT],0,[RISK LMT],[BAKIYE],0,0,0,0,0,0,[BORC],0,[ALACAK],0,0 FROM [SAP_B_A_2017] WHERE [SAT KOD] IS NOT NULL", conn);
                     cmd7.CommandTimeout = 60;
+                    SqlCommand cmd8 = new SqlCommand("UPDATE [Web-Risk] SET [RISK TOP] = SAP_B_A_2017.[RISK_TOP], [BAKIYE] = SAP_B_A_2017.[BAKIYE], [VGB GUN] = SAP_B_A_2017.[VGB_VD], [VGB TOP] = SAP_B_A_2017.[VGB], [C/S TOP] = SAP_B_A_2017.[CEK] + SAP_B_A_2017.[SNT] FROM [Web-Risk] INNER JOIN SAP_B_A_2017 ON [Web-Risk].GMREF = SAP_B_A_2017.[MUS KOD]", conn);
+                    cmd8.CommandTimeout = 60;
                     conn.Open();
                     cmd7.ExecuteNonQuery();
+                    cmd8.ExecuteNonQuery();
                     conn.Close();
                     cmdLog.Parameters.AddWithValue("@strYer", "SAP Musteriler");
                 }
@@ -2550,7 +2546,6 @@ namespace Sultanlar.WindowsServiceIslemler
 
                 selectekstreC.ZwebSelectEkstreService ekstre = new selectekstreC.ZwebSelectEkstreService();
                 ekstre.Timeout = 6000000;
-                ekstre.Credentials = new NetworkCredential("ngunay", "abc1234");
                 selectekstreC.Zwebs023[] yirmiuc = null;
                 selectekstreC.Zwebs023[] yirmiuc2 = null;
 
@@ -2875,7 +2870,6 @@ namespace Sultanlar.WindowsServiceIslemler
         void GetSAP()
         {
             SqlConnection conn = new SqlConnection(General.ConnectionString);
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             bool vbfa = true;
             bool siparis = true;
@@ -4203,7 +4197,6 @@ namespace Sultanlar.WindowsServiceIslemler
         void GetSAPgece(bool satisupdate)
         {
             SqlConnection conn = new SqlConnection(General.ConnectionString);
-            NetworkCredential nc1 = new NetworkCredential("ngunay", "abc1234");
 
             bool vbfa = true;
             bool siparis = true;
