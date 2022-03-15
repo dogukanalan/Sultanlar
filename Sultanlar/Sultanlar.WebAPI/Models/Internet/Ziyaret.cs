@@ -21,6 +21,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public string ZIY_KONUM_ADRES { get; set; }
         public string ZIY_KONUM_CIKIS { get; set; }
         public string ZIY_KONUM_ADRES_CIKIS { get; set; }
+        public string ZIY_KONUM_MUSTERI { get; set; }
         public int FARK_KNM_ZIY { get; set; }
         public string ZIY_KONUM_RESIM { get; set; }
         public string ZIY_NOTLARI { get; set; }

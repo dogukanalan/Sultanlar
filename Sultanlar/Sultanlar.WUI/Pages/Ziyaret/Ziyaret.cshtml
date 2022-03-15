@@ -17,7 +17,9 @@
                 '", "smref": "' + getParameterByName("smref") + '", "slsref": "' + getParameterByName("slsref") +
                 '", "barkod": "' + rut_id + '", "ziy_bas_tar": "' + getDateNow() + '", "ziy_bit_tar": "' + getDateNow() + '", "ziy_ndn_id": "0", "ziy_konum": "' +
                 getParameterByName("coords") + '", "ziy_konum_adres": "' + getParameterByName("address") +
-                '", "ziy_konum_cikis": "0,0", "ziy_konum_adres_cikis": "", "fark_knm_ziy": "0", "ziy_konum_resim": "", "ziy_notlari": "", "ziy_sip": "0", "ziy_akt": "0", "ziy_iad": "0", "ziy_tah": "0" }';
+                '", "ziy_konum_cikis": "0,0", "ziy_konum_adres_cikis": "", ' +
+                '"ziy_konum_musteri": "' + getParameterByName("konumM") +
+                '", "fark_knm_ziy": "0", "ziy_konum_resim": "", "ziy_notlari": "", "ziy_sip": "0", "ziy_akt": "0", "ziy_iad": "0", "ziy_tah": "0" }';
             window.localStorage["ziyaret"] = sentData;
 
             $.ajax(

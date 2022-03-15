@@ -10,13 +10,13 @@
 
         function baslat() {
             window.location.href = 'Ziyaret?gmref=' + getParameterByName("gmref") + '&smref=' + getParameterByName("smref") + '&slsref=' + getParameterByName("slsref") + '&barkod=' + getBarkod() +
-                '&tip=' + getParameterByName("tip") + '&coords=' + $("#inputCoords").val() + '&address=' + $("#inputCoordAddress").val();
+                '&tip=' + getParameterByName("tip") + '&coords=' + $("#inputCoords").val() + '&address=' + $("#inputCoordAddress").val() + '&konumM=' + getParameterByName("konum");
         }
 
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
 
-            if (getParameterByName("konum") == "") {
+            if (getParameterByName("konum") == "" || getParameterByName("konum") == "null") {
                 alert("Müşterinin konumu sistemde kayıtlı değil. Konum alma sayfasına yönlendiriliyorsunuz.");
                 window.location.href = '../Musteri/Konum/Al?smref=' + getParameterByName("smref") + '&tip=' + getParameterByName("tip") + '&deg=0';
             }

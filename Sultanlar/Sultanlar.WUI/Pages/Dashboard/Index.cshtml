@@ -26,6 +26,8 @@
                         if (window.localStorage["uyetipiid"] == "aZZA1PyhVTw=") {
                             $("#selectSaticilar").append($("<option></option>").text("Tümü").val("1"));
                             $("#selectSaticilarBolum").append($("<option></option>").text("Tümü").val("1"));
+                            $("#bayisatishedef").css("display", "block");
+                            BayiSatisHedefGetir();
                         }
                         $.each(data, function (index, item) {
                             $("#selectSaticilar").append($("<option></option>").text(item.sattem).val(item.slsmanref));
@@ -34,7 +36,6 @@
 
                         HedefGetir();
                         BolumGetir();
-                        BayiSatisHedefGetir();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
@@ -448,7 +449,7 @@
 </select>
 <div id="divData"></div>
 <br />
-<div>
+<div id="bayisatishedef" style="display: none">
     <select id="selectYilBayiSatisHedef" name="selectYilBayiSatisHedef" class="dropDown selYil grafikUstu">
     </select>
     <select id="selectAyBayiSatisHedef" name="selectAyBayiSatisHedef" class="dropDown selSaticilar grafikUstu">

@@ -845,11 +845,27 @@ function farkHesapla(birinci, ikinci) {
     var p22 = parseFloat(ikinci.substring(ikinci.indexOf(",") + 1));
     var p1 = new google.maps.LatLng(p11, p12);
     var p2 = new google.maps.LatLng(p21, p22);
-    var mesafe = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2)).toFixed(0).toString();
-    if (isNaN(mesafe)) {
-        mesafe = "-1";
+    var mes = mesafe(p1, p2);
+    if (isNaN(mes)) {
+        mes = "-1";
     }
-    return mesafe;
+    return mes;
+}
+
+function mesafe(p1, p2) {
+    var R = 6378137; // Earth’s mean radius in meter
+    var dLat = this.rad(p2.lat() - p1.lat());
+    var dLong = this.rad(p2.lng() - p1.lng());
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(this.rad(p1.lat())) * Math.cos(this.rad(p2.lat())) *
+        Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d.toFixed(0).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1' + ".");
+}
+
+function rad(x) {
+    return x * Math.PI / 180;
 }
 
 function AdresGetir(adres) {

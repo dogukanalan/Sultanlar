@@ -22,7 +22,8 @@
                 '", "barkod": "' + ziyaret.barkod + '", "ziy_bas_tar": "' + ziyaret.ziy_bas_tar + '", "ziy_bit_tar": "' + getDateNow() + '", "ziy_ndn_id": "' + neden +
                 '", "ziy_konum": "' + ziyaret.ziy_konum + '", "ziy_konum_adres": "' + ziyaret.ziy_konum_adres +
                 '", "ziy_konum_cikis": "' + $("#inputCoords").val() + '", "ziy_konum_adres_cikis": "' + $("#inputCoordAddress").val() +
-                '", "fark_knm_ziy": "' + farkHesapla(ziyaret.ziy_konum, $("#inputCoords").val()) + '", "ziy_konum_resim": "' + ziyaret.ziy_konum_resim +
+                '", "ziy_konum_musteri": "' + ziyaret.ziy_konum_musteri + 
+                '", "fark_knm_ziy": "' + farkHesapla(ziy_konum_musteri, $("#inputCoords").val()) + '", "ziy_konum_resim": "' + ziyaret.ziy_konum_resim +
                 '", "ziy_notlari": "' + $("#textAciklama").val() + '", "ziy_sip": "' + ziyaret.ziy_sip + '", "ziy_akt": "' + ziyaret.ziy_akt + '", "ziy_iad": "' + ziyaret.ziy_iad + '", "ziy_tah": "' + ziyaret.ziy_tah + '" }';
 
             $.ajax(
@@ -92,5 +93,5 @@
     Açıklama:
 <textarea class="form-control" id="textAciklama"></textarea>
 <br />
-<input type="button" class="btn btn-success btnWidthFull" value="Ziyareti Sonlandır" onclick="ZiyaretBitir()" />
+<input type="button" class="btn btn-success konumTamam btnWidthFull" value="Ziyareti Sonlandır" onclick="ZiyaretBitir()" disabled />
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXm_Z4J-I9jrTO72lGvx1jRzTWsP6qi7Q&libraries=geometry"></script>

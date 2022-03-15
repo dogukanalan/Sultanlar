@@ -2125,7 +2125,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 cmd10.ExecuteNonQuery();
                 conn.Close();
 
-                SqlCommand cmd5 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Musteri] INSERT INTO [Web-Musteri] SELECT * FROM [Web_Musteri] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
+                SqlCommand cmd5 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Musteri] INSERT INTO [Web-Musteri] SELECT [ACTIVE],[BOLGE],[GRP],[EKP],[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[TIP],(SELECT DISTINCT [MT KOD] FROM [Web_Musteri] AS MUS WHERE GMREF = SMREF AND GMREF = [Web_Musteri].GMREF) AS [MT KOD],(SELECT DISTINCT [MT ACIKLAMA] FROM [Web_Musteri] AS MUS WHERE GMREF = SMREF AND GMREF = [Web_Musteri].GMREF) AS [MT ACIKLAMA],[UNVAN],[SLSREF],[SAT KOD],[SAT KOD1],[SAT TEM],[GMREF],[MUS KOD],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],[SEMT],[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],[ILGILI],[CEP-1],[NETTOP] FROM [Web_Musteri] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
                 cmd5.CommandTimeout = 600;
                 conn.Open();
                 cmd5.ExecuteNonQuery();

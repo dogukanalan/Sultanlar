@@ -44,7 +44,7 @@ namespace Sultanlar.UI
         {
             dateTimePicker1.Value = DateTime.Now;
             dateTimePicker1.Font = new System.Drawing.Font("Tahoma", 8, FontStyle.Regular);
-            dateTimePicker2.Value = Convert.ToDateTime("01.01.2023");
+            dateTimePicker2.Value = Convert.ToDateTime("09.01.2028");
             dateTimePicker2.Font = new System.Drawing.Font("Tahoma", 8, FontStyle.Regular);
             gridView2.FocusedRowHandle = DevExpress.XtraGrid.GridControl.AutoFilterRowHandle;
             gridView2.FocusedColumn = gridView2.VisibleColumns[0];
@@ -248,7 +248,7 @@ namespace Sultanlar.UI
                     return;
 
                 dateTimePicker1.Value = DateTime.Now;
-                dateTimePicker2.Value = Convert.ToDateTime("01.01.2023");
+                dateTimePicker2.Value = Convert.ToDateTime("09.01.2028");
                 simpleButton1.PerformClick();
             }
             else
