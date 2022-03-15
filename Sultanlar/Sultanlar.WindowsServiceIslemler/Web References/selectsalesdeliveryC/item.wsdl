@@ -594,7 +594,7 @@
   <service name="ZwebSelectSalesDeliveryService">
     <documentation>SAP Service ZwebSelectSalesDelivery via SOAP</documentation>
     <port name="ZwebSelectSalesDeliveryPortType" binding="s0:ZwebSelectSalesDeliveryBinding">
-      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+      <soap:address location="http://192.168.1.5:8000/sap/bc/soap/rfc" />
     </port>
   </service>
 </definitions>

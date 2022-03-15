@@ -45,6 +45,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
         protected override void OnStart(string[] args)
         {
+            System.Diagnostics.EventLog.WriteEntry("Sultanlar-Windows Servis", "başladı");
             nc1 = new NetworkCredential("mehmetistif", "123456q");
 
             eczaneleregirdi = false;
@@ -2548,7 +2549,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 ekstre.Timeout = 6000000;
                 selectekstreC.Zwebs023[] yirmiuc = null;
                 selectekstreC.Zwebs023[] yirmiuc2 = null;
-
+                ekstre.Credentials = nc1;
                 //LogYaz(conn, "ekstre oncesi", true, "sap ile bağlantı kuruluyor", DateTime.Now, DateTime.Now);
                 try
                 {

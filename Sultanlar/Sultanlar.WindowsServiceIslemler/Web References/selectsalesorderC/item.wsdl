@@ -1248,7 +1248,7 @@
   <service name="ZwebSelectSalesOrderService">
     <documentation>SAP Service ZwebSelectSalesOrder via SOAP</documentation>
     <port name="ZwebSelectSalesOrderPortType" binding="s0:ZwebSelectSalesOrderBinding">
-      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+      <soap:address location="http://192.168.1.5:8000/sap/bc/soap/rfc" />
     </port>
   </service>
 </definitions>

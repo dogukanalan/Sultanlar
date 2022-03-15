@@ -190,7 +190,7 @@
   <service name="ZwebSelectAccountingService">
     <documentation>SAP Service ZwebSelectAccounting via SOAP</documentation>
     <port name="ZwebSelectAccountingPortType" binding="s0:ZwebSelectAccountingBinding">
-      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+      <soap:address location="http://192.168.1.5:8000/sap/bc/soap/rfc" />
     </port>
   </service>
 </definitions>

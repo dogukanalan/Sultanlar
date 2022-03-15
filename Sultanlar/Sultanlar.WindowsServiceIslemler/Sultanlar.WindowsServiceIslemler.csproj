@@ -26,7 +26,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -454,10 +454,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetCampaigns">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetCampaigns">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\getcampaignsC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetCampaigns</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetCampaigns</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -465,10 +465,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_getcampaignsC_ZwebGetCampaignsService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetCustomers">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetCustomers">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\getcustomersC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetCustomers</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetCustomers</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -476,10 +476,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_getcustomersC_ZwebGetCustomersService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetDelInv">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetDelInv">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\getdelinvC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetDelInv</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetDelInv</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -487,10 +487,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_getdelinvC_ZwebGetDelInvService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterialPrices">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterialPrices">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\getmaterialpricesC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterialPrices</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterialPrices</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -498,10 +498,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_getmaterialpricesC_ZwebGetMaterialPricesService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterials">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterials">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\getmaterialsC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterials</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetMaterials</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -509,10 +509,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_getmaterialsC_ZwebGetMaterialsService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetPersonals">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetPersonals">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\getpersonalsC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetPersonals</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetPersonals</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -520,10 +520,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_getpersonalsC_ZwebGetPersonalsService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetT179t">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetT179t">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\gett179tC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetT179t</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebGetT179t</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -531,10 +531,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_gett179tC_ZwebGetT179tService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectAccounting">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectAccounting">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\selectaccountingC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectAccounting</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectAccounting</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -542,10 +542,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_selectaccountingC_ZwebSelectAccountingService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectEkstre">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectEkstre">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\selectekstreC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectEkstre</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectEkstre</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -553,10 +553,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_selectekstreC_ZwebSelectEkstreService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectKoliEtiket">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectKoliEtiket">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\selectkolietiketC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectKoliEtiket</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectKoliEtiket</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -564,10 +564,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_selectkolietiketC_ZwebSelectKoliEtiketService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesDelivery">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesDelivery">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\selectsalesdeliveryC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesDelivery</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesDelivery</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -575,10 +575,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_selectsalesdeliveryC_ZwebSelectSalesDeliveryService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesGoodsMove">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesGoodsMove">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\selectsalesgoodsmoveC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesGoodsMove</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesGoodsMove</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -586,10 +586,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_selectsalesgoodsmoveC_ZwebSelectSalesGoodsMoveService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesOrder">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesOrder">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\selectsalesorderC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesOrder</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesOrder</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -597,10 +597,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_selectsalesorderC_ZwebSelectSalesOrderService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesReport">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesReport">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\getsalesreportC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesReport</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesReport</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -608,10 +608,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_getsalesreportC_ZwebSelectSalesReportService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesTransport">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesTransport">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\selectsalestransportC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesTransport</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesTransport</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -619,10 +619,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WindowsServiceIslemler_selectsalestransportC_ZwebSelectSalesTransportService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesVbfa">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesVbfa">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\selectsalesvbfaC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesVbfa</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSelectSalesVbfa</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

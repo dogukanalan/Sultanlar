@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Results>
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/?services=ZwebSelectSalesOrder" filename="item.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://192.168.1.5:8000/sap/bc/soap/wsdl/?services=ZwebSelectSalesOrder" filename="item.wsdl" />
   </Results>
 </DiscoveryClientResultsFile>

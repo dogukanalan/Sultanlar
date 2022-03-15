@@ -12,7 +12,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "10.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,7 +26,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_getcustomersC_ZwebGetCustomersService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_getcustomersC_ZwebGetCustomersService"]));
@@ -36,7 +36,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_getcampaignsC_ZwebGetCampaignsService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_getcampaignsC_ZwebGetCampaignsService"]));
@@ -46,7 +46,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_getmaterialpricesC_ZwebGetMaterialPricesService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_getmaterialpricesC_ZwebGetMaterialPricesService"]));
@@ -56,7 +56,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_getmaterialsC_ZwebGetMaterialsService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_getmaterialsC_ZwebGetMaterialsService"]));
@@ -66,7 +66,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_getpersonalsC_ZwebGetPersonalsService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_getpersonalsC_ZwebGetPersonalsService"]));
@@ -76,7 +76,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_getsalesreportC_ZwebSelectSalesReportService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_getsalesreportC_ZwebSelectSalesReportService"]));
@@ -86,7 +86,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_getdelinvC_ZwebGetDelInvService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_getdelinvC_ZwebGetDelInvService"]));
@@ -96,7 +96,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_selectaccountingC_ZwebSelectAccountingService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_selectaccountingC_ZwebSelectAccountingService"]));
@@ -106,7 +106,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_selectkolietiketC_ZwebSelectKoliEtiketService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_selectkolietiketC_ZwebSelectKoliEtiketService"]));
@@ -116,7 +116,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_selectsalesdeliveryC_ZwebSelectSalesDeliveryService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_selectsalesdeliveryC_ZwebSelectSalesDeliveryServ" +
@@ -127,7 +127,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_selectsalesorderC_ZwebSelectSalesOrderService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_selectsalesorderC_ZwebSelectSalesOrderService"]));
@@ -137,7 +137,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_selectsalestransportC_ZwebSelectSalesTransportService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_selectsalestransportC_ZwebSelectSalesTransportSe" +
@@ -148,7 +148,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_selectsalesvbfaC_ZwebSelectSalesVbfaService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_selectsalesvbfaC_ZwebSelectSalesVbfaService"]));
@@ -168,7 +168,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_selectsalesgoodsmoveC_ZwebSelectSalesGoodsMoveService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_selectsalesgoodsmoveC_ZwebSelectSalesGoodsMoveSe" +
@@ -179,7 +179,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_selectekstreC_ZwebSelectEkstreService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_selectekstreC_ZwebSelectEkstreService"]));
@@ -199,7 +199,7 @@ namespace Sultanlar.WindowsServiceIslemler.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_WindowsServiceIslemler_gett179tC_ZwebGetT179tService {
             get {
                 return ((string)(this["Sultanlar_WindowsServiceIslemler_gett179tC_ZwebGetT179tService"]));

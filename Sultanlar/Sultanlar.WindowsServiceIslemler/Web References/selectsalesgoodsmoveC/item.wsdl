@@ -508,7 +508,7 @@
   <service name="ZwebSelectSalesGoodsMoveService">
     <documentation>SAP Service ZwebSelectSalesGoodsMove via SOAP</documentation>
     <port name="ZwebSelectSalesGoodsMovePortType" binding="s0:ZwebSelectSalesGoodsMoveBinding">
-      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+      <soap:address location="http://192.168.1.5:8000/sap/bc/soap/rfc" />
     </port>
   </service>
 </definitions>
