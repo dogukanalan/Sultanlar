@@ -542,6 +542,7 @@ namespace Sultanlar.UI
         {
             txtAltCariDuzenleIsim.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).SUBE;
             txtM2.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).Metrekare;
+            txtMUSKOD.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).MUSKOD;
 
             cmbTur.SelectedIndex = -1;
             if (((CariHesaplarTP)lbAltCariler.SelectedItem).MTKOD != string.Empty)

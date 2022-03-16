@@ -6,6 +6,7 @@
 
 @section head {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 
     <script>
         function ZiyaretBitir() {
@@ -22,7 +23,7 @@
                 '", "barkod": "' + ziyaret.barkod + '", "ziy_bas_tar": "' + ziyaret.ziy_bas_tar + '", "ziy_bit_tar": "' + getDateNow() + '", "ziy_ndn_id": "' + neden +
                 '", "ziy_konum": "' + ziyaret.ziy_konum + '", "ziy_konum_adres": "' + ziyaret.ziy_konum_adres +
                 '", "ziy_konum_cikis": "' + $("#inputCoords").val() + '", "ziy_konum_adres_cikis": "' + $("#inputCoordAddress").val() +
-                '", "ziy_konum_musteri": "' + ziyaret.ziy_konum_musteri + 
+                '", "ziy_konum_musteri": "' + ziyaret.ziy_konum_musteri +
                 '", "fark_knm_ziy": "' + farkHesapla(ziy_konum_musteri, $("#inputCoords").val()) + '", "ziy_konum_resim": "' + ziyaret.ziy_konum_resim +
                 '", "ziy_notlari": "' + $("#textAciklama").val() + '", "ziy_sip": "' + ziyaret.ziy_sip + '", "ziy_akt": "' + ziyaret.ziy_akt + '", "ziy_iad": "' + ziyaret.ziy_iad + '", "ziy_tah": "' + ziyaret.ziy_tah + '" }';
 
@@ -68,6 +69,66 @@
             );
         }
 
+        function startVoiceRecognition() {
+            if (annyang) {
+                let commands = { 'demo-annyang': () => { }, 'konuşma bitti': () => { } };
+
+                annyang.addCommands(commands);
+                initializeVoiceRecognitionCallback();
+                annyang.start({ autoRestart: true, continuous: false });
+
+                $("#btnStart").css("display", "none");
+                $("#btnStop").css("display", "block");
+            }
+        }
+
+        function continueVoiceRecognition() {
+            annyang.start({ autoRestart: true, continuous: false });
+
+            $("#btnStop").css("display", "block");
+            $("#btnContinue").css("display", "none");
+        }
+
+        function closeVoiceRecognition() {
+            annyang.abort();
+
+            $("#btnStop").css("display", "none");
+            $("#btnContinue").css("display", "block");
+        }
+
+        function initializeVoiceRecognitionCallback() {
+            annyang.setLanguage('tr');
+            annyang.addCallback('error', (err) => {
+                if (err.error === 'network') {
+                    voiceText = "Internet gereklidir";
+                    annyang.abort();
+                } else if (this.voiceText === undefined) {
+                    annyang.abort();
+                }
+            });
+
+            annyang.addCallback('start', (res) => {
+
+            });
+
+            annyang.addCallback('end', () => {
+                if (this.voiceText === undefined) {
+                    annyang.abort();
+                }
+            });
+
+            annyang.addCallback('result', (userSaid) => {
+                var queryText = userSaid[0];
+
+                voiceText = queryText;
+                konusuldu += voiceText + ' ';
+                $("#textAciklama").val(konusuldu);
+            });
+        }
+
+        voiceText = '';
+        konusuldu = '';
+
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
             if (window.localStorage["ziyaret"]) {
@@ -92,6 +153,11 @@
 <br />
     Açıklama:
 <textarea class="form-control" id="textAciklama"></textarea>
+<div id="divAnnyang">
+    <button class="mat-button" type="button" id="btnStart" onclick="startVoiceRecognition()">Ses kaydet-çevir</button>
+    <button class="mat-button" type="button" id="btnStop" style="display: none" onclick="closeVoiceRecognition()">Kaydı durdur</button>
+    <button class="mat-button" type="button" id="btnContinue" style="display: none" onclick="continueVoiceRecognition()">Kayda devam et</button>
+</div>
 <br />
 <input type="button" class="btn btn-success konumTamam btnWidthFull" value="Ziyareti Sonlandır" onclick="ZiyaretBitir()" disabled />
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXm_Z4J-I9jrTO72lGvx1jRzTWsP6qi7Q&libraries=geometry"></script>
