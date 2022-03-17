@@ -904,7 +904,7 @@ namespace Sultanlar.UI
 
                 ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
 
-                range = ws.get_Range("A1", "AG100000");
+                range = ws.get_Range("A1", "AH100000");
 
                 values = (object[,])range.Value2;
             }
