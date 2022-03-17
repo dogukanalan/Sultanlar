@@ -24,7 +24,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
 
 
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3761.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="ZwebSendSalesOrderBinding", Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
@@ -77,9 +77,9 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.sap.com/ZwebSendSalesOrder", RequestNamespace="urn:sap-com:document:sap:soap:functions:mc-style", ResponseElementName="ZwebSendSalesOrderResult", ResponseNamespace="urn:sap-com:document:sap:soap:functions:mc-style", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlArrayAttribute("EtReturn", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        [return: System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public Bapiret2[] ZwebSendSalesOrder([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] Zwebs010 IsOrderHeader, [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)] Zwebs011[] ItOrderItems, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] out string EvVbeln) {
+        [return: System.Xml.Serialization.XmlArrayAttribute("EtReturn", Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [return: System.Xml.Serialization.XmlArrayItemAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
+        public Bapiret2[] ZwebSendSalesOrder([System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)] Zwebs010 IsOrderHeader, [System.Xml.Serialization.XmlArrayAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)] [System.Xml.Serialization.XmlArrayItemAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)] Zwebs011[] ItOrderItems, [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)] out string EvVbeln) {
             object[] results = this.Invoke("ZwebSendSalesOrder", new object[] {
                         IsOrderHeader,
                         ItOrderItems});
@@ -129,7 +129,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3761.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -161,7 +161,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         private string augruField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Xblnr {
             get {
                 return this.xblnrField;
@@ -172,7 +172,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Ctype {
             get {
                 return this.ctypeField;
@@ -183,7 +183,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Kunwe {
             get {
                 return this.kunweField;
@@ -194,7 +194,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Pltyp {
             get {
                 return this.pltypField;
@@ -205,7 +205,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Ketdat {
             get {
                 return this.ketdatField;
@@ -216,7 +216,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Pernr {
             get {
                 return this.pernrField;
@@ -227,7 +227,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Zterm {
             get {
                 return this.ztermField;
@@ -238,7 +238,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Stext {
             get {
                 return this.stextField;
@@ -249,7 +249,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Ytext {
             get {
                 return this.ytextField;
@@ -260,7 +260,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Vbeln {
             get {
                 return this.vbelnField;
@@ -271,7 +271,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string PernrVw {
             get {
                 return this.pernrVwField;
@@ -282,7 +282,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Augru {
             get {
                 return this.augruField;
@@ -294,7 +294,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3761.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -332,7 +332,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         private string systemField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Type {
             get {
                 return this.typeField;
@@ -343,7 +343,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Id {
             get {
                 return this.idField;
@@ -354,7 +354,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Number {
             get {
                 return this.numberField;
@@ -365,7 +365,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Message {
             get {
                 return this.messageField;
@@ -376,7 +376,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string LogNo {
             get {
                 return this.logNoField;
@@ -387,7 +387,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string LogMsgNo {
             get {
                 return this.logMsgNoField;
@@ -398,7 +398,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string MessageV1 {
             get {
                 return this.messageV1Field;
@@ -409,7 +409,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string MessageV2 {
             get {
                 return this.messageV2Field;
@@ -420,7 +420,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string MessageV3 {
             get {
                 return this.messageV3Field;
@@ -431,7 +431,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string MessageV4 {
             get {
                 return this.messageV4Field;
@@ -442,7 +442,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Parameter {
             get {
                 return this.parameterField;
@@ -453,7 +453,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public int Row {
             get {
                 return this.rowField;
@@ -475,7 +475,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Field {
             get {
                 return this.fieldField;
@@ -486,7 +486,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form= SysXml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string System {
             get {
                 return this.systemField;
@@ -498,7 +498,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.3761.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -570,7 +570,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         private bool isk10FieldSpecified;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Xblnr {
             get {
                 return this.xblnrField;
@@ -581,7 +581,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Itmid {
             get {
                 return this.itmidField;
@@ -592,7 +592,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Matnr {
             get {
                 return this.matnrField;
@@ -603,7 +603,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Menge {
             get {
                 return this.mengeField;
@@ -625,7 +625,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Meins {
             get {
                 return this.meinsField;
@@ -636,7 +636,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Werks {
             get {
                 return this.werksField;
@@ -647,7 +647,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Lgort {
             get {
                 return this.lgortField;
@@ -658,7 +658,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Charg {
             get {
                 return this.chargField;
@@ -669,7 +669,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Fiyat {
             get {
                 return this.fiyatField;
@@ -691,7 +691,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public string Satir {
             get {
                 return this.satirField;
@@ -702,7 +702,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Isk1 {
             get {
                 return this.isk1Field;
@@ -724,7 +724,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Isk2 {
             get {
                 return this.isk2Field;
@@ -746,7 +746,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Isk3 {
             get {
                 return this.isk3Field;
@@ -768,7 +768,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Isk4 {
             get {
                 return this.isk4Field;
@@ -790,7 +790,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Isk5 {
             get {
                 return this.isk5Field;
@@ -812,7 +812,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Isk6 {
             get {
                 return this.isk6Field;
@@ -834,7 +834,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Isk7 {
             get {
                 return this.isk7Field;
@@ -856,7 +856,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Isk8 {
             get {
                 return this.isk8Field;
@@ -878,7 +878,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Isk9 {
             get {
                 return this.isk9Field;
@@ -900,7 +900,7 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=SysXml.Schema.XmlSchemaForm.Unqualified)]
         public decimal Isk10 {
             get {
                 return this.isk10Field;
@@ -923,11 +923,11 @@ namespace Sultanlar.DatabaseObject.SAPsendorderC {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3761.0")]
     public delegate void ZwebSendSalesOrderCompletedEventHandler(object sender, ZwebSendSalesOrderCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.3056.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3761.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ZwebSendSalesOrderCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {

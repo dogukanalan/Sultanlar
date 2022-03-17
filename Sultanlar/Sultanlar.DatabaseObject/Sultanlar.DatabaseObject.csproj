@@ -250,10 +250,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\SAPsendorderC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

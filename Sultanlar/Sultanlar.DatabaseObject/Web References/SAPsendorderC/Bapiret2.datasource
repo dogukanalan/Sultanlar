@@ -6,5 +6,5 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="Bapiret2" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>Sultanlar.DatabaseObject.SAPsendorderC.Bapiret2</TypeInfo>
+   <TypeInfo>Sultanlar.DatabaseObject.SAPsendorderC.Bapiret2, Sultanlar.DatabaseObject, Version=1.0.8109.28313, Culture=neutral, PublicKeyToken=null</TypeInfo>
 </GenericObjectDataSource>

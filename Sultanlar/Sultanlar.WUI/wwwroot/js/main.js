@@ -861,7 +861,7 @@ function mesafe(p1, p2) {
         Math.sin(dLong / 2) * Math.sin(dLong / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
-    return d.toFixed(0).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1' + ".");
+    return d.toFixed(0).toString();
 }
 
 function rad(x) {

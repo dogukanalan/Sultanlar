@@ -12,7 +12,7 @@ namespace Sultanlar.DatabaseObject.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,7 +26,7 @@ namespace Sultanlar.DatabaseObject.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_DatabaseObject_SAPsendorderC_ZwebSendSalesOrderService {
             get {
                 return ((string)(this["Sultanlar_DatabaseObject_SAPsendorderC_ZwebSendSalesOrderService"]));

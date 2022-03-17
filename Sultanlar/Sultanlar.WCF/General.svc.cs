@@ -11,7 +11,7 @@ using System.Xml;
 using System.ServiceModel.Web;
 using System.Collections;
 using System.IO;
-using System.Data.SQLite;
+//using System.Data.SQLite;
 using System.Xml.Serialization;
 using System.Drawing;
 
@@ -42,6 +42,9 @@ namespace Sultanlar.WCF
         {
             return "Sultanlar WCF çalışıyör. " + getClientIP();
         }
+
+        #region sqllite
+        /*
         /// <summary>
         /// Tüm veritabanı, kullanıcıya özel, sqlite3 için, rar dosyası olarak kaydoluyor. 
         /// url dönüyor.
@@ -254,7 +257,9 @@ namespace Sultanlar.WCF
             }
 
             return donendeger;
-        }
+        }*/
+        #endregion
+
         /// <summary>
         /// Üyenin bütün müşterileri. 
         /// düzen=salesman_ref:::substation_ref:::substation:::risklimit

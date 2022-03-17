@@ -44,7 +44,7 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal string SiparisOnay(int SiparisID, int Bakiye, int MusteriID)
         {
             string Donen = string.Empty;
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("http://95.0.47.130/SulWCF/siparis.ashx?siparisid=" + SiparisID + "&sevkref=0&depoid=0&bakiye=" + (Bakiye == 0 ? "false" : "true") + "&musteriid=" + MusteriID);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create("https://www.ittihadteknoloji.com.tr/wcf/siparis.ashx?siparisid=" + SiparisID + "&sevkref=0&depoid=0&bakiye=" + (Bakiye == 0 ? "false" : "true") + "&musteriid=" + MusteriID);
             HttpWebResponse res = (HttpWebResponse)req.GetResponse();
             Donen = new StreamReader(res.GetResponseStream()).ReadToEnd();
             return Donen;

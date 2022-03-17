@@ -25,12 +25,12 @@ namespace Sultanlar.WCF
         //
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Android/GetSqliteDb/?eposta={Eposta}&sifre={Sifre}")]
-        string androidGetSqliteDb(string Eposta, string Sifre);
+        /*string androidGetSqliteDb(string Eposta, string Sifre);
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Android/GetSqliteDbFull/?eposta={Eposta}&sifre={Sifre}")]
         string androidGetSqliteDbFull(string Eposta, string Sifre);
         [OperationContract, XmlSerializerFormat]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Android/GetClients/?eposta={Eposta}&sifre={Sifre}")]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Android/GetClients/?eposta={Eposta}&sifre={Sifre}")]*/
         XmlDocument androidGetClients(string Eposta, string Sifre);
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Android/GetTypeOfPrices/?eposta={Eposta}&sifre={Sifre}")]
