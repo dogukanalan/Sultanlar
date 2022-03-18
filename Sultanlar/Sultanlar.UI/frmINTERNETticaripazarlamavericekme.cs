@@ -20,21 +20,31 @@ namespace Sultanlar.UI
         }
 
         bool satisgeldi, stokgeldi;
+        DataTable dtGelen = new DataTable();
 
         private void frmINTERNETticaripazarlamavericekme_Load(object sender, EventArgs e)
         {
+            textBox9.Text = DateTime.Now.Year.ToString();
+            textBox12.Text = DateTime.Now.Year.ToString();
+            textBox21.Text = DateTime.Now.Year.ToString();
+            textBox10.Text = DateTime.Now.Month.ToString();
+            textBox14.Text = DateTime.Now.Month.ToString();
+            textBox22.Text = DateTime.Now.Month.ToString();
+
             CariHesaplarTP.GetObjects(comboBox1.Items, 0);
+            CariHesaplarTP.GetObjects(checkedListBox1.Items, 0);
+
             satisgeldi = false;
             stokgeldi = false;
 
             /*System.Xml.XmlReader xmlFile;
             xmlFile = System.Xml.XmlReader.Create(@"http://95.0.47.130/SulWCF/General.svc/web/xml/Gokw3/Stok?yil=2014&ay=1", new System.Xml.XmlReaderSettings());
-            DataSet ds = new DataSet("tbl");
+            DataSet ds = new DataSet("tbl_");
             ds.ReadXml(xmlFile);
             dataGridView1.DataSource = ds.Tables[0];*/
         }
 
-        private void TabloOlustur(string tabloadi)
+        /*private void TabloOlustur(string tabloadi)
         {
             string sorgu = "IF OBJECT_ID('" + tabloadi + "', 'U') IS NOT NULL DROP TABLE " + tabloadi +
                            " CREATE TABLE " + tabloadi + " (";
@@ -54,11 +64,11 @@ namespace Sultanlar.UI
             bool yenimi = false;
             if (!Convert.ToBoolean(DisVeri.ExecSc("SELECT CASE WHEN OBJECT_ID('" + tabloadi + "', 'U') IS NOT NULL THEN 1 ELSE 0 END"))) // tablo oluşmuş ise
             {
-                TabloOlustur(tabloadi);
+                TabloOlustur(tabloadi, dtGelen);
                 yenimi = true;
             }
 
-            VeriYaz(tabloadi, yenimi);
+            VeriYaz(tabloadi, yenimi, dtGelen, textBox17.Text.Trim(), textBox15.Text.Trim(), textBox18.Text.Trim(), textBox16.Text.Trim());
         }
 
         private void VeriYaz(string tabloadi, bool yeniolustu)
@@ -106,7 +116,7 @@ namespace Sultanlar.UI
 
                 DisVeri.ExecNQwp(eklesorgu, kolonlar, veriler);
             }
-        }
+        }*/
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -122,11 +132,11 @@ namespace Sultanlar.UI
                 SqlConnection conn = new SqlConnection("Server=" + textBox1.Text.Trim() + "; Database=" + textBox6.Text.Trim() + "; User Id=" + textBox2.Text.Trim() + "; Password=" + textBox3.Text.Trim() + "; Trusted_Connection=False;");
                 SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM (" + textBox4.Text.Trim() + ") AS TABLO" + where, conn);
                 da.SelectCommand.CommandTimeout = 1000;
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dataGridView1.DataSource = dt;
+                dtGelen = new DataTable();
+                da.Fill(dtGelen);
+                dataGridView1.DataSource = dtGelen;
 
-                label11.Text = dt.Rows.Count.ToString();
+                label11.Text = dtGelen.Rows.Count.ToString();
                 textBox17.Text = textBox7.Text.Trim();
                 textBox18.Text = textBox8.Text.Trim();
                 textBox15.Text = textBox9.Text.Trim();
@@ -152,11 +162,11 @@ namespace Sultanlar.UI
                 SqlConnection conn = new SqlConnection("Server=" + textBox1.Text.Trim() + "; Database=" + textBox6.Text.Trim() + "; User Id=" + textBox2.Text.Trim() + "; Password=" + textBox3.Text.Trim() + "; Trusted_Connection=False;");
                 SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM (" + textBox5.Text.Trim() + ") AS TABLO" + where, conn);
                 da.SelectCommand.CommandTimeout = 1000;
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dataGridView1.DataSource = dt;
+                dtGelen = new DataTable();
+                da.Fill(dtGelen);
+                dataGridView1.DataSource = dtGelen;
 
-                label11.Text = dt.Rows.Count.ToString();
+                label11.Text = dtGelen.Rows.Count.ToString();
                 textBox17.Text = textBox11.Text.Trim();
                 textBox18.Text = textBox13.Text.Trim();
                 textBox15.Text = textBox12.Text.Trim();
@@ -174,14 +184,26 @@ namespace Sultanlar.UI
             }
         }
 
+        private string XmlParams(bool satis)
+        {
+            string sunucu = "server=" + textBox1.Text.Trim() + "&";
+            string veritabani = "database=" + textBox6.Text.Trim() + "&";
+            string kullanici = "user=" + textBox2.Text.Trim() + "&";
+            string sifre = "password=" + textBox3.Text.Trim() + "&";
+            string paramn = "paramn=" + (satis ? textBox7.Text.Trim() : textBox11.Text.Trim()) + ";" + (satis ? textBox8.Text.Trim() : textBox13.Text.Trim()) + "&";
+            string paramv = "paramv=" + textBox12.Text.Trim() + ";" + textBox14.Text.Trim();
+            return sunucu + veritabani + kullanici + sifre + paramn + paramv;
+        }
+
         private void button8_Click(object sender, EventArgs e) // satis xml
         {
             try
             {
                 System.Xml.XmlReader xmlFile;
-                xmlFile = System.Xml.XmlReader.Create(textBox19.Text.Trim() + "?" + textBox7.Text.Trim() + "=" + textBox9.Text.Trim() + "&" + textBox8.Text.Trim() + "=" + textBox10.Text.Trim(), new System.Xml.XmlReaderSettings());
-                DataSet ds = new DataSet("tbl");
+                xmlFile = System.Xml.XmlReader.Create(textBox19.Text.Trim() + "&" + XmlParams(true), new System.Xml.XmlReaderSettings());
+                DataSet ds = new DataSet("tbl_");
                 ds.ReadXml(xmlFile);
+                dtGelen = ds.Tables[0];
                 dataGridView1.DataSource = ds.Tables[0];
 
                 label11.Text = ds.Tables[0].Rows.Count.ToString();
@@ -207,9 +229,10 @@ namespace Sultanlar.UI
             try
             {
                 System.Xml.XmlReader xmlFile;
-                xmlFile = System.Xml.XmlReader.Create(textBox20.Text.Trim() + "?" + textBox11.Text.Trim() + "=" + textBox12.Text.Trim() + "&" + textBox13.Text.Trim() + "=" + textBox14.Text.Trim(), new System.Xml.XmlReaderSettings());
-                DataSet ds = new DataSet("tbl");
+                xmlFile = System.Xml.XmlReader.Create(textBox20.Text.Trim() + "&" + XmlParams(false), new System.Xml.XmlReaderSettings());
+                DataSet ds = new DataSet("tbl_");
                 ds.ReadXml(xmlFile);
+                dtGelen = ds.Tables[0];
                 dataGridView1.DataSource = ds.Tables[0];
 
                 label11.Text = ds.Tables[0].Rows.Count.ToString();
@@ -247,10 +270,12 @@ namespace Sultanlar.UI
             textBox20.Text = dis.STOKXML;
 
             dataGridView1.DataSource = null;
-            textBox9.Text = "2014";
-            textBox10.Text = "1";
-            textBox12.Text = "2014";
-            textBox14.Text = "1";
+
+            textBox17.Text = string.Empty;
+            textBox18.Text = string.Empty;
+            textBox15.Text = string.Empty;
+            textBox16.Text = string.Empty;
+            label14.Text = string.Empty;
 
             button1.Enabled = true;
             button2.Enabled = dis.SUNUCU != null;
@@ -267,8 +292,8 @@ namespace Sultanlar.UI
             {
                 if (MessageBox.Show("Satış tablosunu yeniden oluşturmak istediğinize emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
-                    string tabloadi = "tbl" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + "_Satis";
-                    TabloOlustur(tabloadi);
+                    string tabloadi = "tbl_" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + "_Satis";
+                    DisVeri.TabloOlustur(tabloadi, dtGelen);
                 }
             }
             else
@@ -283,8 +308,8 @@ namespace Sultanlar.UI
             {
                 if (MessageBox.Show("Stok tablosunu yeniden oluşturmak istediğinize emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
-                    string tabloadi = "tbl" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + "_Stok";
-                    TabloOlustur(tabloadi);
+                    string tabloadi = "tbl_" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + "_Stok";
+                    DisVeri.TabloOlustur(tabloadi, dtGelen);
                 }
             }
             else
@@ -299,9 +324,11 @@ namespace Sultanlar.UI
             {
                 if (MessageBox.Show("Satış tablosunda " + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + " (" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ") " + textBox15.Text.Trim() + "-" + textBox16.Text.Trim() + " dönemi üzerine yazma yapılacak, devam etmek istediğinize emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
-                    string tabloadi = "tbl" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + "_Satis";
-                    TabloYaz(tabloadi);
-                    MessageBox.Show("Satış verisi yazıldı:\r\n\r\n" + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + "\r\n(" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ")\r\n\r\n" + textBox15.Text.Trim() + "-" + textBox16.Text.Trim(), "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string tabloadi = "tbl_" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + "_Satis";
+                    if (DisVeri.TabloYaz(tabloadi, dtGelen, textBox17.Text.Trim(), textBox15.Text.Trim(), textBox18.Text.Trim(), textBox16.Text.Trim()))
+                        MessageBox.Show("Satış verisi yazıldı:\r\n\r\n" + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + "\r\n(" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ")\r\n\r\n" + textBox15.Text.Trim() + "-" + textBox16.Text.Trim(), "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("Hata oluştu, program kayıtlarına bakın:\r\n\r\n" + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + "\r\n(" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ")\r\n\r\n" + textBox15.Text.Trim() + "-" + textBox16.Text.Trim(), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
             }
             else
@@ -316,9 +343,11 @@ namespace Sultanlar.UI
             {
                 if (MessageBox.Show("Stok tablosunda " + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + " (" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ") " + textBox15.Text.Trim() + "-" + textBox16.Text.Trim() + " dönemi üzerine yazma yapılacak, devam etmek istediğinize emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
-                    string tabloadi = "tbl" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + "_Stok";
-                    TabloYaz(tabloadi);
-                    MessageBox.Show("Stok verisi yazıldı:\r\n\r\n" + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + "\r\n(" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ")\r\n\r\n" + textBox15.Text.Trim() + "-" + textBox16.Text.Trim(), "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string tabloadi = "tbl_" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + "_Stok";
+                    if (DisVeri.TabloYaz(tabloadi, dtGelen, textBox17.Text.Trim(), textBox15.Text.Trim(), textBox18.Text.Trim(), textBox16.Text.Trim()))
+                        MessageBox.Show("Stok verisi yazıldı:\r\n\r\n" + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + "\r\n(" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ")\r\n\r\n" + textBox15.Text.Trim() + "-" + textBox16.Text.Trim(), "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("Hata oluştu, program kayıtlarına bakın:\r\n\r\n" + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + "\r\n(" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ")\r\n\r\n" + textBox15.Text.Trim() + "-" + textBox16.Text.Trim(), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
             }
             else
@@ -327,7 +356,7 @@ namespace Sultanlar.UI
             }
         }
 
-        private string VeriDonustur(string tip)
+        /*private string VeriDonustur(string tip)
         {
             string donendeger = string.Empty;
 
@@ -353,6 +382,47 @@ namespace Sultanlar.UI
             }
 
             return donendeger;
+        }*/
+
+        private ArrayList SecilenBayiler(out string bayiler)
+        {
+            ArrayList donendeger = new ArrayList();
+            bayiler = "\r\n";
+            for (int i = 0; i < checkedListBox1.CheckedItems.Count; i++)
+            {
+                donendeger.Add(((CariHesaplarTP)checkedListBox1.CheckedItems[i]).SMREF);
+                bayiler += "\r\n" + ((CariHesaplarTP)checkedListBox1.CheckedItems[i]).MUSTERI;
+            }
+            return donendeger;
+        }
+
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            string bayi = string.Empty;
+            ArrayList bayiler = SecilenBayiler(out bayi);
+
+            if (MessageBox.Show("Aşağıdaki bayilerin satış tablolarında " + textBox21.Text.Trim() + "-" + textBox22.Text.Trim() + " dönemi üzerine yazma yapılacak, devam etmek istediğinize emin misiniz?" + bayi, "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                if (DisVeri.BayiServis(textBox21.Text.Trim(), textBox22.Text.Trim(), true, bayiler))
+                    MessageBox.Show("Yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Yazma işlemi sırasında en az bir bayide hata oluştu. Hata olmayan bayiler yazıldı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            string bayi = string.Empty;
+            ArrayList bayiler = SecilenBayiler(out bayi);
+
+            if (MessageBox.Show("Aşağıdaki bayilerin stok tablolarında " + textBox21.Text.Trim() + "-" + textBox22.Text.Trim() + " dönemi üzerine yazma yapılacak, devam etmek istediğinize emin misiniz?" + bayi, "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                if (DisVeri.BayiServis(textBox21.Text.Trim(), textBox22.Text.Trim(), false, bayiler))
+                    MessageBox.Show("Yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Yazma işlemi sırasında en az bir bayide hata oluştu. Hata olmayan bayiler yazıldı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
         }
     }
 }

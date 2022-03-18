@@ -80,6 +80,13 @@
             this.button9 = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.textBox21 = new System.Windows.Forms.TextBox();
+            this.textBox22 = new System.Windows.Forms.TextBox();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -241,10 +248,10 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(468, 0);
+            this.dataGridView1.Location = new System.Drawing.Point(714, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(738, 406);
+            this.dataGridView1.Size = new System.Drawing.Size(492, 589);
             this.dataGridView1.TabIndex = 26;
             // 
             // label8
@@ -252,7 +259,7 @@
             this.label8.Dock = System.Windows.Forms.DockStyle.Left;
             this.label8.Location = new System.Drawing.Point(0, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(468, 406);
+            this.label8.Size = new System.Drawing.Size(468, 589);
             this.label8.TabIndex = 5;
             // 
             // button4
@@ -355,7 +362,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(92, 409);
+            this.button6.Location = new System.Drawing.Point(306, 408);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 22;
@@ -366,7 +373,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(173, 409);
+            this.button7.Location = new System.Drawing.Point(380, 408);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(75, 23);
             this.button7.TabIndex = 23;
@@ -378,7 +385,7 @@
             // label11
             // 
             this.label11.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label11.Location = new System.Drawing.Point(0, 406);
+            this.label11.Location = new System.Drawing.Point(0, 589);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(1206, 33);
             this.label11.TabIndex = 11;
@@ -388,8 +395,6 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox2.Enabled = false;
             this.checkBox2.Location = new System.Drawing.Point(92, 327);
             this.checkBox2.Name = "checkBox2";
@@ -544,14 +549,84 @@
             this.label18.TabIndex = 1;
             this.label18.Text = "-";
             // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(216, 587);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(120, 23);
+            this.button10.TabIndex = 24;
+            this.button10.Text = "Bütün Bayiler Satış";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(342, 587);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(120, 23);
+            this.button11.TabIndex = 24;
+            this.button11.Text = "Bütün Bayiler Stok";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // textBox21
+            // 
+            this.textBox21.Location = new System.Drawing.Point(298, 532);
+            this.textBox21.Name = "textBox21";
+            this.textBox21.Size = new System.Drawing.Size(38, 20);
+            this.textBox21.TabIndex = 29;
+            this.textBox21.Text = "2022";
+            // 
+            // textBox22
+            // 
+            this.textBox22.Location = new System.Drawing.Point(342, 532);
+            this.textBox22.Name = "textBox22";
+            this.textBox22.Size = new System.Drawing.Size(38, 20);
+            this.textBox22.TabIndex = 30;
+            this.textBox22.Text = "3";
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(468, 0);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(246, 589);
+            this.checkedListBox1.TabIndex = 32;
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(216, 558);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(120, 23);
+            this.button12.TabIndex = 24;
+            this.button12.Text = "Seçilen Bayiler Satış";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(342, 558);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(120, 23);
+            this.button13.TabIndex = 24;
+            this.button13.Text = "Seçilen Bayiler Stok";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
             // frmINTERNETticaripazarlamavericekme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1206, 439);
+            this.ClientSize = new System.Drawing.Size(1206, 622);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.checkBox2);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.button13);
+            this.Controls.Add(this.button11);
+            this.Controls.Add(this.button12);
+            this.Controls.Add(this.button10);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button3);
@@ -566,6 +641,8 @@
             this.Controls.Add(this.textBox13);
             this.Controls.Add(this.textBox10);
             this.Controls.Add(this.textBox12);
+            this.Controls.Add(this.textBox22);
+            this.Controls.Add(this.textBox21);
             this.Controls.Add(this.textBox16);
             this.Controls.Add(this.textBox18);
             this.Controls.Add(this.textBox8);
@@ -596,10 +673,10 @@
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label11);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button7);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label11);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmINTERNETticaripazarlamavericekme";
             this.Text = "Ticari Pazarlama : Veri Çekme";
@@ -663,5 +740,12 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.TextBox textBox21;
+        private System.Windows.Forms.TextBox textBox22;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
     }
 }

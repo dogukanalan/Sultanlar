@@ -158,6 +158,107 @@ namespace Sultanlar.DatabaseObject.Internet
             return donendeger;
         }
 
+        public static List<DisVeri> GetObjects()
+        {
+            List<DisVeri> donendeger = new List<DisVeri>();
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT pkID,[SMREF],[SUNUCU],[VERITABANI],[KULLANICI],[SIFRE],[VERISORGU],[STOKSORGU],YILKOLON,AYKOLON,YILKOLON1,AYKOLON1,VERIXML,STOKXML FROM [Web-Dis-VeriCekme]", conn);
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        DisVeri dv = new DisVeri();
+
+                        dv.pkID = Convert.ToInt32(dr[0]);
+                        dv.SMREF = Convert.ToInt32(dr[1]);
+                        dv.SUNUCU = dr[2].ToString();
+                        dv.VERITABANI = dr[3].ToString();
+                        dv.KULLANICI = dr[4].ToString();
+                        dv.SIFRE = dr[5].ToString();
+                        dv.VERISORGU = dr[6].ToString();
+                        dv.STOKSORGU = dr[7].ToString();
+                        dv.YILKOLON = dr[8].ToString();
+                        dv.AYKOLON = dr[9].ToString();
+                        dv.YILKOLON1 = dr[10].ToString();
+                        dv.AYKOLON1 = dr[11].ToString();
+                        dv.VERIXML = dr[12].ToString();
+                        dv.STOKXML = dr[13].ToString();
+
+                        donendeger.Add(dv);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+
+        public static List<DisVeri> GetObjects(ArrayList bayiler)
+        {
+            List<DisVeri> donendeger = new List<DisVeri>();
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT pkID,[SMREF],[SUNUCU],[VERITABANI],[KULLANICI],[SIFRE],[VERISORGU],[STOKSORGU],YILKOLON,AYKOLON,YILKOLON1,AYKOLON1,VERIXML,STOKXML FROM [Web-Dis-VeriCekme]", conn);
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        for (int i = 0; i < bayiler.Count; i++)
+                        {
+                            if (Convert.ToInt32(bayiler[i]) == Convert.ToInt32(dr[1]))
+                            {
+                                DisVeri dv = new DisVeri();
+
+                                dv.pkID = Convert.ToInt32(dr[0]);
+                                dv.SMREF = Convert.ToInt32(dr[1]);
+                                dv.SUNUCU = dr[2].ToString();
+                                dv.VERITABANI = dr[3].ToString();
+                                dv.KULLANICI = dr[4].ToString();
+                                dv.SIFRE = dr[5].ToString();
+                                dv.VERISORGU = dr[6].ToString();
+                                dv.STOKSORGU = dr[7].ToString();
+                                dv.YILKOLON = dr[8].ToString();
+                                dv.AYKOLON = dr[9].ToString();
+                                dv.YILKOLON1 = dr[10].ToString();
+                                dv.AYKOLON1 = dr[11].ToString();
+                                dv.VERIXML = dr[12].ToString();
+                                dv.STOKXML = dr[13].ToString();
+
+                                donendeger.Add(dv);
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+
         public static void ExecNQ(string sorgu)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionStringDisVeri))
@@ -246,6 +347,139 @@ namespace Sultanlar.DatabaseObject.Internet
                 finally
                 {
                     conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+
+        public static void TabloOlustur(string tabloadi, DataTable dt)
+        {
+            string sorgu = "IF OBJECT_ID('" + tabloadi + "', 'U') IS NOT NULL DROP TABLE " + tabloadi +
+                           " CREATE TABLE " + tabloadi + " (";
+
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                sorgu += "[" + dt.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", "") + "] " + VeriDonustur(dt.Columns[i].DataType.Name) + " NULL,";
+            }
+
+            sorgu = sorgu.Substring(0, sorgu.Length - 1) + ")";
+
+            ExecNQ(sorgu);
+        }
+
+        public static bool TabloYaz(string tabloadi, DataTable dt, string yilad, string yildeger, string ayad, string aydeger)
+        {
+            bool yenimi = false;
+            if (!Convert.ToBoolean(ExecSc("SELECT CASE WHEN OBJECT_ID('" + tabloadi + "', 'U') IS NOT NULL THEN 1 ELSE 0 END"))) // tablo oluşmuş ise
+            {
+                TabloOlustur(tabloadi, dt);
+                yenimi = true;
+            }
+
+            return VeriYaz(tabloadi, yenimi, dt, yilad, yildeger, ayad, aydeger);
+        }
+
+        public static bool VeriYaz(string tabloadi, bool yeniolustu, DataTable dt1, string yilad, string yildeger, string ayad, string aydeger)
+        {
+            ArrayList kolonlar = new ArrayList();
+            for (int i = 0; i < dt1.Columns.Count; i++)
+            {
+                kolonlar.Add(dt1.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", ""));
+            }
+
+            if (!yeniolustu) //gelen kolonlar ile yazılmış tablodaki aynı mı kontrol et
+            {
+                bool hatali = false;
+                DataTable dt = ExecDaRe("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + tabloadi + "'");
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    if (dt.Rows[i][0].ToString() != kolonlar[i].ToString())
+                    {
+                        hatali = true;
+                    }
+                }
+                if (hatali)
+                {
+                    Hatalar.DoInsert("Gelen veri ile oluşturulmuş tablo alanları uyumlu değil.", "DisVeri Bayi veri çekme tabloadı: " + tabloadi);
+                    return false;
+                }
+            }
+
+            if (yilad != string.Empty && ayad != string.Empty)
+                ExecNQ("DELETE FROM " + tabloadi + " WHERE " + yilad + "=" + yildeger + " AND " + ayad + "=" + aydeger);
+            else
+                ExecNQ("DELETE FROM " + tabloadi);
+
+            for (int i = 0; i < dt1.Rows.Count; i++)
+            {
+                string kolonsorgu = string.Empty;
+                string eklesorgu = "INSERT INTO " + tabloadi + " (";
+
+                object[] veriler = new object[kolonlar.Count];
+                for (int j = 0; j < kolonlar.Count; j++)
+                {
+                    kolonsorgu += "[" + kolonlar[j] + "],";
+                    veriler[j] = dt1.Rows[i][j];
+                }
+
+                kolonsorgu = kolonsorgu.Substring(0, kolonsorgu.Length - 1);
+                eklesorgu += kolonsorgu + ") VALUES (" + kolonsorgu.Replace("[", "@").Replace("]", "") + ")";
+
+                ExecNQwp(eklesorgu, kolonlar, veriler);
+            }
+
+            return true;
+        }
+
+        private static string VeriDonustur(string tip)
+        {
+            string donendeger = string.Empty;
+
+            switch (tip)
+            {
+                case "Int16":
+                    donendeger = "smallint";
+                    break;
+                case "Int32":
+                    donendeger = "int";
+                    break;
+                case "String":
+                    donendeger = "nvarchar(255)";
+                    break;
+                case "DateTime":
+                    donendeger = "datetime";
+                    break;
+                case "Double":
+                    donendeger = "float";
+                    break;
+                default:
+                    break;
+            }
+
+            return donendeger;
+        }
+
+        public static bool BayiServis(string YIL, string AY, bool satis, ArrayList bayiler)
+        {
+            bool donendeger = true;
+
+            List<DisVeri> dvl = bayiler.Count == 0 ? GetObjects() : GetObjects(bayiler);
+            foreach (DisVeri dv in dvl)
+            {
+                if (dv.SUNUCU != string.Empty && dv.VERITABANI != string.Empty && dv.KULLANICI != string.Empty && dv.SIFRE != string.Empty
+                    && ((satis && dv.VERISORGU != string.Empty) || (!satis && dv.STOKSORGU != string.Empty)))
+                {
+                    SqlConnection conn = new SqlConnection("Server=" + dv.SUNUCU + "; Database=" + dv.VERITABANI + "; User Id=" + dv.KULLANICI + "; Password=" + dv.SIFRE + "; Trusted_Connection=False;");
+                    SqlDataAdapter da = new SqlDataAdapter("", conn);
+                    string sorgu = satis ? dv.VERISORGU : dv.STOKSORGU;
+                    da.SelectCommand.CommandText = "SELECT * FROM (" + sorgu + ") AS TABLO" + (satis ? " WHERE " + dv.YILKOLON + "=" + YIL + " AND " + dv.AYKOLON + "=" + AY : "");
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
+                    if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, AY))
+                        donendeger = false;
                 }
             }
 

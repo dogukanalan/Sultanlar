@@ -15,6 +15,7 @@ using System.Net;
 using Sultanlar.DatabaseObject.Internet;
 using Sultanlar.DatabaseObject.Kenton;
 using System.Xml;
+using System.Collections;
 
 namespace Sultanlar.WindowsServiceIslemler
 {
@@ -122,6 +123,20 @@ namespace Sultanlar.WindowsServiceIslemler
             tmrSAPcustomers.Enabled = false;
             tmrSAPpersonals.Enabled = false;
         }
+
+        #region bayi web services
+        /// <summary>
+        /// bayiler boş ise hepsi
+        /// </summary>
+        /// <param name="YIL"></param>
+        /// <param name="AY"></param>
+        /// <param name="satis"></param>
+        /// <param name="bayiler"></param>
+        private void BayiServis(string YIL, string AY, bool satis, ArrayList bayiler)
+        {
+            DisVeri.BayiServis(YIL, AY, satis, bayiler);
+        }
+        #endregion
 
         #region tmrelapsed
         void tmrSAPcampaigns_Elapsed(object sender, ElapsedEventArgs e)
@@ -316,6 +331,7 @@ namespace Sultanlar.WindowsServiceIslemler
         }
         #endregion
 
+        #region IslemYap
         void IslemYap()
         {
             //WebGenel.DoUpdateHavaDurumu(StringParcalama.HavaDurumu());
@@ -423,7 +439,9 @@ namespace Sultanlar.WindowsServiceIslemler
                 tpfiyatlaragirdi = false;
             }
         }
+        #endregion
 
+        #region tarifsepeti
         private void RssKenton(string url)
         {
             List<Tarifler> tarifler = new List<Tarifler>();
@@ -610,6 +628,7 @@ namespace Sultanlar.WindowsServiceIslemler
             for (int i = 0; i < videolar.Count; i++)
                 videolar[i].DoInsert();
         }
+        #endregion
 
         #region sqlite
         /*
@@ -749,6 +768,7 @@ namespace Sultanlar.WindowsServiceIslemler
         */
         #endregion
 
+        #region sap canlı anaveriler
         private void KampanyalarC()
         {
             SqlConnection conn = new SqlConnection(General.ConnectionString);
@@ -2516,11 +2536,11 @@ namespace Sultanlar.WindowsServiceIslemler
 
             return donendeger;
         }
+        #endregion
 
 
 
-
-
+        #region getekstre
         void GetEkstre(DateTime Baslangic)
         {
             string hata = string.Empty;
@@ -2867,7 +2887,9 @@ namespace Sultanlar.WindowsServiceIslemler
                 }
             }
         }
+        #endregion
 
+        #region getsap
         void GetSAP()
         {
             SqlConnection conn = new SqlConnection(General.ConnectionString);
@@ -5341,7 +5363,9 @@ namespace Sultanlar.WindowsServiceIslemler
             if (satisupdate)
                 SatisUpdate(conn);
         }
+        #endregion
 
+        #region sap yardımcılar
         private void TarihSaat(DateTime maxtarih, DateTime cekilecektarih, out string tarih, out string saat)
         {
             tarih = cekilecektarih.Year.ToString() +
@@ -5479,6 +5503,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 LogYaz(conn, "Web_Rut", hataa != string.Empty ? false : true, hataa, bastarih, DateTime.Now);
             }
         }
+        #endregion
 
         private void EntegraSiparis()
         {

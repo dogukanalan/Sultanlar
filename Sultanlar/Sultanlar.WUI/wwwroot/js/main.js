@@ -737,7 +737,8 @@ Date.prototype.addHours = function (h) {
 
 function getDateNow() {
     var date = new Date();
-    return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
+    //return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
+    return new Date().toJSON();
 }
 
 function GetDateNow() {
