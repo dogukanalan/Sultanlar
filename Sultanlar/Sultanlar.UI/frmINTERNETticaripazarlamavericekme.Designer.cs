@@ -87,6 +87,10 @@
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
+            this.button17 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -551,27 +555,27 @@
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(216, 587);
+            this.button10.Location = new System.Drawing.Point(238, 587);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(120, 23);
+            this.button10.Size = new System.Drawing.Size(111, 23);
             this.button10.TabIndex = 24;
-            this.button10.Text = "Bütün Bayiler Satış";
+            this.button10.Text = "Büt.Bay.Satış (XML)";
             this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button12_Click);
+            this.button10.Click += new System.EventHandler(this.button12_Click_1);
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(342, 587);
+            this.button11.Location = new System.Drawing.Point(355, 587);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(120, 23);
+            this.button11.Size = new System.Drawing.Size(111, 23);
             this.button11.TabIndex = 24;
-            this.button11.Text = "Bütün Bayiler Stok";
+            this.button11.Text = "Büt.Bay.Stok (XML)";
             this.button11.UseVisualStyleBackColor = true;
-            this.button11.Click += new System.EventHandler(this.button13_Click);
+            this.button11.Click += new System.EventHandler(this.button13_Click_1);
             // 
             // textBox21
             // 
-            this.textBox21.Location = new System.Drawing.Point(298, 532);
+            this.textBox21.Location = new System.Drawing.Point(194, 532);
             this.textBox21.Name = "textBox21";
             this.textBox21.Size = new System.Drawing.Size(38, 20);
             this.textBox21.TabIndex = 29;
@@ -579,7 +583,7 @@
             // 
             // textBox22
             // 
-            this.textBox22.Location = new System.Drawing.Point(342, 532);
+            this.textBox22.Location = new System.Drawing.Point(238, 532);
             this.textBox22.Name = "textBox22";
             this.textBox22.Size = new System.Drawing.Size(38, 20);
             this.textBox22.TabIndex = 30;
@@ -596,23 +600,63 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(216, 558);
+            this.button12.Location = new System.Drawing.Point(238, 558);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(120, 23);
+            this.button12.Size = new System.Drawing.Size(111, 23);
             this.button12.TabIndex = 24;
-            this.button12.Text = "Seçilen Bayiler Satış";
+            this.button12.Text = "Seç.Bay.Sat.(XML)";
             this.button12.UseVisualStyleBackColor = true;
-            this.button12.Click += new System.EventHandler(this.button12_Click);
+            this.button12.Click += new System.EventHandler(this.button12_Click_1);
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(342, 558);
+            this.button13.Location = new System.Drawing.Point(355, 558);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(120, 23);
+            this.button13.Size = new System.Drawing.Size(111, 23);
             this.button13.TabIndex = 24;
-            this.button13.Text = "Seçilen Bayiler Stok";
+            this.button13.Text = "Seç.Bay.Stok (XML)";
             this.button13.UseVisualStyleBackColor = true;
-            this.button13.Click += new System.EventHandler(this.button13_Click);
+            this.button13.Click += new System.EventHandler(this.button13_Click_1);
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(4, 587);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(111, 23);
+            this.button14.TabIndex = 24;
+            this.button14.Text = "Büt.Bay.Satış (SQL)";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(4, 558);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(111, 23);
+            this.button15.TabIndex = 24;
+            this.button15.Text = "Seç.Bay.Satış (SQL)";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(121, 587);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(111, 23);
+            this.button16.TabIndex = 24;
+            this.button16.Text = "Büt.Bay.Stok (SQL)";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // button17
+            // 
+            this.button17.Location = new System.Drawing.Point(121, 558);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(111, 23);
+            this.button17.TabIndex = 24;
+            this.button17.Text = "Seç.Bay.Stok (SQL)";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button13_Click);
             // 
             // frmINTERNETticaripazarlamavericekme
             // 
@@ -623,8 +667,12 @@
             this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.button17);
             this.Controls.Add(this.button13);
+            this.Controls.Add(this.button16);
             this.Controls.Add(this.button11);
+            this.Controls.Add(this.button15);
+            this.Controls.Add(this.button14);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.button10);
             this.Controls.Add(this.button5);
@@ -747,5 +795,9 @@
         private System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button button17;
     }
 }

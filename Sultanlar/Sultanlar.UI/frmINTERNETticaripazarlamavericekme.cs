@@ -184,14 +184,14 @@ namespace Sultanlar.UI
             }
         }
 
-        private string XmlParams(bool satis)
+        private string XmlParams(string server, string database, string user, string password, string YILAD, string YILDEGER, string AYAD, string AYDEGER)
         {
-            string sunucu = "server=" + textBox1.Text.Trim() + "&";
-            string veritabani = "database=" + textBox6.Text.Trim() + "&";
-            string kullanici = "user=" + textBox2.Text.Trim() + "&";
-            string sifre = "password=" + textBox3.Text.Trim() + "&";
-            string paramn = "paramn=" + (satis ? textBox7.Text.Trim() : textBox11.Text.Trim()) + ";" + (satis ? textBox8.Text.Trim() : textBox13.Text.Trim()) + "&";
-            string paramv = "paramv=" + textBox12.Text.Trim() + ";" + textBox14.Text.Trim();
+            string sunucu = "server=" + server + "&";
+            string veritabani = "database=" + database + "&";
+            string kullanici = "user=" + user + "&";
+            string sifre = "password=" + password + "&";
+            string paramn = "paramn=" + YILAD + ";" + AYAD + "&";
+            string paramv = "paramv=" + YILDEGER + ";" + AYDEGER;
             return sunucu + veritabani + kullanici + sifre + paramn + paramv;
         }
 
@@ -200,7 +200,7 @@ namespace Sultanlar.UI
             try
             {
                 System.Xml.XmlReader xmlFile;
-                xmlFile = System.Xml.XmlReader.Create(textBox19.Text.Trim() + "&" + XmlParams(true), new System.Xml.XmlReaderSettings());
+                xmlFile = System.Xml.XmlReader.Create(textBox19.Text.Trim() + "&" + DisVeri.XmlParams(textBox1.Text.Trim(), textBox6.Text.Trim(), textBox2.Text.Trim(), textBox3.Text.Trim(), textBox7.Text.Trim(), textBox9.Text.Trim(), textBox8.Text.Trim(), textBox10.Text.Trim()), new System.Xml.XmlReaderSettings());
                 DataSet ds = new DataSet("tbl_");
                 ds.ReadXml(xmlFile);
                 dtGelen = ds.Tables[0];
@@ -229,7 +229,7 @@ namespace Sultanlar.UI
             try
             {
                 System.Xml.XmlReader xmlFile;
-                xmlFile = System.Xml.XmlReader.Create(textBox20.Text.Trim() + "&" + XmlParams(false), new System.Xml.XmlReaderSettings());
+                xmlFile = System.Xml.XmlReader.Create(textBox20.Text.Trim() + "&" + DisVeri.XmlParams(textBox1.Text.Trim(), textBox6.Text.Trim(), textBox2.Text.Trim(), textBox3.Text.Trim(), textBox11.Text.Trim(), textBox12.Text.Trim(), textBox13.Text.Trim(), textBox14.Text.Trim()), new System.Xml.XmlReaderSettings());
                 DataSet ds = new DataSet("tbl_");
                 ds.ReadXml(xmlFile);
                 dtGelen = ds.Tables[0];
@@ -419,6 +419,34 @@ namespace Sultanlar.UI
             if (MessageBox.Show("Aşağıdaki bayilerin stok tablolarında " + textBox21.Text.Trim() + "-" + textBox22.Text.Trim() + " dönemi üzerine yazma yapılacak, devam etmek istediğinize emin misiniz?" + bayi, "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
                 if (DisVeri.BayiServis(textBox21.Text.Trim(), textBox22.Text.Trim(), false, bayiler))
+                    MessageBox.Show("Yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Yazma işlemi sırasında en az bir bayide hata oluştu. Hata olmayan bayiler yazıldı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        private void button12_Click_1(object sender, EventArgs e)
+        {
+            string bayi = string.Empty;
+            ArrayList bayiler = SecilenBayiler(out bayi);
+
+            if (MessageBox.Show("Aşağıdaki bayilerin satış tablolarında " + textBox21.Text.Trim() + "-" + textBox22.Text.Trim() + " dönemi üzerine yazma yapılacak, devam etmek istediğinize emin misiniz?" + bayi, "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                if (DisVeri.BayiServisXML(textBox21.Text.Trim(), textBox22.Text.Trim(), true, bayiler))
+                    MessageBox.Show("Yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Yazma işlemi sırasında en az bir bayide hata oluştu. Hata olmayan bayiler yazıldı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        private void button13_Click_1(object sender, EventArgs e)
+        {
+            string bayi = string.Empty;
+            ArrayList bayiler = SecilenBayiler(out bayi);
+
+            if (MessageBox.Show("Aşağıdaki bayilerin stok tablolarında " + textBox21.Text.Trim() + "-" + textBox22.Text.Trim() + " dönemi üzerine yazma yapılacak, devam etmek istediğinize emin misiniz?" + bayi, "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                if (DisVeri.BayiServisXML(textBox21.Text.Trim(), textBox22.Text.Trim(), false, bayiler))
                     MessageBox.Show("Yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
                     MessageBox.Show("Yazma işlemi sırasında en az bir bayide hata oluştu. Hata olmayan bayiler yazıldı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);

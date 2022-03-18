@@ -460,6 +460,17 @@ namespace Sultanlar.DatabaseObject.Internet
             return donendeger;
         }
 
+        public static string XmlParams(string server, string database, string user, string password, string YILAD, string YILDEGER, string AYAD, string AYDEGER)
+        {
+            string sunucu = "server=" + server + "&";
+            string veritabani = "database=" + database + "&";
+            string kullanici = "user=" + user + "&";
+            string sifre = "password=" + password + "&";
+            string paramn = "paramn=" + YILAD + ";" + AYAD + "&";
+            string paramv = "paramv=" + YILDEGER + ";" + AYDEGER;
+            return sunucu + veritabani + kullanici + sifre + paramn + paramv;
+        }
+
         public static bool BayiServis(string YIL, string AY, bool satis, ArrayList bayiler)
         {
             bool donendeger = true;
@@ -476,6 +487,32 @@ namespace Sultanlar.DatabaseObject.Internet
                     da.SelectCommand.CommandText = "SELECT * FROM (" + sorgu + ") AS TABLO" + (satis ? " WHERE " + dv.YILKOLON + "=" + YIL + " AND " + dv.AYKOLON + "=" + AY : "");
                     DataTable dt = new DataTable();
                     da.Fill(dt);
+
+                    string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
+                    if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, AY))
+                        donendeger = false;
+                }
+            }
+
+            return donendeger;
+        }
+
+        public static bool BayiServisXML(string YIL, string AY, bool satis, ArrayList bayiler)
+        {
+            bool donendeger = true;
+
+            List<DisVeri> dvl = bayiler.Count == 0 ? GetObjects() : GetObjects(bayiler);
+            foreach (DisVeri dv in dvl)
+            {
+                if (dv.SUNUCU != string.Empty && dv.VERITABANI != string.Empty && dv.KULLANICI != string.Empty && dv.SIFRE != string.Empty
+                    && ((satis && dv.VERIXML != string.Empty) || (!satis && dv.STOKXML != string.Empty)))
+                {
+                    System.Xml.XmlReader xmlFile;
+                    xmlFile = System.Xml.XmlReader.Create((satis ? dv.VERIXML : dv.STOKXML) + "&" + 
+                        XmlParams(dv.SUNUCU, dv.VERITABANI, dv.KULLANICI, dv.SIFRE, (satis ? dv.YILKOLON : dv.YILKOLON1), YIL, (satis ? dv.AYKOLON : dv.AYKOLON1), AY), new System.Xml.XmlReaderSettings());
+                    DataSet ds = new DataSet("tbl_");
+                    ds.ReadXml(xmlFile);
+                    DataTable dt = ds.Tables[0];
 
                     string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
                     if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, AY))
