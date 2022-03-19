@@ -42,11 +42,18 @@
             if (!girissayfasi && !cikissayfasi)
                 MesajSayisi();
 
-            if (localStorage["ziyaret"] != null) {
+            if (localStorage["ziyaret"] != null && window.localStorage["uyeid"]) {
                 document.getElementById("divZiy").style.display = "block";
             }
             else {
                 document.getElementById("divZiy").style.display = "none";
+            }
+
+            if (window.location.href.indexOf("/Rapor/") > -1) {
+                if (window.localStorage["uyetipiid"] == "vdna04pQKLI=") {
+                    console.log("yasaklı");
+                    window.location.replace("../Musteri");
+                }
             }
         });
 

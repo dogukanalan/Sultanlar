@@ -124,20 +124,6 @@ namespace Sultanlar.WindowsServiceIslemler
             tmrSAPpersonals.Enabled = false;
         }
 
-        #region bayi web services
-        /// <summary>
-        /// bayiler boş ise hepsi
-        /// </summary>
-        /// <param name="YIL"></param>
-        /// <param name="AY"></param>
-        /// <param name="satis"></param>
-        /// <param name="bayiler"></param>
-        private void BayiServis(string YIL, string AY, bool satis, ArrayList bayiler)
-        {
-            DisVeri.BayiServis(YIL, AY, satis, bayiler);
-        }
-        #endregion
-
         #region tmrelapsed
         void tmrSAPcampaigns_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -268,12 +254,8 @@ namespace Sultanlar.WindowsServiceIslemler
                 {
                     if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
                     {
-                        SqlConnection conn = new SqlConnection(General.ConnectionString);
-                        LogYaz(conn, "ekstre oncesi", true, "ekstre fonksiyonu simdi baslayacak", DateTime.Now, DateTime.Now);
                         GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014") 
-                        LogYaz(conn, "ekstre sonrasi", true, "ekstre fonksiyonu simdi bitmis olmasi lazim, satis yeni baslayacak", DateTime.Now, DateTime.Now);
                         GetSatisJob();
-                        LogYaz(conn, "ekstre sonrasi", true, "satis yeni simdi bitmis olmasi lazim", DateTime.Now, DateTime.Now);
                     }
                 }
                 else if (DateTime.Now.Hour == 3)
@@ -284,7 +266,7 @@ namespace Sultanlar.WindowsServiceIslemler
                         SatisIade();
                     }
                 }
-                else if (DateTime.Now.Hour == 12)
+                else if (DateTime.Now.Hour == 12 || DateTime.Now.Hour == 20)
                 {
                     if (DateTime.Now.Minute > 50 && DateTime.Now.Minute <= 55)
                     {
@@ -295,6 +277,9 @@ namespace Sultanlar.WindowsServiceIslemler
                         //RssKenton("https://www.kenton.com.tr/kategori/tatli-tarifleri/feed/");
                         //RssVideo("https://www.kenton.com.tr/kategori/kenton-video/feed/");
                         ////RssVideo("https://www.kenton.com.tr/kategori/tatli-sefi-video/feed/");
+
+                        BayiServis(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString(), true, new ArrayList());
+                        BayiServis(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString(), false, new ArrayList());
                     }
                 }
             }
@@ -766,6 +751,21 @@ namespace Sultanlar.WindowsServiceIslemler
 
 
         */
+        #endregion
+
+        #region bayi web services
+        /// <summary>
+        /// bayiler boş ise hepsi
+        /// </summary>
+        /// <param name="YIL"></param>
+        /// <param name="AY"></param>
+        /// <param name="satis"></param>
+        /// <param name="bayiler"></param>
+        private void BayiServis(string YIL, string AY, bool satis, ArrayList bayiler)
+        {
+            DisVeri.BayiServis(YIL, AY, satis, bayiler);
+            DisVeri.BayiServisXML(YIL, AY, satis, bayiler);
+        }
         #endregion
 
         #region sap canlı anaveriler

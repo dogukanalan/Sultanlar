@@ -120,8 +120,19 @@ namespace Sultanlar.UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DisVeri.DoInsert(((CariHesaplarTP)comboBox1.SelectedItem).SMREF, textBox1.Text.Trim(), textBox6.Text.Trim(), textBox2.Text.Trim(), textBox3.Text.Trim(), textBox4.Text.Trim(), textBox5.Text.Trim(), textBox7.Text.Trim(), textBox8.Text.Trim(), textBox11.Text.Trim(), textBox13.Text.Trim(), textBox19.Text.Trim(), textBox20.Text.Trim());
-            MessageBox.Show("Kaydedildi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if ((textBox4.Text.Trim() != string.Empty && textBox19.Text.Trim() != string.Empty) || (textBox5.Text.Trim() != string.Empty && textBox20.Text.Trim() != string.Empty))
+            {
+                if (MessageBox.Show("Hem sql hem xml alanları dolu. Bu şekilde veri ikisinden de çekilecektir. Devam etmek istiyor musunuz?", "Önemli Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    DisVeri.DoInsert(((CariHesaplarTP)comboBox1.SelectedItem).SMREF, textBox1.Text.Trim(), textBox6.Text.Trim(), textBox2.Text.Trim(), textBox3.Text.Trim(), textBox4.Text.Trim(), textBox5.Text.Trim(), textBox7.Text.Trim(), textBox8.Text.Trim(), textBox11.Text.Trim(), textBox13.Text.Trim(), textBox19.Text.Trim(), textBox20.Text.Trim());
+                    MessageBox.Show("Kaydedildi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                DisVeri.DoInsert(((CariHesaplarTP)comboBox1.SelectedItem).SMREF, textBox1.Text.Trim(), textBox6.Text.Trim(), textBox2.Text.Trim(), textBox3.Text.Trim(), textBox4.Text.Trim(), textBox5.Text.Trim(), textBox7.Text.Trim(), textBox8.Text.Trim(), textBox11.Text.Trim(), textBox13.Text.Trim(), textBox19.Text.Trim(), textBox20.Text.Trim());
+                MessageBox.Show("Kaydedildi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e) // satis sorgu

@@ -383,17 +383,21 @@ namespace Sultanlar.DatabaseObject.Internet
         public static bool VeriYaz(string tabloadi, bool yeniolustu, DataTable dt1, string yilad, string yildeger, string ayad, string aydeger)
         {
             ArrayList kolonlar = new ArrayList();
+            string gelenkolonlar = string.Empty;
             for (int i = 0; i < dt1.Columns.Count; i++)
             {
                 kolonlar.Add(dt1.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", ""));
+                gelenkolonlar += dt1.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", "") + ",";
             }
 
+            string varolankolonlar = string.Empty;
             if (!yeniolustu) //gelen kolonlar ile yazılmış tablodaki aynı mı kontrol et
             {
                 bool hatali = false;
                 DataTable dt = ExecDaRe("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + tabloadi + "'");
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
+                    varolankolonlar += dt.Rows[i][0].ToString() + ",";
                     if (dt.Rows[i][0].ToString() != kolonlar[i].ToString())
                     {
                         hatali = true;
@@ -401,7 +405,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
                 if (hatali)
                 {
-                    Hatalar.DoInsert("Gelen veri ile oluşturulmuş tablo alanları uyumlu değil.", "DisVeri Bayi veri çekme tabloadı: " + tabloadi);
+                    SAPs.LogYaz("bayi servis", true, tabloadi + " gelen veri ile varolan tablo alanları uyumlu değil. Gelen kolonlar: " + gelenkolonlar + " Var olan kolonlar: " + varolankolonlar + " Gelen tablo satır sayısı: " + dt.Rows.Count.ToString(), DateTime.Now, DateTime.Now);
                     return false;
                 }
             }
@@ -481,6 +485,8 @@ namespace Sultanlar.DatabaseObject.Internet
                 if (dv.SUNUCU != string.Empty && dv.VERITABANI != string.Empty && dv.KULLANICI != string.Empty && dv.SIFRE != string.Empty
                     && ((satis && dv.VERISORGU != string.Empty) || (!satis && dv.STOKSORGU != string.Empty)))
                 {
+                    DateTime baslangic = DateTime.Now;
+
                     SqlConnection conn = new SqlConnection("Server=" + dv.SUNUCU + "; Database=" + dv.VERITABANI + "; User Id=" + dv.KULLANICI + "; Password=" + dv.SIFRE + "; Trusted_Connection=False;");
                     SqlDataAdapter da = new SqlDataAdapter("", conn);
                     string sorgu = satis ? dv.VERISORGU : dv.STOKSORGU;
@@ -491,6 +497,8 @@ namespace Sultanlar.DatabaseObject.Internet
                     string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
                     if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, AY))
                         donendeger = false;
+
+                    SAPs.LogYaz("bayi servis sql " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + AY + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
                 }
             }
 
@@ -507,6 +515,8 @@ namespace Sultanlar.DatabaseObject.Internet
                 if (dv.SUNUCU != string.Empty && dv.VERITABANI != string.Empty && dv.KULLANICI != string.Empty && dv.SIFRE != string.Empty
                     && ((satis && dv.VERIXML != string.Empty) || (!satis && dv.STOKXML != string.Empty)))
                 {
+                    DateTime baslangic = DateTime.Now;
+
                     System.Xml.XmlReader xmlFile;
                     xmlFile = System.Xml.XmlReader.Create((satis ? dv.VERIXML : dv.STOKXML) + "&" + 
                         XmlParams(dv.SUNUCU, dv.VERITABANI, dv.KULLANICI, dv.SIFRE, (satis ? dv.YILKOLON : dv.YILKOLON1), YIL, (satis ? dv.AYKOLON : dv.AYKOLON1), AY), new System.Xml.XmlReaderSettings());
@@ -517,6 +527,8 @@ namespace Sultanlar.DatabaseObject.Internet
                     string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
                     if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, AY))
                         donendeger = false;
+
+                    SAPs.LogYaz("bayi servis xml " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + AY + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
                 }
             }
 

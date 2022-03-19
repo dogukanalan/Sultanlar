@@ -43,7 +43,8 @@ namespace Sultanlar.DbObj.Internet
         public int intSiparisUrunSayisi { get; set; }
         public int intRaporSatirSayisi { get; set; }
         public int intSiparisSatirSayisi { get; set; }
-        
+        public bool isSDE { get { return (tintUyeTipiID == 4 || tintUyeTipiID == 6) && blTaksitPlani; } }
+
         public musteriler() { }
         public musteriler(int pkMusteriID) { this.pkMusteriID = pkMusteriID; }
         private musteriler(int pkMusteriID, byte tintUyeTipiID, int intUyeGrupID, string strAd, string strSoyad, string strVergiDairesi, string strVergiNo, string strTelefon, string strEposta, string binKullaniciAdi, string binSifre, bool blSatisOnayi, bool blBilgiIslemOnayi, DateTime dtBasvuruTarihi, DateTime dtSatisOnayTarihi, DateTime dtBilgiIslemOnayTarihi, bool blTaksitPlani, int intGMREF, int intSLSREF, int intSonYarimSiparisID, bool blSistemde, bool blTalepEposta, bool blOnayEposta, byte tintMusteriDurumID, bool blPasif, bool blCHvar, string strUnvan, byte tintIlID, byte tintOnerilenFiyatYuzde, bool blSicakSatis, int intSiparisUrunSayisi, int intRaporSatirSayisi, int intSiparisSatirSayisi)
