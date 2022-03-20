@@ -49,11 +49,19 @@
                 document.getElementById("divZiy").style.display = "none";
             }
 
-            if (window.location.href.indexOf("/Rapor/") > -1) {
+            if (window.location.href.indexOf("/Rapor/") > -1 || window.location.href.indexOf("/Siparis/") > -1 || window.location.href.indexOf("/Iade/") > -1
+                || window.location.href.indexOf("/Anlasma/") > -1 || window.location.href.indexOf("/Aktivite/") > -1) {
                 if (window.localStorage["uyetipiid"] == "vdna04pQKLI=") {
-                    console.log("yasaklı");
                     window.location.replace("../Musteri");
                 }
+            }
+
+            if (window.localStorage["uyetipiid"] == "vdna04pQKLI=") {
+                $("#liSiparis").css("display", "none");
+                $("#liIade").css("display", "none");
+                $("#liAnlasma").css("display", "none");
+                $("#liAktivite").css("display", "none");
+                $("#liRapor").css("display", "none");
             }
         });
 
@@ -117,13 +125,13 @@
                                 <a href="~/Musteri/Resim/">Resimler</a>
                             </div>
                         </li>
-                        <li><a href="~/Siparis/Siparisler">Siparişler</a></li>
-                        <li><a href="~/Iade/Iadeler">İadeler</a></li>
-                        <li><a href="~/Ziyaret/Ziyaretler">Ziyaretler</a></li>
-                        <li><a href="~/Anlasma/Anlasmalar">Anlaşmalar</a></li>
-                        <li><a href="~/Aktivite/Aktiviteler">Aktiviteler</a></li>
+                        <li id="liSiparis"><a href="~/Siparis/Siparisler">Siparişler</a></li>
+                        <li id="liIade"><a href="~/Iade/Iadeler">İadeler</a></li>
+                        <li id="liZiyaret"><a href="~/Ziyaret/Ziyaretler">Ziyaretler</a></li>
+                        <li id="liAnlasma"><a href="~/Anlasma/Anlasmalar">Anlaşmalar</a></li>
+                        <li id="liAktivite"><a href="~/Aktivite/Aktiviteler">Aktiviteler</a></li>
                         @*<li><a href="~/Tahsilatlar">Tahsilatlar</a></li>*@
-                        <li>
+                        <li id="liRapor">
                             <a href="javascript:showSubMenu(divRapSub)" onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')">Raporlar</a>
                             <div onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')" class="subMenu" id="divRapSub">
                                 <a href="~/Rapor/Ekstre">Ekstre</a>

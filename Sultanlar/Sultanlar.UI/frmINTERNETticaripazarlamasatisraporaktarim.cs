@@ -91,6 +91,7 @@ namespace Sultanlar.UI
                     if (listBox1.SelectedIndex > -1)
                     {
                         SatisRaporTP.DoUpdateNoktaAd(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)listBox1.SelectedItem).GMREF), ((CariHesaplarTP)listBox1.SelectedItem).MUSTERI, ((SatisRaporTP)checkedListBox1.SelectedItem).NOKTAAD);
+                        SatisRaporTP.DoUpdateNoktaKod(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)listBox1.SelectedItem).GMREF), ((CariHesaplarTP)listBox1.SelectedItem).MUSKOD, ((SatisRaporTP)checkedListBox1.SelectedItem).NOKTAKOD);
 
                         CariHesaplarTP ch = (CariHesaplarTP)listBox1.SelectedItem;
                         ch.MUSTERI = ((SatisRaporTP)checkedListBox1.SelectedItem).NOKTAAD;

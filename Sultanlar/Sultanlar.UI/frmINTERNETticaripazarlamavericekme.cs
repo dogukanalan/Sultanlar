@@ -24,12 +24,20 @@ namespace Sultanlar.UI
 
         private void frmINTERNETticaripazarlamavericekme_Load(object sender, EventArgs e)
         {
+            if (frmAna.KAdi != "BI04" && frmAna.KAdi != "ADMİNİSTRATOR")
+            {
+                groupBox1.Enabled = false;
+                groupBox2.Enabled = false;
+            }
+
             textBox9.Text = DateTime.Now.Year.ToString();
             textBox12.Text = DateTime.Now.Year.ToString();
             textBox21.Text = DateTime.Now.Year.ToString();
+            textBox23.Text = DateTime.Now.Year.ToString();
             textBox10.Text = DateTime.Now.Month.ToString();
             textBox14.Text = DateTime.Now.Month.ToString();
             textBox22.Text = DateTime.Now.Month.ToString();
+            textBox24.Text = DateTime.Now.Month.ToString();
 
             CariHesaplarTP.GetObjects(comboBox1.Items, 0);
             CariHesaplarTP.GetObjects(checkedListBox1.Items, 0);
@@ -461,6 +469,70 @@ namespace Sultanlar.UI
                     MessageBox.Show("Yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
                     MessageBox.Show("Yazma işlemi sırasında en az bir bayide hata oluştu. Hata olmayan bayiler yazıldı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex > -1)
+            {
+                DisVeri dis = DisVeri.GetObject(((CariHesaplarTP)comboBox1.SelectedItem).SMREF);
+
+                if (dis.SUNUCU != string.Empty)
+                {
+                    frmINTERNETticaripazarlamavericekmemusteri frm = new frmINTERNETticaripazarlamavericekmemusteri(dis.SMREF);
+                    frm.ShowDialog();
+                }
+            }
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex > -1)
+            {
+                string smref = ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString();
+                string bayi = ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI;
+                string tablo = "[tbl_" + smref + "_Satis]";
+                string sorgu = "SELECT count(DISTINCT CH_KOD) FROM " + tablo + " AS SATIS LEFT OUTER JOIN [KurumsalWebSAP].dbo.[Web-Musteri-TP] AS CARI ON SATIS.[CH_KOD] = CARI.[MUS KOD] WHERE [MUS KOD] IS NULL";
+                int satirsayisi = Convert.ToInt32(DisVeri.ExecSc(sorgu));
+                if (satirsayisi == 0)
+                {
+                    if (MessageBox.Show("(" + smref + ") " + bayi + " bayisinin " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi satış verisi, " + textBox21.Text.Trim() + "-" + textBox22.Text.Trim() + " dönemi ticari pazarlama satış verisinin üzerine yazılacak. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    {
+                        string yazsorgu = "DELETE FROM [KurumsalWebSAP].dbo.[Web-Satis-Rapor-TP] WHERE BAYIKOD = " + smref + " AND NOKTASATYIL = " + textBox23.Text.Trim() + " AND NOKTASATAY = " + textBox24.Text.Trim() +
+                            " INSERT INTO [KurumsalWebSAP].dbo.[Web-Satis-Rapor-TP] ([BAYIKOD],[NOKTAAD],[NOKTAEVRAKNO],[NOKTAEVREKTARIH],[URUNKOD],[URUNAD],[NOKTASATADET],[NOKTASATNET],[NOKTASATAY],[NOKTASATYIL],[intAnlasmaID],[intAktiviteID],[flIsk1],[flIsk2],[flIsk3],[flIsk4],[mnListeFiyat],[mnListeFiyatKarli],[mnNetBirimFiyat],[mnNetToplam],[mnBirimFark],[mnToplamFark],[blGeriyeDonuk],[mnFaturadanKapatilan],[intFaturaID],[NOKTAREF],[NOKTAKOD])" +
+                            " SELECT " + smref + " AS BAYIKOD, CH_ACIKLAMA, FAT_NO, CONVERT(smalldatetime, LEFT(FAT_TAR, 10)), MAL_KOD, MAL_ACIKLAMA, CONVERT(int, ADET), CONVERT(float, NET_TOP) / CONVERT(int, ADET), AY, YIL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'False', 0, 0, 0, CH_KOD FROM " + tablo + " WHERE YIL = " + textBox23.Text.Trim() + "AND AY = " + textBox24.Text.Trim();
+                        if (DisVeri.ExecNQ(yazsorgu))
+                            MessageBox.Show("(" + smref + ") " + bayi + " bayisinin " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi ticari pazarlama satış tablosuna yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else
+                            MessageBox.Show("Satış yazma işleminde hata oluştu, veri tipleri uyuşmadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Eşleşmeyen cariler var. Toplam cari sayısı: " + satirsayisi.ToString(), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    button18.PerformClick();
+                }
+            }
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex > -1)
+            {
+                string smref = ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString();
+                string bayi = ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI;
+                if (MessageBox.Show("(" + smref + ") " + bayi + " bayisinin " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi stok verisi, " + textBox21.Text.Trim() + "-" + textBox22.Text.Trim() + " dönemi ticari pazarlama stok verisinin üzerine yazılacak. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    string tablo = "[tbl_" + smref + "_Stok]";
+                    string yazsorgu = "DELETE FROM [KurumsalWebSAP].dbo.[Web-Bayi-Stok] WHERE SMREF = " + smref + " AND YIL = " + textBox23.Text.Trim() + " AND AY = " + textBox24.Text.Trim() +
+                            " INSERT INTO [KurumsalWebSAP].dbo.[Web-Bayi-Stok] ([SMREF],[YIL],[AY],[ITEMREF],[STOK],[ZAMAN])" +
+                            " SELECT " + smref + " AS SMREF, YEAR(getdate()), MONTH(getdate()), MAL_KOD, ISNULL(STOK,0), getdate() FROM " + tablo;
+                    if (DisVeri.ExecNQ(yazsorgu))
+                        MessageBox.Show("(" + smref + ") " + bayi + " bayisinin " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi ticari pazarlama stok tablosuna yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("Stok yazma işleminde hata oluştu, veri tipleri uyuşmadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

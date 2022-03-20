@@ -55,5 +55,24 @@ namespace Sultanlar.DatabaseObject.Internet
                 conn.Close();
             }
         }
+
+        public static void HataYaz(string tablo, string key1, string key2, string key3, string key4, string key5, string log, DateTime baslangic, DateTime bitis)
+        {
+            using(SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmdLog = new SqlCommand("INSERT INTO [SAP_HATA_LOG] ([dtZaman],[strTablo],[strKey1],[strKey2],[strKey3],[strKey4],[strKey5],[strLog],dtBaslangic,dtBitis) VALUES (@dtZaman,@strTablo,@strKey1,@strKey2,@strKey3,@strKey4,@strKey5,@strLog,@dtBaslangic,@dtBitis)", conn);
+                cmdLog.Parameters.AddWithValue("@dtZaman", DateTime.Now);
+                cmdLog.Parameters.AddWithValue("@strTablo", tablo);
+                cmdLog.Parameters.AddWithValue("@strKey1", key1);
+                cmdLog.Parameters.AddWithValue("@strKey2", key2);
+                cmdLog.Parameters.AddWithValue("@strKey3", key3);
+                cmdLog.Parameters.AddWithValue("@strKey4", key4);
+                cmdLog.Parameters.AddWithValue("@strKey5", key5);
+                cmdLog.Parameters.AddWithValue("@strLog", log);
+                cmdLog.Parameters.AddWithValue("@dtBaslangic", baslangic);
+                cmdLog.Parameters.AddWithValue("@dtBitis", bitis);
+                cmdLog.ExecuteNonQuery();
+            }
+        }
     }
 }

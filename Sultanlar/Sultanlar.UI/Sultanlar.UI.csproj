@@ -34,7 +34,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>144</ApplicationRevision>
+    <ApplicationRevision>148</ApplicationRevision>
     <ApplicationVersion>2.3.4.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -771,6 +771,12 @@
     <Compile Include="frmINTERNETticaripazarlamavericekme.Designer.cs">
       <DependentUpon>frmINTERNETticaripazarlamavericekme.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmINTERNETticaripazarlamavericekmemusteri.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmINTERNETticaripazarlamavericekmemusteri.Designer.cs">
+      <DependentUpon>frmINTERNETticaripazarlamavericekmemusteri.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmINTERNETurunaktifpasif.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1346,6 +1352,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmINTERNETticaripazarlamavericekme.resx">
       <DependentUpon>frmINTERNETticaripazarlamavericekme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmINTERNETticaripazarlamavericekmemusteri.resx">
+      <DependentUpon>frmINTERNETticaripazarlamavericekmemusteri.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmINTERNETurunaktifpasif.resx">
       <DependentUpon>frmINTERNETurunaktifpasif.cs</DependentUpon>

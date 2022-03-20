@@ -386,5 +386,34 @@ namespace Sultanlar.DatabaseObject
                 }
             }
         }
+        //
+        //
+        public static int GetIDByILIDILCE(int pkIlID, string strIlce)
+        {
+            int donendeger = 0;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT pkIlceID FROM [tblIlceler] INNER JOIN tblIller ON LEFT(strIlceKod, 2) = strIlKod WHERE pkIlID = @pkIlID AND strIlce = @strIlce", conn);
+                cmd.Parameters.Add("@pkIlID", SqlDbType.Int).Value = pkIlID;
+                cmd.Parameters.Add("@strIlce", SqlDbType.NVarChar, 100).Value = strIlce;
+                try
+                {
+                    conn.Open();
+                    if (cmd.ExecuteScalar() != DBNull.Value)
+                        donendeger = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
     }
 }

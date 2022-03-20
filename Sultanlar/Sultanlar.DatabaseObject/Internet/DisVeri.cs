@@ -250,16 +250,16 @@ namespace Sultanlar.DatabaseObject.Internet
                 {
                     Hatalar.DoInsert(ex);
                 }
-                finally
-                {
-                    conn.Close();
-                }
             }
 
             return donendeger;
         }
-
-        public static void ExecNQ(string sorgu)
+        /// <summary>
+        /// false dönerse sorgu sql hatası var
+        /// </summary>
+        /// <param name="sorgu"></param>
+        /// <returns></returns>
+        public static bool ExecNQ(string sorgu)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionStringDisVeri))
             {
@@ -271,13 +271,17 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
                 catch (SqlException ex)
                 {
+                    conn.Close();
                     Hatalar.DoInsert(ex);
+                    return false;
                 }
                 finally
                 {
                     conn.Close();
                 }
             }
+
+            return true;
         }
 
         public static object ExecSc(string sorgu)
@@ -304,8 +308,14 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
-
-        public static void ExecNQwp(string CommandText, ArrayList ParameterNames, object[] Parameters)
+        /// <summary>
+        /// false dönerse sql sorgu hatası var
+        /// </summary>
+        /// <param name="CommandText"></param>
+        /// <param name="ParameterNames"></param>
+        /// <param name="Parameters"></param>
+        /// <returns></returns>
+        public static bool ExecNQwp(string CommandText, ArrayList ParameterNames, object[] Parameters)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionStringDisVeri))
             {
@@ -319,13 +329,17 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
                 catch (SqlException ex)
                 {
+                    conn.Close();
                     Hatalar.DoInsert(ex);
+                    return false;
                 }
                 finally
                 {
                     conn.Close();
                 }
             }
+
+            return true;
         }
 
         public static DataTable ExecDaRe(string sorgu)
