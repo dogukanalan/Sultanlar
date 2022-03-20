@@ -45,7 +45,7 @@ namespace Sultanlar.DbObj.Internet
         public bool BayiMi { get { return MTKOD == "Z1"; } }
         public bool AnaCariMi { get { return GMREF == SMREF; } }
         public int fiyatTip500 { get { return new fiyatTipleri().GetObjectByGMREF(GMREF).NOSU; } }
-        public konumListe konumA { get { return new konumListe().GetObject(this.SMREF); } }
+        public konumListe konumA { get { return new konumListe().GetObject(SMREF, TIP); } }
 
         public cariHesaplar() { }
         public cariHesaplar(int SMREF) { this.SMREF = SMREF; }
