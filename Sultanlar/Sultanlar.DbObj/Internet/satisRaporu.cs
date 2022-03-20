@@ -217,7 +217,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_dashboardSatisHedefVgb", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new SatisHedefVgb(dic[i][0].ToString(), Convert.ToInt32(dic[i][1]), Convert.ToInt32(dic[i][2]), Convert.ToDouble(dic[i][3]), Convert.ToDouble(dic[i][4])));
+                    donendeger.Add(new SatisHedefVgb(dic[i][0].ToString(), Convert.ToInt32(dic[i][1]), Convert.ToInt32(dic[i][2]), Convert.ToInt32(dic[i][3]), Convert.ToDouble(dic[i][4]), Convert.ToDouble(dic[i][5])));
 
             return donendeger;
         }
