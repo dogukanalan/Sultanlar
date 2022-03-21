@@ -101,7 +101,7 @@ namespace Sultanlar.WindowsServiceIslemler
             tmrSAPekstre2.Start();
 
             //ilk başta çalıştır
-            GetSAP();
+            //GetSAP();
         }
 
         protected override void OnStop()
@@ -763,8 +763,9 @@ namespace Sultanlar.WindowsServiceIslemler
         /// <param name="bayiler"></param>
         private void BayiServis(string YIL, string AY, bool satis, ArrayList bayiler)
         {
-            DisVeri.BayiServis(YIL, AY, satis, bayiler);
+            //DisVeri.BayiServis(YIL, AY, satis, bayiler);
             DisVeri.BayiServisXML(YIL, AY, satis, bayiler);
+            DisVeri.VeriAktar(satis, YIL, AY, bayiler);
         }
         #endregion
 
@@ -2151,7 +2152,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 cmd10.ExecuteNonQuery();
                 conn.Close();
 
-                SqlCommand cmd5 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Musteri] INSERT INTO [Web-Musteri] SELECT [ACTIVE],[BOLGE],[GRP],[EKP],[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[TIP],(SELECT DISTINCT [MT KOD] FROM [Web_Musteri] AS MUS WHERE GMREF = SMREF AND GMREF = [Web_Musteri].GMREF) AS [MT KOD],(SELECT DISTINCT [MT ACIKLAMA] FROM [Web_Musteri] AS MUS WHERE GMREF = SMREF AND GMREF = [Web_Musteri].GMREF) AS [MT ACIKLAMA],[UNVAN],[SLSREF],[SAT KOD],[SAT KOD1],[SAT TEM],[GMREF],[MUS KOD],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],[SEMT],[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],[ILGILI],[CEP-1],[NETTOP] FROM [Web_Musteri] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
+                SqlCommand cmd5 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Musteri] INSERT INTO [Web-Musteri] SELECT [ACTIVE],[BOLGE],[GRP],[EKP],[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[TIP],(SELECT DISTINCT [MT KOD] FROM [Web_Musteri] AS MUS WHERE GMREF = SMREF AND GMREF = [Web_Musteri].GMREF) AS [MT KOD],(SELECT DISTINCT [MT ACIKLAMA] FROM [Web_Musteri] AS MUS WHERE GMREF = SMREF AND GMREF = [Web_Musteri].GMREF) AS [MT ACIKLAMA],[UNVAN],[SLSREF],(SELECT DISTINCT [SAT KOD] FROM [Web_Musteri] AS MUS WHERE GMREF = SMREF AND GMREF = [Web_Musteri].GMREF) AS [SAT KOD],[SAT KOD1],[SAT TEM],[GMREF],[MUS KOD],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],[SEMT],[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],[ILGILI],[CEP-1],[NETTOP] FROM [Web_Musteri] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
                 cmd5.CommandTimeout = 600;
                 conn.Open();
                 cmd5.ExecuteNonQuery();
@@ -2572,6 +2573,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 yillar.Add(Baslangic.Year + i);
             
             SqlConnection conn = new SqlConnection(General.ConnectionString);
+            int ayniyiltekrar = 0;
             for (int j = 0; j < yillar.Count; j++)
             {
                 //Baslangic = Convert.ToDateTime("01.01." + yillar[j].ToString());
@@ -2584,16 +2586,27 @@ namespace Sultanlar.WindowsServiceIslemler
                 selectekstreC.Zwebs023[] yirmiuc = null;
                 selectekstreC.Zwebs023[] yirmiuc2 = null;
                 ekstre.Credentials = nc1;
+                
                 //SAPs.LogYaz("ekstre oncesi", true, "sap ile bağlantı kuruluyor", DateTime.Now, DateTime.Now);
                 try
                 {
                     yirmiuc = ekstre.ZwebSelectEkstre("", yillar[j].ToString(), "", out yirmiuc2); // 20160101
                     SAPs.LogYaz("ekstre sonrasi", true, "sap yanıt verdi, " + yillar[j].ToString() + " yılı verisi alındı, " + (yirmiuc.Length + yirmiuc2.Length).ToString() + " satır", DateTime.Now, DateTime.Now);
+                    ayniyiltekrar = 0;
                 }
                 catch (Exception ex)
                 {
-                    SAPs.LogYaz("ekstre", true, "sap hata döndürdü:" + ex.Message, DateTime.Now, DateTime.Now);
+                    SAPs.LogYaz("ekstre", true, "sap hata döndürdü " + yillar[j].ToString() + ":" + ex.Message, DateTime.Now, DateTime.Now);
                     buyilhatayok = false;
+                    if (ayniyiltekrar < 3)
+                    {
+                        j--;
+                        ayniyiltekrar++;
+                    }
+                    else
+                    {
+                        ayniyiltekrar = 0;
+                    }
                 }
 
 

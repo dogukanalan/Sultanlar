@@ -493,25 +493,18 @@ namespace Sultanlar.UI
                 string smref = ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString();
                 string bayi = ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI;
                 string tablo = "[tbl_" + smref + "_Satis]";
-                string sorgu = "SELECT count(DISTINCT CH_KOD) FROM " + tablo + " AS SATIS LEFT OUTER JOIN [KurumsalWebSAP].dbo.[Web-Musteri-TP] AS CARI ON SATIS.[CH_KOD] = CARI.[MUS KOD] WHERE [MUS KOD] IS NULL";
-                int satirsayisi = Convert.ToInt32(DisVeri.ExecSc(sorgu));
-                if (satirsayisi == 0)
+                if (MessageBox.Show("(" + smref + ") " + bayi + " bayisinin " + textBox21.Text.Trim() + "-" + textBox22.Text.Trim() + " dönemi satış verisi, " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi ticari pazarlama satış verisinin üzerine yazılacak. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
-                    if (MessageBox.Show("(" + smref + ") " + bayi + " bayisinin " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi satış verisi, " + textBox21.Text.Trim() + "-" + textBox22.Text.Trim() + " dönemi ticari pazarlama satış verisinin üzerine yazılacak. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    int satirsayisi = DisVeri.SatisAktar(smref, bayi, tablo, textBox23.Text.Trim(), textBox24.Text.Trim());
+                    if (satirsayisi == 0)
                     {
-                        string yazsorgu = "DELETE FROM [KurumsalWebSAP].dbo.[Web-Satis-Rapor-TP] WHERE BAYIKOD = " + smref + " AND NOKTASATYIL = " + textBox23.Text.Trim() + " AND NOKTASATAY = " + textBox24.Text.Trim() +
-                            " INSERT INTO [KurumsalWebSAP].dbo.[Web-Satis-Rapor-TP] ([BAYIKOD],[NOKTAAD],[NOKTAEVRAKNO],[NOKTAEVREKTARIH],[URUNKOD],[URUNAD],[NOKTASATADET],[NOKTASATNET],[NOKTASATAY],[NOKTASATYIL],[intAnlasmaID],[intAktiviteID],[flIsk1],[flIsk2],[flIsk3],[flIsk4],[mnListeFiyat],[mnListeFiyatKarli],[mnNetBirimFiyat],[mnNetToplam],[mnBirimFark],[mnToplamFark],[blGeriyeDonuk],[mnFaturadanKapatilan],[intFaturaID],[NOKTAREF],[NOKTAKOD])" +
-                            " SELECT " + smref + " AS BAYIKOD, CH_ACIKLAMA, FAT_NO, CONVERT(smalldatetime, LEFT(FAT_TAR, 10)), MAL_KOD, MAL_ACIKLAMA, CONVERT(int, ADET), CONVERT(float, NET_TOP) / CONVERT(int, ADET), AY, YIL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'False', 0, 0, 0, CH_KOD FROM " + tablo + " WHERE YIL = " + textBox23.Text.Trim() + "AND AY = " + textBox24.Text.Trim();
-                        if (DisVeri.ExecNQ(yazsorgu))
-                            MessageBox.Show("(" + smref + ") " + bayi + " bayisinin " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi ticari pazarlama satış tablosuna yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        else
-                            MessageBox.Show("Satış yazma işleminde hata oluştu, veri tipleri uyuşmadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("(" + smref + ") " + bayi + " bayisinin " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi ticari pazarlama satış tablosuna yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Eşleşmeyen cariler var. Toplam cari sayısı: " + satirsayisi.ToString(), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-                    button18.PerformClick();
+                    else
+                    {
+                        MessageBox.Show("Eşleşmeyen cariler var. Toplam cari sayısı: " + satirsayisi.ToString(), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        button18.PerformClick();
+                    }
                 }
             }
         }
@@ -522,13 +515,10 @@ namespace Sultanlar.UI
             {
                 string smref = ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString();
                 string bayi = ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI;
-                if (MessageBox.Show("(" + smref + ") " + bayi + " bayisinin " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi stok verisi, " + textBox21.Text.Trim() + "-" + textBox22.Text.Trim() + " dönemi ticari pazarlama stok verisinin üzerine yazılacak. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                if (MessageBox.Show("(" + smref + ") " + bayi + " bayisinin stok verisi, " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi ticari pazarlama stok verisinin üzerine yazılacak. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
                     string tablo = "[tbl_" + smref + "_Stok]";
-                    string yazsorgu = "DELETE FROM [KurumsalWebSAP].dbo.[Web-Bayi-Stok] WHERE SMREF = " + smref + " AND YIL = " + textBox23.Text.Trim() + " AND AY = " + textBox24.Text.Trim() +
-                            " INSERT INTO [KurumsalWebSAP].dbo.[Web-Bayi-Stok] ([SMREF],[YIL],[AY],[ITEMREF],[STOK],[ZAMAN])" +
-                            " SELECT " + smref + " AS SMREF, YEAR(getdate()), MONTH(getdate()), MAL_KOD, ISNULL(STOK,0), getdate() FROM " + tablo;
-                    if (DisVeri.ExecNQ(yazsorgu))
+                    if (DisVeri.StokAktar(smref, bayi, tablo, textBox23.Text.Trim(), textBox24.Text.Trim()))
                         MessageBox.Show("(" + smref + ") " + bayi + " bayisinin " + textBox23.Text.Trim() + "-" + textBox24.Text.Trim() + " dönemi ticari pazarlama stok tablosuna yazma işlemi tamamlandı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
                         MessageBox.Show("Stok yazma işleminde hata oluştu, veri tipleri uyuşmadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);

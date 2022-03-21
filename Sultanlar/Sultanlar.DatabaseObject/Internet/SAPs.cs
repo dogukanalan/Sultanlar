@@ -56,6 +56,23 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
 
+        public static void BayiLogYaz(string servis, bool basarili, string log, DateTime baslangic, DateTime bitis)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmdLog = new SqlCommand("INSERT INTO [BAYI_SERVIS_LOG] ([dtZaman],[strServis],blBasarili,[strLog],dtBaslangic,dtBitis) VALUES (@dtZaman,@strServis,@blBasarili,@strLog,@dtBaslangic,@dtBitis)", conn);
+                cmdLog.Parameters.AddWithValue("@dtZaman", DateTime.Now);
+                cmdLog.Parameters.AddWithValue("@strServis", servis);
+                cmdLog.Parameters.AddWithValue("@blBasarili", basarili);
+                cmdLog.Parameters.AddWithValue("@strLog", log);
+                cmdLog.Parameters.AddWithValue("@dtBaslangic", baslangic);
+                cmdLog.Parameters.AddWithValue("@dtBitis", bitis);
+                conn.Open();
+                cmdLog.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
         public static void HataYaz(string tablo, string key1, string key2, string key3, string key4, string key5, string log, DateTime baslangic, DateTime bitis)
         {
             using(SqlConnection conn = new SqlConnection(General.ConnectionString))

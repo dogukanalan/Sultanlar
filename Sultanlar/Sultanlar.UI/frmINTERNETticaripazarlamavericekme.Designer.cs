@@ -92,6 +92,7 @@
             this.button17 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.button18 = new System.Windows.Forms.Button();
@@ -102,7 +103,6 @@
             this.label22 = new System.Windows.Forms.Label();
             this.textBox23 = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -111,6 +111,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(98, 5);
             this.comboBox1.Name = "comboBox1";
@@ -603,6 +604,7 @@
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(246, 589);
             this.checkedListBox1.TabIndex = 32;
+            this.checkedListBox1.Visible = false;
             // 
             // button12
             // 
@@ -740,6 +742,16 @@
             this.groupBox2.TabIndex = 34;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Toplu Veri Çekme İşlemleri";
+            this.groupBox2.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(435, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(25, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "---->";
             // 
             // label20
             // 
@@ -805,11 +817,11 @@
             // 
             // button19
             // 
-            this.button19.Location = new System.Drawing.Point(170, 13);
+            this.button19.Location = new System.Drawing.Point(192, 13);
             this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(154, 23);
+            this.button19.Size = new System.Drawing.Size(132, 23);
             this.button19.TabIndex = 35;
-            this.button19.Text = "Dönemi Satış Tablosuna Yaz";
+            this.button19.Text = "Satış Tablosunu Yaz";
             this.button19.UseVisualStyleBackColor = true;
             this.button19.Click += new System.EventHandler(this.button19_Click);
             // 
@@ -839,15 +851,6 @@
             this.label21.Size = new System.Drawing.Size(23, 13);
             this.label21.TabIndex = 1;
             this.label21.Text = "YIL";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(435, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "---->";
             // 
             // frmINTERNETticaripazarlamavericekme
             // 

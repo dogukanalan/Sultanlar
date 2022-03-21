@@ -12,6 +12,7 @@ namespace Sultanlar.DatabaseObject.Internet
     {
         public int pkID { get; set; }
         public int SMREF { get; set; }
+        public CariHesaplarTP CHTP { get { return CariHesaplarTP.GetObject(SMREF, true); } }
         public string SUNUCU { get; set; }
         public string VERITABANI { get; set; }
         public string KULLANICI { get; set; }
@@ -419,7 +420,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
                 if (hatali)
                 {
-                    SAPs.LogYaz("bayi servis", true, tabloadi + " gelen veri ile varolan tablo alanları uyumlu değil. Gelen kolonlar: " + gelenkolonlar + " Var olan kolonlar: " + varolankolonlar + " Gelen tablo satır sayısı: " + dt.Rows.Count.ToString(), DateTime.Now, DateTime.Now);
+                    SAPs.BayiLogYaz("bayi servis", true, tabloadi + " gelen veri ile varolan tablo alanları uyumlu değil. Gelen kolonlar: " + gelenkolonlar + " Var olan kolonlar: " + varolankolonlar + " Gelen tablo satır sayısı: " + dt.Rows.Count.ToString(), DateTime.Now, DateTime.Now);
                     return false;
                 }
             }
@@ -466,7 +467,7 @@ namespace Sultanlar.DatabaseObject.Internet
                     donendeger = "nvarchar(255)";
                     break;
                 case "DateTime":
-                    donendeger = "datetime";
+                    donendeger = "nvarchar(255)";
                     break;
                 case "Double":
                     donendeger = "float";
@@ -499,20 +500,24 @@ namespace Sultanlar.DatabaseObject.Internet
                 if (dv.SUNUCU != string.Empty && dv.VERITABANI != string.Empty && dv.KULLANICI != string.Empty && dv.SIFRE != string.Empty
                     && ((satis && dv.VERISORGU != string.Empty) || (!satis && dv.STOKSORGU != string.Empty)))
                 {
-                    DateTime baslangic = DateTime.Now;
+                    int LOC_AY = Convert.ToInt32(AY);
+                    for (int i = LOC_AY; i > LOC_AY - 3; i--)
+                    {
+                        DateTime baslangic = DateTime.Now;
 
-                    SqlConnection conn = new SqlConnection("Server=" + dv.SUNUCU + "; Database=" + dv.VERITABANI + "; User Id=" + dv.KULLANICI + "; Password=" + dv.SIFRE + "; Trusted_Connection=False;");
-                    SqlDataAdapter da = new SqlDataAdapter("", conn);
-                    string sorgu = satis ? dv.VERISORGU : dv.STOKSORGU;
-                    da.SelectCommand.CommandText = "SELECT * FROM (" + sorgu + ") AS TABLO" + (satis ? " WHERE " + dv.YILKOLON + "=" + YIL + " AND " + dv.AYKOLON + "=" + AY : "");
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
+                        SqlConnection conn = new SqlConnection("Server=" + dv.SUNUCU + "; Database=" + dv.VERITABANI + "; User Id=" + dv.KULLANICI + "; Password=" + dv.SIFRE + "; Trusted_Connection=False;");
+                        SqlDataAdapter da = new SqlDataAdapter("", conn);
+                        string sorgu = satis ? dv.VERISORGU : dv.STOKSORGU;
+                        da.SelectCommand.CommandText = "SELECT * FROM (" + sorgu + ") AS TABLO" + (satis ? " WHERE " + dv.YILKOLON + "=" + YIL + " AND " + dv.AYKOLON + "=" + i.ToString() : "");
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
 
-                    string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
-                    if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, AY))
-                        donendeger = false;
+                        string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
+                        if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, i.ToString()))
+                            donendeger = false;
 
-                    SAPs.LogYaz("bayi servis sql " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + AY + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
+                        SAPs.BayiLogYaz("bayi servis sql " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + i.ToString() + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
+                    }
                 }
             }
 
@@ -529,24 +534,88 @@ namespace Sultanlar.DatabaseObject.Internet
                 if (dv.SUNUCU != string.Empty && dv.VERITABANI != string.Empty && dv.KULLANICI != string.Empty && dv.SIFRE != string.Empty
                     && ((satis && dv.VERIXML != string.Empty) || (!satis && dv.STOKXML != string.Empty)))
                 {
-                    DateTime baslangic = DateTime.Now;
+                    int LOC_AY = Convert.ToInt32(AY);
+                    for (int i = LOC_AY; i > LOC_AY - 3; i--)
+                    {
+                        DateTime baslangic = DateTime.Now;
 
-                    System.Xml.XmlReader xmlFile;
-                    xmlFile = System.Xml.XmlReader.Create((satis ? dv.VERIXML : dv.STOKXML) + "&" + 
-                        XmlParams(dv.SUNUCU, dv.VERITABANI, dv.KULLANICI, dv.SIFRE, (satis ? dv.YILKOLON : dv.YILKOLON1), YIL, (satis ? dv.AYKOLON : dv.AYKOLON1), AY), new System.Xml.XmlReaderSettings());
-                    DataSet ds = new DataSet("tbl_");
-                    ds.ReadXml(xmlFile);
-                    DataTable dt = ds.Tables[0];
+                        System.Xml.XmlReader xmlFile;
+                        xmlFile = System.Xml.XmlReader.Create((satis ? dv.VERIXML : dv.STOKXML) + "&" +
+                            XmlParams(dv.SUNUCU, dv.VERITABANI, dv.KULLANICI, dv.SIFRE, (satis ? dv.YILKOLON : dv.YILKOLON1), YIL, (satis ? dv.AYKOLON : dv.AYKOLON1), i.ToString()), new System.Xml.XmlReaderSettings());
+                        DataSet ds = new DataSet("tbl_");
+                        ds.ReadXml(xmlFile);
+                        DataTable dt = ds.Tables[0];
 
-                    string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
-                    if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, AY))
-                        donendeger = false;
+                        string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
+                        if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, i.ToString()))
+                            donendeger = false;
 
-                    SAPs.LogYaz("bayi servis xml " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + AY + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
+                        SAPs.BayiLogYaz("bayi servis xml " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + i.ToString() + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
+                    }
                 }
             }
 
             return donendeger;
+        }
+
+        public static void VeriAktar(bool satis, string yil, string ay, ArrayList bayiler)
+        {
+            List<DisVeri> dvl = bayiler.Count == 0 ? GetObjects() : GetObjects(bayiler);
+            foreach (DisVeri dv in dvl)
+            {
+                if (dv.VERITABANI != string.Empty && dv.KULLANICI != string.Empty && dv.SIFRE != string.Empty)
+                {
+                    string tablo = "[tbl_" + dv.SMREF + (satis ? "_Satis]" : "_Stok]");
+                    if (satis)
+                        SatisAktar(dv.SMREF.ToString(), dv.CHTP.MUSTERI, tablo, yil, ay);
+                    else
+                        StokAktar(dv.SMREF.ToString(), dv.CHTP.MUSTERI, tablo, yil, ay);
+                }
+            }
+        }
+
+        public static int SatisAktar(string smref, string bayi, string tablo, string yil, string ay)
+        {
+            string sorgu = "SELECT count(DISTINCT CH_KOD) FROM " + tablo + " AS SATIS LEFT OUTER JOIN [KurumsalWebSAP].dbo.[Web-Musteri-TP] AS CARI ON SATIS.[CH_KOD] = CARI.[MUS KOD] WHERE [MUS KOD] IS NULL";
+            int satirsayisi = Convert.ToInt32(ExecSc(sorgu));
+            if (satirsayisi == 0)
+            {
+                int LOC_AY = Convert.ToInt32(ay);
+                for (int i = LOC_AY; i > LOC_AY - 3; i--)
+                {
+                    DateTime baslangic = DateTime.Now;
+
+                    string yazsorgu = "DELETE FROM [KurumsalWebSAP].dbo.[Web-Satis-Rapor-TP] WHERE BAYIKOD = " + smref + " AND NOKTASATYIL = " + yil + " AND NOKTASATAY = " + i.ToString() +
+                        " INSERT INTO [KurumsalWebSAP].dbo.[Web-Satis-Rapor-TP] ([BAYIKOD],[NOKTAAD],[NOKTAEVRAKNO],[NOKTAEVREKTARIH],[URUNKOD],[URUNAD],[NOKTASATADET],[NOKTASATNET],[NOKTASATAY],[NOKTASATYIL],[intAnlasmaID],[intAktiviteID],[flIsk1],[flIsk2],[flIsk3],[flIsk4],[mnListeFiyat],[mnListeFiyatKarli],[mnNetBirimFiyat],[mnNetToplam],[mnBirimFark],[mnToplamFark],[blGeriyeDonuk],[mnFaturadanKapatilan],[intFaturaID],[NOKTAREF],[NOKTAKOD])" +
+                        " SELECT " + smref + " AS BAYIKOD, CH_ACIKLAMA, FAT_NO, CONVERT(smalldatetime, LEFT(FAT_TAR, 10)), MAL_KOD, MAL_ACIKLAMA, CONVERT(int, ADET), CONVERT(float, NET_TOP) / CONVERT(int, ADET), AY, YIL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'False', 0, 0, 0, CH_KOD FROM " + tablo + " WHERE YIL = " + yil + "AND AY = " + i.ToString();
+                    if (ExecNQ(yazsorgu))
+                        SAPs.BayiLogYaz("veri yazma satış", true, "(" + smref + ") " + bayi + " bayisinin " + yil + "-" + i.ToString() + " dönemi ticari pazarlama satış tablosuna yazma işlemi tamamlandı.", baslangic, DateTime.Now);
+                    else
+                        SAPs.BayiLogYaz("veri yazma satış", false, "(" + smref + ") " + bayi + " bayisinin " + yil + "-" + i.ToString() + " dönemi ticari pazarlama satış tablosuna yazılamadı.", baslangic, DateTime.Now);
+                }
+            }
+
+            return satirsayisi;
+        }
+
+        public static bool StokAktar(string smref, string bayi, string tablo, string yil, string ay)
+        {
+            DateTime baslangic = DateTime.Now;
+
+            string yazsorgu = "DELETE FROM [KurumsalWebSAP].dbo.[Web-Bayi-Stok] WHERE SMREF = " + smref + " AND YIL = " + yil + " AND AY = " + ay +
+                    " INSERT INTO [KurumsalWebSAP].dbo.[Web-Bayi-Stok] ([SMREF],[YIL],[AY],[ITEMREF],[STOK],[ZAMAN])" +
+                    " SELECT " + smref + " AS SMREF, YEAR(getdate()), MONTH(getdate()), MAL_KOD, ISNULL(STOK,0), getdate() FROM " + tablo;
+            if (ExecNQ(yazsorgu))
+            {
+                SAPs.BayiLogYaz("veri yazma stok", true, "(" + smref + ") " + bayi + " bayisinin " + yil + "-" + ay + " dönemi ticari pazarlama stok tablosuna yazma işlemi tamamlandı.", baslangic, DateTime.Now);
+            }
+            else
+            {
+                SAPs.BayiLogYaz("veri yazma stok", false, "(" + smref + ") " + bayi + " bayisinin " + yil + "-" + ay + " dönemi ticari pazarlama stok tablosuna yazılamadı.", baslangic, DateTime.Now);
+                return false;
+            }
+            
+            return true;
         }
     }
 }
