@@ -47,7 +47,7 @@ namespace Sultanlar.WindowsServiceIslemler
         protected override void OnStart(string[] args)
         {
             System.Diagnostics.EventLog.WriteEntry("Sultanlar-Windows Servis", "başladı");
-            nc1 = new NetworkCredential("mehmetistif", "123456q");
+            nc1 = new NetworkCredential("MISTIF", "Ankara1923*+B");
 
             eczaneleregirdi = false;
             androidveritabanigirdi = false;
@@ -765,7 +765,7 @@ namespace Sultanlar.WindowsServiceIslemler
         {
             //DisVeri.BayiServis(YIL, AY, satis, bayiler);
             DisVeri.BayiServisXML(YIL, AY, satis, bayiler);
-            DisVeri.VeriAktar(satis, YIL, AY, bayiler);
+            //DisVeri.VeriAktar(satis, YIL, AY, bayiler);
         }
         #endregion
 
@@ -4153,11 +4153,11 @@ namespace Sultanlar.WindowsServiceIslemler
 
 
 
-            MalzemelerC(false, true); // ölçü birim tablo yenilemesi satisupdate ile çakışmaması için
-
-
-
             SatisUpdate(conn);
+
+
+
+            MalzemelerC(false, true); // ölçü birim tablo yenilemesi satisupdate ile çakışmaması için
 
 
 
@@ -5460,6 +5460,8 @@ namespace Sultanlar.WindowsServiceIslemler
         {
             DateTime baslangic = DateTime.Now;
             string hata = string.Empty;
+
+            SAPs.LogYaz("satis update basladi", true, "", DateTime.Now, DateTime.Now);
 
             try
             {
