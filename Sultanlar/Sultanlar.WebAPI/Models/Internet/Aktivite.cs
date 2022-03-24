@@ -48,7 +48,8 @@ namespace Sultanlar.WebAPI.Models.Internet
         public List<AktiviteKaydetDetay> detaylar { get; set; }
 
         public int yil { get { return Convert.ToInt32(donem.Substring(0, 4)); } }
-        public int ay { get { return Convert.ToInt32(donem.Substring(5, 2)); } }
+        public int ay { get { return Convert.ToInt32(donem.Substring(5, donem.LastIndexOf("/") - 5)); } }
+        public int gun { get { return Convert.ToInt32(donem.Substring(donem.LastIndexOf("/") + 1, 2)); } }
     }
 
     public class AktiviteKaydetDetay

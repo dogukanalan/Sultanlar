@@ -16,7 +16,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal List<fiyatlarTp> FiyatlarTP() => new fiyatlarTp().GetObjects();
 
-        internal List<fiyatlarTp> FiyatlarTP(int YIL, int AY, int TIP) => new fiyatlarTp().GetObjects(YIL, AY, TIP);
+        internal List<fiyatlarTp> FiyatlarTP(int YIL, int AY, int GUN, int TIP) => new fiyatlarTp().GetObjects(YIL, AY, GUN, TIP);
 
         internal fiyatlarTp FiyatTP(int YIL, int AY, int TIP, int ITEMREF) => new fiyatlarTp(YIL, AY, TIP, ITEMREF).GetObject();
     }

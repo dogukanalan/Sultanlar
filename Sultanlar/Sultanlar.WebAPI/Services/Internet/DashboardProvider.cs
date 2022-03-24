@@ -17,5 +17,6 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal List<BolumYillik> DashboardYillikBolum(int Yil, int Slsref) => new satisDashboard().GetBolumYillik(Yil, Slsref);
         internal List<BayiSatisHedef> DashboardBayiSatisHedef(int Yil, int Ay) => new satisDashboard().GetBayiSatisHedef(Yil, Ay);
         internal List<SatisHedefVgb> DashboardSatisHedefVgb(int Yil, int Ay) => new satisDashboard().GetSatisHedefVgb(Yil, Ay);
+        internal List<SatisHedefBolge> DashboardSatisHedefBolge(int Yil, int Ay) => new satisDashboard().GetSatisHedefBolge(Yil, Ay);
     }
 }

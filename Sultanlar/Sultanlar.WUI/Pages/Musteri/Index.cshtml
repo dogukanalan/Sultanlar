@@ -7,8 +7,16 @@
 @section head {
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
 
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.13.0/pivot.min.css" />*@
+
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-basic-latest.min.js"></script>
+    <script src="~/js/pivot.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.22.0/plotly_renderers.min.js"></script>*@
 
     <script>
         function SaticilarGetir(uyeid) {
@@ -67,6 +75,18 @@
 
                         $('[data-toggle="tooltip"]').tooltip();
                         $('[data-toggle="tooltip"]').css("cursor", "pointer");
+
+                        /*$("#output").pivotUI(data, {
+                            rows: ["musteri"],
+                            cols: ["gmref"],
+                            vals: ["smref"],
+                            aggregatorName: "Sum over Sum",
+                            rendererName: "Heatmap",
+                            renderers: $.extend(
+                                $.pivotUtilities.renderers,
+                                $.pivotUtilities.plotly_renderers
+                            )
+                        });*/
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
@@ -107,3 +127,5 @@
 </select>
 
 <div id="divData"></div>
+
+<div id="output"></div>

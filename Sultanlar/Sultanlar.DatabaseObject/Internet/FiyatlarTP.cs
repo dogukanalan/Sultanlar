@@ -50,6 +50,34 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
             }
         }
+        /// <summary>
+        /// [Web-Fiyat-TP-3]
+        /// </summary>
+        public static void GetObjects(DataTable dt, short FiyatTipi, int Yil, int Ay, int Gun)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("sp_FiyatTPGetir3", conn);
+                da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand.Parameters.Add("@YIL", SqlDbType.Int).Value = Yil;
+                da.SelectCommand.Parameters.Add("@AY", SqlDbType.Int).Value = Ay;
+                da.SelectCommand.Parameters.Add("@GUN", SqlDbType.Int).Value = Gun;
+                da.SelectCommand.Parameters.Add("@TIP", SqlDbType.Int).Value = FiyatTipi;
+                try
+                {
+                    conn.Open();
+                    da.Fill(dt);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
 
         public static decimal GetFiyat(int UrunID, short FiyatTipi, int Yil, int Ay)
         {
@@ -58,6 +86,35 @@ namespace Sultanlar.DatabaseObject.Internet
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand("SELECT FIYAT FROM [Web-Fiyat-TP] WHERE ITEMREF = " + UrunID.ToString() + " AND TIP = " + FiyatTipi.ToString() + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString(), conn);
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                        donendeger = Convert.ToDecimal(obj);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        /// <summary>
+        /// [Web-Fiyat-TP-3]
+        /// </summary>
+        public static decimal GetFiyat(int UrunID, short FiyatTipi, int Yil, int Ay, int Gun)
+        {
+            decimal donendeger = 0;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT max(FIYAT) AS FIYAT FROM [Web-Fiyat-TP] WHERE ITEMREF = " + UrunID.ToString() + " AND TIP = " + FiyatTipi.ToString() + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString(), conn);
                 try
                 {
                     conn.Open();
@@ -107,6 +164,37 @@ namespace Sultanlar.DatabaseObject.Internet
             return donendeger;
         }
         /// <summary>
+        /// [Web-Fiyat-TP-3]
+        /// </summary>
+        public static decimal GetNetFiyat(int UrunID, short FiyatTipi, int Yil, int Ay, int Gun)
+        {
+            decimal donendeger = 0;
+
+            string fiyattip = FiyatTipi != 7 ? (" AND TIP = " + FiyatTipi.ToString()) : (" AND (TIP = 7 OR TIP > 500)"); // bazı ürünlerin sadece 500 lülerde fiyatı oluyor f7 de olmuyor örneğin hakmar ürünü migros ürünü
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT max(NET) AS NET FROM [Web-Fiyat-TP] WHERE ITEMREF = " + UrunID.ToString() + fiyattip + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString(), conn);
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                        donendeger = Convert.ToDecimal(obj);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        /// <summary>
         /// Eğer iskonto yoksa şu andaki fiyat tablosuna bakıyor
         /// </summary>
         public static double GetIskFiyat(int UrunID, int ISK, short FiyatTipi, int Yil, int Ay)
@@ -116,6 +204,46 @@ namespace Sultanlar.DatabaseObject.Internet
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand("SELECT ISK" + ISK.ToString() + " FROM [Web-Fiyat-TP] WHERE ITEMREF = " + UrunID.ToString() + " AND TIP = " + FiyatTipi.ToString() + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString(), conn);
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                    {
+                        donendeger = Convert.ToDouble(obj);
+                    }
+                    else
+                    {
+                        int iskonto = ISK <= 4 ? ISK - 1 : ISK;
+                        obj = Urunler.GetProductDiscountsAndPriceFULL(
+                                UrunID, FiyatTipi)[iskonto];
+
+                        if (obj != null)
+                            donendeger = Convert.ToDouble(obj);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        /// <summary>
+        /// [Web-Fiyat-TP-3] Eğer iskonto yoksa şu andaki fiyat tablosuna bakıyor
+        /// </summary>
+        public static double GetIskFiyat(int UrunID, int ISK, short FiyatTipi, int Yil, int Ay, int Gun)
+        {
+            double donendeger = 0;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT max(ISK" + ISK.ToString() + ") AS ISK" + ISK.ToString() + " FROM [Web-Fiyat-TP-3] WHERE ITEMREF = " + UrunID.ToString() + " AND TIP = " + FiyatTipi.ToString() + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString(), conn);
                 try
                 {
                     conn.Open();

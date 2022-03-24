@@ -378,7 +378,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 sorgu += "[" + dt.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", "") + "] " + VeriDonustur(dt.Columns[i].DataType.Name) + " NULL,";
             }
 
-            sorgu = sorgu.Substring(0, sorgu.Length - 1) + ")";
+            sorgu += "[CEKIM_TARIH] datetime NULL)";
 
             ExecNQ(sorgu);
         }
@@ -397,6 +397,8 @@ namespace Sultanlar.DatabaseObject.Internet
 
         public static bool VeriYaz(string tabloadi, bool yeniolustu, DataTable dt1, string yilad, string yildeger, string ayad, string aydeger)
         {
+            DateTime simdi = DateTime.Now;
+
             ArrayList kolonlar = new ArrayList();
             string gelenkolonlar = string.Empty;
             for (int i = 0; i < dt1.Columns.Count; i++)
@@ -404,6 +406,8 @@ namespace Sultanlar.DatabaseObject.Internet
                 kolonlar.Add(dt1.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", ""));
                 gelenkolonlar += dt1.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", "") + ",";
             }
+            kolonlar.Add("CEKIM_TARIH");
+            gelenkolonlar += "CEKIM_TARIH";
 
             string varolankolonlar = string.Empty;
             if (!yeniolustu) //gelen kolonlar ile yazılmış tablodaki aynı mı kontrol et
@@ -439,7 +443,10 @@ namespace Sultanlar.DatabaseObject.Internet
                 for (int j = 0; j < kolonlar.Count; j++)
                 {
                     kolonsorgu += "[" + kolonlar[j] + "],";
-                    veriler[j] = dt1.Rows[i][j];
+                    if (kolonlar[j].ToString() == "CEKIM_TARIH")
+                        veriler[j] = simdi;
+                    else
+                        veriler[j] = dt1.Rows[i][j];
                 }
 
                 kolonsorgu = kolonsorgu.Substring(0, kolonsorgu.Length - 1);
@@ -501,7 +508,8 @@ namespace Sultanlar.DatabaseObject.Internet
                     && ((satis && dv.VERISORGU != string.Empty) || (!satis && dv.STOKSORGU != string.Empty)))
                 {
                     int LOC_AY = Convert.ToInt32(AY);
-                    for (int i = LOC_AY; i > LOC_AY - 3; i--)
+                    int GERI_AY = satis ? 3 : 1;
+                    for (int i = LOC_AY; i > LOC_AY - GERI_AY; i--)
                     {
                         DateTime baslangic = DateTime.Now;
 
@@ -535,7 +543,8 @@ namespace Sultanlar.DatabaseObject.Internet
                     && ((satis && dv.VERIXML != string.Empty) || (!satis && dv.STOKXML != string.Empty)))
                 {
                     int LOC_AY = Convert.ToInt32(AY);
-                    for (int i = LOC_AY; i > LOC_AY - 3; i--)
+                    int GERI_AY = satis ? 3 : 1;
+                    for (int i = LOC_AY; i > LOC_AY - GERI_AY; i--)
                     {
                         DateTime baslangic = DateTime.Now;
 

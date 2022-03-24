@@ -26,9 +26,7 @@
             $('#inputDonem').datepicker({
                 locale: "tr",
                 language: "tr",
-                format: "yyyy/mm",
-                viewMode: "months",
-                minViewMode: "months"
+                format: "yyyy/mm/dd"
             });
             $('#inputDonem').on('changeDate', function (ev) {
                 $('#divProgress').css("display", "block");
@@ -52,6 +50,10 @@
                     $("#btnDevam").attr("disabled", false);
                 }
             });
+
+            var today = new Date();
+            $('#inputDonem').val(today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate());
+            anlasmaGetir(today.getFullYear(), today.getMonth() + 1, getParameterByName('smref'), getParameterByName('tip'));
         });
 
         function anlasmaGetir(yil, ay, smref, tip) {
@@ -85,6 +87,10 @@
                             yegfataltciro = 0;
                             yegciroprim = 0;
                             $("#btnDevam").attr("disabled", false);
+                        }
+                        else {
+                            //$("#selectAnlasmalar").prop("selectedIndex", 1);
+                            //$("#btnDevam").attr("disabled", false);
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }

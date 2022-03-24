@@ -67,6 +67,8 @@
             this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
             this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
+            this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
@@ -74,9 +76,6 @@
             // gridControl1
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            // 
-            // 
-            // 
             this.gridControl1.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
             this.gridControl1.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
             this.gridControl1.EmbeddedNavigator.Appearance.Options.UseBackColor = true;
@@ -168,6 +167,8 @@
             this.gridColumn6.FieldName = "GRUP KOD";
             this.gridColumn6.Name = "gridColumn6";
             this.gridColumn6.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
+            this.gridColumn6.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "GRUP KOD", "T.: {0}")});
             this.gridColumn6.Visible = true;
             this.gridColumn6.VisibleIndex = 0;
             // 
@@ -411,6 +412,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(77, 21);
             this.comboBox1.TabIndex = 6;
+            this.comboBox1.Visible = false;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
             // comboBox2
@@ -434,6 +436,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(77, 21);
             this.comboBox2.TabIndex = 6;
+            this.comboBox2.Visible = false;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
             // comboBox3
@@ -457,7 +460,7 @@
             // 
             // simpleButton1
             // 
-            this.simpleButton1.Location = new System.Drawing.Point(303, 2);
+            this.simpleButton1.Location = new System.Drawing.Point(386, 1);
             this.simpleButton1.Name = "simpleButton1";
             this.simpleButton1.Size = new System.Drawing.Size(75, 22);
             this.simpleButton1.TabIndex = 7;
@@ -492,15 +495,36 @@
             this.simpleButton4.Text = "Excel";
             this.simpleButton4.Click += new System.EventHandler(this.simpleButton4_Click);
             // 
+            // comboBox4
+            // 
+            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox4.FormattingEnabled = true;
+            this.comboBox4.Location = new System.Drawing.Point(303, 2);
+            this.comboBox4.Name = "comboBox4";
+            this.comboBox4.Size = new System.Drawing.Size(77, 21);
+            this.comboBox4.TabIndex = 6;
+            this.comboBox4.Visible = false;
+            this.comboBox4.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(147, 2);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(233, 20);
+            this.dateTimePicker1.TabIndex = 8;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
             // frmINTERNETticaripazarlamastoklar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 492);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.simpleButton2);
             this.Controls.Add(this.simpleButton3);
             this.Controls.Add(this.simpleButton4);
             this.Controls.Add(this.simpleButton1);
+            this.Controls.Add(this.comboBox4);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.comboBox1);
@@ -556,5 +580,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn29;
         private DevExpress.XtraEditors.SimpleButton simpleButton3;
         private DevExpress.XtraEditors.SimpleButton simpleButton4;
+        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

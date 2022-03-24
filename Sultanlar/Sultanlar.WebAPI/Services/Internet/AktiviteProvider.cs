@@ -146,7 +146,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             for (int i = 0; i < akg.detaylar.Count; i++)
             {
                 malzemeler malzeme = new malzemeler(akg.detaylar[i].urun).GetObject();
-                fiyatlarTp fiyat = new fiyatlarTp(akg.yil, akg.ay, akg.fiyattipi, akg.detaylar[i].urun).GetObject();
+                fiyatlarTp fiyat = new fiyatlarTp().GetObject(akg.yil, akg.ay, akg.gun, akg.fiyattipi, akg.detaylar[i].urun);
                 double isk1 = akg.detaylar[i].fatalt;
                 double isk2 = akg.detaylar[i].fataltciro;
                 double isk3 = akg.detaylar[i].pazisk;
@@ -162,7 +162,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                     akg.detaylar[i].urun, 
                     akg.detaylar[i].urunacik,
                     Convert.ToInt32(malzeme.KOLI),
-                    fiyat.FIYAT, 
+                    birimfiyatkdvli, 
                     akg.detaylar[i].aksiyon,
                     0, 
                     akg.detaylar[i].miktar,

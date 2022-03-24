@@ -515,261 +515,6 @@ namespace Sultanlar.UI
             }
         }
 
-        //private void Hesapla(int Kactan, int KacaKadar)
-        //{
-        //    decimal ToplamTAH = 0;
-        //    decimal ToplamYEG = 0;
-
-        //    string olmayanurunler = string.Empty;
-
-        //    string oncekitext = this.Text;
-        //    this.Enabled = false;
-        //    progressBar1.Visible = true;
-        //    for (int i = Kactan; i < KacaKadar; i++)
-        //    {
-        //        double kar = 0;
-        //        double isk1 = 0;
-        //        double isk2 = 0;
-        //        double isk3 = 0;
-        //        double isk4 = 0;
-
-        //        object objTAH = null;
-        //        string grupkod = Urunler.GetProductGRPKOD(gridView1.GetRowCellValue(i, "URUNKOD").ToString());
-        //        if (grupkod == "STG-1")
-        //            objTAH = true;
-        //        else if (grupkod == "STG-2")
-        //            objTAH = false;
-        //        else if (grupkod == string.Empty)
-        //            olmayanurunler += "(" + gridView1.GetRowCellValue(i, "URUNKOD").ToString() + ") " + gridView1.GetRowCellValue(i, "URUNAD").ToString() + "\r\n";
-
-        //        if (objTAH != null) // ürünün bizde karşılığı varsa
-        //        {
-        //            bool TAH = Convert.ToBoolean(objTAH);
-
-        //            if (gridView1.GetRowCellValue(i, "BAYIKOD").ToString() == "1001327") // sultanlar ise
-        //            {
-        //                kar = TAH ? 11 : 15;
-
-        //                long aktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(
-        //                    Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTAAD")), // satış raporunu excelden aktarırken sultanlarda smref i yazıyoruz
-        //                    Urunler.GetProductUrunID(gridView1.GetRowCellValue(i, "URUNKOD").ToString()),
-        //                    Convert.ToDateTime(gridView1.GetRowCellValue(i, "NOKTAEVREKTARIH")));
-        //                int anlasmaid = Anlasmalar.GetTarihAraligiAnlasmaID(
-        //                    CariHesaplar.GetGMREFBySMREF(Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTAAD"))),
-        //                    Convert.ToDateTime(gridView1.GetRowCellValue(i, "NOKTAEVREKTARIH")));
-
-        //                if (aktivitedetayid > 0)
-        //                {
-        //                    AktivitelerDetay aktlerdet = AktivitelerDetay.GetObject(aktivitedetayid);
-        //                    isk1 = Convert.ToDouble(aktlerdet.strAciklama1);
-        //                    isk2 = Convert.ToDouble(aktlerdet.strAciklama2);
-        //                    isk3 = Convert.ToDouble(aktlerdet.strAciklama3);
-        //                    isk4 = aktlerdet.flEkIsk;
-
-        //                    gridView1.SetRowCellValue(i, "intAnlasmaID", Aktiviteler.GetObject(aktlerdet.intAktiviteID).intAnlasmaID);
-        //                    gridView1.SetRowCellValue(i, "intAktiviteID", aktlerdet.intAktiviteID);
-        //                }
-        //                else if (anlasmaid > 0) // aktivitesiz anlaşmalı ise
-        //                {
-        //                    Anlasmalar anlasma = Anlasmalar.GetObject(anlasmaid);
-        //                    isk1 = TAH ? anlasma.flTAHIsk : anlasma.flYEGIsk;
-        //                    isk2 = TAH ? anlasma.flTAHCiroIsk : anlasma.flYEGCiroIsk;
-        //                    isk3 = Convert.ToDouble(
-        //                            FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(gridView1.GetRowCellValue(i, "URUNKOD").ToString()), 3, 7,
-        //                            Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATYIL")),
-        //                            Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATAY"))));
-        //                }
-        //                else if (anlasmaid == 0) // genel anlaşmasız aktivite
-        //                {
-        //                    double Isk1 = Convert.ToDouble(
-        //                        FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(gridView1.GetRowCellValue(i, "URUNKOD").ToString()), 1, 7,
-        //                        Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATYIL")),
-        //                        Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATAY"))));
-        //                    double Isk2 = Convert.ToDouble(
-        //                        FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(gridView1.GetRowCellValue(i, "URUNKOD").ToString()), 2, 7,
-        //                        Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATYIL")),
-        //                        Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATAY"))));
-        //                    double Isk3 = Convert.ToDouble(
-        //                        FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(gridView1.GetRowCellValue(i, "URUNKOD").ToString()), 3, 7,
-        //                        Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATYIL")),
-        //                        Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATAY"))));
-
-        //                    isk1 = Isk1;
-        //                    isk2 = Isk2;
-        //                    isk3 = Isk3;
-        //                    isk4 = 0;
-        //                }
-        //            }
-        //            else
-        //            {
-        //                kar = TAH ? CariHesaplarTPEk.GetObject(Convert.ToInt32(gridView1.GetRowCellValue(i, "GMREF"))).flTAHKar : CariHesaplarTPEk.GetObject(Convert.ToInt32(gridView1.GetRowCellValue(i, "GMREF"))).flYEGKar;
-
-        //                long aktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(
-        //                    CariHesaplarTP.GetSMREFBySUBE(gridView1.GetRowCellValue(i, "NOKTAAD").ToString()),
-        //                    Urunler.GetProductUrunID(gridView1.GetRowCellValue(i, "URUNKOD").ToString()),
-        //                    Convert.ToDateTime(gridView1.GetRowCellValue(i, "NOKTAEVREKTARIH")));
-        //                int anlasmaid = Anlasmalar.GetTarihAraligiAnlasmaID(
-        //                    CariHesaplarTP.GetSMREFBySUBE(gridView1.GetRowCellValue(i, "NOKTAAD").ToString()),
-        //                    Convert.ToDateTime(gridView1.GetRowCellValue(i, "NOKTAEVREKTARIH")));
-
-        //                if (aktivitedetayid > 0)
-        //                {
-        //                    AktivitelerDetay aktlerdet = AktivitelerDetay.GetObject(aktivitedetayid);
-        //                    isk1 = Convert.ToDouble(aktlerdet.strAciklama1);
-        //                    isk2 = Convert.ToDouble(aktlerdet.strAciklama2);
-        //                    isk3 = Convert.ToDouble(aktlerdet.strAciklama3);
-        //                    isk4 = aktlerdet.flEkIsk;
-
-        //                    gridView1.SetRowCellValue(i, "intAnlasmaID", Aktiviteler.GetObject(aktlerdet.intAktiviteID).intAnlasmaID);
-        //                    gridView1.SetRowCellValue(i, "intAktiviteID", aktlerdet.intAktiviteID);
-        //                }
-        //                else if (anlasmaid > 0) // aktivitesiz anlaşmalı ise
-        //                {
-        //                    Anlasmalar anlasma = Anlasmalar.GetObject(anlasmaid);
-        //                    isk1 = TAH ? anlasma.flTAHIsk : anlasma.flYEGIsk;
-        //                    isk2 = TAH ? anlasma.flTAHCiroIsk : anlasma.flYEGCiroIsk;
-        //                    isk3 = Convert.ToDouble(
-        //                            FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(gridView1.GetRowCellValue(i, "URUNKOD").ToString()), 3, 25,
-        //                            Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATYIL")),
-        //                            Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATAY"))));
-        //                }
-        //                else if (anlasmaid == 0) // genel anlaşmasız aktivite
-        //                {
-        //                    int GMREF = Convert.ToInt32(gridView1.GetRowCellValue(i, "GMREF"));
-
-        //                    aktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(GMREF,
-        //                        Urunler.GetProductUrunID(gridView1.GetRowCellValue(i, "URUNKOD").ToString()),
-        //                        Convert.ToDateTime(gridView1.GetRowCellValue(i, "NOKTAEVREKTARIH")));
-
-        //                    if (aktivitedetayid > 0)
-        //                    {
-        //                        AktivitelerDetay aktlerdet = AktivitelerDetay.GetObject(aktivitedetayid);
-        //                        isk1 = Convert.ToDouble(aktlerdet.strAciklama1);
-        //                        isk2 = Convert.ToDouble(aktlerdet.strAciklama2);
-        //                        isk3 = Convert.ToDouble(aktlerdet.strAciklama3);
-        //                        isk4 = aktlerdet.flEkIsk;
-
-        //                        gridView1.SetRowCellValue(i, "intAnlasmaID", Aktiviteler.GetObject(aktlerdet.intAktiviteID).intAnlasmaID);
-        //                        gridView1.SetRowCellValue(i, "intAktiviteID", aktlerdet.intAktiviteID);
-        //                    }
-        //                    else // standart uygulama
-        //                    {
-        //                        CariHesaplarTPEk chtpek = CariHesaplarTPEk.GetObject(GMREF);
-        //                        isk1 = TAH ? chtpek.flTAHIskUyg : chtpek.flYEGIskUyg;
-        //                        isk2 = 0;
-        //                        isk3 = Convert.ToDouble(
-        //                            FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(gridView1.GetRowCellValue(i, "URUNKOD").ToString()), 3, 25,
-        //                            Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATYIL")),
-        //                            Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATAY"))));
-        //                    }
-        //                }
-        //            }
-
-        //            gridView1.SetRowCellValue(i, "flIsk1", isk1);
-        //            gridView1.SetRowCellValue(i, "flIsk2", isk2);
-        //            gridView1.SetRowCellValue(i, "flIsk3", isk3);
-        //            gridView1.SetRowCellValue(i, "flIsk4", isk4);
-
-        //            int UrunID = Urunler.GetProductUrunID(gridView1.GetRowCellValue(i, "URUNKOD").ToString());
-
-        //            double listefiyat = Convert.ToDouble(FiyatlarTP.GetFiyat(
-        //                UrunID,
-        //                gridView1.GetRowCellValue(i, "BAYIKOD").ToString() == "1001327" ? (short)1 : (short)22, //sultanlar ise 1 bayi ise 22
-        //                Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATYIL")),
-        //                Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATAY"))));
-        //            //if (listefiyat == 0)
-        //            //{
-        //            //    listefiyat = Convert.ToDouble(Urunler.GetProductDiscountsAndPrice(
-        //            //        UrunID,
-        //            //        gridView1.GetRowCellValue(i, "BAYIKOD").ToString() == "1001327" ? (short)1 : (short)22 //sultanlar ise 1 bayi ise 22
-        //            //        )[4]);
-        //            //}
-
-        //            double karlifiyat = listefiyat * ((100 + kar) / 100);
-
-        //            double bayifiyat = Convert.ToDouble(gridView1.GetRowCellValue(i, "NOKTASATNET"));
-
-        //            int bayiadet = Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATADET"));
-
-        //            double olmasigereken = karlifiyat - ((karlifiyat / 100) * isk1);
-        //            olmasigereken = olmasigereken - ((olmasigereken / 100) * isk2);
-        //            olmasigereken = olmasigereken - ((olmasigereken / 100) * isk3);
-        //            olmasigereken = olmasigereken - ((olmasigereken / 100) * isk4);
-
-
-        //            //if (Convert.ToInt32(gridView1.GetRowCellValue(i, "NOKTASATADET")) > 0) // satış
-        //            //{
-        //            gridView1.SetRowCellValue(i, "mnListeFiyat", listefiyat);
-        //            gridView1.SetRowCellValue(i, "mnListeFiyatKarli", karlifiyat);
-
-        //            gridView1.SetRowCellValue(i, "mnNetBirimFiyat", olmasigereken);
-        //            gridView1.SetRowCellValue(i, "mnNetToplam", olmasigereken * bayiadet);
-
-        //            if (UrunID > 0 && listefiyat != 0.0)
-        //            {
-        //                gridView1.SetRowCellValue(i, "mnBirimFark", karlifiyat - olmasigereken);
-        //                gridView1.SetRowCellValue(i, "mnToplamFark", (karlifiyat - olmasigereken) * bayiadet);
-        //                //if (bayifiyat >= olmasigereken)
-        //                //{
-        //                //    gridView1.SetRowCellValue(i, "mnBirimFark", karlifiyat - bayifiyat);
-        //                //    gridView1.SetRowCellValue(i, "mnToplamFark", (karlifiyat - bayifiyat) * bayiadet);
-        //                //}
-        //                //else if (bayifiyat < olmasigereken)
-        //                //{
-        //                //    gridView1.SetRowCellValue(i, "mnBirimFark", karlifiyat - olmasigereken);
-        //                //    gridView1.SetRowCellValue(i, "mnToplamFark", (karlifiyat - olmasigereken) * bayiadet);
-        //                //}
-        //            }
-        //            else
-        //            {
-        //                gridView1.SetRowCellValue(i, "mnBirimFark", 0);
-        //                gridView1.SetRowCellValue(i, "mnToplamFark", 0);
-        //            }
-        //            //}
-        //            //else // iade
-        //            //{
-        //            //    gridView1.SetRowCellValue(i, "mnListeFiyat", listefiyat);
-        //            //    gridView1.SetRowCellValue(i, "mnListeFiyatKarli", karlifiyat);
-
-        //            //    gridView1.SetRowCellValue(i, "mnNetBirimFiyat", olmasigereken);
-        //            //    gridView1.SetRowCellValue(i, "mnNetToplam", olmasigereken * -bayiadet);
-
-        //            //    gridView1.SetRowCellValue(i, "mnBirimFark", olmasigereken + bayifiyat);
-        //            //    gridView1.SetRowCellValue(i, "mnToplamFark", (olmasigereken + bayifiyat) * -bayiadet);
-        //            //}
-
-        //            decimal tahtoplam = TAH ? Convert.ToDecimal(gridView1.GetRowCellValue(i, "mnToplamFark")) : 0;
-        //            decimal yegtoplam = TAH ? 0 : Convert.ToDecimal(gridView1.GetRowCellValue(i, "mnToplamFark"));
-
-        //            ToplamTAH += tahtoplam;
-        //            ToplamYEG += yegtoplam;
-
-        //            gridView1.SetRowCellValue(i, "TAHmnToplamFark", tahtoplam);
-        //            gridView1.SetRowCellValue(i, "YEGmnToplamFark", yegtoplam);
-
-        //            gridView1.SetRowCellValue(i, "Degistirildi", 1);
-
-        //            ResetExceptionState(gridControl1); gridControl1.Invalidate();
-        //        }
-
-        //        progressBar1.Value++;
-        //        this.Text = "Ticari Pazarlama : Satış Raporu (Hesaplanan satır: " + i.ToString() + " / " + gridView1.RowCount.ToString() + ")";
-        //    }
-        //    progressBar1.Value = 0;
-        //    progressBar1.Visible = false;
-        //    this.Enabled = true;
-        //    this.Text = oncekitext;
-
-        //    if (olmayanurunler != string.Empty)
-        //        MessageBox.Show("Aşağıdaki ürünler sistemde bulunamadı:\r\n\r\n" + olmayanurunler, "Olmayan Ürünler", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-        //    lblTAH.Text = ToplamTAH.ToString("C2");
-        //    lblYEG.Text = ToplamYEG.ToString("C2");
-        //    lblToplam.Text = (ToplamTAH + ToplamYEG).ToString("C2");
-
-        //    ResetExceptionState(gridControl1); gridControl1.Invalidate();
-        //}
-
         delegate void KaydetDelegate();
 
         private void sbKaydet_Click(object sender, EventArgs e)
@@ -1046,17 +791,12 @@ namespace Sultanlar.UI
 
                     int noktasatyil = Convert.ToInt32(dt.Rows[i]["NOKTASATYIL"]);
                     int noktasatay = Convert.ToInt32(dt.Rows[i]["NOKTASATAY"]);
+                    int noktasatgun = Convert.ToDateTime(dt.Rows[i]["NOKTAEVREKTARIH"]).Day;
                     DateTime noktaevraktarih = Convert.ToDateTime(dt.Rows[i]["NOKTAEVREKTARIH"]);
-
-                    //// olmar veya mesut gıda için 3. ay da 2. ay gibi hesaplanacak
-                    //if (cmbBayiler.SelectedIndex > -1 && (((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF == 1013151 || ((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF == 1013147) && cmbAy.SelectedItem.ToString() == "3")
-                    //{
-                    //    noktasatay = 2;
-                    //    noktaevraktarih = noktaevraktarih.Day > 29 ? Convert.ToDateTime("29.02.2016") : Convert.ToDateTime(noktaevraktarih.Day.ToString() + ".02.2016");
-                    //}
 
                     if (objTAH != null) // ürünün bizde karşılığı varsa
                     {
+                        double aktivitevar = 0;
                         bool TAH = Convert.ToBoolean(objTAH);
                         bool karTAH = Urunler.GetProductReyKod(Convert.ToInt32(dt.Rows[i]["URUNKOD"])) == "T2" ? false : true;
 
@@ -1093,8 +833,9 @@ namespace Sultanlar.UI
                                 isk2 = TAH ? anlasma.flTAHCiroIsk : anlasma.flYEGCiroIsk;
                                 isk3 = Convert.ToDouble(
                                         FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(dt.Rows[i]["URUNKOD"].ToString()), 3, 7,
-                                        Convert.ToInt32(dt.Rows[i]["NOKTASATYIL"]),
-                                        Convert.ToInt32(dt.Rows[i]["NOKTASATAY"])));
+                                        noktasatyil,
+                                        noktasatay,
+                                        noktasatgun));
 
                                 dt.Rows[i]["intAnlasmaID"] = anlasma.pkID;
                                 dt.Rows[i]["intAktiviteID"] = 0;
@@ -1106,16 +847,19 @@ namespace Sultanlar.UI
                             {
                                 double Isk1 = Convert.ToDouble(
                                     FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(dt.Rows[i]["URUNKOD"].ToString()), 1, 7,
-                                    Convert.ToInt32(dt.Rows[i]["NOKTASATYIL"]),
-                                    Convert.ToInt32(dt.Rows[i]["NOKTASATAY"])));
+                                    noktasatyil,
+                                    noktasatay,
+                                    noktasatgun));
                                 double Isk2 = Convert.ToDouble(
                                     FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(dt.Rows[i]["URUNKOD"].ToString()), 2, 7,
-                                    Convert.ToInt32(dt.Rows[i]["NOKTASATYIL"]),
-                                    Convert.ToInt32(dt.Rows[i]["NOKTASATAY"])));
+                                    noktasatyil,
+                                    noktasatay,
+                                    noktasatgun));
                                 double Isk3 = Convert.ToDouble(
                                     FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(dt.Rows[i]["URUNKOD"].ToString()), 3, 7,
-                                    Convert.ToInt32(dt.Rows[i]["NOKTASATYIL"]),
-                                    Convert.ToInt32(dt.Rows[i]["NOKTASATAY"])));
+                                    noktasatyil,
+                                    noktasatay, 
+                                    noktasatgun));
 
                                 isk1 = Isk1;
                                 isk2 = Isk2;
@@ -1156,6 +900,10 @@ namespace Sultanlar.UI
                                 isk3 = Convert.ToDouble(aktlerdet.strAciklama3);
                                 isk4 = aktlerdet.flEkIsk;
 
+                                double kdv = Urunler.GetProductKDV(aktlerdet.intUrunID);
+                                aktivitevar = Convert.ToDouble(aktlerdet.mnDusulmusBirimFiyatKDVli);
+                                aktivitevar = aktivitevar / ((100 + kdv) / 100);
+
                                 dt.Rows[i]["intAnlasmaID"] = Aktiviteler.GetObject(aktlerdet.intAktiviteID).intAnlasmaID;
                                 dt.Rows[i]["intAktiviteID"] = aktlerdet.intAktiviteID;
                             }
@@ -1167,7 +915,8 @@ namespace Sultanlar.UI
                                 isk3 = Convert.ToDouble(
                                         FiyatlarTP.GetIskFiyat(UrunID, 3, 25,
                                         noktasatyil,
-                                        noktasatay));
+                                        noktasatay,
+                                        noktasatgun));
 
                                 dt.Rows[i]["intAnlasmaID"] = anlasma.pkID;
                                 dt.Rows[i]["intAktiviteID"] = 0;
@@ -1199,6 +948,10 @@ namespace Sultanlar.UI
                                     isk3 = Convert.ToDouble(aktlerdet.strAciklama3);
                                     isk4 = aktlerdet.flEkIsk;
 
+                                    double kdv = Urunler.GetProductKDV(aktlerdet.intUrunID);
+                                    aktivitevar = Convert.ToDouble(aktlerdet.mnDusulmusBirimFiyatKDVli);
+                                    aktivitevar = aktivitevar / ((100 + kdv) / 100);
+
                                     dt.Rows[i]["intAnlasmaID"] = Aktiviteler.GetObject(aktlerdet.intAktiviteID).intAnlasmaID;
                                     dt.Rows[i]["intAktiviteID"] = aktlerdet.intAktiviteID;
                                 }
@@ -1209,8 +962,9 @@ namespace Sultanlar.UI
                                     isk2 = 0; // öztrakya veya meltem ise 2. iskonto var 7 birinci 10 ikinci iskonto genelde fiyat listesinde (7) ::: dt.Rows[i]["BAYIKOD"].ToString() == "1005405" || dt.Rows[i]["BAYIKOD"].ToString() == "1000951" ? Convert.ToDouble(FiyatlarTP.GetIskFiyat(Urunler.GetProductUrunID(dt.Rows[i]["URUNKOD"].ToString()), 2, 7, Convert.ToInt32(dt.Rows[i]["NOKTASATYIL"]), noktasatay)) : 
                                     isk3 = Convert.ToDouble(
                                         FiyatlarTP.GetIskFiyat(UrunID, 3, 25,
-                                        Convert.ToInt32(dt.Rows[i]["NOKTASATYIL"]),
-                                        noktasatay));
+                                        noktasatyil,
+                                        noktasatay,
+                                        noktasatgun));
 
                                     dt.Rows[i]["intAnlasmaID"] = 0;
                                     dt.Rows[i]["intAktiviteID"] = 0;
@@ -1225,29 +979,13 @@ namespace Sultanlar.UI
 
 
 
-                        /*if ((dt.Rows[i]["BAYIKOD"].ToString() == "1001141" || dt.Rows[i]["BAYIKOD"].ToString() == "1000021" ||
-                            dt.Rows[i]["BAYIKOD"].ToString() == "1001785" || dt.Rows[i]["BAYIKOD"].ToString() == "1002966" ||
-                            dt.Rows[i]["BAYIKOD"].ToString() == "1012383" || dt.Rows[i]["BAYIKOD"].ToString() == "1001233" ||
-                            dt.Rows[i]["BAYIKOD"].ToString() == "1002080" || dt.Rows[i]["BAYIKOD"].ToString() == "1002568" ||
-                            dt.Rows[i]["BAYIKOD"].ToString() == "1001179" || dt.Rows[i]["BAYIKOD"].ToString() == "1002962" ||
-                            dt.Rows[i]["BAYIKOD"].ToString() == "1002051" || dt.Rows[i]["BAYIKOD"].ToString() == "1004087" ||
-                            dt.Rows[i]["BAYIKOD"].ToString() == "1001140" || dt.Rows[i]["BAYIKOD"].ToString() == "1003906" ||
-                            dt.Rows[i]["BAYIKOD"].ToString() == "1013151")
-                            && (UrunID == 1300381 || UrunID == 1200830)
-                           )
-                        {
-                            noktasatyil = 2016;
-                            noktasatay = 2;
-                        }*/
-
-
-
                         // bayinin alımı
                         double listefiyat = Convert.ToDouble(FiyatlarTP.GetNetFiyat(
                             UrunID,
                             dt.Rows[i]["BAYIKOD"].ToString() == "1001327" /*|| dt.Rows[i]["BAYIKOD"].ToString() == "1005405"*/ ? (short)7 : (short)22, //sultanlar veya öztrakya ise 1 bayi ise 22 (bu satır 1000951 iken de o if bloğu açıklamaydı)
                             noktasatyil,
-                            noktasatay));
+                            noktasatay,
+                            noktasatgun));
                         if (listefiyat == 0.0)
                         {
                             listefiyat = Convert.ToDouble(Urunler.GetProductNetFiyatFULL(
@@ -1264,15 +1002,16 @@ namespace Sultanlar.UI
                         {
                             listefiyat1 = Convert.ToDouble(FiyatlarTP.GetFiyat(
                                 UrunID,
-                                dt.Rows[i]["BAYIKOD"].ToString() == "1001327" /*|| dt.Rows[i]["BAYIKOD"].ToString() == "1005405"*/ ? (short)7 : (short)22, //sultanlar veya öztrakya ise 1 bayi ise 22
+                                dt.Rows[i]["BAYIKOD"].ToString() == "1001327" ? (short)7 : (short)22, //sultanlar veya öztrakya ise 1 bayi ise 22
                                 noktasatyil,
-                                noktasatay));
+                                noktasatay, 
+                                noktasatgun));
                         }
-                        else if (listefiyat1 == 0.0) // dönem fiyatı yoksa şimdiki fiyatı al
+                        /*else */if (listefiyat1 == 0.0) // dönem fiyatı yoksa şimdiki fiyatı al
                         {
                             listefiyat1 = Convert.ToDouble(Urunler.GetProductDiscountsAndPriceFULL(
                                 UrunID,
-                                dt.Rows[i]["BAYIKOD"].ToString() == "1001327" /*|| dt.Rows[i]["BAYIKOD"].ToString() == "1005405"*/ ? (short)7 : (short)22 //sultanlar veya öztrakya ise 1 bayi ise 22
+                                dt.Rows[i]["BAYIKOD"].ToString() == "1001327" ? (short)7 : (short)22 //sultanlar veya öztrakya ise 1 bayi ise 22
                                 )[4]);
                         }
 
@@ -1293,6 +1032,8 @@ namespace Sultanlar.UI
                         olmasigereken = olmasigereken - ((olmasigereken / 100) * isk3);
                         olmasigereken = olmasigereken - ((olmasigereken / 100) * isk4);
 
+                        if (aktivitevar > 0)
+                            olmasigereken = aktivitevar;
 
                         dt.Rows[i]["mnListeFiyat"] = listefiyat;
                         dt.Rows[i]["mnListeFiyatT"] = listefiyat * bayiadet;

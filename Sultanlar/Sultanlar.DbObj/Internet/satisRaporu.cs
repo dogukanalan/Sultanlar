@@ -221,5 +221,16 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        public List<SatisHedefBolge> GetSatisHedefBolge(int YIL, int AY)
+        {
+            List<SatisHedefBolge> donendeger = new List<SatisHedefBolge>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_dashboardSatisHedefVgb2", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new SatisHedefBolge(dic[i][0].ToString(), Convert.ToInt32(dic[i][1]), Convert.ToInt32(dic[i][2]), Convert.ToInt32(dic[i][3])));
+
+            return donendeger;
+        }
     }
 }

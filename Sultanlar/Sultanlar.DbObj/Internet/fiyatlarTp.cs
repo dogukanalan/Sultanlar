@@ -90,6 +90,20 @@ namespace Sultanlar.DbObj.Internet
             return donendeger;
         }
         /// <summary>
+        /// [Web-Fiyat-TP-3]
+        /// </summary>
+        /// <returns></returns>
+        public fiyatlarTp GetObject(int YIL, int AY, int GUN, int TIP, int ITEMREF)
+        {
+            fiyatlarTp donendeger = new fiyatlarTp();
+
+            Dictionary<int, object> dic = GetObject("db_sp_tpFiyat3Getir", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "GUN", GUN }, { "TIP", TIP }, { "ITEMREF", ITEMREF } }, timeout);
+            if (dic != null)
+                donendeger = new fiyatlarTp(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), ConvertToInt32(dic[3]), dic[4].ToString(), dic[5].ToString(), dic[6].ToString(), dic[7].ToString(), dic[8].ToString(), dic[9].ToString(), dic[10].ToString(), ConvertToInt32(dic[11]), dic[12].ToString(), ConvertToDouble(dic[13]), ConvertToDouble(dic[14]), ConvertToDouble(dic[15]), ConvertToDouble(dic[16]), ConvertToDouble(dic[17]), ConvertToDouble(dic[18]), ConvertToDouble(dic[19]), ConvertToDouble(dic[20]), ConvertToDouble(dic[21]), ConvertToDouble(dic[22]), ConvertToDouble(dic[23]), ConvertToDouble(dic[24]), ConvertToDouble(dic[25]), ConvertToInt32(dic[26]), ConvertToGuid(dic[27].ToString()), ConvertToDouble(dic[28]), ConvertToDateTime(dic[29]));
+
+            return donendeger;
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
@@ -105,14 +119,14 @@ namespace Sultanlar.DbObj.Internet
             return donendeger;
         }
         /// <summary>
-        /// 
+        /// [Web-Fiyat-TP-3]
         /// </summary>
         /// <returns></returns>
-        public List<fiyatlarTp> GetObjects(int YIL, int AY, int TIP)
+        public List<fiyatlarTp> GetObjects(int YIL, int AY, int GUN, int TIP)
         {
             List<fiyatlarTp> donendeger = new List<fiyatlarTp>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_tpFiyatlarGetirByYilAyTip", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "TIP", TIP } }, timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_tpFiyatlarGetirByYilAyGunTip", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "GUN", GUN }, { "TIP", TIP } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new fiyatlarTp(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), ConvertToInt32(dic[i][11]), dic[i][12].ToString(), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToDouble(dic[i][24]), ConvertToDouble(dic[i][25]), ConvertToInt32(dic[i][26]), ConvertToGuid(dic[i][27].ToString()), ConvertToDouble(dic[i][28]), ConvertToDateTime(dic[i][29])));

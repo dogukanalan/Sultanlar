@@ -742,7 +742,6 @@
             this.groupBox2.TabIndex = 34;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Toplu Veri Çekme İşlemleri";
-            this.groupBox2.Visible = false;
             // 
             // label1
             // 

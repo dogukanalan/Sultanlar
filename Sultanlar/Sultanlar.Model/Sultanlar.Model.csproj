@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Dashboard\BayiSatisHedef.cs" />
     <Compile Include="Dashboard\BolumYillik.cs" />
+    <Compile Include="Dashboard\SatisHedefBolge.cs" />
     <Compile Include="Dashboard\SatisHedefVgb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

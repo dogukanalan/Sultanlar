@@ -59,5 +59,11 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         {
             return new DashboardProvider().DashboardSatisHedefVgb(YIL, AY);
         }
+
+        [HttpGet, Route("internet/[controller]/[action]/{YIL}/{AY}")]
+        public List<SatisHedefBolge> SatisHedefBolge(int YIL, int AY)
+        {
+            return new DashboardProvider().DashboardSatisHedefBolge(YIL, AY);
+        }
     }
 }

@@ -245,17 +245,19 @@
             $('#inputBaslangic').datepicker({
                 locale: "tr",
                 language: "tr",
+                format: "yyyy/mm/dd",
                 orientation: "auto bottom"
             });
-            $("#inputBaslangic").datepicker("update", getDateNowStr().substring(0, 10));
-            $('#inputBaslangic').on('changeDate', function (ev) { $(this).datepicker('hide'); sencHeader(); });
+            $("#inputBaslangic").datepicker("update", paramdonem);
+            //$('#inputBaslangic').on('changeDate', function (ev) { $(this).datepicker('hide'); sencHeader(); });
 
             $('#inputBitis').datepicker({
                 locale: "tr",
                 language: "tr",
+                format: "yyyy/mm/dd",
                 orientation: "auto bottom"
             });
-            $("#inputBitis").datepicker("update", getDateNowStr().substring(0, 10));
+            $("#inputBitis").datepicker("update", paramdonem);
             $('#inputBitis').on('changeDate', function (ev) { $(this).datepicker('hide'); sencHeader(); });
 
             $('#inputAciklama1').on('keyup', function (ev) { sencHeader(); });
@@ -280,7 +282,7 @@
 }
 <h5 class="spanCiplak" id="aktMus"></h5>
 <div class="centerVeMiddle">
-    <input class="form-control inputCiplak anlasmaBolum tarihpicker" type="text" name="inputBaslangic" id="inputBaslangic" placeholder="Başlangıç Tarihi" autocomplete="off" onkeypress="return false">
+    <input class="form-control inputCiplak anlasmaBolum tarihpicker" type="text" name="inputBaslangic" id="inputBaslangic" placeholder="Başlangıç Tarihi" autocomplete="off" onkeypress="return false" disabled>
     <input class="form-control inputCiplak anlasmaBolum tarihpicker" type="text" name="inputBitis" id="inputBitis" placeholder="Bitiş Tarihi" autocomplete="off" onkeypress="return false">
 </div>
 <div class="centerVeMiddle">

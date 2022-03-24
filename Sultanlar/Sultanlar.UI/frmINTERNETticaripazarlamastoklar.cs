@@ -30,6 +30,11 @@ namespace Sultanlar.UI
             for (int i = 0; i < comboBox2.Items.Count; i++)
                 if (comboBox2.Items[i].ToString() == DateTime.Now.Month.ToString())
                     comboBox2.SelectedIndex = i;
+            for (int i = 0; i < DateTime.Now.Day; i++)
+                comboBox4.Items.Add(i + 1);
+            for (int i = 0; i < comboBox4.Items.Count; i++)
+                if (comboBox4.Items[i].ToString() == DateTime.Now.Day.ToString())
+                    comboBox4.SelectedIndex = i;
             GetFiyatlar();
             Acilis = false;
         }
@@ -42,14 +47,21 @@ namespace Sultanlar.UI
         private void GetFiyatlar()
         {
             DataTable dt = new DataTable();
-            FiyatlarTP.GetObjects(dt, ((FiyatTipleri)comboBox3.SelectedItem).NOSU, Convert.ToInt32(comboBox1.SelectedItem.ToString()), Convert.ToInt32(comboBox2.SelectedItem.ToString()));
+            FiyatlarTP.GetObjects(dt, ((FiyatTipleri)comboBox3.SelectedItem).NOSU, dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, dateTimePicker1.Value.Day);
             gridControl1.DataSource = dt;
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!Acilis)
+            {
+                /*comboBox4.Items.Clear();
+                for (int i = 0; i < DateTime.DaysInMonth(Convert.ToInt32(comboBox1.SelectedItem.ToString()), Convert.ToInt32(comboBox2.SelectedItem.ToString())); i++)
+                    comboBox4.Items.Add(i + 1);
+                comboBox4.SelectedIndex = 0;*/
+
                 GetFiyatlar();
+            }
         }
 
         private void simpleButton1_Click(object sender, EventArgs e)
@@ -101,6 +113,14 @@ namespace Sultanlar.UI
             sfd.Filter = "Excel dosyaları (*.xlsx)|*.xlsx;|Bütün Dosyalar|*.*";
             if (sfd.ShowDialog() == DialogResult.OK)
                 gridControl1.ExportToXlsx(sfd.FileName, new DevExpress.XtraPrinting.XlsxExportOptions(DevExpress.XtraPrinting.TextExportMode.Text, true));
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            if (!Acilis)
+            {
+                GetFiyatlar();
+            }
         }
     }
 }
