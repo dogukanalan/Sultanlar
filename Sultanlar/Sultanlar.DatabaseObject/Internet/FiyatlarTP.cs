@@ -114,7 +114,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT max(FIYAT) AS FIYAT FROM [Web-Fiyat-TP] WHERE ITEMREF = " + UrunID.ToString() + " AND TIP = " + FiyatTipi.ToString() + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString(), conn);
+                SqlCommand cmd = new SqlCommand("SELECT max(FIYAT) AS FIYAT FROM [Web-Fiyat-TP-3] WHERE ITEMREF = " + UrunID.ToString() + " AND TIP = " + FiyatTipi.ToString() + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString(), conn);
                 try
                 {
                     conn.Open();
@@ -174,7 +174,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT max(NET) AS NET FROM [Web-Fiyat-TP] WHERE ITEMREF = " + UrunID.ToString() + fiyattip + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString(), conn);
+                SqlCommand cmd = new SqlCommand("SELECT max(NET) AS NET FROM [Web-Fiyat-TP-3] WHERE ITEMREF = " + UrunID.ToString() + fiyattip + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString(), conn);
                 try
                 {
                     conn.Open();

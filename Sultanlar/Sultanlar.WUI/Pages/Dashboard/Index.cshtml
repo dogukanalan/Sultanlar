@@ -152,6 +152,11 @@
                 }
             },
             {
+                "data": "bakiye", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(0, ',', '.') + '</span>';
+                }
+            },
+            {
                 "data": "vgb", "class": "keyTd", render: function (data, type, row) {
                     return '<span class="sinirli">' + data.formatMoney(0, ',', '.') + '</span>';
                 }
@@ -184,6 +189,7 @@
                     $(api.column(1).footer()).html(api.column(1, { page: 'all' }).data().sum().formatMoney(0, ',', '.'));
                     $(api.column(2).footer()).html(api.column(2, { page: 'all' }).data().sum().formatMoney(0, ',', '.'));
                     $(api.column(3).footer()).html(api.column(3, { page: 'all' }).data().sum().formatMoney(0, ',', '.'));
+                    $(api.column(4).footer()).html(api.column(4, { page: 'all' }).data().sum().formatMoney(0, ',', '.'));
                 },
                 "fnDrawCallback": function (oSettings) {
 
@@ -496,7 +502,11 @@
         function getBayiSatisHedefGraph() {
             Highcharts.chart('divBayiSatisHedef', {
                 chart: {
-                    type: 'column'
+                    type: 'column',
+                    scrollablePlotArea: {
+                        minWidth: 4000,
+                        scrollPositionX: 0
+                    }
                 },
                 title: {
                     text: 'Bayi üzerinde Hedef-Satış'
@@ -701,17 +711,19 @@
     <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='10'>
         <thead>
             <tr>
-                <th class="keyTd" style="width:40%"><span class="sinirli4">Bayi</span></th>
-                <th class="keyTd" style="width:12%"><span class="sinirli4">Hedef</span></th>
-                <th class="keyTd" style="width:12%"><span class="sinirli4">Satış</span></th>
-                <th class="keyTd" style="width:12%"><span class="sinirli4">Bekleyen</span></th>
-                <th class="keyTd" style="width:12%"><span class="sinirli4">Vgb</span></th>
-                <th class="keyTd" style="width:12%"><span class="sinirli4">Vgb.Gün</span></th>
+                <th class="keyTd" style="width:35%"><span class="sinirli4">Bayi</span></th>
+                <th class="keyTd" style="width:10%"><span class="sinirli4">Hedef</span></th>
+                <th class="keyTd" style="width:10%"><span class="sinirli4">Satış</span></th>
+                <th class="keyTd" style="width:10%"><span class="sinirli4">Bekleyen</span></th>
+                <th class="keyTd" style="width:15%"><span class="sinirli4">Bakiye(TL)</span></th>
+                <th class="keyTd" style="width:10%"><span class="sinirli4">Vgb</span></th>
+                <th class="keyTd" style="width:10%"><span class="sinirli4">Vgb.Gün</span></th>
             </tr>
         </thead>
         <tfoot>
             <tr>
                 <th class="keyTd sinirli"><span class="spanCiplak">Toplam</span></th>
+                <th class="keyTd sinirli"></th>
                 <th class="keyTd sinirli"></th>
                 <th class="keyTd sinirli"></th>
                 <th class="keyTd sinirli"></th>

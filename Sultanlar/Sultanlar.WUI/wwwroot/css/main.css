@@ -1096,7 +1096,7 @@ input::-webkit-inner-spin-button {
 
 ::-webkit-scrollbar {
     width: 10px;
-    height: 0px;
+    height: 1px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -1205,6 +1205,11 @@ button.dt-button {
 
 .navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {
     max-height: 340px !important;
+}
+
+.navbar-collapse::-webkit-scrollbar {
+    width: 10px;
+    height: 0px;
 }
 
 .navbar-toggle {

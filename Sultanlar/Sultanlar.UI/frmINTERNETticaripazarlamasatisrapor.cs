@@ -46,7 +46,7 @@ namespace Sultanlar.UI
 
             hesaplamayapilabilir = false;
             GetBayiler();
-            cmbYil.SelectedIndex = 8;
+            cmbYil.SelectedIndex = 9;
             cmbAy.SelectedIndex = 0;
             GetSatisRaporBos();
         }
@@ -632,35 +632,10 @@ namespace Sultanlar.UI
 
                 if (cmbBayiler.SelectedIndex > -1 && cmbBayiler.SelectedItem.ToString() != "SULTANLAR PAZARLAMA A.Ş.")
                 {
-                    //// olmar veya mesut gıda için 3. ay da 2. ay gibi hesaplanacak
-                    //if ((((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF == 1013151 || ((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF == 1013147) && cmbAy.SelectedItem.ToString() == "3")
-                    //{
-                    //    // burda noktasatay 2 olanları 3 yapıyoruz (fatura tarihindeki ay 3 değişmiyor)
-                    //    SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=bazuka_sa; Trusted_Connection=False;");
-                    //    SqlCommand cmd = new SqlCommand("UPDATE [Web-Satis-Rapor-TP] SET [NOKTASATAY] = 3 WHERE NOKTASATYIL = 2016 AND MONTH([NOKTAEVREKTARIH]) = 3 AND [BAYIKOD] = 1013147 UPDATE [Web-Satis-Rapor-TP] SET [NOKTASATAY] = 3 WHERE NOKTASATYIL = 2016 AND MONTH([NOKTAEVREKTARIH]) = 3 AND [BAYIKOD] = 1013151", conn);
-                    //    conn.Open();
-                    //    cmd.ExecuteNonQuery();
-                    //    conn.Close();
-                    //}
-
                     byte ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
                     short yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
 
                     dt = GetSatisRapor(((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF, ay, yil, false);
-
-                    //HesaplaKaydet(dt, 0, 0, dt.Rows.Count, true, false, true);
-                    //return;
-
-                    //// olmar veya mesut gıda için 3. ay da 2. ay gibi hesaplanacak
-                    //if ((((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF == 1013151 || ((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF == 1013147) && cmbAy.SelectedItem.ToString() == "3")
-                    //{
-                    //    // burda noktasatay 3 yaptıklarımızı artık 2 ye geri döndürebiliriz çünkü elimize 3 ler geçti (dt nin içine)
-                    //    SqlConnection conn = new SqlConnection("Server=SERVERDB01; Database=KurumsalWebSAP; User Id=sa; Password=bazuka_sa; Trusted_Connection=False;");
-                    //    SqlCommand cmd = new SqlCommand("UPDATE [Web-Satis-Rapor-TP] SET [NOKTASATAY] = 2 WHERE NOKTASATYIL = 2016 AND MONTH([NOKTAEVREKTARIH]) = 3 AND [BAYIKOD] = 1013147 UPDATE [Web-Satis-Rapor-TP] SET [NOKTASATAY] = 2 WHERE NOKTASATYIL = 2016 AND MONTH([NOKTAEVREKTARIH]) = 3 AND [BAYIKOD] = 1013151", conn);
-                    //    conn.Open();
-                    //    cmd.ExecuteNonQuery();
-                    //    conn.Close();
-                    //}
                 }
                 else if (cmbBayiler.SelectedIndex > -1 && cmbBayiler.SelectedItem.ToString() == "SULTANLAR PAZARLAMA A.Ş.")
                 {
@@ -668,9 +643,6 @@ namespace Sultanlar.UI
                     short yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
 
                     dt = GetSatisRapor(-1, ay, yil, false);
-
-                    //HesaplaKaydet(dt, 0, 0, dt.Rows.Count, true, true, true);
-                    //return;
                 }
                 else if (cmbBayiler.SelectedIndex == -1)
                 {
@@ -683,45 +655,25 @@ namespace Sultanlar.UI
 
 
 
-                //DataTable dt1 = new DataTable();
-                //DataTable dt2 = new DataTable();
-                //DataTable dt3 = new DataTable();
-                //DataTable dt4 = new DataTable();
-                //DataTable dt5 = new DataTable();
-                //DataTable dt6 = new DataTable();
-                //DataTable dt7 = new DataTable();
-
-                //for (int i = 0; i < dt.Columns.Count; i++)
-                //{
-                //    dt1.Columns.Add(dt.Columns[i].ColumnName, dt.Columns[i].DataType);
-                //    dt2.Columns.Add(dt.Columns[i].ColumnName, dt.Columns[i].DataType);
-                //    dt3.Columns.Add(dt.Columns[i].ColumnName, dt.Columns[i].DataType);
-                //    dt4.Columns.Add(dt.Columns[i].ColumnName, dt.Columns[i].DataType);
-                //    dt5.Columns.Add(dt.Columns[i].ColumnName, dt.Columns[i].DataType);
-                //    dt6.Columns.Add(dt.Columns[i].ColumnName, dt.Columns[i].DataType);
-                //    dt7.Columns.Add(dt.Columns[i].ColumnName, dt.Columns[i].DataType);
-                //}
-                //for (int i = 0; i < dt.Rows.Count; i++)
-                //{
-                //    dt1.Rows.Add(dt.Rows[i].ItemArray);
-                //    dt2.Rows.Add(dt.Rows[i].ItemArray);
-                //    dt3.Rows.Add(dt.Rows[i].ItemArray);
-                //    dt4.Rows.Add(dt.Rows[i].ItemArray);
-                //    dt5.Rows.Add(dt.Rows[i].ItemArray);
-                //    dt6.Rows.Add(dt.Rows[i].ItemArray);
-                //    dt7.Rows.Add(dt.Rows[i].ItemArray);
-                //}
-
                 int kacakadar = dt.Rows.Count;
 
-                //int BirinciBitis = kacakadar / 8;
-                //int IkinciBitis = kacakadar - (BirinciBitis * 6);
-                //int UcuncuBitis = kacakadar - (BirinciBitis * 5);
-                //int DorduncuBitis = kacakadar - (BirinciBitis * 4);
-                //int BesinciBitis = kacakadar - (BirinciBitis * 3);
-                //int AltinciBitis = kacakadar - (BirinciBitis * 2);
-                //int YedinciBitis = kacakadar - (BirinciBitis * 1);
-                //int SekizinciBitis = dt.Rows.Count;
+                int BirinciBitis = kacakadar / 4;
+                int IkinciBitis = BirinciBitis * 2;
+                int UcuncuBitis = BirinciBitis * 3;
+                int DorduncuBitis = kacakadar;
+
+                DataTable dt1 = dt.Clone();
+                DataTable dt2 = dt.Clone();
+                DataTable dt3 = dt.Clone();
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    dt1.Rows.Add(dt.Rows[i].ItemArray);
+                    dt2.Rows.Add(dt.Rows[i].ItemArray);
+                    dt3.Rows.Add(dt.Rows[i].ItemArray);
+                }
+
+
 
                 progressBar1.Maximum = dt.Rows.Count; // hesapla kaydet *3
                 progressBar1.Value = 0;
@@ -731,27 +683,21 @@ namespace Sultanlar.UI
                 //besincibitti = false; altincibitti = false; yedincibitti = false; sekizincibitti = false;
 
                 HesaplaKaydetDelegate hesapla = new HesaplaKaydetDelegate(HesaplaKaydet);
-                //HesaplaKaydetDelegate hesapla1 = new HesaplaKaydetDelegate(HesaplaKaydet);
-                //HesaplaKaydetDelegate hesapla2 = new HesaplaKaydetDelegate(HesaplaKaydet);
-                //HesaplaKaydetDelegate hesapla3 = new HesaplaKaydetDelegate(HesaplaKaydet);
-                //HesaplaKaydetDelegate hesapla4 = new HesaplaKaydetDelegate(HesaplaKaydet);
-                //HesaplaKaydetDelegate hesapla5 = new HesaplaKaydetDelegate(HesaplaKaydet);
-                //HesaplaKaydetDelegate hesapla6 = new HesaplaKaydetDelegate(HesaplaKaydet);
-                //HesaplaKaydetDelegate hesapla7 = new HesaplaKaydetDelegate(HesaplaKaydet);
+                HesaplaKaydetDelegate hesapla1 = new HesaplaKaydetDelegate(HesaplaKaydet);
+                HesaplaKaydetDelegate hesapla2 = new HesaplaKaydetDelegate(HesaplaKaydet);
+                HesaplaKaydetDelegate hesapla3 = new HesaplaKaydetDelegate(HesaplaKaydet);
 
-                hesapla.BeginInvoke(dt, 0, 0, dt.Rows.Count, true, true, true, null, null);
+                //hesapla.BeginInvoke(dt, 0, 0, dt.Rows.Count, true, true, true, null, null);
 
-                //hesapla1.BeginInvoke(dt1, 2, BirinciBitis, IkinciBitis, true, true, false, null, null);
-                //hesapla2.BeginInvoke(dt2, 3, IkinciBitis, UcuncuBitis, true, true, false, null, null);
-                //hesapla3.BeginInvoke(dt3, 4, UcuncuBitis, DorduncuBitis, true, true, false, null, null);
-                //hesapla.BeginInvoke(dt4, 5, 0, BirinciBitis, true, true, false, null, null);
-                //hesapla.BeginInvoke(dt5, 6, 0, BirinciBitis, true, true, false, null, null);
-                //hesapla.BeginInvoke(dt6, 7, 0, BirinciBitis, true, true, false, null, null);
-                //hesapla.BeginInvoke(dt7, 8, 0, BirinciBitis, true, true, false, null, null);
+                hesapla.BeginInvoke(dt, 1, 0, BirinciBitis, true, true, true, null, null);
+                hesapla1.BeginInvoke(dt1, 2, BirinciBitis, IkinciBitis, true, true, true, null, null);
+                hesapla2.BeginInvoke(dt2, 3, IkinciBitis, UcuncuBitis, true, true, true, null, null);
+                hesapla3.BeginInvoke(dt3, 4, UcuncuBitis, DorduncuBitis, true, true, true, null, null);
             }
         }
 
-        bool birincibitti, ikincibitti, ucuncubitti, dorduncubitti, besincibitti, altincibitti, yedincibitti, sekizincibitti;
+        bool birincibitti, ikincibitti, ucuncubitti, dorduncubitti;
+        string birincibilgi, ikincibilgi, ucuncubilgi, dorduncubilgi;
         delegate void HesaplaKaydetDelegate(DataTable dt, int Kacinci, int Kactan, int KacaKadar, bool Hesapla, bool Kaydet, bool textbilgi);
 
         private void HesaplaKaydet(DataTable dt, int Kacinci, int Kactan, int KacaKadar, bool Hesapla, bool Kaydet, bool textbilgi)
@@ -1078,7 +1024,32 @@ namespace Sultanlar.UI
 
                     try { if (progressBar1.Value < progressBar1.Maximum) progressBar1.Value++; } catch (Exception) { }
                     if (textbilgi)
-                        this.Text = "Ticari Pazarlama : Satış Raporu (Hesaplanan satır: " + i.ToString() + " / " + dt.Rows.Count.ToString() + ")";
+                    {
+                        if (Kacinci != 0)
+                        {
+                            if (Kacinci == 1)
+                            {
+                                birincibilgi = "(Hesaplanan satır: " + i.ToString() + " / " + KacaKadar.ToString() + ") ";
+                            }
+                            else if (Kacinci == 2)
+                            {
+                                ikincibilgi = "(Hesaplanan satır: " + i.ToString() + " / " + KacaKadar.ToString() + ") ";
+                            }
+                            else if (Kacinci == 3)
+                            {
+                                ucuncubilgi = "(Hesaplanan satır: " + i.ToString() + " / " + KacaKadar.ToString() + ") ";
+                            }
+                            else if (Kacinci == 4)
+                            {
+                                dorduncubilgi = "(Hesaplanan satır: " + i.ToString() + " / " + KacaKadar.ToString() + ") ";
+                            }
+                            this.Text = "Ticari Pazarlama : Satış Raporu " + birincibilgi + ikincibilgi + ucuncubilgi + dorduncubilgi;
+                        }
+                        else
+                        {
+                            this.Text = "Ticari Pazarlama : Satış Raporu (Hesaplanan satır: " + i.ToString() + " / " + dt.Rows.Count.ToString() + ")";
+                        }
+                    }
                 }
                 //progressBar1.Value = 0;
 
@@ -1090,8 +1061,8 @@ namespace Sultanlar.UI
 
 
 
-            for (int i = 0; i < hesaplanamayansatirlar.Count; i++)
-                HesaplaKaydet(dt, 0, Convert.ToInt32(hesaplanamayansatirlar[i]), Convert.ToInt32(hesaplanamayansatirlar[i]), true, false, false);
+            /*for (int i = 0; i < hesaplanamayansatirlar.Count; i++)
+                HesaplaKaydet(dt, 0, Convert.ToInt32(hesaplanamayansatirlar[i]), Convert.ToInt32(hesaplanamayansatirlar[i]), true, false, false);*/
 
 
 
@@ -1099,7 +1070,7 @@ namespace Sultanlar.UI
             {
                 #region Kaydetme
                 //progressBar1.Maximum = dt.Rows.Count;
-                for (int i = 0; i < dt.Rows.Count; i++)
+                for (int i = Kactan; i < KacaKadar; i++)
                 {
                     SatisRaporTP satisrapor = SatisRaporTP.GetObject(Convert.ToInt64(dt.Rows[i]["REF"]));
                     satisrapor.intAnlasmaID = Convert.ToInt32(dt.Rows[i]["intAnlasmaID"]);
@@ -1121,23 +1092,33 @@ namespace Sultanlar.UI
 
                     try { if (progressBar1.Value < progressBar1.Maximum) progressBar1.Value++; } catch (Exception) { }
                     if (textbilgi)
-                        this.Text = "Ticari Pazarlama : Satış Raporu (Kaydedilen satır: " + i.ToString() + " / " + dt.Rows.Count.ToString() + ")";
+                    {
+                        if (Kacinci != 0)
+                        {
+                            if (Kacinci == 1)
+                            {
+                                birincibilgi = "(Kaydedilen satır: " + i.ToString() + " / " + KacaKadar.ToString() + ") ";
+                            }
+                            else if (Kacinci == 2)
+                            {
+                                ikincibilgi = "(Kaydedilen satır: " + i.ToString() + " / " + KacaKadar.ToString() + ") ";
+                            }
+                            else if (Kacinci == 3)
+                            {
+                                ucuncubilgi = "(Kaydedilen satır: " + i.ToString() + " / " + KacaKadar.ToString() + ") ";
+                            }
+                            else if (Kacinci == 4)
+                            {
+                                dorduncubilgi = "(Kaydedilen satır: " + i.ToString() + " / " + KacaKadar.ToString() + ") ";
+                            }
+                            this.Text = "Ticari Pazarlama : Satış Raporu " + birincibilgi + ikincibilgi + ucuncubilgi + dorduncubilgi;
+                        }
+                        else
+                        {
+                            this.Text = "Ticari Pazarlama : Satış Raporu (Kaydedilen satır: " + i.ToString() + " / " + dt.Rows.Count.ToString() + ")";
+                        }
+                    }
                 }
-                //progressBar1.Value = 0;
-                //progressBar1.Visible = false;
-
-                //if (cmbBayiler.SelectedIndex > -1 && cmbBayiler.SelectedItem.ToString() != "SULTANLAR PAZARLAMA A.Ş.")
-                //{
-                //    SatisRaporTP.SetToplamlar(((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF,
-                //        Convert.ToByte(cmbAy.SelectedItem.ToString()), Convert.ToInt16(cmbYil.SelectedItem.ToString()),
-                //        Convert.ToDecimal(lblTAH.Text.Replace(" TL", "")), Convert.ToDecimal(lblYEG.Text.Replace(" TL", "")));
-                //}
-                //else if (cmbBayiler.SelectedIndex > -1 && cmbBayiler.SelectedItem.ToString() == "SULTANLAR PAZARLAMA A.Ş.")
-                //{
-                //    SatisRaporTP.SetToplamlar(-1,
-                //        Convert.ToByte(cmbAy.SelectedItem.ToString()), Convert.ToInt16(cmbYil.SelectedItem.ToString()),
-                //        Convert.ToDecimal(lblTAH.Text.Replace(" TL", "")), Convert.ToDecimal(lblYEG.Text.Replace(" TL", "")));
-                //}
                 #endregion
             }
 
@@ -1146,10 +1127,9 @@ namespace Sultanlar.UI
             if (Kacinci != 0)
             {
                 if (Kacinci == 1) birincibitti = true; else if (Kacinci == 2) ikincibitti = true; else if (Kacinci == 3) ucuncubitti = true; else if (Kacinci == 4) dorduncubitti = true;
-                if (Kacinci == 5) besincibitti = true; else if (Kacinci == 6) altincibitti = true; else if (Kacinci == 7) yedincibitti = true; else if (Kacinci == 8) sekizincibitti = true;
             }
 
-            if ((birincibitti && ikincibitti && ucuncubitti && dorduncubitti && besincibitti && altincibitti && yedincibitti && sekizincibitti) || Kacinci == 0)
+            if ((birincibitti && ikincibitti && ucuncubitti && dorduncubitti) || Kacinci == 0)
             {
                 this.Enabled = true;
 
