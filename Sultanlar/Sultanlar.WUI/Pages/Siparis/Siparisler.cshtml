@@ -88,7 +88,7 @@
 
                         $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0"));
                         $.each(data, function (index, item) {
-                            if (item.smref != getGmref() || item.tip != 4) { // tp den bayi tekrar gelmesin
+                            if (item.smref != getGmref() || item.tip != 4) {
                                 $("#selectSubeler").append(
                                     $("<option></option>")
                                         .text(item.sube)

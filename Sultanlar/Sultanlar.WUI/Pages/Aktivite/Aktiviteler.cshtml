@@ -89,7 +89,7 @@
 
                         $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0;;;1"));
                         $.each(data, function (index, item) {
-                            if (item.smref != getGmref() || item.tip != 4) { // tp den bayi tekrar gelmesin
+                            if (item.smref != getGmref() && item.tip == 4) { // tp den bayi tekrar gelmesin
                                 $("#selectSubeler").append(
                                     $("<option></option>")
                                         .text((item.mtkod == "Z1" ? "(BY) " : "") + item.sube)

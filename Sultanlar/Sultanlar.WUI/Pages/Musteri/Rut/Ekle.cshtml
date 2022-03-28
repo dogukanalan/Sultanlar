@@ -21,7 +21,7 @@
         var kolonlar = [
             {
                 "data": null, "class": "keyTd", render: function (data, type, row) {
-                    return (data.grp > 0 && data.ekp == getSiraRadioCheck() ? '<div class="pretty p-default p-curve prettyMargin3"><input class="chkbxs" type="checkbox" checked="checked" disabled /><div class="state p-primary-o"><label></label></div></div>' : '<div class="pretty p-default p-curve prettyMargin3"><input class="chkbxs" type="checkbox" disabled /><div class="state p-primary-o"><label></label></div></div>');
+                    return (data.grp > 0/* && data.ekp == getSiraRadioCheck()*/ ? '<div class="pretty p-default p-curve prettyMargin3"><input class="chkbxs" type="checkbox" checked="checked" disabled /><div class="state p-primary-o"><label></label></div></div>' : '<div class="pretty p-default p-curve prettyMargin3"><input class="chkbxs" type="checkbox" disabled /><div class="state p-primary-o"><label></label></div></div>');
                 }
             },
             {

@@ -65,7 +65,7 @@
                         $('#mudurbutcesi').val(data.mnMudurButcesi);
                         $('#elemanbutcesi').val(data.mnElemanButcesi);
                         $('#cbEtki').prop('checked', data.blKapamaEtki);
-                        getCari(4, data.smref, getCariSube, "inputCari", "inputBayi", Yazdir);
+                        GetCari(4, data.smref, getCariSube, "inputCari", "inputBayi", Yazdir);
 
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
@@ -142,7 +142,7 @@
             );
         }
 
-        function getCari(tip, smref, callback, controlid, controlid2, callback2) {
+        function GetCari(tip, smref, callback, controlid, controlid2, callback2) {
             $.ajax(
                 {
                     beforeSend: function (xhr) { xhrTicket(xhr); },

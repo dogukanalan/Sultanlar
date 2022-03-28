@@ -87,7 +87,7 @@
 
                         $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0;;;4"));
                         $.each(data, function (index, item) {
-                            if (item.smref != getGmref() || item.tip != 4) { // tp den bayi tekrar gelmesin
+                            if (item.smref != getGmref() && item.tip == 4) { // tp den bayi tekrar gelmesin
                                 $("#selectSubeler").append(
                                     $("<option></option>")
                                         .text((item.mtkod == "Z1" ? "(BY) " : "") + item.sube)
@@ -195,8 +195,7 @@
         }
 
         function HizmetGir() {
-            console.log($('select[name=selectSubeler]').val());
-            if ($('select[name=selectSubeler]').val().indexOf(";;;4") > -1) {
+            if ($('select[name=selectSubeler]').val().indexOf("0;;;4") == -1 && $('select[name=selectSubeler]').val().indexOf(";;;4") > -1) {
                 window.location.href = 'Index?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + $('select[name=selectSubeler]').val().substring(0, 7) + '&yil=' + getYil() + '&ay=' + getAy();
             }
         }
@@ -251,7 +250,7 @@
                 init();
             });
             $('#selectSubeler').on('change', function (e) {
-                window.history.pushState("", "Title", 'HizmetBedelleri?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + ($('select[name=selectSubeler]').val() == "0;;;1" ? "0" : $('select[name=selectSubeler]').val().substring(0, 7)) + '&yil=' + getYil() + '&ay=' + getAy());
+                window.history.pushState("", "Title", 'HizmetBedelleri?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + ($('select[name=selectSubeler]').val() == "0;;;4" ? "0" : $('select[name=selectSubeler]').val().substring(0, 7)) + '&yil=' + getYil() + '&ay=' + getAy());
                 init();
             });
             $('#selectYil').on('change', function (e) {
