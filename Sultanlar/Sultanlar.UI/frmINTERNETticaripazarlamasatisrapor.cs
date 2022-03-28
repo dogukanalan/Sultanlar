@@ -1141,7 +1141,7 @@ namespace Sultanlar.UI
                     MessageBox.Show("Hesaplamalar başarıyla kaydedildi.", "Kaydedildi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //else
                 //    MessageBox.Show("Hesaplama bitti.", "Bitti", MessageBoxButtons.OK, MessageBoxIcon.Information); gridControl1.DataSource = dt;
-                if (Kaydet && Kacinci == 0)
+                if (Kaydet)
                     this.Close(); //gridControl1.DataSource = dt;
 
                 progressBar1.Visible = false;

@@ -1,0 +1,333 @@
+﻿@page
+@model Sultanlar.WUI.Pages.Hizmet.HizmetBedelleriModel
+@{
+    ViewData["Title"] = "Hizmet Bedelleri";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+
+    <script>
+        function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
+        function getGmref() { return getParameterByName("gmref") ? getParameterByName("gmref") : "0"; }
+        function getSmref() { return getParameterByName("smref") ? getParameterByName("smref") : "0"; }
+        function getYil() { return getParameterByName("yil") ? getParameterByName("yil") : (new Date().getFullYear()).toString(); }
+        function getAy() { return getParameterByName("ay") ? getParameterByName("ay") : (new Date().getMonth() + 1).toString(); }
+
+        $(window).on("popstate", function (e) {
+            CarilerGetir();
+        });
+
+        function SaticilarGetir() {
+            var uyeid = window.localStorage["uyeid"];
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "satici",
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        CarilerGetir();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function CarilerGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getana/" + getSlsref(),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectCariler").empty().append($("<option></option>").text("Tümü").val("0"));
+                        $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0;;;1"));
+                        $.each(data, function (index, item) {
+                            $("#selectCariler").append(
+                                $("<option></option>")
+                                    .text(item.musteri)
+                                    .val(item.gmref)
+                            );
+                        });
+
+                        init();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function SubelerGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getsube1/" + getGmref() + "/" + getSlsref(),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0;;;4"));
+                        $.each(data, function (index, item) {
+                            if (item.smref != getGmref() || item.tip != 4) { // tp den bayi tekrar gelmesin
+                                $("#selectSubeler").append(
+                                    $("<option></option>")
+                                        .text((item.mtkod == "Z1" ? "(BY) " : "") + item.sube)
+                                        .val(item.smref + ";;;" + item.tip)
+                                );
+                            }
+                        });
+
+                        $('select[name=selectSubeler]').val(getSmref() + ";;;4");
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function HizmetBedelleriGetir(slsref, gmref, smref) {
+            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                "responsive": true,
+                "destroy": true,
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "hizmetbedeli/getir",
+                    data: function (d) {
+                        d.slsref = slsref;
+                        d.gmref = gmref;
+                        d.smref = smref;
+                        d.yil = getYil();
+                        d.ay = getAy();
+                        return JSON.stringify(d);
+                    },
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                },
+                "initComplete": function (settings, json) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
+                },
+                columns: [
+                    {
+                        "data": "pkID", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>'
+                        },
+                        "width": "10%"
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<a href="javascript:showSubMenu(div' + data.pkID + ')" class="btn btn-primary">İşlemler</a>' +
+                                '<div class="subMenu" id="div' + data.pkID + '">' +
+                                '<a href="Index?incele=1&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + getYil() + '&ay=' + getAy() + '">İncele</a>' +
+                                '<a href="Index?incele=2&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + getYil() + '&ay=' + getAy() + '">Sil</a>' +
+                                '<a href="Index?incele=3&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + getYil() + '&ay=' + getAy() + '">Yazdır</a>';
+                        },
+                        "width": "10%"
+                    },
+                    {
+                        "data": "musteri", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.strAd + ' ' + data.strSoyad + '</span>'
+                        },
+                        "width": "15%"
+                    },
+                    {
+                        "data": "cari", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli" data-toggle="tooltip" title="' + data.anaCari + '">' + data.sube + '</span>'
+                        },
+                        "width": "25%"
+                    },
+                    {
+                        "data": "strFaturaNo", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>'
+                        },
+                        "width": "12%"
+                    },
+                    {
+                        "data": "dtFaturaTarih", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.substring(0, 10) + '</span>'
+                        },
+                        "width": "12%"
+                    },
+                    {
+                        "data": "mnMudurButcesi", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>'
+                        },
+                        "width": "8%"
+                    },
+                    {
+                        "data": "mnElemanButcesi", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>'
+                        },
+                        "width": "8%"
+                    }
+                ],
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[0, "desc"]]
+            });
+        }
+
+        function HizmetGir() {
+            console.log($('select[name=selectSubeler]').val());
+            if ($('select[name=selectSubeler]').val().indexOf(";;;4") > -1) {
+                window.location.href = 'Index?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + $('select[name=selectSubeler]').val().substring(0, 7) + '&yil=' + getYil() + '&ay=' + getAy();
+            }
+        }
+
+        function init() {
+            var slsref = getSlsref();
+            var gmref = getGmref();
+            var smref = getSmref();
+            var yil = getYil();
+            var ay = getAy();
+
+            if (slsref != "0") {
+                $('select[name=selectSaticilar]').val(slsref);
+            }
+            if (gmref != "0") {
+                $('select[name=selectCariler]').val(gmref);
+                if ($('#selectSubeler > option').length == 1)
+                    SubelerGetir();
+            }
+            if (yil != "0") {
+                $('select[name=selectYil]').val(yil);
+            }
+            if (ay != "0") {
+                $('select[name=selectAy]').val(ay);
+            }
+            
+            if (smref != "0") {
+                HizmetBedelleriGetir(0, 0, smref);
+            }
+            else if (gmref != "0") {
+                HizmetBedelleriGetir(0, gmref, 0);
+            }
+            else if (slsref != "0") {
+                HizmetBedelleriGetir(slsref, 0, 0);
+            }
+            else {
+                HizmetBedelleriGetir($('select[name=selectSaticilar]').val(), 0, 0);
+            }
+        }
+
+        $(document).ready(function () {
+            SaticilarGetir();
+
+            $('#selectSaticilar').on('change', function (e) {
+                window.history.pushState("", "Title", 'HizmetBedelleri?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=0&smref=0&yil=' + getYil() + '&ay=' + getAy());
+                CarilerGetir();
+            });
+            $('#selectCariler').on('change', function (e) {
+                $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0;;;1"));
+                window.history.pushState("", "Title", 'HizmetBedelleri?slsref=' + getSlsref() + '&gmref=' + $('select[name=selectCariler]').val() + '&smref=0&yil=' + getYil() + '&ay=' + getAy());
+                SubelerGetir();
+                init();
+            });
+            $('#selectSubeler').on('change', function (e) {
+                window.history.pushState("", "Title", 'HizmetBedelleri?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + ($('select[name=selectSubeler]').val() == "0;;;1" ? "0" : $('select[name=selectSubeler]').val().substring(0, 7)) + '&yil=' + getYil() + '&ay=' + getAy());
+                init();
+            });
+            $('#selectYil').on('change', function (e) {
+                window.history.pushState("", "Title", 'HizmetBedelleri?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + $('select[name=selectYil]').val() + '&ay=' + getAy());
+                init();
+            });
+            $('#selectAy').on('change', function (e) {
+                window.history.pushState("", "Title", 'HizmetBedelleri?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + getYil() + '&ay=' + $('select[name=selectAy]').val());
+                init();
+            });
+
+            window.onclick = function (event) {
+                if (!event.target.matches('.dropbtn')) {
+                    var dropdowns = document.getElementsByClassName("subMenu");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            };
+        });
+    </script>
+}
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
+
+<select id="selectYil" name="selectYil" class="dropDown selYil">
+    <option value="2021" selected="selected">2021</option>
+    <option value="2020">2020</option>
+    <option value="2019">2019</option>
+    <option value="2018">2018</option>
+    <option value="2017">2017</option>
+    <option value="2016">2016</option>
+    <option value="2015">2015</option>
+    <option value="2014">2014</option>
+</select>
+
+<select id="selectAy" name="selectAy" class="dropDown selYil">
+    <option value="0">Tümü</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+</select>
+
+<br />
+<select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
+    <option value="0" selected="selected">Tümü</option>
+</select>
+<select id="selectSubeler" name="selectSubeler" class="dropDown selSaticilar">
+    <option value="0;;;1" selected="selected">Tümü</option>
+</select>
+<div id="divOnay" class="btn-group">
+    <a href="javascript:HizmetGir()" class="btn btn-primary">Yeni Hizmet Bedeli</a>
+</div>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd" data-priority="1"><span class="">No</span></th>
+            <th class="keyTd" data-priority="2"></th>
+            <th class="keyTd" data-priority="4"><span class="">Giren</span></th>
+            <th class="keyTd" data-priority="5"><span class="">Cari</span></th>
+            <th class="keyTd"><span class="">Fat.No</span></th>
+            <th class="keyTd"><span class="">Fat.T.</span></th>
+            <th class="keyTd" data-priority="6"><span class="">Kap.Yıl</span></th>
+            <th class="keyTd" data-priority="3"><span class="">Kap.Ay</span></th>
+        </tr>
+    </thead>
+</table>

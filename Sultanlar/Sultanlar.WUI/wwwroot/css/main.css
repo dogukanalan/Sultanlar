@@ -1090,7 +1090,7 @@ input::-webkit-inner-spin-button {
 
 .navbar-ic {
     margin: 0 auto;
-    width: 1000px;
+    width: 150%; /*1000px;*/
     font-size: 0.9rem;
 }
 
@@ -1250,4 +1250,9 @@ input[type="number"]:disabled {
 
 .highcharts-credits {
     display: none !important;
+}
+
+.disabledEverything {
+    pointer-events: none;
+    opacity: 0.4;
 }

@@ -107,6 +107,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BayiServis.svc" />
     <Content Include="Database.svc" />
     <Content Include="Direct.svc" />
     <Content Include="dlls\DevExpress.Data.v12.2.dll" />
@@ -135,6 +136,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BayiServis.svc.cs">
+      <DependentUpon>BayiServis.svc</DependentUpon>
+    </Compile>
     <Compile Include="Database.svc.cs">
       <DependentUpon>Database.svc</DependentUpon>
     </Compile>
@@ -158,6 +162,7 @@
     <Compile Include="hedefanadolu.aspx.designer.cs">
       <DependentUpon>hedefanadolu.aspx</DependentUpon>
     </Compile>
+    <Compile Include="IBayiServis.cs" />
     <Compile Include="IDatabase.cs" />
     <Compile Include="IDirect.cs" />
     <Compile Include="IGeneral.cs" />
