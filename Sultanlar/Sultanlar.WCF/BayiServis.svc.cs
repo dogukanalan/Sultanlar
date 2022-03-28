@@ -23,7 +23,13 @@ namespace Sultanlar.WCF
             DataSet ds = new DataSet();
             ds.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
             DataTable dt = ds.Tables[0];
-            if (DisVeri.TabloYaz("tbl_" + Bayikod + "_" + Satis, dt, YilAd, Yil, AyAd, Ay))
+
+            string tabloadi = "tbl_" + Bayikod + "_" + Satis;
+
+            if (Satis == "Satis") // satış ise son üç ayı silmemiz lazım, tabloyaz ve veriyaz da sadece parametrede gelen ayı siliyor
+                DisVeri.ExecNQ("DELETE FROM " + tabloadi + " WHERE " + YilAd + "=" + Yil + " AND " + AyAd + ">=" + (Convert.ToInt32(Ay) - 3).ToString());
+
+            if (DisVeri.TabloYaz(tabloadi, dt, YilAd, Yil, AyAd, Ay))
                 donendeger.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><sonuc><basarili>true</basarili></sonuc>");
             else
                 donendeger.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><sonuc><basarili>false</basarili></sonuc>");
