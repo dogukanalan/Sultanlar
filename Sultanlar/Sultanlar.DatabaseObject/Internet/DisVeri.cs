@@ -368,7 +368,7 @@ namespace Sultanlar.DatabaseObject.Internet
             return donendeger;
         }
 
-        public static void TabloOlustur(string tabloadi, DataTable dt)
+        public static bool TabloOlustur(string tabloadi, DataTable dt)
         {
             string sorgu = "IF OBJECT_ID('" + tabloadi + "', 'U') IS NOT NULL DROP TABLE " + tabloadi +
                            " CREATE TABLE " + tabloadi + " (";
@@ -380,22 +380,23 @@ namespace Sultanlar.DatabaseObject.Internet
 
             sorgu += "[CEKIM_TARIH] datetime NULL)";
 
-            ExecNQ(sorgu);
+            return ExecNQ(sorgu);
         }
 
-        public static bool TabloYaz(string tabloadi, DataTable dt, string yilad, string yildeger, string ayad, string aydeger)
+        public static bool TabloYaz(string tabloadi, DataTable dt, string yilad, string yildeger, string ayad, string aydeger, bool sil)
         {
             bool yenimi = false;
             if (!Convert.ToBoolean(ExecSc("SELECT CASE WHEN OBJECT_ID('" + tabloadi + "', 'U') IS NOT NULL THEN 1 ELSE 0 END"))) // tablo oluşmuş ise
             {
-                TabloOlustur(tabloadi, dt);
+                if (!TabloOlustur(tabloadi, dt)) // tablo oluşamazsa
+                    return false;
                 yenimi = true;
             }
 
-            return VeriYaz(tabloadi, yenimi, dt, yilad, yildeger, ayad, aydeger);
+            return VeriYaz(tabloadi, yenimi, dt, yilad, yildeger, ayad, aydeger, sil);
         }
 
-        public static bool VeriYaz(string tabloadi, bool yeniolustu, DataTable dt1, string yilad, string yildeger, string ayad, string aydeger)
+        public static bool VeriYaz(string tabloadi, bool yeniolustu, DataTable dt1, string yilad, string yildeger, string ayad, string aydeger, bool sil)
         {
             DateTime simdi = DateTime.Now;
 
@@ -429,10 +430,13 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
             }
 
-            if (yilad != string.Empty && ayad != string.Empty)
-                ExecNQ("DELETE FROM " + tabloadi + " WHERE " + yilad + "=" + yildeger + " AND " + ayad + "=" + aydeger);
-            else
-                ExecNQ("DELETE FROM " + tabloadi);
+            if (sil)
+            {
+                if (yilad != string.Empty && ayad != string.Empty)
+                    ExecNQ("DELETE FROM " + tabloadi + " WHERE " + yilad + "=" + yildeger + " AND " + ayad + "=" + aydeger);
+                else
+                    ExecNQ("DELETE FROM " + tabloadi);
+            }
 
             for (int i = 0; i < dt1.Rows.Count; i++)
             {
@@ -521,7 +525,7 @@ namespace Sultanlar.DatabaseObject.Internet
                         da.Fill(dt);
 
                         string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
-                        if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, i.ToString()))
+                        if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, i.ToString(), true))
                             donendeger = false;
 
                         SAPs.BayiLogYaz("bayi servis sql " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + i.ToString() + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
@@ -556,7 +560,7 @@ namespace Sultanlar.DatabaseObject.Internet
                         DataTable dt = ds.Tables[0];
 
                         string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
-                        if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, i.ToString()))
+                        if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, i.ToString(), true))
                             donendeger = false;
 
                         SAPs.BayiLogYaz("bayi servis xml " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + i.ToString() + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);

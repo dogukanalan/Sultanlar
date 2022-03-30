@@ -344,7 +344,7 @@ namespace Sultanlar.UI
                 if (MessageBox.Show("Satış tablosunda " + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + " (" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ") " + textBox15.Text.Trim() + "-" + textBox16.Text.Trim() + " dönemi üzerine yazma yapılacak, devam etmek istediğinize emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
                     string tabloadi = "tbl_" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + "_Satis";
-                    if (DisVeri.TabloYaz(tabloadi, dtGelen, textBox17.Text.Trim(), textBox15.Text.Trim(), textBox18.Text.Trim(), textBox16.Text.Trim()))
+                    if (DisVeri.TabloYaz(tabloadi, dtGelen, textBox17.Text.Trim(), textBox15.Text.Trim(), textBox18.Text.Trim(), textBox16.Text.Trim(), true))
                         MessageBox.Show("Satış verisi yazıldı:\r\n\r\n" + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + "\r\n(" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ")\r\n\r\n" + textBox15.Text.Trim() + "-" + textBox16.Text.Trim(), "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
                         MessageBox.Show("Hata oluştu, program kayıtlarına bakın:\r\n\r\n" + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + "\r\n(" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ")\r\n\r\n" + textBox15.Text.Trim() + "-" + textBox16.Text.Trim(), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -363,7 +363,7 @@ namespace Sultanlar.UI
                 if (MessageBox.Show("Stok tablosunda " + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + " (" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ") " + textBox15.Text.Trim() + "-" + textBox16.Text.Trim() + " dönemi üzerine yazma yapılacak, devam etmek istediğinize emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                 {
                     string tabloadi = "tbl_" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + "_Stok";
-                    if (DisVeri.TabloYaz(tabloadi, dtGelen, textBox17.Text.Trim(), textBox15.Text.Trim(), textBox18.Text.Trim(), textBox16.Text.Trim()))
+                    if (DisVeri.TabloYaz(tabloadi, dtGelen, textBox17.Text.Trim(), textBox15.Text.Trim(), textBox18.Text.Trim(), textBox16.Text.Trim(), true))
                         MessageBox.Show("Stok verisi yazıldı:\r\n\r\n" + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + "\r\n(" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ")\r\n\r\n" + textBox15.Text.Trim() + "-" + textBox16.Text.Trim(), "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
                         MessageBox.Show("Hata oluştu, program kayıtlarına bakın:\r\n\r\n" + ((CariHesaplarTP)comboBox1.SelectedItem).MUSTERI + "\r\n(" + ((CariHesaplarTP)comboBox1.SelectedItem).SMREF.ToString() + ")\r\n\r\n" + textBox15.Text.Trim() + "-" + textBox16.Text.Trim(), "Hata", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);

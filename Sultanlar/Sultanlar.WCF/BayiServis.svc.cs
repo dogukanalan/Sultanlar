@@ -19,6 +19,8 @@ namespace Sultanlar.WCF
         {
             XmlDocument donendeger = new XmlDocument();
 
+            DateTime baslangic = DateTime.Now;
+
             string xml = icerik.OuterXml;
             DataSet ds = new DataSet();
             ds.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
@@ -28,11 +30,15 @@ namespace Sultanlar.WCF
 
             if (Satis == "Satis") // satış ise son üç ayı silmemiz lazım, tabloyaz ve veriyaz da sadece parametrede gelen ayı siliyor
                 DisVeri.ExecNQ("DELETE FROM " + tabloadi + " WHERE " + YilAd + "=" + Yil + " AND " + AyAd + ">=" + (Convert.ToInt32(Ay) - 3).ToString());
+            else
+                DisVeri.ExecNQ("DELETE FROM " + tabloadi);
 
-            if (DisVeri.TabloYaz(tabloadi, dt, YilAd, Yil, AyAd, Ay))
+            if (DisVeri.TabloYaz(tabloadi, dt, YilAd, Yil, AyAd, Ay, false))
                 donendeger.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><sonuc><basarili>true</basarili></sonuc>");
             else
                 donendeger.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><sonuc><basarili>false</basarili></sonuc>");
+
+            SAPs.BayiLogYaz("bayi win servis xml " + Satis, true, Bayikod + " nolu bayi " + Yil + "-" + Ay + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
 
             return donendeger;
         }
