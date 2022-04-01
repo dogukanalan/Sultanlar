@@ -25,7 +25,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             if (smref != 0)
                 return new iadeler().GetObjectsBySMREF(smref, yil, Ay, Onay);
 
-            return new iadeler().GetObjects();
+            return new iadeler().GetObjects(yil, Ay, Onay);
         }
 
         internal string IadeSil(int IadeID)

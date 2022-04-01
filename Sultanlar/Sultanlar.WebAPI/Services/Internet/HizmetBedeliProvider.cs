@@ -10,7 +10,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 {
     public class HizmetBedeliProvider
     {
-        internal List<hizmetBedelleri> HizmetBedelleri() => new hizmetBedelleri().GetObjects();
+        internal List<hizmetBedelleri> HizmetBedelleri(int yil, int Ay) => new hizmetBedelleri().GetObjects(yil, Ay);
 
         internal hizmetBedelleri HizmetBedeli(int HizmetBedeliID) => new hizmetBedelleri(HizmetBedeliID).GetObject();
 
@@ -24,7 +24,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             if (smref != 0)
                 return new hizmetBedelleri().GetObjectsBySMREF(smref, yil, Ay);
 
-            return new hizmetBedelleri().GetObjects();
+            return new hizmetBedelleri().GetObjects(yil, Ay);
         }
 
         internal string HizmetBedeliKaydet(HizmetBedeliKaydet hbk)

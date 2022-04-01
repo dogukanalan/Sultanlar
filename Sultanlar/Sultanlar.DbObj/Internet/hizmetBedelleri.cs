@@ -125,16 +125,16 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<hizmetBedelleri> GetObjects()
+        public List<hizmetBedelleri> GetObjects(int Yil, object Ay)
         {
             List<hizmetBedelleri> donendeger = new List<hizmetBedelleri>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_hizmetBedelleriGetir", new Dictionary<string, object>() { }, timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_hizmetBedelleriGetir", new Dictionary<string, object>() { { "Yil", Yil }, { "Ay", Ay } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new hizmetBedelleri(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), ConvertToInt32(dic[3]), ConvertToInt32(dic[4]), ConvertToInt32(dic[5]),
-                    ConvertToString(dic[6]), ConvertToDateTime(dic[7]), Convert.ToDecimal(dic[8]), Convert.ToDecimal(dic[9]), ConvertToInt32(dic[10]), ConvertToString(dic[11]),
-                    ConvertToString(dic[12]), ConvertToString(dic[13]), ConvertToString(dic[14]), Convert.ToDecimal(dic[15]), Convert.ToDecimal(dic[16]), Convert.ToBoolean(dic[17])));
+                    donendeger.Add(new hizmetBedelleri(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]),
+                    ConvertToString(dic[i][6]), ConvertToDateTime(dic[i][7]), Convert.ToDecimal(dic[i][8]), Convert.ToDecimal(dic[i][9]), ConvertToInt32(dic[i][10]), ConvertToString(dic[i][11]),
+                    ConvertToString(dic[i][12]), ConvertToString(dic[i][13]), ConvertToString(dic[i][14]), Convert.ToDecimal(dic[i][15]), Convert.ToDecimal(dic[i][16]), Convert.ToBoolean(dic[i][17])));
 
             return donendeger;
         }

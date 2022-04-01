@@ -7,27 +7,57 @@ using Sultanlar.WebAPI.Models.Internet;
 using Sultanlar.Class;
 using System.Net;
 using System.IO;
+using System.Globalization;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
     public class SiparisProvider
     {
-        internal List<siparisler> Siparisler() => new siparisler().GetObjects();
+        internal List<siparisler> Siparisler(int yil, int ay, object Onay) => new siparisler().GetObjects(yil, ay, Onay);
 
         internal siparisler Siparis(int SiparisID) => new siparisler(SiparisID).GetObject();
 
-        internal List<siparisler> Siparisler(int slsref, int gmref, int smref, int yil, int ay, string onay)
+        internal DtAjaxResponse Siparisler(SiparisGet sget)
         {
-            object Onay = onay == "1" ? true : onay == "0" ? false : (object)DBNull.Value;
-            object Ay = ay == 0 ? (object)DBNull.Value : ay;
-            if (slsref != 0)
-                return new siparisler().GetObjectsBySLSREF(slsref, yil, Ay, Onay);
-            if (gmref != 0)
-                return new siparisler().GetObjectsByGMREF(gmref, yil, Ay, Onay);
-            if (smref != 0)
-                return new siparisler().GetObjectsBySMREF(smref, yil, Ay, Onay);
+            DtAjaxResponse donendeger = new DtAjaxResponse();
+            List<siparisler> donendeger2 = new List<siparisler>();
 
-            return new siparisler().GetObjects();
+            object Onay = sget.onay == "1" ? true : sget.onay == "0" ? false : (object)DBNull.Value;
+            object Ay = sget.ay == 0 ? (object)DBNull.Value : sget.ay;
+            if (sget.slsref != 0)
+                donendeger2 = new siparisler().GetObjectsBySLSREF(sget.slsref, sget.yil, Ay, Onay);
+            if (sget.gmref != 0)
+                donendeger2 = new siparisler().GetObjectsByGMREF(sget.gmref, sget.yil, Ay, Onay);
+            if (sget.smref != 0)
+                donendeger2 = new siparisler().GetObjectsBySMREF(sget.smref, sget.yil, Ay, Onay);
+            donendeger2 = new siparisler().GetObjects(sget.yil, Ay, Onay);
+
+            donendeger.recordsTotal = donendeger2.Count;
+            if (sget.search.value != "")
+            {
+                donendeger2 = donendeger2.ToList().Where(k => 
+                    k.Cari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Cari.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Musteri.AdSoyad.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Aciklama1.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Aciklama2.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Aciklama3.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.FiyatTipi.ACIKLAMA.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1
+                ).ToList();
+            }
+            donendeger.recordsFiltered = donendeger2.Count;
+
+            int Baslangic = sget.start;
+            int Kactane = sget.length;
+            int sinir = (Baslangic + Kactane) < donendeger2.Count ? (Baslangic + Kactane) : donendeger2.Count;
+
+            donendeger.json = new List<object>();
+            for (int i = Baslangic; i < sinir; i++)
+            {
+                donendeger.json.Add(donendeger2[i]);
+            }
+
+            return donendeger;
         }
 
         internal string SiparisSil(int SiparisID)

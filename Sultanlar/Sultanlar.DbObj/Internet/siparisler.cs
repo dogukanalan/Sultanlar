@@ -133,7 +133,7 @@ namespace Sultanlar.DbObj.Internet
         {
             List<siparisler> donendeger = new List<siparisler>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerGetir", timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("", timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new siparisler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt16(dic[i][3]), ConvertToDateTime(dic[i][4]), ConvertToDouble(dic[i][5]), Convert.ToBoolean(dic[i][6]), ConvertToInt32(dic[i][7]), ConvertToDateTime(dic[i][8]), dic[i][9].ToString(), false));
@@ -144,11 +144,11 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<siparisler> GetObjects(object Aktarilmis)
+        public List<siparisler> GetObjects(int Yil, object Ay, object Aktarilmis)
         {
             List<siparisler> donendeger = new List<siparisler>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerGetir", new Dictionary<string, object>() { { "blAktarilmis", Aktarilmis } }, timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerGetir", new Dictionary<string, object>() { { "Yil", Yil }, { "Ay", Ay }, { "blAktarilmis", Aktarilmis } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new siparisler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt16(dic[i][3]), ConvertToDateTime(dic[i][4]), ConvertToDouble(dic[i][5]), Convert.ToBoolean(dic[i][6]), ConvertToInt32(dic[i][7]), ConvertToDateTime(dic[i][8]), dic[i][9].ToString(), false));

@@ -49,18 +49,20 @@
                 document.getElementById("divZiy").style.display = "none";
             }
 
-            if (window.location.href.indexOf("/Rapor/") > -1 || window.location.href.indexOf("/Siparis/") > -1 || window.location.href.indexOf("/Iade/") > -1
-                || window.location.href.indexOf("/Anlasma/") > -1 || window.location.href.indexOf("/Aktivite/") > -1) {
-                if (window.localStorage["uyetipiid"] == "vdna04pQKLI=") {
+            if (window.location.href.indexOf("/Dashboard") > -1 || window.location.href.indexOf("/Rapor/") > -1 || window.location.href.indexOf("/Siparis/") > -1 || window.location.href.indexOf("/Iade/") > -1
+                || window.location.href.indexOf("/Anlasma/") > -1 || window.location.href.indexOf("/Aktivite/") > -1 || window.location.href.indexOf("/Hizmet/") > -1) {
+                if (window.localStorage["uyetipiid"] == "OtBFcTxR8BU=") {
                     window.location.replace("../Musteri");
                 }
             }
 
-            if (window.localStorage["uyetipiid"] == "vdna04pQKLI=") {
+            if (window.localStorage["uyetipiid"] == "OtBFcTxR8BU=") {
+                $("#liDashboard").css("display", "none");
                 $("#liSiparis").css("display", "none");
                 $("#liIade").css("display", "none");
                 $("#liAnlasma").css("display", "none");
                 $("#liAktivite").css("display", "none");
+                $("#liHizmet").css("display", "none");
                 $("#liRapor").css("display", "none");
             }
         });
@@ -113,7 +115,7 @@
             <div class="navbar-collapse collapse" style="overflow-x: scroll !important;">
                 <div class="navbar-ic">
                     <ul class="nav navbar-nav">
-                        <li><a href="~/Dashboard">Dashboard</a></li>
+                        <li id="liDashboard"><a href="~/Dashboard">Dashboard</a></li>
                         <li>
                             <a href="javascript:showSubMenu(divMusSub)" onmouseover="showSubMenu(divMusSub)" onmouseout="divMusSub.classList.remove('show')">Müşteriler</a>
                             <div onmouseover="showSubMenu(divMusSub)" onmouseout="divMusSub.classList.remove('show')" class="subMenu" id="divMusSub">
@@ -130,7 +132,7 @@
                         <li id="liZiyaret"><a href="~/Ziyaret/Ziyaretler">Ziyaretler</a></li>
                         <li id="liAnlasma"><a href="~/Anlasma/Anlasmalar">Anlaşmalar</a></li>
                         <li id="liAktivite"><a href="~/Aktivite/Aktiviteler">Aktiviteler</a></li>
-                        <li id="liAktivite"><a href="~/Hizmet/HizmetBedelleri">Hizmet Bedelleri</a></li>
+                        <li id="liHizmet"><a href="~/Hizmet/HizmetBedelleri">Hizmet Bedelleri</a></li>
                         @*<li><a href="~/Tahsilatlar">Tahsilatlar</a></li>*@
                         <li id="liRapor">
                             <a href="javascript:showSubMenu(divRapSub)" onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')">Raporlar</a>

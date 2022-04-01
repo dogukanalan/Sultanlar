@@ -43,7 +43,7 @@ namespace Sultanlar.DbObj.Internet
         public int intSiparisUrunSayisi { get; set; }
         public int intRaporSatirSayisi { get; set; }
         public int intSiparisSatirSayisi { get; set; }
-        public bool isSDE { get { return (tintUyeTipiID == 4 || tintUyeTipiID == 6) && blTaksitPlani; } }
+        public bool isSDE { get { return blSicakSatis; } }
 
         public musteriler() { }
         public musteriler(int pkMusteriID) { this.pkMusteriID = pkMusteriID; }

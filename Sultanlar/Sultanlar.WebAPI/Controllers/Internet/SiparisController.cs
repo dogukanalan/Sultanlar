@@ -20,7 +20,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public siparisler Get(int SiparisID) => new SiparisProvider().Siparis(SiparisID);
 
         [HttpPost]
-        public List<siparisler> Getir([FromBody]SiparisGet siparisget) => new SiparisProvider().Siparisler(siparisget.slsref, siparisget.gmref, siparisget.smref, siparisget.yil, siparisget.ay, siparisget.onay);
+        public DtAjaxResponse Getir([FromBody]SiparisGet siparisget) => new SiparisProvider().Siparisler(siparisget);
 
         [HttpPost]
         public string Onay([FromBody]SiparisOnay siparisonay) => new SiparisProvider().SiparisOnay(siparisonay.SiparisID, siparisonay.Bakiye, Convert.ToInt32(Sifreleme.Decrypt(siparisonay.MusteriID)));

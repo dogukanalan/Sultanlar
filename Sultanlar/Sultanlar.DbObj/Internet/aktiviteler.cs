@@ -149,11 +149,11 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<aktiviteler> GetObjects(object Aktarilmis)
+        public List<aktiviteler> GetObjects(int Yil, object Ay, object Aktarilmis)
         {
             List<aktiviteler> donendeger = new List<aktiviteler>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_aktivitelerGetirByAkt", new Dictionary<string, object>() { { "blAktarilmis", Aktarilmis } }, timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_aktivitelerGetirByAkt", new Dictionary<string, object>() { { "Yil", Yil }, { "Ay", Ay }, { "blAktarilmis", Aktarilmis } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new aktiviteler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt16(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]), ConvertToDateTime(dic[i][6]), ConvertToDateTime(dic[i][7]), ConvertToBoolean(dic[i][8]), ConvertToDateTime(dic[i][9]), ConvertToDateTime(dic[i][10]), dic[i][11].ToString(), dic[i][12].ToString(), dic[i][13].ToString(), dic[i][14].ToString(), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), false));

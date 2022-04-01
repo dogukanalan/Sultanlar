@@ -35,6 +35,8 @@
                     bedeller.push({ id: $(bed[i]).attr("accesskey"), tur: "nf", adet: $(bed[i]).find(".nfa").val(), bedel: $(bed[i]).find(".nfb").val() });
             }
 
+            console.log(bedeller);
+
             anlasma.push(
                 {
                     musteri: window.localStorage["uyeid"],
@@ -69,7 +71,9 @@
 
             var sentData = JSON.stringify(anlasma).substring(1, JSON.stringify(anlasma).length - 1);
 
-            $.ajax(
+            console.log(sentData);
+
+            /*$.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
@@ -88,7 +92,7 @@
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
-            );
+            );*/
         }
 
         function BedellerGetir() {
@@ -248,64 +252,104 @@
     Fatura Altı İskonto
 </span>
 <div class="centerVeMiddle">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputFatAltKGT" id="inputFatAltKGT" placeholder="KGT">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputFatAltNF" id="inputFatAltNF" placeholder="NF">
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputFatAltKGT" id="inputFatAltKGT" placeholder="KGT">
+    </div>
+    &nbsp;
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputFatAltNF" id="inputFatAltNF" placeholder="NF">
+    </div>
 </div>
 <br />
 <span class="txt4">
     Ciro Primi Aylık
 </span>
 <div class="centerVeMiddle">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroKGT" id="inputCiroKGT" placeholder="KGT">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroNF" id="inputCiroNF" placeholder="NF">
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroKGT" id="inputCiroKGT" placeholder="KGT">
+    </div>
+    &nbsp;
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroNF" id="inputCiroNF" placeholder="NF">
+    </div>
 </div>
 <br />
 <span class="txt4">
     Ciro Primi 3 Aylık
 </span>
 <div class="centerVeMiddle">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro3KGT" id="inputCiro3KGT" placeholder="KGT">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro3NF" id="inputCiro3NF" placeholder="NF">
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro3KGT" id="inputCiro3KGT" placeholder="KGT">
+    </div>
+    &nbsp;
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro3NF" id="inputCiro3NF" placeholder="NF">
+    </div>
 </div>
 <br />
 <span class="txt4">
     Ciro Primi 6 Aylık
 </span>
 <div class="centerVeMiddle">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro6KGT" id="inputCiro6KGT" placeholder="KGT">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro6NF" id="inputCiro6NF" placeholder="NF">
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro6KGT" id="inputCiro6KGT" placeholder="KGT">
+    </div>
+    &nbsp;
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro6NF" id="inputCiro6NF" placeholder="NF">
+    </div>
 </div>
 <br />
 <span class="txt4">
     Ciro Primi Yıllık
 </span>
 <div class="centerVeMiddle">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro12KGT" id="inputCiro12KGT" placeholder="KGT">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro12NF" id="inputCiro12NF" placeholder="NF">
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro12KGT" id="inputCiro12KGT" placeholder="KGT">
+    </div>
+    &nbsp;
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiro12NF" id="inputCiro12NF" placeholder="NF">
+    </div>
 </div>
 <br />
 <span class="txt4">
     Ciro Primi Fatura Altı
 </span>
 <div class="centerVeMiddle">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroFatAltKGT" id="inputCiroFatAltKGT" placeholder="KGT">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroFatAltNF" id="inputCiroFatAltNF" placeholder="NF">
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroFatAltKGT" id="inputCiroFatAltKGT" placeholder="KGT">
+    </div>
+    &nbsp;
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputCiroFatAltNF" id="inputCiroFatAltNF" placeholder="NF">
+    </div>
 </div>
 <br />
 <span class="txt4">
     Anlaşma Dışı Bedeller
 </span>
 <div class="centerVeMiddle">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputDisBedelKGT" id="inputDisBedelKGT" placeholder="KGT">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputDisBedelNF" id="inputDisBedelNF" placeholder="NF">
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputDisBedelKGT" id="inputDisBedelKGT" placeholder="KGT">
+    </div>
+    &nbsp;
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputDisBedelNF" id="inputDisBedelNF" placeholder="NF">
+    </div>
 </div>
 <br />
 <span class="txt4">
     Öngörülen Toplam Ciro
 </span>
 <div class="centerVeMiddle">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputTopCiroKGT" id="inputTopCiroKGT" placeholder="KGT">
-    <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputTopCiroNF" id="inputTopCiroNF" placeholder="NF">
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputTopCiroKGT" id="inputTopCiroKGT" placeholder="KGT">
+    </div>
+    &nbsp;
+    <div class="validate-input anlasmaBolum" data-validate="Gerekli">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="number" name="inputTopCiroNF" id="inputTopCiroNF" placeholder="NF">
+    </div>
 </div>
 <br />
 <span class="txt1">

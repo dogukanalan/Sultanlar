@@ -25,7 +25,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             if (smref != 0)
                 return new aktiviteler().GetObjectsBySMREF(smref, tip, yil, Ay, Onay);
 
-            return new aktiviteler().GetObjects();
+            return new aktiviteler().GetObjects(yil, Ay, Onay);
         }
 
         internal string AktiviteSil(int AktiviteID)

@@ -32,6 +32,17 @@ $(document).ready(function () {
         $(this).val($(this).val().toLocaleUpperCase());
     });
 
+    setTimeout(function () {
+        try {
+            $("#dtTable_filter input[type=search]").keyup(function () {
+                $(this).val($(this).val().toLocaleUpperCase());
+            });
+        } catch (e) {
+
+        }
+    }, 1000);
+    
+
     $('#selectYil').empty();
     $("#selectYil").append($("<option />").val("2022").text("2022"));
     $("#selectYil").append($("<option />").val("2021").text("2021"));

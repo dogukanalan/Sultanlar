@@ -133,7 +133,7 @@ namespace Sultanlar.DbObj.Internet
         {
             List<iadeler> donendeger = new List<iadeler>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_iadelerGetir", timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("", timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), false));
@@ -144,11 +144,11 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<iadeler> GetObjects(object Aktarilmis)
+        public List<iadeler> GetObjects(int Yil, object Ay, object Aktarilmis)
         {
             List<iadeler> donendeger = new List<iadeler>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_iadelerGetir", new Dictionary<string, object>() { { "blAktarilmis", Aktarilmis } }, timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_iadelerGetir", new Dictionary<string, object>() { { "Yil", Yil }, { "Ay", Ay }, { "blAktarilmis", Aktarilmis } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), false));

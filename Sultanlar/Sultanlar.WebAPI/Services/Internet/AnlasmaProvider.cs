@@ -29,7 +29,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             if (smref != 0)
                 return new anlasmalar().GetObjectsBySMREF(smref, tip, yil, Ay, Onay);
 
-            return new anlasmalar().GetObjects();
+            return new anlasmalar().GetObjects(yil, Ay, Onay);
         }
 
         internal List<anlasmalar> Anlasmalar(int yil, int ay, int smref, string tip)
@@ -53,10 +53,9 @@ namespace Sultanlar.WebAPI.Services.Internet
                 }
                 else
                 {
-                    ab.intYEGAdet = akg.bedeller[i].adet;
-                    ab.mnYEGBedel = akg.bedeller[i].bedel;
-                    ab.DoInsert();
+                    ab = new anlasmaBedeller(anlasma.pkID, akg.bedeller[i].id, 0, 0, 0, akg.bedeller[i].adet, akg.bedeller[i].bedel, 0, "", "", "", "");
                 }
+                ab.DoInsert();
             }
 
             return anlasma.pkID.ToString();
