@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sultanlar.DbObj.Internet;
+using Sultanlar.WebAPI.Models.Internet;
 using Sultanlar.WebAPI.Services.Internet;
 
 namespace Sultanlar.WebAPI.Controllers.Internet
@@ -21,6 +22,9 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet, Route("internet/[controller]/[action]/{gmref}/{slsref}")]
         public List<cariHesaplar> GetSube1(int gmref, int slsref) => new CariProvider().Cariler1Sub(gmref, slsref);
+
+        [HttpPost, Route("internet/[controller]/[action]/{gmref}/{slsref}")]
+        public DtAjaxResponse GetSube1(int gmref, int slsref, [FromBody]DataTableAjaxPostModel req) => new CariProvider().Cariler1Sub(gmref, slsref, req);
 
         [HttpGet, Route("internet/[controller]/[action]/{gmref}")]
         public List<cariHesaplar> GetSubeTp(int gmref) => new CariProvider().CarilerTpSub(gmref);

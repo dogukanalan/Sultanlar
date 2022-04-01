@@ -52,7 +52,7 @@
             });
 
             var today = new Date();
-            $('#inputDonem').val(today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate());
+            $('#inputDonem').val(GetDateNow2());
             anlasmaGetir(today.getFullYear(), today.getMonth() + 1, getParameterByName('smref'), getParameterByName('tip'));
         });
 

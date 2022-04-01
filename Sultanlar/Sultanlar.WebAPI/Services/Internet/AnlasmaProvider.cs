@@ -45,17 +45,32 @@ namespace Sultanlar.WebAPI.Services.Internet
             anlasma.DoInsert();
 
             anlasmaBedeller ab = new anlasmaBedeller();
+            bool kgtgirdi = false;
+            int bedelid = 0;
             for (int i = 0; i < akg.bedeller.Count; i++)
             {
                 if (akg.bedeller[i].tur == "kgt")
                 {
+                    bedelid = akg.bedeller[i].id;
                     ab = new anlasmaBedeller(anlasma.pkID, akg.bedeller[i].id, akg.bedeller[i].adet, akg.bedeller[i].bedel, 0, 0, 0, 0, "", "", "", "");
+                    ab.DoInsert();
+                    kgtgirdi = true;
                 }
                 else
                 {
-                    ab = new anlasmaBedeller(anlasma.pkID, akg.bedeller[i].id, 0, 0, 0, akg.bedeller[i].adet, akg.bedeller[i].bedel, 0, "", "", "", "");
+                    if (kgtgirdi && bedelid == akg.bedeller[i].id)
+                    {
+                        ab.intYEGAdet = akg.bedeller[i].adet;
+                        ab.mnYEGBedel = akg.bedeller[i].bedel;
+                        ab.DoUpdate();
+                    }
+                    else
+                    {
+                        ab = new anlasmaBedeller(anlasma.pkID, akg.bedeller[i].id, 0, 0, 0, akg.bedeller[i].adet, akg.bedeller[i].bedel, 0, "", "", "", "");
+                        ab.DoInsert();
+                    }
+                    kgtgirdi = false;
                 }
-                ab.DoInsert();
             }
 
             return anlasma.pkID.ToString();
