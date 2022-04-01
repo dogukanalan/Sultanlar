@@ -40,7 +40,7 @@ $(document).ready(function () {
         } catch (e) {
 
         }
-    }, 1000);
+    }, 2000);
     
 
     $('#selectYil').empty();

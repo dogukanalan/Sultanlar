@@ -71,9 +71,7 @@
 
             var sentData = JSON.stringify(anlasma).substring(1, JSON.stringify(anlasma).length - 1);
 
-            console.log(sentData);
-
-            /*$.ajax(
+            $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
@@ -92,7 +90,7 @@
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
-            );*/
+            );
         }
 
         function BedellerGetir() {
