@@ -18,14 +18,15 @@ namespace Sultanlar.WebAPI.Services.Internet
         {
             object Onay = onay == "1" ? true : onay == "0" ? false : (object)DBNull.Value;
             object Ay = ay == 0 ? (object)DBNull.Value : ay;
-            if (slsref != 0)
-                return new aktiviteler().GetObjectsBySLSREF(slsref, yil, Ay, Onay);
-            if (gmref != 0)
-                return new aktiviteler().GetObjectsByGMREF(gmref, yil, Ay, Onay);
+
             if (smref != 0)
                 return new aktiviteler().GetObjectsBySMREF(smref, tip, yil, Ay, Onay);
-
-            return new aktiviteler().GetObjects(yil, Ay, Onay);
+            else if (gmref != 0)
+                return new aktiviteler().GetObjectsByGMREF(gmref, yil, Ay, Onay);
+            else if (slsref != 0)
+                return new aktiviteler().GetObjectsBySLSREF(slsref, yil, Ay, Onay);
+            else
+                return new aktiviteler().GetObjects(yil, Ay, Onay);
         }
 
         internal string AktiviteSil(int AktiviteID)
@@ -90,8 +91,8 @@ namespace Sultanlar.WebAPI.Services.Internet
                 for (int j = 0; j < kopyalanacak.detaylar.Count; j++)
                 {
                     malzemeler malzeme = new malzemeler(kopyalanacak.detaylar[j].intUrunID).GetObject();
-                    fiyatlarTp fiyat = new fiyatlarTp(akt.DonemYil, akt.DonemAy, akt.sintFiyatTipiID, kopyalanacak.detaylar[j].intUrunID).GetObject();
-                    double isk1 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHIsk : akt.Anlasma.flYEGIsk) : 5;
+                    fiyatlarTp fiyat = new fiyatlarTp().GetObject(akt.DonemYil, akt.DonemAy, akt.DonemGun, akt.sintFiyatTipiID, kopyalanacak.detaylar[j].intUrunID);
+                    double isk1 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHIsk : akt.Anlasma.flYEGIsk) : 0;
                     double isk2 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHCiroIsk : akt.Anlasma.flYEGCiroIsk) : 0;
                     double isk3 = 0;
                     double cirop = akt.intAnlasmaID > 0 ? akt.Anlasma.ahtCiroPrimDonusYuzdeToplam : 0;

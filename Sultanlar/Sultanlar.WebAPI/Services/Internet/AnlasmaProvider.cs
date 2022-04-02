@@ -22,14 +22,14 @@ namespace Sultanlar.WebAPI.Services.Internet
         {
             object Onay = onay == "1" ? 1 : onay == "0" ? 0 : (object)DBNull.Value;
             object Ay = ay == 0 ? (object)DBNull.Value : ay;
-            if (slsref != 0)
-                return new anlasmalar().GetObjectsBySLSREF(slsref, yil, Ay, Onay);
-            if (gmref != 0)
-                return new anlasmalar().GetObjectsByGMREF(gmref, yil, Ay, Onay);
             if (smref != 0)
                 return new anlasmalar().GetObjectsBySMREF(smref, tip, yil, Ay, Onay);
-
-            return new anlasmalar().GetObjects(yil, Ay, Onay);
+            else if (gmref != 0)
+                return new anlasmalar().GetObjectsByGMREF(gmref, yil, Ay, Onay);
+            else if (slsref != 0)
+                return new anlasmalar().GetObjectsBySLSREF(slsref, yil, Ay, Onay);
+            else
+                return new anlasmalar().GetObjects(yil, Ay, Onay);
         }
 
         internal List<anlasmalar> Anlasmalar(int yil, int ay, int smref, string tip)

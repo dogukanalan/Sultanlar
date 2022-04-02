@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -33,9 +34,54 @@ namespace Sultanlar.DbObj.Internet
         public double mnAktiviteKarZarar { get; set; }
         public double flAktiviteKarZararYuzde { get; set; }
         
-        public int DonemYil { get { return strAciklama4 != "" ? Convert.ToInt32(strAciklama4.Substring(0, 4)) : 0; } }
-        public int DonemAy { get { return strAciklama4 != "" ? Convert.ToInt32(strAciklama4.Substring(5, strAciklama4.LastIndexOf("/") - 5)) : 0; } }
-        public int DonemGun { get { return strAciklama4 != "" ? Convert.ToInt32(strAciklama4.Substring(strAciklama4.LastIndexOf("/") + 1, 2)) : 0; } }
+        public int DonemYil { 
+            get 
+            {
+                int donendeger = 0;
+                try
+                {
+                    donendeger = Convert.ToInt32(strAciklama4.Substring(0, 4));
+                }
+                catch (Exception)
+                {
+                    EventLog.WriteEntry("Sultanlar.Db.Obj", "Aktivite Donem" + pkID.ToString() + " " + strAciklama4);
+                }
+                return donendeger;
+            } 
+        }
+        public int DonemAy 
+        { 
+            get
+            {
+                int donendeger = 0;
+                try
+                {
+                    donendeger = Convert.ToInt32(strAciklama4.Substring(5, strAciklama4.LastIndexOf("/") - 5));
+                }
+                catch (Exception)
+                {
+                    EventLog.WriteEntry("Sultanlar.Db.Obj", "Aktivite Donem" + pkID.ToString() + " " + strAciklama4);
+                }
+                return donendeger;
+            } 
+        }
+        public int DonemGun 
+        { 
+            get
+            {
+                int donendeger = 0;
+                try
+                {
+                    donendeger = Convert.ToInt32(strAciklama4.Substring(strAciklama4.LastIndexOf("/") + 1, 2));
+
+                }
+                catch (Exception)
+                {
+                    EventLog.WriteEntry("Sultanlar.Db.Obj", "Aktivite Donem" + pkID.ToString() + " " + strAciklama4);
+                }
+                return donendeger;
+            } 
+        }
         public double ToplamTutar { get { double toplam = 0; for (int i = 0; i < detaylar.Count; i++) { toplam += detaylar[i].mnToplam; } return toplam; } }
 
         private bool detay { get; set; }

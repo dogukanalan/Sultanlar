@@ -24,13 +24,15 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             object Onay = sget.onay == "1" ? true : sget.onay == "0" ? false : (object)DBNull.Value;
             object Ay = sget.ay == 0 ? (object)DBNull.Value : sget.ay;
-            if (sget.slsref != 0)
-                donendeger2 = new siparisler().GetObjectsBySLSREF(sget.slsref, sget.yil, Ay, Onay);
-            if (sget.gmref != 0)
-                donendeger2 = new siparisler().GetObjectsByGMREF(sget.gmref, sget.yil, Ay, Onay);
+
             if (sget.smref != 0)
                 donendeger2 = new siparisler().GetObjectsBySMREF(sget.smref, sget.yil, Ay, Onay);
-            donendeger2 = new siparisler().GetObjects(sget.yil, Ay, Onay);
+            else if (sget.gmref != 0)
+                donendeger2 = new siparisler().GetObjectsByGMREF(sget.gmref, sget.yil, Ay, Onay);
+            else if (sget.slsref != 0)
+                donendeger2 = new siparisler().GetObjectsBySLSREF(sget.slsref, sget.yil, Ay, Onay);
+            else
+                donendeger2 = new siparisler().GetObjects(sget.yil, Ay, Onay);
 
             donendeger.recordsTotal = donendeger2.Count;
             if (sget.search.value != "")

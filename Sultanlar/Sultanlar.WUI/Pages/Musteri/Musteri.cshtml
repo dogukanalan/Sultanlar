@@ -32,7 +32,8 @@
                     dataType: 'json',
                 },
                 "initComplete": function (settings, json) {
-
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
                 },
                 columns: [
                     {
@@ -43,7 +44,7 @@
                     },
                     {
                         "data": null, "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli3" data-toggle="tooltip" title="' + data.musteri + '">' + data.sube + '</span>'
+                            return '<span class="sinirli3" data-toggle="tooltip" title="' + data.sube + '">' + data.sube + '</span>'
                         },
                         "width": "70%"
                     },
@@ -73,7 +74,7 @@
             $("div.dataTables_filter input").unbind();
             $("div.dataTables_filter input").on('keyup change', delay(function () {
                 table.search(this.value).draw();
-            }, aramadelay));;
+            }, aramadelay));
 
             /*$.ajax(
                 {

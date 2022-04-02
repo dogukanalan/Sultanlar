@@ -328,22 +328,22 @@ var aktiviteicerikcolumns = [
     },
     {
         "mDataProp": "fatalt", title: "F.A.", "class": "floaTd", render: function (data, type, row) {
-            return '<span class="sinirli">' + data + '</span>';
+            return '<span class="sinirli fatalt">' + data + '</span>';
         }
     },
     {
         "mDataProp": "fataltciro", title: "F.A.C.", "class": "floaTd", render: function (data, type, row) {
-            return '<span class="sinirli">' + data + '</span>';
+            return '<span class="sinirli fataltciro">' + data + '</span>';
         }
     },
     {
         "mDataProp": "ciroprim", title: "C.P.D.", "class": "floaTd", render: function (data, type, row) {
-            return '<span class="sinirli">' + data + '</span>';
+            return '<span class="sinirli cpd">' + data + '</span>';
         }
     },
     {
         "mDataProp": "iskonto", title: "Isk.", "class": "keyTd", render: function (data, type, row) {
-            return '<input type="number" class="inputSecim" value="' + data + '" />';
+            return '<input type="number" class="inputSecim" value="' + parseFloat(data).toFixed(2) + '" />';
         }
     },
     {
@@ -357,8 +357,8 @@ var aktiviteicerikcolumns = [
         }
     },
     {
-        "mDataProp": null, title: "KDV'li", "class": "floaTd", render: function (data, type, row) {
-            return '<span class="sinirli">' + iskDusCoklu(data.birimfiyat, data.fatalt, data.fataltciro, data.iskonto, 0).formatMoney(3, ',', '.') + '</span>';
+        "mDataProp": null, title: "KDV'li", "class": "keyTd", render: function (data, type, row) {
+            return '<input type="number" class="inputFiyat" value="' + parseFloat(iskDusCoklu(data.birimfiyat, data.fatalt, data.fataltciro, data.iskonto, 0)).toFixed(3) + '" />';
         }
     },
     {
@@ -998,6 +998,19 @@ function iskDusCoklu(fiyat, isk1, isk2, isk3, isk4) {
 
 function iskDus(fiyat, isk) {
     return fiyat - (fiyat / 100 * isk);
+}
+
+function iskBul(fiyat, isk1, isk2, isk3, iskfiyat) {
+    console.log(fiyat);
+    console.log(isk1);
+    console.log(isk2);
+    console.log(isk3);
+    console.log(iskfiyat);
+    var dusulmusfiyat = iskDusCoklu(fiyat, isk1, isk2, isk3, 0);
+    console.log(dusulmusfiyat);
+    var isk = (1 - (iskfiyat / dusulmusfiyat)) * 100;
+    console.log(isk);
+    return isk;
 }
 
 function kdvEkle(fiyat, kdv) {

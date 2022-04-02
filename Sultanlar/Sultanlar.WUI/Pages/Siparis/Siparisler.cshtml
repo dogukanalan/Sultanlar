@@ -36,11 +36,11 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        $("#selectSaticilar").append(
+                        /*$("#selectSaticilar").append(
                             $("<option></option>")
                                 .text("Tümü")
                                 .val("1")
-                        );
+                        );*/
                         $.each(data, function (index, item) {
                             $("#selectSaticilar").append(
                                 $("<option></option>")
@@ -158,8 +158,8 @@
                         "width": "10%"
                     },
                     {
-                        "data": "musteri", "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data.strAd + ' ' + data.strSoyad + '</span>'
+                        "data": "aciklama1", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>'
                         },
                         "width": "17%"
                     },
@@ -354,7 +354,7 @@
         <tr>
             <th class="keyTd" data-priority="1"><span class="">No</span></th>
             <th class="keyTd" data-priority="2"></th>
-            <th class="keyTd" data-priority="4"><span class="">S.Sahibi</span></th>
+            <th class="keyTd" data-priority="4"><span class="">Giren</span></th>
             <th class="keyTd" data-priority="5"><span class="">Cari</span></th>
             <th class="keyTd" data-priority="6"><span class="">F.Tip</span></th>
             <th class="keyTd" data-priority="3"><span class="">Tarih</span></th>

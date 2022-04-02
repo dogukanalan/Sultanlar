@@ -16,12 +16,12 @@ namespace Sultanlar.WebAPI.Services.Internet
             object Ay = ay == 0 ? (object)DBNull.Value : ay;
             if (smref != 0)
                 return new ziyaretler().GetObjectsBySMREF(slsref, mtip, smref, yil, Ay);
-            if (gmref != 0)
+            else if (gmref != 0)
                 return new ziyaretler().GetObjectsByGMREF(slsref, gmref, yil, Ay);
-            if (slsref != 0)
+            else if (slsref != 0)
                 return new ziyaretler().GetObjectsBySLSREF(slsref, yil, Ay);
-
-            return new ziyaretler().GetObjects(yil, Ay);
+            else
+                return new ziyaretler().GetObjects(yil, Ay);
         }
 
         internal ziyaretler Ziyaret(int Tip, int Smref, int Slsref, DateTime Zaman) => new ziyaretler(Tip, Smref, Slsref, Zaman).GetObject();

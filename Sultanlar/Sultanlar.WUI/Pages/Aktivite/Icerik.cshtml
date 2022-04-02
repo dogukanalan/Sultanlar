@@ -207,9 +207,20 @@
             sepet = [];
             initSepet();
             aktGoster();
-            $('.inputSecim').on('input', delay(function (e) {
+            $('.inputSecim').on('keyup', delay(function (e) {
                 urunGuncelle($(this).closest("tr").find(".itemref").text(), this.value);
-            }, 1));
+            }, 1000));
+            $('.inputFiyat').on('keyup', delay(function (e) {
+                $(this).closest("tr").find(".inputSecim").val(0);
+                var itemref = $(this).closest("tr").find(".itemref").text();
+                var fiyat = parseFloat($(this).closest("tr").find(".netkdv").text().replace(",", "."));
+                var isk1 = $(this).closest("tr").find(".fatalt").text();
+                var isk2 = $(this).closest("tr").find(".fataltciro").text();
+                var isk3 = $(this).closest("tr").find(".cpd").text();
+                var isk = iskBul(fiyat, isk1, isk2, isk3, this.value);
+                //$(this).closest("tr").find(".inputSecim").val(isk);
+                urunGuncelle(itemref, isk);
+            }, 1000));
         });
     </script>
 }

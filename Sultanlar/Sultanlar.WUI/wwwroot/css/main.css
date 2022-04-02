@@ -97,7 +97,14 @@ ul, li {
 }
 
 .inputSecim {
-    width: 30px;
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.inputFiyat {
+    width: 50px;
     height: 30px;
     text-align: center;
     font-size: 0.85rem;
