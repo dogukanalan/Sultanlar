@@ -42,9 +42,9 @@ namespace Sultanlar.DbObj.Internet
                 {
                     donendeger = Convert.ToInt32(strAciklama4.Substring(0, 4));
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    EventLog.WriteEntry("Sultanlar.Db.Obj", "Aktivite Donem" + pkID.ToString() + " " + strAciklama4);
+                    hatalar.DoInsert(ex, "Aktivite Donem " + pkID.ToString() + " " + strAciklama4);
                 }
                 return donendeger;
             } 
@@ -58,9 +58,9 @@ namespace Sultanlar.DbObj.Internet
                 {
                     donendeger = Convert.ToInt32(strAciklama4.Substring(5, strAciklama4.LastIndexOf("/") - 5));
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    EventLog.WriteEntry("Sultanlar.Db.Obj", "Aktivite Donem" + pkID.ToString() + " " + strAciklama4);
+                    hatalar.DoInsert(ex, "Aktivite Donem " + pkID.ToString() + " " + strAciklama4);
                 }
                 return donendeger;
             } 
@@ -75,9 +75,9 @@ namespace Sultanlar.DbObj.Internet
                     donendeger = Convert.ToInt32(strAciklama4.Substring(strAciklama4.LastIndexOf("/") + 1, 2));
 
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    EventLog.WriteEntry("Sultanlar.Db.Obj", "Aktivite Donem" + pkID.ToString() + " " + strAciklama4);
+                    hatalar.DoInsert(ex, "Aktivite Donem " + pkID.ToString() + " " + strAciklama4);
                 }
                 return donendeger;
             } 
