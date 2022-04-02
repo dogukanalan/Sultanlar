@@ -18,7 +18,7 @@
                         checkAuth(response);
 
                         if (data == "")
-                            window.history.back();
+                            window.location.href = '../Mesaj/';
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }

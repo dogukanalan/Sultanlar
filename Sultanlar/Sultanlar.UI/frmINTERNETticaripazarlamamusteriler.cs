@@ -51,7 +51,10 @@ namespace Sultanlar.UI
 
         private void GetBayiler()
         {
-            CariHesaplarTP.GetObjects(lbBayiler.Items, 0);
+            List<CariHesaplarTP> list = new List<CariHesaplarTP>();
+            CariHesaplarTP.GetObjects(list, 0);
+            
+            lbBayiler.DataSource = cbBayiPasif.Checked ? list : list.Where(x => x.ACTIVE == 0).ToList();
         }
 
         private int ExceldenAl(string dosya, bool bayi)
@@ -543,6 +546,7 @@ namespace Sultanlar.UI
             txtAltCariDuzenleIsim.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).SUBE;
             txtM2.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).Metrekare;
             txtMUSKOD.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).MUSKOD;
+            txtSMREF.Text = ((CariHesaplarTP)lbAltCariler.SelectedItem).SMREF.ToString();
 
             cmbTur.SelectedIndex = -1;
             if (((CariHesaplarTP)lbAltCariler.SelectedItem).MTKOD != string.Empty)
@@ -985,6 +989,11 @@ namespace Sultanlar.UI
                 ((CariHesaplarTP)chtps[i]).DoUpdate();
 
             MessageBox.Show("Aktarım tamamlandı.", "Başarılı");
+        }
+
+        private void cbBayiPasif_CheckedChanged(object sender, EventArgs e)
+        {
+            GetBayiler();
         }
     }
 }

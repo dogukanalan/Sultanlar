@@ -74,7 +74,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                     DateTime.Now, 
                     DateTime.Now, 
                     false,
-                    DateTime.Now,
+                    Convert.ToDateTime(akg.donem),
                     DateTime.Now, 
                     kopyalanacak.strAciklama1, 
                     kopyalanacak.strAciklama2, 
