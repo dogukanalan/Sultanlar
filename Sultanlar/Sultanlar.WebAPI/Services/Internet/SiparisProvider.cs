@@ -8,6 +8,7 @@ using Sultanlar.Class;
 using System.Net;
 using System.IO;
 using System.Globalization;
+using System.Linq.Dynamic.Core;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -41,13 +42,15 @@ namespace Sultanlar.WebAPI.Services.Internet
                     k.Cari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
                     k.Cari.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
                     k.Musteri.AdSoyad.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.Aciklama1.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.Aciklama2.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.Aciklama3.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.strAciklama.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
                     k.FiyatTipi.ACIKLAMA.ToUpper(CultureInfo.CurrentCulture).IndexOf(sget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1
                 ).ToList();
             }
             donendeger.recordsFiltered = donendeger2.Count;
+
+            for (int i = 0; i < sget.columns.Count; i++)
+                if (i == sget.order[0].column)
+                    donendeger2 = donendeger2.AsQueryable().OrderBy(sget.columns[i].name + " " + sget.order[0].dir).ToList();
 
             int Baslangic = sget.start;
             int Kactane = sget.length;

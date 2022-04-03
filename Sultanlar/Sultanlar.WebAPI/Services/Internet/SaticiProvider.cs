@@ -10,13 +10,16 @@ namespace Sultanlar.WebAPI.Services.Internet
 {
     public class SaticiProvider
     {
-        internal List<satisTemsilcileri> Saticilar(string uyeid)
+        internal List<satisTemsilcileri> Saticilar(string uyeid, bool tumu)
         {
             musteriler musteri = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(uyeid))).GetObject();
 
             if (musteri.tintUyeTipiID == 2) // yönetici ise
             {
-                return new satisTemsilcileri().GetObjects();
+                List<satisTemsilcileri> sattem = new satisTemsilcileri().GetObjects();
+                if (tumu)
+                    sattem.Insert(0, new satisTemsilcileri(0, 0, "", "Tümü"));
+                return sattem;
             }
             else if (musteri.tintUyeTipiID == 4 || musteri.tintUyeTipiID == 6) // satici ise
             {

@@ -31,18 +31,13 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
-                    url: apiurl + "satici",
+                    url: apiurl + "satici/true",
                     data: '{ "uyeid": "' + uyeid + '" }',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        $("#selectSaticilar").append(
-                            $("<option></option>")
-                                .text("Tümü")
-                                .val("0")
-                        );
                         $.each(data, function (index, item) {
                             $("#selectSaticilar").append(
                                 $("<option></option>")
@@ -144,42 +139,49 @@
                         "data": null, "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.satici.sattem + '</span>'
                         },
+                        "name": "Satici.SATTEM",
                         "width": "10%"
                     },
                     {
                         "data": null, "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + (data.cari.sube == '' ? data.cari.musteri : data.cari.sube) + '</span>'
                         },
+                        "name": "Cari.Sube",
                         "width": "25%"
                     },
                     {
                         "data": null, "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli"><a href="../Musteri/Resim/Ziyaret?rutid=' + data.ruT_ID + '">' + data.ziyaretNeden.value + '</a></span>'
                         },
+                        "name": "ZiyaretNeden.value",
                         "width": "10%"
                     },
                     {
                         "data": "ziY_BAS_TAR", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>'
                         },
+                        "name": "ZIY_BAS_TAR",
                         "width": "10%"
                     },
                     {
                         "data": "ziY_BIT_TAR", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>'
                         },
+                        "name": "ZIY_BIT_TAR",
                         "width": "10%"
                     },
                     {
                         "data": null, "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli"><a target="_blank" href="https://www.sultanlar.com.tr/musteri/map.aspx?konum1=' + data.cari.konumA.konum + '&konum2=' + data.ziY_KONUM + '">' + data.farK_KNM_ZIY + 'm</a></span>'
                         },
+                        "name": "FARK_KNM_ZIY",
                         "width": "5%"
                     },
                     {
                         "data": "ziY_NOTLARI", "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data + '</span>'
                         },
+                        "name": "ZIY_NOTLARI",
                         "width": "20%"
                     }
                 ],
@@ -270,6 +272,7 @@
 </select>
 
 <select id="selectAy" name="selectAy" class="dropDown selYil">
+    <option value="0">Tümü</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>

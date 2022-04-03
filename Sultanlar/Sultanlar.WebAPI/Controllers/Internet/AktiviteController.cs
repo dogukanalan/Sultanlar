@@ -19,7 +19,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public aktiviteler Get(int AktiviteID) => new AktiviteProvider().Aktivite(AktiviteID);
 
         [HttpPost]
-        public List<aktiviteler> Getir([FromBody]AktiviteGet aktiviteget) => new AktiviteProvider().Aktiviteler(aktiviteget.slsref, aktiviteget.gmref, aktiviteget.smref, aktiviteget.tip, aktiviteget.yil, aktiviteget.ay, aktiviteget.onay);
+        public DtAjaxResponse Getir([FromBody]AktiviteGet aktiviteget) => new AktiviteProvider().Aktiviteler(aktiviteget);
 
         [HttpGet("{AktiviteID}")]
         public string Onay(int AktiviteID) => new AktiviteProvider().AktiviteOnay(AktiviteID);

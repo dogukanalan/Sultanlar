@@ -18,8 +18,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public List<rutlar> GetirRutlar(int SLSREF) => new RutProvider().Rutlar(SLSREF);
         [HttpGet, Route("internet/[controller]/[action]/{SLSREF}")]
         public List<rutlar> GetirRutlarBugun(int SLSREF) => new RutProvider().RutlarBugun(SLSREF);
-        [HttpGet, Route("internet/[controller]/[action]/{SLSREF}/{SMREF}/{TIP}/{TUR}/{YIL}/{AY}")]
-        public List<rutResimler> GetirRutResimler(int SLSREF, int SMREF, int TIP, int TUR, int YIL, int AY) => new RutProvider().RutResimler(SLSREF, SMREF, TIP, TUR, YIL, AY);
+        [HttpPost, Route("internet/[controller]/[action]/{SLSREF}/{SMREF}/{TIP}/{TUR}/{YIL}/{AY}")]
+        public DtAjaxResponse GetirRutResimler(int SLSREF, int SMREF, int TIP, int TUR, int YIL, int AY, [FromBody]DataTableAjaxPostModel req) => new RutProvider().RutResimler(SLSREF, SMREF, TIP, TUR, YIL, AY, req);
         [HttpGet, Route("internet/[controller]/[action]/{RutID}")]
         public List<rutResimler> GetirRutResimlerByRutID(string RutID) => new RutProvider().RutResimler(RutID);
 

@@ -19,7 +19,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public anlasmalar Get(int AnlasmaID) => new AnlasmaProvider().Anlasma(AnlasmaID);
 
         [HttpPost]
-        public List<anlasmalar> Getir([FromBody]AnlasmaGet anlasmaget) => new AnlasmaProvider().Anlasmalar(anlasmaget.slsref, anlasmaget.gmref, anlasmaget.smref, anlasmaget.tip, anlasmaget.yil, anlasmaget.ay, anlasmaget.onay);
+        public DtAjaxResponse Getir([FromBody]AnlasmaGet anlasmaget) => new AnlasmaProvider().Anlasmalar(anlasmaget);
         
         [HttpPost]
         public List<anlasmalar> GetirByMus([FromBody]AnlasmaMusteriGet anlasmaget) => new AnlasmaProvider().Anlasmalar(anlasmaget.yil, anlasmaget.ay, anlasmaget.smref, anlasmaget.tip);

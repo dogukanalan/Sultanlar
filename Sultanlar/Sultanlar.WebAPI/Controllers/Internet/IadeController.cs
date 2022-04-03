@@ -19,7 +19,7 @@ namespace Sultanlar.WebAPI.Controllers
         public iadeler Get(int IadeID) => new IadeProvider().Iade(IadeID);
 
         [HttpPost]
-        public List<iadeler> Getir([FromBody]IadeGet iadeget) => new IadeProvider().Iadeler(iadeget.slsref, iadeget.gmref, iadeget.smref, iadeget.yil, iadeget.ay, iadeget.onay);
+        public DtAjaxResponse Getir([FromBody]IadeGet iadeget) => new IadeProvider().Iadeler(iadeget);
 
         [HttpPost]
         public string Onay([FromBody]IadeOnay iadeonay) => new IadeProvider().IadeOnay(iadeonay.IadeID);

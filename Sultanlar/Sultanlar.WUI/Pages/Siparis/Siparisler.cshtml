@@ -29,18 +29,13 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
-                    url: apiurl + "satici",
+                    url: apiurl + "satici/true",
                     data: '{ "uyeid": "' + uyeid + '" }',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        /*$("#selectSaticilar").append(
-                            $("<option></option>")
-                                .text("Tümü")
-                                .val("1")
-                        );*/
                         $.each(data, function (index, item) {
                             $("#selectSaticilar").append(
                                 $("<option></option>")
@@ -140,6 +135,7 @@
                         "data": "pkSiparisID", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data + '</span>'
                         },
+                        "name": "pkSiparisID",
                         "width": "10%"
                     },
                     {
@@ -155,36 +151,42 @@
                                 '<a href="Incele?siparisid=' + data.pkSiparisID + '&excel=true">Kaydet</a>' +
                                 (data.blAktarilmis == 1 ? '<a href="../Rapor/SiparisDurum?yil=' + getYil() + '&ay=' + getAy() + '&slsref=' + getSlsref() + '&sipno=' + data.pkSiparisID + '">Durum</a>' : '');
                         },
+                        "name": "pkSiparisID",
                         "width": "10%"
                     },
                     {
                         "data": "aciklama1", "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data + '</span>'
                         },
+                        "name": "strAciklama",
                         "width": "17%"
                     },
                     {
                         "data": "cari", "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.sube + '</span>'
                         },
+                        "name": "Cari.Sube",
                         "width": "30%"
                     },
                     {
                         "data": "fiyatTipi", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.nosu + '</span>'
                         },
+                        "name": "FiyatTipi.NOSU",
                         "width": "8%"
                     },
                     {
                         "data": "dtOnaylamaTarihi", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>'
                         },
+                        "name": "dtOnaylamaTarihi",
                         "width": "15%"
                     },
                     {
                         "data": "mnToplamTutar", "class": "floaTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>'
                         },
+                        "name": "mnToplamTutar",
                         "width": "10%"
                     }
                 ],

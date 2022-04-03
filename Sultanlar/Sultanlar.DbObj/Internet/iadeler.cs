@@ -49,6 +49,29 @@ namespace Sultanlar.DbObj.Internet
                 return 0;
             }
         }
+        /// <summary>
+        /// 0:kaydedilmiş, 1:fiyatlandırılmamış, 2:fiyatlandırılmış, 3:sevk bekleyen, 4:red, 5:son
+        /// </summary>
+        public string turack
+        {
+            get
+            {
+                if (!blAktarilmis && mnToplamTutar == 0)
+                    return "Kaydedilmiş";
+                else if (blAktarilmis && mnToplamTutar == 0)
+                    return "Fiyatlandırılmamış";
+                else if (blAktarilmis && mnToplamTutar > 0)
+                    return "Fiyatlandırılmış";
+                else if (!blAktarilmis && mnToplamTutar > 0)
+                    return "Sevk bekleyen";
+                else if (!blAktarilmis && mnToplamTutar == -1)
+                    return "Red";
+                else if (!blAktarilmis && mnToplamTutar == -2)
+                    return "Son";
+
+                return "Kaydedilmiş";
+            }
+        }
 
         private bool detay { get; set; }
         public List<iadelerDetay> detaylar { get { if (detay) return new iadelerDetay().GetObjects(pkIadeID); else return new List<iadelerDetay>(); } }

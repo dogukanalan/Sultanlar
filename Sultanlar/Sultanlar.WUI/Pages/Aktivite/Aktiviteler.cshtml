@@ -30,7 +30,7 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
-                    url: apiurl + "satici",
+                    url: apiurl + "satici/true",
                     data: '{ "uyeid": "' + uyeid + '" }',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
@@ -111,8 +111,10 @@
             }).DataTable({
                 "responsive": true,
                 "destroy": true,
+                "processing": true,
+                "serverSide": true,
                 ajax: {
-                    dataSrc: "",
+                    dataSrc: "json",
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
@@ -128,13 +130,14 @@
                         return JSON.stringify(d);
                     },
                     contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
+                    dataType: 'json'
                 },
                 columns: [
                     {
                         "data": "pkID", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data + '</span>'
                         },
+                        "name": "pkID",
                         "width": "10%"
                     },
                     {
@@ -143,42 +146,48 @@
                                 '<div class="subMenu" id="div' + data.pkID + '">' +
                                 '<a href="Incele?aktiviteid=' + data.pkID + '">İncele</a>' +
                                 '<a href="Kopyala?aktiviteid=' + data.pkID + '">Kopyala</a>' +
-                                (data.blAktarilmis == 0 ? '<a href="Onayla?aktiviteid=' + data.pkID + '">Onayla</a>' : '') +
-                                (data.blAktarilmis == 0 ? '<a href="Duzenle?aktiviteid=' + data.pkID + '">Düzenle</a>' : '') +
-                                (data.blAktarilmis == 0 ? '<a href="Sil?aktiviteid=' + data.pkID + '">Sil</a>' : '') + 
+                                (getOnay() == 0 ? '<a href="Onayla?aktiviteid=' + data.pkID + '">Onayla</a>' : '') +
+                                (getOnay() == 0 ? '<a href="Duzenle?aktiviteid=' + data.pkID + '">Düzenle</a>' : '') +
+                                (getOnay() == 0 ? '<a href="Sil?aktiviteid=' + data.pkID + '">Sil</a>' : '') +
                                 '<a href="Incele?aktiviteid=' + data.pkID + '&yazdir=true">Yazdır</a>' +
                                 '<a href="Incele?aktiviteid=' + data.pkID + '&excel=true">Kaydet</a>';
                         },
+                        "name": "pkID",
                         "width": "10%"
                     },
                     {
                         "data": "musteri", "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.strAd + ' ' + data.strSoyad + '</span>'
                         },
+                        "name": "Musteri.strAd",
                         "width": "15%"
                     },
                     {
                         "data": "cari", "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.sube + '</span>'
                         },
+                        "name": "Cari.Sube",
                         "width": "25%"
                     },
                     {
                         "data": "fiyatTipi", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.nosu + '</span>'
                         },
+                        "name": "FiyatTipi.NOSU",
                         "width": "10%"
                     },
                     {
                         "data": "dtAktiviteBaslangic", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.substring(0, 10) + '</span>'
                         },
+                        "name": "dtAktiviteBaslangic",
                         "width": "15%"
                     },
                     {
                         "data": "dtAktiviteBitis", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.substring(0, 10) + '</span>'
                         },
+                        "name": "dtAktiviteBitis",
                         "width": "15%"
                     }
                 ],
@@ -309,7 +318,7 @@
 </select>
 
 <select id="selectAy" name="selectAy" class="dropDown selYil">
-    @*<option value="0">Tümü</option>*@
+    <option value="0">Tümü</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -344,7 +353,7 @@
     </label>
 </div>
 
-<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='20'>
     <thead>
         <tr>
             <th class="keyTd" data-priority="1"><span class="">No</span></th>

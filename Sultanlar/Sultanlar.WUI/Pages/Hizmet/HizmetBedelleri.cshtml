@@ -28,18 +28,13 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
-                    url: apiurl + "satici",
+                    url: apiurl + "satici/true",
                     data: '{ "uyeid": "' + uyeid + '" }',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        $("#selectSaticilar").append(
-                            $("<option></option>")
-                                .text("Tümü")
-                                .val("0")
-                        );
                         $.each(data, function (index, item) {
                             $("#selectSaticilar").append(
                                 $("<option></option>")

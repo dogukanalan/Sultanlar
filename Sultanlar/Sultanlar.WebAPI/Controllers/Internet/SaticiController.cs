@@ -16,6 +16,9 @@ namespace Sultanlar.WebAPI.Controllers.Internet
     public class SaticiController : Controller
     {
         [HttpPost]
-        public List<satisTemsilcileri> Post([FromBody]SaticiGet saticiget) => new SaticiProvider().Saticilar(saticiget.uyeid);
+        public List<satisTemsilcileri> Post([FromBody]SaticiGet saticiget) => new SaticiProvider().Saticilar(saticiget.uyeid, false);
+
+        [HttpPost("{tumu}")]
+        public List<satisTemsilcileri> Post([FromBody] SaticiGet saticiget, bool tumu) => new SaticiProvider().Saticilar(saticiget.uyeid, tumu);
     }
 }

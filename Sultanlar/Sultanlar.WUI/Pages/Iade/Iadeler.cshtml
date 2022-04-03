@@ -31,7 +31,7 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
-                    url: apiurl + "satici",
+                    url: apiurl + "satici/true",
                     data: '{ "uyeid": "' + uyeid + '" }',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
@@ -112,8 +112,10 @@
             }).DataTable({
                 "responsive": true,
                 "destroy": true,
+                "processing": true,
+                "serverSide": true,
                 ajax: {
-                    dataSrc: "",
+                    dataSrc: "json",
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
@@ -138,6 +140,7 @@
                         "data": "pkIadeID", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data + '</span>'
                         },
+                        "name": "pkIadeID",
                         "width": "10%"
                     },
                     {
@@ -151,6 +154,7 @@
                             //'<a href="Yazdir?iadeid=' + data.pkIadeID + '">Yazdır</a>' +
                             //'<a href="Cikti?iadeid=' + data.pkIadeID + '">Kaydet</a>';
                         },
+                        "name": "pkIadeID",
                         "width": "10%"
                     },
                     {
@@ -160,25 +164,29 @@
                                 rell += "<div class='iadegecmisIc'>- " + item.dtTarih.replace("T", " ") + " " + item.tur.value + "</div>";
                             });
 
-                            return '<span class="sinirli iadeHareketler" rel="' + rell + '">' + data.musteri.strAd + ' ' + data.musteri.strSoyad + '</span>'
+                            return '<span class="sinirli iadeHareketler" rel="' + rell + '">' + data.musteri.strAd + ' ' + data.musteri.strSoyad + '</span>';
                         },
+                        "name": "Musteri.strAd",
                         "width": "20%"
                     },
                     {
                         "data": "cari", "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data.sube + '</span>'
+                            return '<span class="sinirli">' + data.sube + '</span>';
                         },
+                        "name": "Cari.Sube",
                         "width": "30%"
                     },
                     {
                         "data": "dtOnaylamaTarihi", "class": "keyTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>'
+                            return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>';
                         },
+                        "name": "dtOnaylamaTarihi",
                         "width": "15%"
                     },
                     {
-                        "data": "tur", "class": "keyTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' +
+                        "data": "turack", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                            /*return '<span class="sinirli">' +
                                 (
                                     data == 0 ? "Kaydedilmiş" :
                                         data == 1 ? "Fiyatlanmadı" :
@@ -187,8 +195,9 @@
                                                     data == 4 ? "Reddedildi" :
                                                         data == 5 ? "Sonlandı" : ""
                                 )
-                                + '</span>'
+                                + '</span>';*/
                         },
+                        "name": "turack",
                         "width": "15%"
                     }
                 ],
@@ -329,6 +338,7 @@
 </select>
 
 <select id="selectAy" name="selectAy" class="dropDown selYil">
+    <option value="0">Tümü</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -363,7 +373,7 @@
     </label>
 </div>
 
-<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='20'>
     <thead>
         <tr>
             <th class="keyTd" data-priority="1"><span class="">No</span></th>

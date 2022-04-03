@@ -30,7 +30,7 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
-                    url: apiurl + "satici",
+                    url: apiurl + "satici/true",
                     data: '{ "uyeid": "' + uyeid + '" }',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
@@ -111,8 +111,10 @@
             }).DataTable({
                 "responsive": true,
                 "destroy": true,
+                "processing": true,
+                "serverSide": true,
                 ajax: {
-                    dataSrc: "",
+                    dataSrc: "json",
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
@@ -333,7 +335,7 @@
     </label>
 </div>
 
-<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='20'>
     <thead>
         <tr>
             <th class="keyTd"><span class="">No</span></th>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Sultanlar.DbObj.Internet;
 using Sultanlar.WebAPI.Models.Internet;
+using System.Linq.Dynamic.Core;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -40,8 +41,10 @@ namespace Sultanlar.WebAPI.Services.Internet
                 ).ToList();
             }
             donendeger.recordsFiltered = donendeger2.Count;
-            
-            //donendeger2 = donendeger2.OrderBy(x => x.SMREF).ToList();
+
+            for (int i = 0; i < zget.columns.Count; i++)
+                if (i == zget.order[0].column)
+                    donendeger2 = donendeger2.AsQueryable().OrderBy(zget.columns[i].name + " " + zget.order[0].dir).ToList();
 
             int Baslangic = zget.start;
             int Kactane = zget.length;

@@ -3,8 +3,10 @@ using Sultanlar.DbObj.Internet;
 using Sultanlar.WebAPI.Models.Internet;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -14,19 +16,53 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal aktiviteler Aktivite(int AktiviteID) => new aktiviteler(AktiviteID).GetObject();
 
-        internal List<aktiviteler> Aktiviteler(int slsref, int gmref, int smref, int tip, int yil, int ay, string onay)
+        internal DtAjaxResponse Aktiviteler(AktiviteGet aget)
         {
-            object Onay = onay == "1" ? true : onay == "0" ? false : (object)DBNull.Value;
-            object Ay = ay == 0 ? (object)DBNull.Value : ay;
+            DtAjaxResponse donendeger = new DtAjaxResponse();
+            List<aktiviteler> donendeger2 = new List<aktiviteler>();
 
-            if (smref != 0)
-                return new aktiviteler().GetObjectsBySMREF(smref, tip, yil, Ay, Onay);
-            else if (gmref != 0)
-                return new aktiviteler().GetObjectsByGMREF(gmref, yil, Ay, Onay);
-            else if (slsref != 0)
-                return new aktiviteler().GetObjectsBySLSREF(slsref, yil, Ay, Onay);
+            object Onay = aget.onay == "1" ? true : aget.onay == "0" ? false : (object)DBNull.Value;
+            object Ay = aget.ay == 0 ? (object)DBNull.Value : aget.ay;
+
+            if (aget.smref != 0)
+                donendeger2 = new aktiviteler().GetObjectsBySMREF(aget.smref, aget.tip, aget.yil, Ay, Onay);
+            else if (aget.gmref != 0)
+                donendeger2 = new aktiviteler().GetObjectsByGMREF(aget.gmref, aget.yil, Ay, Onay);
+            else if (aget.slsref != 0)
+                donendeger2 = new aktiviteler().GetObjectsBySLSREF(aget.slsref, aget.yil, Ay, Onay);
             else
-                return new aktiviteler().GetObjects(yil, Ay, Onay);
+                donendeger2 = new aktiviteler().GetObjects(aget.yil, Ay, Onay);
+            
+            donendeger.recordsTotal = donendeger2.Count;
+            if (aget.search.value != "")
+            {
+                donendeger2 = donendeger2.ToList().Where(k =>
+                    k.Cari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(aget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Cari.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(aget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Musteri.AdSoyad.ToUpper(CultureInfo.CurrentCulture).IndexOf(aget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.strAciklama1.ToUpper(CultureInfo.CurrentCulture).IndexOf(aget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.strAciklama2.ToUpper(CultureInfo.CurrentCulture).IndexOf(aget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.strAciklama3.ToUpper(CultureInfo.CurrentCulture).IndexOf(aget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.strAciklama4.ToUpper(CultureInfo.CurrentCulture).IndexOf(aget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1
+                ).ToList();
+            }
+            donendeger.recordsFiltered = donendeger2.Count;
+
+            for (int i = 0; i < aget.columns.Count; i++)
+                if (i == aget.order[0].column)
+                    donendeger2 = donendeger2.AsQueryable().OrderBy(aget.columns[i].name + " " + aget.order[0].dir).ToList();
+
+            int Baslangic = aget.start;
+            int Kactane = aget.length;
+            int sinir = (Baslangic + Kactane) < donendeger2.Count ? (Baslangic + Kactane) : donendeger2.Count;
+
+            donendeger.json = new List<object>();
+            for (int i = Baslangic; i < sinir; i++)
+            {
+                donendeger.json.Add(donendeger2[i]);
+            }
+
+            return donendeger;
         }
 
         internal string AktiviteSil(int AktiviteID)

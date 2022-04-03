@@ -89,7 +89,7 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                         if (data == "")
-                            window.location.href = href;
+                            GeriDon();
                         else
                             alert(data);
                     },
@@ -134,7 +134,7 @@
 
                         if (data == "") {
                             alert("Bedel kaydedildi.");
-                            window.location.href = href;
+                            GeriDon();
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
@@ -157,6 +157,15 @@
             );
         }
 
+        function GeriDon() {
+            if (href != '') {
+                window.location.href = href;
+            }
+            else {
+                window.history.back();
+            }
+        }
+
         $(document).ready(function () {
             incele = getParameterByName("incele") ? getParameterByName("incele") : 0;
             id = getParameterByName("id") ? getParameterByName("id") : 0;
@@ -176,7 +185,7 @@
             else if (slsref != 0)
                 href = 'HizmetBedelleri?slsref=' + slsref + '&gmref=' + gmref + '&smref=' + smref + '&yil=' + yil + '&ay=' + ay;
             else
-                href = 'HizmetBedelleri';
+                href = '';
 
             if (incele == 0) {
                 $("#inputAy").val(new Date().getMonth() + 1);
@@ -220,7 +229,7 @@
 }
 <div class="centerVeMiddle">
     <input id="inputSil" type="button" class="btn btn-success secimTus" value="Hizmet Bedelini Sil" onclick="sil()" style="display: none" />
-    <input id="inputYazdir" type="button" class="btn btn-danger secimTus" value="Geri Dön" onclick="window.location.href = href" />
+    <input id="inputYazdir" type="button" class="btn btn-danger secimTus" value="Geri Dön" onclick="GeriDon()" />
 </div>
 <br />
 <div id="anaVeri">
