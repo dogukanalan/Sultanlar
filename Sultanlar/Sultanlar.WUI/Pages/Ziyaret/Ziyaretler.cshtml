@@ -38,6 +38,11 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
+                        $("#selectSaticilar").append(
+                            $("<option></option>")
+                                .text("Tümü")
+                                .val("0")
+                        );
                         $.each(data, function (index, item) {
                             $("#selectSaticilar").append(
                                 $("<option></option>")
@@ -112,10 +117,12 @@
             }).DataTable({
                 "responsive": true,
                 "destroy": true,
+                "processing": true,
+                "serverSide": true,
                 "colReorder": true,
                 "stateSave": true,
                 ajax: {
-                    dataSrc: "",
+                    dataSrc: "json",
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
@@ -135,15 +142,21 @@
                 columns: [
                     {
                         "data": null, "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.satici.sattem + '</span>'
+                        },
+                        "width": "10%"
+                    },
+                    {
+                        "data": null, "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + (data.cari.sube == '' ? data.cari.musteri : data.cari.sube) + '</span>'
                         },
-                        "width": "30%"
+                        "width": "25%"
                     },
                     {
                         "data": null, "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli"><a href="../Musteri/Resim/Ziyaret?rutid=' + data.ruT_ID + '">' + data.ziyaretNeden.value + '</a></span>'
                         },
-                        "width": "15%"
+                        "width": "10%"
                     },
                     {
                         "data": "ziY_BAS_TAR", "class": "keyTd", render: function (data, type, row) {
@@ -176,7 +189,7 @@
                 "info": false,
                 "searching": true,
                 "deferRender": true,
-                "order": [[2, "desc"]]
+                "order": [[3, "desc"]]
             });
         }
 
@@ -279,9 +292,10 @@
     <option value="0;;;1" selected="selected">Tümü</option>
 </select>
 
-<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='20'>
     <thead>
         <tr>
+            <th class="keyTd"><span class="">Personel</span></th>
             <th class="keyTd"><span class="">Cari</span></th>
             <th class="keyTd"><span class="">Neden</span></th>
             <th class="keyTd"><span class="">Başlangıç</span></th>

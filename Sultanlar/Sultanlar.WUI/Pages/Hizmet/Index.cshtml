@@ -62,8 +62,8 @@
                         $('#inputKgt').val(data.mnTAHBedel);
                         $('#inputNf').val(data.mnYEGBedel);
                         $('#inputAcik').val(data.strAciklama1);
-                        $('#mudurbutcesi').val(data.mnMudurButcesi);
-                        $('#elemanbutcesi').val(data.mnElemanButcesi);
+                        $('#inputKapamaYil').val(data.mnMudurButcesi);
+                        $('#inputKapamaAy').val(data.mnElemanButcesi);
                         $('#cbEtki').prop('checked', data.blKapamaEtki);
                         GetCari(4, data.smref, getCariSube, "inputCari", "inputBayi", Yazdir);
 
@@ -178,10 +178,12 @@
             else
                 href = 'HizmetBedelleri';
 
-            $("#inputAy").val(new Date().getMonth() + 1);
-            $("#inputKapamaAy").val(new Date().getMonth() + 1);
-            $("#inputYil").val(new Date().getFullYear());
-            $("#inputKapamaYil").val(new Date().getFullYear());
+            if (incele == 0) {
+                $("#inputAy").val(new Date().getMonth() + 1);
+                $("#inputKapamaAy").val(new Date().getMonth() + 1);
+                $("#inputYil").val(new Date().getFullYear());
+                $("#inputKapamaYil").val(new Date().getFullYear());
+            }
 
             $('#dtpTarih').datepicker({
                 locale: "tr",

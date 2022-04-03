@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Sultanlar.DbObj.Internet;
@@ -11,17 +12,48 @@ namespace Sultanlar.WebAPI.Services.Internet
     {
         internal List<ziyaretler> Ziyaretler() => new ziyaretler().GetObjects(DateTime.Now.Year, (object)DBNull.Value);
 
-        internal List<ziyaretler> Ziyaretler(int slsref, int gmref, int smref, int mtip, int yil, int ay)
+        internal DtAjaxResponse Ziyaretler(ZiyaretsGet zget)
         {
-            object Ay = ay == 0 ? (object)DBNull.Value : ay;
-            if (smref != 0)
-                return new ziyaretler().GetObjectsBySMREF(slsref, mtip, smref, yil, Ay);
-            else if (gmref != 0)
-                return new ziyaretler().GetObjectsByGMREF(slsref, gmref, yil, Ay);
-            else if (slsref != 0)
-                return new ziyaretler().GetObjectsBySLSREF(slsref, yil, Ay);
+            DtAjaxResponse donendeger = new DtAjaxResponse();
+            List<ziyaretler> donendeger2 = new List<ziyaretler>();
+
+            object Ay = zget.Ay == 0 ? (object)DBNull.Value : zget.Ay;
+            if (zget.Smref != 0)
+                donendeger2 = new ziyaretler().GetObjectsBySMREF(zget.Slsref, zget.Tip, zget.Smref, zget.Yil, Ay);
+            else if (zget.Gmref != 0)
+                donendeger2 = new ziyaretler().GetObjectsByGMREF(zget.Slsref, zget.Gmref, zget.Yil, Ay);
+            else if (zget.Slsref != 0)
+                donendeger2 = new ziyaretler().GetObjectsBySLSREF(zget.Slsref, zget.Yil, Ay);
             else
-                return new ziyaretler().GetObjects(yil, Ay);
+                donendeger2 = new ziyaretler().GetObjects(zget.Yil, Ay);
+
+            donendeger.recordsTotal = donendeger2.Count;
+            if (zget.search.value != "")
+            {
+                donendeger2 = donendeger2.ToList().Where(k =>
+                    k.Cari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Cari.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Satici.SATTEM.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.AnaCari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.AnaCari.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.ZiyaretNeden.value.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1
+                ).ToList();
+            }
+            donendeger.recordsFiltered = donendeger2.Count;
+            
+            //donendeger2 = donendeger2.OrderBy(x => x.SMREF).ToList();
+
+            int Baslangic = zget.start;
+            int Kactane = zget.length;
+            int sinir = (Baslangic + Kactane) < donendeger2.Count ? (Baslangic + Kactane) : donendeger2.Count;
+
+            donendeger.json = new List<object>();
+            for (int i = Baslangic; i < sinir; i++)
+            {
+                donendeger.json.Add(donendeger2[i]);
+            }
+
+            return donendeger;
         }
 
         internal ziyaretler Ziyaret(int Tip, int Smref, int Slsref, DateTime Zaman) => new ziyaretler(Tip, Smref, Slsref, Zaman).GetObject();

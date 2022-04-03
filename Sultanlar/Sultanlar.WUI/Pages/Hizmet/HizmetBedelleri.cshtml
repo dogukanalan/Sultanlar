@@ -35,6 +35,11 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
+                        $("#selectSaticilar").append(
+                            $("<option></option>")
+                                .text("Tümü")
+                                .val("0")
+                        );
                         $.each(data, function (index, item) {
                             $("#selectSaticilar").append(
                                 $("<option></option>")
@@ -109,8 +114,10 @@
             }).DataTable({
                 "responsive": true,
                 "destroy": true,
+                "processing": true,
+                "serverSide": true,
                 ajax: {
-                    dataSrc: "",
+                    dataSrc: "json",
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
@@ -212,8 +219,8 @@
             }
             if (gmref != "0") {
                 $('select[name=selectCariler]').val(gmref);
-                if ($('#selectSubeler > option').length == 1)
-                    SubelerGetir();
+                /*if ($('#selectSubeler > option').length == 1)
+                    SubelerGetir();*/
             }
             if (yil != "0") {
                 $('select[name=selectYil]').val(yil);
@@ -316,7 +323,7 @@
 <div id="divOnay" class="btn-group">
     <a href="javascript:HizmetGir()" class="btn btn-primary">Yeni Hizmet Bedeli</a>
 </div>
-<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='20'>
     <thead>
         <tr>
             <th class="keyTd" data-priority="1"><span class="">No</span></th>

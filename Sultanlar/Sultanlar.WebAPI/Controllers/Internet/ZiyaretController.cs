@@ -19,7 +19,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public List<ziyaretler> Gets() => new ZiyaretProvider().Ziyaretler();
 
         [HttpPost]
-        public List<ziyaretler> Getir([FromBody]ZiyaretsGet ziyaretsget) => new ZiyaretProvider().Ziyaretler(ziyaretsget.Slsref, ziyaretsget.Gmref, ziyaretsget.Smref, ziyaretsget.Tip, ziyaretsget.Yil, ziyaretsget.Ay);
+        public DtAjaxResponse Getir([FromBody]ZiyaretsGet ziyaretsget) => new ZiyaretProvider().Ziyaretler(ziyaretsget);
 
         [HttpPost]
         public ziyaretler Get([FromBody]ZiyaretGet ziyaretGet) => new ZiyaretProvider().Ziyaret(ziyaretGet.Tip, ziyaretGet.Smref, ziyaretGet.Slsref, Convert.ToDateTime(ziyaretGet.Zaman));

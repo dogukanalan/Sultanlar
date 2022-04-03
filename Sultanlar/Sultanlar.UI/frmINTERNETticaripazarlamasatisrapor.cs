@@ -847,8 +847,8 @@ namespace Sultanlar.UI
                                 isk4 = aktlerdet.flEkIsk;
 
                                 double kdv = Urunler.GetProductKDV(aktlerdet.intUrunID);
-                                aktivitevar = Convert.ToDouble(aktlerdet.mnDusulmusBirimFiyatKDVli);
-                                aktivitevar = aktivitevar / ((100 + kdv) / 100);
+                                //aktivitevar = Convert.ToDouble(aktlerdet.mnDusulmusBirimFiyatKDVli);
+                                //aktivitevar = aktivitevar / ((100 + kdv) / 100);
 
                                 dt.Rows[i]["intAnlasmaID"] = Aktiviteler.GetObject(aktlerdet.intAktiviteID).intAnlasmaID;
                                 dt.Rows[i]["intAktiviteID"] = aktlerdet.intAktiviteID;
@@ -895,8 +895,8 @@ namespace Sultanlar.UI
                                     isk4 = aktlerdet.flEkIsk;
 
                                     double kdv = Urunler.GetProductKDV(aktlerdet.intUrunID);
-                                    aktivitevar = Convert.ToDouble(aktlerdet.mnDusulmusBirimFiyatKDVli);
-                                    aktivitevar = aktivitevar / ((100 + kdv) / 100);
+                                    //aktivitevar = Convert.ToDouble(aktlerdet.mnDusulmusBirimFiyatKDVli);
+                                    //aktivitevar = aktivitevar / ((100 + kdv) / 100);
 
                                     dt.Rows[i]["intAnlasmaID"] = Aktiviteler.GetObject(aktlerdet.intAktiviteID).intAnlasmaID;
                                     dt.Rows[i]["intAktiviteID"] = aktlerdet.intAktiviteID;
@@ -978,8 +978,8 @@ namespace Sultanlar.UI
                         olmasigereken = olmasigereken - ((olmasigereken / 100) * isk3);
                         olmasigereken = olmasigereken - ((olmasigereken / 100) * isk4);
 
-                        if (aktivitevar > 0)
-                            olmasigereken = aktivitevar;
+                        /*if (aktivitevar > 0)
+                            olmasigereken = aktivitevar;*/
 
                         dt.Rows[i]["mnListeFiyat"] = listefiyat;
                         dt.Rows[i]["mnListeFiyatT"] = listefiyat * bayiadet;
@@ -991,12 +991,10 @@ namespace Sultanlar.UI
 
                         if (UrunID > 0 && listefiyat != 0.0 && listefiyat1 != 0.0)
                         {
-                            //dt.Rows[i]["mnBirimFark"] = olmasigereken - bayifiyat;
-                            //dt.Rows[i]["mnToplamFark"] = (olmasigereken - bayifiyat) * bayiadet;
                             if (bayifiyat >= olmasigereken)
                             {
-                                dt.Rows[i]["mnBirimFark"] = bayifiyat - karlifiyat; //karlifiyat - bayifiyat
-                                dt.Rows[i]["mnToplamFark"] = (bayifiyat - karlifiyat) * bayiadet;
+                                dt.Rows[i]["mnBirimFark"] = bayifiyat - karlifiyat; //olmasigereken - bayifiyat
+                                dt.Rows[i]["mnToplamFark"] = (bayifiyat - karlifiyat) * bayiadet; //(olmasigereken - bayifiyat) * bayiadet
                             }
                             else if (bayifiyat < olmasigereken)
                             {

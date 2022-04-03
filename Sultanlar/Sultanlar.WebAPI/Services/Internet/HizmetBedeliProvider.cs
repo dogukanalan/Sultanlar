@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Sultanlar.Class;
@@ -14,17 +15,48 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal hizmetBedelleri HizmetBedeli(int HizmetBedeliID) => new hizmetBedelleri(HizmetBedeliID).GetObject();
 
-        internal List<hizmetBedelleri> HizmetBedelleri(int slsref, int gmref, int smref, int yil, int ay)
+        internal DtAjaxResponse HizmetBedelleri(HizmetBedeliGet hget)
         {
-            object Ay = ay == 0 ? (object)DBNull.Value : ay;
-            if (slsref != 0)
-                return new hizmetBedelleri().GetObjectsBySLSREF(slsref, yil, Ay);
-            if (gmref != 0)
-                return new hizmetBedelleri().GetObjectsByGMREF(gmref, yil, Ay);
-            if (smref != 0)
-                return new hizmetBedelleri().GetObjectsBySMREF(smref, yil, Ay);
+            DtAjaxResponse donendeger = new DtAjaxResponse();
+            List<hizmetBedelleri> donendeger2 = new List<hizmetBedelleri>();
 
-            return new hizmetBedelleri().GetObjects(yil, Ay);
+            object Ay = hget.ay == 0 ? (object)DBNull.Value : hget.ay;
+            if (hget.smref != 0)
+                donendeger2 = new hizmetBedelleri().GetObjectsBySMREF(hget.smref, hget.yil, Ay);
+            else if (hget.gmref != 0)
+                donendeger2 = new hizmetBedelleri().GetObjectsByGMREF(hget.gmref, hget.yil, Ay);
+            else if (hget.slsref != 0)
+                donendeger2 = new hizmetBedelleri().GetObjectsBySLSREF(hget.slsref, hget.yil, Ay);
+            else
+                donendeger2 = new hizmetBedelleri().GetObjects(hget.yil, Ay);
+
+            donendeger.recordsTotal = donendeger2.Count;
+            if (hget.search.value != "")
+            {
+                donendeger2 = donendeger2.ToList().Where(k =>
+                    k.Cari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(hget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Cari.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(hget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.Musteri.AdSoyad.ToUpper(CultureInfo.CurrentCulture).IndexOf(hget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.strAciklama1.ToUpper(CultureInfo.CurrentCulture).IndexOf(hget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.strAciklama2.ToUpper(CultureInfo.CurrentCulture).IndexOf(hget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.strAciklama3.ToUpper(CultureInfo.CurrentCulture).IndexOf(hget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.strAciklama4.ToUpper(CultureInfo.CurrentCulture).IndexOf(hget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
+                    k.strFaturaNo.ToUpper(CultureInfo.CurrentCulture).IndexOf(hget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1
+                ).ToList();
+            }
+            donendeger.recordsFiltered = donendeger2.Count;
+
+            int Baslangic = hget.start;
+            int Kactane = hget.length;
+            int sinir = (Baslangic + Kactane) < donendeger2.Count ? (Baslangic + Kactane) : donendeger2.Count;
+
+            donendeger.json = new List<object>();
+            for (int i = Baslangic; i < sinir; i++)
+            {
+                donendeger.json.Add(donendeger2[i]);
+            }
+
+            return donendeger;
         }
 
         internal string HizmetBedeliKaydet(HizmetBedeliKaydet hbk)

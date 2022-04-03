@@ -47,5 +47,13 @@ namespace Sultanlar.WebAPI.Models.Internet
         public int Slsref { get; set; }
         public int Yil { get; set; }
         public int Ay { get; set; }
+
+
+        public int draw { get; set; }
+        public int start { get; set; }
+        public int length { get; set; }
+        public List<Column> columns { get; set; }
+        public Search search { get; set; }
+        public List<Order> order { get; set; }
     }
 }

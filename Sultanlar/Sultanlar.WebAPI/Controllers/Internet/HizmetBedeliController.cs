@@ -19,7 +19,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public hizmetBedelleri Get(int HizmetBedeliID) => new HizmetBedeliProvider().HizmetBedeli(HizmetBedeliID);
 
         [HttpPost]
-        public List<hizmetBedelleri> Getir([FromBody] HizmetBedeliGet hizmetbedeliget) => new HizmetBedeliProvider().HizmetBedelleri(hizmetbedeliget.slsref, hizmetbedeliget.gmref, hizmetbedeliget.smref, hizmetbedeliget.yil, hizmetbedeliget.ay);
+        public DtAjaxResponse Getir([FromBody]HizmetBedeliGet hizmetbedeliget) => new HizmetBedeliProvider().HizmetBedelleri(hizmetbedeliget);
 
         [HttpPost]
         public string Kaydet([FromBody] HizmetBedeliKaydet hizmetbedelikaydet) => new HizmetBedeliProvider().HizmetBedeliKaydet(hizmetbedelikaydet);
