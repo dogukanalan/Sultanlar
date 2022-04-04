@@ -111,7 +111,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                     DateTime.Now, 
                     false,
                     Convert.ToDateTime(akg.donem),
-                    DateTime.Now, 
+                    Convert.ToDateTime(akg.bitis),
                     kopyalanacak.strAciklama1, 
                     kopyalanacak.strAciklama2, 
                     kopyalanacak.strAciklama3,

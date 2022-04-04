@@ -173,14 +173,14 @@
         }
 
         function kopyala() {
-            sentValue = '{ "id": ' + aktiviteid + ', "musteri": "' + window.localStorage["uyeid"] + '", "donem": "' + $("#inputDonem").val() + '", "smreFs": [';
+            sentValue = '{ "id": ' + aktiviteid + ', "musteri": "' + window.localStorage["uyeid"] + '", "donem": "' + $("#inputDonem").val() + '", "bitis": "' + $("#inputBitis").val() + '", "smreFs": [';
             $('.smm').each(function () {
                 if ($(this).is(':checked')) {
                     sentValue += '{ "smref": ' + $(this).attr("accesskey") + ', "tip": ' + $(this).attr("rel") + ', "AnlasmaID": ' + $(this).closest("tr").find(".clAnlasma").val() + ' },';
                 }
             });
             sentValue = sentValue.substring(0, sentValue.length - 1) + '] }';
-
+            console.log(sentValue);
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
@@ -217,9 +217,17 @@
                 language: "tr",
                 format: "yyyy/mm/dd"
             });
+            $('#inputBitis').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy/mm/dd"
+            });
             $('#inputDonem').on('changeDate', function (ev) {
                 anlasmalarDoldur();
                 $("#btnKopyala").attr("disabled", false);
+                $(this).datepicker('hide');
+            });
+            $('#inputBitis').on('changeDate', function (ev) {
                 $(this).datepicker('hide');
             });
             MusterilerGetir(0);
@@ -242,8 +250,10 @@
 <select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
     <option value="0" selected="selected">Seçiniz</option>
 </select>
-<br /><br />
+<br />
+<br />
 <input class="form-control input100" type="text" name="inputDonem" id="inputDonem" placeholder="Dönem" autocomplete="off" onkeypress="return false">
+<input class="form-control input100" type="text" name="inputBitis" id="inputBitis" placeholder="Bitiş" autocomplete="off" onkeypress="return false">
 <br />
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>

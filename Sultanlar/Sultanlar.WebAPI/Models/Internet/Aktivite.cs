@@ -29,6 +29,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public int id { get; set; }
         public string musteri { get; set; }
         public string donem { get; set; }
+        public string bitis { get; set; }
         public List<AktiviteKopyaSmref> SMREFs { get; set; }
     }
 
