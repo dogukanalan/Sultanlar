@@ -23,6 +23,7 @@ namespace Sultanlar.WebAPI.Models.Internet
     }
     public class HizmetBedeliKaydet
     {
+        public int id { get; set; }
         public string musteri { get; set; }
         public int smref { get; set; }
         public int anlasmabedeladid { get; set; }

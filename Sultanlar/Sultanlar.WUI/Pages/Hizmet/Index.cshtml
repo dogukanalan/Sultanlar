@@ -103,6 +103,7 @@
             var bedel = [];
             bedel.push(
                 {
+                    id: id,
                     musteri: window.localStorage["uyeid"],
                     smref: smref,
                     anlasmabedeladid: $('#selectBedeller').val(),
@@ -222,6 +223,10 @@
                 else if (incele == 3) {
                     yazdir = true;
                     $("#inputYazdir").css("display", "none");
+                }
+                else if (incele == 4) {
+                    $("#anaVeri").removeClass("disabledEverything");
+                    $("#btnGonder").css("display", "block");
                 }
             }
         });

@@ -378,8 +378,12 @@ var aktivitecolumns = [
         }
     },
     {
-        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
-            return '<span class="sinirli">' + data + '</span>';
+        "data": null, "class": "keyTd", render: function (data, type, row) {
+            var eskods = '';
+            for (var i = 0; i < data.malzeme.eskodlar.length; i++) {
+                eskods += data.malzeme.eskodlar[i] + '<br>';
+            }
+            return '<span class="aktiviteEskod" rel="' + eskods + '">' + data.itemref + '</span>';
         }
     },
     {

@@ -47,16 +47,15 @@
         }
 
         function aktGoster() {
-            table = $('#dtTable').DataTable({
+            table = $('#dtTable').dataTable({
                 "scrollX": true,
                 "aaData": sepet,
                 "aoColumns": aktiviteicerikcolumns,
                 "language": defaultDtLang,
                 "paging": true,
-                "ordering": true,
+                "ordering": false,
                 "info": false,
-                "searching": true,
-                "order": [[1, "asc"]]
+                "searching": false
             });
         }
 
@@ -113,7 +112,10 @@
             }
             sepet = yenisepet;
             senkRoot();
-            window.location.href = window.location.href;
+            //window.location.href = window.location.href;
+            table.dataTable().fnDestroy();
+            aktGoster();
+            keyuplar();
         }
 
         function urunGuncelle(itemref, isk) {
@@ -154,7 +156,10 @@
             }
             sepet = yenisepet;
             senkRoot();
-            window.location.href = window.location.href;
+            //window.location.href = window.location.href;
+            table.dataTable().fnDestroy();
+            aktGoster();
+            keyuplar();
         }
 
         function sil() {

@@ -37,6 +37,7 @@ namespace Sultanlar.DbObj.Internet
         public Guid KAMKARTREF;
         public double ODEME_GUN;
         public DateTime ODEME_TARIH;
+        public malzemeler malzeme { get { return new malzemeler(ITEMREF).GetObject(); } }
 
         public fiyatlarTp() { }
         public fiyatlarTp(int YIL, int AY, int TIP, int ITEMREF) { this.YIL = YIL; this.AY = AY; this.TIP = TIP; this.ITEMREF = ITEMREF; }

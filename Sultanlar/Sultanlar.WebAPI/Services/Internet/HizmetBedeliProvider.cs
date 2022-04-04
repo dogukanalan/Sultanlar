@@ -62,10 +62,19 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal string HizmetBedeliKaydet(HizmetBedeliKaydet hbk)
         {
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(hbk.musteri))).GetObject();
-            hizmetBedelleri hb = new hizmetBedelleri(mus.pkMusteriID, hbk.smref, hbk.anlasmabedeladid, hbk.ay, hbk.yil, hbk.faturano, Convert.ToDateTime(hbk.faturatarih), 
+
+            hizmetBedelleri hb = new hizmetBedelleri(mus.pkMusteriID, hbk.smref, hbk.anlasmabedeladid, hbk.ay, hbk.yil, hbk.faturano, Convert.ToDateTime(hbk.faturatarih),
                 Convert.ToDecimal(hbk.tahbedel), Convert.ToDecimal(hbk.yegbedel), 0, hbk.aciklama, "", "", "", hbk.mudurbutcesi, hbk.elemanbutcesi, Convert.ToBoolean(hbk.kapamaetki));
 
-            hb.DoInsert();
+            if (hbk.id > 0)
+            {
+                hb.pkID = hbk.id;
+                hb.DoUpdate();
+            }
+            else
+            {
+                hb.DoInsert();
+            }
 
             return string.Empty;
         }

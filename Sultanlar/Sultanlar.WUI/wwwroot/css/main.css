@@ -1078,6 +1078,10 @@ textarea.yuksekHeight{
     cursor: pointer;
 }
 
+.aktiviteEskod {
+    cursor: pointer;
+}
+
 .anlasmaBolum {
     width: 49.2%;
     display: inline !important;

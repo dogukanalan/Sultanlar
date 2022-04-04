@@ -151,9 +151,10 @@
                         "data": null, "class": "keyTd", render: function (data, type, row) {
                             return '<a href="javascript:showSubMenu(div' + data.pkID + ')" class="btn btn-primary">İşlemler</a>' +
                                 '<div class="subMenu" id="div' + data.pkID + '">' +
-                                '<a href="Index?incele=1&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + getYil() + '&ay=' + getAy() + '">İncele</a>' +
-                                '<a href="Index?incele=2&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + getYil() + '&ay=' + getAy() + '">Sil</a>' +
-                                '<a href="Index?incele=3&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + getYil() + '&ay=' + getAy() + '">Yazdır</a>';
+                                '<a href="Index?incele=1&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + data.smref + '&yil=' + getYil() + '&ay=' + getAy() + '">İncele</a>' +
+                                '<a href="Index?incele=4&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + data.smref + '&yil=' + getYil() + '&ay=' + getAy() + '">Değiştir</a>' +
+                                '<a href="Index?incele=2&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + data.smref + '&yil=' + getYil() + '&ay=' + getAy() + '">Sil</a>' +
+                                '<a href="Index?incele=3&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + data.smref + '&yil=' + getYil() + '&ay=' + getAy() + '">Yazdır</a>';
                         },
                         "width": "10%"
                     },

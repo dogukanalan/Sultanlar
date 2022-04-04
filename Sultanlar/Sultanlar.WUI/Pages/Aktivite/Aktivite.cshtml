@@ -288,6 +288,12 @@
                     position: { at: 'top right' }
                 });
             });
+            $('.aktiviteEskod').each(function () {
+                $(this).qtip({
+                    content: $(this).attr('rel'),
+                    position: { at: 'bottom right' }
+                });
+            });
             lazyload();
         }
     </script>

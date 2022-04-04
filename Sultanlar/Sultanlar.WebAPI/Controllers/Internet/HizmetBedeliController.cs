@@ -22,7 +22,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public DtAjaxResponse Getir([FromBody]HizmetBedeliGet hizmetbedeliget) => new HizmetBedeliProvider().HizmetBedelleri(hizmetbedeliget);
 
         [HttpPost]
-        public string Kaydet([FromBody] HizmetBedeliKaydet hizmetbedelikaydet) => new HizmetBedeliProvider().HizmetBedeliKaydet(hizmetbedelikaydet);
+        public string Kaydet([FromBody]HizmetBedeliKaydet hizmetbedelikaydet) => new HizmetBedeliProvider().HizmetBedeliKaydet(hizmetbedelikaydet);
 
         [HttpGet("{HizmetBedeliID}")]
         public string Sil(int HizmetBedeliID) => new HizmetBedeliProvider().HizmetBedeliSil(HizmetBedeliID);
