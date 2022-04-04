@@ -178,7 +178,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(akg.musteri))).GetObject();
 
-            aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.aktivitetipi, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem, 0, 0, 0, 0, 0, 0);
+            aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.aktivitetipi, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem,akg.tahbedel, akg.yegbedel, akg.tahciro, akg.yegciro, 0, 0);
             akt.DoInsert();
             for (int i = 0; i < akg.detaylar.Count; i++)
             {

@@ -19,6 +19,10 @@
         var yegfataltciro;
         var yegciroprim;
         var fiyattip500;
+        var tahbedel;
+        var yegbedel;
+        var tahciro;
+        var yegciro;
 
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
@@ -47,6 +51,10 @@
                     yegfataltciro = infos[5];
                     yegciroprim = infos[6];
                     fiyattip500 = infos[7];
+                    tahbedel = infos[8];
+                    yegbedel = infos[9];
+                    tahciro = infos[10];
+                    yegciro = infos[11];
                     $("#btnDevam").attr("disabled", false);
                 }
             });
@@ -74,7 +82,9 @@
                             $("#selectAnlasmalar").append(
                                 $("<option></option>")
                                     .text(item.pkID + " (" + item.strAciklama1 + ")")
-                                    .val(item.pkID + ";;;" + item.flTAHIsk + ";;;" + item.flTAHCiroIsk + ";;;" + (item.flTAHCiro + item.flTAHCiro3 + item.flTAHCiro6 + item.flTAHCiro12) + ";;;" + + item.flYEGIsk + ";;;" + item.flYEGCiroIsk + ";;;" + (item.flYEGCiro + item.flYEGCiro3 + item.flYEGCiro6 + item.flYEGCiro12) + ";;;" + item.fiyatTip500)
+                                    .val(item.pkID + ";;;" + item.flTAHIsk + ";;;" + item.flTAHCiroIsk + ";;;" + (item.flTAHCiro + item.flTAHCiro3 + item.flTAHCiro6 + item.flTAHCiro12) + ";;;" + + item.flYEGIsk + ";;;" + item.flYEGCiroIsk + ";;;" + (item.flYEGCiro + item.flYEGCiro3 + item.flYEGCiro6 + item.flYEGCiro12) + ";;;" + item.fiyatTip500 + 
+                                    ";;;" + item.tahSabitBedel + ";;;" + item.yegSabitBedel + ";;;" + item.mnTAHToplamCiro + ";;;" + item.mnYEGToplamCiro)
+                                    
                             );
                         });
 
@@ -107,7 +117,8 @@
             else {
                 ftip = fiyattip500 != 0 ? fiyattip500 : ftip;
             }
-            window.location.href = 'Aktivite?smref=' + getParameterByName('smref') + '&ftip=' + ftip + '&tip=' + getParameterByName('tip') + '&aktiviteid=' + getParameterByName('aktiviteid') + '&donem=' + $("#inputDonem").val() + '&anlasmaid=' + anlasmaid + '&ahtfatalt=' + ahtfatalt + '&ahtfataltciro=' + ahtfataltciro + '&ahtciroprim=' + ahtciroprim + '&yegfatalt=' + yegfatalt + '&yegfataltciro=' + yegfataltciro + '&yegciroprim=' + yegciroprim;
+            window.location.href = 'Aktivite?smref=' + getParameterByName('smref') + '&ftip=' + ftip + '&tip=' + getParameterByName('tip') + '&aktiviteid=' + getParameterByName('aktiviteid') + '&donem=' + $("#inputDonem").val() + '&anlasmaid=' + anlasmaid + '&ahtfatalt=' + ahtfatalt + '&ahtfataltciro=' + ahtfataltciro + '&ahtciroprim=' + ahtciroprim + '&yegfatalt=' + yegfatalt + '&yegfataltciro=' + yegfataltciro + '&yegciroprim=' + yegciroprim + 
+                '&tahbedel=' + tahbedel + '&yegbedel=' + yegbedel + '&tahciro=' + tahciro + '&yegciro=' + yegciro;
         }
     </script>
 }

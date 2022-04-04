@@ -28,6 +28,10 @@
         var yegfatalt;
         var yegfataltciro;
         var yegciroprim;
+        var tahbedel;
+        var yegbedel;
+        var tahciro;
+        var yegciro;
 
         function getFiyatlar() {
             var url1 = apiurl + "fiyat/gettpbyyilaytip/" + paramdonem + "/" + paramftip;
@@ -215,6 +219,10 @@
                         ftip: paramftip,
                         tip: paramtip,
                         donem: paramdonem,
+                        tahbedel: tahbedel,
+                        yegbedel: yegbedel,
+                        tahciro: tahciro,
+                        yegciro: yegciro,
                         baslangic: $("#inputBaslangic").val(),
                         bitis: $("#inputBitis").val(),
                         aciklama1: $("#inputAciklama1").val(),
@@ -241,6 +249,10 @@
             yegfatalt = parseFloat(getParameterByName("yegfatalt"));
             yegfataltciro = parseFloat(getParameterByName("yegfataltciro"));
             yegciroprim = parseFloat(getParameterByName("yegciroprim"));
+            tahbedel = parseFloat(getParameterByName("tahbedel"));
+            yegbedel = parseFloat(getParameterByName("yegbedel"));
+            tahciro = parseFloat(getParameterByName("tahciro"));
+            yegciro = parseFloat(getParameterByName("yegciro"));
 
             $('#inputBaslangic').datepicker({
                 locale: "tr",

@@ -660,7 +660,10 @@ function stringifySepetA(sepet, smref, donem, tip, aktiviteid, anlasmaid) {
     var sentValue = '';
     for (var i = 0; i < sepet.length; i++) {
         if (sepet[i].smref === smref && sepet[i].donem === donem && sepet[i].tip === tip && sepet[i].aktiviteid === aktiviteid && sepet[i].anlasmaid === anlasmaid) {
-            sentValue = '{ "id": ' + sepet[i].aktiviteid + ', "musteri": "' + window.localStorage["uyeid"] + '", "smref": ' + sepet[i].smref + ', "fiyattipi": ' + sepet[i].ftip + ', "aktivitetipi": ' + sepet[i].tip + ', "anlasmaid": ' + sepet[i].anlasmaid + ', "donem": "' + sepet[i].donem + '", "baslangic": "' + sepet[i].baslangic + '", "bitis": "' + sepet[i].bitis + '", "aciklama1": "' + sepet[i].aciklama1 + '", "aciklama2": "' + sepet[i].aciklama2 + '", "aciklama3": "' + sepet[i].aciklama3 + '", "detaylar": [';
+            sentValue = '{ "id": ' + sepet[i].aktiviteid + ', "musteri": "' + window.localStorage["uyeid"] + '", "smref": ' + sepet[i].smref + ', "fiyattipi": ' + sepet[i].ftip + ', "aktivitetipi": ' + sepet[i].tip + ', "anlasmaid": ' + sepet[i].anlasmaid + ', "donem": "' + sepet[i].donem + '", "baslangic": "' + sepet[i].baslangic + '", "bitis": "' + sepet[i].bitis +
+                '", "aciklama1": "' + sepet[i].aciklama1 + '", "aciklama2": "' + sepet[i].aciklama2 + '", "aciklama3": "' + sepet[i].aciklama3 +
+                '", "tahbedel": "' + sepet[i].tahbedel + '", "yegbedel": "' + sepet[i].yegbedel + '", "tahciro": "' + sepet[i].tahciro + '", "yegciro": "' + sepet[i].yegciro +
+                '", "detaylar": [';
             for (var j = 0; j < sepet[i].detaylar.length; j++) {
                 sentValue += '{ "urun": ' + sepet[i].detaylar[j].itemref + ', "urunacik": "' + sepet[i].detaylar[j].malacik + '", "kdv": ' + sepet[i].detaylar[j].kdv + ', "miktar": ' + sepet[i].detaylar[j].miktar + ', "aksiyon": 0, "birimfiyat": ' + sepet[i].detaylar[j].birimfiyat + ', "fatalt": ' + sepet[i].detaylar[j].fatalt + ', "fataltciro": ' + sepet[i].detaylar[j].fataltciro + ', "ciroprim": ' + sepet[i].detaylar[j].ciroprim + ', "pazisk": ' + sepet[i].detaylar[j].pazisk + ', "ekisk": ' + sepet[i].detaylar[j].iskonto + ' },';
             }

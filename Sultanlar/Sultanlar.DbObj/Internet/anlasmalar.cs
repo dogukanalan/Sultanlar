@@ -46,6 +46,32 @@ namespace Sultanlar.DbObj.Internet
 
         private bool bedel { get; set; }
         public List<anlasmaBedeller> bedeller { get { if (bedel) return new anlasmaBedeller().GetObjects(pkID); else return new List<anlasmaBedeller>(); } }
+        public double tahSabitBedel 
+        { 
+            get 
+            {
+                List<anlasmaBedeller> bedeller = new anlasmaBedeller().GetObjects(pkID);
+                double toplam = 0;
+                for (int i = 0; i < bedeller.Count; i++)
+                {
+                    toplam += bedeller[i].mnTAHBedel * bedeller[i].intTAHAdet;
+                }
+                return toplam;
+            }
+        }
+        public double yegSabitBedel
+        {
+            get
+            {
+                List<anlasmaBedeller> bedeller = new anlasmaBedeller().GetObjects(pkID);
+                double toplam = 0;
+                for (int i = 0; i < bedeller.Count; i++)
+                {
+                    toplam += bedeller[i].mnYEGBedel * bedeller[i].intYEGAdet;
+                }
+                return toplam;
+            }
+        }
 
         public anlasmalar() { bedel = false; }
         public anlasmalar(int pkID) { this.pkID = pkID; }
