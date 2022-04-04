@@ -821,10 +821,12 @@ namespace Sultanlar.UI
                         {
                             kar = karTAH ? CariHesaplarTPEk2.GetObject(Convert.ToInt32(dt.Rows[i]["GMREF"]), noktasatyil, noktasatay).TAH_KAR : CariHesaplarTPEk2.GetObject(Convert.ToInt32(dt.Rows[i]["GMREF"]), noktasatyil, noktasatay).YEG_KAR;
 
-                            int SMREF = dt.Rows[i]["NOKTAKOD"].ToString() != string.Empty ? 
-                                CariHesaplarTP.GetSMREFByMUSKOD(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAKOD"].ToString()) 
-                                : CariHesaplarTP.GetSMREFBySUBE(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAAD"].ToString().ToUpper());
-                            
+                            int SMREF = dt.Rows[i]["NOKTAREF"].ToString() != string.Empty ? Convert.ToInt32(dt.Rows[i]["NOKTAREF"]) : 0;
+                            if (SMREF == 0)
+                                SMREF = dt.Rows[i]["NOKTAKOD"].ToString() != string.Empty ?
+                                    CariHesaplarTP.GetSMREFByMUSKOD(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAKOD"].ToString())
+                                    : CariHesaplarTP.GetSMREFBySUBE(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAAD"].ToString().ToUpper());
+
                             long aktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(
                                 SMREF,
                                 dt.Rows[i]["URUNKOD"].ToString(),
