@@ -216,8 +216,8 @@
                 var fiyat = parseFloat($(this).closest("tr").find(".netkdv").text().replace(",", "."));
                 var isk1 = $(this).closest("tr").find(".fatalt").text();
                 var isk2 = $(this).closest("tr").find(".fataltciro").text();
-                var isk3 = $(this).closest("tr").find(".cpd").text();
-                var isk = iskBul(fiyat, isk1, isk2, isk3, this.value);
+                //var isk3 = $(this).closest("tr").find(".cpd").text();
+                var isk = iskBul(fiyat, isk1, isk2, 0, this.value);
                 //$(this).closest("tr").find(".inputSecim").val(isk);
                 urunGuncelle(itemref, isk);
             }, 1000));

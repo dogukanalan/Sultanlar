@@ -58,7 +58,22 @@
                     }
                 },
                 dom: 'Bfrtip',
-                buttons: ['excel', 'pdf', 'print'],
+                buttons: [
+                    'pdf',
+                    'print',
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    data = $('<p>' + data + '</p>').text();
+                                    return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
+                                }
+                            }
+                        }
+                    }
+                ],
                 columns: aktinceleonaylasilcolumns,
                 "language": defaultDtLang,
                 "paging": true,
