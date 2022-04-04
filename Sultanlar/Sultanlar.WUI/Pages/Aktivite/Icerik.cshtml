@@ -11,6 +11,7 @@
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
 
     <script>
+        var table;
         var paramsmref;
         var paramftip;
         var paramtip;
@@ -46,7 +47,7 @@
         }
 
         function aktGoster() {
-            $('#dtTable').DataTable({
+            table = $('#dtTable').DataTable({
                 "scrollX": true,
                 "aaData": sepet,
                 "aoColumns": aktiviteicerikcolumns,
@@ -196,17 +197,7 @@
             senkRoot();
         }
 
-        $(document).ready(function () {
-            $('#divProgress').css("display", "none");
-            paramsmref = getParameterByName('smref');
-            paramtip = getParameterByName('tip');
-            paramftip = getParameterByName('ftip');
-            paramdonem = getParameterByName("donem");
-            aktiviteid = getParameterByName('aktiviteid');
-            anlasmaid = getParameterByName('anlasmaid');
-            sepet = [];
-            initSepet();
-            aktGoster();
+        function keyuplar() {
             $('.inputSecim').on('keyup', delay(function (e) {
                 urunGuncelle($(this).closest("tr").find(".itemref").text(), this.value);
             }, 1000));
@@ -221,6 +212,24 @@
                 //$(this).closest("tr").find(".inputSecim").val(isk);
                 urunGuncelle(itemref, isk);
             }, 1000));
+        }
+
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+            paramsmref = getParameterByName('smref');
+            paramtip = getParameterByName('tip');
+            paramftip = getParameterByName('ftip');
+            paramdonem = getParameterByName("donem");
+            aktiviteid = getParameterByName('aktiviteid');
+            anlasmaid = getParameterByName('anlasmaid');
+            sepet = [];
+            initSepet();
+            aktGoster();
+            keyuplar();
+
+            /*table.on('page.dt', function () {
+                keyuplar();
+            });*/
         });
     </script>
 }
@@ -229,7 +238,7 @@
 <input type="button" class="btn btn-danger secimTus" value="Aktiviteyi Sil" onclick="sSil()" />
 <input type="button" class="btn btn-success secimTus" value="Aktiviteyi Kaydet" onclick="kaydet()" />
 <input type="button" class="btn btn-success secimTus" value="Aktiviteyi Kaydet ve Onay Talep Et" onclick="onayla()" />
-<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='25'>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='400'>
     <thead>
         <tr>
             <th class="keyTd"></th>

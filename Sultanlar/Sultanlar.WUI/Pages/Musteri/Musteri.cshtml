@@ -46,7 +46,13 @@
                         "data": null, "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli3" data-toggle="tooltip" title="' + data.sube + '">' + data.sube + '</span>'
                         },
-                        "width": "70%"
+                        "width": "55%"
+                    },
+                    {
+                        "data": null, "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirliHeryer" data-toggle="tooltip" title="' + data.adres + '">' + data.adres + '</span>'
+                        },
+                        "width": "15%"
                     },
                     {
                         "data": null, "class": "keyTd", render: function (data, type, row) {
@@ -137,6 +143,7 @@
         <tr>
             <th class="keyTd" data-priority="3"><span class="">Kod</span></th>
             <th class="keyTd" data-priority="1"><span class="">Müşteri</span></th>
+            <th class="keyTd" data-priority="4"><span class="">Adres</span></th>
             <th class="keyTd" data-priority="2"></th>
         </tr>
     </thead>
