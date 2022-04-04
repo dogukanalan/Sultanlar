@@ -161,7 +161,7 @@
                         $.each(data, function (index, item) {
                             $("#" + controlid).append(
                                 $("<option></option>")
-                                    .text(item.pkID)
+                                    .text(item.pkID + " (" + item.strAciklama1.substring(0, 20) + ")")
                                     .val(item.pkID)
                             );
                         });

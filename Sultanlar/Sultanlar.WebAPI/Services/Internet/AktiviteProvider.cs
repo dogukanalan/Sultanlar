@@ -171,6 +171,10 @@ namespace Sultanlar.WebAPI.Services.Internet
             if (akg.id != 0) // aktivite güncelleniyorsa eskiyi silsin
             {
                 aktiviteler aktivite = new aktiviteler(akg.id).GetObject();
+
+                if (aktivite.blAktarilmis == DBNull.Value || Convert.ToBoolean(aktivite.blAktarilmis) == true)
+                    return "hata: aktivite onaylı.";
+
                 for (int i = 0; i < aktivite.detaylar.Count; i++)
                     aktivite.detaylar[i].DoDelete();
                 aktivite.DoDelete();

@@ -490,10 +490,10 @@
             this.gridControl1.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
             this.gridControl1.EmbeddedNavigator.Appearance.Options.UseBackColor = true;
             this.gridControl1.EmbeddedNavigator.Appearance.Options.UseForeColor = true;
-            this.gridControl1.Location = new System.Drawing.Point(12, 383);
+            this.gridControl1.Location = new System.Drawing.Point(12, 431);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(787, 168);
+            this.gridControl1.Size = new System.Drawing.Size(787, 170);
             this.gridControl1.TabIndex = 163;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -777,7 +777,7 @@
             this.txtAciklama.Multiline = true;
             this.txtAciklama.Name = "txtAciklama";
             this.txtAciklama.ReadOnly = true;
-            this.txtAciklama.Size = new System.Drawing.Size(648, 47);
+            this.txtAciklama.Size = new System.Drawing.Size(648, 95);
             this.txtAciklama.TabIndex = 159;
             // 
             // label18
@@ -810,7 +810,7 @@
             // txtKategori
             // 
             this.txtKategori.BackColor = System.Drawing.Color.White;
-            this.txtKategori.Location = new System.Drawing.Point(151, 551);
+            this.txtKategori.Location = new System.Drawing.Point(151, 601);
             this.txtKategori.Name = "txtKategori";
             this.txtKategori.ReadOnly = true;
             this.txtKategori.Size = new System.Drawing.Size(648, 20);
@@ -819,7 +819,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(12, 554);
+            this.label19.Location = new System.Drawing.Point(12, 604);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(87, 13);
             this.label19.TabIndex = 123;
@@ -829,7 +829,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(814, 572);
+            this.ClientSize = new System.Drawing.Size(814, 621);
             this.Controls.Add(this.txtTAHCiro);
             this.Controls.Add(this.txtYEGCiro);
             this.Controls.Add(this.txtTAHCiro6);

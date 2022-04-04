@@ -1008,15 +1008,8 @@ function iskDus(fiyat, isk) {
 }
 
 function iskBul(fiyat, isk1, isk2, isk3, iskfiyat) {
-    console.log(fiyat);
-    console.log(isk1);
-    console.log(isk2);
-    console.log(isk3);
-    console.log(iskfiyat);
     var dusulmusfiyat = iskDusCoklu(fiyat, isk1, isk2, isk3, 0);
-    console.log(dusulmusfiyat);
     var isk = (1 - (iskfiyat / dusulmusfiyat)) * 100;
-    console.log(isk);
     return isk;
 }
 
