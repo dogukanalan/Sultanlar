@@ -246,7 +246,7 @@ namespace Sultanlar.UI
                 int AnlasmaID = Convert.ToInt32(((DataRowView)gridControl1.MainView.GetRow(gridView1.GetSelectedRows()[0])).Row.ItemArray[0]);
                 Anlasmalar anlasma = Anlasmalar.GetObject(AnlasmaID);
 
-                if (frmAna.KAdi == "ST47" || frmAna.KAdi == "nermincelik" || frmAna.KAdi == "ST01")
+                if (frmAna.KAdi == "ST47" || frmAna.KAdi == "NERMİNCELİK" || frmAna.KAdi == "ST01")
                 {
                     if (MessageBox.Show("Anlaşma onaylanacak, devam etmek istediğinize emin misiniz?", "Onaylama", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                     {
