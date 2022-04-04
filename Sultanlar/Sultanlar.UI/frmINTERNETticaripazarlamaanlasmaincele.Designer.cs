@@ -102,6 +102,8 @@
             this.label18 = new System.Windows.Forms.Label();
             this.sbYazdir = new DevExpress.XtraEditors.SimpleButton();
             this.sbExcel = new DevExpress.XtraEditors.SimpleButton();
+            this.txtKategori = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
@@ -484,9 +486,6 @@
             // 
             // gridControl1
             // 
-            // 
-            // 
-            // 
             this.gridControl1.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
             this.gridControl1.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
             this.gridControl1.EmbeddedNavigator.Appearance.Options.UseBackColor = true;
@@ -494,7 +493,7 @@
             this.gridControl1.Location = new System.Drawing.Point(12, 383);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(787, 188);
+            this.gridControl1.Size = new System.Drawing.Size(787, 168);
             this.gridControl1.TabIndex = 163;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -748,9 +747,9 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(12, 179);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(58, 13);
+            this.label14.Size = new System.Drawing.Size(84, 13);
             this.label14.TabIndex = 175;
-            this.label14.Text = "Diğer Oran";
+            this.label14.Text = "Ciro Primi 6 Aylık";
             // 
             // label15
             // 
@@ -766,9 +765,9 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(12, 159);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(90, 13);
+            this.label13.Size = new System.Drawing.Size(84, 13);
             this.label13.TabIndex = 173;
-            this.label13.Text = "Lojistik Prim Oranı";
+            this.label13.Text = "Ciro Primi 3 Aylık";
             // 
             // txtAciklama
             // 
@@ -778,7 +777,7 @@
             this.txtAciklama.Multiline = true;
             this.txtAciklama.Name = "txtAciklama";
             this.txtAciklama.ReadOnly = true;
-            this.txtAciklama.Size = new System.Drawing.Size(648, 45);
+            this.txtAciklama.Size = new System.Drawing.Size(648, 47);
             this.txtAciklama.TabIndex = 159;
             // 
             // label18
@@ -807,6 +806,24 @@
             this.sbExcel.TabIndex = 162;
             this.sbExcel.Text = "Excel";
             this.sbExcel.Click += new System.EventHandler(this.sbExcel_Click);
+            // 
+            // txtKategori
+            // 
+            this.txtKategori.BackColor = System.Drawing.Color.White;
+            this.txtKategori.Location = new System.Drawing.Point(151, 551);
+            this.txtKategori.Name = "txtKategori";
+            this.txtKategori.ReadOnly = true;
+            this.txtKategori.Size = new System.Drawing.Size(648, 20);
+            this.txtKategori.TabIndex = 159;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(12, 554);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(87, 13);
+            this.label19.TabIndex = 123;
+            this.label19.Text = "Eski Anlaşma No";
             // 
             // frmINTERNETticaripazarlamaanlasmaincele
             // 
@@ -837,6 +854,7 @@
             this.Controls.Add(this.dtpBaslangic);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label5);
+            this.Controls.Add(this.label19);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label30);
             this.Controls.Add(this.label26);
@@ -855,6 +873,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtYEGCiroDahilMaliyet);
             this.Controls.Add(this.txtAciklama);
+            this.Controls.Add(this.txtKategori);
             this.Controls.Add(this.txtTAHCiroDahilMaliyet);
             this.Controls.Add(this.txtYEGToplamMaliyet);
             this.Controls.Add(this.txtTAHToplamMaliyet);
@@ -961,5 +980,7 @@
         private System.Windows.Forms.Label label18;
         private DevExpress.XtraEditors.SimpleButton sbYazdir;
         private DevExpress.XtraEditors.SimpleButton sbExcel;
+        private System.Windows.Forms.TextBox txtKategori;
+        private System.Windows.Forms.Label label19;
     }
 }

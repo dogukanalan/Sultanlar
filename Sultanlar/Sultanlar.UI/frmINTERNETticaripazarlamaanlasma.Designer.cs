@@ -318,9 +318,9 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(12, 294);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(90, 13);
+            this.label13.Size = new System.Drawing.Size(84, 13);
             this.label13.TabIndex = 1;
-            this.label13.Text = "Lojistik Prim Oranı";
+            this.label13.Text = "Ciro Primi 3 Aylık";
             // 
             // txtTAHCiro6
             // 
@@ -343,9 +343,9 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(12, 314);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(58, 13);
+            this.label14.Size = new System.Drawing.Size(84, 13);
             this.label14.TabIndex = 1;
-            this.label14.Text = "Diğer Oran";
+            this.label14.Text = "Ciro Primi 6 Aylık";
             // 
             // label15
             // 

@@ -76,6 +76,7 @@ namespace Sultanlar.UI
             txtYEGCiroDahilMaliyet.Text = anlasma.YEGCiroPrimiDahilNetMaliyet.ToString("N1");
 
             txtAciklama.Text = anlasma.strAciklama1;
+            txtKategori.Text = Anlasmalar.GetKat(anlasma.pkID);
 
             GetAnlasmaBedeller();
         }
