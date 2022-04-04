@@ -118,7 +118,7 @@
                 ftip = fiyattip500 != 0 ? fiyattip500 : ftip;
             }
             window.location.href = 'Aktivite?smref=' + getParameterByName('smref') + '&ftip=' + ftip + '&tip=' + getParameterByName('tip') + '&aktiviteid=' + getParameterByName('aktiviteid') + '&donem=' + $("#inputDonem").val() + '&anlasmaid=' + anlasmaid + '&ahtfatalt=' + ahtfatalt + '&ahtfataltciro=' + ahtfataltciro + '&ahtciroprim=' + ahtciroprim + '&yegfatalt=' + yegfatalt + '&yegfataltciro=' + yegfataltciro + '&yegciroprim=' + yegciroprim + 
-                '&tahbedel=' + tahbedel + '&yegbedel=' + yegbedel + '&tahciro=' + tahciro + '&yegciro=' + yegciro;
+                '&tahbedel=' + (tahbedel ? tahbedel : 0) + '&yegbedel=' + (yegbedel ? yegbedel : 0) + '&tahciro=' + (tahciro ? tahciro : 0) + '&yegciro=' + (yegciro ? yegciro : 0);
         }
     </script>
 }
