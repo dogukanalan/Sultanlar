@@ -259,6 +259,11 @@ var aktinceleonaylasilcolumns = [
         }
     },
     {
+        "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+            return '<span class="sinirli">' + data.barkod + '</span>';
+        }
+    },
+    {
         "data": "malzeme", "class": "valueTd", render: function (data, type, row) {
             return '<span class="sinirli malacik">' + data.malacik + '</span>';
         }
@@ -399,7 +404,7 @@ var aktivitecolumns = [
     {
         "data": null, "class": "keyTd", render: function (data, type, row) {
             return '<input type="hidden" class="grupkod" value="' + data.grupkod + '">' + '</input>' +
-                '<input type="number" class="inputSecim" accesskey="' + data.itemref + ';;;' + data.fiyat + '" onkeyup="clickButton(event,\'sipAktar\')" />';
+                '<input type="number" class="inputSecim" accesskey="' + data.itemref + ';;;' + data.fiyat * ((100 + data.malzeme.kdv) / 100) + '" onkeyup="clickButton(event,\'sipAktar\')" />';
         }
     },
     {

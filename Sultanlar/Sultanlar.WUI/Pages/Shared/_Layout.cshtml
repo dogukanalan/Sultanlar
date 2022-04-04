@@ -178,12 +178,22 @@
             </div>
         </div>
         <footer>
-            <p>&copy; @DateTime.Now.Year.ToString()
-            - Sultanlar</p><br />
+            <p>
+                &copy; @DateTime.Now.Year.ToString()
+                - Sultanlar
+            </p><br />
         </footer>
     </div>
 
-    <div id="divProgress"><div id="divProgressBack"></div><div id="divProgressFront"><div id="divProgressFrontInner">Yükleniyor...</div></div></div>
+    <div id="divProgress">
+        @*<div id="divProgressBack"></div><div id="divProgressFront"><div id="divProgressFrontInner">Yükleniyor...</div></div>*@
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div>
+    </div>
+
 
     <environment include="Development">
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
