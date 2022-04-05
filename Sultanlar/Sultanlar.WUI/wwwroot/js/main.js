@@ -477,22 +477,22 @@ var siparisiadeaktiviteicerikcolumns = [
         }
     },
     {
-        "mDataProp": "isk1", title: "i1", "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+        "mDataProp": "isk1", title: "i1", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
             return '<input type="number" class="inputSecim" value="' + data.toFixed(2) + '" disabled />';
         }
     },
     {
-        "mDataProp": "isk2", title: "i2", "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+        "mDataProp": "isk2", title: "i2", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
             return '<input type="number" class="inputSecim" value="' + data.toFixed(2) + '" disabled />';
         }
     },
     {
-        "mDataProp": "isk3", title: "i3", "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+        "mDataProp": "isk3", title: "i3", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
             return '<input type="number" class="inputSecim" value="' + data.toFixed(2) + '" disabled />';
         }
     },
     {
-        "mDataProp": "isk4", title: "i4", "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+        "mDataProp": "isk4", title: "i4", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
             return '<input type="number" class="inputSecim" value="' + data.toFixed(2) + '" disabled />';
         }
     },
@@ -858,7 +858,7 @@ function positionSuccess(position) {
             try {
                 Sonlanmamis();
             } catch (e) {
-
+                
             }
         }, 200);
         $('.konumTamam').prop('disabled', false);

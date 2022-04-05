@@ -42,7 +42,7 @@
                         window.localStorage.removeItem("ziyaret");
                         window.location.href = '../Musteri';
                     },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { alert('hata olustu: ' + errorThrown + ' \r\n\r\n\r\n ' + sentData); }
                 }
             );
         }

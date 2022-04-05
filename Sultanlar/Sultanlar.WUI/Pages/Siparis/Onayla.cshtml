@@ -61,8 +61,10 @@
                         checkAuth(response);
                         if (data == "")
                             window.location.href = "Siparisler?onay=1";
-                        else
-                            alert(data);
+                        else {
+                            alert("Sipariş onaylanamadı. hata: " + data);
+                            window.location.href = "Siparisler";
+                        }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }

@@ -27,9 +27,9 @@ namespace Sultanlar.WebAPI.Services.Internet
             object Ay = sget.ay == 0 ? (object)DBNull.Value : sget.ay;
 
             if (sget.smref != 0)
-                donendeger2 = new siparisler().GetObjectsBySMREF(sget.smref, sget.yil, Ay, Onay);
+                donendeger2 = new siparisler().GetObjectsBySLSREFSMREF(sget.slsref, sget.smref, sget.yil, Ay, Onay);
             else if (sget.gmref != 0)
-                donendeger2 = new siparisler().GetObjectsByGMREF(sget.gmref, sget.yil, Ay, Onay);
+                donendeger2 = new siparisler().GetObjectsBySLSREFGMREF(sget.slsref, sget.gmref, sget.yil, Ay, Onay);
             else if (sget.slsref != 0)
                 donendeger2 = new siparisler().GetObjectsBySLSREF(sget.slsref, sget.yil, Ay, Onay);
             else
@@ -115,7 +115,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             }
 
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(skg.musteri))).GetObject();
-            int musid = new musteriler().GetMusteriBySLSREF(new cariHesaplar(skg.smref).GetObject().SLSREF).pkMusteriID;
+            int musid = mus.pkMusteriID; //new musteriler().GetMusteriBySLSREF(new cariHesaplar(skg.smref).GetObject().SLSREF).pkMusteriID;
 
             siparisler sip = new siparisler(musid != 0 ? musid : mus.pkMusteriID, skg.smref, skg.ftip, DateTime.Now, 0, false, 0, DateTime.Now, mus.AdSoyad + ";;;" + skg.aciklama + ";;;" + Convert.ToDateTime(skg.teslim).ToShortDateString());
             sip.DoInsert();

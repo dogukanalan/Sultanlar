@@ -106,7 +106,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                     akg.SMREFs[i].smref,
                     cari.TIP == 4 || cari.BayiMi ? (short)25 : (cari.fiyatTip500 > 500 ? Convert.ToInt16(cari.fiyatTip500) : (short)7), 
                     akg.SMREFs[i].AnlasmaID,
-                    cari.TIP == 4 ? 1 : 2, 
+                    cari.TIP == 4 || cari.BayiMi ? 1 : 2, 
                     DateTime.Now, 
                     DateTime.Now, 
                     false,
@@ -181,8 +181,16 @@ namespace Sultanlar.WebAPI.Services.Internet
             }
 
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(akg.musteri))).GetObject();
+            if (akg.anlasmaid != 0)
+            {
+                anlasmalar anlasma = new anlasmalar(Convert.ToInt32(akg.anlasmaid)).GetObject();
+                akg.tahbedel = anlasma.tahSabitBedel;
+                akg.yegbedel = anlasma.yegSabitBedel;
+                akg.tahciro = anlasma.mnTAHToplamCiro;
+                akg.yegciro = anlasma.mnYEGToplamCiro;
+            }
 
-            aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.aktivitetipi, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem,akg.tahbedel, akg.yegbedel, akg.tahciro, akg.yegciro, 0, 0);
+            aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.aktivitetipi, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem, akg.tahbedel, akg.yegbedel, akg.tahciro, akg.yegciro, 0, (akg.fiyattipi == 25 && akg.aktivitetipi == 1) ? 1 : 0);
             akt.DoInsert();
             for (int i = 0; i < akg.detaylar.Count; i++)
             {

@@ -189,11 +189,41 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
+        public List<siparisler> GetObjectsBySLSREFGMREF(int SLSREF, int GMREF, int Yil, object Ay, object Aktarilmis)
+        {
+            List<siparisler> donendeger = new List<siparisler>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerGetirBySLSREFGMREF", new Dictionary<string, object>() { { "SLSREF", SLSREF }, { "GMREF", GMREF }, { "Yil", Yil }, { "Ay", Ay }, { "blAktarilmis", Aktarilmis } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new siparisler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt16(dic[i][3]), ConvertToDateTime(dic[i][4]), ConvertToDouble(dic[i][5]), Convert.ToBoolean(dic[i][6]), ConvertToInt32(dic[i][7]), ConvertToDateTime(dic[i][8]), dic[i][9].ToString(), false));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<siparisler> GetObjectsBySMREF(int SMREF, int Yil, object Ay, object Aktarilmis)
         {
             List<siparisler> donendeger = new List<siparisler>();
 
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerGetirBySMREF", new Dictionary<string, object>() { { "SMREF", SMREF }, { "Yil", Yil }, { "Ay", Ay }, { "blAktarilmis", Aktarilmis } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new siparisler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt16(dic[i][3]), ConvertToDateTime(dic[i][4]), ConvertToDouble(dic[i][5]), Convert.ToBoolean(dic[i][6]), ConvertToInt32(dic[i][7]), ConvertToDateTime(dic[i][8]), dic[i][9].ToString(), false));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<siparisler> GetObjectsBySLSREFSMREF(int SLSREF, int SMREF, int Yil, object Ay, object Aktarilmis)
+        {
+            List<siparisler> donendeger = new List<siparisler>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerGetirBySLSREFSMREF", new Dictionary<string, object>() { { "SLSREF", SLSREF }, { "SMREF", SMREF }, { "Yil", Yil }, { "Ay", Ay }, { "blAktarilmis", Aktarilmis } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new siparisler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt16(dic[i][3]), ConvertToDateTime(dic[i][4]), ConvertToDouble(dic[i][5]), Convert.ToBoolean(dic[i][6]), ConvertToInt32(dic[i][7]), ConvertToDateTime(dic[i][8]), dic[i][9].ToString(), false));
