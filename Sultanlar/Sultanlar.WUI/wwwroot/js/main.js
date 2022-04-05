@@ -404,7 +404,7 @@ var aktivitecolumns = [
     {
         "data": null, "class": "keyTd", render: function (data, type, row) {
             return '<input type="hidden" class="grupkod" value="' + data.grupkod + '">' + '</input>' +
-                '<input type="number" class="inputSecim" accesskey="' + data.itemref + ';;;' + data.fiyat * ((100 + data.malzeme.kdv) / 100) + '" onkeyup="clickButton(event,\'sipAktar\')" />';
+                '<input type="number" class="inputSecim" accesskey="' + data.itemref + ';;;' + data.fiyat * ((100 + data.kdv) / 100) + '" onkeyup="clickButton(event,\'sipAktar\')" />';
         }
     },
     {

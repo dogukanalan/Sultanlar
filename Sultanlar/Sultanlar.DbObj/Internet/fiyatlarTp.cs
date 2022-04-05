@@ -37,6 +37,8 @@ namespace Sultanlar.DbObj.Internet
         public Guid KAMKARTREF;
         public double ODEME_GUN;
         public DateTime ODEME_TARIH;
+        public double KDV { get { return ((NETKDV / NET) - 1) * 100; } }
+        public double FIYATKDVDAHIL { get { return FIYAT * ((100 + KDV) / 100); } }
         public malzemeler malzeme { get { return new malzemeler(ITEMREF).GetObject(); } }
 
         public fiyatlarTp() { }

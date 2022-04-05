@@ -36,7 +36,7 @@
                 $('#divProgress').css("display", "block");
                 $(this).datepicker('hide');
                 $("#btnDevam").attr("disabled", true);
-                anlasmaGetir($(this).val().substring(0, 4), $(this).val().substring(5, 7), getParameterByName('smref'), getParameterByName('tip'));
+                anlasmaGetir($(this).val().substring(0, 4), $(this).val().substring(5, 7), getParameterByName('smref'), getParameterByName('ftip') == '25' ? '1' : '2');
             });
 
             anlasmaid = 0;
@@ -61,7 +61,7 @@
 
             var today = new Date();
             $('#inputDonem').val(GetDateNow2());
-            anlasmaGetir(today.getFullYear(), today.getMonth() + 1, getParameterByName('smref'), getParameterByName('tip'));
+            anlasmaGetir(today.getFullYear(), today.getMonth() + 1, getParameterByName('smref'), getParameterByName('ftip') == '25' ? '1' : '2');
         });
 
         function anlasmaGetir(yil, ay, smref, tip) {
@@ -79,13 +79,15 @@
                         
                         $("#selectAnlasmalar").empty().append($("<option></option>").text("Seçiniz").val("0"));
                         $.each(data, function (index, item) {
-                            $("#selectAnlasmalar").append(
-                                $("<option></option>")
-                                    .text(item.pkID + " (" + item.strAciklama1 + ")")
-                                    .val(item.pkID + ";;;" + item.flTAHIsk + ";;;" + item.flTAHCiroIsk + ";;;" + (item.flTAHCiro + item.flTAHCiro3 + item.flTAHCiro6 + item.flTAHCiro12) + ";;;" + + item.flYEGIsk + ";;;" + item.flYEGCiroIsk + ";;;" + (item.flYEGCiro + item.flYEGCiro3 + item.flYEGCiro6 + item.flYEGCiro12) + ";;;" + item.fiyatTip500 + 
-                                    ";;;" + item.tahSabitBedel + ";;;" + item.yegSabitBedel + ";;;" + item.mnTAHToplamCiro + ";;;" + item.mnYEGToplamCiro)
-                                    
-                            );
+                            if (item.strAciklama3 != 'PASİF') {
+                                $("#selectAnlasmalar").append(
+                                    $("<option></option>")
+                                        .text(item.pkID + " (" + item.strAciklama1 + ")")
+                                        .val(item.pkID + ";;;" + item.flTAHIsk + ";;;" + item.flTAHCiroIsk + ";;;" + (item.flTAHCiro + item.flTAHCiro3 + item.flTAHCiro6 + item.flTAHCiro12) + ";;;" + + item.flYEGIsk + ";;;" + item.flYEGCiroIsk + ";;;" + (item.flYEGCiro + item.flYEGCiro3 + item.flYEGCiro6 + item.flYEGCiro12) + ";;;" + item.fiyatTip500 +
+                                            ";;;" + item.tahSabitBedel + ";;;" + item.yegSabitBedel + ";;;" + item.mnTAHToplamCiro + ";;;" + item.mnYEGToplamCiro)
+
+                                );
+                            }
                         });
 
                         if (data.length == 0) {

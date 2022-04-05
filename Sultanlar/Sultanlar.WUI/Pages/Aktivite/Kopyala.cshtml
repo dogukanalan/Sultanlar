@@ -99,12 +99,13 @@
 
                 },
                 "fnDrawCallback": function (oSettings) {
-                    $('input.smm').change(function () {
+                    /*$('input.smm').change(function () {
                         if ($("#inputDonem").val() == "") {
                             alert("Dönem seçiniz.");
                             $(this).prop("checked", false);
                         }
-                    });
+                    });*/
+                    anlasmalarDoldur();
                 },
                 columns: [
                     {
@@ -159,11 +160,13 @@
 
                         $("#" + controlid).empty().append($("<option></option>").text("Yok").val("0"));
                         $.each(data, function (index, item) {
-                            $("#" + controlid).append(
-                                $("<option></option>")
-                                    .text(item.pkID + " (" + item.strAciklama1.substring(0, 20) + ")")
-                                    .val(item.pkID)
-                            );
+                            if (item.strAciklama3 != 'PASİF') {
+                                $("#" + controlid).append(
+                                    $("<option></option>")
+                                        .text(item.pkID + " (" + item.strAciklama1.substring(0, 20) + ")")
+                                        .val(item.pkID)
+                                );
+                            }
                         });
                         $("#" + controlid + " option:last").attr("selected", "selected");
                     },
