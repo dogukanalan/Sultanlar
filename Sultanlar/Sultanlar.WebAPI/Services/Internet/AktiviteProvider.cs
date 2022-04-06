@@ -119,8 +119,8 @@ namespace Sultanlar.WebAPI.Services.Internet
                     tahbedel,
                     yegbedel,
                     tahciro,
-                    yegciro, 
-                    kopyalanacak.mnAktiviteKarZarar,
+                    yegciro,
+                    (kopyalanacak.sintFiyatTipiID == 25 && kopyalanacak.Cari.BayiMi) ? 1 : 0,
                     cari.BayiMi ? 1 : 0);
                 akt.DoInsert();
 
@@ -131,7 +131,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                     double isk1 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHIsk : akt.Anlasma.flYEGIsk) : 0;
                     double isk2 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHCiroIsk : akt.Anlasma.flYEGCiroIsk) : 0;
                     double isk3 = 0;
-                    double cirop = akt.intAnlasmaID > 0 ? akt.Anlasma.ahtCiroPrimDonusYuzdeToplam : 0;
+                    double cirop = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.ahtCiroPrimDonusYuzdeToplam : akt.Anlasma.yegCiroPrimDonusYuzdeToplam) : 0;
                     double ekisk = kopyalanacak.detaylar[j].flEkIsk;
                     double birimfiyatkdvli = KdvEkle(fiyat.FIYAT, malzeme.KDV);
                     double dusulmuskdvsiz = IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
@@ -190,7 +190,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 akg.yegciro = anlasma.mnYEGToplamCiro;
             }
 
-            aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.aktivitetipi, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem, akg.tahbedel, akg.yegbedel, akg.tahciro, akg.yegciro, 0, (akg.fiyattipi == 25 && akg.aktivitetipi == 1) ? 1 : 0);
+            aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.fiyattipi == 25 ? 1 : 2, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem, akg.tahbedel, akg.yegbedel, akg.tahciro, akg.yegciro, 0, (akg.fiyattipi == 25 && akg.aktivitetipi == 1) ? 1 : 0);
             akt.DoInsert();
             for (int i = 0; i < akg.detaylar.Count; i++)
             {

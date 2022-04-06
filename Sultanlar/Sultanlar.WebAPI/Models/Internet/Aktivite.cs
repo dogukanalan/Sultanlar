@@ -47,7 +47,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public string musteri { get; set; }
         public int smref { get; set; }
         public short fiyattipi { get; set; }
-        public int aktivitetipi { get; set; }
+        public int aktivitetipi { get; set; } //musteritipi
         public string baslangic { get; set; }
         public string bitis { get; set; }
         public string aciklama1 { get; set; }
