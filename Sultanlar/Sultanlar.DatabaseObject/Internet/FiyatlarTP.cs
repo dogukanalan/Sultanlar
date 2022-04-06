@@ -330,5 +330,34 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
+
+        public static int GetVade(int TIP)
+        {
+            int donendeger = 0;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("db_sp_VadeGetir", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("TIP", TIP);
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                        donendeger = Convert.ToInt32(obj);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
     }
 }

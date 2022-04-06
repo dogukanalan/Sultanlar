@@ -115,5 +115,19 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int GetVade(int TIP)
+        {
+            int donendeger = 0;
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_VadeGetir", new Dictionary<string, object>() { { "TIP", TIP } }, timeout);
+            if (dic != null)
+                donendeger = ConvertToInt32(dic[0]);
+
+            return donendeger;
+        }
     }
 }
