@@ -153,7 +153,7 @@ namespace Sultanlar.DatabaseObject.Internet
             #endregion
 
 
-            bool siparisaktarilamadi = false;
+            bool vadesiparisaktarilamadi = false;
 
 
             DataTable dt = new DataTable();
@@ -204,7 +204,7 @@ namespace Sultanlar.DatabaseObject.Internet
                     }
                     else
                     {
-                        siparisaktarilamadi = true;
+                        vadesiparisaktarilamadi = true;
                     }
                 }
                 else // bölünme
@@ -253,7 +253,7 @@ namespace Sultanlar.DatabaseObject.Internet
                         }
                         else
                         {
-                            siparisaktarilamadi = true;
+                            vadesiparisaktarilamadi = true;
                         }
                     }
 
@@ -268,7 +268,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
 
 
-            if (siparisaktarilamadi || bolunenlerdenbiriaktarilamadi)
+            if (vadesiparisaktarilamadi || bolunenlerdenbiriaktarilamadi)
             {
                 // dönüşte false olursa bu div i visible true yap
                 //divSiparisOnaylanamadi.Visible = true;

@@ -129,7 +129,7 @@ namespace Sultanlar.DbObj.Internet
         public double ISK10 { get; set; }
         private siparislerDetayISKs() { }
         public siparislerDetayISKs(long bintSiparisDetayID) { this.bintSiparisDetayID = bintSiparisDetayID; }
-        private siparislerDetayISKs(long bintSiparisDetayID, double FIYAT, double ISK1, double ISK2, double ISK3, double ISK4, double ISK5, double ISK6, double ISK7, double ISK8, double ISK9, double ISK10)
+        public siparislerDetayISKs(long bintSiparisDetayID, double FIYAT, double ISK1, double ISK2, double ISK3, double ISK4, double ISK5, double ISK6, double ISK7, double ISK8, double ISK9, double ISK10)
         {
             this.bintSiparisDetayID = bintSiparisDetayID;
             this.FIYAT = FIYAT;
@@ -143,6 +143,16 @@ namespace Sultanlar.DbObj.Internet
             this.ISK8 = ISK8;
             this.ISK9 = ISK9;
             this.ISK10 = ISK10;
+        }
+
+        public override string ToString() { return bintSiparisDetayID.ToString(); }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void DoInsert()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "SiparisDetayID", bintSiparisDetayID }, { "bintSiparisDetayID", bintSiparisDetayID }, { "ISK1", ISK1 }, { "ISK2", ISK2 }, { "ISK3", ISK3 }, { "ISK4", ISK4 }, { "ISK5", ISK5 }, { "ISK6", ISK6 }, { "ISK7", ISK7 }, { "ISK8", ISK8 }, { "ISK9", ISK9 }, { "ISK10", ISK10 }, { "FIYAT", FIYAT } };
+            Do(QueryType.Insert, "db_sp_siparislerDetayISKEkle", param, timeout);
         }
         /// <summary>
         /// 

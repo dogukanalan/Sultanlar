@@ -98,6 +98,14 @@ namespace Sultanlar.WebAPI.Services.Internet
                 {
                     siparislerDetay sipdet = new siparislerDetay(sip.pkSiparisID, kopyalanacak.detaylar[j].intUrunID, kopyalanacak.detaylar[j].strUrunAdi, kopyalanacak.detaylar[j].intMiktar, kopyalanacak.detaylar[j].mnFiyat, kopyalanacak.detaylar[j].unKampanyaKart, kopyalanacak.detaylar[j].blKampanyaHediye, kopyalanacak.detaylar[j].unKampanyaSatir, kopyalanacak.detaylar[j].strMiktarTur);
                     sipdet.DoInsert();
+
+                    /*if (sip.sintFiyatTipiID == 2) aktivitedeki aynı iskontolar verilmesin aktivite belki yok belki tarihi geçti
+                    {
+                        siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, kopyalanacak.detaylar[i].isks.FIYAT, sipdet.isks.ISK1, kopyalanacak.detaylar[i].isks.ISK2, 
+                            kopyalanacak.detaylar[i].isks.ISK3, kopyalanacak.detaylar[i].isks.ISK4, kopyalanacak.detaylar[i].isks.ISK5, kopyalanacak.detaylar[i].isks.ISK6, kopyalanacak.detaylar[i].isks.ISK7, 
+                            kopyalanacak.detaylar[i].isks.ISK8, kopyalanacak.detaylar[i].isks.ISK9, kopyalanacak.detaylar[i].isks.ISK10);
+                        sipdetisks.DoInsert();
+                    }*/
                 }
             }
 
@@ -125,6 +133,14 @@ namespace Sultanlar.WebAPI.Services.Internet
                 double fiyat = new fiyatlar(sip.sintFiyatTipiID, skg.detaylar[i].itemref).GetObject().NETKDV;
                 siparislerDetay sipdet = new siparislerDetay(sip.pkSiparisID, skg.detaylar[i].itemref, skg.detaylar[i].malacik, skg.detaylar[i].miktar, fiyat, Guid.Empty, false, Guid.Empty, skg.detaylar[i].miktartur);
                 sipdet.DoInsert();
+
+                if (sip.sintFiyatTipiID == 2)
+                {
+                    fiyatlar fiy = new fiyatlar(2, sipdet.intUrunID).GetObject();
+                    siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, fiy.FIYAT, skg.detaylar[i].isk1, skg.detaylar[i].isk2, skg.detaylar[i].isk3, skg.detaylar[i].isk4, 0, 0, 0, 0, 0, 0);
+                    sipdetisks.DoInsert();
+                }
+
                 if (skg.detaylar[i].miktartur == "KI")
                 {
                     fiyat = fiyat * sipdet.Malzeme.KOLI;
@@ -161,7 +177,7 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal SiparisIsks Isks(int SMREF, int ITEMREF, DateTime Tarih)
         {
             double fiyat = new fiyatlar(20, ITEMREF).GetObject().FIYAT;
-            SiparisIsks donendeger = new SiparisIsks() { fiyat = fiyat, isk1 = 5, isk2 = 0, isk3 = 0, isk4 = 0 };
+            SiparisIsks donendeger = new SiparisIsks() { fiyat = fiyat, isk1 = 0, isk2 = 0, isk3 = 0, isk4 = 0 };
 
             malzemeler mal = new malzemeler(ITEMREF).GetObject();
 
