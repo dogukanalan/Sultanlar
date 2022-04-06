@@ -324,7 +324,7 @@ namespace Sultanlar.DatabaseObject.Internet
             header.Vbeln = "";
             header.Xblnr = sip.pkSiparisID.ToString(); //WebGenel.DoUpdateSayac().ToString()
             header.Stext = Aciklama2;
-            header.Zterm = sip.sintFiyatTipiID == 2 ? Convert.ToInt32(TaksitPlanlari.GetOdemePlani(sip.TKSREF).Substring(0, 3).Trim()).ToString() : "";
+            header.Zterm = sip.sintFiyatTipiID == 2 ? "80" : ""; //Convert.ToInt32(TaksitPlanlari.GetOdemePlani(sip.TKSREF).Substring(0, 3).Trim()).ToString()
 
             if (CariHesaplar.GetSATKOD1BySLSREF(SLSREF) == "VE")
             {
