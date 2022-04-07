@@ -335,22 +335,16 @@
                         contentType: 'application/json; charset=utf-8',
                         dataType: 'json',
                         url: apiurl + "hizmetbedeli/getirf",
-                        data: function (d) {
-                            d.slsref = slsref;
-                            d.gmref = gmref;
-                            d.smref = smref;
-                            d.yil = getYil();
-                            d.ay = getAy();
-                            console.log(JSON.stringify(d));
-                            return JSON.stringify(d);
-                        },
+                        data: '{ "slsref": "' + getSlsref() + '", "gmref": "' + getGmref() + '", "smref": "' + getSmref() + '", "yil": "' + getYil() + '", "ay": "' + getAy() + '" }',
                         success: function (result) {
-                            console.log(result);
+
                         },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log(errorThrown); },
                         async: false
                     });
 
-                    return { body: jsonResult.responseJSON.data, header: $("#dtTable thead tr th").map(function () { return this.innerHTML; }).get() };
+                    var returndata = { body: jsonResult.responseJSON, header: $("#dtTable thead tr th").map(function () { return this.innerHTML.replaceAll("<span>", "").replaceAll("</span>", ""); }).get() };
+                    return returndata;
                 }
             });*/
         });

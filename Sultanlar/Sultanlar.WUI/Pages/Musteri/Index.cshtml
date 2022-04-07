@@ -61,7 +61,7 @@
                             htmlText += '<tr>';
                             htmlText += '<td class="keyTd hidewhenmobile"><span class="sinirli">' + data[i].gmref + '</span></td>';
                             htmlText += '<td class="valueTd"><span class="sinirli3" data-toggle="tooltip" title="' + data[i].musteri + '">' + data[i].musteri + '</span></td>';
-                            htmlText += '<td class="valueTd hidewhenmobile"><span class="sinirliHeryer" data-toggle="tooltip" title="' + data[i].adres + '">' + data[i].adres + '</span></td>';
+                            htmlText += '<td class="valueTd hidewhenmobile"><span>' + data[i].adres + '</span></td>';
                             htmlText += '<td class="keyTd"><a href="javascript:showSubMenu(div' + data[i].gmref + ')" class="btn btn-primary">İşlemler</a><div class="subMenu" id="div' + data[i].gmref + '">' +
                                 '<a href="Musteri/Musteri?gmref=' + data[i].gmref + '&slsref=' + slsref + '">Alt Cariler</a>' +
                                 (data[i].mtkod != "Z1" ? '<a href="Anlasma/?smref=' + data[i].gmref + '&tip=' + data[i].tip + '">Anlaşma</a>' : "") +

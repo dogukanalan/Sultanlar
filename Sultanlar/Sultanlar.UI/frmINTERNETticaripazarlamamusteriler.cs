@@ -77,7 +77,7 @@ namespace Sultanlar.UI
 
                 ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
 
-                range = ws.get_Range("A1", "L6666");
+                range = ws.get_Range("A1", "M6666");
 
                 values = (object[,])range.Value2;
             }
@@ -99,7 +99,7 @@ namespace Sultanlar.UI
             }
 
             ArrayList chtps = new ArrayList();
-            for (int i = 1; i <= values.GetLength(0); i++)
+            for (int i = 2; i <= values.GetLength(0); i++)
             {
                 if (values[i, 1] == null) // 1.kolon boş ise bu satırdan sonrasına bakmasın
                     break;
@@ -109,16 +109,26 @@ namespace Sultanlar.UI
                     int SMREF = CariHesaplarTP.GetLastSMREF() + 1 + (i - 1); // for dan sonra toplu halde ekleneceği için smref ler aynı olmasın
                     int GMREF = bayi ? SMREF : ((CariHesaplarTP)lbBayiler.SelectedItem).GMREF; // bayi eklenecekse bayide gmref smref aynı
                     CariHesaplarTP Bayi = CariHesaplarTP.GetObject(GMREF, true);
-                    string ILKOD = values[i, 1].ToString();
-                    string IL = Iller.GetObjectByID(Convert.ToByte(values[i, 1].ToString())); // ilkod ile id aynı gidiyor 81 il
-                    string ILCEKOD = values[i, 2].ToString();
-                    string ilcekoduzun = (ILKOD.Length == 1 ? "0" + ILKOD : ILKOD) + ILCEKOD;
-                    string ILCE = Ilceler.GetObjectByIlceKod(ilcekoduzun);
+
+                    string ILKOD = values[i, 1] != null ? values[i, 1].ToString() : string.Empty;
+                    string IL = values[i, 1] != null ? Iller.GetObjectByID(Convert.ToByte(ILKOD)) : string.Empty; // ilkod ile id aynı gidiyor 81 il
+                    string ILCEKOD = values[i, 2] != null ? values[i, 2].ToString() : string.Empty;
+                    string ILCE = values[i, 2] != null ? Ilceler.GetObjectByID(Convert.ToByte(ILCEKOD)) : string.Empty;
+                    string MTACIKLAMA = values[i, 3] != null ? values[i, 3].ToString().ToUpper() : string.Empty;
+                    string MUSKOD = values[i, 13] != null ? values[i, 13].ToString().ToUpper() : string.Empty;
+                    string MUSTERI = values[i, 4] != null ? values[i, 4].ToString().ToUpper() : string.Empty;
+                    string ADRES = values[i, 5] != null ? values[i, 5].ToString().ToUpper() : string.Empty;
+                    string SEMT = values[i, 6] != null ? values[i, 6].ToString().ToUpper() : string.Empty;
+                    string VRGDAIRE = values[i, 7] != null ? values[i, 7].ToString().ToUpper() : string.Empty;
+                    string VRGNO = values[i, 8] != null ? values[i, 8].ToString().ToUpper() : string.Empty;
+                    string TEL = values[i, 9] != null ? values[i, 9].ToString().ToUpper() : string.Empty;
+                    string FAX = values[i, 10] != null ? values[i, 10].ToString().ToUpper() : string.Empty;
+                    string EMAIL = values[i, 11] != null ? values[i, 11].ToString().ToUpper() : string.Empty;
+                    string CEP = values[i, 12] != null ? values[i, 12].ToString().ToUpper() : string.Empty;
 
                     CariHesaplarTP chtp = new CariHesaplarTP(0, "", "", "", "", ILKOD, IL, ILCEKOD, ILCE,
-                        0, "", values[i, 3].ToString().ToUpper(), "", Bayi.SLSREF, "", "", "", GMREF, "", values[i, 4].ToString().ToUpper(), SMREF, "", values[i, 4].ToString().ToUpper(),
-                        values[i, 5].ToString().ToUpper(), "", values[i, 6].ToString().ToUpper(), values[i, 7].ToString().ToUpper(),
-                        values[i, 8].ToString(), values[i, 9].ToString(), values[i, 10].ToString(), values[i, 11].ToString(), "", values[i, 12].ToString(), 0);
+                        0, "", MTACIKLAMA, "", Bayi.SLSREF, "", "", "", GMREF, MUSKOD, MUSTERI, SMREF, "", bayi ? "" : MUSTERI,
+                        ADRES, "", SEMT, VRGDAIRE, VRGNO, CEP, FAX, EMAIL, "", CEP, 0);
                     chtps.Add(chtp);
 
                     donendeger++;

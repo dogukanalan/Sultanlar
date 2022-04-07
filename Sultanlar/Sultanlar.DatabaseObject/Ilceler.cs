@@ -371,7 +371,7 @@ namespace Sultanlar.DatabaseObject
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT [strIlKod] AS [IL KOD],[strIl] AS IL,SUBSTRING([strIlceKod],3,2) AS [ILCE KOD],[strIlce] AS ILCE FROM tblIlceler INNER JOIN tblIller ON SUBSTRING(tblIlceler.strIlceKod,1,2) = tblIller.strIlKod", conn);
+                SqlDataAdapter da = new SqlDataAdapter("SELECT [strIlKod] AS [IL KOD],[strIl] AS IL,pkIlceID AS [ILCE KOD],[strIlce] AS ILCE FROM tblIlceler INNER JOIN tblIller ON SUBSTRING(tblIlceler.strIlceKod,1,2) = tblIller.strIlKod", conn);
                 try
                 {
                     da.Fill(dt);
