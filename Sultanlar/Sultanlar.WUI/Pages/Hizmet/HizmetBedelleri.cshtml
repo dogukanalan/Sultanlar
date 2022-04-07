@@ -324,6 +324,35 @@
                     }
                 }
             };
+
+            /*jQuery.fn.DataTable.Api.register('buttons.exportData()', function (options) {
+                if (this.context.length) {
+                    var jsonResult = $.ajax({
+                        dataSrc: "",
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        url: apiurl + "hizmetbedeli/getirf",
+                        data: function (d) {
+                            d.slsref = slsref;
+                            d.gmref = gmref;
+                            d.smref = smref;
+                            d.yil = getYil();
+                            d.ay = getAy();
+                            console.log(JSON.stringify(d));
+                            return JSON.stringify(d);
+                        },
+                        success: function (result) {
+                            console.log(result);
+                        },
+                        async: false
+                    });
+
+                    return { body: jsonResult.responseJSON.data, header: $("#dtTable thead tr th").map(function () { return this.innerHTML; }).get() };
+                }
+            });*/
         });
     </script>
 }

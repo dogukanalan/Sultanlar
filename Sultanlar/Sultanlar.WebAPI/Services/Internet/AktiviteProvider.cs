@@ -190,7 +190,9 @@ namespace Sultanlar.WebAPI.Services.Internet
                 akg.yegciro = anlasma.mnYEGToplamCiro;
             }
 
-            aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.fiyattipi == 25 ? 1 : 2, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem, akg.tahbedel, akg.yegbedel, akg.tahciro, akg.yegciro, 0, (akg.fiyattipi == 25 && akg.aktivitetipi == 1) ? 1 : 0);
+            cariHesaplar ch = new cariHesaplar().GetObject1(akg.fiyattipi == 25 ? 4 : 1, akg.smref);
+
+            aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.fiyattipi == 25 ? 1 : 2, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem, akg.tahbedel, akg.yegbedel, akg.tahciro, akg.yegciro, 0, (akg.fiyattipi == 25 && ch.BayiMi && akg.aktivitetipi == 1) ? 1 : 0);
             akt.DoInsert();
             for (int i = 0; i < akg.detaylar.Count; i++)
             {

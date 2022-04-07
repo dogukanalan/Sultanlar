@@ -59,6 +59,23 @@ namespace Sultanlar.WebAPI.Services.Internet
             return donendeger;
         }
 
+        internal List<hizmetBedelleri> HizmetBedelleriFull(HizmetBedeliGet hget)
+        {
+            List<hizmetBedelleri> donendeger2 = new List<hizmetBedelleri>();
+
+            object Ay = hget.ay == 0 ? (object)DBNull.Value : hget.ay;
+            if (hget.smref != 0)
+                donendeger2 = new hizmetBedelleri().GetObjectsBySMREF(hget.smref, hget.yil, Ay);
+            else if (hget.gmref != 0)
+                donendeger2 = new hizmetBedelleri().GetObjectsByGMREF(hget.gmref, hget.yil, Ay);
+            else if (hget.slsref != 0)
+                donendeger2 = new hizmetBedelleri().GetObjectsBySLSREF(hget.slsref, hget.yil, Ay);
+            else
+                donendeger2 = new hizmetBedelleri().GetObjects(hget.yil, Ay);
+
+            return donendeger2;
+        }
+
         internal string HizmetBedeliKaydet(HizmetBedeliKaydet hbk)
         {
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(hbk.musteri))).GetObject();
