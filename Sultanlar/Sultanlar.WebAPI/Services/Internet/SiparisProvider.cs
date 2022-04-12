@@ -180,8 +180,8 @@ namespace Sultanlar.WebAPI.Services.Internet
             SiparisIsks donendeger = new SiparisIsks() { fiyat = fiyat, isk1 = 0, isk2 = 0, isk3 = 0, isk4 = 0 };
 
             malzemeler mal = new malzemeler(ITEMREF).GetObject();
-
-            aktivitelerDetay aktd = new aktivitelerDetay().GetObjectSon(SMREF, ITEMREF, Tarih);
+            cariHesaplar ch = new cariHesaplar(SMREF).GetObject();
+            aktivitelerDetay aktd = new aktivitelerDetay().GetObjectSon(ch.GMREF, ITEMREF, Tarih);
             if (aktd.pkID > 0)
             {
                 donendeger = new SiparisIsks() { fiyat = aktd.mnBirimFiyatKDVli / ((100 + mal.KDV) / 100), isk1 = Convert.ToDouble(aktd.strAciklama1), isk2 = Convert.ToDouble(aktd.strAciklama2), isk3 = Convert.ToDouble(aktd.strAciklama3), isk4 = aktd.flEkIsk };

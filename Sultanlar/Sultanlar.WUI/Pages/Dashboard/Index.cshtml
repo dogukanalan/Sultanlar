@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.5.5/css/colReorder.dataTables.min.css" />
+    <style>
+        .selYil {
+            margin: 0px 2px 0px 2px !important;
+        }
+        @@media (max-width: 576px) {
+            .selYil {
+                float: unset !important;
+                width: 100% !important;
+                margin: 0px 0px 3px 0px !important;
+            }
+        }
+    </style>
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
@@ -648,6 +660,9 @@
                 aysatishedefbolge = this.value;
                 SatisHedefBolgeGetir();
             });
+
+
+            $("#selectSaticilarBolum").select2({ theme: "bootstrap" });
         });
     </script>
 }
@@ -737,7 +752,7 @@
 <select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar grafikUstu">
     <option value="1" selected="selected">Seçiniz</option>
 </select>
-<select id="selectYil" name="selectYil" class="dropDown selYil grafikUstu">
+<select id="selectYil" name="selectYil" class="dropDown selYil grafikUstu" style="margin: -90px 2px 0px 0px !important;">
 </select>
 <div id="divData"></div>
 <br />
@@ -764,6 +779,6 @@
 <select id="selectSaticilarBolum" name="selectSaticilarBolum" class="dropDown selSaticilar grafikUstu">
     <option value="1" selected="selected">Seçiniz</option>
 </select>
-<select id="selectYilBolum" name="selectYilBolum" class="dropDown selYil grafikUstu">
+<select id="selectYilBolum" name="selectYilBolum" class="dropDown selYil grafikUstu" style="margin: -90px 2px 0px 0px !important;">
 </select>
 <div id="divBolum"></div>

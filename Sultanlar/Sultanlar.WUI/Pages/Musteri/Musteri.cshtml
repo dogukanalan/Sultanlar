@@ -31,7 +31,7 @@
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                 },
-                "initComplete": function (settings, json) {
+                "fnDrawCallback": function (oSettings) {
                     $('[data-toggle="tooltip"]').tooltip();
                     $('[data-toggle="tooltip"]').css("cursor", "pointer");
                 },

@@ -32,6 +32,7 @@ namespace Sultanlar.WindowsServiceIslemler
         bool iademailgirdi;
         bool musteriguncelleniyor;
         bool tpfiyatlaragirdi;
+        int tekrarcekilecek = 10;
 
         Timer tmrSAPpersonals;
         Timer tmrSAPcustomers;
@@ -787,7 +788,31 @@ namespace Sultanlar.WindowsServiceIslemler
             clCampaigns.Credentials = nc1;
             getcampaignsC.Zwebt902[] listAna = null;
             getcampaignsC.Zwebt903[] listHed = null;
-            getcampaignsC.Zwebt901[] listKart = clCampaigns.ZwebGetCampaigns(out listAna, out listHed);
+            getcampaignsC.Zwebt901[] listKart = null;
+
+            int tekrarcek = 0;
+            while (tekrarcek < tekrarcekilecek)
+            {
+                try
+                {
+                    listKart = clCampaigns.ZwebGetCampaigns(out listAna, out listHed);
+                    tekrarcek = tekrarcekilecek;
+                }
+                catch (Exception ex)
+                {
+                    if (tekrarcek < tekrarcekilecek)
+                    {
+                        tekrarcek++;
+                        System.Threading.Thread.Sleep(3000);
+                    }
+                    else
+                    {
+                        cmdLog.Parameters.AddWithValue("@strLog", ex.Message);
+                        conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
+                        return;
+                    }
+                }
+            }
 
             cmdLog.Parameters.AddWithValue("@strLog", listKart.Length.ToString() + " Satır");
 
@@ -1229,16 +1254,30 @@ namespace Sultanlar.WindowsServiceIslemler
             getmaterialpricesC.ZwebGetMaterialPricesService clMaterialPrices = new getmaterialpricesC.ZwebGetMaterialPricesService();
             clMaterialPrices.Timeout = 6000000;
             clMaterialPrices.Credentials = nc1;
-            getmaterialpricesC.Zwebt004[] listMaterialPrices;
-            try
+            getmaterialpricesC.Zwebt004[] listMaterialPrices = null;
+
+            int tekrarcek = 0;
+            while (tekrarcek < tekrarcekilecek)
             {
-                listMaterialPrices = clMaterialPrices.ZwebGetMaterialPrices();
-            }
-            catch (Exception ex)
-            {
-                cmdLog.Parameters.AddWithValue("@strLog", ex.Message);
-                conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
-                return;
+                try
+                {
+                    listMaterialPrices = clMaterialPrices.ZwebGetMaterialPrices();
+                    tekrarcek = tekrarcekilecek;
+                }
+                catch (Exception ex)
+                {
+                    if (tekrarcek < tekrarcekilecek)
+                    {
+                        tekrarcek++;
+                        System.Threading.Thread.Sleep(3000);
+                    }
+                    else
+                    {
+                        cmdLog.Parameters.AddWithValue("@strLog", ex.Message);
+                        conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
+                        return;
+                    }
+                }
             }
 
 
@@ -1645,7 +1684,31 @@ namespace Sultanlar.WindowsServiceIslemler
             clMaterials.Credentials = nc1;
             getmaterialsC.Zwebs025[] yirmibes = null;
             getmaterialsC.Zwebt001St[] birst = null;
-            getmaterialsC.Zwebt001[] listMaterials = clMaterials.ZwebGetMaterials(out yirmibes, out birst);
+            getmaterialsC.Zwebt001[] listMaterials = null;
+
+            int tekrarcek = 0;
+            while (tekrarcek < tekrarcekilecek)
+            {
+                try
+                {
+                    listMaterials = clMaterials.ZwebGetMaterials(out yirmibes, out birst);
+                    tekrarcek = tekrarcekilecek;
+                }
+                catch (Exception ex)
+                {
+                    if (tekrarcek < tekrarcekilecek)
+                    {
+                        tekrarcek++;
+                        System.Threading.Thread.Sleep(3000);
+                    }
+                    else
+                    {
+                        cmdLog.Parameters.AddWithValue("@strLog", ex.Message);
+                        conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
+                        return;
+                    }
+                }
+            }
 
             cmdLog.Parameters.AddWithValue("@strLog", listMaterials.Length.ToString() + " Satır");
 
@@ -1944,7 +2007,31 @@ namespace Sultanlar.WindowsServiceIslemler
             getpersonalsC.ZwebGetPersonalsService clPersonals = new getpersonalsC.ZwebGetPersonalsService();
             clPersonals.Timeout = 6000000;
             clPersonals.Credentials = nc1;
-            getpersonalsC.Zwebt003[] listPersonals = clPersonals.ZwebGetPersonals();
+            getpersonalsC.Zwebt003[] listPersonals = null;
+
+            int tekrarcek = 0;
+            while (tekrarcek < tekrarcekilecek)
+            {
+                try
+                {
+                    listPersonals = clPersonals.ZwebGetPersonals();
+                    tekrarcek = tekrarcekilecek;
+                }
+                catch (Exception ex)
+                {
+                    if (tekrarcek < tekrarcekilecek)
+                    {
+                        tekrarcek++;
+                        System.Threading.Thread.Sleep(3000);
+                    }
+                    else
+                    {
+                        cmdLog.Parameters.AddWithValue("@strLog", ex.Message);
+                        conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
+                        return;
+                    }
+                }
+            }
 
             cmdLog.Parameters.AddWithValue("@strLog", listPersonals.Length.ToString() + " Satır");
 
@@ -2012,21 +2099,33 @@ namespace Sultanlar.WindowsServiceIslemler
             int oncekimusterisayisi = Convert.ToInt32(cmd11.ExecuteScalar());
             conn.Close();
 
-
-
             getcustomersC.ZwebGetCustomersService clCustomers = new getcustomersC.ZwebGetCustomersService();
             clCustomers.Timeout = 6000000;
             clCustomers.Credentials = nc1;
-            getcustomersC.Zwebt002[] listCustomers;
-            try
+            getcustomersC.Zwebt002[] listCustomers = null;
+
+            int tekrarcek = 0;
+            while (tekrarcek < tekrarcekilecek)
             {
-                listCustomers = clCustomers.ZwebGetCustomers();
-            }
-            catch (Exception ex)
-            {
-                cmdLog.Parameters.AddWithValue("@strLog", ex.Message);
-                conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
-                return;
+                try
+                {
+                    listCustomers = clCustomers.ZwebGetCustomers();
+                    tekrarcek = tekrarcekilecek;
+                }
+                catch (Exception ex)
+                {
+                    if (tekrarcek < tekrarcekilecek)
+                    {
+                        tekrarcek++;
+                        System.Threading.Thread.Sleep(3000);
+                    }
+                    else
+                    {
+                        cmdLog.Parameters.AddWithValue("@strLog", ex.Message);
+                        conn.Open(); cmdLog.Parameters.AddWithValue("@dtBitis", DateTime.Now); cmdLog.ExecuteNonQuery(); conn.Close();
+                        return;
+                    }
+                }
             }
 
 
@@ -2931,7 +3030,7 @@ namespace Sultanlar.WindowsServiceIslemler
             bool malcikis = true;
             bool fatura = true;
             bool kolietiket = true;
-            bool accounting = true;
+            bool accounting = false;
             bool efatura = false;
             bool ekstre = DateTime.Now.Hour == 12;
 
@@ -2957,21 +3056,36 @@ namespace Sultanlar.WindowsServiceIslemler
                     string hata = string.Empty;
                     string tarih = "";
                     string saat = "00:00:00";
-                    try
+
+                    int tekrarcek = 0;
+                    while (tekrarcek < tekrarcekilecek)
                     {
-                        TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
-                        dokuz = client.ZwebSelectSalesVbfa(tarih, saat);
+                        try
+                        {
+                            TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            dokuz = client.ZwebSelectSalesVbfa(tarih, saat);
+                            tekrarcek = tekrarcekilecek;
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.LogYaz("select sales vbfa", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            if (tekrarcek < tekrarcekilecek)
+                            {
+                                tekrarcek++;
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                            else
+                            {
+                                hata = ex.Message;
+                                hatavar = true;
+                                cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
+                            }
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        hata = ex.Message;
-                        hatavar = true;
-                        cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
-                    }
-                    finally
-                    {
-                        SAPs.LogYaz("select sales vbfa", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
-                    }
+
+                    SAPs.LogYaz("select sales vbfa", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
+
+
 
                     if (dokuz != null)
                     {
@@ -3069,21 +3183,34 @@ namespace Sultanlar.WindowsServiceIslemler
                     string hata = string.Empty;
                     string tarih = "";
                     string saat = "00:00:00";
-                    try
+
+                    int tekrarcek = 0;
+                    while (tekrarcek < tekrarcekilecek)
                     {
-                        TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
-                        yirmibir = client2.ZwebSelectSalesOrder(tarih, "", saat, out bes, out oniki, out dokuz);
+                        try
+                        {
+                            TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            yirmibir = client2.ZwebSelectSalesOrder(tarih, "", saat, out bes, out oniki, out dokuz);
+                            tekrarcek = tekrarcekilecek;
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.LogYaz("select sales order", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            if (tekrarcek < tekrarcekilecek)
+                            {
+                                tekrarcek++;
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                            else
+                            {
+                                hata = ex.Message;
+                                hatavar = true;
+                                cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
+                            }
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        hata = ex.Message;
-                        hatavar = true;
-                        cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
-                    }
-                    finally
-                    {
-                        SAPs.LogYaz("select sales order", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
-                    }
+
+                    SAPs.LogYaz("select sales order", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
 
                     #region logdel
                     if (yirmibir != null)
@@ -3379,21 +3506,34 @@ namespace Sultanlar.WindowsServiceIslemler
                     string hata = string.Empty;
                     string tarih = "";
                     string saat = "00:00:00";
-                    try
+
+                    int tekrarcek = 0;
+                    while (tekrarcek < tekrarcekilecek)
                     {
-                        TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
-                        alti = client3.ZwebSelectSalesDelivery(tarih, "", saat, out onuc, out yirmibir, out dokuz);
+                        try
+                        {
+                            TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            alti = client3.ZwebSelectSalesDelivery(tarih, "", saat, out onuc, out yirmibir, out dokuz);
+                            tekrarcek = tekrarcekilecek;
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.LogYaz("select sales delivery", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            if (tekrarcek < tekrarcekilecek)
+                            {
+                                tekrarcek++;
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                            else
+                            {
+                                hata = ex.Message;
+                                hatavar = true;
+                                cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
+                            }
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        hata = ex.Message;
-                        hatavar = true;
-                        cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
-                    }
-                    finally
-                    {
-                        SAPs.LogYaz("select sales delivery", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
-                    }
+
+                    SAPs.LogYaz("select sales delivery", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
 
                     #region logdel
                     if (yirmibir != null)
@@ -3601,22 +3741,35 @@ namespace Sultanlar.WindowsServiceIslemler
                     string hata = string.Empty;
                     string tarih = "";
                     string saat = "00:00:00";
-                    try
+
+                    int tekrarcek = 0;
+                    while (tekrarcek < tekrarcekilecek)
                     {
-                        TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
-                        onbes = client4.ZwebSelectSalesTransport(tarih, saat, out onalti, out onyedi, out onsekiz, out yedi, out ondort);
-                    }
-                    catch (Exception ex)
-                    {
-                        hata = ex.Message;
-                        hatavar = true;
-                        cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
-                    }
-                    finally
-                    {
-                        SAPs.LogYaz("select sales transport", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
+                        try
+                        {
+                            TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            onbes = client4.ZwebSelectSalesTransport(tarih, saat, out onalti, out onyedi, out onsekiz, out yedi, out ondort);
+                            tekrarcek = tekrarcekilecek;
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.LogYaz("select sales transport", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            if (tekrarcek < tekrarcekilecek)
+                            {
+                                tekrarcek++;
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                            else
+                            {
+                                hata = ex.Message;
+                                hatavar = true;
+                                cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
+                            }
+                        }
                     }
 
+                    SAPs.LogYaz("select sales transport", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
+                    
                     #region nakilsiparis
 
                     #region head
@@ -3922,22 +4075,35 @@ namespace Sultanlar.WindowsServiceIslemler
                     string hata = string.Empty;
                     string tarih = "";
                     string saat = "00:00:00";
-                    try
+
+                    int tekrarcek = 0;
+                    while (tekrarcek < tekrarcekilecek)
                     {
-                        TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
-                        ondokuz = client5.ZwebSelectKoliEtiket(tarih, saat);
-                    }
-                    catch (Exception ex)
-                    {
-                        hata = ex.Message;
-                        hatavar = true;
-                        cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
-                    }
-                    finally
-                    {
-                        SAPs.LogYaz("select koli etiket", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
+                        try
+                        {
+                            TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            ondokuz = client5.ZwebSelectKoliEtiket(tarih, saat);
+                            tekrarcek = tekrarcekilecek;
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.LogYaz("select koli etiket", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            if (tekrarcek < tekrarcekilecek)
+                            {
+                                tekrarcek++;
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                            else
+                            {
+                                hata = ex.Message;
+                                hatavar = true;
+                                cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
+                            }
+                        }
                     }
 
+                    SAPs.LogYaz("select koli etiket", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
+                    
                     if (ondokuz != null)
                     {
                         for (int j = 0; j < ondokuz.Length; j++)
@@ -3994,21 +4160,34 @@ namespace Sultanlar.WindowsServiceIslemler
                 client6.Credentials = nc1;
 
                 string hata = string.Empty;
-                try
+
+                int tekrarcek = 0;
+                while (tekrarcek < tekrarcekilecek)
                 {
-                    yirmi = client6.ZwebSelectAccounting(
-                        maxtarih.Year.ToString() + (maxtarih.Month.ToString().Length == 1 ? "0" + maxtarih.Month.ToString() : maxtarih.Month.ToString()) + (maxtarih.Day.ToString().Length == 1 ? "0" + maxtarih.Day.ToString() : maxtarih.Day.ToString()),
-                        DateTime.Now.AddDays(1).Year.ToString() + (DateTime.Now.AddDays(1).Month.ToString().Length == 1 ? "0" + DateTime.Now.AddDays(1).Month.ToString() : DateTime.Now.AddDays(1).Month.ToString()) + (DateTime.Now.AddDays(1).Day.ToString().Length == 1 ? "0" + DateTime.Now.AddDays(1).Day.ToString() : DateTime.Now.AddDays(1).Day.ToString()));
+                    try
+                    {
+                        yirmi = client6.ZwebSelectAccounting(
+                            maxtarih.Year.ToString() + (maxtarih.Month.ToString().Length == 1 ? "0" + maxtarih.Month.ToString() : maxtarih.Month.ToString()) + (maxtarih.Day.ToString().Length == 1 ? "0" + maxtarih.Day.ToString() : maxtarih.Day.ToString()),
+                            DateTime.Now.AddDays(1).Year.ToString() + (DateTime.Now.AddDays(1).Month.ToString().Length == 1 ? "0" + DateTime.Now.AddDays(1).Month.ToString() : DateTime.Now.AddDays(1).Month.ToString()) + (DateTime.Now.AddDays(1).Day.ToString().Length == 1 ? "0" + DateTime.Now.AddDays(1).Day.ToString() : DateTime.Now.AddDays(1).Day.ToString()));
+                        tekrarcek = tekrarcekilecek;
+                    }
+                    catch (Exception ex)
+                    {
+                        SAPs.LogYaz("select accounting", true, (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                        if (tekrarcek < tekrarcekilecek)
+                        {
+                            tekrarcek++;
+                            System.Threading.Thread.Sleep(3000);
+                        }
+                        else
+                        {
+                            hata = ex.Message;
+                            hatavar = true;
+                        }
+                    }
                 }
-                catch (Exception ex)
-                {
-                    hata = ex.Message;
-                    hatavar = true;
-                }
-                finally
-                {
-                    SAPs.LogYaz("select accounting", hata != string.Empty ? false : true, hata, maxtarih, DateTime.Now);
-                }
+
+                SAPs.LogYaz("select accounting", hata != string.Empty ? false : true, hata, maxtarih, DateTime.Now);
 
                 if (yirmi != null)
                 {
@@ -4258,7 +4437,7 @@ namespace Sultanlar.WindowsServiceIslemler
             bool malcikis = true;
             bool fatura = true;
             bool kolietiket = true;
-            bool accounting = true;
+            bool accounting = false;
 
 
 
@@ -4282,21 +4461,34 @@ namespace Sultanlar.WindowsServiceIslemler
                     string hata = string.Empty;
                     string tarih = "";
                     string saat = "00:00:00";
-                    try
+
+                    int tekrarcek = 0;
+                    while (tekrarcek < tekrarcekilecek)
                     {
-                        TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
-                        dokuz = client.ZwebSelectSalesVbfa(tarih, saat);
+                        try
+                        {
+                            TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            dokuz = client.ZwebSelectSalesVbfa(tarih, saat);
+                            tekrarcek = tekrarcekilecek;
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.LogYaz("select sales vbfa", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            if (tekrarcek < tekrarcekilecek)
+                            {
+                                tekrarcek++;
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                            else
+                            {
+                                hata = ex.Message;
+                                hatavar = true;
+                                cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
+                            }
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        hata = ex.Message;
-                        hatavar = true;
-                        cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
-                    }
-                    finally
-                    {
-                        SAPs.LogYaz("select sales vbfa", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
-                    }
+
+                    SAPs.LogYaz("select sales vbfa", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
 
                     if (dokuz != null)
                     {
@@ -4394,21 +4586,34 @@ namespace Sultanlar.WindowsServiceIslemler
                     string hata = string.Empty;
                     string tarih = "";
                     string saat = "00:00:00";
-                    try
+
+                    int tekrarcek = 0;
+                    while (tekrarcek < tekrarcekilecek)
                     {
-                        TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
-                        yirmibir = client2.ZwebSelectSalesOrder(tarih, "", saat, out bes, out oniki, out dokuz);
+                        try
+                        {
+                            TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            yirmibir = client2.ZwebSelectSalesOrder(tarih, "", saat, out bes, out oniki, out dokuz);
+                            tekrarcek = tekrarcekilecek;
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.LogYaz("select sales order", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            if (tekrarcek < tekrarcekilecek)
+                            {
+                                tekrarcek++;
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                            else
+                            {
+                                hata = ex.Message;
+                                hatavar = true;
+                                cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
+                            }
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        hata = ex.Message;
-                        hatavar = true;
-                        cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
-                    }
-                    finally
-                    {
-                        SAPs.LogYaz("select sales order", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
-                    }
+
+                    SAPs.LogYaz("select sales order", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
 
                     #region logdel
                     if (yirmibir != null)
@@ -4704,21 +4909,34 @@ namespace Sultanlar.WindowsServiceIslemler
                     string hata = string.Empty;
                     string tarih = "";
                     string saat = "00:00:00";
-                    try
+
+                    int tekrarcek = 0;
+                    while (tekrarcek < tekrarcekilecek)
                     {
-                        TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
-                        alti = client3.ZwebSelectSalesDelivery(tarih, "", saat, out onuc, out yirmibir, out dokuz);
+                        try
+                        {
+                            TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            alti = client3.ZwebSelectSalesDelivery(tarih, "", saat, out onuc, out yirmibir, out dokuz);
+                            tekrarcek = tekrarcekilecek;
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.LogYaz("select sales delivery", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            if (tekrarcek < tekrarcekilecek)
+                            {
+                                tekrarcek++;
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                            else
+                            {
+                                hata = ex.Message;
+                                hatavar = true;
+                                cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
+                            }
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        hata = ex.Message;
-                        hatavar = true;
-                        cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
-                    }
-                    finally
-                    {
-                        SAPs.LogYaz("select sales delivery", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
-                    }
+
+                    SAPs.LogYaz("select sales delivery", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
 
                     #region logdel
                     if (yirmibir != null)
@@ -4926,21 +5144,34 @@ namespace Sultanlar.WindowsServiceIslemler
                     string hata = string.Empty;
                     string tarih = "";
                     string saat = "00:00:00";
-                    try
+
+                    int tekrarcek = 0;
+                    while (tekrarcek < tekrarcekilecek)
                     {
-                        TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
-                        onbes = client4.ZwebSelectSalesTransport(tarih, saat, out onalti, out onyedi, out onsekiz, out yedi, out ondort);
+                        try
+                        {
+                            TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            onbes = client4.ZwebSelectSalesTransport(tarih, saat, out onalti, out onyedi, out onsekiz, out yedi, out ondort);
+                            tekrarcek = tekrarcekilecek;
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.LogYaz("select sales transport", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            if (tekrarcek < tekrarcekilecek)
+                            {
+                                tekrarcek++;
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                            else
+                            {
+                                hata = ex.Message;
+                                hatavar = true;
+                                cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
+                            }
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        hata = ex.Message;
-                        hatavar = true;
-                        cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
-                    }
-                    finally
-                    {
-                        SAPs.LogYaz("select sales transport", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
-                    }
+
+                    SAPs.LogYaz("select sales transport", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
 
                     #region nakilsiparis
 
@@ -5246,21 +5477,34 @@ namespace Sultanlar.WindowsServiceIslemler
                     string hata = string.Empty;
                     string tarih = "";
                     string saat = "00:00:00";
-                    try
+
+                    int tekrarcek = 0;
+                    while (tekrarcek < tekrarcekilecek)
                     {
-                        TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
-                        ondokuz = client5.ZwebSelectKoliEtiket(tarih, saat);
+                        try
+                        {
+                            TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            ondokuz = client5.ZwebSelectKoliEtiket(tarih, saat);
+                            tekrarcek = tekrarcekilecek;
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.LogYaz("select koli etiket", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            if (tekrarcek < tekrarcekilecek)
+                            {
+                                tekrarcek++;
+                                System.Threading.Thread.Sleep(3000);
+                            }
+                            else
+                            {
+                                hata = ex.Message;
+                                hatavar = true;
+                                cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
+                            }
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        hata = ex.Message;
-                        hatavar = true;
-                        cekilecektarih = DateTime.Now; // while dan çıksın bir sonraki günü almasın max tarihi yenilemesin
-                    }
-                    finally
-                    {
-                        SAPs.LogYaz("select koli etiket", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
-                    }
+
+                    SAPs.LogYaz("select koli etiket", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
 
                     if (ondokuz != null)
                     {
@@ -5318,21 +5562,34 @@ namespace Sultanlar.WindowsServiceIslemler
                 client6.Credentials = nc1;
 
                 string hata = string.Empty;
-                try
+
+                int tekrarcek = 0;
+                while (tekrarcek < tekrarcekilecek)
                 {
-                    yirmi = client6.ZwebSelectAccounting(
-                        maxtarih.Year.ToString() + (maxtarih.Month.ToString().Length == 1 ? "0" + maxtarih.Month.ToString() : maxtarih.Month.ToString()) + (maxtarih.Day.ToString().Length == 1 ? "0" + maxtarih.Day.ToString() : maxtarih.Day.ToString()),
-                        DateTime.Now.AddDays(1).Year.ToString() + (DateTime.Now.AddDays(1).Month.ToString().Length == 1 ? "0" + DateTime.Now.AddDays(1).Month.ToString() : DateTime.Now.AddDays(1).Month.ToString()) + (DateTime.Now.AddDays(1).Day.ToString().Length == 1 ? "0" + DateTime.Now.AddDays(1).Day.ToString() : DateTime.Now.AddDays(1).Day.ToString()));
+                    try
+                    {
+                        yirmi = client6.ZwebSelectAccounting(
+                            maxtarih.Year.ToString() + (maxtarih.Month.ToString().Length == 1 ? "0" + maxtarih.Month.ToString() : maxtarih.Month.ToString()) + (maxtarih.Day.ToString().Length == 1 ? "0" + maxtarih.Day.ToString() : maxtarih.Day.ToString()),
+                            DateTime.Now.AddDays(1).Year.ToString() + (DateTime.Now.AddDays(1).Month.ToString().Length == 1 ? "0" + DateTime.Now.AddDays(1).Month.ToString() : DateTime.Now.AddDays(1).Month.ToString()) + (DateTime.Now.AddDays(1).Day.ToString().Length == 1 ? "0" + DateTime.Now.AddDays(1).Day.ToString() : DateTime.Now.AddDays(1).Day.ToString()));
+                        tekrarcek = tekrarcekilecek;
+                    }
+                    catch (Exception ex)
+                    {
+                        SAPs.LogYaz("select accounting", true, (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                        if (tekrarcek < tekrarcekilecek)
+                        {
+                            tekrarcek++;
+                            System.Threading.Thread.Sleep(3000);
+                        }
+                        else
+                        {
+                            hata = ex.Message;
+                            hatavar = true;
+                        }
+                    }
                 }
-                catch (Exception ex)
-                {
-                    hata = ex.Message;
-                    hatavar = true;
-                }
-                finally
-                {
-                    SAPs.LogYaz("select accounting", hata != string.Empty ? false : true, hata, maxtarih, DateTime.Now);
-                }
+
+                SAPs.LogYaz("select accounting", hata != string.Empty ? false : true, hata, maxtarih, DateTime.Now);
 
                 if (yirmi != null)
                 {
@@ -5480,7 +5737,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
             SAPs.LogYaz("satis update", hata == string.Empty ? true : false, hata, baslangic, DateTime.Now);
 
-            if (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 15)
+            if (DateTime.Now.Hour == 9 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 15 || DateTime.Now.Hour == 18)
                 GetSatisJob2();
         }
 

@@ -30,6 +30,14 @@ namespace Sultanlar.DbObj.Internet
         public string strAciklama3 { get; set; }
         public string strAciklama4 { get; set; }
         public string strAciklama5 { get; set; }
+        public double KDVsiz { 
+            get 
+            {
+                aktiviteler akt = new aktiviteler(intAktiviteID).GetObject();
+                fiyatlarTp ftp = new fiyatlarTp().GetObject(akt.DonemYil, akt.DonemAy, akt.DonemGun, akt.sintFiyatTipiID, intUrunID);
+                return mnDusulmusBirimFiyatKDVli / ((100 + ftp.KDV) / 100); 
+            } 
+        }
 
         public aktivitelerDetay() { }
         public aktivitelerDetay(long pkID) { this.pkID = pkID; }

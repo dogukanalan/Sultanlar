@@ -245,7 +245,7 @@
         }
 
         function HizmetGir() {
-            if ($('select[name=selectSubeler]').val().indexOf("0;;;4") == -1 && $('select[name=selectSubeler]').val().indexOf(";;;4") > -1) {
+            if ($('select[name=selectSubeler]').val().indexOf("0;;;4") != 0 && $('select[name=selectSubeler]').val().indexOf(";;;4") > -1) {
                 window.location.href = 'Index?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + $('select[name=selectSubeler]').val().substring(0, 7) + '&yil=' + getYil() + '&ay=' + getAy();
             }
         }
@@ -258,12 +258,14 @@
             var ay = getAy();
 
             if (slsref != "0") {
+                $('#selectSaticilar').select2('destroy');
                 $('select[name=selectSaticilar]').val(slsref);
+                $("#selectSaticilar").select2({ theme: "bootstrap" });
             }
             if (gmref != "0") {
                 $('select[name=selectCariler]').val(gmref);
-                /*if ($('#selectSubeler > option').length == 1)
-                    SubelerGetir();*/
+                if ($('#selectSubeler > option').length == 1)
+                    SubelerGetir();
             }
             if (yil != "0") {
                 $('select[name=selectYil]').val(yil);
@@ -379,7 +381,6 @@
     <option value="12">12</option>
 </select>
 
-<br />
 <select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
     <option value="0" selected="selected">Tümü</option>
 </select>

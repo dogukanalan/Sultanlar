@@ -213,16 +213,24 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     url: url1,
-                    data: function (d) { return JSON.stringify(d); },
+                    data: function (d) {
+                        if (getParameterByName("fatno")) {
+                            d.columns[4].search.value = getParameterByName("fatno");
+                        }
+                        return JSON.stringify(d);
+                    },
                     type: 'POST',
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8'
                 },
                 "initComplete": function (settings, json) {
-                    /*if (getParameterByName("fatno")) {
+
+                    if (getParameterByName("fatno")) {
                         $('input', table.columns(4).header()).val(getParameterByName("fatno"));
-                        table.columns(4).search(getParameterByName("fatno")).draw();
-                    }*/
+                        /*setTimeout(function () {
+                            table.columns(4).search(getParameterByName("fatno")).draw();
+                        }, aramadelay);*/
+                    }
 
                     /*$("#spFtAdet").html(json.sum1.formatMoney(0, ',', '.'));
                     $("#spFtKoli").html(json.sum2.formatMoney(1, ',', '.'));
@@ -341,7 +349,7 @@
     <option value="11">11</option>
     <option value="12">12</option>
 </select>
-<br />
+
 <select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
     <option value="0" selected="selected">Tümü</option>
 </select>

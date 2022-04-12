@@ -386,8 +386,31 @@ namespace Sultanlar.DatabaseObject.Internet
             string donen = string.Empty;
 
             SAPsendorderC.Bapiret2[] donen1 = null;
-            try { donen1 = clOrder.ZwebSendSalesOrder(header, line, out donen); }
-            catch (Exception ex) { error = ex.Message; }
+
+            int tekrarcek = 0;
+            while (tekrarcek < 10)
+            {
+                try
+                {
+                    donen1 = clOrder.ZwebSendSalesOrder(header, line, out donen);
+                    tekrarcek = 10;
+                }
+                catch (Exception ex)
+                {
+                    if (tekrarcek < 10)
+                    {
+                        tekrarcek++;
+                        System.Threading.Thread.Sleep(3000);
+                    }
+                    else
+                    {
+                        error = ex.Message;
+                    }
+                }
+            }
+
+            /*try { donen1 = clOrder.ZwebSendSalesOrder(header, line, out donen); }
+            catch (Exception ex) { error = ex.Message; }*/
 
             if (donen1 != null)
             {

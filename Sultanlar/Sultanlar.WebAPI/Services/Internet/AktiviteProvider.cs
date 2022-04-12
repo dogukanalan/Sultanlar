@@ -190,7 +190,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 akg.yegciro = anlasma.mnYEGToplamCiro;
             }
 
-            cariHesaplar ch = new cariHesaplar().GetObject1(akg.fiyattipi == 25 ? 4 : 1, akg.smref);
+            cariHesaplar ch = new cariHesaplar().GetObject1(akg.aktivitetipi, akg.smref);
 
             aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.fiyattipi == 25 ? 1 : 2, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem, akg.tahbedel, akg.yegbedel, akg.tahciro, akg.yegciro, 0, (akg.fiyattipi == 25 && ch.BayiMi && akg.aktivitetipi == 1) ? 1 : 0);
             akt.DoInsert();
@@ -198,12 +198,13 @@ namespace Sultanlar.WebAPI.Services.Internet
             {
                 malzemeler malzeme = new malzemeler(akg.detaylar[i].urun).GetObject();
                 fiyatlarTp fiyat = new fiyatlarTp().GetObject(akg.yil, akg.ay, akg.gun, akg.fiyattipi, akg.detaylar[i].urun);
+                double kdv = ((fiyat.NETKDV / fiyat.NET) - 1) * 100;
                 double isk1 = akg.detaylar[i].fatalt;
                 double isk2 = akg.detaylar[i].fataltciro;
                 double isk3 = akg.detaylar[i].pazisk;
                 double cirop = akg.detaylar[i].ciroprim;
                 double ekisk = akg.detaylar[i].ekisk;
-                double birimfiyatkdvli = KdvEkle(fiyat.FIYAT, malzeme.KDV);
+                double birimfiyatkdvli = KdvEkle(fiyat.FIYAT, kdv);
                 double dusulmuskdvsiz = IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
                 double ciroprimdahil = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, cirop);
                 double dusulmuskdvli = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, 0);

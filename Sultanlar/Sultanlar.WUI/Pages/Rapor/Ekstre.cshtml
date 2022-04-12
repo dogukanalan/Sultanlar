@@ -132,9 +132,9 @@
         }
 
         function getEkstre() {
-            if (getGmref() == "0") {
-                return;
-            }
+            $("#dtTable input").each(function (index, element) {
+                $(element).val("");
+            });
             var url1 = apiurl + "ekstre/getir/" + getGmref() + "/" + (getGmref() == "0" ? "0" : getAy());
             var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
@@ -233,7 +233,7 @@
     <option value="11">11</option>
     <option value="12">12</option>
 </select>
-<br />
+
 <select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
     <option value="0" selected="selected">Seçiniz</option>
 </select>

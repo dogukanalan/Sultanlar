@@ -238,7 +238,7 @@ namespace Sultanlar.UI
                             lblUyari.Text = "ÖNEMLİ UYARI!\r\nAktivitenin bitiş tarihi anlaşmanın bitiş tarihinden daha ilerde!";
                         }
 
-                        if (Anlasmalar.GetObjectCount("2", aktivite.SMREF, true, DateTime.Now, DateTime.Now) > 1)
+                        if (Anlasmalar.GetObjectCount(aktivite.intAktiviteTipiID.ToString(), aktivite.SMREF, true, DateTime.Now, DateTime.Now) > 1)
                         {
                             if (anlas != null)
                             {

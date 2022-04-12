@@ -39,13 +39,17 @@ namespace Sultanlar.DbObj.Internet
         public string[] eskodlar { 
             get 
             {
-                List<malzemeler> eskods = GetObjectsByEskod(ESKOD);
-                string[] donendeger = new string[eskods.Count];
-                for (int i = 0; i < eskods.Count; i++)
+                if (ESKOD != null)
                 {
-                    donendeger[i] = eskods[i].URTKOD + ": " + eskods[i].MALACIK;
+                    List<malzemeler> eskods = GetObjectsByEskod(ESKOD);
+                    string[] donendeger = new string[eskods.Count];
+                    for (int i = 0; i < eskods.Count; i++)
+                    {
+                        donendeger[i] = eskods[i].URTKOD + ": " + eskods[i].MALACIK;
+                    }
+                    return donendeger;
                 }
-                return donendeger;
+                return new string[] { };
             } 
         }
 

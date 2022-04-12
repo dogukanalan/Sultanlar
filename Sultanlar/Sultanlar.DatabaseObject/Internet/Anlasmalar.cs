@@ -436,7 +436,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT count(*) FROM tblINTERNET_Anlasmalar WHERE SMREF IN (SELECT DISTINCT SMREF FROM [Web-Musteri] WHERE GMREF = (SELECT DISTINCT GMREF FROM [Web-Musteri] WHERE SMREF = @SMREF)) AND [dtBitis] >= @BaslangicTarih AND [dtBaslangic] <= @BitisTarih" + bayisul + onayli, conn);
+                SqlCommand cmd = new SqlCommand("SELECT count(*) FROM tblINTERNET_Anlasmalar WHERE SMREF IN (SELECT DISTINCT SMREF FROM [Web-Musteri] WHERE GMREF = (SELECT DISTINCT GMREF FROM [Web-Musteri] WHERE SMREF = @SMREF)) AND [dtBitis] >= @BaslangicTarih AND [dtBaslangic] <= @BitisTarih AND strAciklama3 != 'PASİF'" + bayisul + onayli, conn);
                 cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
                 cmd.Parameters.Add("@BaslangicTarih", SqlDbType.SmallDateTime).Value = BaslangicTarih;
                 cmd.Parameters.Add("@BitisTarih", SqlDbType.SmallDateTime).Value = BitisTarih;
@@ -800,7 +800,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT TOP 1 pkID FROM tblINTERNET_Anlasmalar WHERE SMREF = @SMREF AND intOnay = 0 AND strAciklama2 = @strAciklama2 ORDER BY pkID DESC", conn);
+                SqlCommand cmd = new SqlCommand("SELECT TOP 1 pkID FROM tblINTERNET_Anlasmalar WHERE SMREF = @SMREF AND intOnay = 0 AND strAciklama2 = @strAciklama2 AND strAciklama3 != 'PASİF' ORDER BY pkID DESC", conn);
                 cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
                 cmd.Parameters.Add("@strAciklama2", SqlDbType.NVarChar).Value = Tur;
                 try

@@ -83,7 +83,7 @@
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "cari/getsube/" + getGmref() + "/" + getSlsref(),
+                    url: apiurl + "cari/getsube1/" + getGmref() + "/" + getSlsref(),
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
@@ -211,7 +211,9 @@
             var onay = getOnay();
 
             if (slsref != "0") {
+                $('#selectSaticilar').select2('destroy');
                 $('select[name=selectSaticilar]').val(slsref);
+                $("#selectSaticilar").select2({ theme: "bootstrap" });
             }
             if (gmref != "0") {
                 $('select[name=selectCariler]').val(gmref);
@@ -269,7 +271,6 @@
             $('#selectCariler').on('change', function (e) {
                 $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0;;;1"));
                 window.history.pushState("", "Title", 'Aktiviteler?slsref=' + getSlsref() + '&gmref=' + $('select[name=selectCariler]').val() + '&smref=0&yil=' + getYil() + '&ay=' + getAy() + '&onay=' + getOnay());
-                SubelerGetir();
                 init();
             });
             $('#selectSubeler').on('change', function (e) {
@@ -333,7 +334,6 @@
     <option value="12">12</option>
 </select>
 
-<br />
 <select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
     <option value="0" selected="selected">Tümü</option>
 </select>

@@ -534,7 +534,7 @@ namespace Sultanlar.UI
             else if (rbCoptekiler2.Checked)
                 Durum = 12;
 
-            DateTime baslangic = rb2012.Checked ? Convert.ToDateTime("01.01.2012") : rb2013.Checked ? Convert.ToDateTime("01.01.2013") : rb2014.Checked ? Convert.ToDateTime("01.01.2014") : rb2015.Checked ? Convert.ToDateTime("01.01.2015") : rb2016.Checked ? Convert.ToDateTime("01.01.2016") : rb2017.Checked ? Convert.ToDateTime("01.01.2017") : rb2018.Checked ? Convert.ToDateTime("01.01.2018") : Convert.ToDateTime("01.01.2019");
+            DateTime baslangic = rb2012.Checked ? Convert.ToDateTime("01.01.2012") : rb2013.Checked ? Convert.ToDateTime("01.01.2013") : rb2014.Checked ? Convert.ToDateTime("01.01.2014") : rb2015.Checked ? Convert.ToDateTime("01.01.2015") : rb2016.Checked ? Convert.ToDateTime("01.01.2016") : rb2017.Checked ? Convert.ToDateTime("01.01.2017") : rb2018.Checked ? Convert.ToDateTime("01.01.2018") : rb2019.Checked ? Convert.ToDateTime("01.01.2019") : rb2020.Checked ? Convert.ToDateTime("01.01.2021") : rb2020.Checked ? Convert.ToDateTime("01.01.2021") : Convert.ToDateTime("01.01.2022");
 
             dt = new DataTable();
             Iadeler.GetObjectsVW(dt, Durum, baslangic, 

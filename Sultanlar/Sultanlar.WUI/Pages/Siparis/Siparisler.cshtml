@@ -209,7 +209,9 @@
             var onay = getOnay();
 
             if (slsref != "0") {
+                $('#selectSaticilar').select2('destroy');
                 $('select[name=selectSaticilar]').val(slsref);
+                $("#selectSaticilar").select2({ theme: "bootstrap" });
             }
             if (gmref != "0") {
                 $('select[name=selectCariler]').val(gmref);
@@ -331,7 +333,6 @@
     <option value="12">12</option>
 </select>
 
-<br />
 <select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
     <option value="0" selected="selected">Tümü</option>
 </select>

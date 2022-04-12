@@ -77,6 +77,10 @@
                         $('[data-toggle="tooltip"]').tooltip();
                         $('[data-toggle="tooltip"]').css("cursor", "pointer");
 
+                        $("#dtTable input[type=text]").keyup(function () {
+                            $(this).val($(this).val().toLocaleUpperCase());
+                        });
+
                         /*$("#output").pivotUI(data, {
                             rows: ["musteri"],
                             cols: ["gmref"],

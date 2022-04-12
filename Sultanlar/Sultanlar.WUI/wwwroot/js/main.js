@@ -298,11 +298,11 @@ var aktinceleonaylasilcolumns = [
             return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
         }
     },
-    /*{
-        "data": null, "class": "floaTd", render: function (data, type, row) {
-            return '<span class="sinirli">' + (data.mnDusulmusBirimFiyatKDVli / (100 + data.malzeme.kdv) * 100).formatMoney(2, ',', '.') + '</span>';
+    {
+        "data": "kdVsiz", "class": "floaTd", render: function (data, type, row) {
+            return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
         }
-    },*/
+    },
     {
         "data": "mnDusulmusBirimFiyatKDVli", "class": "floaTd", render: function (data, type, row) {
             return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
@@ -444,7 +444,7 @@ var siparisiadeaktivitecolumns = [
         }
     },
     {
-        "data": "itemref", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
             return '<select class="ddTur">' + (window.location.href.indexOf("Aktivite") > -1 ? '' : '<option value="ST" selected="selected">Adet</option>') + (window.location.href.indexOf("Iade") > -1 ? '' : '<option value="KI">Koli</option></select>');
         }
     }
@@ -477,23 +477,23 @@ var siparisiadeaktiviteicerikcolumns = [
         }
     },
     {
-        "mDataProp": "isk1", title: "i1", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
-            return '<input type="number" class="inputSecim" value="' + data.toFixed(2) + '" disabled />';
+        "mDataProp": null, title: "i1", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+            return '<input type="number" class="inputSecim" value="' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk1.toFixed(2)) + '" disabled />';
         }
     },
     {
-        "mDataProp": "isk2", title: "i2", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
-            return '<input type="number" class="inputSecim" value="' + data.toFixed(2) + '" disabled />';
+        "mDataProp": null, title: "i2", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+            return '<input type="number" class="inputSecim" value="' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk2.toFixed(2)) + '" disabled />';
         }
     },
     {
-        "mDataProp": "isk3", title: "i3", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
-            return '<input type="number" class="inputSecim" value="' + data.toFixed(2) + '" disabled />';
+        "mDataProp": null, title: "i3", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+            return '<input type="number" class="inputSecim" value="' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk3.toFixed(2)) + '" disabled />';
         }
     },
     {
-        "mDataProp": "isk4", title: "i4", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
-            return '<input type="number" class="inputSecim" value="' + data.toFixed(2) + '" disabled />';
+        "mDataProp": null, title: "i4", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+            return '<input type="number" class="inputSecim" value="' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk4.toFixed(2)) + '" disabled />';
         }
     },
     {
@@ -813,7 +813,7 @@ function getDateNowStr() {
 
 function KoordinatBaslat() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(positionSuccess, displayError, { maximumAge: 60000, timeout: 10000, enableHighAccuracy: false });
+        navigator.geolocation.getCurrentPosition(positionSuccess, displayError, { maximumAge: 0, timeout: 10000, enableHighAccuracy: false });
     } else {
         document.getElementById('inputCoords').value = '0,0';
         document.getElementById('inputCoordAddress').value = 'Konuma erişim desteklenmiyor.';
@@ -880,13 +880,13 @@ function myMap() {
 }
 
 function farkHesapla(birinci, ikinci) {
-    var p11 = parseFloat(birinci.substring(0, birinci.indexOf(",")));
-    var p12 = parseFloat(birinci.substring(birinci.indexOf(",") + 1));
-    var p21 = parseFloat(ikinci.substring(0, ikinci.indexOf(",")));
-    var p22 = parseFloat(ikinci.substring(ikinci.indexOf(",") + 1));
-    var p1 = new google.maps.LatLng(p11, p12);
-    var p2 = new google.maps.LatLng(p21, p22);
-    var mes = mesafe(p1, p2);
+    var p1lat = parseFloat(birinci.substring(0, birinci.indexOf(",")));
+    var p1lng = parseFloat(birinci.substring(birinci.indexOf(",") + 1));
+    var p2lat = parseFloat(ikinci.substring(0, ikinci.indexOf(",")));
+    var p2lng = parseFloat(ikinci.substring(ikinci.indexOf(",") + 1));
+    var p1 = new google.maps.LatLng(p1lat, p1lng);
+    var p2 = new google.maps.LatLng(p2lat, p2lng);
+    var mes = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2)).toFixed(0).toString(); //mesafe(p1, p2);
     if (isNaN(mes)) {
         mes = "-1";
     }

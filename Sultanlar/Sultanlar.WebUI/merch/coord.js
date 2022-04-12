@@ -1,7 +1,7 @@
 ﻿
 function KoordinatBaslat() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(displayPosition, displayError, { maximumAge: Infinity, timeout: 30000, enableHighAccuracy: false });
+        navigator.geolocation.getCurrentPosition(displayPosition, displayError, { maximumAge: 0, timeout: 30000, enableHighAccuracy: false });
     } else {
         document.getElementById('txtCoords1').value = '0,0';
         document.getElementById('txtCoords').value = 'Konuma erişim desteklenmiyor.';
