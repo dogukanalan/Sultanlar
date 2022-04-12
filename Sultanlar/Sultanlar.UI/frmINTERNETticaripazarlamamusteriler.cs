@@ -113,7 +113,7 @@ namespace Sultanlar.UI
                     string ILKOD = values[i, 1] != null ? values[i, 1].ToString() : string.Empty;
                     string IL = values[i, 1] != null ? Iller.GetObjectByID(Convert.ToByte(ILKOD)) : string.Empty; // ilkod ile id aynı gidiyor 81 il
                     string ILCEKOD = values[i, 2] != null ? values[i, 2].ToString() : string.Empty;
-                    string ILCE = values[i, 2] != null ? Ilceler.GetObjectByID(Convert.ToByte(ILCEKOD)) : string.Empty;
+                    string ILCE = values[i, 2] != null ? Ilceler.GetObjectByID(Convert.ToInt16(ILCEKOD)) : string.Empty;
                     string MTACIKLAMA = values[i, 3] != null ? values[i, 3].ToString().ToUpper() : string.Empty;
                     string MUSKOD = values[i, 13] != null ? values[i, 13].ToString().ToUpper() : string.Empty;
                     string MUSTERI = values[i, 4] != null ? values[i, 4].ToString().ToUpper() : string.Empty;
