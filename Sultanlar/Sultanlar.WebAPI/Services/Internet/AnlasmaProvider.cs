@@ -69,6 +69,7 @@ namespace Sultanlar.WebAPI.Services.Internet
         {
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(akg.musteri))).GetObject();
 
+            akg.aciklama = akg.aciklama + " (Anlaşma onay talep tarihi:" + DateTime.Now.ToShortDateString() + ")";
             anlasmalar anlasma = new anlasmalar(akg.smref, mus.pkMusteriID, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.vadekgt, akg.vadenf, akg.skukgt, akg.skunf, akg.fataltkgt, akg.cirokgt, akg.ciro3kgt, akg.ciro6kgt, akg.ciro12kgt, akg.cirofataltkgt, akg.anldisikgt, akg.topcirokgt, akg.fataltnf, akg.cironf, akg.ciro3nf, akg.ciro6nf, akg.ciro12nf, akg.cirofataltnf, akg.anldisinf, akg.topcironf, akg.aciklama, akg.aciklama2, "", akg.subesay.ToString(), 0);
             anlasma.DoInsert();
 

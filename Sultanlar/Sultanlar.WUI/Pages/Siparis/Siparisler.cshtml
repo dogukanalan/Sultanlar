@@ -130,10 +130,14 @@
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                 },
+                "fnDrawCallback": function (oSettings) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
+                },
                 columns: [
                     {
-                        "data": "pkSiparisID", "class": "keyTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data + '</span>'
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli" data-toggle="tooltip" title="' + data.quantumNo + '">' + data.pkSiparisID + '</span>'
                         },
                         "name": "pkSiparisID",
                         "width": "10%"
@@ -149,7 +153,7 @@
                                 (data.blAktarilmis == 0 ? '<a href="Sil?siparisid=' + data.pkSiparisID + '">Sil</a>' : '') +
                                 '<a href="Incele?siparisid=' + data.pkSiparisID + '&yazdir=true">Yazdır</a>' +
                                 '<a href="Incele?siparisid=' + data.pkSiparisID + '&excel=true">Kaydet</a>' +
-                                (data.blAktarilmis == 1 ? '<a href="../Rapor/SiparisDurum?yil=' + getYil() + '&ay=' + getAy() + '&slsref=' + getSlsref() + '&sipno=' + data.pkSiparisID + '">Durum</a>' : '');
+                                (data.blAktarilmis == 1 ? '<a href="../Rapor/SiparisDurum?yil=' + getYil() + '&ay=' + getAy() + '&slsref=' + data.musteri.intSLSREF + '&sipno=' + data.pkSiparisID + '">Durum</a>' : '');
                         },
                         "name": "pkSiparisID",
                         "width": "10%"

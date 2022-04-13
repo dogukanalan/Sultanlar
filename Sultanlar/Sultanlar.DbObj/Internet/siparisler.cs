@@ -24,6 +24,7 @@ namespace Sultanlar.DbObj.Internet
         public string Aciklama1 { get { return strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[0]; } }
         public string Aciklama2 { get { return strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[1]; } }
         public string Aciklama3 { get { return strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[2]; } }
+        public string QuantumNo { get { return blAktarilmis ? GetQ(pkSiparisID) : ""; } }
 
         private bool detay { get; set; }
         public List<siparislerDetay> detaylar { get { if (detay) return new siparislerDetay().GetObjects(pkSiparisID); else return new List<siparislerDetay>(); } }
@@ -245,6 +246,13 @@ namespace Sultanlar.DbObj.Internet
         {
             Dictionary<string, object> param = new Dictionary<string, object>() { { "pkID", 0 }, { "Yazildi", Yazildi }, { "SiparisID", SiparisID }, { "QuantumNo", QuantumNo }, { "Tarih", DateTime.Now }, { "MusteriID", MusteriID }, { "Terminal", "" }, { "SiparisTip", "SATIS" } };
             return ConvertToInt32(Do(QueryType.Insert, "db_sp_siparisQLogEkle", param, timeout));
+        }
+        //
+        //
+        public string GetQ(int SiparisID)
+        {
+            Dictionary<int, object> dic = GetObject("db_sp_siparisQGetir", new Dictionary<string, object>() { { "SiparisID", SiparisID } }, timeout);
+            return dic[0].ToString();
         }
     }
 }

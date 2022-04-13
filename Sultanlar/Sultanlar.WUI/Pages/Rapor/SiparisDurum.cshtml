@@ -125,7 +125,9 @@
                     url: url1
                 },
                 "initComplete": function (settings, json) {
-
+                    if (getParameterByName("sipno")) {
+                        $('input', table.columns(0).header()).val(getParameterByName("sipno"));
+                    }
                 },
                 "fnDrawCallback": function (oSettings) {
                     $('[data-toggle="tooltip"]').tooltip();

@@ -97,7 +97,7 @@ ul, li {
 }
 
 .inputSecim {
-    width: 40px;
+    width: 50px;
     height: 30px;
     text-align: center;
     font-size: 0.85rem;
@@ -722,6 +722,11 @@ iframe {
     .grafikUstu {
         top: 5px;
         z-index: 1;
+    }
+
+    .inputSecim {
+        width: 40px;
+        font-size: 0.75rem;
     }
 }
 
