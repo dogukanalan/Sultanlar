@@ -553,17 +553,26 @@ namespace Sultanlar.DatabaseObject.Internet
                         DateTime baslangic = DateTime.Now;
 
                         System.Xml.XmlReader xmlFile;
-                        xmlFile = System.Xml.XmlReader.Create((satis ? dv.VERIXML : dv.STOKXML) + "&" +
-                            XmlParams(dv.SUNUCU, dv.VERITABANI, dv.KULLANICI, dv.SIFRE, (satis ? dv.YILKOLON : dv.YILKOLON1), YIL, (satis ? dv.AYKOLON : dv.AYKOLON1), i.ToString()), new System.Xml.XmlReaderSettings());
-                        DataSet ds = new DataSet("tbl_");
-                        ds.ReadXml(xmlFile);
-                        DataTable dt = ds.Tables[0];
 
-                        string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
-                        if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, i.ToString(), true))
-                            donendeger = false;
+                        try
+                        {
+                            xmlFile = System.Xml.XmlReader.Create((satis ? dv.VERIXML : dv.STOKXML) + "&" +
+                                XmlParams(dv.SUNUCU, dv.VERITABANI, dv.KULLANICI, dv.SIFRE, (satis ? dv.YILKOLON : dv.YILKOLON1), YIL, (satis ? dv.AYKOLON : dv.AYKOLON1), i.ToString()), new System.Xml.XmlReaderSettings());
 
-                        SAPs.BayiLogYaz("bayi servis xml " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + i.ToString() + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
+                            DataSet ds = new DataSet("tbl_");
+                            ds.ReadXml(xmlFile);
+                            DataTable dt = ds.Tables[0];
+
+                            string tabloadi = "tbl_" + dv.SMREF.ToString() + (satis ? "_Satis" : "_Stok");
+                            if (!TabloYaz(tabloadi, dt, satis ? dv.YILKOLON : dv.YILKOLON1, YIL, satis ? dv.AYKOLON : dv.AYKOLON1, i.ToString(), true))
+                                donendeger = false;
+
+                            SAPs.BayiLogYaz("bayi servis xml " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + i.ToString() + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
+                        }
+                        catch (Exception ex)
+                        {
+                            SAPs.BayiLogYaz("bayi servis xml " + (satis ? "satış" : "stok"), true, dv.SMREF.ToString() + " nolu bayi " + YIL + "-" + i.ToString() + " dönemi. " + ex.Message, baslangic, DateTime.Now);
+                        }
                     }
                 }
             }

@@ -94,18 +94,22 @@ namespace Sultanlar.WebAPI.Services.Internet
             {
                 siparisler sip = new siparisler(kopyalanacak.intMusteriID, skg.SMREFs[i].smref, kopyalanacak.sintFiyatTipiID, DateTime.Now, kopyalanacak.mnToplamTutar, false, kopyalanacak.TKSREF, DateTime.Now, kopyalanacak.strAciklama);
                 sip.DoInsert();
+                cariHesaplar ch = new cariHesaplar(sip.SMREF).GetObject();
                 for (int j = 0; j < kopyalanacak.detaylar.Count; j++)
                 {
                     siparislerDetay sipdet = new siparislerDetay(sip.pkSiparisID, kopyalanacak.detaylar[j].intUrunID, kopyalanacak.detaylar[j].strUrunAdi, kopyalanacak.detaylar[j].intMiktar, kopyalanacak.detaylar[j].mnFiyat, kopyalanacak.detaylar[j].unKampanyaKart, kopyalanacak.detaylar[j].blKampanyaHediye, kopyalanacak.detaylar[j].unKampanyaSatir, kopyalanacak.detaylar[j].strMiktarTur);
                     sipdet.DoInsert();
 
-                    /*if (sip.sintFiyatTipiID == 2) aktivitedeki aynı iskontolar verilmesin aktivite belki yok belki tarihi geçti
+                    if (sip.sintFiyatTipiID == 2)
                     {
-                        siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, kopyalanacak.detaylar[i].isks.FIYAT, sipdet.isks.ISK1, kopyalanacak.detaylar[i].isks.ISK2, 
-                            kopyalanacak.detaylar[i].isks.ISK3, kopyalanacak.detaylar[i].isks.ISK4, kopyalanacak.detaylar[i].isks.ISK5, kopyalanacak.detaylar[i].isks.ISK6, kopyalanacak.detaylar[i].isks.ISK7, 
-                            kopyalanacak.detaylar[i].isks.ISK8, kopyalanacak.detaylar[i].isks.ISK9, kopyalanacak.detaylar[i].isks.ISK10);
-                        sipdetisks.DoInsert();
-                    }*/
+                        aktivitelerDetay aktd = new aktivitelerDetay().GetObjectSon(ch.GMREF, sipdet.intUrunID, DateTime.Now);
+                        if (aktd.pkID > 0)
+                        {
+                            fiyatlar fiy = new fiyatlar(2, sipdet.intUrunID).GetObject();
+                            siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, fiy.FIYAT, Convert.ToDouble(aktd.strAciklama1), Convert.ToDouble(aktd.strAciklama2), Convert.ToDouble(aktd.strAciklama3), aktd.flEkIsk, 0, 0, 0, 0, 0, 0);
+                            sipdetisks.DoInsert();
+                        }
+                    }
                 }
             }
 

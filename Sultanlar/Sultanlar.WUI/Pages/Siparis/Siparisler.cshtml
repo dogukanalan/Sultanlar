@@ -146,13 +146,13 @@
                         "data": null, "class": "keyTd", render: function (data, type, row) {
                             return '<a href="javascript:showSubMenu(div' + data.pkSiparisID + ')" class="btn btn-primary">İşlemler</a>' +
                                 '<div class="subMenu" id="div' + data.pkSiparisID + '">' +
-                                '<a href="Incele?siparisid=' + data.pkSiparisID + '">İncele</a>' +
+                                '<a href="Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">İncele</a>' +
                                 '<a href="Kopyala?siparisid=' + data.pkSiparisID + '">Kopyala</a>' +
-                                (data.blAktarilmis == 0 ? '<a href="Onayla?siparisid=' + data.pkSiparisID + '">Onayla</a>' : '') +
+                                (data.blAktarilmis == 0 ? '<a href="Onayla?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">Onayla</a>' : '') +
                                 (data.blAktarilmis == 0 ? '<a href="Duzenle?siparisid=' + data.pkSiparisID + '">Düzenle</a>' : '') +
-                                (data.blAktarilmis == 0 ? '<a href="Sil?siparisid=' + data.pkSiparisID + '">Sil</a>' : '') +
-                                '<a href="Incele?siparisid=' + data.pkSiparisID + '&yazdir=true">Yazdır</a>' +
-                                '<a href="Incele?siparisid=' + data.pkSiparisID + '&excel=true">Kaydet</a>' +
+                                (data.blAktarilmis == 0 ? '<a href="Sil?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">Sil</a>' : '') +
+                                '<a href="Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '&yazdir=true">Yazdır</a>' +
+                                '<a href="Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '&excel=true">Kaydet</a>' +
                                 (data.blAktarilmis == 1 ? '<a href="../Rapor/SiparisDurum?yil=' + getYil() + '&ay=' + getAy() + '&slsref=' + data.musteri.intSLSREF + '&sipno=' + data.pkSiparisID + '">Durum</a>' : '');
                         },
                         "name": "pkSiparisID",
