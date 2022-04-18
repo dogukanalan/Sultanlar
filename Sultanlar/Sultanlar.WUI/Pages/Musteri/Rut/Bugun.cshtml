@@ -35,7 +35,7 @@
             },
             {
                 "data": null, "class": "keyTd", render: function (data, type, row) {
-                    return data.yapildi ? '<div class="pretty p-default p-curve prettyMargin3"><input class="chkbxs" type="checkbox" checked="checked" disabled /><div class="state p-primary-o"><label></label></div></div>' : '<span class="sinirli"><a href="../../Ziyaret/?smref=' + data.cari.smref + '&gmref=' + data.cari.gmref + '&slsref=' + getSlsref() + '&tip=' + data.cari.tip + '&barkod=' + data.gun + '">Ziyaret</a></span>';
+                    return data.yapildi ? '<div class="pretty p-default p-curve prettyMargin3"><input class="chkbxs" type="checkbox" checked="checked" disabled /><div class="state p-primary-o"><label></label></div></div>' : '<span class="sinirli"><a href="../../Ziyaret/?smref=' + data.cari.smref + '&gmref=' + data.cari.gmref + '&slsref=' + (window.localStorage["slsref"] != "0" ? window.localStorage["slsref"] : getSlsref()) + '&tip=' + data.cari.tip + '&barkod=' + data.gun + '">Ziyaret</a></span>';
                 }
             }
         ];
