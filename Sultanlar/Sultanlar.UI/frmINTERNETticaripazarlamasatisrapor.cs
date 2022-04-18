@@ -346,6 +346,7 @@ namespace Sultanlar.UI
                 frmINTERNETticaripazarlamasatisraporaktarim frm = new frmINTERNETticaripazarlamasatisraporaktarim(satisraporlarolmayancariler);
                 frm.ShowDialog();
                 satisraporlarolmayancariler.Clear();
+                satisraporlar.Clear();
 
                 if (frm.aktarilmamissayisi == 0)
                 {
@@ -353,11 +354,6 @@ namespace Sultanlar.UI
                     thr = new Thread(new ParameterizedThreadStart(ExceldenAl));
                     thr.Start(dosya);
                 }
-                else
-                {
-                    satisraporlar.Clear();
-                }
-
             }
             else
             {

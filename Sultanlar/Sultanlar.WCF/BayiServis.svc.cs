@@ -28,10 +28,18 @@ namespace Sultanlar.WCF
 
             string tabloadi = "tbl_" + Bayikod + "_" + Satis;
 
-            if (Satis == "Satis") // satış ise son üç ayı silmemiz lazım, tabloyaz ve veriyaz da sadece parametrede gelen ayı siliyor
-                DisVeri.ExecNQ("DELETE FROM " + tabloadi + " WHERE " + YilAd + "=" + Yil + " AND " + AyAd + ">=" + (Convert.ToInt32(Ay) - 3).ToString());
+            if (Bayikod == "1071593") // kaangıda
+            {
+                DisVeri.ExecNQ("DELETE FROM " + tabloadi + " WHERE FATURATARIHI >= CONVERT(datetime,'" + Ay + ".1." + Yil + " 00:00:00')".ToString());
+            }
             else
-                DisVeri.ExecNQ("DELETE FROM " + tabloadi);
+            {
+                if (Satis == "Satis") // satış ise son üç ayı silmemiz lazım, tabloyaz ve veriyaz da sadece parametrede gelen ayı siliyor
+                    DisVeri.ExecNQ("DELETE FROM " + tabloadi + " WHERE " + YilAd + "=" + Yil + " AND " + AyAd + ">=" + (Convert.ToInt32(Ay) - 3).ToString());
+                else
+                    DisVeri.ExecNQ("DELETE FROM " + tabloadi);
+            }
+
 
             if (DisVeri.TabloYaz(tabloadi, dt, YilAd, Yil, AyAd, Ay, false))
                 donendeger.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><sonuc><basarili>true</basarili></sonuc>");

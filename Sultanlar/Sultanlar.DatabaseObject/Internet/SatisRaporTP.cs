@@ -353,6 +353,34 @@ namespace Sultanlar.DatabaseObject.Internet
         }
         //
         //
+        public static void DoUpdateNoktaAd(string BAYIKOD, string NoktaKod, string NoktaAd, int YeniNoktaRef, string YeniNoktaKod, string YeniNoktaAd)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE [Web-Satis-Rapor-TP] SET NOKTAAD = @YENINOKTAAD,NOKTAREF = @YENINOKTAREF,NOKTAKOD = @YENINOKTAKOD WHERE BAYIKOD = @BAYIKOD AND NOKTAAD = @NOKTAAD AND NOKTAKOD = @NOKTAKOD", conn);
+                cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar, 7).Value = BAYIKOD;
+                cmd.Parameters.Add("@YENINOKTAREF", SqlDbType.Int).Value = YeniNoktaRef;
+                cmd.Parameters.Add("@YENINOKTAKOD", SqlDbType.NVarChar).Value = YeniNoktaKod;
+                cmd.Parameters.Add("@YENINOKTAAD", SqlDbType.NVarChar).Value = YeniNoktaAd;
+                cmd.Parameters.Add("@NOKTAAD", SqlDbType.NVarChar).Value = NoktaAd;
+                cmd.Parameters.Add("@NOKTAKOD", SqlDbType.NVarChar).Value = NoktaKod;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        //
+        //
         public static void DoUpdateNoktaKod(string BAYIKOD, string NoktaKod, string YeniNoktaKod)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
@@ -625,7 +653,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT DISTINCT [NOKTAAD] FROM [Web-Satis-Rapor-TP] WHERE BAYIKOD = @BAYIKOD AND NOKTAAD LIKE '%" + Nokta + "%' ORDER BY [NOKTAAD]", conn);
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT [BAYIKOD],[NOKTAAD],NOKTAKOD FROM [Web-Satis-Rapor-TP] WHERE BAYIKOD = @BAYIKOD AND NOKTAAD LIKE '%" + Nokta + "%' ORDER BY [NOKTAAD]", conn);
                 cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar).Value = BAYIKOD;
                 //cmd.Parameters.Add("@NOKTASATAY", SqlDbType.TinyInt).Value = Ay;
                 //cmd.Parameters.Add("@NOKTASATYIL", SqlDbType.SmallInt).Value = Yil;
@@ -636,7 +664,8 @@ namespace Sultanlar.DatabaseObject.Internet
                     dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
-                        List.Add(dr[0].ToString());
+                        List.Add(new SatisRaporTP(0, dr[0].ToString(), dr[1].ToString(), "", DateTime.Now,
+                            "", "", 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, "", dr[2].ToString()));
                     }
                 }
                 catch (SqlException ex)

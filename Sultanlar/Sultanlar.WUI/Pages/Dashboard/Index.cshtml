@@ -62,6 +62,11 @@
                             $("#selectSaticilarBolum").append($("<option></option>").text(item.sattem).val(item.slsmanref));
                         });
 
+                        if (window.localStorage["slsref"] != "0") {
+                            $("#selectSaticilar").val(window.localStorage["slsref"]);
+                            $("#selectSaticilarBolum").val(window.localStorage["slsref"]);
+                        }
+
                         slsref = $('#selectSaticilar').val();
                         slsrefbolum = $('#selectSaticilar').val();
                         HedefGetir();
@@ -662,7 +667,7 @@
             });
 
 
-            $("#selectSaticilarBolum").select2({ theme: "bootstrap" });
+            $("#selectSaticilarBolum").select2({ theme: "bootstrap", language: "tr" });
         });
     </script>
 }

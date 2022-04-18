@@ -23,35 +23,6 @@
             CarilerGetir();
         });
 
-        function SaticilarGetir() {
-            var uyeid = window.localStorage["uyeid"];
-            $.ajax(
-                {
-                    xhr: function () { return xhrDownloadUpload(); },
-                    beforeSend: function (xhr) { xhrTicket(xhr); },
-                    type: 'POST',
-                    url: apiurl + "satici/true",
-                    data: '{ "uyeid": "' + uyeid + '" }',
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    success: function (data, textStatus, response) {
-                        checkAuth(response);
-
-                        $.each(data, function (index, item) {
-                            $("#selectSaticilar").append(
-                                $("<option></option>")
-                                    .text(item.sattem)
-                                    .val(item.slsmanref)
-                            );
-                        });
-
-                        CarilerGetir();
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
-                }
-            );
-        }
-
         function CarilerGetir() {
             $.ajax(
                 {
@@ -197,7 +168,7 @@
             if (slsref != "0") {
                 $('#selectSaticilar').select2('destroy');
                 $('select[name=selectSaticilar]').val(slsref);
-                $("#selectSaticilar").select2({ theme: "bootstrap" });
+                $("#selectSaticilar").select2({ theme: "bootstrap", language: "tr" });
             }
             if (gmref != "0") {
                 $('select[name=selectCariler]').val(gmref);
@@ -245,7 +216,7 @@
         }
 
         $(document).ready(function () {
-            SaticilarGetir();
+            SaticilarGetir(true);
 
             $('#selectSaticilar').on('change', function (e) {
                 window.history.pushState("", "Title", 'Anlasmalar?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=0&smref=0&tip=1&yil=' + getYil() + '&ay=' + getAy() + '&onay=' + getOnay());

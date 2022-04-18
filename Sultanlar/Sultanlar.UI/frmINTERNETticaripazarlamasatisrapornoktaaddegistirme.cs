@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -53,9 +54,22 @@ namespace Sultanlar.UI
         {
             if (listBox1.SelectedIndex > -1)
             {
+                ArrayList ctp = CariHesaplarTP.GetObjectBySMREF(Convert.ToInt32(numericUpDown1.Value));
+                if (ctp.Count == 0)
+                {
+                    MessageBox.Show("Yeni nokta kodu sistemde kayıtlı değil.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
                 if (MessageBox.Show("Nokta adı, seçilen bayi için satış raporundaki tüm dönemlerde değiştirelecek. Devam etmek istediğinize emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                 {
-                    SatisRaporTP.DoUpdateNoktaAd(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)comboBox1.SelectedItem).GMREF), listBox1.SelectedItem.ToString(), textBox2.Text);
+                    SatisRaporTP.DoUpdateNoktaAd(
+                        ((SatisRaporTP)listBox1.SelectedItem).BAYIKOD,
+                        ((SatisRaporTP)listBox1.SelectedItem).NOKTAKOD,
+                        ((SatisRaporTP)listBox1.SelectedItem).NOKTAAD,
+                        Convert.ToInt32(numericUpDown1.Value), 
+                        textBox4.Text,
+                        textBox2.Text
+                        );
                     MessageBox.Show("Nokta adı satış raporunda değiştirildi", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }

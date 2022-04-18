@@ -801,6 +801,10 @@ table tr.even:hover {
     background-color: floralwhite;
 }
 
+.tableRowBlue {
+    background-color: azure !important;
+}
+
 .flex-sb-m {
     display: -webkit-box;
     display: -webkit-flex;

@@ -36,8 +36,9 @@ namespace Sultanlar.DbObj.Internet
                 aktiviteler akt = new aktiviteler(intAktiviteID).GetObject();
                 fiyatlarTp ftp = new fiyatlarTp().GetObject(akt.DonemYil, akt.DonemAy, akt.DonemGun, akt.sintFiyatTipiID, intUrunID);
                 return mnDusulmusBirimFiyatKDVli / ((100 + ftp.KDV) / 100); 
-            } 
+            }
         }
+        public bool Degisti { get { return flEkIsk != mnBayiMaliyet; } }
 
         public aktivitelerDetay() { }
         public aktivitelerDetay(long pkID) { this.pkID = pkID; }

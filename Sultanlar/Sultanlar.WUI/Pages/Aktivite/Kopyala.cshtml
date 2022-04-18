@@ -38,6 +38,8 @@
                                     .val(item.slsmanref)
                             );
                         });
+                        if (window.localStorage["slsref"] != "0")
+                            $("#selectSaticilar").val(window.localStorage["slsref"]);
 
                         CarilerGetir($("#selectSaticilar").val());
                     },

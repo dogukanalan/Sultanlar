@@ -50,7 +50,14 @@
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     url: url1
                 },
+                "createdRow": function (row, data, dataIndex) {
+                    if (data.degisti) {
+                        $(row).addClass('tableRowBlue');
+                    }
+                },
                 "initComplete": function (settings, json) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
                     qtip();
                     if (excelcikar) {
                         table.button('.buttons-excel').trigger();

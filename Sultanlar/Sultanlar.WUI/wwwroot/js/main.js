@@ -315,8 +315,8 @@ var aktinceleonaylasilcolumns = [
         }
     },
     {
-        "data": "flEkIsk", "class": "floaTd", render: function (data, type, row) {
-            return '<span class="sinirli">' + data.formatMoney(1, ',', '.') + '</span>';
+        "data": null, "class": "floaTd", render: function (data, type, row) {
+            return '<span class="sinirli"' + (data.degisti ? (' data-toggle="tooltip" data-html="true" title="İstenen: ' + data.mnBayiMaliyet.formatMoney(4, ',', '.') + '<br>Değişen: ' + data.flEkIsk.formatMoney(4, ',', '.') + '"') : '') + '>' + data.flEkIsk.formatMoney(1, ',', '.') + '</span>';
         }
     },
     {

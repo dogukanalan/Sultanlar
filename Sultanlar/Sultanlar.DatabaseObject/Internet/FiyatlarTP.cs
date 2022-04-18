@@ -119,7 +119,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 {
                     conn.Open();
                     object obj = cmd.ExecuteScalar();
-                    if (obj != null)
+                    if (obj != DBNull.Value)
                         donendeger = Convert.ToDecimal(obj);
                 }
                 catch (SqlException ex)
@@ -179,7 +179,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 {
                     conn.Open();
                     object obj = cmd.ExecuteScalar();
-                    if (obj != null)
+                    if (obj != DBNull.Value)
                         donendeger = Convert.ToDecimal(obj);
                 }
                 catch (SqlException ex)
@@ -248,7 +248,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 {
                     conn.Open();
                     object obj = cmd.ExecuteScalar();
-                    if (obj != null)
+                    if (obj != DBNull.Value)
                     {
                         donendeger = Convert.ToDouble(obj);
                     }

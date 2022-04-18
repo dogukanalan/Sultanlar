@@ -39,10 +39,10 @@
                 checkAuth(xhr);
 
                 sipid = json.pkSiparisID;
-                quantumid = json.quantumNo;
+                quantumid = " - " + json.quantumNo;
 
                 var yazi = excelcikar || yazdir ? "Çıktısı" : "İncele";
-                document.getElementById("basTitle").innerHTML = "Sipariş " + yazi + " (" + sipid + " - " + quantumid + ")";
+                document.getElementById("basTitle").innerHTML = "Sipariş " + yazi + " (" + sipid + quantumid + ")";
                 document.getElementById("sipMus").innerHTML = json.cari.sube;
             }).DataTable({
                 ajax: {
