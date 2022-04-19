@@ -54,7 +54,7 @@ namespace Sultanlar.UI
         {
             if (listBox1.SelectedIndex > -1)
             {
-                ArrayList ctp = CariHesaplarTP.GetObjectBySMREF(Convert.ToInt32(numericUpDown1.Value));
+                ArrayList ctp = CariHesaplarTP.GetObjectBySMREF(Convert.ToInt32(textBox3.Text.Trim()));
                 if (ctp.Count == 0)
                 {
                     MessageBox.Show("Yeni nokta kodu sistemde kayıtlı değil.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -66,7 +66,7 @@ namespace Sultanlar.UI
                         ((SatisRaporTP)listBox1.SelectedItem).BAYIKOD,
                         ((SatisRaporTP)listBox1.SelectedItem).NOKTAKOD,
                         ((SatisRaporTP)listBox1.SelectedItem).NOKTAAD,
-                        Convert.ToInt32(numericUpDown1.Value), 
+                        Convert.ToInt32(textBox3.Text.Trim()), 
                         textBox4.Text,
                         textBox2.Text
                         );

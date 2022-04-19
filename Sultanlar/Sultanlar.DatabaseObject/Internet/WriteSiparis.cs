@@ -336,6 +336,11 @@ namespace Sultanlar.DatabaseObject.Internet
                 header.Pernr = "1529";
                 header.PernrVw = SLSREF.ToString();
             }
+            else if (CariHesaplar.GetSATKOD1BySLSREF(SLSREF) == "ZM")
+            {
+                header.Pernr = CariHesaplar.GetSLSREFBySMREF(sip.SMREF).ToString();
+                header.PernrVw = "1530";
+            }
             else
             {
                 return "Müşterinin sahibi yok";

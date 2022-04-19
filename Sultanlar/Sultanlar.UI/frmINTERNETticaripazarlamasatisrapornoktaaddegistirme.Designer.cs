@@ -43,8 +43,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -195,25 +194,25 @@
             this.textBox4.Size = new System.Drawing.Size(371, 20);
             this.textBox4.TabIndex = 2;
             // 
-            // numericUpDown1
+            // textBox3
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(122, 335);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(371, 20);
-            this.numericUpDown1.TabIndex = 5;
+            this.textBox3.Location = new System.Drawing.Point(122, 335);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(371, 20);
+            this.textBox3.TabIndex = 2;
             // 
             // frmINTERNETticaripazarlamasatisrapornoktaaddegistirme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(650, 387);
-            this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox1);
@@ -226,7 +225,6 @@
             this.Name = "frmINTERNETticaripazarlamasatisrapornoktaaddegistirme";
             this.Text = "Sultanlar : Ticari Pazarlama Satış Raporu Nokta Ad Değiştirme";
             this.Load += new System.EventHandler(this.frmINTERNETticaripazarlamasatisrapornoktaaddegistirme_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,6 +246,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }

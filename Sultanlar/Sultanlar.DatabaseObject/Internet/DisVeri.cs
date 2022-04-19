@@ -270,10 +270,10 @@ namespace Sultanlar.DatabaseObject.Internet
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch (SqlException ex)
+                catch (Exception ex)
                 {
                     conn.Close();
-                    Hatalar.DoInsert(ex);
+                    Hatalar.DoInsert(ex, sorgu);
                     return false;
                 }
                 finally
@@ -297,9 +297,9 @@ namespace Sultanlar.DatabaseObject.Internet
                     conn.Open();
                     donendeger = cmd.ExecuteScalar();
                 }
-                catch (SqlException ex)
+                catch (Exception ex)
                 {
-                    Hatalar.DoInsert(ex);
+                    Hatalar.DoInsert(ex, sorgu);
                 }
                 finally
                 {
@@ -328,10 +328,10 @@ namespace Sultanlar.DatabaseObject.Internet
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch (SqlException ex)
+                catch (Exception ex)
                 {
                     conn.Close();
-                    Hatalar.DoInsert(ex);
+                    Hatalar.DoInsert(ex, CommandText);
                     return false;
                 }
                 finally
@@ -355,9 +355,9 @@ namespace Sultanlar.DatabaseObject.Internet
                     conn.Open();
                     da.Fill(donendeger);
                 }
-                catch (SqlException ex)
+                catch (Exception ex)
                 {
-                    Hatalar.DoInsert(ex);
+                    Hatalar.DoInsert(ex, sorgu);
                 }
                 finally
                 {

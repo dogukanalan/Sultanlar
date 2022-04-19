@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -30,7 +31,8 @@ namespace Sultanlar.WCF
 
             if (Bayikod == "1071593") // kaangıda
             {
-                DisVeri.ExecNQ("DELETE FROM " + tabloadi + " WHERE FATURATARIHI >= CONVERT(datetime,'" + Ay + ".1." + Yil + " 00:00:00')".ToString());
+                DateTime bas = Convert.ToDateTime(Yil + "."  + (Ay.Length > 1 ? Ay : "0" + Ay) + ".01");
+                DisVeri.ExecNQwp("DELETE FROM " + tabloadi + " WHERE FATURATARIHI >= @TARIH", new ArrayList() { "TARIH" }, new object[] { bas });
             }
             else
             {

@@ -249,15 +249,15 @@
                 init();
             });
             $('#selectYil').on('change', function (e) {
-                window.history.pushState("", "Title", 'Aktiviteler?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + $('select[name=selectYil]').val() + '&ay=' + getAy() + '&onay=' + getOnay());
+                window.history.pushState("", "Title", 'Aktiviteler?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&tip=' + ($('select[name=selectSubeler]').val() == "0;;;1" ? "1" : $('select[name=selectSubeler]').val().substring(10)) + '&yil=' + $('select[name=selectYil]').val() + '&ay=' + getAy() + '&onay=' + getOnay());
                 init();
             });
             $('#selectAy').on('change', function (e) {
-                window.history.pushState("", "Title", 'Aktiviteler?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + getYil() + '&ay=' + $('select[name=selectAy]').val() + '&onay=' + getOnay());
+                window.history.pushState("", "Title", 'Aktiviteler?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&tip=' + ($('select[name=selectSubeler]').val() == "0;;;1" ? "1" : $('select[name=selectSubeler]').val().substring(10)) + '&yil=' + getYil() + '&ay=' + $('select[name=selectAy]').val() + '&onay=' + getOnay());
                 init();
             });
             $('input[type=radio][name=options]').change(function () {
-                window.history.pushState("", "Title", 'Aktiviteler?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&yil=' + getYil() + '&ay=' + getAy() + '&onay=' + getRadioCheck());
+                window.history.pushState("", "Title", 'Aktiviteler?slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + getSmref() + '&tip=' + ($('select[name=selectSubeler]').val() == "0;;;1" ? "1" : $('select[name=selectSubeler]').val().substring(10)) + '&yil=' + getYil() + '&ay=' + getAy() + '&onay=' + getRadioCheck());
                 init();
             });
 

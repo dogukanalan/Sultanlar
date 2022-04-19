@@ -631,6 +631,46 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public static CariHesaplarTP GetObjectByNOKTAKOD(int GMREF, string NOKTAKOD)
+        {
+            CariHesaplarTP donendeger = new CariHesaplarTP();
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT [ACTIVE],[BOLGE],[GRP],[EKP],[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[TIP],[MT KOD],[MT ACIKLAMA],[UNVAN],[SLSREF],[SAT KOD],[SAT KOD1],[SAT TEM],[GMREF],[MUS KOD],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],[SEMT],[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],[ILGILI],[CEP-1],[NETTOP] FROM [Web-Musteri-TP] WHERE GMREF = @GMREF AND NOKTAKOD = @NOKTAKOD", conn);
+                cmd.Parameters.Add("@GMREF", SqlDbType.Int).Value = GMREF;
+                cmd.Parameters.Add("@NOKTAKOD", SqlDbType.NVarChar).Value = NOKTAKOD;
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                    {
+                        donendeger = new CariHesaplarTP(Convert.ToInt16(dr[0]), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(),
+                            dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString(), Convert.ToInt32(dr[9]), dr[10].ToString(),
+                            dr[11].ToString(), dr[12].ToString(), Convert.ToInt32(dr[13]), dr[14].ToString(), dr[15].ToString(), dr[16].ToString(),
+                            Convert.ToInt32(dr[17]), dr[18].ToString(), dr[19].ToString(), Convert.ToInt32(dr[20]), dr[21].ToString(),
+                            dr[22].ToString(), dr[23].ToString(), dr[24].ToString(), dr[25].ToString(), dr[26].ToString(),
+                            dr[27].ToString(), dr[28].ToString(), dr[29].ToString(), dr[30].ToString(), dr[31].ToString(), dr[32].ToString(),
+                            Convert.ToDouble(dr[33]));
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
         //
         //
         public static int GetLastSMREF()
