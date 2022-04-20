@@ -236,6 +236,61 @@ namespace Sultanlar.Class
         //
         //
         //
+        public static void GmailGonder(string EpostaFromDisplayName, string EpostaTo, string Konu, string Icerik)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient client = new SmtpClient("smtp.gmail.com");
+                client.Port = 587;
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential("mistif.sultanlar@gmail.com", "mistif1234");
+                mail.Subject = Konu;
+                mail.Body = Icerik;
+                mail.IsBodyHtml = true;
+                mail.From = new MailAddress("mistif.sultanlar@gmail.com", EpostaFromDisplayName);
+                mail.To.Add(new MailAddress(EpostaTo));
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                EventLog eventLog = new EventLog("Application");
+                eventLog.WriteEntry(ex.Message + "Genel Eposta Gönderimi");
+            }
+        }
+        //
+        //
+        //
+        //
+        //
+        public static void GmailGonder(string EpostaFromDisplayName, string EpostaTo, string Konu, string Icerik, byte[] attach, string attach_name)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient client = new SmtpClient("smtp.gmail.com");
+                client.Port = 587;
+                client.EnableSsl = true;
+                client.Credentials = new NetworkCredential("mistif.sultanlar@gmail.com", "mistif1234");
+                mail.Subject = Konu;
+                mail.Body = Icerik;
+                mail.IsBodyHtml = true;
+                mail.From = new MailAddress("mistif.sultanlar@gmail.com", EpostaFromDisplayName);
+                mail.To.Add(new MailAddress(EpostaTo));
+                mail.Attachments.Add(new Attachment(new MemoryStream(attach), attach_name));
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                EventLog eventLog = new EventLog("Application");
+                eventLog.WriteEntry(ex.Message + "Genel Eposta Gönderimi");
+            }
+        }
+        //
+        //
+        //
+        //
+        //
         public static void EpostaGonder(string EpostaFromDisplayName, string EpostaTo, string Konu, string Icerik, byte[] attach, string attach_name)
         {
             try
