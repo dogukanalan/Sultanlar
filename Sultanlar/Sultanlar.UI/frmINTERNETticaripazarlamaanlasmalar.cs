@@ -122,7 +122,7 @@ namespace Sultanlar.UI
 
             DataTable dt = new DataTable();
             if (GMREF == 0)
-                Anlasmalar.GetObjects(dt, Onayli, frmAna.KAdi);
+                Anlasmalar.GetObjects(dt, Onayli, frmAna.KAdi, (cbPasif.Checked ? "PASİF" : ""));
             else
                 Anlasmalar.GetObjects(dt, GMREF, Onayli, true);
             gridControl1.DataSource = dt;

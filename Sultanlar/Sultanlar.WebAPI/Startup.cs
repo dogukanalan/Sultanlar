@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Sultanlar.Class;
 using Sultanlar.DatabaseObject;
+using Sultanlar.DbObj.Internet;
 
 namespace Sultanlar.WebAPI
 {
@@ -66,15 +68,19 @@ namespace Sultanlar.WebAPI
                 string headerTicketEnc = context.Request.Headers["STicket"];
                 string cookieTicketEnc = context.Request.Headers["sulLogin"];
                 string cookieRTicket = context.Request.Headers["sulLoginR"];
-
+                string musteriid = context.Request.Headers["sulMus"];
+                int auth = 1;
+                
                 if (string.IsNullOrEmpty(headerTicketEnc))
                 {
+                    auth = 4;
                     return false;
                     throw new System.Security.SecurityException("empty ticket");
                 }
 
                 if (string.IsNullOrEmpty(cookieTicketEnc))
                 {
+                    auth = 4;
                     return false;
                     throw new System.Security.SecurityException("empty cookie");
                 }
@@ -105,14 +111,40 @@ namespace Sultanlar.WebAPI
 
                 if (string.Compare(headerTicket, cookieTicket, false) != 0)
                 {
+                    auth = 2;
                     return false;
                     throw new System.Security.SecurityException("not logged");
                 }
 
                 if (Convert.ToDateTime(headerTicket) < DateTime.Now)
                 {
+                    auth = 3;
                     return false;
                     throw new System.Security.SecurityException("expires");
+                }
+
+                if (context.Request.Path.Value.IndexOf("/internet/satici") == -1 && context.Request.Path.Value.IndexOf("/internet/mesaj/GetMesajCount") == -1)
+                {
+                    var body = new StreamReader(context.Request.Body);
+                    if (context.Request.Method == "POST")
+                    {
+                        body.BaseStream.Seek(0, SeekOrigin.Begin);
+                    }
+                    var requestBody = body.ReadToEnd();
+
+                    loglar.DoInsert(
+                        Convert.ToInt32(musteriid),
+                        DateTime.Now,
+                        context.Request.Host.Host,
+                        context.Request.Path,
+                        context.Request.Method,
+                        context.Request.QueryString.Value,
+                        requestBody,
+                        auth,
+                        headerTicketEnc,
+                        cookieTicket,
+                        cookieRTicket
+                        );
                 }
 
                 DateTime yeni = cookieRTicket == "true" ? new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59) : DateTime.Now.AddMinutes(60);

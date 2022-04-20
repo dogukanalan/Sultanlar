@@ -586,7 +586,7 @@ namespace Sultanlar.DatabaseObject.Internet
         /// <summary>
         /// UI için
         /// </summary>
-        public static void GetObjects(DataTable dt, object Onayli, string KAdi)
+        public static void GetObjects(DataTable dt, object Onayli, string KAdi, string Pasif)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
@@ -595,6 +595,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 da.SelectCommand.CommandTimeout = 200;
                 da.SelectCommand.Parameters.Add("@intOnay", SqlDbType.Int).Value = Onayli;
                 da.SelectCommand.Parameters.Add("@Kullanici", SqlDbType.NVarChar, 50).Value = KAdi;
+                da.SelectCommand.Parameters.Add("@PASIF", SqlDbType.NVarChar, 50).Value = Pasif;
                 try
                 {
                     conn.Open();

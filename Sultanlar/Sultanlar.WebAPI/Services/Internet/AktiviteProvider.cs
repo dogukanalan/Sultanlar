@@ -98,7 +98,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 if (akg.SMREFs[i].AnlasmaID > 0)
                 {
                     anlasmalar anlasma = new anlasmalar(akg.SMREFs[i].AnlasmaID).GetObject();
-                    tahbedel = anlasma.mnTAHAnlasmaDisiBedeller; tahciro = anlasma.mnTAHToplamCiro; yegbedel = anlasma.mnYEGAnlasmaDisiBedeller; yegciro = anlasma.mnYEGToplamCiro;
+                    tahbedel = anlasma.tahSabitBedel; tahciro = anlasma.mnTAHToplamCiro; yegbedel = anlasma.yegSabitBedel; yegciro = anlasma.mnYEGToplamCiro;
                 }
                 cariHesaplar cari = new cariHesaplar().GetObject1(akg.SMREFs[i].tip, akg.SMREFs[i].smref);
                 aktiviteler akt = new aktiviteler(

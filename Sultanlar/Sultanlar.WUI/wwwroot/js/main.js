@@ -181,6 +181,7 @@ function xhrTicket(xhr) {
     xhr.setRequestHeader("STicket", window.localStorage["token"]);
     xhr.setRequestHeader("sulLogin", readCookie("sulLogin"));
     xhr.setRequestHeader("sulLoginR", readCookie("sulLoginR"));
+    xhr.setRequestHeader("sulMus", window.localStorage["musteri"]);
 }
 
 function initDt(ordercolumn,autowidth,search,page) {
@@ -286,12 +287,22 @@ var aktinceleonaylasilcolumns = [
     },
     {
         "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
-            return '<span class="sinirli">' + data.barkod + '</span>';
+            return '<span class="sinirliHeryer">' + data.barkod + '</span>';
         }
     },
     {
         "data": "malzeme", "class": "valueTd", render: function (data, type, row) {
             return '<span class="sinirli malacik">' + data.malacik + '</span>';
+        }
+    },
+    {
+        "data": null, "class": "keyTd", render: function (data, type, row) {
+            return '<span class="sinirli">' + (((data.mnDusulmusBirimFiyatKDVli / data.kdVsiz) - 1) * 100).toFixed(0) + '</span>';
+        }
+    },
+    {
+        "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+            return '<span class="sinirli">' + data.koli + '</span>';
         }
     },
     {

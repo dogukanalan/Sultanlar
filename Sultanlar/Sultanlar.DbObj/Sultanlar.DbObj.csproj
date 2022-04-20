@@ -62,6 +62,7 @@
     <Compile Include="Internet\iadelerDetay.cs" />
     <Compile Include="Internet\isyeriOzelKod2.cs" />
     <Compile Include="Internet\konum.cs" />
+    <Compile Include="Internet\loglar.cs" />
     <Compile Include="Internet\malzemeler.cs" />
     <Compile Include="Internet\mesajlar.cs" />
     <Compile Include="Internet\musteriler.cs" />
