@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -14,6 +15,15 @@ namespace Sultanlar.WCF
     public interface IDirect
     {
         [OperationContract]
-        void DoWork();
+        [WebGet(UriTemplate = "/Test")]
+        string Test();
+
+        [OperationContract, XmlSerializerFormat]
+        [WebGet(ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/HesaplaKaydet?bayikod={BayiKod}&yil={Yil}&ay={Ay}&kaydet={Kaydet}")]
+        XmlDocument HesaplaKaydetIc(int BayiKod, int Yil, int Ay, bool Kaydet);
+
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Xml, ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/HesaplaKaydet?kaydet={Kaydet}")]
+        XmlDocument HesaplaKaydetDis(XmlDocument icerik, bool Kaydet);
     }
 }

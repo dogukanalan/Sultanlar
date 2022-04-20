@@ -69,6 +69,9 @@ namespace Sultanlar.WebAPI
                 string cookieTicketEnc = context.Request.Headers["sulLogin"];
                 string cookieRTicket = context.Request.Headers["sulLoginR"];
                 string musteriid = context.Request.Headers["sulMus"];
+                string eposta = context.Request.Headers["sulEposta"];
+                string uygulama = context.Request.Headers["sulUyg"];
+                string ip = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 int auth = 1;
                 
                 if (string.IsNullOrEmpty(headerTicketEnc))
@@ -131,7 +134,7 @@ namespace Sultanlar.WebAPI
                         body.BaseStream.Seek(0, SeekOrigin.Begin);
                     }
                     var requestBody = body.ReadToEnd();
-
+                    
                     loglar.DoInsert(
                         Convert.ToInt32(musteriid),
                         DateTime.Now,
@@ -143,7 +146,10 @@ namespace Sultanlar.WebAPI
                         auth,
                         headerTicketEnc,
                         cookieTicket,
-                        cookieRTicket
+                        cookieRTicket,
+                        eposta,
+                        uygulama,
+                        ip
                         );
                 }
 
@@ -193,6 +199,29 @@ namespace Sultanlar.WebAPI
                     Hatalar.DoInsert(ex, "webapi startup");
                 }
             }
+        }
+    }
+
+    public class Yetkisiz : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            loglar.DoInsert(
+                        0,
+                        DateTime.Now,
+                        context.HttpContext.Request.Host.Host,
+                        context.HttpContext.Request.Path,
+                        context.HttpContext.Request.Method,
+                        context.HttpContext.Request.QueryString.Value,
+                        "",
+                        4,
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        context.HttpContext.Connection.RemoteIpAddress.ToString()
+                        );
         }
     }
 }

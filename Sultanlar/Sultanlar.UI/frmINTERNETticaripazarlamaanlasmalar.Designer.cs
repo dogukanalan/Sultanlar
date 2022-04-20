@@ -1067,6 +1067,7 @@
             this.cbPasif.TabIndex = 41;
             this.cbPasif.Text = "Pasifleri getir";
             this.cbPasif.UseVisualStyleBackColor = true;
+            this.cbPasif.CheckedChanged += new System.EventHandler(this.cbPasif_CheckedChanged);
             // 
             // frmINTERNETticaripazarlamaanlasmalar
             // 

@@ -182,6 +182,10 @@ function xhrTicket(xhr) {
     xhr.setRequestHeader("sulLogin", readCookie("sulLogin"));
     xhr.setRequestHeader("sulLoginR", readCookie("sulLoginR"));
     xhr.setRequestHeader("sulMus", window.localStorage["musteri"]);
+    xhr.setRequestHeader("sulEposta", window.localStorage["eposta"]);
+    var result = bowser.getParser(window.navigator.userAgent);
+    var uyg = result.parsedResult.browser.name + ', ' + result.parsedResult.browser.version + ', ' + result.parsedResult.os.name + ', ' + result.parsedResult.platform.type;
+    xhr.setRequestHeader("sulUyg", typeof Android != "undefined" ? "Android app" : uyg);
 }
 
 function initDt(ordercolumn,autowidth,search,page) {

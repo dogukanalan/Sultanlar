@@ -418,5 +418,10 @@ namespace Sultanlar.UI
             Anlasmalar.SetKat(AnlasmaID, frmAna.InputBox);
             frmAna.InputBox = string.Empty;
         }
+
+        private void cbPasif_CheckedChanged(object sender, EventArgs e)
+        {
+            GetAnlasmalar();
+        }
     }
 }

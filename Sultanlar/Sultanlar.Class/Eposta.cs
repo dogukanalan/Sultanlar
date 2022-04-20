@@ -6,6 +6,8 @@ using System.Net.Mail;
 using System.Net;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 namespace Sultanlar.Class
 {
@@ -213,13 +215,14 @@ namespace Sultanlar.Class
                 client.EnableSsl = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("sultanlar@sultan", "987456");
-                client.Host = "mail.sultanlar.com.tr";
+                client.Credentials = new NetworkCredential("sultanlar", "qaWS.169!!");
+                client.Host = "webmail.sultanlar.com.tr";
                 mail.Subject = Konu;
                 mail.Body = Icerik;
                 mail.IsBodyHtml = true;
                 mail.From = new MailAddress("sultanlar@sultanlar.com.tr", EpostaFromDisplayName);
                 mail.To.Add(new MailAddress(EpostaTo));
+                //CertificateValidation();
                 client.Send(mail);
             }
             catch (Exception ex)
@@ -243,8 +246,8 @@ namespace Sultanlar.Class
                 client.EnableSsl = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("sultanlar@sultan", "987456");
-                client.Host = "mail.sultanlar.com.tr";
+                client.Credentials = new NetworkCredential("sultanlar", "qaWS.169!!");
+                client.Host = "webmail.sultanlar.com.tr";
                 mail.Subject = Konu;
                 mail.Body = Icerik;
                 mail.IsBodyHtml = true;
@@ -258,6 +261,23 @@ namespace Sultanlar.Class
                 EventLog eventLog = new EventLog("Application");
                 eventLog.WriteEntry(ex.Message + "Genel Eposta Gönderimi");
             }
+        }
+
+        [Obsolete("Do not use this in Production code!!!", false)]
+        static void CertificateValidation()
+        {
+            // Disabling certificate validation can expose you to a man-in-the-middle attack
+            // which may allow your encrypted message to be read by an attacker
+            // https://stackoverflow.com/a/14907718/740639
+            ServicePointManager.ServerCertificateValidationCallback =
+                delegate (
+                    object s,
+                    X509Certificate certificate,
+                    X509Chain chain,
+                    SslPolicyErrors sslPolicyErrors
+                ) {
+                    return true;
+                };
         }
     }
 }
