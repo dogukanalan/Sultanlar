@@ -391,19 +391,22 @@ namespace Sultanlar.UI
             if (gridView1.SelectedRowsCount > 0 && !gridView1.IsFilterRow(gridView1.GetSelectedRows()[0]))
             {
                 int AnlasmaID = Convert.ToInt32(((DataRowView)gridControl1.MainView.GetRow(gridView1.GetSelectedRows()[0])).Row.ItemArray[0]);
+                Anlasmalar anlasma = Anlasmalar.GetObject(AnlasmaID);
 
-                if (Anlasmalar.GetObject(AnlasmaID).intOnay != 1)
+                if (anlasma.intOnay != 1)
                 {
                     MessageBox.Show("Anlaşma onaysız durumda. Pasife almak için onaylı olması gerekiyor.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
-                if (MessageBox.Show("Anlaşma pasife alınacak, devam etmek istediğinize emin misiniz?", "Pasif", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                if (anlasma.strAciklama3 != "PASİF")
                 {
-                    Anlasmalar anlasma = Anlasmalar.GetObject(AnlasmaID);
-                    anlasma.strAciklama3 = "PASİF";
-                    anlasma.DoUpdate();
-                    GetAnlasmalar();
+                    if (MessageBox.Show("Anlaşma pasife alınacak, devam etmek istediğinize emin misiniz?", "Pasif", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        anlasma.strAciklama3 = "PASİF";
+                        anlasma.DoUpdate();
+                        GetAnlasmalar();
+                    }
                 }
             }
         }
@@ -422,6 +425,25 @@ namespace Sultanlar.UI
         private void cbPasif_CheckedChanged(object sender, EventArgs e)
         {
             GetAnlasmalar();
+        }
+
+        private void sbAktif_Click(object sender, EventArgs e)
+        {
+            if (gridView1.SelectedRowsCount > 0 && !gridView1.IsFilterRow(gridView1.GetSelectedRows()[0]))
+            {
+                int AnlasmaID = Convert.ToInt32(((DataRowView)gridControl1.MainView.GetRow(gridView1.GetSelectedRows()[0])).Row.ItemArray[0]);
+                Anlasmalar anlasma = Anlasmalar.GetObject(AnlasmaID);
+
+                if (anlasma.strAciklama3 == "PASİF")
+                {
+                    if (MessageBox.Show("Anlaşma aktife alınacak, devam etmek istediğinize emin misiniz?", "Aktif", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        anlasma.strAciklama3 = "";
+                        anlasma.DoUpdate();
+                        GetAnlasmalar();
+                    }
+                }
+            }
         }
     }
 }

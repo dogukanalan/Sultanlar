@@ -38,7 +38,7 @@ namespace Sultanlar.DbObj.Internet
                 return mnDusulmusBirimFiyatKDVli / ((100 + ftp.KDV) / 100); 
             }
         }
-        public bool Degisti { get { return flEkIsk != mnBayiMaliyet; } }
+        public bool Degisti { get { return flEkIsk.ToString("N2") != mnBayiMaliyet.ToString("N2"); } }
 
         public aktivitelerDetay() { }
         public aktivitelerDetay(long pkID) { this.pkID = pkID; }

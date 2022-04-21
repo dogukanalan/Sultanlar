@@ -32,11 +32,23 @@
                 language: "tr",
                 format: "yyyy/mm/dd"
             });
+            $('#inputBitis').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy/mm/dd"
+            });
             $('#inputDonem').on('changeDate', function (ev) {
                 $('#divProgress').css("display", "block");
                 $(this).datepicker('hide');
                 $("#btnDevam").attr("disabled", true);
                 anlasmaGetir($(this).val().substring(0, 4), $(this).val().substring(5, 7), getParameterByName('smref'), getParameterByName('ftip') == '25' ? '1' : '2');
+            });
+            $('#inputBitis').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+                if ($('#inputBitis').val() == "" && $('#selectAnlasmalar').val() == "0")
+                    $("#btnDevam").attr("disabled", true);
+                else
+                    $("#btnDevam").attr("disabled", false);
             });
 
             anlasmaid = 0;
@@ -55,7 +67,13 @@
                     yegbedel = infos[9];
                     tahciro = infos[10];
                     yegciro = infos[11];
-                    $("#btnDevam").attr("disabled", false);
+                    if ($('#inputBitis').val() == "" && $('#selectAnlasmalar').val() == "0")
+                        $("#btnDevam").attr("disabled", true);
+                    else
+                        $("#btnDevam").attr("disabled", false);
+                }
+                else {
+                    $("#btnDevam").attr("disabled", true);
                 }
             });
 
@@ -76,7 +94,7 @@
                     dataType: 'json',
                     success: function (data, textStatus, response) {
                         checkAuth(response);
-                        
+
                         $("#selectAnlasmalar").empty().append($("<option></option>").text("Seçiniz").val("0"));
                         $.each(data, function (index, item) {
                             if (item.strAciklama3 != 'PASİF') {
@@ -98,7 +116,10 @@
                             yegfatalt = 0;
                             yegfataltciro = 0;
                             yegciroprim = 0;
-                            $("#btnDevam").attr("disabled", false);
+                            if ($('#inputBitis').val() == "" && $('#selectAnlasmalar').val() == "0")
+                                $("#btnDevam").attr("disabled", true);
+                            else
+                                $("#btnDevam").attr("disabled", false);
                         }
                         else {
                             //$("#selectAnlasmalar").prop("selectedIndex", 1);
@@ -119,13 +140,16 @@
             else {
                 ftip = fiyattip500 != 0 ? fiyattip500 : ftip;
             }
-            window.location.href = 'Aktivite?smref=' + getParameterByName('smref') + '&ftip=' + ftip + '&tip=' + getParameterByName('tip') + '&aktiviteid=' + getParameterByName('aktiviteid') + '&donem=' + $("#inputDonem").val() + '&anlasmaid=' + anlasmaid + '&ahtfatalt=' + ahtfatalt + '&ahtfataltciro=' + ahtfataltciro + '&ahtciroprim=' + ahtciroprim + '&yegfatalt=' + yegfatalt + '&yegfataltciro=' + yegfataltciro + '&yegciroprim=' + yegciroprim + 
+            window.location.href = 'Aktivite?smref=' + getParameterByName('smref') + '&ftip=' + ftip + '&tip=' + getParameterByName('tip') + '&aktiviteid=' + getParameterByName('aktiviteid') +
+                '&donem=' + $("#inputDonem").val() + '&bitis=' + $("#inputBitis").val() + '&anlasmaid=' + anlasmaid + '&ahtfatalt=' + ahtfatalt + '&ahtfataltciro=' + ahtfataltciro + '&ahtciroprim=' + ahtciroprim + '&yegfatalt=' + yegfatalt + '&yegfataltciro=' + yegfataltciro + '&yegciroprim=' + yegciroprim +
                 '&tahbedel=' + (tahbedel ? tahbedel : 0) + '&yegbedel=' + (yegbedel ? yegbedel : 0) + '&tahciro=' + (tahciro ? tahciro : 0) + '&yegciro=' + (yegciro ? yegciro : 0);
         }
     </script>
 }
-<h5 class="spanCiplak">Aktivite için dönem ve anlaşma seçiniz</h5>
-<input class="form-control input100 tarihpicker" type="text" name="inputDonem" id="inputDonem" placeholder="Dönem" autocomplete="off" onkeypress="return false">
+<h5 class="spanCiplak">Aktivite için başlangıç, bitiş ve anlaşma seçiniz</h5>
+<input class="form-control input100 tarihpicker" type="text" name="inputDonem" id="inputDonem" placeholder="Başlangıç" autocomplete="off" onkeypress="return false">
+<br />
+<input class="form-control input100 tarihpicker" type="text" name="inputBitis" id="inputBitis" placeholder="Bitiş" autocomplete="off" onkeypress="return false">
 <br />
 <select id="selectAnlasmalar" name="selectAnlasmalar" class="form-control input100">
     <option value="0" selected="selected">Seçiniz</option>

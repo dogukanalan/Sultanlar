@@ -241,6 +241,7 @@
             paramftip = getParameterByName('ftip');
             paramtip = getParameterByName('tip');
             paramdonem = getParameterByName("donem");
+            parambitis = getParameterByName("bitis");
             aktiviteid = getParameterByName('aktiviteid') ? getParameterByName('aktiviteid') : "0";
             anlasmaid = getParameterByName('anlasmaid') ? getParameterByName('anlasmaid') : "0";
             ahtfatalt = parseFloat(getParameterByName("ahtfatalt"));
@@ -269,7 +270,7 @@
                 format: "yyyy/mm/dd",
                 orientation: "auto bottom"
             });
-            $("#inputBitis").datepicker("update", paramdonem);
+            $("#inputBitis").datepicker("update", parambitis);
             $('#inputBitis').on('changeDate', function (ev) { $(this).datepicker('hide'); sencHeader(); });
 
             $('#inputAciklama1').on('keyup', function (ev) { sencHeader(); });

@@ -1,8 +1,10 @@
-﻿using Sultanlar.DbObj.Internet;
+﻿using Sultanlar.DatabaseObject;
+using Sultanlar.DbObj.Internet;
 using Sultanlar.WebAPI.Models.Internet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Sultanlar.WebAPI.Services.Internet
@@ -27,8 +29,29 @@ namespace Sultanlar.WebAPI.Services.Internet
             string lng = Coords1.Substring(Coords1.IndexOf(",") + 1).Trim();
             string adres = Coords;
 
-            Sultanlar.DatabaseObject.Internet.Rutlar.SetKonum(Convert.ToInt32(smref), Convert.ToInt32(tip), lat + "," + lng);
-            Sultanlar.DatabaseObject.Internet.Rutlar.SetKonumAdres(Convert.ToInt32(smref), Convert.ToInt32(tip), adres);
+            DatabaseObject.Internet.Rutlar.SetKonum(Convert.ToInt32(smref), Convert.ToInt32(tip), lat + "," + lng);
+            DatabaseObject.Internet.Rutlar.SetKonumAdres(Convert.ToInt32(smref), Convert.ToInt32(tip), adres);
+
+            return "";
+        }
+
+        //databaseobject
+        internal string SlsrefKonum(object obj)
+        {
+            string jsonStr = obj.ToString();
+            JsonDocument json = JsonDocument.Parse(jsonStr);
+            string slsref = json.RootElement.GetProperty("slsref").GetString();
+            string coord = json.RootElement.GetProperty("coord").GetString();
+            string yer = json.RootElement.GetProperty("yer").GetString();
+            string sayfa = json.RootElement.GetProperty("sayfa").GetString();
+
+            string SLSREF = slsref;
+            string ZAMAN = DateTime.Now.Month.ToString() + "." + DateTime.Now.Day.ToString() + "." + DateTime.Now.Year.ToString() + " " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second;
+            string COORD = coord;
+            string YER = yer;
+            string SAYFA = sayfa;
+            WebGenel.Sorgu("INSERT INTO [Web-SatisTemsilcileri-Log] (SLSREF,ZAMAN,COORD,YER,SAYFA) VALUES (" +
+                SLSREF + ",CONVERT(datetime,'" + ZAMAN + "'),'" + COORD + "','" + YER.Replace("'", "").Replace("\"", "").Replace("%", "") + "','" + SAYFA + "')");
 
             return "";
         }

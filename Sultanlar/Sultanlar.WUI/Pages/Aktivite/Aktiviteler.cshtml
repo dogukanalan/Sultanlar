@@ -138,13 +138,20 @@
                             return '<span class="sinirli">' + data.sube + '</span>'
                         },
                         "name": "Cari.Sube",
-                        "width": "25%"
+                        "width": "30%"
                     },
                     {
                         "data": "fiyatTipi", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.nosu + '</span>'
                         },
                         "name": "FiyatTipi.NOSU",
+                        "width": "5%"
+                    },
+                    {
+                        "data": "dtOlusmaTarihi", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.substring(0, 10) + '</span>'
+                        },
+                        "name": "dtOlusmaTarihi",
                         "width": "10%"
                     },
                     {
@@ -152,14 +159,14 @@
                             return '<span class="sinirli">' + data.substring(0, 10) + '</span>'
                         },
                         "name": "dtAktiviteBaslangic",
-                        "width": "15%"
+                        "width": "10%"
                     },
                     {
                         "data": "dtAktiviteBitis", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.substring(0, 10) + '</span>'
                         },
                         "name": "dtAktiviteBitis",
-                        "width": "15%"
+                        "width": "10%"
                     }
                 ],
                 "language": defaultDtLang,
@@ -332,6 +339,7 @@
             <th class="keyTd" data-priority="4"><span class="">Akt.Giren</span></th>
             <th class="keyTd" data-priority="5"><span class="">Cari</span></th>
             <th class="keyTd"><span class="">F.Tip</span></th>
+            <th class="keyTd" data-priority="3"><span class="">Talep</span></th>
             <th class="keyTd" data-priority="3"><span class="">Başlangıç</span></th>
             <th class="keyTd" data-priority="6"><span class="">Bitiş</span></th>
         </tr>

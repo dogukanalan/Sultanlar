@@ -118,6 +118,7 @@
             this.sbPasif = new DevExpress.XtraEditors.SimpleButton();
             this.btnKat = new System.Windows.Forms.Button();
             this.cbPasif = new System.Windows.Forms.CheckBox();
+            this.sbAktif = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -901,7 +902,7 @@
             // 
             this.sbGeriAl.Location = new System.Drawing.Point(408, 439);
             this.sbGeriAl.Name = "sbGeriAl";
-            this.sbGeriAl.Size = new System.Drawing.Size(75, 23);
+            this.sbGeriAl.Size = new System.Drawing.Size(54, 23);
             this.sbGeriAl.TabIndex = 11;
             this.sbGeriAl.Text = "Geri al";
             this.sbGeriAl.Click += new System.EventHandler(this.sbGeriAl_Click);
@@ -1021,9 +1022,9 @@
             // 
             // sbYazdir
             // 
-            this.sbYazdir.Location = new System.Drawing.Point(570, 439);
+            this.sbYazdir.Location = new System.Drawing.Point(598, 439);
             this.sbYazdir.Name = "sbYazdir";
-            this.sbYazdir.Size = new System.Drawing.Size(75, 23);
+            this.sbYazdir.Size = new System.Drawing.Size(47, 23);
             this.sbYazdir.TabIndex = 37;
             this.sbYazdir.Text = "Yazdır";
             this.sbYazdir.ToolTip = "Satıcı düzenleyebilir";
@@ -1041,9 +1042,9 @@
             // 
             // sbPasif
             // 
-            this.sbPasif.Location = new System.Drawing.Point(489, 439);
+            this.sbPasif.Location = new System.Drawing.Point(468, 439);
             this.sbPasif.Name = "sbPasif";
-            this.sbPasif.Size = new System.Drawing.Size(75, 23);
+            this.sbPasif.Size = new System.Drawing.Size(61, 23);
             this.sbPasif.TabIndex = 14;
             this.sbPasif.Text = "Pasif Yap";
             this.sbPasif.Click += new System.EventHandler(this.sbPasif_Click);
@@ -1069,6 +1070,15 @@
             this.cbPasif.UseVisualStyleBackColor = true;
             this.cbPasif.CheckedChanged += new System.EventHandler(this.cbPasif_CheckedChanged);
             // 
+            // sbAktif
+            // 
+            this.sbAktif.Location = new System.Drawing.Point(535, 439);
+            this.sbAktif.Name = "sbAktif";
+            this.sbAktif.Size = new System.Drawing.Size(57, 23);
+            this.sbAktif.TabIndex = 14;
+            this.sbAktif.Text = "Aktif Yap";
+            this.sbAktif.Click += new System.EventHandler(this.sbAktif_Click);
+            // 
             // frmINTERNETticaripazarlamaanlasmalar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1076,6 +1086,7 @@
             this.ClientSize = new System.Drawing.Size(845, 465);
             this.Controls.Add(this.cbPasif);
             this.Controls.Add(this.btnKat);
+            this.Controls.Add(this.sbAktif);
             this.Controls.Add(this.sbPasif);
             this.Controls.Add(this.lblSatirSayisi);
             this.Controls.Add(this.sbExcel);
@@ -1205,5 +1216,6 @@
         private DevExpress.XtraEditors.SimpleButton sbPasif;
         private System.Windows.Forms.Button btnKat;
         private System.Windows.Forms.CheckBox cbPasif;
+        private DevExpress.XtraEditors.SimpleButton sbAktif;
     }
 }

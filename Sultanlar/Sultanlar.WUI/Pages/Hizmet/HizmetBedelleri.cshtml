@@ -81,12 +81,12 @@
                 }
             );
         }
-
+        var table;
         function HizmetBedelleriGetir(slsref, gmref, smref) {
-            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
-                "responsive": true,
+                "scrollX": true,
                 "destroy": true,
                 "processing": true,
                 "serverSide": true,

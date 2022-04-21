@@ -802,7 +802,7 @@ table tr.even:hover {
 }
 
 .tableRowBlue {
-    background-color: azure !important;
+    background-color: #EAF5FF !important;
 }
 
 .flex-sb-m {
@@ -888,6 +888,10 @@ select {
     .dropdown a:hover {
         background-color: #ddd;
     }
+
+.datepicker {
+    z-index: 1040 !important;
+}
 
 #divProgress {
 }

@@ -584,7 +584,7 @@ namespace Sultanlar.UI
                         return;
                     }
 
-                    //aktivite.dtOnaylamaTarihi = DateTime.Now;
+                    aktivite.dtOnaylamaTarihi = DateTime.Now;
                     aktivite.blAktarilmis = true;
                     aktivite.DoUpdate();
 

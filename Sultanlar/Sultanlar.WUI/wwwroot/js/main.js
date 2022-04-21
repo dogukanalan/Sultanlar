@@ -41,7 +41,7 @@ $(document).ready(function () {
 
         }
     }, 2000);
-    
+
 
     $('#selectYil').empty();
     $("#selectYil").append($("<option />").val("2022").text("2022"));
@@ -89,7 +89,7 @@ function showValidate(input) {
 
 function hideValidate(input) {
     var thisAlert = $(input).parent();
-    
+
     $(thisAlert).removeClass('alert-validate');
 }
 
@@ -188,7 +188,7 @@ function xhrTicket(xhr) {
     xhr.setRequestHeader("sulUyg", typeof Android != "undefined" ? "Android app" : uyg);
 }
 
-function initDt(ordercolumn,autowidth,search,page) {
+function initDt(ordercolumn, autowidth, search, page) {
     $('#dtTable').DataTable({
         "autoWidth": autowidth,
         "paging": page,
@@ -600,14 +600,14 @@ function showSubMenu(contr) {
 }
 
 function boslukTiklandi() {
-        var dropdowns = document.getElementsByClassName("subMenu");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
+    var dropdowns = document.getElementsByClassName("subMenu");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
         }
+    }
 }
 
 Array.prototype.removeValue = function (name, value, name2, value2) {
@@ -847,7 +847,7 @@ function getDateNowStr() {
     var hour = date.getHours();
     var minute = date.getMinutes();
     var second = date.getSeconds();
-    
+
     return (day.toString().length === 2 ? day : "0" + day) + "." + (month.toString().length === 2 ? month : "0" + month) + "." + year + "." +
         (hour.toString().length === 2 ? hour : "0" + hour) + ':' + (minute.toString().length === 2 ? minute : "0" + minute) + ':' + (second.toString().length === 2 ? second : "0" + second);
 }
@@ -895,11 +895,12 @@ function positionSuccess(position) {
     myMap();
     (new google.maps.Geocoder()).geocode({ latLng: latLng }, function (resp) {
         document.getElementById('inputCoordAddress').value = resp[0].formatted_address;
+        KonumEkle(coords.latitude.toFixed(6) + ',' + coords.longitude.toFixed(6), resp[0].formatted_address);
         setTimeout(function () {
             try {
                 Sonlanmamis();
             } catch (e) {
-                
+
             }
         }, 200);
         $('.konumTamam').prop('disabled', false);
@@ -908,6 +909,31 @@ function positionSuccess(position) {
 
 function MapStyle() {
     return '[{ "featureType": "landscape", "elementType": "geometry", "stylers": [{ "saturation": "-100"}] }, { "featureType": "poi", "elementType": "labels", "stylers": [{ "visibility": "on"}] }, { "featureType": "poi", "elementType": "labels.text.stroke", "stylers": [{ "visibility": "on"}] }, { "featureType": "road", "elementType": "labels.text", "stylers": [{ "color": "#545454"}] }, { "featureType": "road", "elementType": "labels.text.stroke", "stylers": [{ "visibility": "off"}] }, { "featureType": "road.highway", "elementType": "geometry.fill", "stylers": [{ "saturation": "-87" }, { "lightness": "-40" }, { "color": "#ffffff"}] }, { "featureType": "road.highway", "elementType": "geometry.stroke", "stylers": [{ "visibility": "off"}] }, { "featureType": "road.highway.controlled_access", "elementType": "geometry.fill", "stylers": [{ "color": "#f0f0f0" }, { "saturation": "-22" }, { "lightness": "-16"}] }, { "featureType": "road.highway.controlled_access", "elementType": "geometry.stroke", "stylers": [{ "visibility": "off"}] }, { "featureType": "road.highway.controlled_access", "elementType": "labels.icon", "stylers": [{ "visibility": "on"}] }, { "featureType": "road.arterial", "elementType": "geometry.stroke", "stylers": [{ "visibility": "off"}] }, { "featureType": "road.local", "elementType": "geometry.stroke", "stylers": [{ "visibility": "off"}] }, { "featureType": "transit", "elementType": "labels.icon", "stylers": [{ "visibility": "off"}] }, { "featureType": "water", "elementType": "geometry.fill", "stylers": [{ "saturation": "-52" }, { "hue": "#00e4ff" }, { "lightness": "-16"}]}]';
+}
+
+function KonumEkle(coord, yer) {
+    if (window.location.href.startsWith("https://localhost") || window.location.href.startsWith("http://localhost")) {
+        return;
+    }
+
+    $.ajax(
+        {
+            xhr: function () { return xhrDownloadUpload(); },
+            beforeSend: function (xhr) { xhrTicket(xhr); },
+            type: 'POST',
+            url: apiurl + 'Konum/SlsrefKonum/',
+            data: '{ slsref: "' + window.localStorage["musteri"] + '", coord: "' + coord + '", yer: "' + yer.split("'").join("").split("\"").join("") + '", sayfa: "' +
+                window.location.href.replace("https://www.ittihadteknoloji.com.tr/site/", "") +
+                '" }',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.responseText);
+            }
+        });
 }
 
 var map;

@@ -22,5 +22,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet, Route("internet/[controller]/[action]/{SMREF}/{TIP}/{ADRES}/{COORDS}")]
         public string KonumSet(string SMREF, string TIP, string ADRES, string COORDS) => new KonumProvider().KonumSet(SMREF, TIP, ADRES, COORDS);
+
+        [HttpPost, Route("internet/[controller]/[action]")]
+        public string SlsrefKonum([FromBody]object obj) => new KonumProvider().SlsrefKonum(obj);
     }
 }
