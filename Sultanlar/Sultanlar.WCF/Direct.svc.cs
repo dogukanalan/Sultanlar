@@ -66,22 +66,15 @@ namespace Sultanlar.WCF
             }
 
             HesaplaKaydetDelegate hesapla = new HesaplaKaydetDelegate(HesaplaKaydet);
-            HesaplaKaydetDelegate hesapla1 = new HesaplaKaydetDelegate(HesaplaKaydet);
-            HesaplaKaydetDelegate hesapla2 = new HesaplaKaydetDelegate(HesaplaKaydet);
-            HesaplaKaydetDelegate hesapla3 = new HesaplaKaydetDelegate(HesaplaKaydet);
-            HesaplaKaydetDelegate hesapla4 = new HesaplaKaydetDelegate(HesaplaKaydet);
-            HesaplaKaydetDelegate hesapla5 = new HesaplaKaydetDelegate(HesaplaKaydet);
-            HesaplaKaydetDelegate hesapla6 = new HesaplaKaydetDelegate(HesaplaKaydet);
-            HesaplaKaydetDelegate hesapla7 = new HesaplaKaydetDelegate(HesaplaKaydet);
 
             hesapla.BeginInvoke(dt, 1, 0, BirinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla1.BeginInvoke(dt1, 2, BirinciBitis, IkinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla2.BeginInvoke(dt2, 3, IkinciBitis, UcuncuBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla3.BeginInvoke(dt3, 4, UcuncuBitis, DorduncuBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt1, 2, BirinciBitis, IkinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt2, 3, IkinciBitis, UcuncuBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt3, 4, UcuncuBitis, DorduncuBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
             hesapla.BeginInvoke(dt4, 5, DorduncuBitis, BesinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla1.BeginInvoke(dt5, 6, BesinciBitis, AltinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla2.BeginInvoke(dt6, 7, AltinciBitis, YedinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla3.BeginInvoke(dt7, 8, YedinciBitis, SekizinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt5, 6, BesinciBitis, AltinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt6, 7, AltinciBitis, YedinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt7, 8, YedinciBitis, SekizinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
 
             XmlDocument donendeger = new XmlDocument();
             donendeger.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><sonuc><basarili>true</basarili></sonuc>");
