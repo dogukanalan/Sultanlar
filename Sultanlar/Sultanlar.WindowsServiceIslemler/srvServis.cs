@@ -253,7 +253,7 @@ namespace Sultanlar.WindowsServiceIslemler
             {
                 if (DateTime.Now.Hour == 22)
                 {
-                    if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
+                    if (DateTime.Now.Minute > 40 && DateTime.Now.Minute <= 45)
                     {
                         GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014") 
                         //GetSatisJob();
@@ -288,7 +288,7 @@ namespace Sultanlar.WindowsServiceIslemler
             {
                 if (DateTime.Now.Hour == 22)
                 {
-                    if (DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15)
+                    if (DateTime.Now.Minute > 40 && DateTime.Now.Minute <= 45)
                     {
                         GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014")
                         //GetSatisJob();
@@ -4342,8 +4342,11 @@ namespace Sultanlar.WindowsServiceIslemler
 
             if (ekstre)
             {
-                GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014")
-                //GetSatisJob();
+                if (DateTime.Now.Minute > 30) // sap deki ekstre job u 15 geçe başlıyor 10dk sürüyor
+                {
+                    GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014")
+                    //GetSatisJob();
+                }
             }
         }
 

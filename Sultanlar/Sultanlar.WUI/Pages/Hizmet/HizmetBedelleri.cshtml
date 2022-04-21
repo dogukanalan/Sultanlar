@@ -116,7 +116,7 @@
                         "data": "pkID", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data + '</span>'
                         },
-                        "width": "10%"
+                        "width": "6%"
                     },
                     {
                         "data": null, "class": "keyTd", render: function (data, type, row) {
@@ -127,7 +127,7 @@
                                 '<a href="Index?incele=2&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + data.smref + '&yil=' + getYil() + '&ay=' + getAy() + '">Sil</a>' +
                                 '<a href="Index?incele=3&id=' + data.pkID + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=' + data.smref + '&yil=' + getYil() + '&ay=' + getAy() + '">Yazdır</a>';
                         },
-                        "width": "10%"
+                        "width": "6%"
                     },
                     /*{
                         "data": "musteri", "class": "valueTd", render: function (data, type, row) {
@@ -137,21 +137,27 @@
                     },*/
                     {
                         "data": "cari", "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli" data-toggle="tooltip" title="' + data.anaCari + '">' + data.sube + '</span>'
+                            return '<span class="sinirliHeryer" data-toggle="tooltip" data-html="true" title="' + data.anaCari + '<br>' + data.sube + '">' + data.sube + '</span>'
                         },
-                        "width": "25%"
+                        "width": "10%"
+                    },
+                    {
+                        "data": "anlasmaBedelAd", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.value + '</span>'
+                        },
+                        "width": "10%"
                     },
                     {
                         "data": "strFaturaNo", "class": "keyTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data + '</span>'
+                            return '<span class="sinirliHeryer"data-toggle="tooltip" title="' + data + '">' + data + '</span>'
                         },
-                        "width": "12%"
+                        "width": "10%"
                     },
                     {
                         "data": "dtFaturaTarih", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.substring(0, 10) + '</span>'
                         },
-                        "width": "12%"
+                        "width": "11%"
                     },
                     {
                         "data": "mnMudurButcesi", "class": "keyTd", render: function (data, type, row) {
@@ -176,6 +182,12 @@
                             return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>'
                         },
                         "width": "8%"
+                    },
+                    {
+                        "data": "strAciklama1", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>'
+                        },
+                        "width": "15%"
                     }
                 ],
                 dom: 'Bfrtip',
@@ -183,19 +195,19 @@
                     {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            columns: [0, 2, 3, 4, 5, 6, 7, 8]
+                            columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         }
                     },
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [0, 2, 3, 4, 5, 6, 7, 8]
+                            columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
-                            columns: [0, 2, 3, 4, 5, 6, 7, 8],
+                            columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                             format: {
                                 body: function (data, row, column, node) {
                                     data = $('<p>' + data + '</p>').text();
@@ -367,12 +379,14 @@
             <th class="keyTd" data-priority="1"><span class="">No</span></th>
             <th class="keyTd" data-priority="2"></th>
             <th class="keyTd" data-priority="3"><span class="">Cari</span></th>
+            <th class="keyTd"><span class="">Bedel</span></th>
             <th class="keyTd"><span class="">Fat.No</span></th>
             <th class="keyTd"><span class="">Fat.T.</span></th>
             <th class="keyTd" data-priority="5"><span class="">Kap.Yıl</span></th>
             <th class="keyTd" data-priority="4"><span class="">Kap.Ay</span></th>
-            <th class="keyTd"><span class="">KGT T.</span></th>
-            <th class="keyTd"><span class="">NF T.</span></th>
+            <th class="keyTd"><span class="">KGT</span></th>
+            <th class="keyTd"><span class="">NF</span></th>
+            <th class="keyTd"><span class="">Açıklama</span></th>
         </tr>
     </thead>
 </table>

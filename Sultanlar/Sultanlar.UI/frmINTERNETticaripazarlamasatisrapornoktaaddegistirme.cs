@@ -82,5 +82,13 @@ namespace Sultanlar.UI
                 button1.PerformClick();
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex > -1 && comboBox2.SelectedIndex > -1 && comboBox3.SelectedIndex > -1)
+            {
+                SatisRaporTP.GetNoktalar(listBox1.Items, CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)comboBox1.SelectedItem).GMREF), Convert.ToInt32(textBox5.Text.Trim()));
+            }
+        }
     }
 }

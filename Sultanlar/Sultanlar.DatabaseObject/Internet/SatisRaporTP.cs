@@ -355,15 +355,15 @@ namespace Sultanlar.DatabaseObject.Internet
         //
         public static void DoUpdateNoktaAd(string BAYIKOD, string NoktaKod, string NoktaAd, int YeniNoktaRef, string YeniNoktaKod, string YeniNoktaAd)
         {
+            string paramNoktaKod = NoktaKod != string.Empty ? " AND NOKTAKOD = '" + NoktaKod + "'": "";
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("UPDATE [Web-Satis-Rapor-TP] SET NOKTAAD = @YENINOKTAAD,NOKTAREF = @YENINOKTAREF,NOKTAKOD = @YENINOKTAKOD WHERE BAYIKOD = @BAYIKOD AND NOKTAAD = @NOKTAAD AND NOKTAKOD = @NOKTAKOD", conn);
+                SqlCommand cmd = new SqlCommand("UPDATE [Web-Satis-Rapor-TP] SET NOKTAAD = @YENINOKTAAD,NOKTAREF = @YENINOKTAREF,NOKTAKOD = @YENINOKTAKOD WHERE BAYIKOD = @BAYIKOD AND NOKTAAD = @NOKTAAD" + paramNoktaKod, conn);
                 cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar, 7).Value = BAYIKOD;
                 cmd.Parameters.Add("@YENINOKTAREF", SqlDbType.Int).Value = YeniNoktaRef;
                 cmd.Parameters.Add("@YENINOKTAKOD", SqlDbType.NVarChar).Value = YeniNoktaKod;
                 cmd.Parameters.Add("@YENINOKTAAD", SqlDbType.NVarChar).Value = YeniNoktaAd;
                 cmd.Parameters.Add("@NOKTAAD", SqlDbType.NVarChar).Value = NoktaAd;
-                cmd.Parameters.Add("@NOKTAKOD", SqlDbType.NVarChar).Value = NoktaKod;
                 try
                 {
                     conn.Open();
@@ -665,6 +665,36 @@ namespace Sultanlar.DatabaseObject.Internet
                     {
                         List.Add(new SatisRaporTP(0, dr[0].ToString(), dr[1].ToString(), "", DateTime.Now,
                             "", "", 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, "", dr[2].ToString()));
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        //
+        public static void GetNoktalar(IList List, string BAYIKOD, int Noktaref)
+        {
+            List.Clear();
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT [BAYIKOD],[NOKTAAD],NOKTAKOD FROM [Web-Satis-Rapor-TP] WHERE BAYIKOD = @BAYIKOD AND NOKTAREF = " + Noktaref + " ORDER BY [NOKTAAD]", conn);
+                cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar).Value = BAYIKOD;
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        List.Add(new SatisRaporTP(0, dr[0].ToString(), dr[1].ToString(), "", DateTime.Now,
+                            "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false, 0, 0, "", dr[2].ToString()));
                     }
                 }
                 catch (SqlException ex)
