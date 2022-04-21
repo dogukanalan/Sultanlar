@@ -128,12 +128,13 @@ namespace Sultanlar.WebAPI.Services.Internet
                 {
                     malzemeler malzeme = new malzemeler(kopyalanacak.detaylar[j].intUrunID).GetObject();
                     fiyatlarTp fiyat = new fiyatlarTp().GetObject(akt.DonemYil, akt.DonemAy, akt.DonemGun, akt.sintFiyatTipiID, kopyalanacak.detaylar[j].intUrunID);
+                    double kdv = ((fiyat.NETKDV / fiyat.NET) - 1) * 100;
                     double isk1 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHIsk : akt.Anlasma.flYEGIsk) : 0;
                     double isk2 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHCiroIsk : akt.Anlasma.flYEGCiroIsk) : 0;
                     double isk3 = 0;
                     double cirop = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.ahtCiroPrimDonusYuzdeToplam : akt.Anlasma.yegCiroPrimDonusYuzdeToplam) : 0;
                     double ekisk = kopyalanacak.detaylar[j].flEkIsk;
-                    double birimfiyatkdvli = KdvEkle(fiyat.FIYAT, malzeme.KDV);
+                    double birimfiyatkdvli = KdvEkle(fiyat.FIYAT, kdv);
                     double dusulmuskdvsiz = IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
                     double ciroprimdahil = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, cirop);
                     double dusulmuskdvli = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, 0);
