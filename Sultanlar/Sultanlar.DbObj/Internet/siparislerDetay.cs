@@ -157,6 +157,13 @@ namespace Sultanlar.DbObj.Internet
         /// <summary>
         /// 
         /// </summary>
+        public override void DoDelete()
+        {
+            Do(QueryType.Delete, "db_sp_siparislerDetayISKSil", new Dictionary<string, object>() { { "bintSiparisDetayID", bintSiparisDetayID } }, timeout);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public siparislerDetayISKs GetObject()
         {
             siparislerDetayISKs donendeger = new siparislerDetayISKs();

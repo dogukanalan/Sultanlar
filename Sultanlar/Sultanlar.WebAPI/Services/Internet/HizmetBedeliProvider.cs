@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using Sultanlar.Class;
 using Sultanlar.DbObj.Internet;
 using Sultanlar.WebAPI.Models.Internet;
@@ -74,6 +78,27 @@ namespace Sultanlar.WebAPI.Services.Internet
                 donendeger2 = new hizmetBedelleri().GetObjects(hget.yil, Ay);
 
             return donendeger2;
+        }
+
+        internal byte[] HizmetBedelleriFullXml(HizmetBedeliGet hget)
+        {
+            List<hizmetBedelleri> data = new HizmetBedeliProvider().HizmetBedelleriFull(hget);
+            XmlDocument xml = new XmlDocument();
+            XmlSerializer xser = new XmlSerializer(data.GetType());
+            using (MemoryStream ms = new MemoryStream())
+            {
+                xser.Serialize(ms, data);
+                ms.Position = 0;
+                xml.Load(ms);
+            }
+
+            /*var binFormatter = new BinaryFormatter();
+            var mStream = new MemoryStream();
+            binFormatter.Serialize(mStream, xmlIn);
+
+            mStream.ToArray();*/
+
+            return Encoding.UTF8.GetBytes(xml.OuterXml);
         }
 
         internal string HizmetBedeliKaydet(HizmetBedeliKaydet hbk)

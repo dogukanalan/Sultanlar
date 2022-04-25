@@ -131,7 +131,8 @@ namespace Sultanlar.WebAPI
                     var body = new StreamReader(context.Request.Body);
                     if (context.Request.Method == "POST")
                     {
-                        body.BaseStream.Seek(0, SeekOrigin.Begin);
+                        if (body.BaseStream.CanSeek)
+                            body.BaseStream.Seek(0, SeekOrigin.Begin);
                     }
                     var requestBody = body.ReadToEnd();
                     

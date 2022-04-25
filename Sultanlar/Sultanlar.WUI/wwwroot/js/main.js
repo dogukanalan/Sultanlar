@@ -438,6 +438,16 @@ var aktivitecolumns = [
         }
     },
     {
+        "data": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+            return '<span class="sinirli">' + data.koli + '</span>';
+        }
+    },
+    {
+        "data": "kdv", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+            return '<span class="sinirli">' + data + '</span>';
+        }
+    },
+    {
         "data": null, "class": window.location.href.indexOf("Iade") > -1 ? "floaTd hide" : "floaTd hidewhenmobile", render: function (data, type, row) {
             return '<span class="sinirli net" hidden>' + data.net + '</span><span class="sinirli netkdv">' + data.netkdv.toFixed(2) + '</span>';
         }
@@ -475,6 +485,16 @@ var siparisiadeaktivitecolumns = [
         }
     },
     {
+        "data": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+            return '<span class="sinirli">' + data.koli + '</span>';
+        }
+    },
+    {
+        "data": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+            return '<span class="sinirli">' + data.kdv + '</span>';
+        }
+    },
+    {
         "data": "netkdv", "class": window.location.href.indexOf("Iade") > -1 ? "floaTd hide" : "floaTd hidewhenmobile", render: function (data, type, row) {
             return '<span class="sinirli netkdv">' + data.toFixed(2) + '</span>';
         }
@@ -491,7 +511,7 @@ var siparisiadeaktivitecolumns = [
     }
 ];
 
-var siparisiadeaktiviteicerikcolumns = [
+var siparisiadeicerikcolumns = [
     {
         "mDataProp": "itemref", title: "Kod", "class": "keyTd", render: function (data, type, row) {
             return '<span class="sinirli itemref">' + data + '</span>';
@@ -518,27 +538,33 @@ var siparisiadeaktiviteicerikcolumns = [
         }
     },
     {
-        "mDataProp": null, title: "i1", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+        "mDataProp": null, title: "i1", "class": window.location.href.indexOf("fiyattipi") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
             return '<input type="number" class="inputSecim" value="' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk1.toFixed(3)) + '" disabled />';
+            //return '<span class="sinirli">' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk1.formatMoney(2, ',', '.')) + '</span>';
         }
     },
     {
-        "mDataProp": null, title: "i2", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
-            return '<input type="number" class="inputSecim" value="' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk2.toFixed(3)) + '" disabled />';
+        "mDataProp": null, title: "i2", "class": window.location.href.indexOf("fiyattipi") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+            return '<span class="sinirli">' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk2.formatMoney(2, ',', '.')) + '</span>';
         }
     },
     {
-        "mDataProp": null, title: "i3", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
-            return '<input type="number" class="inputSecim" value="' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk3.toFixed(3)) + '" disabled />';
+        "mDataProp": null, title: "i3", "class": window.location.href.indexOf("fiyattipi") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+            return '<span class="sinirli">' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk3.formatMoney(2, ',', '.')) + '</span>';
         }
     },
     {
-        "mDataProp": null, title: "i4", "class": window.location.href.indexOf("fiyattipi=2&") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
-            return '<input type="number" class="inputSecim" value="' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk4.toFixed(3)) + '" disabled />';
+        "mDataProp": null, title: "i4", "class": window.location.href.indexOf("fiyattipi") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
+            return '<span class="sinirli">' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk4.formatMoney(2, ',', '.')) + '</span>';
         }
     },
     {
-        "mDataProp": null, title: "Top.", "class": "floaTd", render: function (data, type, row) {
+        "mDataProp": null, title: "Net", "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd" : "hide", render: function (data, type, row) {
+            return '<span class="sinirli">' + iskDusCoklu(data.netkdv, data.isk1, data.isk2, data.isk3, data.isk4).formatMoney(2, ',', '.') + '</span>';
+        }
+    },
+    {
+        "mDataProp": null, title: "Top.", "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd" : "hide", render: function (data, type, row) {
             return '<span class="sinirli">' + (iskDusCoklu(data.netkdv, data.isk1, data.isk2, data.isk3, data.isk4) * parseFloat(data.miktar)).formatMoney(2, ',', '.') + '</span>';
         }
     },

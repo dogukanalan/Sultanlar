@@ -69,6 +69,7 @@ namespace Sultanlar.UI
             sbOnayla.Location = new Point(sbOnayla.Location.X, splitContainer1.Panel2.Height - 26);
             sbGeriAl.Location = new Point(sbGeriAl.Location.X, splitContainer1.Panel2.Height - 26);
             sbPasif.Location = new Point(sbPasif.Location.X, splitContainer1.Panel2.Height - 26);
+            sbAktif.Location = new Point(sbAktif.Location.X, splitContainer1.Panel2.Height - 26);
         }
 
         private void frmINTERNETticaripazarlamaanlasmalar_SizeChanged(object sender, EventArgs e)
@@ -80,6 +81,7 @@ namespace Sultanlar.UI
             sbOnayla.Location = new Point(sbOnayla.Location.X, lblAlt.Location.Y + 3);
             sbGeriAl.Location = new Point(sbGeriAl.Location.X, lblAlt.Location.Y + 3);
             sbPasif.Location = new Point(sbPasif.Location.X, lblAlt.Location.Y + 3);
+            sbAktif.Location = new Point(sbAktif.Location.X, lblAlt.Location.Y + 3);
             sbYazdir.Location = new Point(sbYazdir.Location.X, lblAlt.Location.Y + 3);
             sbExcel.Location = new Point(sbExcel.Location.X, lblAlt.Location.Y + 3);
             btnKat.Location = new Point(btnKat.Location.X, lblAlt.Location.Y + 3);
@@ -87,6 +89,7 @@ namespace Sultanlar.UI
             rbHepsi.Location = new Point(this.Width - 383, rbHepsi.Location.Y);
             rbOnaylilar.Location = new Point(this.Width - 325, rbOnaylilar.Location.Y);
             rbOnaysizlar.Location = new Point(this.Width - 240, rbOnaysizlar.Location.Y);
+            cbPasif.Location = new Point(this.Width - 109, cbPasif.Location.Y);
 
             lblSatirSayisi.Location = new Point(this.Width - 60, lblAlt.Location.Y + 7);
         }

@@ -71,7 +71,10 @@ namespace Sultanlar.WebAPI.Services.Internet
             siparisler sip = new siparisler(SiparisID).GetObject();
             List<siparislerDetay> silinecekler = new siparislerDetay().GetObjects(sip.pkSiparisID);
             for (int i = 0; i < silinecekler.Count; i++)
+            {
+                new siparislerDetayISKs(silinecekler[i].pkSiparisDetayID).GetObject().DoDelete();
                 silinecekler[i].DoDelete();
+            }
             sip.DoDelete();
             return Donen;
         }

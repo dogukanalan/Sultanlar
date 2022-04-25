@@ -83,6 +83,16 @@
                         extend: 'pdfHtml5',
                         exportOptions: {
                             columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                        },
+                        filename: function () {
+                            return 'Sultanlar Aktivite-' + getParameterByName('aktiviteid');
+                        },
+                        customize: function (doc) {
+                            doc.content.splice(1, 0, {
+                                margin: [0, 0, 0, 12],
+                                alignment: 'center',
+                                text: document.getElementById("aktMus").innerHTML + ' (' + getParameterByName('aktiviteid') + ')   ' + document.getElementById("baslangic").innerHTML + ' : ' + document.getElementById("bitis").innerHTML
+                            });
                         }
                     },
                     {
@@ -101,6 +111,13 @@
                                     return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
                                 }
                             }
+                        },
+                        filename: function () {
+                            return 'Sultanlar Aktivite-' + getParameterByName('aktiviteid');
+                        },
+                        customize: function (xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            $('c[r=A1] t', sheet).text(document.getElementById("aktMus").innerHTML + ' (' + getParameterByName('aktiviteid') + ')   ' + document.getElementById("baslangic").innerHTML + ' : ' + document.getElementById("bitis").innerHTML);
                         }
                     }
                 ],

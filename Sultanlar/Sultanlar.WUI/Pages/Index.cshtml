@@ -7,8 +7,10 @@
 @section head {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'" />
     <style>
-        .wrap {
-            padding: 45px 55px 45px 55px;
+        @@media (min-width: 1279px) {
+            .wrap {
+                padding: 45px 55px 45px 55px;
+            }
         }
     </style>
     <script>
@@ -58,7 +60,7 @@
                         }
 
                         var bas = window.location.href.indexOf("site") > -1 ? window.location.href.substring(0, window.location.href.indexOf("/")) + "/site" : window.location.href.substring(0, window.location.href.indexOf("/"));
-                        
+
                         if (window.localStorage["uyetipiid"] == "aZZA1PyhVTw=") {
                             window.location.href = bas + "/" + "Dashboard";
                         }
@@ -139,11 +141,11 @@
         </label>
     </div>
 
-    <div>
+    @*<div>
         <a href="#" class="txt3">
             Şifremi Unuttum
         </a>
-    </div>
+    </div>*@
 </div>
 
 <div class="flex-sb-m">

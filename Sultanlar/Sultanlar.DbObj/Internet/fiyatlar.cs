@@ -18,6 +18,7 @@ namespace Sultanlar.DbObj.Internet
         public string REYACIK;
         public int ITEMREF;
         public string MALACIK;
+        public malzemeler malzeme { get { return new malzemeler(ITEMREF).GetObject(); } }
         public double FIYAT;
         public double ISK1;
         public double ISK2;
