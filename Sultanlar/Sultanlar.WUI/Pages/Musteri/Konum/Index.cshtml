@@ -46,7 +46,7 @@
             },
             {
                 "data": null, "class": "keyTd", render: function (data, type, row) {
-                    return data.konum == '' ?
+                    return data.konum == '' || data.konum == '0,0' ?
                         '<a href="Al?smref=' + data.kod + '&tip=' + data.tipkod + '&deg=0"><span class="sinirli">Konum al</span></a>' :
                         ('<a target="_blank" href="https://www.google.com/maps?q=' + data.konum + '"><span class="sinirli">Göster</span></a> ' +
                             '<a href="Al?smref=' + data.kod + '&tip=' + data.tipkod + '&deg=1&coords=' + data.konum + '"><span class="sinirli">Değiştir</span></a>');

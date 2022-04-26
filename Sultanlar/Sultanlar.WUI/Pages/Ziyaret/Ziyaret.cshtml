@@ -58,13 +58,12 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
+                        window.localStorage.removeItem("ziyaret");
                         window.location.href = '../Musteri';
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
             );
-
-            window.localStorage.removeItem("ziyaret");
         }
 
         function getBaslangic(baslangic) {

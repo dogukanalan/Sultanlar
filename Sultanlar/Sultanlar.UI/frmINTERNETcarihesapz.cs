@@ -24,6 +24,12 @@ namespace Sultanlar.UI
         {
             GetTipler();
             GetIller();
+            GetKaynaklar();
+        }
+
+        private void GetKaynaklar()
+        {
+            CariHesapZKaynak.GetObjects(cmbKaynak.Items);
         }
 
         private void GetIller()
@@ -384,6 +390,23 @@ namespace Sultanlar.UI
                 Detay3(e.FocusedRowHandle);
             else if (((CariHesapZTipler)cmbTipler.SelectedItem).TIP_KOD == 5)
                 Detay5(e.FocusedRowHandle);
+
+
+            cmbKaynak.SelectedIndex = -1;
+            if (e.FocusedRowHandle != DevExpress.XtraGrid.GridControl.AutoFilterRowHandle)
+            {
+                int SMREF = Convert.ToInt32(gridView1.GetRowCellValue(e.FocusedRowHandle, "SMREF"));
+                int TIP = Convert.ToInt32(gridView1.GetRowCellValue(e.FocusedRowHandle, "TIP"));
+                int Kaynak = Rutlar.GetKaynak(SMREF, TIP);
+                for (int i = 0; i < cmbKaynak.Items.Count; i++)
+                {
+                    if (((CariHesapZKaynak)cmbKaynak.Items[i]).KOD == Kaynak)
+                    {
+                        cmbKaynak.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
         }
 
         private void sbEkle_Click(object sender, EventArgs e)
@@ -1039,6 +1062,14 @@ namespace Sultanlar.UI
             {
                 conn.Close();
             }
+        }
+
+        private void sbKaynakGuncelle_Click(object sender, EventArgs e)
+        {
+            int SMREF = Convert.ToInt32(gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "SMREF"));
+            int TIP = Convert.ToInt32(gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "TIP"));
+            Rutlar.SetKaynak(SMREF, TIP, ((CariHesapZKaynak)cmbKaynak.SelectedItem).KOD);
+            MessageBox.Show("Güncellendi.", "Başarılı");
         }
     }
 }

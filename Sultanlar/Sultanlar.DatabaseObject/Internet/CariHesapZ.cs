@@ -561,4 +561,46 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
     }
+
+    public class CariHesapZKaynak
+    {
+        public int KOD { get; set; }
+        public string ACIKLAMA { get; set; }
+        public CariHesapZKaynak(int KOD, string ACIKLAMA)
+        {
+            this.KOD = KOD;
+            this.ACIKLAMA = ACIKLAMA;
+        }
+        public override string ToString()
+        {
+            return this.ACIKLAMA;
+        }
+        public static void GetObjects(IList List)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                List.Clear();
+
+                SqlCommand cmd = new SqlCommand("SELECT KOD,ACIKLAMA FROM [Web-Musteri-Acik-Kaynak] ORDER BY KOD", conn);
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        List.Add(new CariHesapZKaynak(Convert.ToInt32(dr[0]), dr[1].ToString()));
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+    }
 }

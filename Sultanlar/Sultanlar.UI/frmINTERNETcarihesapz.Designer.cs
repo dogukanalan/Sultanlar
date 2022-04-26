@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmINTERNETcarihesapz));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button1 = new System.Windows.Forms.Button();
             this.sbRutlar = new DevExpress.XtraEditors.SimpleButton();
             this.sbDetay = new DevExpress.XtraEditors.SimpleButton();
             this.btnYenile = new System.Windows.Forms.Button();
@@ -147,7 +148,9 @@
             this.cmbZiyIl = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
             this.cbZiyPasif = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cmbKaynak = new System.Windows.Forms.ComboBox();
+            this.label31 = new System.Windows.Forms.Label();
+            this.sbKaynakGuncelle = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -177,9 +180,12 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.sbKaynakGuncelle);
+            this.splitContainer1.Panel2.Controls.Add(this.cmbKaynak);
             this.splitContainer1.Panel2.Controls.Add(this.sbGuncelle);
             this.splitContainer1.Panel2.Controls.Add(this.sbEkle);
             this.splitContainer1.Panel2.Controls.Add(this.listBox1);
+            this.splitContainer1.Panel2.Controls.Add(this.label31);
             this.splitContainer1.Panel2.Controls.Add(this.grBayi);
             this.splitContainer1.Panel2.Controls.Add(this.grSAP);
             this.splitContainer1.Panel2.Controls.Add(this.grZiy);
@@ -187,6 +193,16 @@
             this.splitContainer1.Size = new System.Drawing.Size(1064, 481);
             this.splitContainer1.SplitterDistance = 261;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(592, 1);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(124, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Excel\'den Rut Yükle";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // sbRutlar
             // 
@@ -591,7 +607,7 @@
             this.grBayi.Controls.Add(this.cbBayiPasif);
             this.grBayi.Location = new System.Drawing.Point(12, 29);
             this.grBayi.Name = "grBayi";
-            this.grBayi.Size = new System.Drawing.Size(1040, 149);
+            this.grBayi.Size = new System.Drawing.Size(730, 149);
             this.grBayi.TabIndex = 11;
             this.grBayi.TabStop = false;
             this.grBayi.Text = "Bayi Alt Müşterileri";
@@ -823,7 +839,7 @@
             this.grSAP.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.grSAP.Location = new System.Drawing.Point(12, 29);
             this.grSAP.Name = "grSAP";
-            this.grSAP.Size = new System.Drawing.Size(1040, 149);
+            this.grSAP.Size = new System.Drawing.Size(730, 149);
             this.grSAP.TabIndex = 11;
             this.grSAP.TabStop = false;
             this.grSAP.Text = "SAP Müşteri Şubeleri";
@@ -1055,7 +1071,7 @@
             this.grZiy.Controls.Add(this.cbZiyPasif);
             this.grZiy.Location = new System.Drawing.Point(12, 29);
             this.grZiy.Name = "grZiy";
-            this.grZiy.Size = new System.Drawing.Size(1040, 149);
+            this.grZiy.Size = new System.Drawing.Size(730, 149);
             this.grZiy.TabIndex = 11;
             this.grZiy.TabStop = false;
             this.grZiy.Text = "Ziyaret Müşterileri";
@@ -1263,15 +1279,32 @@
             this.cbZiyPasif.Text = "Pasif";
             this.cbZiyPasif.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // cmbKaynak
             // 
-            this.button1.Location = new System.Drawing.Point(592, 1);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(124, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Excel\'den Rut Yükle";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.cmbKaynak.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKaynak.FormattingEnabled = true;
+            this.cmbKaynak.Location = new System.Drawing.Point(845, 42);
+            this.cmbKaynak.Name = "cmbKaynak";
+            this.cmbKaynak.Size = new System.Drawing.Size(207, 21);
+            this.cmbKaynak.TabIndex = 42;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(771, 45);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(26, 13);
+            this.label31.TabIndex = 2;
+            this.label31.Text = "Tür:";
+            // 
+            // sbKaynakGuncelle
+            // 
+            this.sbKaynakGuncelle.Location = new System.Drawing.Point(774, 66);
+            this.sbKaynakGuncelle.Name = "sbKaynakGuncelle";
+            this.sbKaynakGuncelle.Size = new System.Drawing.Size(278, 23);
+            this.sbKaynakGuncelle.TabIndex = 11;
+            this.sbKaynakGuncelle.Text = "Güncelle";
+            this.sbKaynakGuncelle.Click += new System.EventHandler(this.sbKaynakGuncelle_Click);
             // 
             // frmINTERNETcarihesapz
             // 
@@ -1285,6 +1318,7 @@
             this.Load += new System.EventHandler(this.frmINTERNETcarihesapz_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
@@ -1420,5 +1454,8 @@
         private DevExpress.XtraEditors.SimpleButton sbBayiSaticiKopyala;
         private DevExpress.XtraEditors.SimpleButton sbRutlar;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox cmbKaynak;
+        private System.Windows.Forms.Label label31;
+        private DevExpress.XtraEditors.SimpleButton sbKaynakGuncelle;
     }
 }

@@ -66,6 +66,7 @@
             this.gridColumn23 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn24 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn25 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.btnFiyatExcel = new System.Windows.Forms.Button();
             this.sbExcel = new DevExpress.XtraEditors.SimpleButton();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -156,7 +157,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.dtpBitis = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnFiyatExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -349,9 +349,6 @@
             // gridControl4
             // 
             this.gridControl4.Dock = System.Windows.Forms.DockStyle.Fill;
-            // 
-            // 
-            // 
             this.gridControl4.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
             this.gridControl4.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
             this.gridControl4.EmbeddedNavigator.Appearance.Options.UseBackColor = true;
@@ -672,6 +669,16 @@
             this.gridColumn25.Visible = true;
             this.gridColumn25.VisibleIndex = 17;
             // 
+            // btnFiyatExcel
+            // 
+            this.btnFiyatExcel.Location = new System.Drawing.Point(648, 246);
+            this.btnFiyatExcel.Name = "btnFiyatExcel";
+            this.btnFiyatExcel.Size = new System.Drawing.Size(75, 23);
+            this.btnFiyatExcel.TabIndex = 18;
+            this.btnFiyatExcel.Text = "Fiyat Excel";
+            this.btnFiyatExcel.UseVisualStyleBackColor = true;
+            this.btnFiyatExcel.Click += new System.EventHandler(this.btnFiyatExcel_Click);
+            // 
             // sbExcel
             // 
             this.sbExcel.ButtonStyle = DevExpress.XtraEditors.Controls.BorderStyles.HotFlat;
@@ -685,9 +692,6 @@
             // gridControl1
             // 
             this.gridControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            // 
-            // 
-            // 
             this.gridControl1.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
             this.gridControl1.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
             this.gridControl1.EmbeddedNavigator.Appearance.Options.UseBackColor = true;
@@ -1133,6 +1137,7 @@
             // 
             this.sbExcel2.Location = new System.Drawing.Point(570, 246);
             this.sbExcel2.Name = "sbExcel2";
+            this.sbExcel2.Size = new System.Drawing.Size(75, 23);
             this.sbExcel2.TabIndex = 7;
             this.sbExcel2.Text = "Excel\'e aktar";
             this.sbExcel2.Click += new System.EventHandler(this.sbExcel2_Click);
@@ -1161,6 +1166,7 @@
             // 
             this.sbYazdir.Location = new System.Drawing.Point(489, 246);
             this.sbYazdir.Name = "sbYazdir";
+            this.sbYazdir.Size = new System.Drawing.Size(75, 23);
             this.sbYazdir.TabIndex = 7;
             this.sbYazdir.Text = "Yazdır";
             this.sbYazdir.Click += new System.EventHandler(this.sbYazdir_Click);
@@ -1243,6 +1249,7 @@
             // 
             this.sbGeriAl.Location = new System.Drawing.Point(327, 246);
             this.sbGeriAl.Name = "sbGeriAl";
+            this.sbGeriAl.Size = new System.Drawing.Size(75, 23);
             this.sbGeriAl.TabIndex = 7;
             this.sbGeriAl.Text = "Geri Al";
             this.sbGeriAl.Click += new System.EventHandler(this.sbGeriAl_Click);
@@ -1251,6 +1258,7 @@
             // 
             this.sbReddet.Location = new System.Drawing.Point(408, 246);
             this.sbReddet.Name = "sbReddet";
+            this.sbReddet.Size = new System.Drawing.Size(75, 23);
             this.sbReddet.TabIndex = 7;
             this.sbReddet.Text = "İptal Et";
             this.sbReddet.ToolTip = "Düzenleyebilmesi için satıcıya geri gönderir.";
@@ -1272,6 +1280,7 @@
             // 
             this.sbOnayla.Location = new System.Drawing.Point(246, 246);
             this.sbOnayla.Name = "sbOnayla";
+            this.sbOnayla.Size = new System.Drawing.Size(75, 23);
             this.sbOnayla.TabIndex = 7;
             this.sbOnayla.Text = "Onayla";
             this.sbOnayla.Click += new System.EventHandler(this.sbOnayla_Click);
@@ -1288,6 +1297,7 @@
             // 
             this.sbSil.Location = new System.Drawing.Point(165, 246);
             this.sbSil.Name = "sbSil";
+            this.sbSil.Size = new System.Drawing.Size(75, 23);
             this.sbSil.TabIndex = 7;
             this.sbSil.Text = "Sil";
             this.sbSil.Click += new System.EventHandler(this.sbSil_Click);
@@ -1308,6 +1318,7 @@
             // 
             this.sbDuzenle.Location = new System.Drawing.Point(84, 246);
             this.sbDuzenle.Name = "sbDuzenle";
+            this.sbDuzenle.Size = new System.Drawing.Size(75, 23);
             this.sbDuzenle.TabIndex = 7;
             this.sbDuzenle.Text = "Güncelle";
             this.sbDuzenle.Click += new System.EventHandler(this.sbDuzenle_Click);
@@ -1316,6 +1327,7 @@
             // 
             this.txtAktiviteKarZararYuzde.Location = new System.Drawing.Point(524, 78);
             this.txtAktiviteKarZararYuzde.Name = "txtAktiviteKarZararYuzde";
+            this.txtAktiviteKarZararYuzde.ReadOnly = true;
             this.txtAktiviteKarZararYuzde.Size = new System.Drawing.Size(106, 20);
             this.txtAktiviteKarZararYuzde.TabIndex = 12;
             this.txtAktiviteKarZararYuzde.TextChanged += new System.EventHandler(this.txtAktiviteKarZararYuzde_TextChanged);
@@ -1324,6 +1336,7 @@
             // 
             this.sbEkle.Location = new System.Drawing.Point(3, 246);
             this.sbEkle.Name = "sbEkle";
+            this.sbEkle.Size = new System.Drawing.Size(75, 23);
             this.sbEkle.TabIndex = 8;
             this.sbEkle.Text = "Ekle";
             this.sbEkle.Click += new System.EventHandler(this.sbEkle_Click);
@@ -1410,6 +1423,7 @@
             // 
             this.txtAktiviteKarZarar.Location = new System.Drawing.Point(524, 57);
             this.txtAktiviteKarZarar.Name = "txtAktiviteKarZarar";
+            this.txtAktiviteKarZarar.ReadOnly = true;
             this.txtAktiviteKarZarar.Size = new System.Drawing.Size(106, 20);
             this.txtAktiviteKarZarar.TabIndex = 12;
             this.txtAktiviteKarZarar.TextChanged += new System.EventHandler(this.txtTAHHedefCiro_TextChanged);
@@ -1554,18 +1568,18 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(432, 61);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(73, 13);
+            this.label11.Size = new System.Drawing.Size(78, 13);
             this.label11.TabIndex = 10;
-            this.label11.Text = "Akt. Kar Zarar";
+            this.label11.Text = "Eski Sistem No";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(432, 82);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(84, 13);
+            this.label12.Size = new System.Drawing.Size(73, 13);
             this.label12.TabIndex = 10;
-            this.label12.Text = "Akt. Kar Zarar %";
+            this.label12.Text = "Akt. Maliyet %";
             // 
             // txtAciklama1
             // 
@@ -1616,16 +1630,6 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(864, 99);
             this.label4.TabIndex = 14;
-            // 
-            // btnFiyatExcel
-            // 
-            this.btnFiyatExcel.Location = new System.Drawing.Point(648, 246);
-            this.btnFiyatExcel.Name = "btnFiyatExcel";
-            this.btnFiyatExcel.Size = new System.Drawing.Size(75, 23);
-            this.btnFiyatExcel.TabIndex = 18;
-            this.btnFiyatExcel.Text = "Fiyat Excel";
-            this.btnFiyatExcel.UseVisualStyleBackColor = true;
-            this.btnFiyatExcel.Click += new System.EventHandler(this.btnFiyatExcel_Click);
             // 
             // frmINTERNETticaripazarlamaaktiviteler
             // 

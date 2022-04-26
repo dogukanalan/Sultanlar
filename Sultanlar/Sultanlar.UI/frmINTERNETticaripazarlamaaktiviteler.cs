@@ -283,8 +283,8 @@ namespace Sultanlar.UI
                 txtYEGSabitBedel.Text = aktivite.mnYegSabitBedel.ToString("N2");
                 txtTAHHedefCiro.Text = aktivite.mnTahHedefCiro.ToString("N2");
                 txtYEGHedefCiro.Text = aktivite.mnYegHedefCiro.ToString("N2");
-                txtAktiviteKarZarar.Text = aktivite.mnAktiviteKarZarar.ToString("N2");
-                txtAktiviteKarZararYuzde.Text = aktivite.flAktiviteKarZararYuzde.ToString("N1");
+                txtAktiviteKarZarar.Text = aktivite.mnAktiviteKarZarar.ToString("N0");
+                txtAktiviteKarZararYuzde.Text = Aktiviteler.GetMaliyet(aktivite.pkID).ToString("N2");
 
                 GetAktiviteDetaylar();
                 lblSatirSayisi2.Text = gridView1.RowCount.ToString();
@@ -325,8 +325,8 @@ namespace Sultanlar.UI
             txtYEGSabitBedel.Text = 0.ToString("N2");
             txtTAHHedefCiro.Text = 0.ToString("N2");
             txtYEGHedefCiro.Text = 0.ToString("N2");
-            txtAktiviteKarZarar.Text = 0.ToString("N2");
-            txtAktiviteKarZararYuzde.Text = 0.ToString("N1");
+            txtAktiviteKarZarar.Text = 0.ToString("N0");
+            txtAktiviteKarZararYuzde.Text = 0.ToString("N2");
 
             DataTable dt = new DataTable();
             AktivitelerDetay.GetObjectsByAktiviteID(dt, -1);
@@ -436,8 +436,8 @@ namespace Sultanlar.UI
                             //aktivite.intAktiviteTipiID = ((AktiviteTipleri)cmbAktiviteTipleri.SelectedItem).pkID;
                             //aktivite.intAnlasmaID = cmbAnlasmalar.SelectedIndex > -1 ? ((Anlasmalar)cmbAnlasmalar.SelectedItem).pkID : 0;
                             //aktivite.intMusteriID = ((Musteriler)cmbUyeler.SelectedItem).pkMusteriID;
-                            aktivite.mnAktiviteKarZarar = Convert.ToDecimal(txtAktiviteKarZarar.Text.Replace(".", ""));
-                            aktivite.flAktiviteKarZararYuzde = Convert.ToDouble(txtAktiviteKarZararYuzde.Text);
+                           // aktivite.mnAktiviteKarZarar = Convert.ToDecimal(txtAktiviteKarZarar.Text.Replace(".", ""));
+                            //aktivite.flAktiviteKarZararYuzde = Convert.ToDouble(txtAktiviteKarZararYuzde.Text);
                             aktivite.mnTahHedefCiro = Convert.ToDecimal(txtTAHHedefCiro.Text.Replace(".", ""));
                             aktivite.mnTahSabitBedel = Convert.ToDecimal(txtTAHSabitBedel.Text.Replace(".", ""));
                             aktivite.mnYegHedefCiro = Convert.ToDecimal(txtYEGHedefCiro.Text.Replace(".", ""));

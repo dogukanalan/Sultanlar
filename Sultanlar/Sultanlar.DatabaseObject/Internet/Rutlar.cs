@@ -882,6 +882,37 @@ namespace Sultanlar.DatabaseObject.Internet
         /// <summary>
         /// 
         /// </summary>
+        public static int GetKaynak(int SMREF, int TIP)
+        {
+            int donendeger = 0;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionStringGOKW3))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT [KAYNAK_KOD] FROM [Web-Musteri-Acik] WHERE SMREF = @SMREF AND TIP = @TIP", conn);
+                cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
+                cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                        donendeger = Convert.ToInt32(obj);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public static bool AciklamaVarMi(int SMREF, int TIP)
         {
             bool donendeger = false;
@@ -922,7 +953,7 @@ namespace Sultanlar.DatabaseObject.Internet
                     cmd.CommandText = "INSERT INTO [Web-Musteri-Acik] ([SMREF],[TIP],[TARIH],[PASIF],[KAYNAK_KOD],[KONUM],[KONUM_RESIM],[TABELA_UNVANI]) VALUES (@SMREF,@TIP,getdate(),'False',1,@KONUM,NULL,'')";
                 cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
                 cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
-                cmd.Parameters.Add("@KONUM", SqlDbType.NVarChar).Value = KONUM;
+                cmd.Parameters.Add("@KONUM", SqlDbType.NVarChar).Value = (KONUM == "0,0" ? "" : KONUM);
                 try
                 {
                     conn.Open();
@@ -953,6 +984,36 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
                 cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
                 cmd.Parameters.Add("@KONUM_ADRES", SqlDbType.NVarChar).Value = ADRES;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void SetKaynak(int SMREF, int TIP, int Kaynak)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionStringGOKW3))
+            {
+                SqlCommand cmd = new SqlCommand("", conn);
+                if (AciklamaVarMi(SMREF, TIP))
+                    cmd.CommandText = "UPDATE [dbo].[Web-Musteri-Acik] SET [TARIH] = getdate(),[KAYNAK_KOD] = @KAYNAK_KOD WHERE SMREF = @SMREF AND TIP = @TIP";
+                else
+                    cmd.CommandText = "INSERT INTO [Web-Musteri-Acik] ([SMREF],[TIP],[TARIH],[PASIF],[KAYNAK_KOD],[KONUM],[KONUM_RESIM],[TABELA_UNVANI]) VALUES (@SMREF,@TIP,getdate(),'False',@KAYNAK_KOD,'',NULL,'')";
+                cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
+                cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                cmd.Parameters.Add("@KAYNAK_KOD", SqlDbType.Int).Value = Kaynak;
                 try
                 {
                     conn.Open();

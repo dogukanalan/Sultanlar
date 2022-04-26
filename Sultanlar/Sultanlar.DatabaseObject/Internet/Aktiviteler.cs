@@ -831,6 +831,36 @@ namespace Sultanlar.DatabaseObject.Internet
         }
         //
         //
+        public static double GetMaliyet(int AktiviteID)
+        {
+            double donendeger = 0;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("sp_INTERNET_AktiviteMaliyet", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@pkID", SqlDbType.Int).Value = AktiviteID;
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                        donendeger = Convert.ToDouble(obj);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        //
+        //
         public static void FiyatKontrolEkle(int ITEMREF, double FIYAT, int YIL, int AY, int MUDUR)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
