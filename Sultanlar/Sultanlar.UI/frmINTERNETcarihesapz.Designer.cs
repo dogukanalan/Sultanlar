@@ -73,9 +73,12 @@
             this.gridColumn33 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn34 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn35 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.sbKaynakGuncelle = new DevExpress.XtraEditors.SimpleButton();
+            this.cmbKaynak = new System.Windows.Forms.ComboBox();
             this.sbGuncelle = new DevExpress.XtraEditors.SimpleButton();
             this.sbEkle = new DevExpress.XtraEditors.SimpleButton();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label31 = new System.Windows.Forms.Label();
             this.grBayi = new System.Windows.Forms.GroupBox();
             this.sbBayiSaticiKopyala = new DevExpress.XtraEditors.SimpleButton();
             this.label30 = new System.Windows.Forms.Label();
@@ -148,9 +151,6 @@
             this.cmbZiyIl = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
             this.cbZiyPasif = new System.Windows.Forms.CheckBox();
-            this.cmbKaynak = new System.Windows.Forms.ComboBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.sbKaynakGuncelle = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -547,6 +547,24 @@
             this.gridColumn35.VisibleIndex = 9;
             this.gridColumn35.Width = 175;
             // 
+            // sbKaynakGuncelle
+            // 
+            this.sbKaynakGuncelle.Location = new System.Drawing.Point(774, 66);
+            this.sbKaynakGuncelle.Name = "sbKaynakGuncelle";
+            this.sbKaynakGuncelle.Size = new System.Drawing.Size(278, 23);
+            this.sbKaynakGuncelle.TabIndex = 11;
+            this.sbKaynakGuncelle.Text = "Tür Güncelle";
+            this.sbKaynakGuncelle.Click += new System.EventHandler(this.sbKaynakGuncelle_Click);
+            // 
+            // cmbKaynak
+            // 
+            this.cmbKaynak.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKaynak.FormattingEnabled = true;
+            this.cmbKaynak.Location = new System.Drawing.Point(845, 42);
+            this.cmbKaynak.Name = "cmbKaynak";
+            this.cmbKaynak.Size = new System.Drawing.Size(207, 21);
+            this.cmbKaynak.TabIndex = 42;
+            // 
             // sbGuncelle
             // 
             this.sbGuncelle.Appearance.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
@@ -579,6 +597,15 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(1, 220);
             this.listBox1.TabIndex = 0;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(771, 45);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(26, 13);
+            this.label31.TabIndex = 2;
+            this.label31.Text = "Tür:";
             // 
             // grBayi
             // 
@@ -1278,33 +1305,6 @@
             this.cbZiyPasif.TabIndex = 4;
             this.cbZiyPasif.Text = "Pasif";
             this.cbZiyPasif.UseVisualStyleBackColor = true;
-            // 
-            // cmbKaynak
-            // 
-            this.cmbKaynak.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbKaynak.FormattingEnabled = true;
-            this.cmbKaynak.Location = new System.Drawing.Point(845, 42);
-            this.cmbKaynak.Name = "cmbKaynak";
-            this.cmbKaynak.Size = new System.Drawing.Size(207, 21);
-            this.cmbKaynak.TabIndex = 42;
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(771, 45);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(26, 13);
-            this.label31.TabIndex = 2;
-            this.label31.Text = "Tür:";
-            // 
-            // sbKaynakGuncelle
-            // 
-            this.sbKaynakGuncelle.Location = new System.Drawing.Point(774, 66);
-            this.sbKaynakGuncelle.Name = "sbKaynakGuncelle";
-            this.sbKaynakGuncelle.Size = new System.Drawing.Size(278, 23);
-            this.sbKaynakGuncelle.TabIndex = 11;
-            this.sbKaynakGuncelle.Text = "Güncelle";
-            this.sbKaynakGuncelle.Click += new System.EventHandler(this.sbKaynakGuncelle_Click);
             // 
             // frmINTERNETcarihesapz
             // 
