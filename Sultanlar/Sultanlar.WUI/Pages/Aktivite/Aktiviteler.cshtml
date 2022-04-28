@@ -9,6 +9,7 @@
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
 
     <script>
         function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
@@ -102,6 +103,9 @@
                     },
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json'
+                },
+                fixedHeader: {
+                    headerOffset: $('.navbar').outerHeight()
                 },
                 columns: [
                     {

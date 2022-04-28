@@ -17,6 +17,7 @@
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
@@ -95,6 +96,9 @@
                     type: 'POST',
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8'
+                },
+                fixedHeader: {
+                    headerOffset: $('.navbar').outerHeight()
                 },
                 "initComplete": function (settings, json) {
 
@@ -254,7 +258,7 @@
     <thead>
         <tr>
             <th class="keyTd"></th>
-            <th class="keyTd" data-priority="1"><span class="spanCiplak">Departman</span><br /><input id="departman" type="text" class="form-control inputWidthFull" /><input type="button" class="dtClearButton" value="X" /></th>
+            <th class="keyTd" data-priority="1"><span class="spanCiplak">Departman</span><br /><input id="departman" type="text" class="form-control inputWidthFull" /><input type="button" class="dtClearButton" value="X" style="display: none" /></th>
             <th class="keyTd" data-priority="2"><span class="spanCiplak">Konu</span><br /><input type="text" class="form-control inputWidthFull" /></th>
             <th class="keyTd" data-priority="3"><span class="spanCiplak">Tarih</span><br /><input id="tarih" type="text" class="form-control inputWidthFull tarihpicker" /></th>
             <th class="keyTd"></th>

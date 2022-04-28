@@ -1265,6 +1265,11 @@ button.dt-button {
     text-shadow: 2px 1px 5px rgba(0,0,0,0.2);
 }
 
+.dtfh-floatingparent {
+    background-color: white !important;
+    min-height: 48px;
+}
+
     #dtTable thead input[type="text"] {
         /*padding-right: 25px;*/
         margin-top: 7px;

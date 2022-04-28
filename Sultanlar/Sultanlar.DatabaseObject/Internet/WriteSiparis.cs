@@ -431,7 +431,7 @@ namespace Sultanlar.DatabaseObject.Internet
             else
             {
                 Hatalar.DoInsert("Sipariş (" + sip.pkSiparisID.ToString() + ") SAP'a gönderilemedi. " + DateTime.Now.ToString() + " --- Ayrıntı: " + error, "siparisler.aspx Quantumayaz()");
-                error = "Ayrıntı: <br><br>" + error.Replace("SALES_HEADER_IN işlendi, ", "").Replace("SALES_ITEM_IN işlendi, ", "").Replace("Satış belgesi  değiştirilmedi, ", "").Replace("SALES_ITEM_IN", "").Replace("Teknik eksiklikler", "Ürün kullanım dışındadır. Lütfen ürünü siparişten silerek onaylayınız, ");
+                error = "Ayrıntı: " + error.Replace("SALES_HEADER_IN işlendi, ", "").Replace("SALES_ITEM_IN işlendi, ", "").Replace("Satış belgesi  değiştirilmedi, ", "").Replace("SALES_ITEM_IN", "").Replace("Teknik eksiklikler", "Ürün kullanım dışındadır. Lütfen ürünü siparişten silerek onaylayınız, ");
             }
 
             QuantumWebServisLog.DoInsert(error == string.Empty, sip.pkSiparisID, donen, MusteriID, "", "SATIS");
@@ -545,7 +545,7 @@ namespace Sultanlar.DatabaseObject.Internet
             else
             {
                 Hatalar.DoInsert("Entegra Sipariş (" + siparis.SIPARIS_NO + ") SAP'a gönderilemedi. " + DateTime.Now.ToString() + " --- Ayrıntı: " + str6, "siparisler.aspx Quantumayaz()");
-                str7 = "Ayrıntı: <br><br>" + str6.Replace("SALES_HEADER_IN işlendi, ", "").Replace("SALES_ITEM_IN işlendi, ", "").Replace("Satış belgesi  değiştirilmedi, ", "").Replace("SALES_ITEM_IN", "").Replace("Teknik eksiklikler", "Ürün kullanım dışındadır. Lütfen ürünü siparişten silerek onaylayınız, ");
+                str7 = "Ayrıntı: " + str6.Replace("SALES_HEADER_IN işlendi, ", "").Replace("SALES_ITEM_IN işlendi, ", "").Replace("Satış belgesi  değiştirilmedi, ", "").Replace("SALES_ITEM_IN", "").Replace("Teknik eksiklikler", "Ürün kullanım dışındadır. Lütfen ürünü siparişten silerek onaylayınız, ");
             }
             QuantumWebServisLog.DoInsert(str7 == string.Empty, 111, EvVbeln, 0, "", "SATIS-ENT");
             return EvVbeln;
@@ -657,7 +657,7 @@ namespace Sultanlar.DatabaseObject.Internet
             else
             {
                 Hatalar.DoInsert("Entegra Sipariş (" + siparis.SIPARIS_NO + ") SAP'a gönderilemedi. " + DateTime.Now.ToString() + " --- Ayrıntı: " + str6, "siparisler.aspx Quantumayaz()");
-                str7 = "Ayrıntı: <br><br>" + str6.Replace("SALES_HEADER_IN işlendi, ", "").Replace("SALES_ITEM_IN işlendi, ", "").Replace("Satış belgesi  değiştirilmedi, ", "").Replace("SALES_ITEM_IN", "").Replace("Teknik eksiklikler", "Ürün kullanım dışındadır. Lütfen ürünü siparişten silerek onaylayınız, ");
+                str7 = "Ayrıntı: " + str6.Replace("SALES_HEADER_IN işlendi, ", "").Replace("SALES_ITEM_IN işlendi, ", "").Replace("Satış belgesi  değiştirilmedi, ", "").Replace("SALES_ITEM_IN", "").Replace("Teknik eksiklikler", "Ürün kullanım dışındadır. Lütfen ürünü siparişten silerek onaylayınız, ");
             }
             QuantumWebServisLog.DoInsert(str7 == string.Empty, 111, EvVbeln, 0, "", "SATIS-ENT");
             return str7;

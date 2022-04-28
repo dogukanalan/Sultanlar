@@ -17,6 +17,7 @@
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
@@ -184,6 +185,9 @@
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json'
                 },
+                fixedHeader: {
+                    headerOffset: $('.navbar').outerHeight()
+                },
                 "initComplete": function (settings, json) {
 
                 },
@@ -215,7 +219,7 @@
                     if (that.search() !== this.value) {
                         that.search(this.value.toLocaleUpperCase()).draw();
                     }
-                    }, 2000));
+                }, 2000));
                 $('input[type=button]', this.header()).on('click', function () {
                     $(this).closest("th").find("input[type=text]").val("");
                 });
@@ -318,12 +322,12 @@
     <thead>
         <tr>
             <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Resim</span></th>
-            <th class="keyTd desktop"><span class="spanCiplak">Personel</span><br /><input type="text" id="personel" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" /></th>
-            <th class="keyTd desktop"><span class="spanCiplak">Ana Cari</span><br /><input type="text" id="musteri" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" /></th>
-            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Alt Cari</span><br /><input type="text" id="sube" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" /></th>
-            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Tür</span><br /><input type="text" id="tur" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Personel</span><br /><input type="text" id="personel" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" style="display: none" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Ana Cari</span><br /><input type="text" id="musteri" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" style="display: none" /></th>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Alt Cari</span><br /><input type="text" id="sube" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" style="display: none" /></th>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Tür</span><br /><input type="text" id="tur" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" style="display: none" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Tarih</span><br /><input type="text" id="tarih" class="form-control input100yuzde tarihpicker" autocomplete="off" /></th>
-            <th class="keyTd desktop"><span class="spanCiplak">Açıklama</span><br /><input type="text" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Açıklama</span><br /><input type="text" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" style="display: none" /></th>
         </tr>
     </thead>
 </table>

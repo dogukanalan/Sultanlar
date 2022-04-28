@@ -10,6 +10,7 @@
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
 
     <script>
         var ara;
@@ -95,6 +96,9 @@
                     type: 'POST',
                     dataType: 'json',
                     contentType: 'application/json; charset=utf-8'
+                },
+                fixedHeader: {
+                    headerOffset: $('.navbar').outerHeight()
                 },
                 "initComplete": function (settings, json) {
                     $('#dtTable_filter').css('display', 'none');

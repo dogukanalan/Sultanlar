@@ -9,6 +9,7 @@
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
 
     <script>
         var table;
@@ -55,7 +56,12 @@
                 "paging": true,
                 "ordering": false,
                 "info": false,
-                "searching": false
+                "searching": false,
+                "initComplete": function (settings, json) {
+                    var api = this.api();
+                    $(api.column(0).footer()).html(api.column(0, { page: 'all' }).data().count() + " Satır");
+                    $(api.column(3).footer()).html(api.column(3, { page: 'all' }).data().sum().formatMoney(3, ',', '.'));
+                }
             });
         }
 
@@ -260,4 +266,20 @@
             <th class="keyTd"></th>
         </tr>
     </thead>
+    <tfoot>
+        <tr>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+        </tr>
+    </tfoot>
 </table>

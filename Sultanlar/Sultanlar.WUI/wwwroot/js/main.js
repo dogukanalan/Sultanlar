@@ -144,7 +144,7 @@ function clickButton(e, buttonid) {
 }
 
 $(document).ajaxStart(function () {
-    //$('#divProgress').css("display", "block");
+    $('#divProgress').css("display", "block");
 });
 
 $(document).ajaxStop(function () {
@@ -983,7 +983,7 @@ function farkHesapla(birinci, ikinci) {
     var p2lng = parseFloat(ikinci.substring(ikinci.indexOf(",") + 1));
     var p1 = new google.maps.LatLng(p1lat, p1lng);
     var p2 = new google.maps.LatLng(p2lat, p2lng);
-    var mes = (google.maps.geometry.spherical.computeDistanceBetween(p1, p2)).toFixed(0).toString(); //mesafe(p1, p2);
+    var mes = mesafe(p1, p2); // (google.maps.geometry.spherical.computeDistanceBetween(p1, p2)).toFixed(0).toString()
     if (isNaN(mes)) {
         mes = "-1";
     }
