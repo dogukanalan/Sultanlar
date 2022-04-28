@@ -144,7 +144,7 @@ function clickButton(e, buttonid) {
 }
 
 $(document).ajaxStart(function () {
-    $('#divProgress').css("display", "block");
+    //$('#divProgress').css("display", "block");
 });
 
 $(document).ajaxStop(function () {
@@ -676,6 +676,10 @@ Number.prototype.formatMoney = function (fractionDigits, decimal, separator) {
         (fractionDigits ? decimal + Math.abs(number - wholePart).toFixed(fractionDigits).slice(2) : "");
 
 };
+
+String.prototype.commaDot = function () {
+    return this.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
 $.event.special.inputchange = {
     setup: function () {

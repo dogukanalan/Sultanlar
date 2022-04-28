@@ -88,7 +88,9 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmdLog.Parameters.AddWithValue("@strLog", log);
                 cmdLog.Parameters.AddWithValue("@dtBaslangic", baslangic);
                 cmdLog.Parameters.AddWithValue("@dtBitis", bitis);
+                conn.Open();
                 cmdLog.ExecuteNonQuery();
+                conn.Close();
             }
         }
     }

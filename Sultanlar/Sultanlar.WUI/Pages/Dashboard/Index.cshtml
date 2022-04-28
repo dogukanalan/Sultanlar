@@ -12,6 +12,11 @@
         .selYil {
             margin: 0px 2px 0px 2px !important;
         }
+
+        #divProgress {
+            display: none;
+        }
+
         @@media (max-width: 576px) {
             .selYil {
                 float: unset !important;
@@ -27,6 +32,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
     <script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -207,6 +214,7 @@
                     $(api.column(2).footer()).html(api.column(2, { page: 'all' }).data().sum().formatMoney(0, ',', '.'));
                     $(api.column(3).footer()).html(api.column(3, { page: 'all' }).data().sum().formatMoney(0, ',', '.'));
                     $(api.column(4).footer()).html(api.column(4, { page: 'all' }).data().sum().formatMoney(0, ',', '.'));
+                    $(api.column(5).footer()).html(api.column(5, { page: 'all' }).data().sum().formatMoney(0, ',', '.'));
                 },
                 "fnDrawCallback": function (oSettings) {
 
@@ -349,7 +357,7 @@
             for (var i = 0; i < hedefdata.length; i++) {
                 toplam += hedefdata[i];
             }
-            return toplam.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return toplam;
         }
 
         function toplamsatis() {
@@ -357,7 +365,11 @@
             for (var i = 0; i < satisdata.length; i++) {
                 toplam += satisdata[i];
             }
-            return toplam.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return toplam;
+        }
+
+        function toplamoran() {
+            return (100 * toplamsatis() / toplamhedef());
         }
 
         slsref = 1;
@@ -373,7 +385,7 @@
                 },
 
                 subtitle: {
-                    text: "Hedef: " + toplamhedef() + " Satış: " + toplamsatis()
+                    text: "Hedef: " + toplamhedef().toFixed(0).toString().commaDot() + " Satış: " + toplamsatis().toFixed(0).toString().commaDot() + " Oran: %" + toplamoran().toFixed(2)
                 },
 
                 yAxis: {
@@ -577,6 +589,14 @@
         }
 
         $(document).ready(function () {
+            $("#selectYil").empty();
+            $("#selectYil").append($("<option />").val("2022").text("2022"));
+            $("#selectYil").append($("<option />").val("2021").text("2021"));
+            $("#selectYil").append($("<option />").val("2020").text("2020"));
+            $("#selectYil").append($("<option />").val("2019").text("2019"));
+            $("#selectYil").append($("<option />").val("2018").text("2018"));
+            $("#selectYil").append($("<option />").val("2017").text("2017"));
+
             $('#selectYilSatishedefbolge').empty();
             $("#selectYilSatishedefbolge").append($("<option />").val("2022").text("2022"));
             $("#selectYilSatishedefbolge").append($("<option />").val("2021").text("2021"));
@@ -584,11 +604,8 @@
             $("#selectYilSatishedefbolge").append($("<option />").val("2019").text("2019"));
             $("#selectYilSatishedefbolge").append($("<option />").val("2018").text("2018"));
             $("#selectYilSatishedefbolge").append($("<option />").val("2017").text("2017"));
-            $("#selectYilSatishedefbolge").append($("<option />").val("2016").text("2016"));
-            $("#selectYilSatishedefbolge").append($("<option />").val("2015").text("2015"));
-            $("#selectYilSatishedefbolge").append($("<option />").val("2014").text("2014"));
             $('select[name=selectAySatishedefbolge]').val((new Date().getMonth() + 1).toString());
-
+            
             $('#selectYilSatishedefvgb').empty();
             $("#selectYilSatishedefvgb").append($("<option />").val("2022").text("2022"));
             $("#selectYilSatishedefvgb").append($("<option />").val("2021").text("2021"));
@@ -596,9 +613,6 @@
             $("#selectYilSatishedefvgb").append($("<option />").val("2019").text("2019"));
             $("#selectYilSatishedefvgb").append($("<option />").val("2018").text("2018"));
             $("#selectYilSatishedefvgb").append($("<option />").val("2017").text("2017"));
-            $("#selectYilSatishedefvgb").append($("<option />").val("2016").text("2016"));
-            $("#selectYilSatishedefvgb").append($("<option />").val("2015").text("2015"));
-            $("#selectYilSatishedefvgb").append($("<option />").val("2014").text("2014"));
             $('select[name=selectAySatishedefvgb]').val((new Date().getMonth() + 1).toString());
 
             $('#selectYilBolum').empty();
@@ -619,9 +633,6 @@
             $("#selectYilBayiSatisHedef").append($("<option />").val("2019").text("2019"));
             $("#selectYilBayiSatisHedef").append($("<option />").val("2018").text("2018"));
             $("#selectYilBayiSatisHedef").append($("<option />").val("2017").text("2017"));
-            $("#selectYilBayiSatisHedef").append($("<option />").val("2016").text("2016"));
-            $("#selectYilBayiSatisHedef").append($("<option />").val("2015").text("2015"));
-            $("#selectYilBayiSatisHedef").append($("<option />").val("2014").text("2014"));
             $('select[name=selectAyBayiSatisHedef]').val((new Date().getMonth() + 1).toString());
 
             SaticilarGetir(window.localStorage["uyeid"]);
