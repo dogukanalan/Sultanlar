@@ -63,14 +63,33 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string ZiyaretEkle(Ziyaret ziyaret)
         {
-            ziyaretler ziy = new ziyaretler(ziyaret.MTIP, ziyaret.RUT_TUR, ziyaret.RUT_ID, ziyaret.GMREF, ziyaret.SMREF, ziyaret.SLSREF, ziyaret.BARKOD, Convert.ToDateTime(ziyaret.ZIY_BAS_TAR), Convert.ToDateTime(ziyaret.ZIY_BIT_TAR), ziyaret.ZIY_NDN_ID, ziyaret.ZIY_KONUM, ziyaret.ZIY_KONUM_ADRES, ziyaret.ZIY_KONUM_CIKIS, ziyaret.ZIY_KONUM_ADRES_CIKIS, ziyaret.FARK_KNM_ZIY, new byte[] { }, ziyaret.ZIY_NOTLARI, ziyaret.ZIY_SIP, ziyaret.ZIY_AKT, ziyaret.ZIY_IAD, ziyaret.ZIY_TAH);
+            if (ziyaret.RUT_TUR == 2)
+            {
+                ziyaret.RUT_ID = ziyaret.SLSREF + ziyaret.GMREF + ziyaret.SMREF + "." + DateTime.Now.ToString().Replace(" ", ".");
+                ziyaret.BARKOD = ziyaret.RUT_ID;
+            }
+
+            ziyaretler ziy = new ziyaretler(ziyaret.MTIP, ziyaret.RUT_TUR, ziyaret.RUT_ID, ziyaret.GMREF, ziyaret.SMREF, ziyaret.SLSREF, ziyaret.BARKOD, 
+                DateTime.Now, DateTime.Now, //Convert.ToDateTime(ziyaret.ZIY_BAS_TAR), Convert.ToDateTime(ziyaret.ZIY_BIT_TAR), 
+                ziyaret.ZIY_NDN_ID, ziyaret.ZIY_KONUM, ziyaret.ZIY_KONUM_ADRES, ziyaret.ZIY_KONUM_CIKIS, ziyaret.ZIY_KONUM_ADRES_CIKIS, ziyaret.FARK_KNM_ZIY, new byte[] { }, ziyaret.ZIY_NOTLARI, ziyaret.ZIY_SIP, ziyaret.ZIY_AKT, ziyaret.ZIY_IAD, ziyaret.ZIY_TAH);
             ziy.DoInsert();
-            return "";
+
+            return ziyaret.RUT_ID;
         }
 
         internal string ZiyaretDuzelt(Ziyaret ziyaret)
         {
-            ziyaretler ziy = new ziyaretler(ziyaret.MTIP, ziyaret.SMREF, ziyaret.SLSREF, Convert.ToDateTime(ziyaret.ZIY_BAS_TAR)).GetObject();
+            ziyaretler ziy = new ziyaretler();
+
+            if (ziyaret.RUT_TUR == 2)
+            {
+                ziy = new ziyaretler().GetObjectByRutID(ziyaret.RUT_ID);
+            }
+            else
+            {
+                ziy = new ziyaretler(ziyaret.MTIP, ziyaret.SMREF, ziyaret.SLSREF, Convert.ToDateTime(ziyaret.ZIY_BAS_TAR)).GetObject();
+            }
+
             ziy.ZIY_BIT_TAR = Convert.ToDateTime(ziyaret.ZIY_BIT_TAR);
             ziy.ZIY_NDN_ID = ziyaret.ZIY_NDN_ID;
             ziy.ZIY_KONUM = ziyaret.ZIY_KONUM;

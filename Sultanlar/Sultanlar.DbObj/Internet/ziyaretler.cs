@@ -103,6 +103,20 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
+        public ziyaretler GetObjectByRutID(string RUT_ID)
+        {
+            ziyaretler donendeger = new ziyaretler();
+
+            Dictionary<int, object> dic = GetObject("db_sp_ziyaretGetirByRutID", new Dictionary<string, object>() { { "RUT_ID", RUT_ID } }, timeout);
+            if (dic != null)
+                donendeger = new ziyaretler(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), dic[2].ToString(), ConvertToInt32(dic[3]), ConvertToInt32(dic[4]), ConvertToInt32(dic[5]), dic[6].ToString(), ConvertToDateTime(dic[7]), ConvertToDateTime(dic[8]), ConvertToInt32(dic[9]), dic[10].ToString(), dic[11].ToString(), dic[12].ToString(), dic[13].ToString(), ConvertToInt32(dic[14]), new byte[] { }, dic[16].ToString(), ConvertToInt32(dic[17]), ConvertToInt32(dic[18]), ConvertToInt32(dic[19]), ConvertToInt32(dic[20]));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<ziyaretler> GetObjects(int Yil, object Ay)
         {
             List<ziyaretler> donendeger = new List<ziyaretler>();
