@@ -3917,7 +3917,7 @@ namespace Sultanlar.WindowsServiceIslemler
                                 cmd.Parameters.AddWithValue("@MeinsText", onalti[j].MeinsText);
                                 cmd.Parameters.AddWithValue("@Lgnum", onalti[j].Lgnum);
                                 cmd.Parameters.AddWithValue("@Lgtyp", onalti[j].Lgtyp);
-                                cmd.Parameters.AddWithValue("@Lgpla", int.TryParse(onalti[j].Lgpla, out null) ? Convert.ToInt32(onalti[j].Lgpla) : 0);
+                                int don = 0;  cmd.Parameters.AddWithValue("@Lgpla", int.TryParse(onalti[j].Lgpla, out don) ? Convert.ToInt32(onalti[j].Lgpla) : 0);
                                 cmd.Parameters.AddWithValue("@Sjahr", onalti[j].Sjahr);
                                 cmd.Parameters.AddWithValue("@Smbln", onalti[j].Smbln);
                                 cmd.Parameters.AddWithValue("@Smblp", onalti[j].Smblp);
