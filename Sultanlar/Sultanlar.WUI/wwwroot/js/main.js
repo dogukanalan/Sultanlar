@@ -539,8 +539,8 @@ var siparisiadeicerikcolumns = [
     },
     {
         "mDataProp": null, title: "i1", "class": window.location.href.indexOf("fiyattipi") > -1 ? "keyTd" : "hide", render: function (data, type, row) {
-            return '<input type="number" class="inputSecim" value="' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk1.toFixed(3)) + '" disabled />';
-            //return '<span class="sinirli">' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk1.formatMoney(2, ',', '.')) + '</span>';
+            //return '<input type="number" class="inputSecim" value="' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk1.toFixed(3)) + '" disabled />';
+            return '<span class="sinirli">' + (window.location.href.indexOf("Iade") > -1 ? "" : data.isk1.formatMoney(2, ',', '.')) + '</span>';
         }
     },
     {
