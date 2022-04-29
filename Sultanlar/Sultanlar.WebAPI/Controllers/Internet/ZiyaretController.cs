@@ -25,7 +25,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public ziyaretler Get([FromBody]ZiyaretGet ziyaretGet) => new ZiyaretProvider().Ziyaret(ziyaretGet.Tip, ziyaretGet.Smref, ziyaretGet.Slsref, Convert.ToDateTime(ziyaretGet.Zaman));
 
         [HttpPost]
-        public string Ekle([FromBody]Ziyaret ziyaret) => new ZiyaretProvider().ZiyaretEkle(ziyaret);
+        public Ziyaret Ekle([FromBody]Ziyaret ziyaret) => new ZiyaretProvider().ZiyaretEkle(ziyaret);
 
         [HttpPost]
         public string Duzelt([FromBody]Ziyaret ziyaret) => new ZiyaretProvider().ZiyaretDuzelt(ziyaret);

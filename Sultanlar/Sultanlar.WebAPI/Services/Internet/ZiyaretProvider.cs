@@ -61,7 +61,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal ziyaretler Ziyaret(int Tip, int Smref, int Slsref, DateTime Zaman) => new ziyaretler(Tip, Smref, Slsref, Zaman).GetObject();
 
-        internal string ZiyaretEkle(Ziyaret ziyaret)
+        internal Ziyaret ZiyaretEkle(Ziyaret ziyaret)
         {
             if (ziyaret.RUT_TUR == 2)
             {
@@ -74,7 +74,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 ziyaret.ZIY_NDN_ID, ziyaret.ZIY_KONUM, ziyaret.ZIY_KONUM_ADRES, ziyaret.ZIY_KONUM_CIKIS, ziyaret.ZIY_KONUM_ADRES_CIKIS, ziyaret.FARK_KNM_ZIY, new byte[] { }, ziyaret.ZIY_NOTLARI, ziyaret.ZIY_SIP, ziyaret.ZIY_AKT, ziyaret.ZIY_IAD, ziyaret.ZIY_TAH);
             ziy.DoInsert();
 
-            return ziyaret.RUT_ID;
+            return ziyaret;
         }
 
         internal string ZiyaretDuzelt(Ziyaret ziyaret)

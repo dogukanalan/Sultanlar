@@ -33,12 +33,9 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        var done = JSON.parse(sentData);
-                        done.rut_id = data;
-                        done.barkod = data;
-                        $("#rut_id").val(rut_id);
+                        $("#rut_id").val(data.rut_id);
+                        window.localStorage["ziyaret"] = JSON.stringify(data);
 
-                        window.localStorage["ziyaret"] = JSON.stringify(done);
                         getCari(getParameterByName("tip"), getParameterByName("smref"), getCariSube, "inputSube");
                         getBaslangic(getDateNowStr());
                     },

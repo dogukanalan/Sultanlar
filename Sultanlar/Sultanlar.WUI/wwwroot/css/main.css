@@ -1283,6 +1283,9 @@ button.dt-button {
 #dtTable tbody tr {
     height: 60px;
 }
+#dtTable2 tbody tr {
+    height: 60px;
+}
 
 #dtTable tbody td {
 }
