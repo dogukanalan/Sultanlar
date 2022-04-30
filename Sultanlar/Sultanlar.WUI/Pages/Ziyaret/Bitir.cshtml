@@ -17,6 +17,7 @@
                     neden = $(this).attr("accesskey");
                 }
             });
+            /*
             var sentData =
                 '{ "mtip": "' + ziyaret.mtip + '", "rut_tur": "' + ziyaret.rut_tur + '", "rut_id": "' + ziyaret.rut_id + '", "gmref": "' + ziyaret.gmref +
                 '", "smref": "' + ziyaret.smref + '", "slsref": "' + ziyaret.slsref +
@@ -26,6 +27,13 @@
                 '", "ziy_konum_musteri": "' + ziyaret.ziy_konum_musteri +
                 '", "fark_knm_ziy": "' + farkHesapla(ziyaret.ziy_konum_musteri, $("#inputCoords").val()) + '", "ziy_konum_resim": "' + ziyaret.ziy_konum_resim +
                 '", "ziy_notlari": "' + $("#textAciklama").val() + '", "ziy_sip": "' + ziyaret.ziy_sip + '", "ziy_akt": "' + ziyaret.ziy_akt + '", "ziy_iad": "' + ziyaret.ziy_iad + '", "ziy_tah": "' + ziyaret.ziy_tah + '" }';
+            */
+            ziyaret.ziy_bit_tar = getDateNow();
+            ziyaret.ziy_ndn_id = neden;
+            ziyaret.ziy_konum_cikis = $("#inputCoords").val();
+            ziyaret.ziy_konum_adres_cikis = $("#inputCoordAddress").val();
+            ziyaret.fark_knm_ziy = farkHesapla(ziyaret.ziy_konum_musteri, $("#inputCoords").val());
+            ziyaret.ziy_notlari = $("#textAciklama").val();
 
             $.ajax(
                 {
@@ -33,7 +41,7 @@
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
                     url: apiurl + 'ziyaret/duzelt',
-                    data: sentData,
+                    data: JSON.stringify(ziyaret),
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     success: function (data, textStatus, response) {
@@ -44,7 +52,7 @@
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         window.localStorage.removeItem("ziyaret");
-                        alert('hata olustu: ' + errorThrown + ' \r\n\r\n\r\n ' + sentData);
+                        alert('hata olustu: ' + errorThrown + ' \r\n\r\n\r\n ' + JSON.stringify(ziyaret));
                     }
                 }
             );

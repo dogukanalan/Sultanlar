@@ -59,15 +59,16 @@ namespace Sultanlar.WebAPI.Services.Internet
             return donendeger;
         }
 
-        internal ziyaretler Ziyaret(int Tip, int Smref, int Slsref, DateTime Zaman) => new ziyaretler(Tip, Smref, Slsref, Zaman).GetObject();
+        internal ziyaretler Ziyaret(ZiyaretGet ziyaret) => new ziyaretler().GetObjectByBarkod(ziyaret.Barkod);
 
         internal Ziyaret ZiyaretEkle(Ziyaret ziyaret)
         {
+            string id = ziyaret.SLSREF.ToString() + ziyaret.GMREF.ToString() + ziyaret.SMREF.ToString() + "." + DateTime.Now.ToString().Replace(" ", ".");
             if (ziyaret.RUT_TUR == 2)
             {
-                ziyaret.RUT_ID = ziyaret.SLSREF + ziyaret.GMREF + ziyaret.SMREF + "." + DateTime.Now.ToString().Replace(" ", ".");
-                ziyaret.BARKOD = ziyaret.RUT_ID;
+                ziyaret.RUT_ID = id;
             }
+            ziyaret.BARKOD = id;
 
             ziyaretler ziy = new ziyaretler(ziyaret.MTIP, ziyaret.RUT_TUR, ziyaret.RUT_ID, ziyaret.GMREF, ziyaret.SMREF, ziyaret.SLSREF, ziyaret.BARKOD, 
                 DateTime.Now, DateTime.Now, //Convert.ToDateTime(ziyaret.ZIY_BAS_TAR), Convert.ToDateTime(ziyaret.ZIY_BIT_TAR), 
@@ -79,16 +80,16 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string ZiyaretDuzelt(Ziyaret ziyaret)
         {
-            ziyaretler ziy = new ziyaretler();
+            ziyaretler ziy = new ziyaretler().GetObjectByBarkod(ziyaret.BARKOD);
 
-            if (ziyaret.RUT_TUR == 2)
+            /*if (ziyaret.RUT_TUR == 2)
             {
                 ziy = new ziyaretler().GetObjectByRutID(ziyaret.RUT_ID);
             }
             else
             {
                 ziy = new ziyaretler(ziyaret.MTIP, ziyaret.SMREF, ziyaret.SLSREF, Convert.ToDateTime(ziyaret.ZIY_BAS_TAR)).GetObject();
-            }
+            }*/
 
             ziy.ZIY_BIT_TAR = Convert.ToDateTime(ziyaret.ZIY_BIT_TAR);
             ziy.ZIY_NDN_ID = ziyaret.ZIY_NDN_ID;
@@ -104,7 +105,8 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string ZiyaretSil(ZiyaretGet ziyaret)
         {
-            ziyaretler ziy = new ziyaretler(ziyaret.Tip, ziyaret.Smref, ziyaret.Slsref, Convert.ToDateTime(ziyaret.Zaman)).GetObject();
+            ziyaretler ziy = new ziyaretler().GetObjectByBarkod(ziyaret.Barkod);
+            //ziyaretler ziy = new ziyaretler(ziyaret.Tip, ziyaret.Smref, ziyaret.Slsref, Convert.ToDateTime(ziyaret.Zaman)).GetObject();
             ziy.DoDelete();
             return "";
         }

@@ -22,7 +22,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public DtAjaxResponse Getir([FromBody]ZiyaretsGet ziyaretsget) => new ZiyaretProvider().Ziyaretler(ziyaretsget);
 
         [HttpPost]
-        public ziyaretler Get([FromBody]ZiyaretGet ziyaretGet) => new ZiyaretProvider().Ziyaret(ziyaretGet.Tip, ziyaretGet.Smref, ziyaretGet.Slsref, Convert.ToDateTime(ziyaretGet.Zaman));
+        public ziyaretler Get([FromBody]ZiyaretGet ziyaretGet) => new ZiyaretProvider().Ziyaret(ziyaretGet);
 
         [HttpPost]
         public Ziyaret Ekle([FromBody]Ziyaret ziyaret) => new ZiyaretProvider().ZiyaretEkle(ziyaret);

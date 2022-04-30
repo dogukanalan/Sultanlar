@@ -56,6 +56,7 @@ namespace Sultanlar.WebAPI.Models.Internet
 
     public class ZiyaretGet
     {
+        public string Barkod { get; set; }
         public int Tip { get; set; }
         public int Smref { get; set; }
         public int Slsref { get; set; }

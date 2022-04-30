@@ -46,8 +46,8 @@
 
         function ZiyaretIptal() {
             var ziyaret = JSON.parse(window.localStorage["ziyaret"]);
-            var sentData = '{ "tip": "' + ziyaret.mtip + '", "smref": "' + ziyaret.smref + '", "slsref": "' + ziyaret.slsref + '", "zaman": "' + ziyaret.ziy_bas_tar + '" }';
-
+            var sentData = '{ "barkod": "' + ziyaret.barkod + '", "tip": "' + ziyaret.mtip + '", "smref": "' + ziyaret.smref + '", "slsref": "' + ziyaret.slsref + '", "zaman": "' + ziyaret.ziy_bas_tar + '" }';
+            
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
