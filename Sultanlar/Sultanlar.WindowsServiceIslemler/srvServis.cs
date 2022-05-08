@@ -34,11 +34,8 @@ namespace Sultanlar.WindowsServiceIslemler
         bool tpfiyatlaragirdi;
         int tekrarcekilecek = 10;
 
-        Timer tmrSAPpersonals;
         Timer tmrSAPcustomers;
-        Timer tmrSAPmaterials;
         Timer tmrSAPprices;
-        Timer tmrSAPcampaigns;
         Timer tmrSAP;
         Timer tmrSAPekstre;
         Timer tmrSAPekstre2;
@@ -53,7 +50,6 @@ namespace Sultanlar.WindowsServiceIslemler
             eczaneleregirdi = false;
             androidveritabanigirdi = false;
             iademailgirdi = false;
-            musteriguncelleniyor = false;
             tpfiyatlaragirdi = false;
 
             tmr = new Timer(2400000);
@@ -61,30 +57,15 @@ namespace Sultanlar.WindowsServiceIslemler
             tmr.Enabled = true;
             tmr.Start();
 
-            tmrSAPpersonals = new Timer(1260000);
-            tmrSAPpersonals.Elapsed += new ElapsedEventHandler(tmrSAPpersonals_Elapsed);
-            tmrSAPpersonals.Enabled = true;
-            tmrSAPpersonals.Start();
-
             tmrSAPcustomers = new Timer(300000);
             tmrSAPcustomers.Elapsed += new ElapsedEventHandler(tmrSAPcustomers_Elapsed);
             tmrSAPcustomers.Enabled = true;
             tmrSAPcustomers.Start();
 
-            tmrSAPmaterials = new Timer(3200000);
-            tmrSAPmaterials.Elapsed += new ElapsedEventHandler(tmrSAPmaterials_Elapsed);
-            tmrSAPmaterials.Enabled = true;
-            tmrSAPmaterials.Start();
-
             tmrSAPprices = new Timer(300000);
             tmrSAPprices.Elapsed += new ElapsedEventHandler(tmrSAPprices_Elapsed);
             tmrSAPprices.Enabled = true;
             tmrSAPprices.Start();
-
-            tmrSAPcampaigns = new Timer(2500000);
-            tmrSAPcampaigns.Elapsed += new ElapsedEventHandler(tmrSAPcampaigns_Elapsed);
-            tmrSAPcampaigns.Enabled = true;
-            tmrSAPcampaigns.Start();
 
             tmrSAP = new Timer(3600000);
             tmrSAP.Elapsed += new ElapsedEventHandler(tmrSAP_Elapsed);
@@ -108,143 +89,80 @@ namespace Sultanlar.WindowsServiceIslemler
         protected override void OnStop()
         {
             tmr.Stop();
-            tmrSAPcampaigns.Stop();
             tmrSAPprices.Stop();
-            tmrSAPmaterials.Stop();
             tmrSAPcustomers.Stop();
-            tmrSAPpersonals.Stop();
             tmrSAP.Stop();
             tmrSAPekstre.Stop();
             tmrSAPekstre2.Stop();
 
             tmr.Enabled = false;
-            tmrSAPcampaigns.Enabled = false;
             tmrSAPprices.Enabled = false;
-            tmrSAPmaterials.Enabled = false;
             tmrSAPcustomers.Enabled = false;
-            tmrSAPpersonals.Enabled = false;
         }
 
         #region tmrelapsed
-        void tmrSAPcampaigns_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
-            {
-                if (
-                    (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
-                    DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
-                    DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
-                    )
-                {
-                    KampanyalarC();
-                }
-            }
-        }
-
         void tmrSAPprices_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
+            if (
+                (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
+                DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
+                DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
+                )
             {
-                if (
-                    (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
-                    DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
-                    DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
-                    )
+                if ((DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15))
                 {
-                    if ((DateTime.Now.Minute > 10 && DateTime.Now.Minute <= 15))
-                    {
-                        MalzemelerC(true, false);
-                        FiyatlarC();
-                    }
-                }
-            }
-        }
-
-        void tmrSAPmaterials_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
-            {
-                if (
-                    (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
-                    DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
-                    DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
-                    )
-                {
-                    
+                    KampanyalarC();
+                    MalzemelerC(true, false);
+                    FiyatlarC();
                 }
             }
         }
 
         void tmrSAPcustomers_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
+            if (
+                (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
+                DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
+                DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
+                )
             {
-                if (
-                    (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
-                    DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
-                    DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
-                    )
+                if ((DateTime.Now.Minute > 35 && DateTime.Now.Minute <= 40))
                 {
-                    if ((DateTime.Now.Minute > 35 && DateTime.Now.Minute <= 40))
-                    {
-                        musteriguncelleniyor = true;
-                        MusterilerC();
-                        musteriguncelleniyor = false;
-                    }
-                }
-            }
-        }
-
-        void tmrSAPpersonals_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
-            {
-                if (
-                    (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
-                    DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
-                    DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
-                    )
-                {
-                    if (!musteriguncelleniyor)
-                    {
-                        PersonellerC();
-                    }
+                    PersonellerC();
+                    MusterilerC();
                 }
             }
         }
 
         void tmrSAP_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
-            {
-                if (
-                    (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
-                    DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
-                    DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17 || DateTime.Now.Hour == 18/* ||
+            if (
+                (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
+                DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
+                DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17 || DateTime.Now.Hour == 18/* ||
                     DateTime.Now.Hour == 19 || DateTime.Now.Hour == 20 || DateTime.Now.Hour == 21 || DateTime.Now.Hour == 22 ||
                     DateTime.Now.Hour == 23*/)
-                    )
-                {
-                    GetSAP();
-                    //EntegraSiparis();
-                }
-                //else if (DateTime.Now.Hour == 23 && DateTime.Now.Minute >= 30 && DateTime.Now.Minute < 40) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
-                //{
-                //    GetSAPgece();
-                //}
-                else if (DateTime.Now.Hour == 6 /*&& DateTime.Now.Minute >= 30 && DateTime.Now.Minute < 40*/) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
-                {
-                    GetSAPgece(true);
-                }
-                //else if (DateTime.Now.Hour == 6 && DateTime.Now.Minute >= 10 && DateTime.Now.Minute < 20) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
-                //{
-                //    GetSAPgece(false);
-                //}
-                //else if (DateTime.Now.Hour == 6 /*&& DateTime.Now.Minute >= 30 && DateTime.Now.Minute < 40*/) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
-                //{
-                //    GetSAPgece(true);
-                //}
+                )
+            {
+                GetSAP();
+                //EntegraSiparis();
             }
+            //else if (DateTime.Now.Hour == 23 && DateTime.Now.Minute >= 30 && DateTime.Now.Minute < 40) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
+            //{
+            //    GetSAPgece();
+            //}
+            else if (DateTime.Now.Hour == 6 /*&& DateTime.Now.Minute >= 30 && DateTime.Now.Minute < 40*/) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
+            {
+                GetSAPgece(true);
+            }
+            //else if (DateTime.Now.Hour == 6 && DateTime.Now.Minute >= 10 && DateTime.Now.Minute < 20) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
+            //{
+            //    GetSAPgece(false);
+            //}
+            //else if (DateTime.Now.Hour == 6 /*&& DateTime.Now.Minute >= 30 && DateTime.Now.Minute < 40*/) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
+            //{
+            //    GetSAPgece(true);
+            //}
         }
 
         void tmrSAPekstre_Elapsed(object sender, ElapsedEventArgs e)
@@ -341,7 +259,7 @@ namespace Sultanlar.WindowsServiceIslemler
             Sultanlar.Class.DisSiparisler ds = new Sultanlar.Class.DisSiparisler();
             try { ds.n11Siparisler(); } catch (Exception) { }
             //try { ds.hbSiparisler(); } catch (Exception) { }
-            
+
             if (DateTime.Now.Day == 1 && !eczaneleregirdi)
             {
                 if (DateTime.Now.Hour == 1)
@@ -414,7 +332,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 FiyatlarTP.Update((short)20, DateTime.Now.Year, DateTime.Now.Month);
                 FiyatlarTP.Update((short)22, DateTime.Now.Year, DateTime.Now.Month);
                 FiyatlarTP.Update((short)25, DateTime.Now.Year, DateTime.Now.Month);
-                FiyatlarTP.Update((short)33, DateTime.Now.Year, DateTime.Now.Month);
+                //FiyatlarTP.Update((short)33, DateTime.Now.Year, DateTime.Now.Month);
             }
 
             if (DateTime.Now.Hour == 23)
@@ -2136,7 +2054,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 conn.Open();
                 cmd1.ExecuteNonQuery();
                 conn.Close();
-            
+
                 for (int i = 0; i < listCustomers.Length; i++)
                 {
                     string active = listCustomers[i].Aufsd == string.Empty ? "0" : "1";
@@ -2288,7 +2206,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 conn.Close();*/
 
                 cmdLog.Parameters.AddWithValue("@strLog", listCustomers.Length.ToString() + " Satır");
-                
+
                 WebRutJob();
             }
             else
@@ -2670,7 +2588,7 @@ namespace Sultanlar.WindowsServiceIslemler
             List<int> yillar = new List<int>();
             for (int i = 0; i < DateTime.Now.Year - Baslangic.Year + 1; i++)
                 yillar.Add(Baslangic.Year + i);
-            
+
             SqlConnection conn = new SqlConnection(General.ConnectionString);
             int ayniyiltekrar = 0;
             for (int j = 0; j < yillar.Count; j++)
@@ -2685,7 +2603,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 selectekstreC.Zwebs023[] yirmiuc = null;
                 selectekstreC.Zwebs023[] yirmiuc2 = null;
                 ekstre.Credentials = nc1;
-                
+
                 //SAPs.LogYaz("ekstre oncesi", true, "sap ile bağlantı kuruluyor", DateTime.Now, DateTime.Now);
                 try
                 {
@@ -3068,7 +2986,7 @@ namespace Sultanlar.WindowsServiceIslemler
                         }
                         catch (Exception ex)
                         {
-                            SAPs.LogYaz("select sales vbfa", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            SAPs.LogYaz("select sales vbfa", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
                             if (tekrarcek < tekrarcekilecek)
                             {
                                 tekrarcek++;
@@ -3195,7 +3113,7 @@ namespace Sultanlar.WindowsServiceIslemler
                         }
                         catch (Exception ex)
                         {
-                            SAPs.LogYaz("select sales order", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            SAPs.LogYaz("select sales order", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
                             if (tekrarcek < tekrarcekilecek)
                             {
                                 tekrarcek++;
@@ -3518,7 +3436,7 @@ namespace Sultanlar.WindowsServiceIslemler
                         }
                         catch (Exception ex)
                         {
-                            SAPs.LogYaz("select sales delivery", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            SAPs.LogYaz("select sales delivery", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
                             if (tekrarcek < tekrarcekilecek)
                             {
                                 tekrarcek++;
@@ -3753,7 +3671,7 @@ namespace Sultanlar.WindowsServiceIslemler
                         }
                         catch (Exception ex)
                         {
-                            SAPs.LogYaz("select sales transport", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            SAPs.LogYaz("select sales transport", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
                             if (tekrarcek < tekrarcekilecek)
                             {
                                 tekrarcek++;
@@ -3769,7 +3687,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     }
 
                     SAPs.LogYaz("select sales transport", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
-                    
+
                     #region nakilsiparis
 
                     #region head
@@ -3917,7 +3835,7 @@ namespace Sultanlar.WindowsServiceIslemler
                                 cmd.Parameters.AddWithValue("@MeinsText", onalti[j].MeinsText);
                                 cmd.Parameters.AddWithValue("@Lgnum", onalti[j].Lgnum);
                                 cmd.Parameters.AddWithValue("@Lgtyp", onalti[j].Lgtyp);
-                                int don = 0;  cmd.Parameters.AddWithValue("@Lgpla", int.TryParse(onalti[j].Lgpla, out don) ? Convert.ToInt32(onalti[j].Lgpla) : 0);
+                                int don = 0; cmd.Parameters.AddWithValue("@Lgpla", int.TryParse(onalti[j].Lgpla, out don) ? Convert.ToInt32(onalti[j].Lgpla) : 0);
                                 cmd.Parameters.AddWithValue("@Sjahr", onalti[j].Sjahr);
                                 cmd.Parameters.AddWithValue("@Smbln", onalti[j].Smbln);
                                 cmd.Parameters.AddWithValue("@Smblp", onalti[j].Smblp);
@@ -4087,7 +4005,7 @@ namespace Sultanlar.WindowsServiceIslemler
                         }
                         catch (Exception ex)
                         {
-                            SAPs.LogYaz("select koli etiket", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                            SAPs.LogYaz("select koli etiket", true, cekilecektarih.ToShortDateString() + " " + (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
                             if (tekrarcek < tekrarcekilecek)
                             {
                                 tekrarcek++;
@@ -4103,7 +4021,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     }
 
                     SAPs.LogYaz("select koli etiket", hata != string.Empty ? false : true, hata, Convert.ToDateTime(cekilecektarih.ToShortDateString() + " " + saat), Convert.ToDateTime(cekilecektarih.ToShortDateString()) == Convert.ToDateTime(simdikitarih.ToShortDateString()) ? DateTime.Now : Convert.ToDateTime(cekilecektarih.AddDays(1).ToShortDateString() + " 00:00:00"));
-                    
+
                     if (ondokuz != null)
                     {
                         for (int j = 0; j < ondokuz.Length; j++)
@@ -4173,7 +4091,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     }
                     catch (Exception ex)
                     {
-                        SAPs.LogYaz("select accounting", true, (tekrarcek +1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
+                        SAPs.LogYaz("select accounting", true, (tekrarcek + 1).ToString() + ".deneme sap hata döndürdü: " + ex.Message, DateTime.Now, DateTime.Now);
                         if (tekrarcek < tekrarcekilecek)
                         {
                             tekrarcek++;
