@@ -38,6 +38,7 @@
     <script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script>
         function SaticilarGetir(uyeid) {
             $.ajax(
@@ -605,7 +606,7 @@
             $("#selectYilSatishedefbolge").append($("<option />").val("2018").text("2018"));
             $("#selectYilSatishedefbolge").append($("<option />").val("2017").text("2017"));
             $('select[name=selectAySatishedefbolge]').val((new Date().getMonth() + 1).toString());
-            
+
             $('#selectYilSatishedefvgb').empty();
             $("#selectYilSatishedefvgb").append($("<option />").val("2022").text("2022"));
             $("#selectYilSatishedefvgb").append($("<option />").val("2021").text("2021"));
