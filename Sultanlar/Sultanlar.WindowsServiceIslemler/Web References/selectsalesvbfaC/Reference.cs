@@ -231,6 +231,10 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesvbfaC {
         
         private string mjahrField;
         
+        private string vkorgField;
+        
+        private string spartField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Mandt {
@@ -767,6 +771,28 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesvbfaC {
             }
             set {
                 this.mjahrField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Vkorg {
+            get {
+                return this.vkorgField;
+            }
+            set {
+                this.vkorgField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Spart {
+            get {
+                return this.spartField;
+            }
+            set {
+                this.spartField = value;
             }
         }
     }

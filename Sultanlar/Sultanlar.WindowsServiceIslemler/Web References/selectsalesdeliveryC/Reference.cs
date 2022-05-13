@@ -173,6 +173,8 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
         
         private string lifexField;
         
+        private string vkorgField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Lfart {
@@ -348,6 +350,17 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
                 this.lifexField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Vkorg {
+            get {
+                return this.vkorgField;
+            }
+            set {
+                this.vkorgField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -455,6 +468,10 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
         private string cmethField;
         
         private string mjahrField;
+        
+        private string vkorgField;
+        
+        private string spartField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -994,6 +1011,28 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
                 this.mjahrField = value;
             }
         }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Vkorg {
+            get {
+                return this.vkorgField;
+            }
+            set {
+                this.vkorgField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Spart {
+            get {
+                return this.spartField;
+            }
+            set {
+                this.spartField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -1123,6 +1162,8 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
         private string volehField;
         
         private string hsdatField;
+        
+        private string spartField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -1374,6 +1415,17 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
             }
             set {
                 this.hsdatField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Spart {
+            get {
+                return this.spartField;
+            }
+            set {
+                this.spartField = value;
             }
         }
     }

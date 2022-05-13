@@ -836,6 +836,8 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalestransportC {
         
         private string lgortField;
         
+        private string spartField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Vbeln {
@@ -1207,6 +1209,17 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalestransportC {
             }
             set {
                 this.lgortField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Spart {
+            get {
+                return this.spartField;
+            }
+            set {
+                this.spartField = value;
             }
         }
     }

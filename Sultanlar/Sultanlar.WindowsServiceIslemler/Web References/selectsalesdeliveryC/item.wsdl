@@ -135,6 +135,13 @@
               </xsd:restriction>
             </xsd:simpleType>
           </xsd:element>
+          <xsd:element minOccurs="0" name="Vkorg">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="4" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="Zwebs009">
@@ -400,6 +407,20 @@
               </xsd:restriction>
             </xsd:simpleType>
           </xsd:element>
+          <xsd:element minOccurs="0" name="Vkorg">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="4" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Spart">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="2" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="Zwebs013">
@@ -524,6 +545,13 @@
             </xsd:simpleType>
           </xsd:element>
           <xsd:element minOccurs="0" name="Hsdat" type="s0:date" />
+          <xsd:element minOccurs="0" name="Spart">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="2" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="Zwebs021">
