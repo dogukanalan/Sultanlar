@@ -10,7 +10,23 @@
 
     <script>
         function ZiyaretBitir() {
-            var ziyaret = JSON.parse(window.localStorage["ziyaret"]);
+
+            if (!window.localStorage["ziyaret"]) {
+                alert("Ziyaret bulunamadı.");
+                window.location.href = '../Musteri';
+                return;
+            }
+
+            var ziyaret;
+            try {
+                ziyaret = JSON.parse(window.localStorage["ziyaret"]);
+            } catch (e) {
+                alert("Hata olustu: " + e);
+                window.localStorage.removeItem("ziyaret");
+                window.location.href = '../Musteri';
+                return;
+            }
+
             var neden = "";
             $('input:radio').each(function () {
                 if ($(this).is(':checked')) {

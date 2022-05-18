@@ -32,7 +32,7 @@ namespace Sultanlar.WindowsServiceIslemler
         bool iademailgirdi;
         bool musteriguncelleniyor;
         bool tpfiyatlaragirdi;
-        int tekrarcekilecek = 10;
+        int tekrarcekilecek = 5;
 
         Timer tmrSAPcustomers;
         Timer tmrSAPprices;
@@ -1696,10 +1696,11 @@ namespace Sultanlar.WindowsServiceIslemler
                     catch { }
                     int mhdrz = 0; try { mhdrz = Convert.ToInt32(listMaterials[i].Mhdrz); }
                     catch { }
+                    string frm = listMaterials[i].Vkorg;
 
                     SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Malzeme] " +
-                        "([AP],[ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],KOLI,BARKOD,STOK,[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ)" +
-                        "VALUES (@AP,@ITEMREF,@MALKOD,@MALACIK,@URTKOD,@ESKOD,@BIRIMREF,@BIRIM,@GRUPKOD,@GRUPACIK,@OZELKOD,@HK,@OZELACIK,@REYKOD,@RK,@REYACIK,@KDV,@KOLI,@BARKOD,@STOK,@KYTM,@KANAL,@PRIMT,@PRIMB,@HYRS,@HYRS_TANIM,@DONUSUM,@MHDHB,@MHDRZ)", conn);
+                        "([AP],[ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],KOLI,BARKOD,STOK,[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ,FRM)" +
+                        "VALUES (@AP,@ITEMREF,@MALKOD,@MALACIK,@URTKOD,@ESKOD,@BIRIMREF,@BIRIM,@GRUPKOD,@GRUPACIK,@OZELKOD,@HK,@OZELACIK,@REYKOD,@RK,@REYACIK,@KDV,@KOLI,@BARKOD,@STOK,@KYTM,@KANAL,@PRIMT,@PRIMB,@HYRS,@HYRS_TANIM,@DONUSUM,@MHDHB,@MHDRZ,@FRM)", conn);
                     cmd.CommandTimeout = 1000;
                     cmd.Parameters.AddWithValue("@AP", Convert.ToInt32(ap == string.Empty || ap == "A" ? "0" : "1"));
                     cmd.Parameters.AddWithValue("@ITEMREF", itemref);
@@ -1730,6 +1731,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     cmd.Parameters.AddWithValue("@DONUSUM", donusum);
                     cmd.Parameters.AddWithValue("@MHDHB", mhdhb);
                     cmd.Parameters.AddWithValue("@MHDRZ", mhdrz);
+                    cmd.Parameters.AddWithValue("@FRM", frm);
 
                     try
                     {
@@ -1746,13 +1748,23 @@ namespace Sultanlar.WindowsServiceIslemler
                     }
                 }
 
-                SqlCommand cmd12 = new SqlCommand("DROP TABLE [Web-Malzeme-Full-Onceki] SELECT * INTO [Web-Malzeme-Full-Onceki] FROM [dbo].[Web-Malzeme-Full] DROP TABLE [Web-Malzeme-Onceki] SELECT * INTO [Web-Malzeme-Onceki] FROM [dbo].[Web-Malzeme]", conn);
+                /*SqlCommand cmd12 = new SqlCommand("DROP TABLE [Web-Malzeme-Full-Onceki] SELECT * INTO [Web-Malzeme-Full-Onceki] FROM [dbo].[Web-Malzeme-Full] DROP TABLE [Web-Malzeme-Onceki] SELECT * INTO [Web-Malzeme-Onceki] FROM [dbo].[Web-Malzeme]", conn);
                 cmd12.CommandTimeout = 600;
                 conn.Open();
                 cmd12.ExecuteNonQuery();
-                conn.Close();
+                conn.Close();*/
 
-                SqlCommand cmd2 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Malzeme-Full] INSERT INTO [Web-Malzeme-Full] SELECT * FROM [Web_Malzeme] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
+                SqlCommand cmd2 = new SqlCommand(@"BEGIN TRANSACTION t_Transaction 
+
+TRUNCATE TABLE [Web-Malzeme-Full] 
+INSERT INTO [Web-Malzeme-Full] SELECT * FROM [Web_Malzeme] WITH (HOLDLOCK) WHERE FRM = 'TB80'
+INSERT INTO [Web-Malzeme-Full] 
+SELECT min([AP]),[ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ],[STOKE]
+,min([FRM]) AS FRM FROM [dbo].[Web_Malzeme]  WITH (HOLDLOCK) WHERE FRM != 'TB80' AND ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Malzeme-Full])
+GROUP BY [ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ],[STOKE]
+
+COMMIT TRANSACTION t_Transaction
+", conn);
                 cmd2.CommandTimeout = 1000;
                 SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-GrupKodlar] INSERT INTO [Web-GrupKodlar] SELECT DISTINCT [GRUP KOD],[GRUP ACIK] FROM [Web_Malzeme]   DELETE FROM [Web-OzelKodlar] INSERT INTO [Web-OzelKodlar] SELECT DISTINCT [OZEL KOD],[HK],[OZEL ACIK],[GRUP KOD] FROM [Web_Malzeme]   DELETE FROM [Web-Kategoriler] INSERT INTO [Web-Kategoriler] SELECT DISTINCT [REY KOD] AS CODE,[RK],[REY ACIK] AS NAME FROM [Web_Malzeme]", conn);
                 cmd3.CommandTimeout = 1000;
@@ -1762,7 +1774,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 //SqlCommand cmd6 = new SqlCommand("UPDATE [Web-Malzeme-Full] SET [AP] = [Web-Malzeme-AP].AP FROM [Web-Malzeme-Full] INNER JOIN [Web-Malzeme-AP] ON [Web-Malzeme-Full].ITEMREF = [Web-Malzeme-AP].ITEMREF", conn);
                 //cmd6.CommandTimeout = 1000;
 
-                SqlCommand cmd4 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Malzeme] INSERT INTO [Web-Malzeme] ([ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ) SELECT [ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ FROM [Web-Malzeme-Full] WITH (HOLDLOCK) WHERE AP = 0 COMMIT TRANSACTION t_Transaction", conn);
+                SqlCommand cmd4 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Malzeme] INSERT INTO [Web-Malzeme] ([ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ,FRM) SELECT [ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ,FRM FROM [Web-Malzeme-Full] WITH (HOLDLOCK) WHERE AP = 0 AND FRM = 'TB80' COMMIT TRANSACTION t_Transaction", conn);
                 cmd4.CommandTimeout = 1000;
 
                 SqlCommand cmd7 = new SqlCommand("UPDATE [Web-Malzeme] SET [REY KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Malzeme].ITEMREF) WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
@@ -1826,9 +1838,8 @@ namespace Sultanlar.WindowsServiceIslemler
             if (olcubirim)
             {
                 conn.Open();
-                SqlCommand cmdSilOlcuBirim = new SqlCommand("DELETE FROM [SAP_OLCUBIRIM]", conn);
+                SqlCommand cmdSilOlcuBirim = new SqlCommand("DELETE FROM [SAP_OLCUBIRIM_]", conn);
                 cmdSilOlcuBirim.ExecuteNonQuery();
-                conn.Close();
 
                 for (int i = 0; i < yirmibes.Length; i++)
                 {
@@ -1861,7 +1872,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     double Capause = Convert.ToDouble(yirmibes[i].Capause);
                     string Ty2tq = yirmibes[i].Ty2tq;
 
-                    SqlCommand cmdOlcuBirim = new SqlCommand("INSERT INTO [SAP_OLCUBIRIM] " +
+                    SqlCommand cmdOlcuBirim = new SqlCommand("INSERT INTO [SAP_OLCUBIRIM_] " +
                         "([Matnr],[Meinh],[Umrez],[Umren],[Eannr],[Ean11],[Numtp],[Laeng],[Breit],[Hoehe],[Meabm],[Volum],[Voleh],[Brgew],[Gewei],[Mesub],[Atinn],[Mesrt],[Xfhdw],[Xbeww],[Kzwso],[Msehi],[BflmeMarm],[GtinVariant],[NestFtr],[MaxStack],[Capause],[Ty2tq]) " +
                         "VALUES (@Matnr,@Meinh,@Umrez,@Umren,@Eannr,@Ean11,@Numtp,@Laeng,@Breit,@Hoehe,@Meabm,@Volum,@Voleh,@Brgew,@Gewei,@Mesub,@Atinn,@Mesrt,@Xfhdw,@Xbeww,@Kzwso,@Msehi,@BflmeMarm,@GtinVariant,@NestFtr,@MaxStack,@Capause,@Ty2tq)", conn);
                     cmdOlcuBirim.CommandTimeout = 1000;
@@ -1896,18 +1907,28 @@ namespace Sultanlar.WindowsServiceIslemler
 
                     try
                     {
-                        conn.Open();
                         cmdOlcuBirim.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        Hatalar.DoInsert(ex, "windows servis SAP malzemeler olcubirim");
-                    }
-                    finally
-                    {
                         conn.Close();
+                        Hatalar.DoInsert(ex, "windows servis SAP malzemeler olcubirim");
+                        conn.Open();
                     }
                 }
+
+                SqlCommand cmdOlcuG = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [SAP_OLCUBIRIM] INSERT INTO [SAP_OLCUBIRIM] ([Matnr],[Meinh],[Umrez],[Umren],[Eannr],[Ean11],[Numtp],[Laeng],[Breit],[Hoehe],[Meabm],[Volum],[Voleh],[Brgew],[Gewei],[Mesub],[Atinn],[Mesrt],[Xfhdw],[Xbeww],[Kzwso],[Msehi],[BflmeMarm],[GtinVariant],[NestFtr],[MaxStack],[Capause],[Ty2tq]) SELECT DISTINCT [Matnr],[Meinh],[Umrez],[Umren],[Eannr],[Ean11],[Numtp],[Laeng],[Breit],[Hoehe],[Meabm],[Volum],[Voleh],[Brgew],[Gewei],[Mesub],[Atinn],[Mesrt],[Xfhdw],[Xbeww],[Kzwso],[Msehi],[BflmeMarm],[GtinVariant],[NestFtr],[MaxStack],[Capause],[Ty2tq] FROM [SAP_OLCUBIRIM_] WITH (HOLDLOCK) COMMIT TRANSACTION t_Transaction", conn);
+                cmdOlcuG.CommandTimeout = 1000;
+                try
+                {
+                    cmdOlcuG.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Hatalar.DoInsert(ex, "windows servis SAP malzemeler olcubirimG");
+                }
+
+                conn.Close();
             }
         }
         #endregion
@@ -3574,7 +3595,7 @@ namespace Sultanlar.WindowsServiceIslemler
                             try
                             {
                                 conn.Open();
-                                SqlCommand cmd = new SqlCommand("sp_SAP_VBFA_InsertUpdate", conn);
+                                SqlCommand cmd = new SqlCommand("sp_SAP_VBFA_InsertUpdate2", conn);
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 #region parameters
                                 cmd.Parameters.AddWithValue("@KAYIT_TARIHI", DateTime.Now);

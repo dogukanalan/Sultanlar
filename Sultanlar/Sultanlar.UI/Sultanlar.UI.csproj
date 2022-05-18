@@ -663,6 +663,12 @@
     <Compile Include="frmINTERNETticaripazarlamaaktiviteler.Designer.cs">
       <DependentUpon>frmINTERNETticaripazarlamaaktiviteler.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmINTERNETticaripazarlamaaktivitemaliyet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmINTERNETticaripazarlamaaktivitemaliyet.Designer.cs">
+      <DependentUpon>frmINTERNETticaripazarlamaaktivitemaliyet.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmINTERNETticaripazarlamaaktiviteurunekle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1298,6 +1304,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmINTERNETticaripazarlamaaktiviteler.resx">
       <DependentUpon>frmINTERNETticaripazarlamaaktiviteler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmINTERNETticaripazarlamaaktivitemaliyet.resx">
+      <DependentUpon>frmINTERNETticaripazarlamaaktivitemaliyet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmINTERNETticaripazarlamaaktiviteurunekle.resx">
       <DependentUpon>frmINTERNETticaripazarlamaaktiviteurunekle.cs</DependentUpon>

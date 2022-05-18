@@ -320,6 +320,8 @@ namespace Sultanlar.DatabaseObject
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
                 SqlDataAdapter da = new SqlDataAdapter(sorgu, conn);
+                if (sorgu.StartsWith("sp_") || sorgu.StartsWith("db_"))
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
                 da.Fill(dt);
             }
         }
@@ -490,6 +492,10 @@ namespace Sultanlar.DatabaseObject
             {
                 SqlDataAdapter da = new SqlDataAdapter(CommandText, conn);
                 da.SelectCommand.CommandTimeout = 1000;
+
+                if (CommandText.StartsWith("sp_") || CommandText.StartsWith("db_"))
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+
                 for (int i = 0; i < Parameters.Count; i++)
                     da.SelectCommand.Parameters.Add(ParameterNames[i].ToString(), (SqlDbType)Types[i]).Value = Parameters[i].ToString();
                 try
@@ -514,23 +520,30 @@ namespace Sultanlar.DatabaseObject
             DataTable dt = new DataTable(TableName);
 
             string where = string.Empty;
-            bool var = false;
-            for (int i = 0; i < ParameterNames.Count; i++)
+            if (!CommandText.StartsWith("sp_") && !CommandText.StartsWith("db_"))
             {
-                if (ParameterNames[i].ToString().Length > 0)
+                bool var = false;
+                for (int i = 0; i < ParameterNames.Count; i++)
                 {
-                    var = true;
-                    if (i == 0)
-                        where = " WHERE ";
-                    where += "[" + ParameterNames[i] + "] = @" + ParameterNames[i] + " AND ";
+                    if (ParameterNames[i].ToString().Length > 0)
+                    {
+                        var = true;
+                        if (i == 0)
+                            where = " WHERE ";
+                        where += "[" + ParameterNames[i] + "] = @" + ParameterNames[i] + " AND ";
+                    }
                 }
+                where = var ? where.Substring(0, where.Length - 5) : where;
             }
-            where = var ? where.Substring(0, where.Length - 5) : where;
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
                 SqlDataAdapter da = new SqlDataAdapter(CommandText + where, conn);
                 da.SelectCommand.CommandTimeout = 1000;
+
+                if (CommandText.StartsWith("sp_") || CommandText.StartsWith("db_"))
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+
                 for (int i = 0; i < Parameters.Count; i++)
                     da.SelectCommand.Parameters.AddWithValue(ParameterNames[i].ToString(), Parameters[i].ToString());
                 try

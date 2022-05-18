@@ -1142,5 +1142,12 @@ namespace Sultanlar.UI
 
             MessageBox.Show("Aktarım tamamlandı.", "Başarılı");
         }
+
+        private void txtAktiviteKarZararYuzde_MouseClick(object sender, MouseEventArgs e)
+        {
+            int AktiviteID = Convert.ToInt32(((DataRowView)gridControl4.MainView.GetRow(gridView4.GetSelectedRows()[0])).Row.ItemArray[0]);
+            frmINTERNETticaripazarlamaaktivitemaliyet frm = new frmINTERNETticaripazarlamaaktivitemaliyet(AktiviteID);
+            frm.ShowDialog();
+        }
     }
 }

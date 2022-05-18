@@ -1325,11 +1325,13 @@
             // 
             // txtAktiviteKarZararYuzde
             // 
+            this.txtAktiviteKarZararYuzde.Cursor = System.Windows.Forms.Cursors.Hand;
             this.txtAktiviteKarZararYuzde.Location = new System.Drawing.Point(524, 78);
             this.txtAktiviteKarZararYuzde.Name = "txtAktiviteKarZararYuzde";
             this.txtAktiviteKarZararYuzde.ReadOnly = true;
             this.txtAktiviteKarZararYuzde.Size = new System.Drawing.Size(106, 20);
             this.txtAktiviteKarZararYuzde.TabIndex = 12;
+            this.txtAktiviteKarZararYuzde.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtAktiviteKarZararYuzde_MouseClick);
             this.txtAktiviteKarZararYuzde.TextChanged += new System.EventHandler(this.txtAktiviteKarZararYuzde_TextChanged);
             // 
             // sbEkle
