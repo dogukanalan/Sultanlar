@@ -678,14 +678,13 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
         //
-        public static void GetNoktalar(IList List, string BAYIKOD, int Noktaref)
+        public static void GetNoktalar(IList List, int Noktaref)
         {
             List.Clear();
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT DISTINCT [BAYIKOD],[NOKTAAD],NOKTAKOD FROM [Web-Satis-Rapor-TP] WHERE BAYIKOD = @BAYIKOD AND NOKTAREF = " + Noktaref + " ORDER BY [NOKTAAD]", conn);
-                cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar).Value = BAYIKOD;
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT [BAYIKOD],[NOKTAAD],NOKTAKOD FROM [Web-Satis-Rapor-TP] WHERE NOKTAREF = " + Noktaref + " ORDER BY [NOKTAAD]", conn);
                 SqlDataReader dr;
                 try
                 {
@@ -745,6 +744,33 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 SqlCommand cmd = new SqlCommand("SELECT count(*) FROM [Web-Satis-Rapor-TP] WHERE NOKTAKOD = @NOKTAKOD", conn);
                 cmd.Parameters.Add("@NOKTAKOD", SqlDbType.NVarChar).Value = NOKTAKOD;
+                try
+                {
+                    conn.Open();
+                    donendeger = Convert.ToBoolean(cmd.ExecuteScalar());
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        //
+        //
+        public static bool VarMi(int NOKTAREF)
+        {
+            bool donendeger = false;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT count(*) FROM [Web-Satis-Rapor-TP] WHERE NOKTAREF = @NOKTAREF", conn);
+                cmd.Parameters.Add("@NOKTAREF", SqlDbType.Int).Value = NOKTAREF;
                 try
                 {
                     conn.Open();

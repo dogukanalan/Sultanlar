@@ -437,18 +437,18 @@ namespace Sultanlar.UI
                 //}
 
                 CariHesaplarTP cari = (CariHesaplarTP)lbAltCariler.SelectedItem;
-
+                /*
                 SatisRaporTP.DoUpdateNoktaAd(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)lbBayiler.SelectedItem).GMREF), cari.MUSTERI, txtAltCariDuzenleIsim.Text);
                 if (SatisRaporTP.VarMi(cari.MUSKOD))
                     SatisRaporTP.DoUpdateNoktaKod(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)lbBayiler.SelectedItem).GMREF), cari.MUSKOD, txtMUSKOD.Text.Trim());
-
+                */
                 cari.MUSKOD = txtMUSKOD.Text.Trim();
                 cari.MUSTERI = txtAltCariDuzenleIsim.Text;
                 cari.SUBE = txtAltCariDuzenleIsim.Text;
 
                 cari.DoUpdate();
 
-                MessageBox.Show("Nokta adı hem altcariler kısmında hem de satış raporunda değiştirildi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Nokta adı altcariler kısmında değiştirildi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 GetAltCariler();
                 txtAltCariDuzenleIsim.Text = string.Empty;
             }
@@ -458,9 +458,9 @@ namespace Sultanlar.UI
         {
             if (lbAltCariler.SelectedIndex > -1)
             {
-                if (SatisRaporTP.VarMi(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)lbBayiler.SelectedItem).GMREF), ((CariHesaplarTP)lbAltCariler.SelectedItem).SUBE))
+                if (SatisRaporTP.VarMi(((CariHesaplarTP)lbAltCariler.SelectedItem).SMREF))
                 {
-                    MessageBox.Show("Alt carinin satış raporunda kaydı olduğundan silinemez.", "Haya", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Alt carinin satış raporunda kaydı olduğundan silinemez.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 

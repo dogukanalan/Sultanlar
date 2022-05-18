@@ -102,6 +102,7 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(516, 212);
             this.listBox1.TabIndex = 4;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -177,9 +178,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(12, 338);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(91, 13);
+            this.label4.Size = new System.Drawing.Size(93, 13);
             this.label4.TabIndex = 1;
-            this.label4.Text = "Yeni Nokta Kodu:";
+            this.label4.Text = "Yeni Sistem Kodu:";
             // 
             // label5
             // 
