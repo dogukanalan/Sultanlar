@@ -176,6 +176,12 @@
             }
         }
 
+        function kaydetdevam() {
+            if (Object.keys(sepet).length != 0) {
+                sipariskaydet(paramsmref, paramftip, siparisid, 0, false);
+            }
+        }
+
         function onayla() {
             if (Object.keys(sepet).length != 0) {
                 if (confirm("Siparişi kaydetmek ve onaylamak istediğinize emin misiniz?")) {
@@ -208,7 +214,7 @@
                     url: apiurl + "uyeyetki/" + uyeid,
                     success: function (data, textStatus, response) {
                         checkAuth(response);
-                        
+
                         var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
                         $.each(rootData, function (index, item) {
                             $("#fiyattipleri").append(
@@ -217,7 +223,7 @@
                                     .val(item.sintFiyatTipiID)
                             );
                         });
-                        $('select[id=fiyattipleri]').val(getParameterByName('fiyattipi'));
+                        $('select[id=fiyattipleri]').val(paramftip);
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
@@ -227,7 +233,7 @@
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
             paramsmref = getParameterByName('smref');
-            paramftip = getParameterByName('fiyattipi');
+            paramftip = getParameterByName('ftip');
             siparisid = getParameterByName('siparisid');
             sepet = [];
             initSepet();
@@ -243,12 +249,14 @@
     </script>
 }
 <select id="fiyattipleri"></select>
-<br /><br />
+<br />
+<br />
 <input type="button" class="btn btn-info secimTus" value="Ürün Listesine Dön" onclick="window.location.href = 'Siparis?smref=' + paramsmref + '&siparisid=' + siparisid + '&ftip=' + paramftip" />
 <input type="button" class="btn btn-danger secimTus" value="İçeriği Sil" onclick="sil()" />
 <input type="button" class="btn btn-danger secimTus" value="Siparişi Sil" onclick="sSil()" />
 <input type="button" class="btn btn-success secimTus" value="Siparişi Kaydet" onclick="kaydet()" />
 <input type="button" class="btn btn-success secimTus" value="Siparişi Kaydet ve Onayla" onclick="onayla()" />
+<input type="button" class="btn btn-success secimTus" value="Siparişi Kaydet Devam et" onclick="kaydetdevam()" />
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='400'>
     <thead>
         <tr>

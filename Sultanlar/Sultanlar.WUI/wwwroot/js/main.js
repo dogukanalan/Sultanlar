@@ -16,7 +16,7 @@ $('.validate-form').on('submit', function () {
     return check;
 });*/
 
-var apiurl = "http://localhost:50544/internet/";
+var apiurl = "https://www.ittihadteknoloji.com.tr/internet/";
 //http://localhost:50544/internet/
 //http://95.0.47.130/SulAPI/internet/
 //https://www.ittihadteknoloji.com.tr/internet/
@@ -804,6 +804,47 @@ function sipSil(cookie) {
     }
     window.localStorage['sepet'] = JSON.stringify(yenicookie);
     window.localStorage['sepetU'] = "[]";
+}
+
+function siparisdbSenkRoot(data, smref, siparisid, ftip) {
+    var eskisepet = JSON.parse(window.localStorage['sepet']);
+    var yenisepet = [];
+    for (var i = 0; i < eskisepet.length; i++) { // diger siparisleri doldur
+        if (eskisepet[i].smref != smref || eskisepet[i].siparisid != siparisid || eskisepet[i].ftip != ftip) {
+            yenisepet.push(
+                { siparisid: eskisepet[i].siparisid, smref: eskisepet[i].smref, ftip: eskisepet[i].ftip, aciklama: eskisepet[i].aciklama, teslim: eskisepet[i].teslim, musteri: window.localStorage["uyeid"], detaylar: eskisepet[i].detaylar }
+            );
+        }
+    }
+
+    var icsepet =
+    {
+        siparisid: data.pkSiparisID.toString(),
+        smref: data.smref.toString(),
+        ftip: data.sintFiyatTipiID.toString(),
+        aciklama: data.aciklama2,
+        teslim: data.aciklama3,
+        musteri: window.localStorage["uyeid"],
+        detaylar: []
+    };
+    $.each(data.detaylar, function (i, item) {
+        icsepet.detaylar.push(
+            {
+                itemref: data.detaylar[i].intUrunID.toString(),
+                malacik: data.detaylar[i].malzeme.malacik,
+                netkdv: data.detaylar[i].mnFiyat.toString(),
+                miktar: data.detaylar[i].intMiktar.toString(),
+                miktartur: data.detaylar[i].strMiktarTur,
+                isk1: data.detaylar[i].isks.isK1,
+                isk2: data.detaylar[i].isks.isK2,
+                isk3: data.detaylar[i].isks.isK3,
+                isk4: data.detaylar[i].isks.isK4
+            }
+        );
+    });
+    yenisepet.push(icsepet); // yeni siparisi doldur
+    window.localStorage["sepet"] = JSON.stringify(yenisepet);
+    window.location.href = 'Icerik?smref=' + data.smref + '&ftip=' + data.sintFiyatTipiID + '&siparisid=' + data.pkSiparisID;
 }
 
 function iadeSil(cookie) {

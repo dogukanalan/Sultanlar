@@ -11,7 +11,7 @@
         var siparisid;
         var paramonay;
 
-        function kaydet() {
+        /*function kaydet() {
             var arrayFromCookie = JSON.parse(window.localStorage['sepet']);
                 
             $.ajax(
@@ -34,14 +34,14 @@
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
             );
-        }
+        }*/
 
         $(document).ready(function () {
             paramsmref = getParameterByName('smref');
             paramftip = getParameterByName('fiyattipi');
             siparisid = getParameterByName('siparisid') ? getParameterByName('siparisid') : "0";
             paramonay = getParameterByName('onay');
-            kaydet();
+            sipariskaydet(paramsmref, paramftip, siparisid, paramonay, true);
         });
     </script>
 }

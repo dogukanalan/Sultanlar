@@ -48,7 +48,8 @@
         }
 
         function sil() {
-            $.ajax(
+            siparissil(siparisid, true);
+            /*$.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
@@ -62,7 +63,7 @@
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
-            );
+            );*/
         }
 
         $(document).ready(function () {

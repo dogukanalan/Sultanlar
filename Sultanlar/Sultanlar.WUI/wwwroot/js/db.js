@@ -54,3 +54,85 @@ function SaticilarGetir(tumudahil) {
         }
     );
 }
+
+function siparisdbGetir(siparisid) {
+    $.ajax(
+        {
+            xhr: function () { return xhrDownloadUpload(); },
+            beforeSend: function (xhr) { xhrTicket(xhr); },
+            url: apiurl + "siparis/get/" + siparisid,
+            success: function (data, textStatus, response) {
+                checkAuth(response);
+
+                if (data.blAktarilmis) {
+                    alert("Sipariş onaylı. Onaylı sipariş düzenlenemez.");
+                    window.location.href = 'Siparisler';
+                    return;
+                }
+
+                siparisdbSenkRoot(data, data.smref, data.pkSiparisID.toString(), data.sintFiyatTipiID.toString());
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+        }
+    );
+}
+
+function sipariskaydet(paramsmref, paramftip, siparisid, paramonay, yonlendir) {
+    var arrayFromCookie = JSON.parse(window.localStorage['sepet']);
+
+    var yenisiparis = 0;
+    $.ajax(
+        {
+            xhr: function () { return xhrDownloadUpload(); },
+            beforeSend: function (xhr) { xhrTicket(xhr); },
+            type: 'POST',
+            url: apiurl + "siparis/kaydet",
+            data: stringifySepet(arrayFromCookie, paramsmref, paramftip, siparisid),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (data, textStatus, response) {
+                checkAuth(response);
+
+                sipSil(arrayFromCookie);
+                yenisiparis = data;
+                if (paramonay == 1) {
+                    window.location.href = 'Onayla?siparisid=' + data;
+                }
+                else {
+                    if (yonlendir) {
+                        document.getElementById("sipNo").innerHTML = "Sipariş kaydedildi.<br><br>Sipariş no: " + yenisiparis;
+                    }
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+        }
+    ).then(() => {
+        console.log(yenisiparis);
+        if (paramonay != 1 && !yonlendir) { // siparis kaydet devamet
+            siparissil(siparisid, false);
+            siparisdbGetir(yenisiparis);
+        }
+    });
+}
+
+function siparissil(siparisid, yonlendir) {
+    $.ajax(
+        {
+            xhr: function () { return xhrDownloadUpload(); },
+            beforeSend: function (xhr) { xhrTicket(xhr); },
+            url: apiurl + "siparis/sil/" + siparisid,
+            success: function (data, textStatus, response) {
+                checkAuth(response);
+                if (data == "") {
+                    if (yonlendir) {
+                        window.location.href = 'Siparisler';
+                    }
+                }
+                else {
+                    alert(data);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+        }
+    );
+}

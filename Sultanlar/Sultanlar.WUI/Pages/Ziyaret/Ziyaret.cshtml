@@ -47,7 +47,8 @@
         function ZiyaretIptal() {
             var ziyaret = JSON.parse(window.localStorage["ziyaret"]);
             var sentData = '{ "barkod": "' + ziyaret.barkod + '", "tip": "' + ziyaret.mtip + '", "smref": "' + ziyaret.smref + '", "slsref": "' + ziyaret.slsref + '", "zaman": "' + ziyaret.ziy_bas_tar + '" }';
-            
+            window.localStorage.removeItem("ziyaret");
+
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
@@ -60,10 +61,9 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        window.localStorage.removeItem("ziyaret");
                         window.location.href = '../Musteri';
                     },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { alert('hata: ' + sentData); window.location.href = '../Musteri'; }
                 }
             );
         }
