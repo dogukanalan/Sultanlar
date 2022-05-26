@@ -5689,7 +5689,7 @@ COMMIT TRANSACTION t_Transaction
 
             SAPs.LogYaz("satis update", hata == string.Empty ? true : false, hata, baslangic, DateTime.Now);
 
-            if (DateTime.Now.Hour == 9 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 15 || DateTime.Now.Hour == 18)
+            //if (DateTime.Now.Hour == 9 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 15 || DateTime.Now.Hour == 18)
                 GetSatisJob2();
         }
 

@@ -23,7 +23,7 @@ var apiurl = "http://localhost:50544/internet/";
 
 
 var aramadelay = 1000;
-var surum = '1.4';
+var surum = '1.5.1';
 
 
 
