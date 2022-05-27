@@ -4772,7 +4772,7 @@ COMMIT TRANSACTION t_Transaction
                             try
                             {
                                 conn.Open();
-                                SqlCommand cmd = new SqlCommand("sp_SAP_VBFA_InsertUpdate", conn);
+                                SqlCommand cmd = new SqlCommand("sp_SAP_VBFA_InsertUpdate2", conn);
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 #region parameters
                                 cmd.Parameters.AddWithValue("@KAYIT_TARIHI", DateTime.Now);
@@ -4816,6 +4816,8 @@ COMMIT TRANSACTION t_Transaction
                                 cmd.Parameters.AddWithValue("@Wbsta", dokuz[j].Wbsta);
                                 cmd.Parameters.AddWithValue("@Cmeth", dokuz[j].Cmeth);
                                 cmd.Parameters.AddWithValue("@Mjahr", dokuz[j].Mjahr);
+                                cmd.Parameters.AddWithValue("@Vkorg", dokuz[j].Vkorg);
+                                cmd.Parameters.AddWithValue("@Spart", dokuz[j].Spart);
                                 #endregion
                                 cmd.ExecuteNonQuery();
                             }
@@ -5005,7 +5007,7 @@ COMMIT TRANSACTION t_Transaction
                             try
                             {
                                 conn.Open();
-                                SqlCommand cmd = new SqlCommand("sp_SAP_VBFA_InsertUpdate", conn);
+                                SqlCommand cmd = new SqlCommand("sp_SAP_VBFA_InsertUpdate2", conn);
                                 cmd.CommandType = CommandType.StoredProcedure;
                                 #region parameters
                                 cmd.Parameters.AddWithValue("@KAYIT_TARIHI", DateTime.Now);
@@ -5049,6 +5051,8 @@ COMMIT TRANSACTION t_Transaction
                                 cmd.Parameters.AddWithValue("@Wbsta", dokuz[j].Wbsta);
                                 cmd.Parameters.AddWithValue("@Cmeth", dokuz[j].Cmeth);
                                 cmd.Parameters.AddWithValue("@Mjahr", dokuz[j].Mjahr);
+                                cmd.Parameters.AddWithValue("@Vkorg", dokuz[j].Vkorg);
+                                cmd.Parameters.AddWithValue("@Spart", dokuz[j].Spart);
                                 #endregion
                                 cmd.ExecuteNonQuery();
                             }

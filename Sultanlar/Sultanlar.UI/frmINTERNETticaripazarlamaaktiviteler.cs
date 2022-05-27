@@ -526,6 +526,7 @@ namespace Sultanlar.UI
                             MesajAt(aktivite, 3);
 
                             MessageBox.Show("Aktivite güncellendi.", "Güncellendi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            txtAktiviteKarZararYuzde.Text = Aktiviteler.GetMaliyet(aktivite.pkID).ToString("N2");
                         }
                         catch (Exception ex)
                         {

@@ -107,16 +107,16 @@ namespace Sultanlar.WebAPI.Services.Internet
 
                     if (sip.sintFiyatTipiID == 2)
                     {
-                        if (sip.SMREF == 1014039)
+                        if (sip.SMREF == 1014039 || sip.SMREF == 1071782)
                         {
-                            fiyatlar fiy = new fiyatlar(22, sipdet.intUrunID).GetObject();
+                            fiyatlar fiy = new fiyatlar(20, sipdet.intUrunID).GetObject();
                             double f = fiy.FIYAT;
                             double isk = mal.REYKOD == "T2" ? 15 : 11;
-                            double fiynet = f - ((f / 100) * isk);
-                            fiynet = fiynet + ((fiynet * mal.KDV) / 100);
+                            //double fiynet = f - ((f / 100) * isk);
+                            double fiykdv = f + ((f * mal.KDV) / 100);
                             siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, fiy.FIYAT, isk, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                             sipdetisks.DoInsert();
-                            sipdet.mnFiyat = fiynet;
+                            sipdet.mnFiyat = fiykdv;
                             sipdet.DoUpdate();
                         }
                         else
@@ -169,17 +169,17 @@ namespace Sultanlar.WebAPI.Services.Internet
 
                 if (sip.sintFiyatTipiID == 2)
                 {
-                    if (sip.SMREF == 1014039)
+                    if (sip.SMREF == 1014039 || sip.SMREF == 1071782)
                     {
                         malzemeler mal = new malzemeler(sipdet.intUrunID).GetObject();
-                        fiyatlar fiy = new fiyatlar(22, sipdet.intUrunID).GetObject();
+                        fiyatlar fiy = new fiyatlar(20, sipdet.intUrunID).GetObject();
                         double f = fiy.FIYAT;
                         double isk = mal.REYKOD == "T2" ? 15 : 11;
-                        double fiynet = f - ((f / 100) * isk);
-                        fiynet = fiynet + ((fiynet * mal.KDV) / 100); 
+                        //double fiynet = f - ((f / 100) * isk);
+                        double fiykdv = f + ((f * mal.KDV) / 100); 
                         siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, fiy.FIYAT, isk, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                         sipdetisks.DoInsert();
-                        sipdet.mnFiyat = fiynet;
+                        sipdet.mnFiyat = fiykdv;
                         sipdet.DoUpdate();
                     }
                     else
@@ -229,6 +229,10 @@ namespace Sultanlar.WebAPI.Services.Internet
             SiparisIsks donendeger = new SiparisIsks() { fiyat = fiyat, isk1 = 0, isk2 = 0, isk3 = 0, isk4 = 0 };
 
             malzemeler mal = new malzemeler(ITEMREF).GetObject();
+
+            if (SMREF == 1014039 || SMREF == 1071782)
+                return new SiparisIsks() { fiyat = fiyat, isk1 = (mal.REYKOD == "T2" ? 15 : 11), isk2 = 0, isk3 = 0, isk4 = 0 };
+
             cariHesaplar ch = new cariHesaplar(SMREF).GetObject();
             aktivitelerDetay aktd = new aktivitelerDetay().GetObjectSon(ch.GMREF, ITEMREF, Tarih);
             if (aktd.pkID > 0)
