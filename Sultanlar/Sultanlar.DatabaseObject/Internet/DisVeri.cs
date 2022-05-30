@@ -375,7 +375,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             for (int i = 0; i < dt.Columns.Count; i++)
             {
-                sorgu += "[" + dt.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", "") + "] " + VeriDonustur(dt.Columns[i].DataType.Name) + " NULL,";
+                sorgu += "[" + dt.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", "").Replace("%", "_") + "] " + VeriDonustur(dt.Columns[i].DataType.Name) + " NULL,";
             }
 
             sorgu += "[CEKIM_TARIH] datetime NULL)";
@@ -404,8 +404,8 @@ namespace Sultanlar.DatabaseObject.Internet
             string gelenkolonlar = string.Empty;
             for (int i = 0; i < dt1.Columns.Count; i++)
             {
-                kolonlar.Add(dt1.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", ""));
-                gelenkolonlar += dt1.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", "") + ",";
+                kolonlar.Add(dt1.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", "").Replace("%", "_"));
+                gelenkolonlar += dt1.Columns[i].ColumnName.Replace("+", "").Replace("-", "").Replace(" ", "").Replace(".", "").Replace("?", "").Replace("!", "").Replace("%", "_") + ",";
             }
             kolonlar.Add("CEKIM_TARIH");
             gelenkolonlar += "CEKIM_TARIH";

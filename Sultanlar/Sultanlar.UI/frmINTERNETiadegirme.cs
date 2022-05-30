@@ -19,7 +19,7 @@ namespace Sultanlar.UI
             InitializeComponent();
             iade = null;
             duzenleme = false;
-            GetCariHesaplar("");
+            //GetCariHesaplar("");
         }
 
         public frmINTERNETiadegirme(int IadeID)
