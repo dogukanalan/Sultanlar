@@ -1150,5 +1150,11 @@ namespace Sultanlar.UI
             frmINTERNETticaripazarlamaaktivitemaliyet frm = new frmINTERNETticaripazarlamaaktivitemaliyet(AktiviteID);
             frm.ShowDialog();
         }
+
+        private void btnToptanAltkanal_Click(object sender, EventArgs e)
+        {
+            frmINTERNETticaripazarlamaaktivitetoptan frm = new frmINTERNETticaripazarlamaaktivitetoptan();
+            frm.ShowDialog();
+        }
     }
 }

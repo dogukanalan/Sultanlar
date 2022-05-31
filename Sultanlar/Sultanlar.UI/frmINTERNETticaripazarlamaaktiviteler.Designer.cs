@@ -157,6 +157,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.dtpBitis = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
+            this.btnToptanAltkanal = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -177,6 +178,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.btnToptanAltkanal);
             this.splitContainer1.Panel1.Controls.Add(this.btnYenile);
             this.splitContainer1.Panel1.Controls.Add(this.dateTimePicker2);
             this.splitContainer1.Panel1.Controls.Add(this.dateTimePicker1);
@@ -1633,6 +1635,16 @@
             this.label4.Size = new System.Drawing.Size(864, 99);
             this.label4.TabIndex = 14;
             // 
+            // btnToptanAltkanal
+            // 
+            this.btnToptanAltkanal.Location = new System.Drawing.Point(246, 1);
+            this.btnToptanAltkanal.Name = "btnToptanAltkanal";
+            this.btnToptanAltkanal.Size = new System.Drawing.Size(156, 23);
+            this.btnToptanAltkanal.TabIndex = 18;
+            this.btnToptanAltkanal.Text = "Toptan - Altkanal Liste";
+            this.btnToptanAltkanal.UseVisualStyleBackColor = true;
+            this.btnToptanAltkanal.Click += new System.EventHandler(this.btnToptanAltkanal_Click);
+            // 
             // frmINTERNETticaripazarlamaaktiviteler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1791,5 +1803,6 @@
         private System.Windows.Forms.TextBox lblUyari;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn56;
         private System.Windows.Forms.Button btnFiyatExcel;
+        private System.Windows.Forms.Button btnToptanAltkanal;
     }
 }
