@@ -41,19 +41,19 @@
                     {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5]
+                            columns: [1, 2, 3, 8]
                         }
                     },
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5]
+                            columns: [1, 2, 3, 8]
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5],
+                            columns: [1, 2, 3, 8],
                             format: {
                                 body: function (data, row, column, node) {
                                     data = $('<p>' + data + '</p>').text();
@@ -101,8 +101,13 @@
             <th class="keyTd"><span class="">Kod</span></th>
             <th class="keyTd"><span class="">Malzeme</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Fiyat</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">İsk1</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">İsk2</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">İsk3</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">İsk4</span></th>
             <th class="keyTd"><span class="">Miktar</span></th>
-            <th class="keyTd"><span class="">Toplam</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Net</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Toplam</span></th>
         </tr>
     </thead>
 </table>
