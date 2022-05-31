@@ -1068,7 +1068,7 @@ namespace Sultanlar.UI
             string[] depoveneden = Iadeler.GetSapDepo(iade.pkIadeID);
 
             SAPsendorderC.ZwebSendSalesOrderService clOrder = new SAPsendorderC.ZwebSendSalesOrderService();
-            clOrder.Credentials = new System.Net.NetworkCredential("MISTIF", "123456q");
+            clOrder.Credentials = new System.Net.NetworkCredential("MISTIF", "Ankara1923*+B");
             SAPsendorderC.Zwebs010 header = new SAPsendorderC.Zwebs010();
 
             header.Ctype = "IADE";
