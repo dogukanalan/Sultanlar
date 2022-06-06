@@ -16,7 +16,7 @@ $('.validate-form').on('submit', function () {
     return check;
 });*/
 
-var apiurl = "https://www.ittihadteknoloji.com.tr/internet/";
+var apiurl = "http://localhost:50544/internet/";
 //http://localhost:50544/internet/
 //http://95.0.47.130/SulAPI/internet/
 //https://www.ittihadteknoloji.com.tr/internet/

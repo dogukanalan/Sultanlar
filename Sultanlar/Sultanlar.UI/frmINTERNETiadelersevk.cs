@@ -56,7 +56,7 @@ namespace Sultanlar.UI
                 gbEkleme.Enabled = true;
                 gbGuncelleme.Enabled = true;
             }
-            else if (frmAna.KAdi.ToUpper() == "LK12" || frmAna.KAdi.ToUpper() == "LK02" || frmAna.KAdi.ToUpper() == "LK04" || frmAna.KAdi.ToUpper() == "LK09") // şeyda arslan
+            else if (frmAna.KAdi.ToUpper() == "LK12" || frmAna.KAdi.ToUpper() == "LK13" || frmAna.KAdi.ToUpper() == "LK14" || frmAna.KAdi.ToUpper() == "LK02" || frmAna.KAdi.ToUpper() == "LK04" || frmAna.KAdi.ToUpper() == "LK09") // şeyda arslan
             {
                 txtAciklama.ReadOnly = false;
                 btnAciklama.Enabled = true;

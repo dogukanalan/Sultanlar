@@ -26,7 +26,9 @@ namespace Sultanlar.UI
             SMREF = smref;
             Nereden = nereden;
 
-            if (frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR" || frmAna.KAdi.ToUpper() == "YN02" || frmAna.KAdi.ToUpper() == "ST08") //frmAna.KAdi.ToUpper() == "ST16" || frmAna.KAdi.ToUpper() == "MI01" || frmAna.KAdi.ToUpper() == "ST03" || frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR" || frmAna.KAdi.ToUpper() == "ST12" || frmAna.KAdi.ToUpper() == "FN03" || frmAna.KAdi.ToUpper() == "YN04" || frmAna.KAdi.ToUpper() == "YN02" || frmAna.KAdi.ToUpper() == "ST07" || frmAna.KAdi.ToUpper() == "ST13"
+            if (frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR" || frmAna.KAdi.ToUpper() == "YN02" 
+                || frmAna.KAdi.ToUpper() == "LK12" || frmAna.KAdi.ToUpper() == "LK13" || frmAna.KAdi.ToUpper() == "LK14"
+                || frmAna.KAdi.ToUpper() == "ST08") //frmAna.KAdi.ToUpper() == "ST16" || frmAna.KAdi.ToUpper() == "MI01" || frmAna.KAdi.ToUpper() == "ST03" || frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR" || frmAna.KAdi.ToUpper() == "ST12" || frmAna.KAdi.ToUpper() == "FN03" || frmAna.KAdi.ToUpper() == "YN04" || frmAna.KAdi.ToUpper() == "YN02" || frmAna.KAdi.ToUpper() == "ST07" || frmAna.KAdi.ToUpper() == "ST13"
             {
                 txtTutar.Enabled = true;
                 btnFiyatGuncelle.Enabled = true;
@@ -383,7 +385,7 @@ namespace Sultanlar.UI
                 IadelerDetay.GetObjectsByIadeID(dt, iade.pkIadeID);
 
                 SAPchangeorderC.ZWEB_CHANGE_SALES_ORDERService serv = new SAPchangeorderC.ZWEB_CHANGE_SALES_ORDERService();
-                serv.Credentials = new System.Net.NetworkCredential("MISTIF", "123456q");
+                serv.Credentials = new System.Net.NetworkCredential("MISTIF", "Ankara1923*+B");
                 SAPchangeorderC.BAPIRET2[] donen1 = null;
                 SAPchangeorderC.ZWEBS022[] items = new SAPchangeorderC.ZWEBS022[dt.Rows.Count];
 

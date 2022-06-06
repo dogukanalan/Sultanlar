@@ -280,10 +280,10 @@ namespace Sultanlar.UI
                 Suz();
                 //GetCariler();
             }
-            else if (frmAna.KAdi.ToUpper() == "LK12" || frmAna.KAdi.ToUpper() == "LK02" ||
+            else if (frmAna.KAdi.ToUpper() == "LK12" || frmAna.KAdi.ToUpper() == "LK13" || frmAna.KAdi.ToUpper() == "LK14"/* || frmAna.KAdi.ToUpper() == "LK02" ||
                 frmAna.KAdi.ToUpper() == "LK04" || frmAna.KAdi.ToUpper() == "LK09" || frmAna.KAdi.ToUpper() == "LK17" || 
-                /*frmAna.KAdi.ToUpper() == "LK21" ||*/
-                frmAna.KAdi.ToUpper() == "ST06" || frmAna.KAdi.ToUpper() == "ST09") // şeyda arslan, alttaki iki tane: tuba polat, zehra akgül
+                frmAna.KAdi.ToUpper() == "LK21" ||
+                frmAna.KAdi.ToUpper() == "ST06" || frmAna.KAdi.ToUpper() == "ST09"*/)
             {
                 rbFiyatlandirilmis.Enabled = true;
                 rbFiyatlandirilmamis.Enabled = true;
@@ -291,8 +291,8 @@ namespace Sultanlar.UI
                 rbCoptekiler.Enabled = true;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
-                rbReddedilenler.Enabled = false;
-                rbDegisimler.Enabled = false;
+                rbReddedilenler.Enabled = true;
+                rbDegisimler.Enabled = true;
                 rbTumu.Enabled = true;
                 rbSatOp.Enabled = false;
                 rbST.Enabled = false;
@@ -301,16 +301,16 @@ namespace Sultanlar.UI
 
                 btnIadeGir.Enabled = true;
                 btnIadeDuzenle.Enabled = true;
-                btnIadeRed.Enabled = false;
-                btnGeriAl.Enabled = false;
-                btnFiyatlandirmaIptal.Enabled = false;
-                btnDegisim.Enabled = false;
-                btnQuantumaYaz.Enabled = false;
+                btnIadeRed.Enabled = true;
+                btnGeriAl.Enabled = true;
+                btnFiyatlandirmaIptal.Enabled = true;
+                btnDegisim.Enabled = true;
+                btnQuantumaYaz.Enabled = true;
                 btnSubeDegistir.Enabled = false;
                 btnUyeDegistir.Enabled = false;
                 btnSayim.Enabled = true;
-                btnSatisOperasyon.Enabled = true;
-                btnOnemsizeAt.Enabled = false;
+                btnSatisOperasyon.Enabled = false;
+                btnOnemsizeAt.Enabled = true;
                 btnKabul.Enabled = true;
                 btnKabuldenGeri.Enabled = true;
 
@@ -2095,7 +2095,7 @@ namespace Sultanlar.UI
                 return;
 
             if (frmAna.KAdi.ToUpper() == "LK07" || frmAna.KAdi.ToUpper() == "LK06" ||
-                frmAna.KAdi.ToUpper() == "LK12" || frmAna.KAdi.ToUpper() == "LK02" || frmAna.KAdi.ToUpper() == "FT09")
+                frmAna.KAdi.ToUpper() == "LK12" || frmAna.KAdi.ToUpper() == "LK13" || frmAna.KAdi.ToUpper() == "LK14" || frmAna.KAdi.ToUpper() == "LK02" || frmAna.KAdi.ToUpper() == "FT09")
             {
                 if (MessageBox.Show("Bu iadeler yazdırıldı olarak işaretlensin mi?", "Yazdırılma", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                 {
