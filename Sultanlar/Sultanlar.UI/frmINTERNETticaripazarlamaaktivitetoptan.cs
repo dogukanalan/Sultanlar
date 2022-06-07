@@ -21,7 +21,7 @@ namespace Sultanlar.UI
         private void frmINTERNETticaripazarlamaaktivitetoptan_Load(object sender, EventArgs e)
         {
             dateTimePicker1.Value = Convert.ToDateTime("2022.06.01");
-            dateTimePicker2.Value = DateTime.Now.AddMonths(1);
+            dateTimePicker2.Value = Convert.ToDateTime(DateTime.Now.Year.ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month).ToString());
             GetVeri(1, dateTimePicker1.Value, dateTimePicker2.Value, "");
         }
 

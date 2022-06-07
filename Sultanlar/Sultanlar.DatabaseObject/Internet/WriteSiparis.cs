@@ -314,7 +314,7 @@ namespace Sultanlar.DatabaseObject.Internet
             if (tesltrh < DateTime.Now) tesltrh = DateTime.Now;
 
             SAPsendorderC.ZwebSendSalesOrderService clOrder = new SAPsendorderC.ZwebSendSalesOrderService();
-            clOrder.Credentials = new System.Net.NetworkCredential("mehmetistif", "123456q");
+            clOrder.Credentials = new System.Net.NetworkCredential("MISTIF", "Ankara1923*+B");
             SAPsendorderC.Zwebs010 header = new SAPsendorderC.Zwebs010();
 
             header.Ctype = "SATIS"; //IADE
@@ -445,7 +445,7 @@ namespace Sultanlar.DatabaseObject.Internet
             List<EntegraSatir> satirlar = Entegra.GetSatirlar(EntegraNo);
             DateTime now = DateTime.Now;
             SAPsendorderC.ZwebSendSalesOrderService salesOrderService = new SAPsendorderC.ZwebSendSalesOrderService();
-            salesOrderService.Credentials = (ICredentials)new NetworkCredential("mehmetistif", "123456q");
+            salesOrderService.Credentials = (ICredentials)new NetworkCredential("MISTIF", "Ankara1923*+B");
             SAPsendorderC.Zwebs010 IsOrderHeader = new SAPsendorderC.Zwebs010();
             IsOrderHeader.Ctype = "SATIS";
             int num = now.Year;
@@ -557,7 +557,7 @@ namespace Sultanlar.DatabaseObject.Internet
             EntegraSatir satir = Entegra.GetSatir(EntegraNo, ITEMREF);
             DateTime now = DateTime.Now;
             SAPsendorderC.ZwebSendSalesOrderService salesOrderService = new SAPsendorderC.ZwebSendSalesOrderService();
-            salesOrderService.Credentials = (ICredentials)new NetworkCredential("mehmetistif", "123456q");
+            salesOrderService.Credentials = (ICredentials)new NetworkCredential("MISTIF", "Ankara1923*+B");
             SAPsendorderC.Zwebs010 IsOrderHeader = new SAPsendorderC.Zwebs010();
             IsOrderHeader.Ctype = "SATIS";
             int num = now.Year;
