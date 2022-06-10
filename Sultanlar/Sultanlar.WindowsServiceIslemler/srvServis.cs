@@ -219,7 +219,7 @@ namespace Sultanlar.WindowsServiceIslemler
         {
             if (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
             {
-                if (/*DateTime.Now.Hour == 9 || */DateTime.Now.Hour == 15 || DateTime.Now.Hour == 18)
+                if (DateTime.Now.Hour == 9 || DateTime.Now.Hour == 15 || DateTime.Now.Hour == 18)
                 {
                     if (DateTime.Now.Minute > 33 && DateTime.Now.Minute <= 38)
                     {

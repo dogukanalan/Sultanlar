@@ -57,7 +57,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlDataAdapter da = new SqlDataAdapter("sp_FiyatTPGetir3", conn);
+                SqlDataAdapter da = new SqlDataAdapter("sp_FiyatTPGetir3", conn); //db_sp_tpFiyat3Getir e geçirttim
                 da.SelectCommand.CommandType = CommandType.StoredProcedure;
                 da.SelectCommand.Parameters.Add("@YIL", SqlDbType.Int).Value = Yil;
                 da.SelectCommand.Parameters.Add("@AY", SqlDbType.Int).Value = Ay;
@@ -114,13 +114,20 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT max(FIYAT) AS FIYAT FROM [Web-Fiyat-TP-3] WHERE ITEMREF = " + UrunID.ToString() + " AND TIP = " + FiyatTipi.ToString() + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString(), conn);
+                SqlCommand cmd = new SqlCommand("db_sp_tpFiyat3Getir", conn); //SELECT max(FIYAT) AS FIYAT FROM [Web-Fiyat-TP-3] WHERE ITEMREF = " + UrunID.ToString() + " AND TIP = " + FiyatTipi.ToString() + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString()
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@YIL", SqlDbType.Int).Value = Yil;
+                cmd.Parameters.Add("@AY", SqlDbType.Int).Value = Ay;
+                cmd.Parameters.Add("@GUN", SqlDbType.Int).Value = Gun;
+                cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = FiyatTipi;
+                cmd.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = UrunID;
+                SqlDataReader dr;
                 try
                 {
                     conn.Open();
-                    object obj = cmd.ExecuteScalar();
-                    if (obj != DBNull.Value)
-                        donendeger = Convert.ToDecimal(obj);
+                    dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                        donendeger = Convert.ToDecimal(dr[13]);
                 }
                 catch (SqlException ex)
                 {
@@ -170,17 +177,22 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             decimal donendeger = 0;
 
-            string fiyattip = FiyatTipi != 7 ? (" AND TIP = " + FiyatTipi.ToString()) : (" AND (TIP = 7 OR TIP > 500)"); // bazı ürünlerin sadece 500 lülerde fiyatı oluyor f7 de olmuyor örneğin hakmar ürünü migros ürünü
-
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT max(NET) AS NET FROM [Web-Fiyat-TP-3] WHERE ITEMREF = " + UrunID.ToString() + fiyattip + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString(), conn);
+                SqlCommand cmd = new SqlCommand("db_sp_tpFiyat3Getir", conn); //"SELECT max(NET) AS NET FROM [Web-Fiyat-TP-3] WHERE ITEMREF = " + UrunID.ToString() + fiyattip + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString()
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@YIL", SqlDbType.Int).Value = Yil;
+                cmd.Parameters.Add("@AY", SqlDbType.Int).Value = Ay;
+                cmd.Parameters.Add("@GUN", SqlDbType.Int).Value = Gun;
+                cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = FiyatTipi;
+                cmd.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = UrunID;
+                SqlDataReader dr;
                 try
                 {
                     conn.Open();
-                    object obj = cmd.ExecuteScalar();
-                    if (obj != DBNull.Value)
-                        donendeger = Convert.ToDecimal(obj);
+                    dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                        donendeger = Convert.ToDecimal(dr[24]);
                 }
                 catch (SqlException ex)
                 {
@@ -243,7 +255,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT max(ISK" + ISK.ToString() + ") AS ISK" + ISK.ToString() + " FROM [Web-Fiyat-TP-3] WHERE ITEMREF = " + UrunID.ToString() + " AND TIP = " + FiyatTipi.ToString() + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString(), conn);
+                SqlCommand cmd = new SqlCommand("SELECT TOP 1 ISK" + ISK.ToString() + " AS ISK" + ISK.ToString() + " FROM [Web-Fiyat-TP-3] WHERE ITEMREF = " + UrunID.ToString() + " AND TIP = " + FiyatTipi.ToString() + " AND YIL = " + Yil.ToString() + " AND AY = " + Ay.ToString() + " AND GUN <= " + Gun.ToString() + " ORDER BY YIL DESC,AY DESC,GUN DESC", conn);
                 try
                 {
                     conn.Open();
