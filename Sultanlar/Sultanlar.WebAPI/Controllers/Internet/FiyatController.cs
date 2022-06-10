@@ -17,7 +17,10 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         
         [HttpGet, Route("internet/[controller]/[action]/{TIP}")]
         public List<fiyatlar> GetByTip(int TIP) => new FiyatProvider().Fiyatlar(TIP);
-        
+
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}")]
+        public List<fiyatlar> GetByTipAkt(int TIP) => new FiyatProvider().FiyatlarAktif(TIP);
+
         [HttpGet, Route("internet/[controller]/[action]/{TIP}/{ITEMREF}")]
         public fiyatlar GetOne(int TIP, int ITEMREF) => new FiyatProvider().Fiyat(TIP, ITEMREF);
 

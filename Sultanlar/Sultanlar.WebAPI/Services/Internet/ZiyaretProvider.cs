@@ -112,5 +112,41 @@ namespace Sultanlar.WebAPI.Services.Internet
         }
 
         internal List<ziyaretSonlandirmaSebepleri> Sonlandirma() => new ziyaretSonlandirmaSebepleri().GetObjects();
+
+        internal string VaryokEkle(ZiyaretVaryok varyok)
+        {
+            ziyaretvaryok onceki = new ziyaretvaryok().GetObject(varyok.barkod);
+            if (onceki.pkID > 0)
+                onceki.DoDelete();
+
+            ziyaretvaryok vy = new ziyaretvaryok();
+            vy.BARKOD = varyok.barkod;
+            vy.FIYAT_TIP = varyok.tip;
+            vy.TARIH = DateTime.Now;
+            vy.DoInsert();
+
+            for (int i = 0; i < varyok.detays.Count; i++)
+            {
+                ziyaretvaryokdetay vyd = new ziyaretvaryokdetay();
+                vyd.VARYOK_ID = vy.pkID;
+                vyd.ITEMREF = varyok.detays[i].itemref;
+                vyd.VARYOK = varyok.detays[i].varyok;
+                vyd.DEPO = varyok.detays[i].depo;
+                vyd.RAF = varyok.detays[i].raf;
+                vyd.RAF_FIYAT = varyok.detays[i].raffiyat;
+                vyd.SKT = varyok.detays[i].skt;
+                vyd.DoInsert();
+            }
+
+            return "";
+        }
+
+        internal ziyaretvaryok VaryokGetir(string BARKOD) => new ziyaretvaryok().GetObject(BARKOD);
+
+        internal string VaryokSil(string BARKOD)
+        {
+            new ziyaretvaryok().GetObject(BARKOD).DoDelete();
+            return "";
+        }
     }
 }

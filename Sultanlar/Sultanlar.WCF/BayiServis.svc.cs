@@ -31,8 +31,15 @@ namespace Sultanlar.WCF
 
             if (Bayikod == "1071593") // kaangıda
             {
-                DateTime bas = Convert.ToDateTime(Yil + "."  + (Ay.Length > 1 ? Ay : "0" + Ay) + ".01");
-                DisVeri.ExecNQwp("DELETE FROM " + tabloadi + " WHERE CONVERT(datetime,[CEKIM_TARIH]) >= @TARIH", new ArrayList() { "TARIH" }, new object[] { bas });
+                if (Satis == "Satis")
+                {
+                    DateTime bas = Convert.ToDateTime(Yil + "." + (Ay.Length > 1 ? Ay : "0" + Ay) + ".01");
+                    DisVeri.ExecNQwp("DELETE FROM " + tabloadi + " WHERE CONVERT(datetime,[CEKIM_TARIH]) >= @TARIH", new ArrayList() { "TARIH" }, new object[] { bas });
+                }
+                else
+                {
+                    DisVeri.ExecNQ("DELETE FROM " + tabloadi);
+                }
             }
             else
             {

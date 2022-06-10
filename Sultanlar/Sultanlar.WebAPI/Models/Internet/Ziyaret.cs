@@ -80,4 +80,22 @@ namespace Sultanlar.WebAPI.Models.Internet
         public Search search { get; set; }
         public List<Order> order { get; set; }
     }
+
+    public class ZiyaretVaryok
+    {
+        public string barkod { get; set; }
+        public int tip { get; set; }
+        public List<ZiyaretVaryokDetay> detays { get; set; }
+    }
+
+    public class ZiyaretVaryokDetay
+    {
+        public int itemref { get; set; }
+        //public bool Isaret { get; set; }
+        public bool varyok { get; set; }
+        public bool depo { get; set; }
+        public bool raf { get; set; }
+        public double raffiyat { get; set; }
+        public bool skt { get; set; }
+    }
 }

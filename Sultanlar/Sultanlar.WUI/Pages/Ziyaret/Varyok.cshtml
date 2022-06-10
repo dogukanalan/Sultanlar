@@ -1,0 +1,427 @@
+﻿@page
+@model VaryokModel
+@{
+    ViewData["Title"] = "Ziyaret Var/Yok Liste";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+
+    <script>
+        var sepet;
+        var paramsmref;
+        var parammtip;
+        var ziyaretid;
+
+        //function getMalzemeler(fiyattip) {
+
+        //    var url1 = apiurl + "fiyat/getbytipakt/" + fiyattip;
+        //    $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+        //        checkAuth(xhr);
+        //        window.localStorage['sepetV'] = JSON.stringify(json);
+        //    }).DataTable({
+        //        ajax: {
+        //            dataSrc: "",
+        //            xhr: function () { return xhrDownloadUpload(); },
+        //            beforeSend: function (xhr) { xhrTicket(xhr); },
+        //            url: url1
+        //        },
+        //        "initComplete": function (settings, json) {
+        //            $('.dataTables_filter input').keyup(function () {
+        //                $(this).val($(this).val().toLocaleUpperCase());
+        //            });
+        //        },
+        //        "fnDrawCallback": function (oSettings) {
+        //            qtip();
+        //        },
+        //        columns: [
+        //            {
+        //                "data": null, "class": "bgwhite keyTd hidewhenmobile", render: function (data, type, row) {
+        //                    if (data.odemE_GUN > 0)
+        //                        return '<div class="imgKucRes"><img class="urunResim lazyload" rel="' + apiurl + 'resim/getT/' + data.itemref + '" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="' + apiurl + 'resim/getTO/' + data.itemref + '" /></div>';
+        //                    else
+        //                        return '<div style="width:100px; height:100px" />';
+        //                }
+        //            },
+        //            {
+        //                "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+        //                    return '<span class="sinirli">' + data + '</span>';
+        //                }
+        //            },
+        //            {
+        //                "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+        //                    return '<span class="sinirli">' + data.barkod + '</span>';
+        //                }
+        //            },
+        //            {
+        //                "data": "malacik", "class": "valueTd", render: function (data, type, row) {
+        //                    return '<span class="sinirli malacik">' + data + '</span>';
+        //                }
+        //            },
+        //            {
+        //                "data": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+        //                    return '<span class="sinirli">' + data.koli + '</span>';
+        //                }
+        //            },
+        //            {
+        //                "data": null, "class": "keyTd", render: function (data, type, row) {
+        //                    return '<input type="checkbox" accesskey="' + data.itemref + '" />';
+        //                }
+        //            }
+        //        ],
+        //        "destroy": true,
+        //        "scrollX": true,
+        //        "language": defaultDtLang,
+        //        "paging": true,
+        //        "ordering": true,
+        //        "info": false,
+        //        "searching": true,
+        //        "deferRender": true
+        //    });
+        //}
+
+        function getListe() {
+            $("#divKaydetSil").css("display", "block");
+            $('#dtTable').DataTable({
+                "aaData": sepet.detays,
+                "aoColumns": [
+                    {
+                        "mDataProp": null, "class": "bgwhite keyTd hidewhenmobile", render: function (data, type, row) {
+                            if (data.odemE_GUN > 0)
+                                return '<div class="imgKucRes"><img class="urunResim lazyload" rel="' + apiurl + 'resim/getT/' + data.itemref + '" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="' + apiurl + 'resim/getTO/' + data.itemref + '" /></div>';
+                            else
+                                return '<div style="width:100px; height:100px" />';
+                        }
+                    },
+                    {
+                        "mDataProp": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "mDataProp": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirliHeryer">' + data.barkod + '</span>';
+                        }
+                    },
+                    {
+                        "mDataProp": "malacik", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli malacik">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "mDataProp": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.koli + '</span>';
+                        }
+                    },
+                    {
+                        "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2 p-toggle">' +
+                                '<input type="checkbox" onchange="checkDisEn(this)" accesskey="' + data.itemref + '"' + (data.fiyatvy.isaret == true ? 'checked="checked"' : '') + ' />' +
+                                '<div class="state p-success p-on"><label></label></div><div class="state p-danger p-off"><label></label></div></div>';
+                        }
+                    },
+                    {
+                        "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2">' +
+                                '<input type="checkbox" class="checkler" onchange="checkyap(this,0)" ' + (data.fiyatvy.isaret == false ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + (data.fiyatvy.varyok == true ? 'checked="checked"' : '') + ' />' +
+                                '<div class="state p-primary"><label></label></div></div>';
+                        }
+                    },
+                    {
+                        "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2">' +
+                                '<input type="checkbox" class="checkler" onchange="checkyap(this,1)" ' + (data.fiyatvy.isaret == false ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + (data.fiyatvy.depo == true ? 'checked="checked"' : '') + ' />' +
+                                '<div class="state p-primary"><label></label></div></div>';
+                        }
+                    },
+                    {
+                        "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2">' +
+                                '<input type="checkbox" class="checkler" onchange="checkyap(this,2)" ' + (data.fiyatvy.isaret == false ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + (data.fiyatvy.raf == true ? 'checked="checked"' : '') + ' />' +
+                                '<div class="state p-primary"><label></label></div></div>';
+                        }
+                    },
+                    {
+                        "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="number" class="checkler inputSecim" onchange="checkyap(this,3)" ' + (data.fiyatvy.isaret == false ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + 'value="' + data.fiyatvy.raffiyat + '"' + ' />';
+                        }
+                    },
+                    {
+                        "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2">' +
+                                '<input type="checkbox" class="checkler" onchange="checkyap(this,4)" ' + (data.fiyatvy.isaret == false ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + (data.fiyatvy.skt == true ? 'checked="checked"' : '') + ' />' +
+                                '<div class="state p-primary"><label></label></div></div>';
+                        }
+                    }
+                ],
+                "scrollX": true,
+                "language": defaultDtLang,
+                "paging": false,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[3, "asc"]],
+                "initComplete": function (settings, json) {
+
+                },
+                "fnDrawCallback": function (oSettings) {
+                    qtip();
+                }
+            });
+        }
+
+        function getFiyatlar() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "uyeyetki/" + localStorage["musteri"],
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
+
+                        $.each(rootData, function (index, item) {
+                            $("#selectFiyatTipler").append(
+                                $("<option></option>")
+                                    .text(item.fiyatTipi.aciklama)
+                                    .val(item.sintFiyatTipiID)
+                            );
+                        });
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function checkDisEn(ctrl) {
+            if (!ctrl.checked) {
+                $(ctrl).closest("tr").find(".checkler").prop("disabled", true);
+                //$(ctrl).closest("tr").find(".checkler").prop("checked", false);
+            }
+            else {
+                $(ctrl).closest("tr").find(".checkler").prop("disabled", false);
+            }
+
+            $.each(sepet.detays, function (index, item) {
+                if (item.itemref == $(ctrl).prop("accessKey")) {
+                    item.fiyatvy.isaret = ctrl.checked;
+                }
+            });
+            window.localStorage['sepetV'] = JSON.stringify(sepet);
+        }
+
+        function checkyap(ctrl, tur) {
+            $.each(sepet.detays, function (index, item) {
+                if (item.itemref == $(ctrl).prop("accessKey")) {
+                    if (tur == 0)
+                        item.fiyatvy.varyok = ctrl.checked;
+                    if (tur == 1)
+                        item.fiyatvy.depo = ctrl.checked;
+                    if (tur == 2)
+                        item.fiyatvy.raf = ctrl.checked;
+                    if (tur == 3)
+                        item.fiyatvy.raffiyat = ctrl.value;
+                    if (tur == 4)
+                        item.fiyatvy.skt = ctrl.checked;
+                }
+            });
+            window.localStorage['sepetV'] = JSON.stringify(sepet);
+        }
+
+        function kaydet() {
+            var sentData = { barkod: sepet.barkod, tip: sepet.tip, detays: [] };
+
+            for (var i = 0; i < sepet.detays.length; i++) {
+                if (sepet.detays[i].fiyatvy.isaret == true) {
+                    sentData.detays.push(
+                        {
+                            itemref: sepet.detays[i].itemref,
+                            //isaret: sepet[i].fiyatvy.isaret,
+                            varyok: sepet.detays[i].fiyatvy.varyok,
+                            depo: sepet.detays[i].fiyatvy.depo,
+                            raf: sepet.detays[i].fiyatvy.raf,
+                            raffiyat: sepet.detays[i].fiyatvy.raffiyat,
+                            skt: sepet.detays[i].fiyatvy.skt
+                        });
+                }
+            }
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "ziyaret/varyokekle",
+                    data: JSON.stringify(sentData),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        window.localStorage.removeItem("sepetV");
+                        alert('Liste gönderildi.');
+                        window.location.href = 'Ziyaret';
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { alert('hata: ' + JSON.stringify(sentData)); window.location.href = 'Ziyaret'; }
+                }
+            );
+        }
+
+        function sil() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "ziyaret/varyoksil/" + ziyaretid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        window.localStorage.removeItem("sepetV");
+                        window.location.href = 'Ziyaret';
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function qtip() {
+            $('.urunResim').each(function () {
+                $(this).qtip({
+                    content: '<img src="' + $(this).attr('rel') + '" class="urunResimQtip" />',
+                    position: { at: 'top right' }
+                });
+            });
+            lazyload();
+        }
+
+        $(document).ready(function () {
+            paramsmref = getParameterByName('smref');
+            parammtip = getParameterByName('mtip');
+            ziyaretid = getParameterByName('ziyaretid');
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "ziyaret/varyokgetir/" + ziyaretid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        sepet = { barkod: data.barkod, tip: data.fiyaT_TIP, detays: [] };
+
+                        if (window.localStorage['sepetV'] == undefined && data.pkID > 0) {
+                            alert("Daha önceden liste kaydedilmiş");
+
+                            $.ajax(
+                                {
+                                    xhr: function () { return xhrDownloadUpload(); },
+                                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                                    url: apiurl + "fiyat/getbytipakt/" + data.fiyaT_TIP,
+                                    success: function (data1, textStatus, response) {
+                                        checkAuth(response);
+
+                                        for (var i = 0; i < data1.length; i++) {
+                                            for (var j = 0; j < data.detays.length; j++) {
+                                                if (data.detays[j].itemref == data1[i].itemref) {
+                                                    data1[i].fiyatvy.isaret = true;
+                                                    data1[i].fiyatvy.varyok = data.detays[j].varyok;
+                                                    data1[i].fiyatvy.depo = data.detays[j].depo;
+                                                    data1[i].fiyatvy.raf = data.detays[j].raf;
+                                                    data1[i].fiyatvy.raffiyat = data.detays[j].raF_FIYAT;
+                                                    data1[i].fiyatvy.skt = data.detays[j].skt;
+                                                }
+                                            }
+                                        }
+
+                                        sepet.detays = data1;
+                                        $("#selectFiyatTipler").css("display", "none");
+                                        $("#dtTable").css("display", "table");
+                                        window.localStorage['sepetV'] = JSON.stringify(sepet);
+                                        getListe();
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                }
+                            );
+                        }
+                        else {
+                            if (window.localStorage['sepetV']) {
+                                $("#selectFiyatTipler").css("display", "none");
+                                $("#dtTable").css("display", "table");
+                                sepet = JSON.parse(window.localStorage['sepetV']);
+                                getListe();
+                            }
+                            else {
+                                getFiyatlar();
+                            }
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+
+            getCari(parammtip, paramsmref, getCariSube, "ziyMus");
+
+            $('#selectFiyatTipler').on('change', function (e) {
+                $("#selectFiyatTipler").css("display", "none");
+                $("#dtTable").css("display", "table");
+
+                var fiyattip = this.value;
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        url: apiurl + "fiyat/getbytipakt/" + fiyattip,
+                        success: function (data, textStatus, response) {
+                            checkAuth(response);
+
+                            sepet = { barkod: ziyaretid, tip: fiyattip, detays: data };
+                            window.localStorage['sepetV'] = JSON.stringify(sepet);
+                            getListe();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    }
+                );
+            });
+            $('#dtTable').on('draw.dt', function () {
+
+            });
+        });
+    </script>
+}
+<h5 class="spanCiplak" id="ziyMus"></h5>
+@*<input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" autocomplete="off">*@
+<select id="selectFiyatTipler" name="selectFiyatTipler" class="dropDown">
+    <option value="1" selected="selected">Seçiniz</option>
+</select>
+<br />
+<div id="divKaydetSil" style="display: none">
+    <input type="button" class="btn btn-info secimTus" value="Listeyi Gönder" onclick="kaydet()" />
+    <input type="button" class="btn btn-danger secimTus" value="Listeyi Sil" onclick="sil()" />
+</div>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%; display: none" data-page-length='500'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+            <th class="keyTd"><span class="">Kod</span></th>
+            <th class="keyTd"><span class="">Barkod</span></th>
+            <th class="keyTd"><span class="">Malzeme</span></th>
+            <th class="keyTd"><span class="">Koli</span></th>
+            <th class="keyTd"><span class="">İş.</span></th>
+            <th class="keyTd"><span class="">V/Y</span></th>
+            <th class="keyTd"><span class="">Depo</span></th>
+            <th class="keyTd"><span class="">Raf</span></th>
+            <th class="keyTd"><span class="">Raf F.</span></th>
+            <th class="keyTd"><span class="">Skt</span></th>
+        </tr>
+    </thead>
+</table>

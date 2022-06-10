@@ -1330,9 +1330,19 @@ input[type="text"]:disabled {
     border: gray 1px solid;
 }
 
+input[type="number"] {
+    background-color: #ffffff;
+    border: rgba(0,0,0,0.2) 1px solid;
+}
+
 input[type="number"]:disabled {
     background-color: #ffffff;
     border: gray 1px solid;
+}
+
+.inputSecim:disabled {
+    background-color: #ebebeb !important;
+    border: #ddd 1px solid !important;
 }
 
 .ZiyaretDivDis {

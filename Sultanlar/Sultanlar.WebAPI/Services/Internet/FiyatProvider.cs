@@ -12,6 +12,20 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal List<fiyatlar> Fiyatlar(int TIP) => new fiyatlar().GetObjects(TIP);
 
+        internal List<fiyatlar> FiyatlarAktif(int TIP)
+        {
+            List<fiyatlar> fiys = new fiyatlar().GetObjects(TIP);
+            List<fiyatlar> donendeger = new List<fiyatlar>();
+            for (int i = 0; i < fiys.Count; i++)
+            {
+                if (!fiys[i].malzeme.MALACIK.EndsWith("&"))
+                {
+                    donendeger.Add(fiys[i]);
+                }
+            }
+            return donendeger;
+        }
+
         internal fiyatlar Fiyat(int TIP, int ITEMREF) => new fiyatlar(TIP, ITEMREF).GetObject();
 
         internal List<fiyatlarTp> FiyatlarTP() => new fiyatlarTp().GetObjects();

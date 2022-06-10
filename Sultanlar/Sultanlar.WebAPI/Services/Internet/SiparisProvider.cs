@@ -257,5 +257,12 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             return donendeger;// new SiparisIsks() { fiyat=1, isk1=2, isk2=3, isk3=4, isk4=5 };
         }
+
+        internal SiparisIsks Isks500(int Fiyattipi, int ITEMREF)
+        {
+            fiyatlar fiy = new fiyatlar(Fiyattipi, ITEMREF).GetObject();
+            SiparisIsks donendeger = new SiparisIsks() { fiyat = fiy.FIYAT, isk1 = fiy.ISK1, isk2 = fiy.ISK2, isk3 = fiy.ISK3, isk4 = fiy.ISK6 };
+            return donendeger;
+        }
     }
 }

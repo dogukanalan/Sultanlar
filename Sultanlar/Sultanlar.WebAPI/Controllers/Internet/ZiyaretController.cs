@@ -35,5 +35,14 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet]
         public List<ziyaretSonlandirmaSebepleri> Sonlandirma() => new ZiyaretProvider().Sonlandirma();
+
+        [HttpPost]
+        public string VaryokEkle([FromBody]ZiyaretVaryok varyok) => new ZiyaretProvider().VaryokEkle(varyok);
+
+        [HttpGet("{BARKOD}")]
+        public ziyaretvaryok VaryokGetir(string BARKOD) => new ZiyaretProvider().VaryokGetir(BARKOD);
+
+        [HttpGet("{BARKOD}")]
+        public string VaryokSil(string BARKOD) => new ZiyaretProvider().VaryokSil(BARKOD);
     }
 }

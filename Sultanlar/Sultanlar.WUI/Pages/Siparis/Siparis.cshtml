@@ -74,6 +74,26 @@
             return isks;
         }
 
+        function getIsks500(ftip, itemref) {
+            var isks;
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "siparis/getisks500/" + ftip + "/" + itemref,
+                    async: false,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        isks = data;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+
+            return isks;
+        }
+
         function siparisiGoster() {
             sencHeader();
             window.location.href = 'Icerik?smref=' + paramsmref + '&ftip=' + paramftip + '&siparisid=' + siparisid;
@@ -106,6 +126,9 @@
                                 var isks = { fiyat:0, isk1:0, isk2:0, isk3:0, isk4:0 };
                                 if (paramftip == 2) {
                                     isks = getIsksA(paramsmref, itref, getDateNow());
+                                }
+                                else if (paramftip > 500) {
+                                    isks = getIsks500(paramftip, itref);
                                 }
 
                                 cookiedet.push(

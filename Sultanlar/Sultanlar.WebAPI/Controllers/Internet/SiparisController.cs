@@ -36,5 +36,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet("{SMREF}/{ITEMREF}/{Tarih}")]
         public SiparisIsks GetIsks(int SMREF, int ITEMREF, DateTime Tarih) => new SiparisProvider().Isks(SMREF, ITEMREF, Tarih);
+
+        [HttpGet("{Fiyattipi}/{ITEMREF}")]
+        public SiparisIsks GetIsks500(int Fiyattipi, int ITEMREF) => new SiparisProvider().Isks500(Fiyattipi, ITEMREF);
     }
 }

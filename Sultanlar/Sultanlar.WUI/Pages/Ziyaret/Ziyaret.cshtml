@@ -7,6 +7,7 @@
 @section head {
     <script>
         var map;
+        var ziyaret;
 
         function ZiyaretEkle() {
             var rut_id = getParameterByName("barkod") ? getParameterByName("barkod") : getParameterByName("slsref") + getParameterByName("gmref") + getParameterByName("smref") + "." + getDateNowStr();
@@ -35,6 +36,7 @@
 
                         $("#rut_id").val(data.rut_id);
                         window.localStorage["ziyaret"] = JSON.stringify(data);
+                        ziyaret = data;
 
                         getCari(getParameterByName("tip"), getParameterByName("smref"), getCariSube, "inputSube");
                         getBaslangic(getDateNowStr());
@@ -75,7 +77,7 @@
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
             if (window.localStorage["ziyaret"]) {
-                var ziyaret = JSON.parse(window.localStorage["ziyaret"]);
+                ziyaret = JSON.parse(window.localStorage["ziyaret"]);
                 getCari(ziyaret.mtip, ziyaret.smref, getCariSube, "inputSube");
                 getBaslangic(ziyaret.ziy_bas_tar);
                 $("#rut_id").val(ziyaret.rut_id);
@@ -95,7 +97,8 @@
     Başlangıç:
 <input type="text" class="form-control" id="inputBas" disabled />
 <br />
-<input type="button" class="btn btn-info" value="Resim Gönder" onclick="window.location.href = '../Resim/?smref=' + getParameterByName('smref') + '&tip=' + getParameterByName('tip') + '&rut_id=' + $('#rut_id').val()" />
+<input type="button" class="btn btn-info" value="Resim Gönder" onclick="window.location.href = '../Resim/?smref=' + ziyaret.smref + '&tip=' + ziyaret.mtip + '&rut_id=' + $('#rut_id').val()" />
+<input type="button" class="btn btn-info" value="Var/Yok Liste" onclick="window.location.href = 'Varyok?smref=' + ziyaret.smref + '&mtip=' + ziyaret.mtip + '&ziyaretid=' + ziyaret.barkod" />
 <br />
 <br />
 <input type="button" class="btn btn-danger" value="Ziyareti İptal Et" onclick="ZiyaretIptal()" />

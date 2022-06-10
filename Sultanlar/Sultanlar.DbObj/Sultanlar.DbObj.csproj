@@ -86,6 +86,7 @@
     <Compile Include="Internet\uyeYetkileri.cs" />
     <Compile Include="Internet\ziyaretler.cs" />
     <Compile Include="Internet\ziyaretSonlandirmaSebepleri.cs" />
+    <Compile Include="Internet\ziyaretvaryok.cs" />
     <Compile Include="Internet\_general.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StandartClass.cs" />

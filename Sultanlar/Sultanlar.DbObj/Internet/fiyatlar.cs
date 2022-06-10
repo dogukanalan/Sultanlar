@@ -36,6 +36,7 @@ namespace Sultanlar.DbObj.Internet
         public Guid KAMKARTREF;
         public double ODEME_GUN;
         public DateTime ODEME_TARIH;
+        public fiyatvy fiyatvy { get { return new fiyatvy(ITEMREF); } }
 
         public fiyatlar() { }
         public fiyatlar(int TIP, int ITEMREF) { this.TIP = TIP; this.ITEMREF = ITEMREF; }
@@ -130,5 +131,17 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+    }
+
+    public class fiyatvy
+    {
+        public int ITEMREF { get; set; }
+        public bool Isaret { get; set; }
+        public bool Varyok { get; set; }
+        public bool Depo { get; set; }
+        public bool Raf { get; set; }
+        public double Raffiyat { get; set; }
+        public bool Skt { get; set; }
+        public fiyatvy(int ITEMREF) { this.ITEMREF = ITEMREF; }
     }
 }
