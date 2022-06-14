@@ -72,7 +72,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             ziyaretler ziy = new ziyaretler(ziyaret.MTIP, ziyaret.RUT_TUR, ziyaret.RUT_ID, ziyaret.GMREF, ziyaret.SMREF, ziyaret.SLSREF, ziyaret.BARKOD, 
                 DateTime.Now, DateTime.Now, //Convert.ToDateTime(ziyaret.ZIY_BAS_TAR), Convert.ToDateTime(ziyaret.ZIY_BIT_TAR), 
-                ziyaret.ZIY_NDN_ID, ziyaret.ZIY_KONUM, ziyaret.ZIY_KONUM_ADRES, ziyaret.ZIY_KONUM_CIKIS, ziyaret.ZIY_KONUM_ADRES_CIKIS, ziyaret.FARK_KNM_ZIY, new byte[] { }, ziyaret.ZIY_NOTLARI, ziyaret.ZIY_SIP, ziyaret.ZIY_AKT, ziyaret.ZIY_IAD, ziyaret.ZIY_TAH);
+                ziyaret.ZIY_NDN_ID, ziyaret.ZIY_KONUM, ziyaret.ZIY_KONUM_ADRES, ziyaret.ZIY_KONUM_CIKIS, ziyaret.ZIY_KONUM_ADRES_CIKIS, ziyaret.FARK_KNM_ZIY, new byte[] { }, ziyaret.ZIY_NOTLARI, ziyaret.ZIY_SIP, ziyaret.ZIY_AKT, ziyaret.ZIY_IAD, ziyaret.ZIY_TAH, ziyaret.YOL);
             ziy.DoInsert();
 
             return ziyaret;
@@ -99,6 +99,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             ziy.ZIY_KONUM_ADRES_CIKIS = ziyaret.ZIY_KONUM_ADRES_CIKIS;
             ziy.FARK_KNM_ZIY = ziyaret.FARK_KNM_ZIY;
             ziy.ZIY_NOTLARI = ziyaret.ZIY_NOTLARI;
+            ziy.YOL = ziyaret.YOL;
             ziy.DoUpdate();
             return "";
         }
@@ -125,6 +126,9 @@ namespace Sultanlar.WebAPI.Services.Internet
             vy.TARIH = DateTime.Now;
             vy.DoInsert();
 
+            SiparisKaydet skg = new SiparisKaydet();
+            skg.detaylar = new List<SiparisKaydetDetay>();
+
             for (int i = 0; i < varyok.detays.Count; i++)
             {
                 ziyaretvaryokdetay vyd = new ziyaretvaryokdetay();
@@ -135,7 +139,30 @@ namespace Sultanlar.WebAPI.Services.Internet
                 vyd.RAF = varyok.detays[i].raf;
                 vyd.RAF_FIYAT = varyok.detays[i].raffiyat;
                 vyd.SKT = varyok.detays[i].skt;
+                vyd.SIPARIS = varyok.detays[i].siparis;
                 vyd.DoInsert();
+
+                SiparisKaydetDetay skgd = new SiparisKaydetDetay();
+                skgd.itemref = vyd.ITEMREF;
+                skgd.malacik = new malzemeler(vyd.ITEMREF).GetObject().MALACIK;
+                skgd.miktar = vyd.SIPARIS;
+                skgd.miktartur = "ST";
+                skgd.netkdv = new fiyatlar(vy.FIYAT_TIP, vyd.ITEMREF).NETKDV;
+                if (skgd.miktar > 0)
+                    skg.detaylar.Add(skgd);
+            }
+
+            skg.ftip = Convert.ToInt16(vy.FIYAT_TIP);
+            skg.aciklama = "Ziy.V/Y: " + varyok.barkod;
+            skg.smref = vy.Ziyaret.SMREF;
+            skg.teslim = DateTime.Now.ToShortDateString();
+            skg.musteri = varyok.musteri;
+            skg.siparisid = 0;
+
+            if (skg.detaylar.Count > 0)
+            {
+                SiparisProvider sp = new SiparisProvider();
+                sp.SiparisKaydet(skg);
             }
 
             return "";

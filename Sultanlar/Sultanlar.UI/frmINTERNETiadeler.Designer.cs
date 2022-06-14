@@ -127,6 +127,9 @@
             this.cbRenklendir = new System.Windows.Forms.CheckBox();
             this.btnQuantumaYaz = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.rb2022 = new System.Windows.Forms.RadioButton();
+            this.rb2021 = new System.Windows.Forms.RadioButton();
+            this.rb2020 = new System.Windows.Forms.RadioButton();
             this.rb2019 = new System.Windows.Forms.RadioButton();
             this.rb2018 = new System.Windows.Forms.RadioButton();
             this.rb2017 = new System.Windows.Forms.RadioButton();
@@ -180,9 +183,6 @@
             this.btnKabul = new System.Windows.Forms.Button();
             this.btnKabuldenGeri = new System.Windows.Forms.Button();
             this.cbTumunuSec = new System.Windows.Forms.CheckBox();
-            this.rb2020 = new System.Windows.Forms.RadioButton();
-            this.rb2021 = new System.Windows.Forms.RadioButton();
-            this.rb2022 = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.pnlSevk.SuspendLayout();
@@ -921,7 +921,7 @@
             this.btnIadeDuzenle.Name = "btnIadeDuzenle";
             this.btnIadeDuzenle.Size = new System.Drawing.Size(72, 23);
             this.btnIadeDuzenle.TabIndex = 6;
-            this.btnIadeDuzenle.Text = "Fat.Takip";
+            this.btnIadeDuzenle.Text = "Düzenle";
             this.btnIadeDuzenle.UseVisualStyleBackColor = true;
             this.btnIadeDuzenle.Click += new System.EventHandler(this.btnIadeDuzenle_Click);
             // 
@@ -1063,6 +1063,41 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(155, 55);
             this.panel1.TabIndex = 41;
+            // 
+            // rb2022
+            // 
+            this.rb2022.AutoSize = true;
+            this.rb2022.Checked = true;
+            this.rb2022.Location = new System.Drawing.Point(110, 21);
+            this.rb2022.Name = "rb2022";
+            this.rb2022.Size = new System.Drawing.Size(49, 17);
+            this.rb2022.TabIndex = 0;
+            this.rb2022.TabStop = true;
+            this.rb2022.Text = "2022";
+            this.rb2022.UseVisualStyleBackColor = true;
+            this.rb2022.CheckedChanged += new System.EventHandler(this.rb2013_CheckedChanged);
+            // 
+            // rb2021
+            // 
+            this.rb2021.AutoSize = true;
+            this.rb2021.Location = new System.Drawing.Point(110, 5);
+            this.rb2021.Name = "rb2021";
+            this.rb2021.Size = new System.Drawing.Size(49, 17);
+            this.rb2021.TabIndex = 0;
+            this.rb2021.Text = "2021";
+            this.rb2021.UseVisualStyleBackColor = true;
+            this.rb2021.CheckedChanged += new System.EventHandler(this.rb2013_CheckedChanged);
+            // 
+            // rb2020
+            // 
+            this.rb2020.AutoSize = true;
+            this.rb2020.Location = new System.Drawing.Point(55, 37);
+            this.rb2020.Name = "rb2020";
+            this.rb2020.Size = new System.Drawing.Size(49, 17);
+            this.rb2020.TabIndex = 0;
+            this.rb2020.Text = "2020";
+            this.rb2020.UseVisualStyleBackColor = true;
+            this.rb2020.CheckedChanged += new System.EventHandler(this.rb2013_CheckedChanged);
             // 
             // rb2019
             // 
@@ -1689,41 +1724,6 @@
             this.cbTumunuSec.Text = "Seç";
             this.cbTumunuSec.UseVisualStyleBackColor = true;
             this.cbTumunuSec.CheckedChanged += new System.EventHandler(this.cbTumunuSec_CheckedChanged);
-            // 
-            // rb2020
-            // 
-            this.rb2020.AutoSize = true;
-            this.rb2020.Location = new System.Drawing.Point(55, 37);
-            this.rb2020.Name = "rb2020";
-            this.rb2020.Size = new System.Drawing.Size(49, 17);
-            this.rb2020.TabIndex = 0;
-            this.rb2020.Text = "2020";
-            this.rb2020.UseVisualStyleBackColor = true;
-            this.rb2020.CheckedChanged += new System.EventHandler(this.rb2013_CheckedChanged);
-            // 
-            // rb2021
-            // 
-            this.rb2021.AutoSize = true;
-            this.rb2021.Location = new System.Drawing.Point(110, 5);
-            this.rb2021.Name = "rb2021";
-            this.rb2021.Size = new System.Drawing.Size(49, 17);
-            this.rb2021.TabIndex = 0;
-            this.rb2021.Text = "2021";
-            this.rb2021.UseVisualStyleBackColor = true;
-            this.rb2021.CheckedChanged += new System.EventHandler(this.rb2013_CheckedChanged);
-            // 
-            // rb2022
-            // 
-            this.rb2022.AutoSize = true;
-            this.rb2022.Checked = true;
-            this.rb2022.Location = new System.Drawing.Point(110, 21);
-            this.rb2022.Name = "rb2022";
-            this.rb2022.Size = new System.Drawing.Size(49, 17);
-            this.rb2022.TabIndex = 0;
-            this.rb2022.TabStop = true;
-            this.rb2022.Text = "2022";
-            this.rb2022.UseVisualStyleBackColor = true;
-            this.rb2022.CheckedChanged += new System.EventHandler(this.rb2013_CheckedChanged);
             // 
             // frmINTERNETiadeler
             // 

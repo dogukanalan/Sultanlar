@@ -52,6 +52,8 @@ namespace Sultanlar.WebAPI.Models.Internet
         public int ZIY_IAD { get; set; }
         [JsonPropertyAttribute("ziy_tah")]
         public int ZIY_TAH { get; set; }
+        [JsonPropertyAttribute("yol")]
+        public string YOL { get; set; }
     }
 
     public class ZiyaretGet
@@ -84,6 +86,7 @@ namespace Sultanlar.WebAPI.Models.Internet
     public class ZiyaretVaryok
     {
         public string barkod { get; set; }
+        public string musteri { get; set; }
         public int tip { get; set; }
         public List<ZiyaretVaryokDetay> detays { get; set; }
     }
@@ -97,5 +100,6 @@ namespace Sultanlar.WebAPI.Models.Internet
         public bool raf { get; set; }
         public double raffiyat { get; set; }
         public bool skt { get; set; }
+        public int siparis { get; set; }
     }
 }

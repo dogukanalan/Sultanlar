@@ -20,7 +20,7 @@
                 getParameterByName("coords") + '", "ziy_konum_adres": "' + getParameterByName("address") +
                 '", "ziy_konum_cikis": "0,0", "ziy_konum_adres_cikis": "", ' +
                 '"ziy_konum_musteri": "' + getParameterByName("konumM") +
-                '", "fark_knm_ziy": "0", "ziy_konum_resim": "", "ziy_notlari": "", "ziy_sip": "0", "ziy_akt": "0", "ziy_iad": "0", "ziy_tah": "0" }';
+                '", "fark_knm_ziy": "0", "ziy_konum_resim": "", "ziy_notlari": "", "ziy_sip": "0", "ziy_akt": "0", "ziy_iad": "0", "ziy_tah": "0", "yol": "" }';
 
             $.ajax(
                 {
@@ -50,6 +50,7 @@
             var ziyaret = JSON.parse(window.localStorage["ziyaret"]);
             var sentData = '{ "barkod": "' + ziyaret.barkod + '", "tip": "' + ziyaret.mtip + '", "smref": "' + ziyaret.smref + '", "slsref": "' + ziyaret.slsref + '", "zaman": "' + ziyaret.ziy_bas_tar + '" }';
             window.localStorage.removeItem("ziyaret");
+            window.localStorage.removeItem("sepetV");
 
             $.ajax(
                 {

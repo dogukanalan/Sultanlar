@@ -622,7 +622,7 @@ namespace Sultanlar.UI
             dataGridView1.Columns["clstrSofor"].Visible = cbstrSofor.Checked;
             dataGridView1.Columns["clstrMuavin"].Visible = cbstrMuavin.Checked;
             dataGridView1.Columns["cldtTarihGidis"].Visible = cbdtTarihGidis.Checked;
-            dataGridView1.Columns["clSatirSayisi"].Visible = cbFiyatlandirilmisSatirSayisi.Checked;
+            dataGridView1.Columns["clFiyatlandirilmisSatirSayisi"].Visible = cbFiyatlandirilmisSatirSayisi.Checked;
             dataGridView1.Columns["clSevkBilgisiSayisi"].Visible = cbSevkBilgisiSayisi.Checked;
             dataGridView1.Columns["clstrSoyad"].Visible = cbstrSoyad.Checked;
             dataGridView1.Columns["clstrAd"].Visible = cbstrAd.Checked;
@@ -832,18 +832,21 @@ namespace Sultanlar.UI
 
                 for (int j = 0; j < dataGridView1.Rows.Count; j++)
                 {
-                    DataTable dt1 = new DataTable();
-                    IadelerDetay.GetObjectsByIadeID_Fiy(dt1, Convert.ToInt32(dataGridView1.Rows[j].Cells["clpkIadeID"].Value));
+                    //DataTable dt1 = new DataTable();
+                    //IadelerDetay.GetObjectsByIadeID_Fiy(dt1, Convert.ToInt32(dataGridView1.Rows[j].Cells["clpkIadeID"].Value));
 
-                    bool hepsidolu = true;
-                    bool enazbiridolu = false;
-                    for (int i = 0; i < dt1.Rows.Count; i++)
+                    int fiyatlisatir = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clFiyatlandirilmisSatirSayisi"].Value);
+                    int satir = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clSatirSayisi"].Value);
+                    bool hepsidolu = fiyatlisatir == satir ? true : false;
+                    bool enazbiridolu = fiyatlisatir > 0 ? true : false;
+
+                    /*for (int i = 0; i < dt1.Rows.Count; i++)
                     {
                         if (dt1.Rows[i]["mnToplam"] == DBNull.Value)
                             hepsidolu = false;
                         else
                             enazbiridolu = true;
-                    }
+                    }*/
 
                     if (hepsidolu)
                         dataGridView1.Rows[j].DefaultCellStyle.BackColor = Color.Red;
@@ -1637,8 +1640,24 @@ namespace Sultanlar.UI
 
         private void btnIadeDuzenle_Click(object sender, EventArgs e)
         {
-            frmINTERNETiadefaturatakip frm = new frmINTERNETiadefaturatakip();
-            frm.ShowDialog();
+            int iadeno = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkIadeID"].Value);
+            int fiyatlisatir = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clFiyatlandirilmisSatirSayisi"].Value);
+            string quantumno = IadelerQ.GetQuantumNo(iadeno);
+
+            if (quantumno.StartsWith("0035"))
+            {
+                MessageBox.Show("İade SAP'ye gönderilmiş.", "Hata");
+            }
+            else if (fiyatlisatir > 0)
+            {
+                MessageBox.Show("İade fiyatlandırılmış.", "Hata");
+            }
+            else
+            {
+                frmINTERNETiadegirme frm = new frmINTERNETiadegirme(iadeno);
+                //frmINTERNETiadefaturatakip frm = new frmINTERNETiadefaturatakip();
+                frm.ShowDialog();
+            }
         }
 
         private void btnQuantumaYaz_Click(object sender, EventArgs e)

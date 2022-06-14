@@ -142,6 +142,7 @@ namespace Sultanlar.DbObj.Internet
         public bool Raf { get; set; }
         public double Raffiyat { get; set; }
         public bool Skt { get; set; }
+        public int Siparis { get; set; }
         public fiyatvy(int ITEMREF) { this.ITEMREF = ITEMREF; }
     }
 }

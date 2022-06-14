@@ -23,73 +23,6 @@
         var parammtip;
         var ziyaretid;
 
-        //function getMalzemeler(fiyattip) {
-
-        //    var url1 = apiurl + "fiyat/getbytipakt/" + fiyattip;
-        //    $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
-        //        checkAuth(xhr);
-        //        window.localStorage['sepetV'] = JSON.stringify(json);
-        //    }).DataTable({
-        //        ajax: {
-        //            dataSrc: "",
-        //            xhr: function () { return xhrDownloadUpload(); },
-        //            beforeSend: function (xhr) { xhrTicket(xhr); },
-        //            url: url1
-        //        },
-        //        "initComplete": function (settings, json) {
-        //            $('.dataTables_filter input').keyup(function () {
-        //                $(this).val($(this).val().toLocaleUpperCase());
-        //            });
-        //        },
-        //        "fnDrawCallback": function (oSettings) {
-        //            qtip();
-        //        },
-        //        columns: [
-        //            {
-        //                "data": null, "class": "bgwhite keyTd hidewhenmobile", render: function (data, type, row) {
-        //                    if (data.odemE_GUN > 0)
-        //                        return '<div class="imgKucRes"><img class="urunResim lazyload" rel="' + apiurl + 'resim/getT/' + data.itemref + '" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="' + apiurl + 'resim/getTO/' + data.itemref + '" /></div>';
-        //                    else
-        //                        return '<div style="width:100px; height:100px" />';
-        //                }
-        //            },
-        //            {
-        //                "data": "itemref", "class": "keyTd", render: function (data, type, row) {
-        //                    return '<span class="sinirli">' + data + '</span>';
-        //                }
-        //            },
-        //            {
-        //                "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
-        //                    return '<span class="sinirli">' + data.barkod + '</span>';
-        //                }
-        //            },
-        //            {
-        //                "data": "malacik", "class": "valueTd", render: function (data, type, row) {
-        //                    return '<span class="sinirli malacik">' + data + '</span>';
-        //                }
-        //            },
-        //            {
-        //                "data": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
-        //                    return '<span class="sinirli">' + data.koli + '</span>';
-        //                }
-        //            },
-        //            {
-        //                "data": null, "class": "keyTd", render: function (data, type, row) {
-        //                    return '<input type="checkbox" accesskey="' + data.itemref + '" />';
-        //                }
-        //            }
-        //        ],
-        //        "destroy": true,
-        //        "scrollX": true,
-        //        "language": defaultDtLang,
-        //        "paging": true,
-        //        "ordering": true,
-        //        "info": false,
-        //        "searching": true,
-        //        "deferRender": true
-        //    });
-        //}
-
         function getListe() {
             $("#divKaydetSil").css("display", "block");
             $('#dtTable').DataTable({
@@ -109,8 +42,8 @@
                         }
                     },
                     {
-                        "mDataProp": "malzeme", "class": "keyTd", render: function (data, type, row) {
-                            return '<span class="sinirliHeryer">' + data.barkod + '</span>';
+                        "mDataProp": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.barkod + '</span>';
                         }
                     },
                     {
@@ -162,11 +95,16 @@
                                 '<input type="checkbox" class="checkler" onchange="checkyap(this,4)" ' + (data.fiyatvy.isaret == false ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + (data.fiyatvy.skt == true ? 'checked="checked"' : '') + ' />' +
                                 '<div class="state p-primary"><label></label></div></div>';
                         }
+                    },
+                    {
+                        "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="number" class="checkler inputSecim" onchange="checkyap(this,5)" ' + (data.fiyatvy.isaret == false ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + 'value="' + data.fiyatvy.siparis + '"' + ' />';
+                        }
                     }
                 ],
                 "scrollX": true,
                 "language": defaultDtLang,
-                "paging": false,
+                "paging": true,
                 "info": false,
                 "searching": true,
                 "deferRender": true,
@@ -234,13 +172,15 @@
                         item.fiyatvy.raffiyat = ctrl.value;
                     if (tur == 4)
                         item.fiyatvy.skt = ctrl.checked;
+                    if (tur == 5)
+                        item.fiyatvy.siparis = ctrl.value;
                 }
             });
             window.localStorage['sepetV'] = JSON.stringify(sepet);
         }
 
         function kaydet() {
-            var sentData = { barkod: sepet.barkod, tip: sepet.tip, detays: [] };
+            var sentData = { barkod: sepet.barkod, tip: sepet.tip, musteri: window.localStorage["uyeid"], detays: [] };
 
             for (var i = 0; i < sepet.detays.length; i++) {
                 if (sepet.detays[i].fiyatvy.isaret == true) {
@@ -252,7 +192,8 @@
                             depo: sepet.detays[i].fiyatvy.depo,
                             raf: sepet.detays[i].fiyatvy.raf,
                             raffiyat: sepet.detays[i].fiyatvy.raffiyat,
-                            skt: sepet.detays[i].fiyatvy.skt
+                            skt: sepet.detays[i].fiyatvy.skt,
+                            siparis: sepet.detays[i].fiyatvy.siparis
                         });
                 }
             }
@@ -339,6 +280,7 @@
                                                     data1[i].fiyatvy.raf = data.detays[j].raf;
                                                     data1[i].fiyatvy.raffiyat = data.detays[j].raF_FIYAT;
                                                     data1[i].fiyatvy.skt = data.detays[j].skt;
+                                                    data1[i].fiyatvy.siparis = data.detays[j].siparis;
                                                 }
                                             }
                                         }
@@ -408,7 +350,7 @@
     <input type="button" class="btn btn-info secimTus" value="Listeyi Gönder" onclick="kaydet()" />
     <input type="button" class="btn btn-danger secimTus" value="Listeyi Sil" onclick="sil()" />
 </div>
-<table id="dtTable" class="table table-striped table-bordered" style="width:100%; display: none" data-page-length='500'>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%; display: none" data-page-length='25'>
     <thead>
         <tr>
             <th class="keyTd"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
@@ -422,6 +364,7 @@
             <th class="keyTd"><span class="">Raf</span></th>
             <th class="keyTd"><span class="">Raf F.</span></th>
             <th class="keyTd"><span class="">Skt</span></th>
+            <th class="keyTd"><span class="">Sip</span></th>
         </tr>
     </thead>
 </table>

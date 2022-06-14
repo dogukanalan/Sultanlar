@@ -14,7 +14,7 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal Giris GirisYap(GirisGet giris)
         {
             musteriler musteri = new musteriler().ValidateCustomer(giris.strEposta, giris.strSifre);
-            if (musteri.pkMusteriID == 0)
+            if (musteri.pkMusteriID == 0 || musteri.blPasif)
                 return new Giris();
             string datetime = giris.blBirGun ? new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59).ToString() : DateTime.Now.AddMinutes(60).ToString();
             Giris donendeger = new Giris(

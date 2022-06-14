@@ -23,6 +23,7 @@
             } catch (e) {
                 alert("Hata olustu: " + e);
                 window.localStorage.removeItem("ziyaret");
+                window.localStorage.removeItem("sepetV");
                 window.location.href = '../Musteri';
                 return;
             }
@@ -50,6 +51,7 @@
             ziyaret.ziy_konum_adres_cikis = $("#inputCoordAddress").val();
             ziyaret.fark_knm_ziy = farkHesapla(ziyaret.ziy_konum_musteri, $("#inputCoords").val());
             ziyaret.ziy_notlari = $("#textAciklama").val();
+            ziyaret.yol = $("#inputYol").val();
 
             $.ajax(
                 {
@@ -64,10 +66,12 @@
                         checkAuth(response);
 
                         window.localStorage.removeItem("ziyaret");
+                        window.localStorage.removeItem("sepetV");
                         window.location.href = '../Musteri';
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         window.localStorage.removeItem("ziyaret");
+                        window.localStorage.removeItem("sepetV");
                         alert('hata olustu: ' + errorThrown + ' \r\n\r\n\r\n ' + JSON.stringify(ziyaret));
                     }
                 }
@@ -177,6 +181,9 @@
 <br />
     Ziyaret Sebebi:
 <div id="sonSebep"></div>
+<br />
+    Yol Ücreti:
+<input type="text" class="form-control" id="inputYol" />
 <br />
     Açıklama:
 <textarea class="form-control" id="textAciklama"></textarea>
