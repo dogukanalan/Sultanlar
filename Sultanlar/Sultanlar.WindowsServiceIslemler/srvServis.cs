@@ -104,7 +104,7 @@ namespace Sultanlar.WindowsServiceIslemler
         void tmrSAPprices_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (
-                (DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
+                (DateTime.Now.Hour == 5 || DateTime.Now.Hour == 6 || DateTime.Now.Hour == 7 || DateTime.Now.Hour == 8 || DateTime.Now.Hour == 9 || DateTime.Now.Hour == 10 ||
                 DateTime.Now.Hour == 11 || DateTime.Now.Hour == 12 || DateTime.Now.Hour == 13 || DateTime.Now.Hour == 14 ||
                 DateTime.Now.Hour == 15 || DateTime.Now.Hour == 16 || DateTime.Now.Hour == 17)
                 )
@@ -1794,7 +1794,7 @@ COMMIT TRANSACTION t_Transaction
                 //SqlCommand cmd10 = new SqlCommand("UPDATE [Web-Fiyat-Full] SET [OZEL KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat-Full].ITEMREF),[GRUP KOD] = 'STG-1',HK = CASE WHEN (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat-Full].ITEMREF) = 'T3' THEN 'H' ELSE 'T' END,[OZEL ACIK] = CASE WHEN (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Fiyat-Full].ITEMREF) = 'T3' THEN 'HAYAT' ELSE 'TİBET' END WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
                 cmd10.CommandTimeout = 1000;
 
-                SqlCommand cmd11 = new SqlCommand("UPDATE [Web-Malzeme] SET STOKE = (SELECT sum([Clabs]) FROM [Web_Malzeme_Stock] WHERE Matnr = [Web-Malzeme].ITEMREF) FROM [Web-Malzeme] UPDATE [Web-Malzeme-Full] SET STOKE = (SELECT sum([Clabs]) FROM [Web_Malzeme_Stock] WHERE Matnr = [Web-Malzeme-Full].ITEMREF) FROM [Web-Malzeme-Full]", conn);
+                SqlCommand cmd11 = new SqlCommand("UPDATE [Web-Malzeme] SET STOKE = (SELECT sum([Clabs]) FROM [Web_Malzeme_Stock] WHERE Lgort = 'TBET' AND Matnr = [Web-Malzeme].ITEMREF) FROM [Web-Malzeme] UPDATE [Web-Malzeme-Full] SET STOKE = (SELECT sum([Clabs]) FROM [Web_Malzeme_Stock] WHERE Lgort = 'TBET' AND Matnr = [Web-Malzeme-Full].ITEMREF) FROM [Web-Malzeme-Full]", conn);
                 cmd11.CommandTimeout = 1000;
 
                 conn.Open();
