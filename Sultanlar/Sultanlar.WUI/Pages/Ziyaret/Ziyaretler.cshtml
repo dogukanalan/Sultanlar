@@ -119,7 +119,7 @@
                     },
                     {
                         "data": null, "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + (data.cari.sube == '' ? data.cari.musteri : data.cari.sube) + '</span>'
+                            return '<span class="sinirli"><a href="Varyok?ziyaretid=' + data.barkod + '&smref=' + data.smref + '&mtip=' + data.mtip + '&incele=true">' + (data.cari.sube == '' ? data.cari.musteri : data.cari.sube) + '</a></span>'
                         },
                         "name": "Cari.Sube",
                         "width": "25%"

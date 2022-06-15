@@ -116,6 +116,10 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string VaryokEkle(ZiyaretVaryok varyok)
         {
+            ziyaretler ziy = new ziyaretler().GetObjectByBarkod(varyok.barkod);
+            if (ziy.ZIY_BAS_TAR != ziy.ZIY_BIT_TAR)
+                return "ziyaret bitmis";
+
             ziyaretvaryok onceki = new ziyaretvaryok().GetObject(varyok.barkod);
             if (onceki.pkID > 0)
                 onceki.DoDelete();

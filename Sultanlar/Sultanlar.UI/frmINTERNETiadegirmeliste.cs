@@ -18,13 +18,13 @@ namespace Sultanlar.UI
         {
             InitializeComponent();
             IadeID = iadeid;
-            bolum = Bolum;
+            //bolum = Bolum;
         }
 
         int IadeID;
         DataTable dt;
         MyTextBox mtxt;
-        string bolum;
+        //string bolum;
 
         private void frmINTERNETiadegirmeliste_Load(object sender, EventArgs e)
         {
@@ -122,7 +122,7 @@ namespace Sultanlar.UI
                 lblBarkodBulundu.Visible = true;
                 long iadedetayid = 0;
 
-                if (bolum != "S1" && Urunler.GetProductOzelKod(Convert.ToInt32(dt1.Rows[0]["UrunID"]), true) != bolum)
+                /*if (bolum != "S1" && Urunler.GetProductOzelKod(Convert.ToInt32(dt1.Rows[0]["UrunID"]), true) != bolum)
                 {
                     MessageBox.Show("İade girişi için seçilen bölüm ile eklenmek istenen ürünün bölümü aynı değil.", "Bölüm hatası", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
@@ -131,7 +131,7 @@ namespace Sultanlar.UI
                 {
                     MessageBox.Show("İade girişi için seçilen bölüm ile eklenmek istenen ürünün bölümü aynı değil.", "Bölüm hatası", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
-                }
+                }*/
 
                 for (int j = 0; j < dt.Rows.Count; j++)
                 {

@@ -45,7 +45,7 @@ namespace Sultanlar.UI
 
         bool duzenleme;
         Iadeler iade;
-        string bolum;
+        //string bolum;
 
         private void frmINTERNETiadegirme_Load(object sender, EventArgs e)
         {
@@ -136,7 +136,7 @@ namespace Sultanlar.UI
                     cmbTemsilciler.Enabled = false;
                     cmbBolum.Enabled = false;
 
-                    bolum = cmbBolum.SelectedItem.ToString();
+                    //bolum = cmbBolum.SelectedItem.ToString();
 
                     int musteriid = 1720; //sultanlar satış
                     if (cmbTemsilciler.SelectedIndex > -1)
@@ -229,7 +229,7 @@ namespace Sultanlar.UI
 
                     if (Convert.ToInt32(dataGridView1.Rows[i].Cells["clMiktar"].Value) > 0)
                     {
-                        if (bolum != "S1" && Urunler.GetProductOzelKod(Convert.ToInt32(dataGridView1.Rows[i].Cells["clUrunID"].Value)) != bolum)
+                        /*if (bolum != "S1" && Urunler.GetProductOzelKod(Convert.ToInt32(dataGridView1.Rows[i].Cells["clUrunID"].Value)) != bolum)
                         {
                             MessageBox.Show("İade girişi için seçilen bölüm ile eklenmek istenen ürünün bölümü aynı değil.", "Bölüm hatası", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
@@ -238,7 +238,7 @@ namespace Sultanlar.UI
                         {
                             MessageBox.Show("İade girişi için seçilen bölüm ile eklenmek istenen ürünün bölümü aynı değil.", "Bölüm hatası", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             return;
-                        }
+                        }*/
 
                         long iadedetayid = 0;
                         for (int j = 0; j < dt.Rows.Count; j++)
@@ -477,7 +477,7 @@ namespace Sultanlar.UI
             //    frm.Focus();
             //}
 
-            frmINTERNETiadegirmeliste frm = new frmINTERNETiadegirmeliste(iade.pkIadeID, bolum);
+            frmINTERNETiadegirmeliste frm = new frmINTERNETiadegirmeliste(iade.pkIadeID, ""); // bolum
             frm.ShowDialog();
         }
 

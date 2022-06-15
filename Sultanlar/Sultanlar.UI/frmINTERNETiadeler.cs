@@ -1772,7 +1772,9 @@ namespace Sultanlar.UI
 
                 if (!siparisbolundu)
                 {
-                    if (true) //QuantumaYaz(iade.pkIadeID, 0, 1)
+                    string hata = string.Empty;
+                    string sapiadeno = QuantumaYaz(iade.pkIadeID, 0, 0, out hata);
+                    if (sapiadeno != string.Empty)
                     {
                         iade.blAktarilmis = false;
                         iade.DoUpdate();
@@ -1790,7 +1792,7 @@ namespace Sultanlar.UI
                     else
                     {
                         IadelerQ.Delete(iade.pkIadeID);
-                        MessageBox.Show("İade yoğunluktan dolayı SAP'a gönderilemedi, lütfen daha sonra tekrar deneyiniz.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("İade SAP'a gönderilemedi: " + hata, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
 
