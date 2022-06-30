@@ -62,7 +62,7 @@
                                 (data.tip == 4 ? '<a href="../Aktivite/?smref=' + data.smref + '&ftip=25&tip=' + data.tip + '&aktiviteid=0">Aktivite</a>' : '') +
                                 (data.tip == 4 ? '<a href="../Hizmet/?smref=' + data.smref + '">Hizmet Bedeli</a>' : '') +
                                 '<a href="../Ziyaret/?smref=' + data.smref + '&gmref=' + gmref + '&slsref=' + (window.localStorage["slsref"] != "0" ? window.localStorage["slsref"] : getParameterByName("slsref")) + '&tip=' + data.tip + '&konum=' + data.konumA.konum + '">Ziyaret</a>' +
-                                (data.tip == 1 ? '<a href="../Siparis/?smref=' + data.smref + '">Sipariş</a>' : '') +
+                                (data.tip == 1 ? '<a href="../Siparis/?gmref=' + data.gmref + '&smref=' + data.smref + '">Sipariş</a>' : '') +
                                 (data.tip == 1 ? '<a href="../Iade/?smref=' + data.smref + '">İade</a></div>' : '');
                         },
                         "width": "15%"

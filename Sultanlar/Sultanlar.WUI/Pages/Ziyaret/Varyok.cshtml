@@ -20,6 +20,7 @@
     <script>
         var sepet;
         var paramsmref;
+        var paramgmref;
         var parammtip;
         var ziyaretid;
 
@@ -111,7 +112,9 @@
                 "deferRender": true,
                 "order": [[3, "asc"]],
                 "initComplete": function (settings, json) {
-
+                    $('.dataTables_filter input').keyup(function () {
+                        $(this).val($(this).val().toLocaleUpperCase());
+                    });
                 },
                 "rowCallback": function (row, data, index) {
 
@@ -125,23 +128,62 @@
         function getFiyatlar() {
             $.ajax(
                 {
-                    xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "uyeyetki/" + localStorage["musteri"],
-                    success: function (data, textStatus, response) {
-                        checkAuth(response);
+                    url: apiurl + 'Cari/GetCari/' + parammtip + '/' + paramgmref,
+                    success: function (data1, textStatus, response) {
 
-                        var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
+                        $.ajax(
+                            {
+                                xhr: function () { return xhrDownloadUpload(); },
+                                beforeSend: function (xhr) { xhrTicket(xhr); },
+                                url: apiurl + "uyeyetki/" + localStorage["musteri"],
+                                success: function (data, textStatus, response) {
+                                    checkAuth(response);
 
-                        $.each(rootData, function (index, item) {
-                            $("#selectFiyatTipler").append(
-                                $("<option></option>")
-                                    .text(item.fiyatTipi.aciklama)
-                                    .val(item.sintFiyatTipiID)
-                            );
-                        });
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                    var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
+
+                                    $.each(rootData, function (index, item) {
+                                        if (parammtip == 1 || parammtip == 2) { // sap musterisi veya sap sube subesi
+                                            if (data1.fiyatTip500 == 0) {
+                                                $("#selectFiyatTipler").append(
+                                                    $("<option></option>")
+                                                        .text(item.fiyatTipi.aciklama)
+                                                        .val(item.sintFiyatTipiID)
+                                                );
+                                            }
+                                            else {
+                                                if (data1.fiyatTip500 == item.sintFiyatTipiID) {
+                                                    $("#selectFiyatTipler").append(
+                                                        $("<option></option>")
+                                                            .text(item.fiyatTipi.aciklama)
+                                                            .val(item.sintFiyatTipiID)
+                                                    );
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            $("#selectFiyatTipler").append(
+                                                $("<option></option>")
+                                                    .text(item.fiyatTipi.aciklama)
+                                                    .val(item.sintFiyatTipiID)
+                                            );
+                                        }
+                                    });
+
+                                    if ((parammtip == 1 || parammtip == 2) && data1.fiyatTip500 != 0 && $('#selectFiyatTipler').find('option').length == 1) {
+                                        console.log($('#selectFiyatTipler').find('option').length);
+                                        $("#selectFiyatTipler").append(
+                                            $("<option></option>")
+                                                .text(data1.fiyatTip500)
+                                                .val(data1.fiyatTip500)
+                                        );
+                                        console.log($('#selectFiyatTipler').find('option').length);
+                                    }
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                            }
+                        );
+                    }
                 }
             );
         }
@@ -253,10 +295,10 @@
         }
 
         $(document).ready(function () {
+            paramgmref = getParameterByName('gmref');
             paramsmref = getParameterByName('smref');
             parammtip = getParameterByName('mtip');
             ziyaretid = getParameterByName('ziyaretid');
-
 
             getCari(parammtip, paramsmref, getCariSube, "ziyMus");
 

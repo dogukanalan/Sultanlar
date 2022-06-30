@@ -147,7 +147,7 @@ namespace Sultanlar.UI
                     iade = new Iadeler(musteriid, ((CariHesaplar)cmbSubeler.SelectedItem).SMREF, DateTime.Now, 0, false, DateTime.Now, "Sistem;;;;;;");
                     iade.DoInsert();
 
-                    IadeHareketleri.DoInsert(iade.pkIadeID, 8, "iadekabul", ""); // iade girildi
+                    IadeHareketleri.DoInsert(iade.pkIadeID, 8, frmAna.KAdi.ToUpper(), ""); // iade girildi iadekabul
 
                     lblIadeNo.Text = iade.pkIadeID.ToString();
 
@@ -309,16 +309,24 @@ namespace Sultanlar.UI
 
         private void btnOnayla_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("İadeyi onaylamak istediğinize emin misiniz?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+            /*if (cmbDepo.SelectedIndex == -1 || cmbUY.SelectedIndex == -1)
+            {
+                MessageBox.Show("Depo veya ÜY seçilmedi.", "Hata");
+                return;
+            }*/
+
+            if (MessageBox.Show("İadeyi tamamlamak istediğinize emin misiniz?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes) //
             {
                 //string neden = string.Empty;
-
                 if (duzenleme)
                 {
-                    //iade.strAciklama = iade.strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[0] + " (SDY)" + ";;;" /*+ "Değişikilik Yapılan İade ! - "*/ + txtAciklama1.Text.Trim() + ";;;" + txtAciklama2.Text.Trim();
+                    if (cmbDepo.SelectedIndex > -1 && cmbUY.SelectedIndex > -1)
+                        Iadeler.SetSapDepo(rbSaglamIade.Checked ? "Z17" : "Z16", ((Depo)cmbDepo.SelectedItem).Kod, cmbUY.SelectedItem.ToString(), txtPartiNo.Text.Trim().ToUpper(), iade.pkIadeID);
+
+                    iade.strAciklama = iade.strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[0] + ";;;" /*+ "Değişikilik Yapılan İade ! - "*/ + txtAciklama1.Text.Trim() + ";;;" + txtAciklama2.Text.Trim();
                     //iade.blAktarilmis = true;
 
-                    //iade.DoUpdate();
+                    iade.DoUpdate();
 
                     IadeHareketleri.DoInsert(iade.pkIadeID, 7, frmAna.KAdi.ToUpper(), ""); // iade düzenlendi
 
@@ -327,6 +335,12 @@ namespace Sultanlar.UI
                 }
                 else
                 {
+                    if (cmbDepo.SelectedIndex == -1 || cmbUY.SelectedIndex == -1)
+                    {
+                        MessageBox.Show("Depo veya ÜY seçilmedi.", "Hata");
+                        return;
+                    }
+
                     //if (rbHasarli.Checked)
                     //    neden = "HASARLI-";
                     //else if (rbHazirlama.Checked)
@@ -352,10 +366,10 @@ namespace Sultanlar.UI
                     //else if (rbHatali.Checked)
                     //    neden = "HATALI SİPARİŞ-";
 
+                    Iadeler.SetSapDepo(rbSaglamIade.Checked ? "Z17" : "Z16", ((Depo)cmbDepo.SelectedItem).Kod, cmbUY.SelectedItem.ToString(), txtPartiNo.Text.Trim().ToUpper(), iade.pkIadeID);
+
                     iade.strAciklama = "Sistem;;;" + /*neden +*/ txtAciklama1.Text.Trim() + ";;;" + txtAciklama2.Text.Trim();
                     iade.DoUpdate();
-
-                    Iadeler.SetSapDepo(rbSaglamIade.Checked ? "Z17" : "Z16", ((Depo)cmbDepo.SelectedItem).Kod, cmbUY.SelectedItem.ToString(), txtPartiNo.Text.Trim().ToUpper(), iade.pkIadeID);
 
                     string hata = string.Empty;
                     string sapiadeno = frmINTERNETiadeler.QuantumaYaz(iade.pkIadeID, 0, 0, out hata);
@@ -695,6 +709,126 @@ namespace Sultanlar.UI
                 List.Add(new Depo("TB8E", "Sultanlar Rework"));
                 List.Add(new Depo("TBET", "E-Ticaret"));
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string dosya = "";
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK)
+                dosya = ofd.FileName;
+            else
+                return;
+
+            Microsoft.Office.Interop.Excel.Application ap = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook wb = null;
+            Microsoft.Office.Interop.Excel.Worksheet ws = null;
+            Microsoft.Office.Interop.Excel.Range range = null;
+
+            object[,] values = null;
+
+            try
+            {
+                wb = ap.Workbooks.Open(dosya, false, true,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                    Type.Missing, Type.Missing, Type.Missing, true);
+
+                ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+
+                range = ws.get_Range("A1", "C1000");
+
+                values = (object[,])range.Value2;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                range = null;
+                ws = null;
+                if (wb != null)
+                    wb.Close(false, System.Reflection.Missing.Value, System.Reflection.Missing.Value);
+                wb = null;
+                if (ap != null)
+                    ap.Quit();
+                ap = null;
+            }
+
+            ArrayList ekle = new ArrayList();
+            ArrayList guncelle = new ArrayList();
+            for (int i = 2; i <= values.GetLength(0); i++)
+            {
+                if (values[i, 1] != null)
+                {
+                    try
+                    {
+                        DataTable dt = new DataTable();
+                        IadelerDetay.GetObjectsByIadeID(dt, iade.pkIadeID);
+
+                        long iadedetayid = 0;
+                        for (int j = 0; j < dt.Rows.Count; j++)
+                        {
+                            if (Convert.ToInt32(values[i, 1]) == Convert.ToInt32(dt.Rows[j]["intUrunID"]))
+                            {
+                                iadedetayid = Convert.ToInt64(dt.Rows[j]["pkIadeDetayID"]);
+                                break;
+                            }
+                        }
+
+                        if (iadedetayid > 0)
+                        {
+                            IadelerDetay id = IadelerDetay.GetObjectByIadelerDetayID(iadedetayid);
+                            id.intMiktar += Convert.ToInt32(values[i, 3]);
+                            //id.DoUpdate();
+                            guncelle.Add(id);
+                        }
+                        else
+                        {
+                            IadelerDetay id = new IadelerDetay(iade.pkIadeID, Convert.ToInt32(values[i, 1]),
+                                values[i, 2].ToString(), Convert.ToInt32(values[i, 3]), 0);
+                            //id.DoInsert();
+                            ekle.Add(id);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ekle.Clear();
+                        guncelle.Clear();
+                        MessageBox.Show(i.ToString() + ". satırda hata: " + ex.Message);
+                        return;
+                    }
+                }
+            }
+
+            for (int i = 0; i < ekle.Count; i++)
+            {
+                ((IadelerDetay)ekle[i]).DoInsert();
+            }
+            for (int i = 0; i < guncelle.Count; i++)
+            {
+                ((IadelerDetay)guncelle[i]).DoUpdate();
+            }
+
+            MessageBox.Show("Aktarım tamamlandı", "Excelden aktarım");
+        }
+
+        private void button1_MouseHover(object sender, EventArgs e)
+        {
+            lblExcelden.Visible = true;
+        }
+
+        private void button1_MouseLeave(object sender, EventArgs e)
+        {
+            lblExcelden.Visible = false;
+        }
+
+        private void btnCik_Click(object sender, EventArgs e)
+        {
+            duzenleme = true;
+            this.Close();
         }
     }
 

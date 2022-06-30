@@ -1141,6 +1141,32 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
         /// <summary>
+        /// 
+        /// </summary>
+        public static void DoInsertCoptenAl(int IadeID)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd = new SqlCommand("UPDATE tblINTERNET_IadelerEk SET blCopte = 'False' WHERE intIadeID = @intIadeID", conn);
+                cmd.Parameters.Add("@intIadeID", SqlDbType.Int).Value = IadeID;
+
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        /// <summary>
         /// iadelerde hangi seçenekte kaç satır var
         /// </summary>
         public static string GetIadelerTabsRowCount()
@@ -1383,7 +1409,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
 
 
-        
+
         /// <summary>
         /// Tümü: 0, 
         /// Fiyatlandırılmamış: 1, 
@@ -1397,7 +1423,7 @@ namespace Sultanlar.DatabaseObject.Internet
         /// Sevk Bekleyen İade Kabul Arası: 9, 
         /// Önemsizler: 10, 
         /// İade Kabul Tümü: 11,
-        /// Önemsizler 1: 12, 
+        /// Önemsizler 1 (onaylanacak iade): 12, 
         /// Sevk Bekleyen gelmiş: 13
         /// </summary>
         public static void GetObjectsVW(DataTable dt, int Tur, DateTime dtBaslangic,
@@ -1424,7 +1450,20 @@ namespace Sultanlar.DatabaseObject.Internet
 	        {
                 case 0:
                     where = "WHERE NOT ([blAktarilmis] = 'False' AND [mnToplamTutar] = 0)";
-                    tumustatu = "CASE WHEN ([blAktarilmis] = 'True' AND [mnToplamTutar] = 0) THEN 'Fiyatlandırılmamış' WHEN ([blAktarilmis] = 'True' AND [mnToplamTutar] > 0) THEN 'Fiyatlandırılmış' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NULL AND Copte = 'False' AND strAciklama NOT LIKE '%-IADE MERKEZDEN GIRILDI' AND (SELECT TOP 1 CASE WHEN dtTarihGelis IS NULL THEN 0 ELSE 1 END FROM tblINTERNET_IadelerSevk WHERE intIadeID = [vw_tblINTERNET_Iadeler].[pkIadeID] ORDER BY pkID DESC) > 0) THEN 'Sevkten Gelen' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NULL AND Copte = 'False' AND strAciklama NOT LIKE '%-IADE MERKEZDEN GIRILDI') THEN 'Sevk Bekleyen' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] = -1) THEN 'Reddedilen' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] = -2) THEN 'Son Fiyatlama' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NULL AND strAciklama LIKE '%-IADE MERKEZDEN GIRILDI') THEN 'İade Girilen' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NULL AND strAciklama NOT LIKE '%-IADE MERKEZDEN GIRILDI' AND Copte = 'True') THEN 'Önemsiz' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NOT NULL AND (SELECT TOP 1 strAciklama FROM tblINTERNET_IadeHareketleri WHERE intIadeHareketTurID = 21 AND intIadeID = vw_tblINTERNET_Iadeler.pkIadeID ORDER BY pkID DESC) IS NULL) THEN 'İade Kabul' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NOT NULL AND (SELECT TOP 1 strAciklama FROM tblINTERNET_IadeHareketleri WHERE intIadeHareketTurID = 21 AND intIadeID = vw_tblINTERNET_Iadeler.pkIadeID ORDER BY pkID DESC) LIKE 'Sat.Op. - %') THEN 'Sat.Op.' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NOT NULL AND (SELECT TOP 1 strAciklama FROM tblINTERNET_IadeHareketleri WHERE intIadeHareketTurID = 21 AND intIadeID = vw_tblINTERNET_Iadeler.pkIadeID ORDER BY pkID DESC) LIKE 'S.T. - %') THEN 'S.T.' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NOT NULL AND (SELECT TOP 1 strAciklama FROM tblINTERNET_IadeHareketleri WHERE intIadeHareketTurID = 21 AND intIadeID = vw_tblINTERNET_Iadeler.pkIadeID ORDER BY pkID DESC) LIKE 'C/H - %') THEN 'C/H' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NOT NULL AND (SELECT TOP 1 strAciklama FROM tblINTERNET_IadeHareketleri WHERE intIadeHareketTurID = 21 AND intIadeID = vw_tblINTERNET_Iadeler.pkIadeID ORDER BY pkID DESC) LIKE 'Son - %') THEN 'Son' ELSE '' END AS 'STATU',";
+                    tumustatu =
+                        @"CASE 
+WHEN ([blAktarilmis] = 'True' AND [mnToplamTutar] = 0) THEN 'Fiyatlandırılmamış' 
+WHEN ([blAktarilmis] = 'True' AND [mnToplamTutar] > 0) THEN 'Fiyatlandırılmış' 
+WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NULL AND Copte = 'False' AND strAciklama NOT LIKE '%-IADE MERKEZDEN GIRILDI' AND ((SELECT count(pkID) FROM tblINTERNET_IadelerSevk WHERE intIadeID = [vw_tblINTERNET_Iadeler].[pkIadeID]) = 0 OR (SELECT TOP 1 CASE WHEN dtTarihGelis IS NOT NULL THEN 0 ELSE 1 END FROM tblINTERNET_IadelerSevk WHERE intIadeID = [vw_tblINTERNET_Iadeler].[pkIadeID] ORDER BY pkID DESC) > 0)) THEN 'Sevk Bekleyen' 
+WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NULL AND Copte = 'False' AND strAciklama NOT LIKE '%-IADE MERKEZDEN GIRILDI' AND (SELECT TOP 1 CASE WHEN dtTarihGelis IS NULL THEN 0 ELSE 1 END FROM tblINTERNET_IadelerSevk WHERE intIadeID = [vw_tblINTERNET_Iadeler].[pkIadeID] ORDER BY pkID DESC) > 0) THEN 'Sevkten Gelen' 
+WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NULL AND Copte = 'False' AND strAciklama NOT LIKE '%-IADE MERKEZDEN GIRILDI') THEN 'Sevk Bekleyen' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] = -1) THEN 'Reddedilen' 
+WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] = -2) THEN 'Son Fiyatlama' 
+WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NULL AND strAciklama LIKE '%-IADE MERKEZDEN GIRILDI') THEN 'İade Girilen' 
+WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NULL AND strAciklama NOT LIKE '%-IADE MERKEZDEN GIRILDI' AND Copte = 'True') THEN 'Yeni' 
+WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NOT NULL AND (SELECT TOP 1 strAciklama FROM tblINTERNET_IadeHareketleri WHERE intIadeHareketTurID = 21 AND intIadeID = vw_tblINTERNET_Iadeler.pkIadeID ORDER BY pkID DESC) IS NULL) THEN 'İade Kabul' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NOT NULL AND (SELECT TOP 1 strAciklama FROM tblINTERNET_IadeHareketleri WHERE intIadeHareketTurID = 21 AND intIadeID = vw_tblINTERNET_Iadeler.pkIadeID ORDER BY pkID DESC) LIKE 'Sat.Op. - %') THEN 'Sat.Op.' 
+WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NOT NULL AND (SELECT TOP 1 strAciklama FROM tblINTERNET_IadeHareketleri WHERE intIadeHareketTurID = 21 AND intIadeID = vw_tblINTERNET_Iadeler.pkIadeID ORDER BY pkID DESC) LIKE 'S.T. - %') THEN 'S.T.' WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NOT NULL AND (SELECT TOP 1 strAciklama FROM tblINTERNET_IadeHareketleri WHERE intIadeHareketTurID = 21 AND intIadeID = vw_tblINTERNET_Iadeler.pkIadeID ORDER BY pkID DESC) LIKE 'C/H - %') THEN 'C/H' 
+WHEN ([blAktarilmis] = 'False' AND [mnToplamTutar] > 0 AND FATNO IS NOT NULL AND (SELECT TOP 1 strAciklama FROM tblINTERNET_IadeHareketleri WHERE intIadeHareketTurID = 21 AND intIadeID = vw_tblINTERNET_Iadeler.pkIadeID ORDER BY pkID DESC) LIKE 'Son - %') THEN 'Son' 
+ELSE '' END AS 'STATU',";
                     break;
                 case 1:
                     where = "WHERE ([blAktarilmis] = 'True' AND [mnToplamTutar] = 0) ";

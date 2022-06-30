@@ -47,6 +47,9 @@
                 var yazi = excelcikar || yazdir ? "Çıktısı" : "İncele";
                 document.getElementById("basTitle").innerHTML = "Aktivite " + yazi + " (" + json.pkID + ")";
                 document.getElementById("aktMus").innerHTML = json.cari.sube;
+                document.getElementById("aciklama1").innerHTML = json.strAciklama1;
+                document.getElementById("aciklama2").innerHTML = json.strAciklama2;
+                document.getElementById("aciklama3").innerHTML = json.strAciklama3;
                 document.getElementById("baslangic").innerHTML = json.dtAktiviteBaslangic.substring(0, 10);
                 document.getElementById("bitis").innerHTML = json.dtAktiviteBitis.substring(0, 10);
             }).DataTable({
@@ -167,6 +170,8 @@
 <span class="spanCiplak" id="baslangic"></span>
 :
 <span class="spanCiplak" id="bitis"></span>
+<br />
+<i><span class="spanCiplak" id="aciklama1"></span> <span class="spanCiplak" id="aciklama2"></span> <span class="spanCiplak" id="aciklama3"></span></i>
 <div class="centerVeMiddle">
     <input type="button" class="btn btn-danger secimTus" value="Geri Dön" onclick="window.history.back()" />
 </div>

@@ -25,6 +25,8 @@ namespace Sultanlar.DbObj.Internet
         public string strDepoKod { get; set; }
         public string strDepoUY { get; set; }
         public string strPartiNo { get; set; }
+        public string fatno { get { return GetObjectQfatno(); } }
+        public bool copte { get { return GetObjectCopte(); } }
 
         /// <summary>
         /// 0:kaydedilmiş, 1:fiyatlandırılmamış, 2:fiyatlandırılmış, 3:sevk bekleyen, 4:red, 5:son
@@ -62,12 +64,16 @@ namespace Sultanlar.DbObj.Internet
                     return "Fiyatlandırılmamış";
                 else if (blAktarilmis && mnToplamTutar > 0)
                     return "Fiyatlandırılmış";
-                else if (!blAktarilmis && mnToplamTutar > 0)
+                else if (!blAktarilmis && mnToplamTutar > 0 && !copte && fatno == "")
                     return "Sevk bekleyen";
+                else if (!blAktarilmis && mnToplamTutar > 0 && !copte && fatno == "0")
+                    return "İade kabul";
                 else if (!blAktarilmis && mnToplamTutar == -1)
                     return "Red";
                 else if (!blAktarilmis && mnToplamTutar == -2)
                     return "Son";
+                else if (!blAktarilmis && mnToplamTutar > 0 && copte)
+                    return "Onay talep";
 
                 return "Kaydedilmiş";
             }
@@ -230,6 +236,24 @@ namespace Sultanlar.DbObj.Internet
         {
             Dictionary<string, object> param = new Dictionary<string, object>() { { "SiparisID", SiparisID }, { "QUANTUMNO", QUANTUMNO } };
             Do(QueryType.Update, "db_sp_iadeQEkle", param, timeout);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string GetObjectQfatno()
+        {
+            object donendeger = GetObjectSc("db_sp_iadeQGetirFatno", new Dictionary<string, object>() { { "pkIadeID", pkIadeID } }, timeout);
+            return donendeger is null ? "" : donendeger.ToString();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool GetObjectCopte()
+        {
+            object donendeger = GetObjectSc("db_sp_iadeCopte", new Dictionary<string, object>() { { "pkIadeID", pkIadeID } }, timeout);
+            return donendeger is null ? false : Convert.ToBoolean(donendeger);
         }
         /// <summary>
         /// 

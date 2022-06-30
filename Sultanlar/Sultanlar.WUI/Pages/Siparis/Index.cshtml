@@ -22,24 +22,42 @@
         function UyeYetkileri(uyeid) {
             $.ajax(
                 {
-                    xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "uyeyetki/" + uyeid,
-                    success: function (data, textStatus, response) {
-                        checkAuth(response);
+                    url: apiurl + 'Cari/GetCari/1/' + getParameterByName("gmref"),
+                    success: function (data1, textStatus, response) {
+                        $.ajax(
+                            {
+                                xhr: function () { return xhrDownloadUpload(); },
+                                beforeSend: function (xhr) { xhrTicket(xhr); },
+                                url: apiurl + "uyeyetki/" + uyeid,
+                                success: function (data, textStatus, response) {
+                                    checkAuth(response);
 
-                        var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
+                                    var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
 
-                        var htmlText = '<table id="dtTable1" class="dtFiyat table table-striped table-bordered"><thead><tr><th class="keyTd">Fiyat Tipi Belirleyiniz</th></tr></thead><tbody>';
-                        $.each(rootData, function (i, item) {
-                            htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
-                            htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
-                            htmlText += '</tr>';
-                        });
-                        divData.innerHTML = htmlText + '</table>';
-                        initDt(0, false, false, false, false);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                    var htmlText = '<table id="dtTable1" class="dtFiyat table table-striped table-bordered"><thead><tr><th class="keyTd">Fiyat Tipi Belirleyiniz</th></tr></thead><tbody>';
+                                    $.each(rootData, function (i, item) {
+
+                                        if (data1.fiyatTip500 == 0) {
+                                            htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
+                                            htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
+                                            htmlText += '</tr>';
+                                        }
+                                        else {
+                                            if (data1.fiyatTip500 == item.sintFiyatTipiID) {
+                                                htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
+                                                htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
+                                                htmlText += '</tr>';
+                                            }
+                                        }
+                                    });
+                                    divData.innerHTML = htmlText + '</table>';
+                                    initDt(0, false, false, false, false);
+                                },
+                                error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                            }
+                        );
+                    }
                 }
             );
         }

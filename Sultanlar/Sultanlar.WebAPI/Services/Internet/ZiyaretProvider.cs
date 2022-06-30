@@ -107,6 +107,10 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal string ZiyaretSil(ZiyaretGet ziyaret)
         {
             ziyaretler ziy = new ziyaretler().GetObjectByBarkod(ziyaret.Barkod);
+            if (ziy.varyok || ziy.resim)
+            {
+                return "Ziyaret üzerinde işlem yapılmış. İptal edilemez.";
+            }
             //ziyaretler ziy = new ziyaretler(ziyaret.Tip, ziyaret.Smref, ziyaret.Slsref, Convert.ToDateTime(ziyaret.Zaman)).GetObject();
             ziy.DoDelete();
             return "";
@@ -158,12 +162,12 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             skg.ftip = Convert.ToInt16(vy.FIYAT_TIP);
             skg.aciklama = "Ziy.V/Y: " + varyok.barkod;
-            skg.smref = vy.Ziyaret.SMREF;
+            skg.smref = vy.Ziyaret.MTIP == 1 ? vy.Ziyaret.SMREF : vy.Ziyaret.GMREF;
             skg.teslim = DateTime.Now.ToShortDateString();
             skg.musteri = varyok.musteri;
             skg.siparisid = 0;
 
-            if (skg.detaylar.Count > 0)
+            if ((varyok.tip == 1 || varyok.tip == 2) && skg.detaylar.Count > 0)
             {
                 SiparisProvider sp = new SiparisProvider();
                 sp.SiparisKaydet(skg);

@@ -60,6 +60,7 @@ namespace Sultanlar.UI
                 rbFiyatlandirilmamis.Enabled = true;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = true;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
                 rbReddedilenler.Enabled = true;
@@ -84,6 +85,8 @@ namespace Sultanlar.UI
                 btnOnemsizeAt.Enabled = true;
                 btnKabul.Enabled = true;
                 btnKabuldenGeri.Enabled = true;
+                btnYeniOnay.Enabled = true;
+                btnSAPgonder.Enabled = true;
 
                 btnEposta.Visible = true;
             }
@@ -94,6 +97,7 @@ namespace Sultanlar.UI
                 rbFiyatlandirilmamis.Enabled = true;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = false;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
                 rbReddedilenler.Enabled = true;
@@ -118,6 +122,8 @@ namespace Sultanlar.UI
                 btnOnemsizeAt.Enabled = false;
                 btnKabul.Enabled = false;
                 btnKabuldenGeri.Enabled = false;
+                btnYeniOnay.Enabled = false;
+                btnSAPgonder.Enabled = false;
             }
             else if (frmAna.KAdi.ToUpper() == "FN03") // tuba usta
             {
@@ -125,6 +131,7 @@ namespace Sultanlar.UI
                 rbFiyatlandirilmamis.Enabled = true;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = false;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
                 rbReddedilenler.Enabled = true;
@@ -149,6 +156,8 @@ namespace Sultanlar.UI
                 btnOnemsizeAt.Enabled = false;
                 btnKabul.Enabled = false;
                 btnKabuldenGeri.Enabled = false;
+                btnYeniOnay.Enabled = false;
+                btnSAPgonder.Enabled = false;
             }
             else if (frmAna.KAdi.ToUpper() == "ST16" || frmAna.KAdi.ToUpper() == "MI01") //nilufer kopuz, hediye çetli
             {
@@ -156,6 +165,7 @@ namespace Sultanlar.UI
                 rbFiyatlandirilmamis.Enabled = true;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = false;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
                 rbReddedilenler.Enabled = true;
@@ -180,6 +190,8 @@ namespace Sultanlar.UI
                 btnOnemsizeAt.Enabled = false;
                 btnKabul.Enabled = false;
                 btnKabuldenGeri.Enabled = false;
+                btnYeniOnay.Enabled = false;
+                btnSAPgonder.Enabled = false;
             }
             else if (frmAna.KAdi.ToUpper() == "LK21") // ünal yıldırım
             {
@@ -187,6 +199,7 @@ namespace Sultanlar.UI
                 rbFiyatlandirilmamis.Enabled = true;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = false;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
                 rbReddedilenler.Enabled = true;
@@ -211,6 +224,8 @@ namespace Sultanlar.UI
                 btnOnemsizeAt.Enabled = true;
                 btnKabul.Enabled = true;
                 btnKabuldenGeri.Enabled = true;
+                btnYeniOnay.Enabled = false;
+                btnSAPgonder.Enabled = false;
             }
             else if (frmAna.KAdi.ToUpper() == "ST03") // murat kasaroğlu
             {
@@ -218,6 +233,7 @@ namespace Sultanlar.UI
                 rbFiyatlandirilmamis.Enabled = true;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = false;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
                 rbReddedilenler.Enabled = true;
@@ -242,6 +258,8 @@ namespace Sultanlar.UI
                 btnOnemsizeAt.Enabled = false;
                 btnKabul.Enabled = true;
                 btnKabuldenGeri.Enabled = true;
+                btnYeniOnay.Enabled = false;
+                btnSAPgonder.Enabled = false;
             }
             else if (frmAna.KAdi.ToUpper() == "LK07" || frmAna.KAdi.ToUpper() == "LK06" || frmAna.KAdi.ToUpper() == "LK16") // arzu bayram, ertuğrul, olgun kaya
             {
@@ -249,6 +267,7 @@ namespace Sultanlar.UI
                 rbFiyatlandirilmamis.Enabled = false;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = true;
                 rbSevkIadeKabulArasi.Enabled = false;
                 rbFaturalananlar.Enabled = false;
                 rbReddedilenler.Enabled = false;
@@ -273,10 +292,12 @@ namespace Sultanlar.UI
                 btnOnemsizeAt.Enabled = false;
                 btnKabul.Enabled = true;
                 btnKabuldenGeri.Enabled = true;
+                btnYeniOnay.Enabled = false;
+                btnSAPgonder.Enabled = false;
 
                 rbFiyatlandirilmamis.Checked = false;
                 rbFiyatlandirilmisOnaylanmis.Checked = true;
-                pnlSevk.Visible = true;
+                //pnlSevk.Visible = true;
                 Suz();
                 //GetCariler();
             }
@@ -289,6 +310,7 @@ namespace Sultanlar.UI
                 rbFiyatlandirilmamis.Enabled = true;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = true;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
                 rbReddedilenler.Enabled = true;
@@ -306,17 +328,19 @@ namespace Sultanlar.UI
                 btnFiyatlandirmaIptal.Enabled = true;
                 btnDegisim.Enabled = true;
                 btnQuantumaYaz.Enabled = true;
-                btnSubeDegistir.Enabled = false;
-                btnUyeDegistir.Enabled = false;
+                btnSubeDegistir.Enabled = true;
+                btnUyeDegistir.Enabled = true;
                 btnSayim.Enabled = true;
                 btnSatisOperasyon.Enabled = false;
                 btnOnemsizeAt.Enabled = true;
                 btnKabul.Enabled = true;
                 btnKabuldenGeri.Enabled = true;
+                btnYeniOnay.Enabled = false;
+                btnSAPgonder.Enabled = true;
 
-                rbFiyatlandirilmamis.Checked = true;
-                rbFiyatlandirilmisOnaylanmis.Checked = true;
-                pnlSevk.Visible = true;
+                //rbFiyatlandirilmamis.Checked = false;
+                rbFaturalananlar.Checked = true;
+                //pnlSevk.Visible = true;
                 Suz();
                 //GetCariler();
             }
@@ -326,6 +350,7 @@ namespace Sultanlar.UI
                 rbFiyatlandirilmamis.Enabled = true;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = false;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
                 rbReddedilenler.Enabled = true;
@@ -350,19 +375,22 @@ namespace Sultanlar.UI
                 btnOnemsizeAt.Enabled = false;
                 btnKabul.Enabled = false;
                 btnKabuldenGeri.Enabled = false;
+                btnYeniOnay.Enabled = false;
+                btnSAPgonder.Enabled = false;
 
                 rbFiyatlandirilmamis.Checked = false;
                 rbFiyatlandirilmisOnaylanmis.Checked = true;
-                pnlSevk.Visible = true;
+                //pnlSevk.Visible = true;
                 Suz();
                 //GetCariler();
             }
-            else if (frmAna.KAdi.ToUpper() == "YN04" || frmAna.KAdi.ToUpper() == "YN02" || frmAna.KAdi.ToUpper() == "ST07" || frmAna.KAdi.ToUpper() == "ST13") // fahrettin kaya, safiye bağdatlı, neslihan demirbaş, gülzade yar
+            else if (frmAna.KAdi.ToUpper() == "YN02") // fahrettin kaya, safiye bağdatlı, neslihan demirbaş, gülzade yar frmAna.KAdi.ToUpper() == "YN04" || frmAna.KAdi.ToUpper() == "ST07" || frmAna.KAdi.ToUpper() == "ST13"
             {
                 rbFiyatlandirilmis.Enabled = true;
                 rbFiyatlandirilmamis.Enabled = true;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = true;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
                 rbReddedilenler.Enabled = true;
@@ -375,40 +403,42 @@ namespace Sultanlar.UI
 
                 btnIadeGir.Enabled = true;
                 btnIadeDuzenle.Enabled = true;
-                btnIadeRed.Enabled = false;
+                btnIadeRed.Enabled = true;
                 btnGeriAl.Enabled = true;
                 btnFiyatlandirmaIptal.Enabled = true;
                 btnDegisim.Enabled = true;
                 btnQuantumaYaz.Enabled = true;
                 btnSubeDegistir.Enabled = true;
-                btnUyeDegistir.Enabled = false;
+                btnUyeDegistir.Enabled = true;
                 btnSayim.Enabled = false;
                 btnSatisOperasyon.Enabled = true;
                 btnOnemsizeAt.Enabled = false;
                 btnKabul.Enabled = true;
                 btnKabuldenGeri.Enabled = true;
+                btnYeniOnay.Enabled = true;
+                btnSAPgonder.Enabled = true;
 
-                rbFiyatlandirilmamis.Checked = false;
-                rbFiyatlandirilmisOnaylanmis.Checked = true;
-                pnlSevk.Visible = true;
+                rbCoptekiler2.Checked = true;
+                //pnlSevk.Visible = true;
                 Suz();
                 //GetCariler();
             }
-            else if (frmAna.KAdi.ToUpper() == "SUL05") // selçuk tonyalı
+            else if (frmAna.KAdi.ToUpper() == "SELCUKTONYALİ") // selçuk tonyalı
             {
-                rbFiyatlandirilmis.Enabled = true;
-                rbFiyatlandirilmamis.Enabled = true;
-                rbFiyatlandirilmisOnaylanmis.Enabled = true;
-                rbCoptekiler.Enabled = true;
-                rbSevkIadeKabulArasi.Enabled = true;
-                rbFaturalananlar.Enabled = true;
-                rbReddedilenler.Enabled = true;
-                rbDegisimler.Enabled = true;
-                rbTumu.Enabled = true;
-                rbSatOp.Enabled = true;
-                rbST.Enabled = true;
-                rbCH.Enabled = true;
-                rbSon.Enabled = true;
+                rbFiyatlandirilmis.Enabled = false;
+                rbFiyatlandirilmamis.Enabled = false;
+                rbFiyatlandirilmisOnaylanmis.Enabled = false;
+                rbCoptekiler.Enabled = false;
+                rbCoptekiler2.Enabled = true;
+                rbSevkIadeKabulArasi.Enabled = false;
+                rbFaturalananlar.Enabled = false;
+                rbReddedilenler.Enabled = false;
+                rbDegisimler.Enabled = false;
+                rbTumu.Enabled = false;
+                rbSatOp.Enabled = false;
+                rbST.Enabled = false;
+                rbCH.Enabled = false;
+                rbSon.Enabled = false;
 
                 btnIadeGir.Enabled = true;
                 btnIadeDuzenle.Enabled = false;
@@ -424,10 +454,11 @@ namespace Sultanlar.UI
                 btnOnemsizeAt.Enabled = false;
                 btnKabul.Enabled = false;
                 btnKabuldenGeri.Enabled = false;
+                btnYeniOnay.Enabled = false;
+                btnSAPgonder.Enabled = false;
 
-                rbFiyatlandirilmamis.Checked = false;
-                rbFiyatlandirilmisOnaylanmis.Checked = true;
-                pnlSevk.Visible = true;
+                rbCoptekiler2.Checked = true;
+                //pnlSevk.Visible = true;
                 Suz();
                 //GetCariler();
             }
@@ -437,6 +468,7 @@ namespace Sultanlar.UI
                 rbFiyatlandirilmamis.Enabled = true;
                 rbFiyatlandirilmisOnaylanmis.Enabled = true;
                 rbCoptekiler.Enabled = true;
+                rbCoptekiler2.Enabled = true;
                 rbSevkIadeKabulArasi.Enabled = true;
                 rbFaturalananlar.Enabled = true;
                 rbReddedilenler.Enabled = true;
@@ -461,10 +493,11 @@ namespace Sultanlar.UI
                 btnOnemsizeAt.Enabled = false;
                 btnKabul.Enabled = false;
                 btnKabuldenGeri.Enabled = false;
+                btnYeniOnay.Enabled = false;
+                btnSAPgonder.Enabled = false;
 
-                rbFiyatlandirilmamis.Checked = false;
-                rbFiyatlandirilmisOnaylanmis.Checked = true;
-                pnlSevk.Visible = true;
+                rbCoptekiler2.Checked = true;
+                //pnlSevk.Visible = true;
                 Suz();
                 //GetCariler();
             }
@@ -928,7 +961,7 @@ namespace Sultanlar.UI
         }
 
         /// <summary>
-        /// nereden: 0 tümü, 1 fiyatlandırılmamış, 2 fiyatlandırılmış, 3 sevk bekleyen, 4 iade girilen, 5 iade kabul, 6 sat.op, 7 s.t., 8 c/h, 9 son, 10 red, 11 değişim, 12 önemsiz
+        /// nereden: 0 tümü, 1 fiyatlandırılmamış, 2 fiyatlandırılmış, 3 sevk bekleyen, 4 iade girilen, 5 iade kabul, 6 sat.op, 7 s.t., 8 c/h, 9 son, 10 red, 11 değişim, 12 önemsiz, 13 çöptekiler2
         /// </summary>
         private int HangiHavuzda()
         {
@@ -958,6 +991,8 @@ namespace Sultanlar.UI
                 return 11;
             else if (rbCoptekiler.Checked)
                 return 12;
+            else if (rbCoptekiler2.Checked)
+                return 13;
 
             return 0;
         }
@@ -1042,11 +1077,11 @@ namespace Sultanlar.UI
                 if (iht.TUTTOP == 0 && iht.STRREF != string.Empty)
                     iht.DoDelete();
 
-                Iadeler iade = Iadeler.GetObjectsByIadeID(id.intIadeID);
+                /*Iadeler iade = Iadeler.GetObjectsByIadeID(id.intIadeID);
                 iade.mnToplamTutar = iade.mnToplamTutar - (id.mnFiyat * id.intMiktar);
                 if (iade.mnToplamTutar < 0)
                     iade.mnToplamTutar = 0;
-                iade.DoUpdate();
+                iade.DoUpdate();*/
 
                 id.mnFiyat = 0;
                 id.DoUpdate();
@@ -1060,6 +1095,7 @@ namespace Sultanlar.UI
             IadelerDetay.GetObjectsByIadeID(dt, IadeID);
 
             int SLSREF = CariHesaplar.GetSLSREFBySMREF(iade.SMREF);
+            int GMREF = CariHesaplar.GetGMREFBySMREF(iade.SMREF);
             Musteriler siparisiolusturanmusteri1 = Musteriler.GetMusteriByID(iade.intMusteriID);
             if (siparisiolusturanmusteri1.tintUyeTipiID == 4 || siparisiolusturanmusteri1.tintUyeTipiID == 6) // satış temsilcisi ise
                 SLSREF = siparisiolusturanmusteri1.intSLSREF;
@@ -1076,7 +1112,7 @@ namespace Sultanlar.UI
 
             header.Ctype = "IADE";
             header.Ketdat = DateTime.Now.Year.ToString() + (DateTime.Now.Month.ToString().Length == 1 ? "0" + DateTime.Now.Month.ToString() : DateTime.Now.Month.ToString()) + (DateTime.Now.Day.ToString().Length == 1 ? "0" + DateTime.Now.Day.ToString() : DateTime.Now.Day.ToString());
-            header.Kunwe = "000" + iade.SMREF.ToString();
+            header.Kunwe = "000" + GMREF.ToString();
             header.Pltyp = "02";
             header.Vbeln = "";
             header.Xblnr = iade.pkIadeID.ToString(); //WebGenel.DoUpdateSayac().ToString()
@@ -1263,7 +1299,7 @@ namespace Sultanlar.UI
                     nereden);
                 frm.ShowDialog();
             }
-            else if (rbFiyatlandirilmamis.Checked || rbFaturalananlar.Checked) //Convert.ToDecimal(dataGridView1.SelectedRows[0].Cells["clmnToplamTutar"].Value) == 0
+            else if (rbFiyatlandirilmamis.Checked || rbCoptekiler2.Checked) //Convert.ToDecimal(dataGridView1.SelectedRows[0].Cells["clmnToplamTutar"].Value) == 0
             {
                 frmINTERNETiadelerdetay frm = new frmINTERNETiadelerdetay(
                     Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkIadeID"].Value),
@@ -1347,6 +1383,8 @@ namespace Sultanlar.UI
                 Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clSMREF"].Value),
                 HangiHavuzda());
             frm.ShowDialog();
+
+            Suz();
         }
 
         private void btnIadeRed_Click(object sender, EventArgs e)
@@ -1446,35 +1484,32 @@ namespace Sultanlar.UI
             if (dataGridView1.SelectedRows.Count < 1)
                 return;
 
-            //if (dataGridView1.SelectedRows[0].Cells["clQUANTUMNO"].Value != DBNull.Value && dataGridView1.SelectedRows[0].Cells["clFATNO"].Value != DBNull.Value)
-            //{
-            //    MessageBox.Show("İade geri alınmadan başa alınamaz", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    return;
-            //}
-            //else if (dataGridView1.SelectedRows[0].Cells["clFATNO"].Value != DBNull.Value)
-            //{
-            //    MessageBox.Show("İade geri alınmadan başa alınamaz", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    return;
-            //}
-            //else if (dataGridView1.SelectedRows[0].Cells["clQUANTUMNO"].Value != DBNull.Value)
-            //{
-            //    MessageBox.Show("İade geri alınmadan başa alınamaz", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    return;
-            //}
+            int iadeno = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkIadeID"].Value);
+            string quantumno = IadelerQ.GetQuantumNo(iadeno);
+
+            if (quantumno.StartsWith("0035"))
+            {
+                MessageBox.Show("İade SAP'ye gönderilmiş.", "Hata");
+                return;
+            }
 
 
-            if (MessageBox.Show("İade, satırların eski fiyatlandırılması silinerek geri alınacak ve \"Fiyatlandırılmamış\" sekmesinde gözükecek. Devam etmek istiyor musunuz?", "Geri Alma", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+
+            if (MessageBox.Show("İade, satırların eski fiyatlandırılması silinerek geri alınacak ve \"Yeni\" sekmesinde gözükecek. Devam etmek istiyor musunuz?", "Geri Alma", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
             {
                 //IadelerQ.Delete(Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkIadeID"].Value)); //silmesin sap numarasını
 
                 Iadeler iade = Iadeler.GetObjectsByIadeID(Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkIadeID"].Value));
-                iade.blAktarilmis = true;
-                iade.mnToplamTutar = 0;
+                iade.blAktarilmis = false;
+                iade.mnToplamTutar = Convert.ToDecimal(0.001);
                 iade.DoUpdate();
+                Iadeler.DoInsertCopeAt(iade.pkIadeID);
+
+                IadelerQ.Delete(iade.pkIadeID);
 
                 IadeFiyatSifirla(iade.pkIadeID);
 
-                IadeHareketleri.DoInsert(iade.pkIadeID, 1, frmAna.KAdi.ToUpper(), ""); // fiyatlandırılmamışa geldi
+                IadeHareketleri.DoInsert(iade.pkIadeID, 26, frmAna.KAdi.ToUpper(), ""); // yeni onaya geldi
 
                 //GonderilenMesajlar gm = new GonderilenMesajlar(
                 //    iade.intMusteriID,
@@ -1490,7 +1525,7 @@ namespace Sultanlar.UI
 
                 //MessageBox.Show("İade geri alındı ve müşteriye (veya satış temsilcisine) bilgi gönderildi.", "Geri Alındı", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                rbFiyatlandirilmis.Checked = true;
+                //rbFiyatlandirilmamis.Checked = true;
                 Suz();
             }
         }
@@ -1640,6 +1675,9 @@ namespace Sultanlar.UI
 
         private void btnIadeDuzenle_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedRows.Count == 0)
+                return;
+
             int iadeno = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkIadeID"].Value);
             int fiyatlisatir = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clFiyatlandirilmisSatirSayisi"].Value);
             string quantumno = IadelerQ.GetQuantumNo(iadeno);
@@ -1662,6 +1700,8 @@ namespace Sultanlar.UI
 
         private void btnQuantumaYaz_Click(object sender, EventArgs e)
         {
+            return;
+
             if (dataGridView1.SelectedRows.Count < 1)
                 return;
 
@@ -1820,29 +1860,29 @@ namespace Sultanlar.UI
         {
             if (((RadioButton)sender).Checked)
             {
-                btnGeriAl.Visible = rbFiyatlandirilmisOnaylanmis.Checked || rbCoptekiler2.Checked || rbFaturalananlar.Checked || rbReddedilenler.Checked || rbDegisimler.Checked || rbSevkIadeKabulArasi.Checked;
+                btnGeriAl.Visible = rbFiyatlandirilmisOnaylanmis.Checked || rbFaturalananlar.Checked || rbDegisimler.Checked || rbSevkIadeKabulArasi.Checked; // || rbCoptekiler2.Checked || rbReddedilenler.Checked
                 iadeyiGeriAlToolStripMenuItem.Enabled = btnGeriAl.Visible;
 
-                btnIadeRed.Visible = rbFiyatlandirilmamis.Checked || rbFaturalananlar.Checked || rbFiyatlandirilmisOnaylanmis.Checked || rbCoptekiler2.Checked || rbSevkIadeKabulArasi.Checked || rbSevkGelisBilgili.Checked || rbCoptekiler2.Checked;
+                btnIadeRed.Visible = rbFiyatlandirilmamis.Checked || rbFaturalananlar.Checked || rbFiyatlandirilmisOnaylanmis.Checked || rbSevkIadeKabulArasi.Checked || rbSevkGelisBilgili.Checked; // || rbCoptekiler2.Checked
                 iadeyiReddetToolStripMenuItem.Enabled = btnIadeRed.Visible;
 
                 btnFiyatlandirmaIptal.Visible = rbFiyatlandirilmis.Checked;
                 tekrarFiyatlandırToolStripMenuItem.Enabled = btnFiyatlandirmaIptal.Visible;
 
-                btnSevkBilgisi.Visible = rbFiyatlandirilmisOnaylanmis.Checked || rbCoptekiler2.Checked || rbFaturalananlar.Checked || rbSevkGelisBilgili.Checked;
+                btnSevkBilgisi.Visible = rbFiyatlandirilmisOnaylanmis.Checked || rbFaturalananlar.Checked || rbSevkGelisBilgili.Checked; // || rbCoptekiler2.Checked
                 sevkBilgisiToolStripMenuItem.Enabled = btnSevkBilgisi.Visible;
 
-                btnIadeDuzenle.Visible = true;
+                btnIadeDuzenle.Visible = rbFaturalananlar.Checked;
                 iadeyiDüzenleToolStripMenuItem.Enabled = btnIadeDuzenle.Visible;
 
-                btnDegisim.Visible = rbFiyatlandirilmamis.Checked || rbFiyatlandirilmis.Checked;
+                btnDegisim.Visible = rbFiyatlandirilmis.Checked;
                 değişimToolStripMenuItem.Enabled = btnDegisim.Visible;
 
-                btnQuantumaYaz.Visible = rbFiyatlandirilmis.Checked;
-                fiyatlandırmayıOnaylaToolStripMenuItem.Enabled = btnQuantumaYaz.Visible;
+                //btnQuantumaYaz.Visible = rbFiyatlandirilmis.Checked;
+                //fiyatlandırmayıOnaylaToolStripMenuItem.Enabled = btnQuantumaYaz.Visible;
 
-                btnSubeDegistir.Visible = rbFiyatlandirilmamis.Checked;
-                müşteriDeğiştirToolStripMenuItem.Enabled = btnSubeDegistir.Visible;
+                //btnSubeDegistir.Visible = rbFiyatlandirilmamis.Checked;
+                //müşteriDeğiştirToolStripMenuItem.Enabled = btnSubeDegistir.Visible;
 
                 btnUyeDegistir.Visible = true;
                 üyeDeğiştirToolStripMenuItem.Enabled = btnUyeDegistir.Visible;
@@ -1850,23 +1890,26 @@ namespace Sultanlar.UI
                 btnSayim.Visible = rbFaturalananlar.Checked;
                 sayımToolStripMenuItem.Enabled = btnSayim.Visible;
 
-                btnSatisOperasyon.Visible = rbFaturalananlar.Checked || rbSatOp.Checked || rbST.Checked || rbCH.Checked || rbSon.Checked;
-                satışOperasyonToolStripMenuItem.Enabled = btnSatisOperasyon.Visible;
+                //btnSatisOperasyon.Visible = rbFaturalananlar.Checked || rbSatOp.Checked || rbST.Checked || rbCH.Checked || rbSon.Checked;
+                //satışOperasyonToolStripMenuItem.Enabled = btnSatisOperasyon.Visible;
 
-                btnOnemsizeAt.Visible = rbFiyatlandirilmisOnaylanmis.Checked || rbSevkGelisBilgili.Checked || rbSevkIadeKabulArasi.Checked;
-                önemsizeAtToolStripMenuItem.Enabled = btnOnemsizeAt.Visible;
+                //btnOnemsizeAt.Visible = rbFiyatlandirilmisOnaylanmis.Checked || rbSevkGelisBilgili.Checked || rbSevkIadeKabulArasi.Checked;
+                //önemsizeAtToolStripMenuItem.Enabled = btnOnemsizeAt.Visible;
 
-                btnKabul.Visible = rbFiyatlandirilmamis.Checked || rbSevkGelisBilgili.Checked || rbFiyatlandirilmisOnaylanmis.Checked || rbSevkIadeKabulArasi.Checked;
+                btnKabul.Visible = rbFiyatlandirilmisOnaylanmis.Checked;
                 iadeKabuleGönderToolStripMenuItem.Enabled = btnKabul.Visible;
 
-                btnKabuldenGeri.Visible = rbFaturalananlar.Checked;
-                iadeKabuldenGeriAlToolStripMenuItem.Enabled = btnKabuldenGeri.Visible;
+                //btnKabuldenGeri.Visible = rbFaturalananlar.Checked;
+                //iadeKabuldenGeriAlToolStripMenuItem.Enabled = btnKabuldenGeri.Visible;
 
                 btnTopluYazdir.Visible = rbFiyatlandirilmamis.Checked || rbFiyatlandirilmis.Checked || rbFiyatlandirilmisOnaylanmis.Checked || rbSevkIadeKabulArasi.Checked || rbFaturalananlar.Checked || rbSatOp.Checked || rbST.Checked || rbCH.Checked || rbReddedilenler.Checked || rbDegisimler.Checked || rbCoptekiler2.Checked;
 
+                btnYeniOnay.Visible = rbCoptekiler2.Checked;
+
+                btnSAPgonder.Visible = rbFaturalananlar.Checked;
 
 
-                pnlSevk.Visible = rbFiyatlandirilmisOnaylanmis.Checked;
+                //pnlSevk.Visible = rbFiyatlandirilmisOnaylanmis.Checked;
                 rbSevkTumu.Checked = true;
 
                 //cbIadeKabulTumu.Visible = rbFaturalananlar.Checked || rbSatOp.Checked || rbST.Checked || rbCH.Checked || rbSon.Checked;
@@ -1914,10 +1957,12 @@ namespace Sultanlar.UI
             btnFiyatlandirmaIptal.Location = new Point(btnFiyatlandirmaIptal.Location.X, lblAlt.Location.Y + 7);
             btnDegisim.Location = new Point(btnDegisim.Location.X, lblAlt.Location.Y + 7);
             btnQuantumaYaz.Location = new Point(btnQuantumaYaz.Location.X, lblAlt.Location.Y + 7);
+            btnYeniOnay.Location = new Point(btnYeniOnay.Location.X, lblAlt.Location.Y + 7);
             btnSayim.Location = new Point(btnSayim.Location.X, lblAlt.Location.Y + 36);
             btnSatisOperasyon.Location = new Point(btnSatisOperasyon.Location.X, lblAlt.Location.Y + 7);
             btnKabul.Location = new Point(btnKabul.Location.X, lblAlt.Location.Y + 36);
             btnKabuldenGeri.Location = new Point(btnKabuldenGeri.Location.X, lblAlt.Location.Y + 36);
+            btnSAPgonder.Location = new Point(btnSAPgonder.Location.X, lblAlt.Location.Y + 36);
         }
 
         private void dataGridView1_DataSourceChanged(object sender, EventArgs e)
@@ -2592,6 +2637,11 @@ namespace Sultanlar.UI
 
         private void btnOnemsizeAt_Click(object sender, EventArgs e)
         {
+            return;
+
+            if (dataGridView1.SelectedRows.Count == 0)
+                return;
+
             frmInputBox frm = new frmInputBox("Lütfen Açıklama Yazınız");
             frm.ShowDialog();
 
@@ -2613,6 +2663,9 @@ namespace Sultanlar.UI
 
         private void btnKabul_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedRows.Count == 0)
+                return;
+
             if (MessageBox.Show("Seçilen iadeler 'İade Kabul' bölümüne gönderilecek. Devam etmek istediğinize emin misiniz?", "İade Kabul", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
             {
                 bool secimyok = true;
@@ -2669,6 +2722,9 @@ namespace Sultanlar.UI
 
         private void btnKabuldenGeri_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedRows.Count == 0)
+                return;
+
             if (MessageBox.Show("İade 'İade Kabul' bölümünden geri gönderilecek. Devam etmek istediğinize emin misiniz?", "İade Kabul Geri", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
             {
                 int iadeid = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkIadeID"].Value);
@@ -2685,6 +2741,55 @@ namespace Sultanlar.UI
         {
             for (int j = 0; j < dataGridView1.Rows.Count; j++)
                 dataGridView1.Rows[j].Cells["clSecim"].Value = cbTumunuSec.Checked;
+        }
+
+        private void btnYeniOnay_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+                return;
+
+            Iadeler iade = Iadeler.GetObjectsByIadeID(Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkIadeID"].Value));
+            iade.blAktarilmis = false;
+            iade.DoUpdate();
+
+            Iadeler.DoInsertCoptenAl(iade.pkIadeID);
+
+            if (iade.strAciklama.EndsWith("-IADE MERKEZDEN GIRILDI"))
+                IadeHareketleri.DoInsert(iade.pkIadeID, 4, frmAna.KAdi.ToUpper(), ""); // iade girilene geldi
+            else
+                IadeHareketleri.DoInsert(iade.pkIadeID, 3, frmAna.KAdi.ToUpper(), ""); // sevk bekleyene geldi
+
+            Suz();
+        }
+
+        private void btnSAPgonder_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+                return;
+
+            Iadeler iade = Iadeler.GetObjectsByIadeID(Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkIadeID"].Value));
+
+            string hata = string.Empty;
+            string sapiadeno = QuantumaYaz(iade.pkIadeID, 0, 0, out hata);
+
+            if (sapiadeno != string.Empty)
+            {
+                iade.dtOnaylamaTarihi = DateTime.Now;
+                iade.mnToplamTutar = 0;
+                iade.blAktarilmis = true;
+
+                iade.DoUpdate();
+
+                IadeHareketleri.DoInsert(iade.pkIadeID, 1, frmAna.KAdi.ToUpper(), ""); // fiyatlandırılmamışa geldi
+
+                Suz();
+
+                MessageBox.Show("İade SAP'a gönderildi.\r\n\r\nSAP İade No: " + sapiadeno, "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("İade SAP'a gönderilemediği için kaydedilemedi.\r\n\r\nHata ayrıntısı:\r\n" + hata, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

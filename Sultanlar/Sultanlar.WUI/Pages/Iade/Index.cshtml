@@ -17,7 +17,7 @@
         var iadeid;
 
         function getMalzemeler() {
-            var url1 = apiurl + "fiyat/getbytip/20";
+            var url1 = apiurl + "fiyat/getallbytip/20";
             $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({

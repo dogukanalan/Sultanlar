@@ -74,6 +74,15 @@ namespace Sultanlar.DbObj
             return donendeger;
         }
 
+        protected object GetObjectSc(string storedproducer, Dictionary<string, object> param, int timeout)
+        {
+            CmdInit(QueryType.Select, storedproducer, timeout, param);
+            conn.Open();
+            object donendeger = cmd.ExecuteScalar();
+            conn.Close();
+            return donendeger;
+        }
+
         protected Dictionary<int, object> GetObject(string storedproducer, Dictionary<string, object> param, int timeout)
         {
             Dictionary<int, object> donendeger = new Dictionary<int, object>();

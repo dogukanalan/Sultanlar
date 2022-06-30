@@ -37,6 +37,7 @@
             this.cmbSubeler = new System.Windows.Forms.ComboBox();
             this.btnBaslat = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.cmbDepo = new System.Windows.Forms.ComboBox();
             this.cmbUY = new System.Windows.Forms.ComboBox();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -59,6 +60,7 @@
             this.rbOdeme = new System.Windows.Forms.RadioButton();
             this.rbSevkiyat = new System.Windows.Forms.RadioButton();
             this.lblAdres = new System.Windows.Forms.Label();
+            this.lblExcelden = new System.Windows.Forms.Label();
             this.lblAramadanAktar = new System.Windows.Forms.Label();
             this.lblBarkodBulunamadi = new System.Windows.Forms.Label();
             this.txtAciklama2 = new System.Windows.Forms.TextBox();
@@ -98,6 +100,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnVazgec = new System.Windows.Forms.Button();
+            this.btnCik = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.pnlNedenler.SuspendLayout();
@@ -147,14 +150,17 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.cmbDepo);
             this.groupBox1.Controls.Add(this.cmbUY);
             this.groupBox1.Controls.Add(this.panel3);
             this.groupBox1.Controls.Add(this.cbUrunlerBurada);
             this.groupBox1.Controls.Add(this.cbAramadanAktar);
+            this.groupBox1.Controls.Add(this.btnCik);
             this.groupBox1.Controls.Add(this.btnOnayla);
             this.groupBox1.Controls.Add(this.pnlNedenler);
             this.groupBox1.Controls.Add(this.lblAdres);
+            this.groupBox1.Controls.Add(this.lblExcelden);
             this.groupBox1.Controls.Add(this.lblAramadanAktar);
             this.groupBox1.Controls.Add(this.lblBarkodBulunamadi);
             this.groupBox1.Controls.Add(this.txtAciklama2);
@@ -180,6 +186,18 @@
             this.groupBox1.Size = new System.Drawing.Size(775, 526);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(623, 20);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(66, 23);
+            this.button1.TabIndex = 23;
+            this.button1.Text = "Excelden";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.MouseLeave += new System.EventHandler(this.button1_MouseLeave);
+            this.button1.MouseHover += new System.EventHandler(this.button1_MouseHover);
             // 
             // cmbDepo
             // 
@@ -240,6 +258,7 @@
             // cbUrunlerBurada
             // 
             this.cbUrunlerBurada.AutoSize = true;
+            this.cbUrunlerBurada.Enabled = false;
             this.cbUrunlerBurada.Location = new System.Drawing.Point(659, 500);
             this.cbUrunlerBurada.Name = "cbUrunlerBurada";
             this.cbUrunlerBurada.Size = new System.Drawing.Size(110, 17);
@@ -263,7 +282,7 @@
             // 
             // btnOnayla
             // 
-            this.btnOnayla.Location = new System.Drawing.Point(294, 497);
+            this.btnOnayla.Location = new System.Drawing.Point(375, 497);
             this.btnOnayla.Name = "btnOnayla";
             this.btnOnayla.Size = new System.Drawing.Size(161, 23);
             this.btnOnayla.TabIndex = 9;
@@ -422,6 +441,17 @@
             this.lblAdres.Size = new System.Drawing.Size(0, 13);
             this.lblAdres.TabIndex = 14;
             // 
+            // lblExcelden
+            // 
+            this.lblExcelden.AutoSize = true;
+            this.lblExcelden.ForeColor = System.Drawing.Color.Red;
+            this.lblExcelden.Location = new System.Drawing.Point(415, 0);
+            this.lblExcelden.Name = "lblExcelden";
+            this.lblExcelden.Size = new System.Drawing.Size(352, 13);
+            this.lblExcelden.TabIndex = 14;
+            this.lblExcelden.Text = "Excelde: A kolonu \"SAP no\", B kolonu \"Malzeme adı\", C kolonu \"Miktar\"";
+            this.lblExcelden.Visible = false;
+            // 
             // lblAramadanAktar
             // 
             this.lblAramadanAktar.AutoSize = true;
@@ -527,9 +557,9 @@
             // 
             // btnSepet
             // 
-            this.btnSepet.Location = new System.Drawing.Point(655, 20);
+            this.btnSepet.Location = new System.Drawing.Point(695, 20);
             this.btnSepet.Name = "btnSepet";
-            this.btnSepet.Size = new System.Drawing.Size(112, 23);
+            this.btnSepet.Size = new System.Drawing.Size(72, 23);
             this.btnSepet.TabIndex = 6;
             this.btnSepet.Text = "İade Listesi";
             this.btnSepet.UseVisualStyleBackColor = true;
@@ -639,10 +669,10 @@
             // clUrunID
             // 
             this.clUrunID.DataPropertyName = "UrunID";
-            this.clUrunID.HeaderText = "UrunID";
+            this.clUrunID.HeaderText = "SAP No";
             this.clUrunID.Name = "clUrunID";
             this.clUrunID.ReadOnly = true;
-            this.clUrunID.Visible = false;
+            this.clUrunID.Width = 150;
             // 
             // clAd
             // 
@@ -681,6 +711,7 @@
             this.clTedarikciAdi.HeaderText = "Tedarikçi";
             this.clTedarikciAdi.Name = "clTedarikciAdi";
             this.clTedarikciAdi.ReadOnly = true;
+            this.clTedarikciAdi.Visible = false;
             this.clTedarikciAdi.Width = 150;
             // 
             // clKategoriID
@@ -808,6 +839,16 @@
             this.btnVazgec.UseVisualStyleBackColor = true;
             this.btnVazgec.Click += new System.EventHandler(this.btnVazgec_Click);
             // 
+            // btnCik
+            // 
+            this.btnCik.Location = new System.Drawing.Point(253, 497);
+            this.btnCik.Name = "btnCik";
+            this.btnCik.Size = new System.Drawing.Size(33, 23);
+            this.btnCik.TabIndex = 9;
+            this.btnCik.Text = "Çık";
+            this.btnCik.UseVisualStyleBackColor = true;
+            this.btnCik.Click += new System.EventHandler(this.btnCik_Click);
+            // 
             // frmINTERNETiadegirme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -901,6 +942,8 @@
         private System.Windows.Forms.TextBox txtPartiNo;
         private System.Windows.Forms.ComboBox cmbBolum;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblAdres;
+        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.DataGridViewTextBoxColumn clpkResimID;
         private System.Windows.Forms.DataGridViewTextBoxColumn clUrunID;
         private System.Windows.Forms.DataGridViewTextBoxColumn clAd;
@@ -913,6 +956,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clAdet;
         private System.Windows.Forms.DataGridViewTextBoxColumn clKDV;
         private System.Windows.Forms.DataGridViewTextBoxColumn clKYTM;
-        private System.Windows.Forms.Label lblAdres;
+        private System.Windows.Forms.Label lblExcelden;
+        private System.Windows.Forms.Button btnCik;
     }
 }

@@ -28,6 +28,12 @@
                 return;
             }
 
+            if (window.localStorage['sepetV']) {
+                if (confirm('Var/yok listesi girilmiş fakat gönderilmemiş, ziyaret sonlandırıldığında var/yok listesi silinecektir. Devam etmek istiyor musunuz?') != true) {
+                    return;
+                }
+            }
+
             var neden = "";
             $('input:radio').each(function () {
                 if ($(this).is(':checked')) {
@@ -183,7 +189,7 @@
 <div id="sonSebep"></div>
 <br />
     Yol Ücreti:
-<input type="text" class="form-control" id="inputYol" />
+<input type="number" class="form-control" id="inputYol" value="0" />
 <br />
     Açıklama:
 <textarea class="form-control" id="textAciklama"></textarea>

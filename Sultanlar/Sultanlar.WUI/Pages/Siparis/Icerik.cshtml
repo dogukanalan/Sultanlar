@@ -217,11 +217,23 @@
 
                         var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
                         $.each(rootData, function (index, item) {
-                            $("#fiyattipleri").append(
-                                $("<option></option>")
-                                    .text(item.fiyatTipi.aciklama)
-                                    .val(item.sintFiyatTipiID)
-                            );
+
+                            if (paramftip < 500) {
+                                $("#fiyattipleri").append(
+                                    $("<option></option>")
+                                        .text(item.fiyatTipi.aciklama)
+                                        .val(item.sintFiyatTipiID)
+                                );
+                            }
+                            else {
+                                if (paramftip == item.sintFiyatTipiID) {
+                                    $("#fiyattipleri").append(
+                                        $("<option></option>")
+                                            .text(item.fiyatTipi.aciklama)
+                                            .val(item.sintFiyatTipiID)
+                                    );
+                                }
+                            }
                         });
                         $('select[id=fiyattipleri]').val(paramftip);
                     },

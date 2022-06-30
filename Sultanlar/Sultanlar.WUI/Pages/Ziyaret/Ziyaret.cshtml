@@ -20,7 +20,7 @@
                 getParameterByName("coords") + '", "ziy_konum_adres": "' + getParameterByName("address") +
                 '", "ziy_konum_cikis": "0,0", "ziy_konum_adres_cikis": "", ' +
                 '"ziy_konum_musteri": "' + getParameterByName("konumM") +
-                '", "fark_knm_ziy": "0", "ziy_konum_resim": "", "ziy_notlari": "", "ziy_sip": "0", "ziy_akt": "0", "ziy_iad": "0", "ziy_tah": "0", "yol": "" }';
+                '", "fark_knm_ziy": "0", "ziy_konum_resim": "", "ziy_notlari": "", "ziy_sip": "0", "ziy_akt": "0", "ziy_iad": "0", "ziy_tah": "0", "yol": 0 }';
 
             $.ajax(
                 {
@@ -49,8 +49,6 @@
         function ZiyaretIptal() {
             var ziyaret = JSON.parse(window.localStorage["ziyaret"]);
             var sentData = '{ "barkod": "' + ziyaret.barkod + '", "tip": "' + ziyaret.mtip + '", "smref": "' + ziyaret.smref + '", "slsref": "' + ziyaret.slsref + '", "zaman": "' + ziyaret.ziy_bas_tar + '" }';
-            window.localStorage.removeItem("ziyaret");
-            window.localStorage.removeItem("sepetV");
 
             $.ajax(
                 {
@@ -64,7 +62,14 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        window.location.href = '../Musteri';
+                        if (data == '') {
+                            window.localStorage.removeItem("ziyaret");
+                            window.localStorage.removeItem("sepetV");
+                            window.location.href = '../Musteri';
+                        }
+                        else {
+                            alert(data);
+                        }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { alert('hata: ' + sentData); window.location.href = '../Musteri'; }
                 }
@@ -99,7 +104,7 @@
 <input type="text" class="form-control" id="inputBas" disabled />
 <br />
 <input type="button" class="btn btn-info" value="Resim Gönder" onclick="window.location.href = '../Resim/?smref=' + ziyaret.smref + '&tip=' + ziyaret.mtip + '&rut_id=' + $('#rut_id').val()" />
-<input type="button" class="btn btn-info" value="Var/Yok Liste" onclick="window.location.href = 'Varyok?smref=' + ziyaret.smref + '&mtip=' + ziyaret.mtip + '&ziyaretid=' + ziyaret.barkod" />
+<input type="button" class="btn btn-info" value="Var/Yok Liste" onclick="window.location.href = 'Varyok?gmref=' + ziyaret.gmref + '&smref=' + ziyaret.smref + '&mtip=' + ziyaret.mtip + '&ziyaretid=' + ziyaret.barkod" />
 <br />
 <br />
 <input type="button" class="btn btn-danger" value="Ziyareti İptal Et" onclick="ZiyaretIptal()" />

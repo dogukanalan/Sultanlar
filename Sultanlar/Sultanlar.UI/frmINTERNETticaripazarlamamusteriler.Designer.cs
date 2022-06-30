@@ -89,6 +89,8 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.txtM2 = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
+            this.txtSMREF = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
             this.txtMUSKOD = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
             this.txtAltCariDuzenleIsim = new System.Windows.Forms.TextBox();
@@ -113,8 +115,6 @@
             this.label26 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
-            this.label30 = new System.Windows.Forms.Label();
-            this.txtSMREF = new System.Windows.Forms.TextBox();
             this.cbBayiPasif = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -562,7 +562,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label9.Location = new System.Drawing.Point(6, 97);
+            this.label9.Location = new System.Drawing.Point(6, 104);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(12, 13);
             this.label9.TabIndex = 3;
@@ -777,6 +777,26 @@
             this.label28.Size = new System.Drawing.Size(55, 13);
             this.label28.TabIndex = 3;
             this.label28.Text = "Metrekare";
+            // 
+            // txtSMREF
+            // 
+            this.txtSMREF.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.txtSMREF.Location = new System.Drawing.Point(58, 24);
+            this.txtSMREF.Name = "txtSMREF";
+            this.txtSMREF.ReadOnly = true;
+            this.txtSMREF.Size = new System.Drawing.Size(376, 18);
+            this.txtSMREF.TabIndex = 1;
+            this.txtSMREF.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtArama_KeyDown);
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label30.Location = new System.Drawing.Point(6, 25);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(43, 13);
+            this.label30.TabIndex = 3;
+            this.label30.Text = "Sis.Kod";
             // 
             // txtMUSKOD
             // 
@@ -1048,26 +1068,6 @@
             this.button8.Text = "Toplu İlçe";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label30.Location = new System.Drawing.Point(6, 25);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(43, 13);
-            this.label30.TabIndex = 3;
-            this.label30.Text = "Sis.Kod";
-            // 
-            // txtSMREF
-            // 
-            this.txtSMREF.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.txtSMREF.Location = new System.Drawing.Point(58, 24);
-            this.txtSMREF.Name = "txtSMREF";
-            this.txtSMREF.ReadOnly = true;
-            this.txtSMREF.Size = new System.Drawing.Size(376, 18);
-            this.txtSMREF.TabIndex = 1;
-            this.txtSMREF.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtArama_KeyDown);
             // 
             // cbBayiPasif
             // 

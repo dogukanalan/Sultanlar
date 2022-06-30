@@ -69,7 +69,7 @@
                                 (data[i].mtkod != "Z1" ? '<a href="Anlasma/?smref=' + data[i].gmref + '&tip=' + data[i].tip + '">Anlaşma</a>' : "") +
                                 '<a href="Aktivite/?smref=' + data[i].gmref + '&ftip=' + (data[i].mtkod == "Z1" ? "25" : (data[i].fiyatTip500 == "0" ? "7" : data[i].fiyatTip500)) + '&tip=' + data[i].tip + '&aktiviteid=0">Aktivite</a>' +
                                 '<a href="Ziyaret/?smref=' + data[i].gmref + '&gmref=' + data[i].gmref + '&slsref=' + (window.localStorage["slsref"] != "0" ? window.localStorage["slsref"] : slsref) + '&tip=' + data[i].tip + '&konum=' + data[i].konumA.konum + '">Ziyaret</a>' +
-                                '<a href="Siparis/?smref=' + data[i].gmref + '">Sipariş</a>' +
+                                '<a href="Siparis/?gmref=' + data[i].gmref + '&smref=' + data[i].gmref + '">Sipariş</a>' +
                                 '<a href="Iade/?smref=' + data[i].gmref + '">İade</a></div>';
                             htmlText += '</td></tr>';
                         });

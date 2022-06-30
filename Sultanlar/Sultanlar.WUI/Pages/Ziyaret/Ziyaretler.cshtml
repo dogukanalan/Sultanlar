@@ -14,6 +14,8 @@
     <script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
 
     <script>
+        var table;
+
         function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
         function getGmref() { return getParameterByName("gmref") ? getParameterByName("gmref") : "0"; }
         function getSmref() { return getParameterByName("smref") ? getParameterByName("smref") : "0"; }
@@ -79,7 +81,8 @@
         }
 
         function ZiyaretlerGetir(slsref, gmref, smref) {
-            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+            $(table).DataTable().clear();
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
                 "responsive": true,
@@ -87,7 +90,7 @@
                 "processing": true,
                 "serverSide": true,
                 "colReorder": true,
-                "stateSave": true,
+                "stateSave": false,
                 ajax: {
                     dataSrc: "json",
                     xhr: function () { return xhrDownloadUpload(); },
@@ -112,52 +115,59 @@
                 columns: [
                     {
                         "data": null, "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data.satici.sattem + '</span>'
+                            return '<span class="sinirli">' + data.satici.sattem + '</span>';
                         },
                         "name": "Satici.SATTEM",
                         "width": "10%"
                     },
                     {
                         "data": null, "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli"><a href="Varyok?ziyaretid=' + data.barkod + '&smref=' + data.smref + '&mtip=' + data.mtip + '&incele=true">' + (data.cari.sube == '' ? data.cari.musteri : data.cari.sube) + '</a></span>'
+                            return (data.varyok ? '<strong>' : '') + '<span class="sinirli"><a href="Varyok?ziyaretid=' + data.barkod + '&smref=' + data.smref + '&mtip=' + data.mtip + '&incele=true">' + (data.cari.sube == '' ? data.cari.musteri : data.cari.sube) + '</a></span>' + (data.varyok ? '</strong>' : '');
                         },
                         "name": "Cari.Sube",
-                        "width": "25%"
+                        "width": "20%"
                     },
                     {
                         "data": null, "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli"><a href="../Musteri/Resim/Ziyaret?rutid=' + data.ruT_ID + '">' + data.ziyaretNeden.value + '</a></span>'
+                            return (data.resim ? '<strong>' : '') + '<span class="sinirli"><a href="../Musteri/Resim/Ziyaret?rutid=' + data.ruT_ID + '">' + data.ziyaretNeden.value + '</a></span>' + (data.varyok ? '</strong>' : '');
                         },
                         "name": "ZiyaretNeden.value",
                         "width": "10%"
                     },
                     {
                         "data": "ziY_BAS_TAR", "class": "keyTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>'
+                            return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>';
                         },
                         "name": "ZIY_BAS_TAR",
                         "width": "10%"
                     },
                     {
                         "data": "ziY_BIT_TAR", "class": "keyTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>'
+                            return '<span class="sinirli">' + data.replace("T", "<br>") + '</span>';
                         },
                         "name": "ZIY_BIT_TAR",
                         "width": "10%"
                     },
                     {
                         "data": null, "class": "keyTd", render: function (data, type, row) {
-                            return '<span class="sinirli"><a target="_blank" href="https://www.sultanlar.com.tr/musteri/map.aspx?konum1=' + data.cari.konumA.konum + '&konum2=' + data.ziY_KONUM + '">' + data.farK_KNM_ZIY + 'm</a></span>'
+                            return '<span class="sinirli"><a target="_blank" href="https://www.sultanlar.com.tr/musteri/map.aspx?konum1=' + data.cari.konumA.konum + '&konum2=' + data.ziY_KONUM + '">' + data.farK_KNM_ZIY + 'm</a></span>';
                         },
                         "name": "FARK_KNM_ZIY",
                         "width": "5%"
                     },
                     {
                         "data": "ziY_NOTLARI", "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data + '</span>'
+                            return '<span class="sinirli">' + data + '</span>';
                         },
                         "name": "ZIY_NOTLARI",
                         "width": "20%"
+                    },
+                    {
+                        "data": "yol", "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + parseFloat(data).formatMoney(2, ',', '.') + '</span>';
+                        },
+                        "name": "yol",
+                        "width": "5%"
                     }
                 ],
                 "language": defaultDtLang,
@@ -281,6 +291,7 @@
             <th class="keyTd"><span class="">Bitiş</span></th>
             <th class="keyTd"><span class="">Fark</span></th>
             <th class="keyTd"><span class="">Açıklama</span></th>
+            <th class="keyTd"><span class="">Yol</span></th>
         </tr>
     </thead>
 </table>

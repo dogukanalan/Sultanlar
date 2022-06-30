@@ -5674,7 +5674,7 @@ COMMIT TRANSACTION t_Transaction
             DateTime baslangic = DateTime.Now;
             string hata = string.Empty;
 
-            SAPs.LogYaz("satis update basladi", true, "", DateTime.Now, DateTime.Now);
+            //SAPs.LogYaz("satis update basladi", true, "", DateTime.Now, DateTime.Now);
 
             try
             {

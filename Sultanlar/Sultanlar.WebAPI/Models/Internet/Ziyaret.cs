@@ -53,7 +53,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         [JsonPropertyAttribute("ziy_tah")]
         public int ZIY_TAH { get; set; }
         [JsonPropertyAttribute("yol")]
-        public string YOL { get; set; }
+        public double YOL { get; set; }
     }
 
     public class ZiyaretGet

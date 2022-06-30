@@ -79,10 +79,12 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal string IadeOnay(int IadeID)
         {
             iadeler iade = new iadeler(IadeID).GetObject();
-            iade.blAktarilmis = true;
+            iade.blAktarilmis = false;
+            iade.mnToplamTutar = 0.001;
             iade.DoUpdate();
+            Sultanlar.DatabaseObject.Internet.Iadeler.DoInsertCopeAt(IadeID);
 
-            iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 1, DateTime.Now, iade.Musteri.AdSoyad, ""); // iade onaylandı
+            iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 26, DateTime.Now, iade.Musteri.AdSoyad, ""); // iade onay talep edildi
             ih.DoInsert();
 
             return "";

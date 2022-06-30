@@ -73,14 +73,14 @@ namespace Sultanlar.UI
 
 
 
-                    DataTable dt1 = new DataTable();
+                    /*DataTable dt1 = new DataTable();
                     decimal toplamtutar = 0;
                     IadelerDetay.GetObjectsByIadeID(dt1, id.intIadeID);
                     for (int j = 0; j < dt1.Rows.Count; j++)
                         toplamtutar += Convert.ToDecimal(dt1.Rows[j]["mnFiyat"]) * Convert.ToInt32(dt1.Rows[j]["intMiktar"]);
                     Iadeler iade = Iadeler.GetObjectsByIadeID(id.intIadeID);
                     iade.mnToplamTutar = toplamtutar;
-                    iade.DoUpdate();
+                    iade.DoUpdate();*/
                 }
             }
 

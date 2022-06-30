@@ -201,5 +201,11 @@ namespace Sultanlar.UI
             if (!ilkacilis)
                 GetHedef();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            frmINTERNEThedeforan frm = new frmINTERNEThedeforan();
+            frm.ShowDialog();
+        }
     }
 }

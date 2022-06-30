@@ -26,6 +26,7 @@
                 checkAuth(xhr);
                 document.getElementById("basTitle").innerHTML = "İade İncele (" + json.pkIadeID + ")";
                 document.getElementById("iadeMus").innerHTML = json.cari.sube;
+                document.getElementById("aciklama").innerHTML = json.aciklama2;
             }).DataTable({
                 ajax: {
                     dataSrc: "detaylar",
@@ -94,6 +95,7 @@
     </script>
 }
 <h5 class="spanCiplak" id="iadeMus"></h5>
+<i><span class="spanCiplak" id="aciklama"></span></i>
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>

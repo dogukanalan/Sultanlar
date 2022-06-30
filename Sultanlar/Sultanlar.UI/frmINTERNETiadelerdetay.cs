@@ -16,7 +16,7 @@ namespace Sultanlar.UI
     public partial class frmINTERNETiadelerdetay : Form
     {
         /// <summary>
-        /// nereden: 0 tümü, 1 fiyatlandırılmamış, 2 fiyatlandırılmış, 3 sevk bekleyen, 4 iade girilen, 5 iade kabul, 6 sat.op, 7 s.t., 8 c/h, 9 son, 10 red, 11 değişim, 12 önemsiz
+        /// nereden: 0 tümü, 1 fiyatlandırılmamış, 2 fiyatlandırılmış, 3 sevk bekleyen, 4 iade girilen, 5 iade kabul, 6 sat.op, 7 s.t., 8 c/h, 9 son, 10 red, 11 değişim, 12 önemsiz, 13 çöptekiler2
         /// </summary>
         public frmINTERNETiadelerdetay(int iadeid, int smref, int nereden)
         {
@@ -37,7 +37,7 @@ namespace Sultanlar.UI
                 btnIadeFiyatlandir.Enabled = true;
                 btnHizmetHesapla.Enabled = true;
                 btnKaydet.Enabled = true;
-                btnTamamla.Enabled = true;
+                btnTamamla.Enabled = nereden != 13;
             }
 
             if (frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR" || frmAna.KAdi.ToUpper() == "ST08")
@@ -53,7 +53,7 @@ namespace Sultanlar.UI
             }
         }
         /// <summary>
-        /// nereden: 0 tümü, 1 fiyatlandırılmamış, 2 fiyatlandırılmış, 3 sevk bekleyen, 4 iade girilen, 5 iade kabul, 6 sat.op, 7 s.t., 8 c/h, 9 son, 10 red, 11 değişim, 12 önemsiz
+        /// nereden: 0 tümü, 1 fiyatlandırılmamış, 2 fiyatlandırılmış, 3 sevk bekleyen, 4 iade girilen, 5 iade kabul, 6 sat.op, 7 s.t., 8 c/h, 9 son, 10 red, 11 değişim, 12 önemsiz, 13 çöptekiler2
         /// </summary>
         public frmINTERNETiadelerdetay(int iadeid, int smref, bool degisiklikyok, int nereden)
         {
@@ -413,6 +413,7 @@ namespace Sultanlar.UI
                 if (error == string.Empty)
                 {
                     iade.mnToplamTutar = toplam == 0 ? Convert.ToDecimal(0.001) : toplam;
+                    iade.blAktarilmis = true;
                     iade.DoUpdate();
 
                     IadeHareketleri.DoInsert(iade.pkIadeID, 2, frmAna.KAdi.ToUpper(), ""); // fiyatlandırılmışa geldi
@@ -753,6 +754,8 @@ namespace Sultanlar.UI
                 nereden = "Değişimler";
             else if (Nereden == 12)
                 nereden = "(Önemsizler)";
+            else if (Nereden == 13)
+                nereden = "Yeni";
 
             string musteri = CariHesaplar.GetMUSTERIbySMREF(SMREF);
             musteri += CariHesaplar.AnaSubeMi(CariHesaplar.GetGMREFBySMREF(SMREF)) ? "<br /><span style='color: #FFFFFF'>Müşteri: </span>" + CariHesaplar.GetSUBEbySMREF(SMREF) : "";
