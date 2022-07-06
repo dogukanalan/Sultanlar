@@ -57,7 +57,7 @@ $(document).ready(function () {
     if (typeof Android !== "undefined") {
         $("input").focus(function () {
             if ($(this).hasClass("tarihpicker")) {
-                Android.HideKeyboard();
+                //Android.HideKeyboard();
             }
         });
     }

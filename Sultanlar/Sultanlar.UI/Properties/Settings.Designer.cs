@@ -186,7 +186,7 @@ namespace Sultanlar.UI.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=KurumsalWebSAP;User ID=sultanlar;Password=megastar")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.10.41.2;Initial Catalog=KurumsalWebSAP;User ID=sultanlar;Password=megastar")]
         public string KurumsalWebSAPConnectionString {
             get {
                 return ((string)(this["KurumsalWebSAPConnectionString"]));

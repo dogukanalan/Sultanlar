@@ -19,13 +19,14 @@
         var paramsmref;
         var paramftip;
         var siparisid;
+        var table;
 
         function getFiyatlar() {
             var url1 = apiurl + "fiyat/getbytip/" + getParameterByName("ftip");
-            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
                 window.localStorage['sepetU'] = JSON.stringify(json);
-                
+
                 if (getParameterByName("ftipdegisti") == "1") {
                     ftipdegisti();
                 }
@@ -44,7 +45,56 @@
                 "fnDrawCallback": function (oSettings) {
                     qtip();
                 },
-                columns: siparisiadeaktivitecolumns,
+                columns: [
+                    {
+                        "data": null, "class": "bgwhite keyTd hidewhenmobile", render: function (data, type, row) {
+                            if (data.odemE_GUN > 0)
+                                return '<div class="imgKucRes"><img class="urunResim lazyload" rel="' + apiurl + 'resim/getT/' + data.itemref + '" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="' + apiurl + 'resim/getTO/' + data.itemref + '" /></div>';
+                            else
+                                return '<div style="width:100px; height:100px" />';
+                        }
+                    },
+                    {
+                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malacik", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli malacik">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": "hide", render: function (data, type, row) {
+                            return '<span class="sinirli ozelacik">' + data.ozelacik + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.koli + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.kdv + '</span>';
+                        }
+                    },
+                    {
+                        "data": "netkdv", "class": window.location.href.indexOf("Iade") > -1 ? "floaTd hide" : "floaTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli netkdv">' + data.toFixed(2) + '</span>';
+                        }
+                    },
+                    {
+                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="number" class="inputSecim" accesskey="' + data + '" onkeyup="clickButton(event,\'sipAktar\')" />';
+                        }
+                    },
+                    {
+                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<select class="ddTur">' + (window.location.href.indexOf("Aktivite") > -1 ? '' : '<option value="ST" selected="selected">Adet</option>') + (window.location.href.indexOf("Iade") > -1 ? '' : '<option value="KI">Koli</option></select>');
+                        }
+                    }
+                ],
                 "language": defaultDtLang,
                 "paging": true,
                 "ordering": true,
@@ -123,7 +173,7 @@
                             }
 
                             if (!varmis) {
-                                var isks = { fiyat:0, isk1:0, isk2:0, isk3:0, isk4:0 };
+                                var isks = { fiyat: 0, isk1: 0, isk2: 0, isk3: 0, isk4: 0 };
                                 if (paramftip == 2) {
                                     isks = getIsksA(paramsmref, itref, getDateNow());
                                 }
@@ -277,6 +327,17 @@
             $('#dtTable').on('draw.dt', function () {
 
             });
+
+            $('input[type=radio][name=options]').change(function () {
+                var val;
+                $("#divTur input").each(function (index, element) {
+                    if ($(element).is(':checked')) {
+                        val = $(element).val();
+                    }
+                });
+
+                table.columns(3).search(val == 1 ? "" : val).draw();
+            });
         });
 
         function qtip() {
@@ -295,12 +356,34 @@
 <input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" autocomplete="off">
 <input type="button" id="sipAktar" class="btn btn-primary secimTus" value="Seçimi Siparişe Aktar" onclick="sipariseAktar()" />
 <input type="button" class="btn btn-info secimTus" value="Siparişi İçeriğini Göster" onclick="siparisiGoster()" />
+<br /><br />
+      <div id="divTur" data-toggle="buttons">
+          <label class="btn btn-primary">
+              <input type="radio" name="options" id="option0" value="1" checked> Tümü
+          </label>
+          <label class="btn btn-primary">
+              <input type="radio" name="options" id="option1" value="ARI"> Arı
+          </label>
+          <label class="btn btn-primary">
+              <input type="radio" name="options" id="option2" value="HAYAT"> Hayat
+          </label>
+          <label class="btn btn-primary">
+              <input type="radio" name="options" id="option3" value="TİBET"> Temizlik
+          </label>
+          <label class="btn btn-primary">
+              <input type="radio" name="options" id="option4" value="YEG"> YEG
+          </label>
+          <label class="btn btn-primary">
+              <input type="radio" name="options" id="option4" value="DİĞER"> Diğer
+          </label>
+      </div>
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>
         <tr>
             <th class="keyTd"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
             <th class="keyTd"><span class="">Kod</span></th>
             <th class="keyTd"><span class="">Malzeme</span></th>
+            <th class="keyTd"><span class="">Blm</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Koli</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Kdv</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Fiyat</span></th>

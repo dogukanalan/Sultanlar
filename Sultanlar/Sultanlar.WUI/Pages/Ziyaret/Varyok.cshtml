@@ -23,10 +23,11 @@
         var paramgmref;
         var parammtip;
         var ziyaretid;
+        var table;
 
         function getListe() {
             $("#divKaydetSil").css("display", "block");
-            $('#dtTable').DataTable({
+            table = $('#dtTable').DataTable({
                 "aaData": sepet.detays,
                 "aoColumns": [
                     {
@@ -35,16 +36,24 @@
                                 return '<div class="imgKucRes"><img class="urunResim lazyload" rel="' + apiurl + 'resim/getT/' + data.itemref + '" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="' + apiurl + 'resim/getTO/' + data.itemref + '" /></div>';
                             else
                                 return '<div style="width:100px; height:100px" />';
-                        }
+                        },
+                        "width": "1%"
                     },
                     {
                         "mDataProp": "itemref", "class": "keyTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data + '</span>';
-                        }
+                        },
+                        "width": "1%"
                     },
                     {
                         "mDataProp": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.barkod + '</span>';
+                        },
+                        "width": "1%"
+                    },
+                    {
+                        "mDataProp": "malzeme", "class": "keyTd hide", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.ozelacik + '</span>';
                         }
                     },
                     {
@@ -55,53 +64,61 @@
                     {
                         "mDataProp": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.koli + '</span>';
-                        }
+                        },
+                        "width": "1%"
                     },
                     {
                         "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
                             return '<div class="pretty p-default p-curve prettyMargin2 p-toggle">' +
                                 '<input type="checkbox" onchange="checkDisEn(this)" ' + (getParameterByName('incele') ? 'disabled' : '') + ' accesskey="' + data.itemref + '"' + (data.fiyatvy.isaret == true ? 'checked="checked"' : '') + ' />' +
                                 '<div class="state p-success p-on"><label></label></div><div class="state p-danger p-off"><label></label></div></div>';
-                        }
-                        ,"name": "isaret"
+                        },
+                        "name": "isaret",
+                        "width": "1%"
                     },
                     {
                         "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
                             return '<div class="pretty p-default p-curve prettyMargin2">' +
                                 '<input type="checkbox" class="checkler" onchange="checkyap(this,0)" ' + (data.fiyatvy.isaret == false || getParameterByName('incele') ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + (data.fiyatvy.varyok == true ? 'checked="checked"' : '') + ' />' +
                                 '<div class="state p-primary"><label></label></div></div>';
-                        }
+                        },
+                        "width": "1%"
                     },
                     {
                         "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
                             return '<div class="pretty p-default p-curve prettyMargin2">' +
                                 '<input type="checkbox" class="checkler" onchange="checkyap(this,1)" ' + (data.fiyatvy.isaret == false || getParameterByName('incele') ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + (data.fiyatvy.depo == true ? 'checked="checked"' : '') + ' />' +
                                 '<div class="state p-primary"><label></label></div></div>';
-                        }
+                        },
+                        "width": "1%"
                     },
                     {
                         "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
                             return '<div class="pretty p-default p-curve prettyMargin2">' +
                                 '<input type="checkbox" class="checkler" onchange="checkyap(this,2)" ' + (data.fiyatvy.isaret == false || getParameterByName('incele') ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + (data.fiyatvy.raf == true ? 'checked="checked"' : '') + ' />' +
                                 '<div class="state p-primary"><label></label></div></div>';
-                        }
+                        },
+                        "width": "1%"
                     },
                     {
                         "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
                             return '<input type="number" class="checkler inputSecim" onchange="checkyap(this,3)" ' + (data.fiyatvy.isaret == false || getParameterByName('incele') ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + 'value="' + data.fiyatvy.raffiyat + '"' + ' />';
-                        }
+                        },
+                        "width": "1%"
                     },
                     {
                         "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
                             return '<div class="pretty p-default p-curve prettyMargin2">' +
                                 '<input type="checkbox" class="checkler" onchange="checkyap(this,4)" ' + (data.fiyatvy.isaret == false || getParameterByName('incele') ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + (data.fiyatvy.skt == true ? 'checked="checked"' : '') + ' />' +
                                 '<div class="state p-primary"><label></label></div></div>';
-                        }
+                        },
+                        "width": "1%"
                     },
                     {
                         "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
                             return '<input type="number" class="checkler inputSecim" onchange="checkyap(this,5)" ' + (data.fiyatvy.isaret == false || getParameterByName('incele') ? 'disabled' : '') + ' accesskey="' + data.itemref + '" ' + 'value="' + data.fiyatvy.siparis + '"' + ' />';
-                        }
+                        },
+                        "width": "1%"
                     }
                 ],
                 "scrollX": true,
@@ -439,6 +456,17 @@
                     );
                 });
             }
+
+            $('input[type=radio][name=options]').change(function () {
+                var val;
+                $("#divTur input").each(function (index, element) {
+                    if ($(element).is(':checked')) {
+                        val = $(element).val();
+                    }
+                });
+
+                table.columns(3).search(val == 1 ? "" : val).draw();
+            });
             
             $('#dtTable').on('draw.dt', function () {
 
@@ -456,15 +484,34 @@
     <input id="inputKaydet" type="button" class="btn btn-info secimTus" value="Listeyi Gönder" onclick="kaydet()" />
     <input id="inputSil" type="button" class="btn btn-danger secimTus" value="Listeyi Sil" onclick="sil()" />
 </div>
+<br />
+<div id="divTur" data-toggle="buttons">
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option0" value="1" checked> Tümü
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option1" value="ARI"> Arı
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option2" value="HAYAT"> Hayat
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option3" value="TİBET"> Temizlik
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option4" value="YEG"> YEG
+    </label>
+</div>
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%; display: none" data-page-length='25'>
     <thead>
         <tr>
             <th class="keyTd"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
             <th class="keyTd"><span class="">Kod</span></th>
             <th class="keyTd"><span class="">Barkod</span></th>
+            <th class="keyTd"><span class="">Blm</span></th>
             <th class="keyTd"><span class="">Malzeme</span></th>
             <th class="keyTd"><span class="">Koli</span></th>
-            <th class="keyTd"><span class="">İş.</span></th>
+            <th class="keyTd"><span class="">Knt.</span></th>
             <th class="keyTd"><span class="">V/Y</span></th>
             <th class="keyTd"><span class="">Depo</span></th>
             <th class="keyTd"><span class="">Raf</span></th>

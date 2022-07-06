@@ -29,7 +29,7 @@ namespace Sultanlar.WCF
 
             string tabloadi = "tbl_" + Bayikod + "_" + Satis;
 
-            if (Bayikod == "1071593") // kaangıda
+            if (Bayikod == "1071593" || Bayikod == "1052689") // kaan, peker
             {
                 if (Satis == "Satis")
                 {
