@@ -283,6 +283,8 @@ namespace Sultanlar.UI {
             
             private global::System.Data.DataColumn columnLIMIT;
             
+            private global::System.Data.DataColumn columnMALZEME;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public _Web_Hedef_3DataTable() {
@@ -334,6 +336,14 @@ namespace Sultanlar.UI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn MALZEMEColumn {
+                get {
+                    return this.columnMALZEME;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -369,11 +379,12 @@ namespace Sultanlar.UI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public _Web_Hedef_3Row Add_Web_Hedef_3Row(int ITEMREF, double LIMIT) {
+            public _Web_Hedef_3Row Add_Web_Hedef_3Row(int ITEMREF, double LIMIT, string MALZEME) {
                 _Web_Hedef_3Row row_Web_Hedef_3Row = ((_Web_Hedef_3Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ITEMREF,
-                        LIMIT};
+                        LIMIT,
+                        MALZEME};
                 row_Web_Hedef_3Row.ItemArray = columnValuesArray;
                 this.Rows.Add(row_Web_Hedef_3Row);
                 return row_Web_Hedef_3Row;
@@ -405,6 +416,7 @@ namespace Sultanlar.UI {
             internal void InitVars() {
                 this.columnITEMREF = base.Columns["ITEMREF"];
                 this.columnLIMIT = base.Columns["LIMIT"];
+                this.columnMALZEME = base.Columns["MALZEME"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -414,10 +426,13 @@ namespace Sultanlar.UI {
                 base.Columns.Add(this.columnITEMREF);
                 this.columnLIMIT = new global::System.Data.DataColumn("LIMIT", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLIMIT);
+                this.columnMALZEME = new global::System.Data.DataColumn("MALZEME", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMALZEME);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnITEMREF}, true));
                 this.columnITEMREF.AllowDBNull = false;
                 this.columnITEMREF.Unique = true;
+                this.columnMALZEME.MaxLength = 255;
                 this.ExtendedProperties.Add("Generator_TableVarName", "_tableWeb_Hedef_3");
                 this.ExtendedProperties.Add("Generator_UserTableName", "Web-Hedef-3");
             }
@@ -589,6 +604,22 @@ namespace Sultanlar.UI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string MALZEME {
+                get {
+                    try {
+                        return ((string)(this[this._tableWeb_Hedef_3.MALZEMEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'MALZEME\' in table \'Web-Hedef-3\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this._tableWeb_Hedef_3.MALZEMEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsLIMITNull() {
                 return this.IsNull(this._tableWeb_Hedef_3.LIMITColumn);
             }
@@ -597,6 +628,18 @@ namespace Sultanlar.UI {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetLIMITNull() {
                 this[this._tableWeb_Hedef_3.LIMITColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsMALZEMENull() {
+                return this.IsNull(this._tableWeb_Hedef_3.MALZEMEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetMALZEMENull() {
+                this[this._tableWeb_Hedef_3.MALZEMEColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -761,30 +804,39 @@ namespace Sultanlar.UI.KurumsalWebSAPDataSet1TableAdapters {
             tableMapping.DataSetTable = "Web-Hedef-3";
             tableMapping.ColumnMappings.Add("ITEMREF", "ITEMREF");
             tableMapping.ColumnMappings.Add("LIMIT", "LIMIT");
+            tableMapping.ColumnMappings.Add("MALZEME", "MALZEME");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
             this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[Web-Hedef-3] WHERE (([ITEMREF] = @Original_ITEMREF) AND ((@IsN" +
-                "ull_LIMIT = 1 AND [LIMIT] IS NULL) OR ([LIMIT] = @Original_LIMIT)))";
+                "ull_MALZEME = 1 AND [MALZEME] IS NULL) OR ([MALZEME] = @Original_MALZEME)) AND (" +
+                "(@IsNull_LIMIT = 1 AND [LIMIT] IS NULL) OR ([LIMIT] = @Original_LIMIT)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ITEMREF", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ITEMREF", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MALZEME", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MALZEME", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MALZEME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MALZEME", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_LIMIT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LIMIT", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LIMIT", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LIMIT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[Web-Hedef-3] ([ITEMREF], [LIMIT]) VALUES (@ITEMREF, @LIMIT);\r\n" +
-                "SELECT ITEMREF, LIMIT FROM [Web-Hedef-3] WHERE (ITEMREF = @ITEMREF)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[Web-Hedef-3] ([ITEMREF], [MALZEME], [LIMIT]) VALUES (@ITEMREF," +
+                " @MALZEME, @LIMIT);\r\nSELECT ITEMREF, MALZEME, LIMIT FROM [Web-Hedef-3] WHERE (IT" +
+                "EMREF = @ITEMREF)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ITEMREF", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ITEMREF", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MALZEME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MALZEME", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LIMIT", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LIMIT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[Web-Hedef-3] SET [ITEMREF] = @ITEMREF, [LIMIT] = @LIMIT WHERE (([ITEMREF] = @Original_ITEMREF) AND ((@IsNull_LIMIT = 1 AND [LIMIT] IS NULL) OR ([LIMIT] = @Original_LIMIT)));
-SELECT ITEMREF, LIMIT FROM [Web-Hedef-3] WHERE (ITEMREF = @ITEMREF)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[Web-Hedef-3] SET [ITEMREF] = @ITEMREF, [MALZEME] = @MALZEME, [LIMIT] = @LIMIT WHERE (([ITEMREF] = @Original_ITEMREF) AND ((@IsNull_MALZEME = 1 AND [MALZEME] IS NULL) OR ([MALZEME] = @Original_MALZEME)) AND ((@IsNull_LIMIT = 1 AND [LIMIT] IS NULL) OR ([LIMIT] = @Original_LIMIT)));
+SELECT ITEMREF, MALZEME, LIMIT FROM [Web-Hedef-3] WHERE (ITEMREF = @ITEMREF)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ITEMREF", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ITEMREF", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@MALZEME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MALZEME", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LIMIT", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LIMIT", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ITEMREF", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ITEMREF", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_MALZEME", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MALZEME", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_MALZEME", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "MALZEME", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_LIMIT", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LIMIT", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LIMIT", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LIMIT", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
@@ -802,7 +854,7 @@ SELECT ITEMREF, LIMIT FROM [Web-Hedef-3] WHERE (ITEMREF = @ITEMREF)";
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ITEMREF, LIMIT FROM dbo.[Web-Hedef-3]";
+            this._commandCollection[0].CommandText = "SELECT ITEMREF, MALZEME, LIMIT FROM dbo.[Web-Hedef-3]";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -863,15 +915,23 @@ SELECT ITEMREF, LIMIT FROM [Web-Hedef-3] WHERE (ITEMREF = @ITEMREF)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ITEMREF, global::System.Nullable<double> Original_LIMIT) {
+        public virtual int Delete(int Original_ITEMREF, string Original_MALZEME, global::System.Nullable<double> Original_LIMIT) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ITEMREF));
-            if ((Original_LIMIT.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((double)(Original_LIMIT.Value));
-            }
-            else {
+            if ((Original_MALZEME == null)) {
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_MALZEME));
+            }
+            if ((Original_LIMIT.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((double)(Original_LIMIT.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -893,13 +953,19 @@ SELECT ITEMREF, LIMIT FROM [Web-Hedef-3] WHERE (ITEMREF = @ITEMREF)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int ITEMREF, global::System.Nullable<double> LIMIT) {
+        public virtual int Insert(int ITEMREF, string MALZEME, global::System.Nullable<double> LIMIT) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ITEMREF));
-            if ((LIMIT.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((double)(LIMIT.Value));
+            if ((MALZEME == null)) {
+                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(MALZEME));
+            }
+            if ((LIMIT.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[2].Value = ((double)(LIMIT.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -921,22 +987,36 @@ SELECT ITEMREF, LIMIT FROM [Web-Hedef-3] WHERE (ITEMREF = @ITEMREF)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int ITEMREF, global::System.Nullable<double> LIMIT, int Original_ITEMREF, global::System.Nullable<double> Original_LIMIT) {
+        public virtual int Update(int ITEMREF, string MALZEME, global::System.Nullable<double> LIMIT, int Original_ITEMREF, string Original_MALZEME, global::System.Nullable<double> Original_LIMIT) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ITEMREF));
-            if ((LIMIT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((double)(LIMIT.Value));
-            }
-            else {
+            if ((MALZEME == null)) {
                 this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(Original_ITEMREF));
-            if ((Original_LIMIT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((double)(Original_LIMIT.Value));
+            else {
+                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(MALZEME));
+            }
+            if ((LIMIT.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((double)(LIMIT.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(Original_ITEMREF));
+            if ((Original_MALZEME == null)) {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(Original_MALZEME));
+            }
+            if ((Original_LIMIT.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((double)(Original_LIMIT.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -958,8 +1038,8 @@ SELECT ITEMREF, LIMIT FROM [Web-Hedef-3] WHERE (ITEMREF = @ITEMREF)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<double> LIMIT, int Original_ITEMREF, global::System.Nullable<double> Original_LIMIT) {
-            return this.Update(Original_ITEMREF, LIMIT, Original_ITEMREF, Original_LIMIT);
+        public virtual int Update(string MALZEME, global::System.Nullable<double> LIMIT, int Original_ITEMREF, string Original_MALZEME, global::System.Nullable<double> Original_LIMIT) {
+            return this.Update(Original_ITEMREF, MALZEME, LIMIT, Original_ITEMREF, Original_MALZEME, Original_LIMIT);
         }
     }
     

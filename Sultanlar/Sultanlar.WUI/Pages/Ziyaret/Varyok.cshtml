@@ -146,8 +146,9 @@
             $.ajax(
                 {
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + 'Cari/GetCari/' + parammtip + '/' + paramgmref,
+                    url: apiurl + 'Cari/GetCari/' + parammtip + '/' + paramsmref,
                     success: function (data1, textStatus, response) {
+                        console.log(data1.fiyatTip500);
 
                         $.ajax(
                             {
@@ -160,7 +161,7 @@
                                     var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
 
                                     $.each(rootData, function (index, item) {
-                                        if (parammtip == 1 || parammtip == 2) { // sap musterisi veya sap sube subesi
+                                        if (parammtip == 1 || parammtip == 2 || parammtip == 4 || parammtip == 5) {
                                             if (data1.fiyatTip500 == 0) {
                                                 $("#selectFiyatTipler").append(
                                                     $("<option></option>")
@@ -187,14 +188,12 @@
                                         }
                                     });
 
-                                    if ((parammtip == 1 || parammtip == 2) && data1.fiyatTip500 != 0 && $('#selectFiyatTipler').find('option').length == 1) {
-                                        console.log($('#selectFiyatTipler').find('option').length);
+                                    if ((parammtip == 1 || parammtip == 2 || parammtip == 4 || parammtip == 5) && data1.fiyatTip500 != 0 && $('#selectFiyatTipler').find('option').length == 1) {
                                         $("#selectFiyatTipler").append(
                                             $("<option></option>")
                                                 .text(data1.fiyatTip500)
                                                 .val(data1.fiyatTip500)
                                         );
-                                        console.log($('#selectFiyatTipler').find('option').length);
                                     }
                                 },
                                 error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }

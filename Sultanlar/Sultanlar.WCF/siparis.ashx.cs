@@ -43,14 +43,24 @@ FROM [Web-Hedef-3]
 ) AS TABLO1
 WHERE (CASE WHEN LIMIT <= GIRILEN THEN 1 ELSE 0 END) = 1");
 
+                ArrayList al0 = new ArrayList();
                 ArrayList al = new ArrayList();
+                ArrayList al1 = new ArrayList();
+                ArrayList al2 = new ArrayList();
+                ArrayList al3 = new ArrayList();
+                ArrayList al4 = new ArrayList();
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     for (int j = 0; j < dt1.Rows.Count; j++)
                     {
                         if (dt.Rows[i]["intUrunID"].ToString() == dt1.Rows[j]["ITEMREF"].ToString())
                         {
+                            al0.Add(dt.Rows[j]["pkSiparisDetayID"].ToString());
                             al.Add(dt1.Rows[j]["ITEMREF"].ToString());
+                            al1.Add(dt.Rows[j]["strUrunAdi"].ToString());
+                            al2.Add(dt.Rows[j]["intMiktar"].ToString());
+                            al3.Add(dt.Rows[j]["mnFiyat"].ToString());
+                            al4.Add(dt.Rows[j]["strMiktarTur"].ToString());
                         }
                     }
                 }
@@ -61,13 +71,19 @@ WHERE (CASE WHEN LIMIT <= GIRILEN THEN 1 ELSE 0 END) = 1");
                 }
                 else
                 {
+                    Siparisler yenisip = new Siparisler(sip.intMusteriID, sip.SMREF, sip.sintFiyatTipiID, DateTime.Now, 0, false, sip.TKSREF, DateTime.Now, sip.strAciklama);
+                    yenisip.DoInsert();
+
                     aktarildi = false;
-                    donendeger = "Şu ürünlerde limit aşımı mevcut: ";
+                    donendeger = "Aşağıdaki ürünlerde limit aşımı mevcut. Bu ürünler yeni bir siparişe taşındı.";
                     for (int i = 0; i < al.Count; i++)
                     {
-                        donendeger += al[i].ToString() + ",";
+                        donendeger += al[i].ToString() + "-" + al1[i].ToString() + ",";
+                        SiparislerDetay yenisipdet = new SiparislerDetay(yenisip.pkSiparisID, Convert.ToInt32(al[i]), al1[i].ToString(), Convert.ToInt32(al2[i]), Convert.ToDecimal(al3[i]), Guid.Empty, false, Guid.Empty, al4[i].ToString());
+                        yenisipdet.DoInsert();
+                        SiparislerDetay.DoChangeIDISKs(Convert.ToInt64(al0[i]), yenisipdet.pkSiparisDetayID);
                     }
-                    donendeger = donendeger.Substring(0, donendeger.Length - 1);
+                    donendeger = donendeger.Substring(0, donendeger.Length - 1); // + ". Mevcut siparişi onaylamak istiyorsanız <a href='Kaydet?onay=1&smref=" + yenisip.SMREF.ToString() + "&fiyattipi=" + yenisip.sintFiyatTipiID.ToString() + "&siparisid=" + yenisip.pkSiparisID.ToString() + ">tıklayınız.</a>"
                 }
             }
 

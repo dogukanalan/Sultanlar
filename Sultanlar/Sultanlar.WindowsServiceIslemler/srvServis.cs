@@ -2014,11 +2014,11 @@ COMMIT TRANSACTION t_Transaction
             cmd2.ExecuteNonQuery();
             conn.Close();
 
-            //SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-SatisTemsilcileri] WHERE [SAT KOD1] IS NULL", conn);
-            //cmd3.CommandTimeout = 1000;
-            //conn.Open();
-            //cmd3.ExecuteNonQuery();
-            //conn.Close();
+            SqlCommand cmd3 = new SqlCommand("INSERT INTO dbo.SUL_EKIP (dbo.SUL_EKIP.SAT_KOD, dbo.SUL_EKIP.SAT_TEM) SELECT dbo.[Web-SatisTemsilcileri].SLSMANREF, dbo.[Web-SatisTemsilcileri].[SAT TEM] FROM dbo.SUL_EKIP FULL OUTER JOIN dbo.[Web-SatisTemsilcileri] ON dbo.SUL_EKIP.SAT_KOD = dbo.[Web-SatisTemsilcileri].SLSMANREF WHERE (dbo.SUL_EKIP.SAT_KOD IS NULL)", conn);
+            cmd3.CommandTimeout = 1000;
+            conn.Open();
+            cmd3.ExecuteNonQuery();
+            conn.Close();
 
 
 
