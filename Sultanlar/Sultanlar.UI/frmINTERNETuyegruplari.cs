@@ -158,7 +158,7 @@ namespace Sultanlar.UI
 
         private void FiyatTipiYetkiEkle()
         {
-            if (lbFiyatTipleri.SelectedIndex > -1)
+            if (lbFiyatTipleri.SelectedIndex > -1 && lbUyeGruplari.SelectedIndex > -1)
             {
                 UyeGrubuFiyatTipleri ugft = new UyeGrubuFiyatTipleri(((UyeGruplari)lbUyeGruplari.SelectedItem).pkUyeGrupID, ((FiyatTipleri)lbFiyatTipleri.SelectedItem).NOSU);
                 ugft.DoInsert();
@@ -167,7 +167,7 @@ namespace Sultanlar.UI
 
         private void FiyatTipiYetkiKaldir()
         {
-            if (lbFiyatTipleriYetkili.SelectedIndex > -1)
+            if (lbFiyatTipleriYetkili.SelectedIndex > -1 && lbUyeGruplari.SelectedIndex > -1)
             {
                 UyeGrubuFiyatTipleri ugft = (UyeGrubuFiyatTipleri)lbFiyatTipleriYetkili.SelectedItem;
                 ugft.DoDelete();
@@ -488,5 +488,31 @@ namespace Sultanlar.UI
             }
         }
         #endregion
+
+        private void btnFiyatTipiYetkiTumuEkle_Click(object sender, EventArgs e)
+        {
+            if (lbUyeGruplari.SelectedIndex == -1)
+                return;
+
+            for (int i = 0; i < lbFiyatTipleri.Items.Count; i++)
+            {
+                UyeGrubuFiyatTipleri ugft = new UyeGrubuFiyatTipleri(((UyeGruplari)lbUyeGruplari.SelectedItem).pkUyeGrupID, ((FiyatTipleri)lbFiyatTipleri.Items[i]).NOSU);
+                ugft.DoInsert();
+            }
+            FiyatTipEsitle();
+        }
+
+        private void btnFiyatTipiYetkiTumuKaldir_Click(object sender, EventArgs e)
+        {
+            if (lbUyeGruplari.SelectedIndex == -1)
+                return;
+
+            for (int i = 0; i < lbFiyatTipleriYetkili.Items.Count; i++)
+            {
+                UyeGrubuFiyatTipleri ugft = (UyeGrubuFiyatTipleri)lbFiyatTipleriYetkili.Items[i];
+                ugft.DoDelete();
+            }
+            FiyatTipEsitle();
+        }
     }
 }

@@ -106,6 +106,8 @@ namespace Sultanlar.UI
                 lbFiyatTipleriYetkili.Enabled = true;
                 btnFiyatTipiYetkiEkle.Enabled = true;
                 btnFiyatTipiYetkiKaldir.Enabled = true;
+                btnFiyatTipiYetkiTumuEkle.Enabled = true;
+                btnFiyatTipiYetkiTumuKaldir.Enabled = true;
 
                 lbOzelKodlar.Enabled = true;
                 lbOzelKodlarYetkili.Enabled = true;
@@ -148,6 +150,8 @@ namespace Sultanlar.UI
                 lbFiyatTipleriYetkili.Enabled = true;
                 btnFiyatTipiYetkiEkle.Enabled = true;
                 btnFiyatTipiYetkiKaldir.Enabled = true;
+                btnFiyatTipiYetkiTumuEkle.Enabled = true;
+                btnFiyatTipiYetkiTumuKaldir.Enabled = true;
 
                 lbOzelKodlar.Enabled = true;
                 lbOzelKodlarYetkili.Enabled = true;
@@ -198,6 +202,8 @@ namespace Sultanlar.UI
                 lbFiyatTipleriYetkili.Enabled = true;
                 btnFiyatTipiYetkiEkle.Enabled = true;
                 btnFiyatTipiYetkiKaldir.Enabled = true;
+                btnFiyatTipiYetkiTumuEkle.Enabled = true;
+                btnFiyatTipiYetkiTumuKaldir.Enabled = true;
 
                 btnCariHesabaBagla.Enabled = true;
                 btnAltCariyeBagla.Enabled = true;
@@ -228,6 +234,8 @@ namespace Sultanlar.UI
                 lbFiyatTipleriYetkili.Enabled = true;
                 btnFiyatTipiYetkiEkle.Enabled = true;
                 btnFiyatTipiYetkiKaldir.Enabled = true;
+                btnFiyatTipiYetkiTumuEkle.Enabled = true;
+                btnFiyatTipiYetkiTumuKaldir.Enabled = true;
 
                 lbOzelKodlar.Enabled = true;
                 lbOzelKodlarYetkili.Enabled = true;
@@ -686,7 +694,7 @@ namespace Sultanlar.UI
 
         private void FiyatTipiYetkiEkle()
         {
-            if (lbFiyatTipleri.SelectedIndex > -1)
+            if (lbFiyatTipleri.SelectedIndex > -1 && lbMusteriler.SelectedIndex > -1)
             {
                 UyeFiyatTipleri uft = new UyeFiyatTipleri(((Musteriler)lbMusteriler.SelectedItem).pkMusteriID, ((FiyatTipleri)lbFiyatTipleri.SelectedItem).NOSU);
                 uft.DoInsert();
@@ -695,7 +703,7 @@ namespace Sultanlar.UI
 
         private void FiyatTipiYetkiKaldir()
         {
-            if (lbFiyatTipleriYetkili.SelectedIndex > -1)
+            if (lbFiyatTipleriYetkili.SelectedIndex > -1 && lbMusteriler.SelectedIndex > -1)
             {
                 UyeFiyatTipleri uft = (UyeFiyatTipleri)lbFiyatTipleriYetkili.SelectedItem;
                 uft.DoDelete();
@@ -1641,6 +1649,32 @@ namespace Sultanlar.UI
         {
             BayiKaldir();
             BayiEsitle();
+        }
+
+        private void btnFiyatTipiYetkiTumuEkle_Click(object sender, EventArgs e)
+        {
+            if (lbMusteriler.SelectedIndex == -1)
+                return;
+
+            for (int i = 0; i < lbFiyatTipleri.Items.Count; i++)
+            {
+                UyeFiyatTipleri uft = new UyeFiyatTipleri(((Musteriler)lbMusteriler.SelectedItem).pkMusteriID, ((FiyatTipleri)lbFiyatTipleri.Items[i]).NOSU);
+                uft.DoInsert();
+            }
+            UyeFiyatTipEsitle();
+        }
+
+        private void btnFiyatTipiYetkiTumuKaldir_Click(object sender, EventArgs e)
+        {
+            if (lbMusteriler.SelectedIndex == -1)
+                return;
+
+            for (int i = 0; i < lbFiyatTipleriYetkili.Items.Count; i++)
+            {
+                UyeFiyatTipleri uft = (UyeFiyatTipleri)lbFiyatTipleriYetkili.Items[i];
+                uft.DoDelete();
+            }
+            UyeFiyatTipEsitle();
         }
     }
 }

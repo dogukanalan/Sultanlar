@@ -130,6 +130,8 @@
             this.btnBayiAc = new System.Windows.Forms.Button();
             this.lbBayiIc = new System.Windows.Forms.ListBox();
             this.lbBayiDis = new System.Windows.Forms.ListBox();
+            this.btnFiyatTipiYetkiTumuEkle = new System.Windows.Forms.Button();
+            this.btnFiyatTipiYetkiTumuKaldir = new System.Windows.Forms.Button();
             this.gbFiyatTipiYetkileri.SuspendLayout();
             this.gbOzelKodYetkileri.SuspendLayout();
             this.gbGrupKodYetkileri.SuspendLayout();
@@ -200,7 +202,9 @@
             // 
             // gbFiyatTipiYetkileri
             // 
+            this.gbFiyatTipiYetkileri.Controls.Add(this.btnFiyatTipiYetkiTumuKaldir);
             this.gbFiyatTipiYetkileri.Controls.Add(this.btnFiyatTipiYetkiKaldir);
+            this.gbFiyatTipiYetkileri.Controls.Add(this.btnFiyatTipiYetkiTumuEkle);
             this.gbFiyatTipiYetkileri.Controls.Add(this.btnFiyatTipiYetkiEkle);
             this.gbFiyatTipiYetkileri.Controls.Add(this.lbFiyatTipleriYetkili);
             this.gbFiyatTipiYetkileri.Controls.Add(this.lbFiyatTipleri);
@@ -1256,6 +1260,28 @@
             this.lbBayiDis.TabIndex = 0;
             this.lbBayiDis.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbBayiDis_MouseDoubleClick);
             // 
+            // btnFiyatTipiYetkiTumuEkle
+            // 
+            this.btnFiyatTipiYetkiTumuEkle.Enabled = false;
+            this.btnFiyatTipiYetkiTumuEkle.Location = new System.Drawing.Point(132, 19);
+            this.btnFiyatTipiYetkiTumuEkle.Name = "btnFiyatTipiYetkiTumuEkle";
+            this.btnFiyatTipiYetkiTumuEkle.Size = new System.Drawing.Size(36, 23);
+            this.btnFiyatTipiYetkiTumuEkle.TabIndex = 1;
+            this.btnFiyatTipiYetkiTumuEkle.Text = ">>>";
+            this.btnFiyatTipiYetkiTumuEkle.UseVisualStyleBackColor = true;
+            this.btnFiyatTipiYetkiTumuEkle.Click += new System.EventHandler(this.btnFiyatTipiYetkiTumuEkle_Click);
+            // 
+            // btnFiyatTipiYetkiTumuKaldir
+            // 
+            this.btnFiyatTipiYetkiTumuKaldir.Enabled = false;
+            this.btnFiyatTipiYetkiTumuKaldir.Location = new System.Drawing.Point(132, 117);
+            this.btnFiyatTipiYetkiTumuKaldir.Name = "btnFiyatTipiYetkiTumuKaldir";
+            this.btnFiyatTipiYetkiTumuKaldir.Size = new System.Drawing.Size(36, 23);
+            this.btnFiyatTipiYetkiTumuKaldir.TabIndex = 1;
+            this.btnFiyatTipiYetkiTumuKaldir.Text = "<<<";
+            this.btnFiyatTipiYetkiTumuKaldir.UseVisualStyleBackColor = true;
+            this.btnFiyatTipiYetkiTumuKaldir.Click += new System.EventHandler(this.btnFiyatTipiYetkiTumuKaldir_Click);
+            // 
             // frmINTERNETmusteriler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1453,5 +1479,7 @@
         private System.Windows.Forms.Button btnBayiAc;
         private System.Windows.Forms.ListBox lbBayiIc;
         private System.Windows.Forms.ListBox lbBayiDis;
+        private System.Windows.Forms.Button btnFiyatTipiYetkiTumuKaldir;
+        private System.Windows.Forms.Button btnFiyatTipiYetkiTumuEkle;
     }
 }

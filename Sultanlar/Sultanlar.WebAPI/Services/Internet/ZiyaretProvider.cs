@@ -167,7 +167,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             skg.musteri = varyok.musteri;
             skg.siparisid = 0;
 
-            if ((varyok.tip == 1 || varyok.tip == 2) && skg.detaylar.Count > 0)
+            if (varyok.tip != 0 && varyok.tip < 1000 && skg.detaylar.Count > 0)
             {
                 SiparisProvider sp = new SiparisProvider();
                 sp.SiparisKaydet(skg);
