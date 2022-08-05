@@ -38,18 +38,18 @@
                                     var htmlText = '<table id="dtTable1" class="dtFiyat table table-striped table-bordered"><thead><tr><th class="keyTd">Fiyat Tipi Belirleyiniz</th></tr></thead><tbody>';
                                     $.each(rootData, function (i, item) {
 
-                                        if (data1.fiyatTip500 == 0) {
+                                        //if (data1.fiyatTip500 == 0) {
                                             htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
                                             htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
                                             htmlText += '</tr>';
-                                        }
+                                        /*}
                                         else {
                                             if (data1.fiyatTip500 == item.sintFiyatTipiID) {
                                                 htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
                                                 htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
                                                 htmlText += '</tr>';
                                             }
-                                        }
+                                        }*/
                                     });
                                     divData.innerHTML = htmlText + '</table>';
                                     initDt(0, false, false, false, false);

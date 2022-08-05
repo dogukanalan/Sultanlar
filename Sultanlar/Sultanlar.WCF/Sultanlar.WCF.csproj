@@ -22,9 +22,9 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
@@ -123,6 +123,7 @@
     <Content Include="hedefanadolu.aspx" />
     <Content Include="ilkyuz.aspx" />
     <Content Include="JScript.js" />
+    <Content Include="Komsu.svc" />
     <Content Include="matruska.aspx" />
     <Content Include="Pirpa.svc" />
     <Content Include="StyleSheet.css" />
@@ -169,6 +170,7 @@
     <Compile Include="IDatabase.cs" />
     <Compile Include="IDirect.cs" />
     <Compile Include="IGeneral.cs" />
+    <Compile Include="IKomsu.cs" />
     <Compile Include="ilkyuz.aspx.cs">
       <DependentUpon>ilkyuz.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -178,6 +180,9 @@
     </Compile>
     <Compile Include="IPirpa.cs" />
     <Compile Include="ITarifSepeti.cs" />
+    <Compile Include="Komsu.svc.cs">
+      <DependentUpon>Komsu.svc</DependentUpon>
+    </Compile>
     <Compile Include="matruska.aspx.cs">
       <DependentUpon>matruska.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -189,6 +194,11 @@
       <DependentUpon>Pirpa.svc</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="sanalpos.ashx.cs">
       <DependentUpon>sanalpos.ashx</DependentUpon>
     </Compile>
@@ -209,6 +219,26 @@
       <DependentUpon>ucProgress.ascx</DependentUpon>
     </Compile>
     <Compile Include="Validator.cs" />
+    <Compile Include="Web References\Komsu001\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\Komsu002\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\Komsu003\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\Komsu004\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -222,6 +252,42 @@
     <Content Include="tSepeti\resim.ashx" />
     <Content Include="siparis.ashx" />
     <Content Include="sanalpos.ashx" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\Komsu001\item.wsdl" />
+    <Content Include="Web References\Komsu001\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\Komsu001\ZwebKomsuS_001.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\Komsu002\item.wsdl" />
+    <Content Include="Web References\Komsu002\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\Komsu002\ZwebKomsuS_002.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\Komsu003\item.wsdl" />
+    <Content Include="Web References\Komsu003\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\Komsu003\ZwebKomsuS_003.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\Komsu004\item.wsdl" />
+    <Content Include="Web References\Komsu004\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\Komsu004\ZwebKomsuS_004.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sultanlar.Class\Sultanlar.Class.csproj">
@@ -232,6 +298,58 @@
       <Project>{4dc20636-1474-437f-9a16-ff1b32d145fe}</Project>
       <Name>Sultanlar.DatabaseObject</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://192.168.1.41:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF001">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Komsu001\</RelPath>
+      <UpdateFromURL>http://192.168.1.41:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF001</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_Komsu001_ZwebKomsuF001Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.41:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF002">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Komsu002\</RelPath>
+      <UpdateFromURL>http://192.168.1.41:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF002</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_Komsu002_ZwebKomsuF002Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.41:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF003">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Komsu003\</RelPath>
+      <UpdateFromURL>http://192.168.1.41:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF003</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_Komsu003_ZwebKomsuF003Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.41:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF004">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\Komsu004\</RelPath>
+      <UpdateFromURL>http://192.168.1.41:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF004</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_Komsu004_ZwebKomsuF004Service</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

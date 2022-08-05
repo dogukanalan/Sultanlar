@@ -36,7 +36,7 @@ namespace Sultanlar.WindowsServiceIslemler.getcustomersC {
         
         /// <remarks/>
         public ZwebGetCustomersService() {
-            this.Url = global::Sultanlar.WindowsServiceIslemler.Properties.Settings.Default.Sultanlar_WindowsServiceIslemler_selectsalesvbfaC_ZwebSelectSalesVbfaService;
+            this.Url = global::Sultanlar.WindowsServiceIslemler.Properties.Settings.Default.Sultanlar_WindowsServiceIslemler_getmaterialsC_ZwebGetMaterialsService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -192,6 +192,8 @@ namespace Sultanlar.WindowsServiceIslemler.getcustomersC {
         private string bzirkField;
         
         private string bztxtField;
+        
+        private string name4Field;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -542,6 +544,17 @@ namespace Sultanlar.WindowsServiceIslemler.getcustomersC {
             }
             set {
                 this.bztxtField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Name4 {
+            get {
+                return this.name4Field;
+            }
+            set {
+                this.name4Field = value;
             }
         }
     }

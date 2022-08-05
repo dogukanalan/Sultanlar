@@ -17,12 +17,12 @@ namespace Sultanlar.DatabaseObject.Internet
             Donen = "";
             Siparisler siparis = Siparisler.GetObjectsBySiparisID(siparisid);
 
-            if ((CariHesaplar.GetYetkili(siparis.SMREF) == 82965 || CariHesaplar.GetYetkili(siparis.SMREF) == 82966)
+            /*if ((CariHesaplar.GetYetkili(siparis.SMREF) == 82965 || CariHesaplar.GetYetkili(siparis.SMREF) == 82966)
                 && Ekstreler.GetVgbByGMREF(CariHesaplar.GetGMREFBySMREF(siparis.SMREF)) <= -250)
             {
                 Donen = "Bu müşterimizin vadesi geçmiş vgb si bulunmaktadır, bu sebeple sipariş aktarılmayacaktır.";
                 return false;
-            }
+            }*/
 
             if (siparis.sintFiyatTipiID == 3 && CariHesaplar.GetMtAciklama(siparis.SMREF).IndexOf("TOPTAN") == -1)
             {
@@ -195,7 +195,8 @@ namespace Sultanlar.DatabaseObject.Internet
 
                 if (vadeler.Count == 1) // vadeler hep aynıysa bölme
                 {
-                    if (QuantumaYaz(siparisid, 0, 0, bakiyesiparis, sevkref, bakiye, musteri.pkMusteriID) == string.Empty)
+                    Donen = QuantumaYaz(siparisid, 0, 0, bakiyesiparis, sevkref, bakiye, musteri.pkMusteriID);
+                    if (Donen == string.Empty)
                     {
                         siparis.blAktarilmis = true;
 

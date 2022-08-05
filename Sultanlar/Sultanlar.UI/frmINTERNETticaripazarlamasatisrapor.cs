@@ -707,8 +707,9 @@ namespace Sultanlar.UI
             ArrayList hesaplanamayansatirlar = new ArrayList();
             if (Hesapla)
             {
+                SatisRaporTP.Hesapla(dt, Kactan, KacaKadar);
                 #region Hesaplama
-                decimal ToplamTAH = 0;
+                /*decimal ToplamTAH = 0;
                 decimal ToplamYEG = 0;
 
                 this.Enabled = false;
@@ -926,22 +927,22 @@ namespace Sultanlar.UI
                         // bayinin alımı
                         double listefiyat = Convert.ToDouble(FiyatlarTP.GetNetFiyat(
                             UrunID,
-                            dt.Rows[i]["BAYIKOD"].ToString() == "1001327" /*|| dt.Rows[i]["BAYIKOD"].ToString() == "1005405"*/ ? (short)7 : (short)22, //sultanlar veya öztrakya ise 1 bayi ise 22 (bu satır 1000951 iken de o if bloğu açıklamaydı)
-                            noktasatyil,
+                            dt.Rows[i]["BAYIKOD"].ToString() == "1001327" ? (short)7 : (short)22, //sultanlar veya öztrakya ise 1 bayi ise 22 (bu satır 1000951 iken de o if bloğu açıklamaydı) //|| dt.Rows[i]["BAYIKOD"].ToString() == "1005405"
+                noktasatyil,
                             noktasatay,
                             noktasatgun));
                         if (listefiyat == 0.0)
                         {
                             listefiyat = Convert.ToDouble(Urunler.GetProductNetFiyatFULL(
                                 UrunID,
-                                dt.Rows[i]["BAYIKOD"].ToString() == "1001327" /*|| dt.Rows[i]["BAYIKOD"].ToString() == "1005405"*/ ? (short)7 : (short)22 //sultanlar veya öztrakya ise 1 bayi ise 22 (bu satır 1000951 iken de o if bloğu açıklamaydı)
+                                dt.Rows[i]["BAYIKOD"].ToString() == "1001327" ? (short)7 : (short)22 //sultanlar veya öztrakya ise 1 bayi ise 22 (bu satır 1000951 iken de o if bloğu açıklamaydı)  //|| dt.Rows[i]["BAYIKOD"].ToString() == "1005405"
                                 ));
                         }
 
 
 
                         // brüt fiyat, aktivitenin hesaplanacagi fiyat
-                        double listefiyat1 = 0.0 /*dt.Rows[i]["BAYISATIS"] != DBNull.Value ? Convert.ToDouble(dt.Rows[i]["BAYISATIS"]) : 0.0*/; // sultanlar öztrakya falan hariç diyordum kaldırdım, aslında buraya hiç gerek olmayabilir altta dönem fiyatını da alabiliriz ama şu anda comment... liste fiyatını her zaman alalım çünkü bundan iskonto düşerek hesaplanıyor
+                        double listefiyat1 = 0.0; //dt.Rows[i]["BAYISATIS"] != DBNull.Value ? Convert.ToDouble(dt.Rows[i]["BAYISATIS"]) : 0.0; // sultanlar öztrakya falan hariç diyordum kaldırdım, aslında buraya hiç gerek olmayabilir altta dönem fiyatını da alabiliriz ama şu anda comment... liste fiyatını her zaman alalım çünkü bundan iskonto düşerek hesaplanıyor
                         if (listefiyat1 == 0.0) // BAYISATIS dönem fiyatını getiriyor, eğer öztrakya ise dönem fiyatını getirmedi o yüzden bide burada dönem fiyatına bakıyoruz
                         {
                             listefiyat1 = Convert.ToDouble(FiyatlarTP.GetFiyat(
@@ -951,7 +952,8 @@ namespace Sultanlar.UI
                                 noktasatay, 
                                 noktasatgun));
                         }
-                        /*else */if (listefiyat1 == 0.0) // dönem fiyatı yoksa şimdiki fiyatı al
+                        //else
+                        if (listefiyat1 == 0.0) // dönem fiyatı yoksa şimdiki fiyatı al
                         {
                             listefiyat1 = Convert.ToDouble(Urunler.GetProductDiscountsAndPriceFULL(
                                 UrunID,
@@ -976,8 +978,7 @@ namespace Sultanlar.UI
                         olmasigereken = olmasigereken - ((olmasigereken / 100) * isk3);
                         olmasigereken = olmasigereken - ((olmasigereken / 100) * isk4);
 
-                        /*if (aktivitevar > 0)
-                            olmasigereken = aktivitevar;*/
+                        if (aktivitevar > 0) olmasigereken = aktivitevar;
 
                         dt.Rows[i]["mnListeFiyat"] = listefiyat;
                         dt.Rows[i]["mnListeFiyatT"] = listefiyat * bayiadet;
@@ -1051,7 +1052,7 @@ namespace Sultanlar.UI
 
                 lblTAH.Text = ToplamTAH.ToString("C2");
                 lblYEG.Text = ToplamYEG.ToString("C2");
-                lblToplam.Text = (ToplamTAH + ToplamYEG).ToString("C2");
+                lblToplam.Text = (ToplamTAH + ToplamYEG).ToString("C2");*/
                 #endregion
             }
 
@@ -1064,9 +1065,10 @@ namespace Sultanlar.UI
 
             if (Kaydet)
             {
+                SatisRaporTP.Kaydet(dt, Kactan, KacaKadar);
                 #region Kaydetme
                 //progressBar1.Maximum = dt.Rows.Count;
-                for (int i = Kactan; i < KacaKadar; i++)
+                /*for (int i = Kactan; i < KacaKadar; i++)
                 {
                     SatisRaporTP satisrapor = SatisRaporTP.GetObject(Convert.ToInt64(dt.Rows[i]["REF"]));
                     satisrapor.intAnlasmaID = Convert.ToInt32(dt.Rows[i]["intAnlasmaID"]);
@@ -1114,7 +1116,7 @@ namespace Sultanlar.UI
                             this.Text = "Ticari Pazarlama : Satış Raporu (Kaydedilen satır: " + i.ToString() + " / " + dt.Rows.Count.ToString() + ")";
                         }
                     }
-                }
+                }*/
                 #endregion
             }
 

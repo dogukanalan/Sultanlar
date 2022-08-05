@@ -38,7 +38,7 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
         
         /// <remarks/>
         public ZwebGetMaterialsService() {
-            this.Url = global::Sultanlar.WindowsServiceIslemler.Properties.Settings.Default.Sultanlar_WindowsServiceIslemler_selectsalesvbfaC_ZwebSelectSalesVbfaService;
+            this.Url = global::Sultanlar.WindowsServiceIslemler.Properties.Settings.Default.Sultanlar_WindowsServiceIslemler_getmaterialsC_ZwebGetMaterialsService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -220,6 +220,10 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
         private bool mhdrzFieldSpecified;
         
         private string taxm2Field;
+        
+        private decimal ntgewField;
+        
+        private bool ntgewFieldSpecified;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -702,6 +706,28 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
             }
             set {
                 this.taxm2Field = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public decimal Ntgew {
+            get {
+                return this.ntgewField;
+            }
+            set {
+                this.ntgewField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool NtgewSpecified {
+            get {
+                return this.ntgewFieldSpecified;
+            }
+            set {
+                this.ntgewFieldSpecified = value;
             }
         }
     }

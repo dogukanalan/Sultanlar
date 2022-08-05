@@ -82,6 +82,7 @@ WHERE (CASE WHEN LIMIT <= GIRILEN THEN 1 ELSE 0 END) = 1");
                         SiparislerDetay yenisipdet = new SiparislerDetay(yenisip.pkSiparisID, Convert.ToInt32(al[i]), al1[i].ToString(), Convert.ToInt32(al2[i]), Convert.ToDecimal(al3[i]), Guid.Empty, false, Guid.Empty, al4[i].ToString());
                         yenisipdet.DoInsert();
                         SiparislerDetay.DoChangeIDISKs(Convert.ToInt64(al0[i]), yenisipdet.pkSiparisDetayID);
+                        SiparislerDetay.DoDelete(Convert.ToInt64(al0[i]));
                     }
                     donendeger = donendeger.Substring(0, donendeger.Length - 1); // + ". Mevcut siparişi onaylamak istiyorsanız <a href='Kaydet?onay=1&smref=" + yenisip.SMREF.ToString() + "&fiyattipi=" + yenisip.sintFiyatTipiID.ToString() + "&siparisid=" + yenisip.pkSiparisID.ToString() + ">tıklayınız.</a>"
                 }

@@ -4331,7 +4331,7 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 string tablo = bonus ? "[Web-Hedef-2]" : "[Web-Hedef]";
 
-                SqlDataAdapter da = new SqlDataAdapter("SELECT SLSREF,(SELECT [SAT TEM] FROM [Web-SatisTemsilcileri] WHERE SLSMANREF = " + tablo + ".SLSREF) AS PERSONEL,SMREF,(SELECT TOP 1 MUSTERI FROM [Web-Musteri] WHERE SMREF = " + tablo + ".SMREF) AS BAYI,YIL,AY,PRIMB,(SELECT [MAL ACIK] FROM [Web-Malzeme-Full] WHERE [ITEMREF] = " + tablo + ".PRIMB) AS PRIMGRUBU,HEDEF FROM " + tablo + " ORDER BY BAYI,PERSONEL,YIL,AY", conn);
+                SqlDataAdapter da = new SqlDataAdapter("SELECT SLSREF,(SELECT [SAT TEM] FROM [Web-SatisTemsilcileri] WHERE SLSMANREF = " + tablo + ".SLSREF) AS PERSONEL,SMREF,(SELECT TOP 1 MUSTERI FROM [Web-Musteri] WHERE SMREF = " + tablo + ".SMREF) AS BAYI,YIL,AY,PRIMB,(SELECT [MAL ACIK] FROM [Web-Malzeme-Full] WHERE [ITEMREF] = " + tablo + ".PRIMB) AS PRIMGRUBU,HEDEF FROM " + tablo + " WHERE YIL = YEAR(getdate()) ORDER BY BAYI,PERSONEL,YIL,AY", conn);
                 try
                 {
                     conn.Open();

@@ -128,6 +128,12 @@ namespace Sultanlar.UI
         {
             if (btnBaslat.Text == "Ürün Girişi")
             {
+                if (CariHesaplar.GetSATKOD1BySLSREF(SatisTemsilcileri.GetSLSREFBySATTEM(cmbTemsilciler.SelectedItem.ToString())) == "ZM")
+                {
+                    MessageBox.Show("Sat.Tem. olarak yetkili çalışan seçilemez. Sat.Tem. alanını değiştirerek tekrar deneyiniz.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
                 if (MessageBox.Show("İade işlemini başlatmak istediğinizden emin misiniz?", "İade Girme", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                 {
                     btnBaslat.Text = "İptal Et";

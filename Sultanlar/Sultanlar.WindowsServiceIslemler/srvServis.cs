@@ -1289,6 +1289,16 @@ namespace Sultanlar.WindowsServiceIslemler
                 cmd3.ExecuteNonQuery();
                 conn.Close();
 
+
+
+                SqlCommand cmd4 = new SqlCommand("INSERT INTO [Web-Fiyat] ([TIP],[GMREF],[GRUP KOD],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[ITEMREF],[MAL ACIK],[FIYAT],[ISK1],[ISK2],[ISK3],[ISK4],[ISK5],[ISK6],[ISK7],[ISK8],[ISK9],[ISK10],[NET],[NET+KDV],[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]) SELECT [TIP],0,[GRUP KOD],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[Web-Malzeme-Full].[ITEMREF],[MAL ACIK],0,0,0,0,0,0,0,0,0,0,0,0,0,0,NULL,GMREF,NULL FROM [Web-Fiyat_VY] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat_VY].ITEMREF = [Web-Malzeme-Full].ITEMREF", conn);
+                cmd4.CommandTimeout = 1000;
+                conn.Open();
+                cmd4.ExecuteNonQuery();
+                conn.Close();
+
+
+
                 cmdLog.Parameters.AddWithValue("@strLog", listMaterialPrices.Length.ToString() + " Satır");
             }
             else
@@ -1697,10 +1707,12 @@ namespace Sultanlar.WindowsServiceIslemler
                     int mhdrz = 0; try { mhdrz = Convert.ToInt32(listMaterials[i].Mhdrz); }
                     catch { }
                     string frm = listMaterials[i].Vkorg;
+                    double ntgew = 0; try { ntgew = Convert.ToDouble(listMaterials[i].Ntgew); }
+                    catch { }
 
                     SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Malzeme] " +
-                        "([AP],[ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],KOLI,BARKOD,STOK,[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ,FRM)" +
-                        "VALUES (@AP,@ITEMREF,@MALKOD,@MALACIK,@URTKOD,@ESKOD,@BIRIMREF,@BIRIM,@GRUPKOD,@GRUPACIK,@OZELKOD,@HK,@OZELACIK,@REYKOD,@RK,@REYACIK,@KDV,@KOLI,@BARKOD,@STOK,@KYTM,@KANAL,@PRIMT,@PRIMB,@HYRS,@HYRS_TANIM,@DONUSUM,@MHDHB,@MHDRZ,@FRM)", conn);
+                        "([AP],[ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],KOLI,BARKOD,STOK,[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ,FRM,NTGEW)" +
+                        "VALUES (@AP,@ITEMREF,@MALKOD,@MALACIK,@URTKOD,@ESKOD,@BIRIMREF,@BIRIM,@GRUPKOD,@GRUPACIK,@OZELKOD,@HK,@OZELACIK,@REYKOD,@RK,@REYACIK,@KDV,@KOLI,@BARKOD,@STOK,@KYTM,@KANAL,@PRIMT,@PRIMB,@HYRS,@HYRS_TANIM,@DONUSUM,@MHDHB,@MHDRZ,@FRM,@NTGEW)", conn);
                     cmd.CommandTimeout = 1000;
                     cmd.Parameters.AddWithValue("@AP", Convert.ToInt32(ap == string.Empty || ap == "A" ? "0" : "1"));
                     cmd.Parameters.AddWithValue("@ITEMREF", itemref);
@@ -1732,6 +1744,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     cmd.Parameters.AddWithValue("@MHDHB", mhdhb);
                     cmd.Parameters.AddWithValue("@MHDRZ", mhdrz);
                     cmd.Parameters.AddWithValue("@FRM", frm);
+                    cmd.Parameters.AddWithValue("@NTGEW", ntgew);
 
                     try
                     {
@@ -1760,9 +1773,9 @@ TRUNCATE TABLE [Web-Malzeme-Full]
 INSERT INTO [Web-Malzeme-Full] SELECT * FROM [Web_Malzeme] WITH (HOLDLOCK) WHERE FRM = 'TB80'
 INSERT INTO [Web-Malzeme-Full] 
 SELECT min([AP]),[ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ],[STOKE]
-,min([FRM]) AS FRM,[STOKIH],[STOKPL],[STOKTT],[STOKUR],[STOKTK] 
+,min([FRM]) AS FRM,[STOKIH],[STOKPL],[STOKTT],[STOKUR],[STOKTK],NTGEW
 FROM [dbo].[Web_Malzeme]  WITH (HOLDLOCK) WHERE FRM != 'TB80' AND ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Malzeme-Full])
-GROUP BY [ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ],[STOKE],[STOKIH],[STOKPL],[STOKTT],[STOKUR],[STOKTK]
+GROUP BY [ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ],[STOKE],[STOKIH],[STOKPL],[STOKTT],[STOKUR],[STOKTK],NTGEW
 
 COMMIT TRANSACTION t_Transaction
 ", conn);
@@ -1775,7 +1788,7 @@ COMMIT TRANSACTION t_Transaction
                 //SqlCommand cmd6 = new SqlCommand("UPDATE [Web-Malzeme-Full] SET [AP] = [Web-Malzeme-AP].AP FROM [Web-Malzeme-Full] INNER JOIN [Web-Malzeme-AP] ON [Web-Malzeme-Full].ITEMREF = [Web-Malzeme-AP].ITEMREF", conn);
                 //cmd6.CommandTimeout = 1000;
 
-                SqlCommand cmd4 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Malzeme] INSERT INTO [Web-Malzeme] ([ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ,FRM) SELECT [ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ,FRM FROM [Web-Malzeme-Full] WITH (HOLDLOCK) WHERE AP = 0 AND FRM = 'TB80' COMMIT TRANSACTION t_Transaction", conn);
+                SqlCommand cmd4 = new SqlCommand("BEGIN TRANSACTION t_Transaction TRUNCATE TABLE [Web-Malzeme] INSERT INTO [Web-Malzeme] ([ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ,FRM,NTGEW) SELECT [ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],KANAL,PRIMT,PRIMB,HYRS,HYRS_TANIM,DONUSUM,MHDHB,MHDRZ,FRM,NTGEW FROM [Web-Malzeme-Full] WITH (HOLDLOCK) WHERE AP = 0 AND FRM = 'TB80' COMMIT TRANSACTION t_Transaction", conn);
                 cmd4.CommandTimeout = 1000;
 
                 SqlCommand cmd7 = new SqlCommand("UPDATE [Web-Malzeme] SET [REY KOD] = (SELECT [OZEL KOD] FROM [Web-Malzeme-DOK] WHERE ITEMREF = [Web-Malzeme].ITEMREF) WHERE ITEMREF IN (SELECT ITEMREF FROM [Web-Malzeme-DOK])", conn);
@@ -2101,7 +2114,7 @@ COMMIT TRANSACTION t_Transaction
                     string sube = listCustomers[i].Namwe;
                     string adres = listCustomers[i].Adres;
                     string sehir = listCustomers[i].CommText;
-                    string semt = listCustomers[i].Name3;
+                    string semt = listCustomers[i].Name3 + " - " + listCustomers[i].Name4;
                     string vrgdaire = listCustomers[i].Stcd1;
                     string vrgno = listCustomers[i].Stcd2;
                     string tel = listCustomers[i].Telno;

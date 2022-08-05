@@ -123,13 +123,12 @@ namespace Sultanlar.WCF
         /// </summary>
         public void HesaplaKaydet(DataTable dt, int Kacinci, int Kactan, int KacaKadar, int BayiKod, int Yil, int Ay, bool Kaydet, string Email, DateTime Baslangic)
         {
-            string olmayanurunler = string.Empty;
+            SatisRaporTP.Hesapla(dt, Kactan, KacaKadar);
+            #region Hesaplama
+            /*string olmayanurunler = string.Empty;
             string fiyatiolmayanurunler = string.Empty;
             ArrayList hesaplanamayansatirlar = new ArrayList();
 
-
-
-            #region Hesaplama
             decimal ToplamTAH = 0;
             decimal ToplamYEG = 0;
 
@@ -289,7 +288,7 @@ namespace Sultanlar.WCF
                             noktasatay,
                             noktasatgun));
                     }
-                    /*else */
+                    //else
                     if (listefiyat1 == 0.0) // dönem fiyatı yoksa şimdiki fiyatı al
                     {
                         listefiyat1 = Convert.ToDouble(Urunler.GetProductDiscountsAndPriceFULL(
@@ -351,15 +350,16 @@ namespace Sultanlar.WCF
                     dt.Rows[i]["TAHmnToplamFark"] = tahtoplam;
                     dt.Rows[i]["YEGmnToplamFark"] = yegtoplam;
                 }
-            }
+            }*/
             #endregion
 
 
 
             if (Kaydet)
             {
+                SatisRaporTP.Kaydet(dt, Kactan, KacaKadar);
                 #region Kaydetme
-                for (int i = Kactan; i < KacaKadar; i++)
+                /*for (int i = Kactan; i < KacaKadar; i++)
                 {
                     SatisRaporTP satisrapor = SatisRaporTP.GetObject(Convert.ToInt64(dt.Rows[i]["REF"]));
                     satisrapor.intAnlasmaID = Convert.ToInt32(dt.Rows[i]["intAnlasmaID"]);
@@ -378,7 +378,7 @@ namespace Sultanlar.WCF
                     satisrapor.mnFaturadanKapatilan = Convert.ToDecimal(dt.Rows[i]["mnFaturadanKapatilan"]);
                     satisrapor.intFaturaID = Convert.ToInt32(dt.Rows[i]["intFaturaID"]);
                     satisrapor.DoUpdate();
-                }
+                }*/
                 #endregion
             }
             else
