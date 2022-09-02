@@ -194,8 +194,8 @@ WHERE ITEMREF = " + ((FiyatDonem)wfd[i]).ITEMREF.ToString() + " AND TUR = " + ((
             try
             {
                 ITEMREF = Convert.ToInt32(textBox1.Text.Trim()).ToString();
-                BRUT = Convert.ToDouble(textBox2.Text.Trim()).ToString();
-                UYG = Convert.ToDouble(textBox3.Text.Trim()).ToString();
+                BRUT = Convert.ToDouble(textBox2.Text.Trim().Replace(".", ",")).ToString().Replace(",", ".");
+                UYG = Convert.ToDouble(textBox3.Text.Trim().Replace(".", ",")).ToString().Replace(",", ".");
             }
             catch (Exception ex)
             {
