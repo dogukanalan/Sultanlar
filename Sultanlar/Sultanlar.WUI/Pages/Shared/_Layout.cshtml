@@ -45,6 +45,7 @@
         var cikissayfasi = false;
 
         $(document).ready(function () {
+            document.getElementById("spanUye").textContent = window.localStorage["eposta"];
             try {
                 if (surum != Android.GetSurum()) {
                     AndroidToast("Uygulama sürümünüz güncel değil. Lütfen Google Play Store'dan güncelleyiniz.");
@@ -166,9 +167,15 @@
                                 <a href="~/Rapor/SiparisDurum">Sipariş Durum</a>
                             </div>
                         </li>
-                        <li><a href="~/Uyelik">Üye İşlemleri</a></li>
-                        <li><a href="~/Mesaj/"><span id="spanMesaj">Mesajlar</span></a></li>
                         <li><a href="~/Cikis">Çıkış</a></li>
+                        <li>
+                            <a href="javascript:showSubMenu(divUyeAlt)" onmouseover="showSubMenu(divUyeAlt)" onmouseout="divUyeAlt.classList.remove('show')"><span id="spanUye">Üye</span></a>
+                            <div onmouseover="showSubMenu(divUyeAlt)" onmouseout="divUyeAlt.classList.remove('show')" class="subMenu" id="divUyeAlt">
+                                <a href="~/Uyelik">Üye İşlemleri</a>
+                                <a href="~/Mesaj/"><span id="spanMesaj">Mesajlar</span></a>
+
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>

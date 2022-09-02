@@ -939,9 +939,24 @@ namespace Sultanlar.DatabaseObject.Internet
                             CariHesaplarTP cari = CariHesaplarTP.GetObject(SMREF, false);
                             int tur = cari.MTKOD == "B1" ? 2 : 1;
 
-                            DataTable dtS =  WebGenel.WCFdata("SELECT ISK1 FROM [Web-Fiyat-TP-Donem] WHERE TUR = @TUR AND ITEMREF = @ITEMREF AND BASLANGIC <= @FATURA AND BITIS >= @FATURA", 
-                                new ArrayList() { "TUR", "ITEMREF", "FATURA" }, new SqlDbType[] { SqlDbType.Int, SqlDbType.Int, SqlDbType.DateTime }, new ArrayList() { tur, UrunID, noktaevraktarih }, "");
-                            isk4 = dtS.Rows.Count > 0 ? Convert.ToDouble(dtS.Rows[0][0]) : 0;
+                            bool otoiskonto = true;
+                            DataTable dtHaricBayiler = new DataTable();
+                            WebGenel.Sorgu(dtHaricBayiler, "SELECT BAYIKOD FROM [Web-Fiyat-Aktivite-Kontrol-Haric]");
+                            for (int j = 0; j < dtHaricBayiler.Rows.Count; j++)
+                            {
+                                if (dtHaricBayiler.Rows[j]["BAYIKOD"].ToString() == dt.Rows[i]["GMREF"].ToString())
+                                {
+                                    otoiskonto = false;
+                                    break;
+                                }
+                            }
+
+                            if (otoiskonto)
+                            {
+                                DataTable dtS = WebGenel.WCFdata("SELECT ISK1 FROM [Web-Fiyat-TP-Donem] WHERE TUR = @TUR AND ITEMREF = @ITEMREF AND BASLANGIC <= @FATURA AND BITIS >= @FATURA",
+                                    new ArrayList() { "TUR", "ITEMREF", "FATURA" }, new SqlDbType[] { SqlDbType.Int, SqlDbType.Int, SqlDbType.DateTime }, new ArrayList() { tur, UrunID, noktaevraktarih }, "");
+                                isk4 = dtS.Rows.Count > 0 ? Convert.ToDouble(dtS.Rows[0][0]) : 0;
+                            }
 
 
                             CariHesaplarTPEk2 chtpek = CariHesaplarTPEk2.GetObject(GMREF, noktasatyil, noktasatay);

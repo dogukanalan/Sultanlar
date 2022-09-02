@@ -702,6 +702,12 @@ namespace Sultanlar.UI
 
 
 
+            this.Enabled = false;
+            progressBar1.Maximum = dt.Rows.Count;
+            progressBar1.Visible = true;
+
+
+
             string olmayanurunler = string.Empty;
             string fiyatiolmayanurunler = string.Empty;
             ArrayList hesaplanamayansatirlar = new ArrayList();
@@ -1056,6 +1062,8 @@ namespace Sultanlar.UI
                 #endregion
             }
 
+
+            progressBar1.Value = 0;
 
 
             /*for (int i = 0; i < hesaplanamayansatirlar.Count; i++)

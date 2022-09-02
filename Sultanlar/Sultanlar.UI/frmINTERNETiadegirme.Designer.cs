@@ -45,6 +45,8 @@
             this.rbBozukIade = new System.Windows.Forms.RadioButton();
             this.cbUrunlerBurada = new System.Windows.Forms.CheckBox();
             this.cbAramadanAktar = new System.Windows.Forms.CheckBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btnCik = new System.Windows.Forms.Button();
             this.btnOnayla = new System.Windows.Forms.Button();
             this.pnlNedenler = new System.Windows.Forms.Panel();
             this.rbHasarli = new System.Windows.Forms.RadioButton();
@@ -100,7 +102,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnVazgec = new System.Windows.Forms.Button();
-            this.btnCik = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.pnlNedenler.SuspendLayout();
@@ -150,12 +152,14 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.cmbDepo);
             this.groupBox1.Controls.Add(this.cmbUY);
             this.groupBox1.Controls.Add(this.panel3);
             this.groupBox1.Controls.Add(this.cbUrunlerBurada);
             this.groupBox1.Controls.Add(this.cbAramadanAktar);
+            this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.btnCik);
             this.groupBox1.Controls.Add(this.btnOnayla);
             this.groupBox1.Controls.Add(this.pnlNedenler);
@@ -203,7 +207,7 @@
             // 
             this.cmbDepo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbDepo.FormattingEnabled = true;
-            this.cmbDepo.Location = new System.Drawing.Point(314, 471);
+            this.cmbDepo.Location = new System.Drawing.Point(314, 473);
             this.cmbDepo.Name = "cmbDepo";
             this.cmbDepo.Size = new System.Drawing.Size(158, 21);
             this.cmbDepo.TabIndex = 22;
@@ -218,7 +222,7 @@
             "TB20",
             "TB60",
             "TB80"});
-            this.cmbUY.Location = new System.Drawing.Point(253, 471);
+            this.cmbUY.Location = new System.Drawing.Point(253, 473);
             this.cmbUY.Name = "cmbUY";
             this.cmbUY.Size = new System.Drawing.Size(55, 21);
             this.cmbUY.TabIndex = 22;
@@ -279,6 +283,28 @@
             this.cbAramadanAktar.UseVisualStyleBackColor = true;
             this.cbAramadanAktar.MouseLeave += new System.EventHandler(this.cbAramadanAktar_MouseLeave);
             this.cbAramadanAktar.MouseHover += new System.EventHandler(this.cbAramadanAktar_MouseHover);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(542, 471);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(60, 23);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "Uygula";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.MouseLeave += new System.EventHandler(this.button2_MouseLeave);
+            this.button2.MouseHover += new System.EventHandler(this.button2_MouseHover);
+            // 
+            // btnCik
+            // 
+            this.btnCik.Location = new System.Drawing.Point(253, 497);
+            this.btnCik.Name = "btnCik";
+            this.btnCik.Size = new System.Drawing.Size(33, 23);
+            this.btnCik.TabIndex = 9;
+            this.btnCik.Text = "Çık";
+            this.btnCik.UseVisualStyleBackColor = true;
+            this.btnCik.Click += new System.EventHandler(this.btnCik_Click);
             // 
             // btnOnayla
             // 
@@ -486,7 +512,7 @@
             // 
             // txtPartiNo
             // 
-            this.txtPartiNo.Location = new System.Drawing.Point(478, 472);
+            this.txtPartiNo.Location = new System.Drawing.Point(478, 473);
             this.txtPartiNo.MaxLength = 100;
             this.txtPartiNo.Name = "txtPartiNo";
             this.txtPartiNo.Size = new System.Drawing.Size(58, 20);
@@ -522,7 +548,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(136, 474);
+            this.label7.Location = new System.Drawing.Point(136, 476);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(111, 13);
             this.label7.TabIndex = 13;
@@ -839,15 +865,16 @@
             this.btnVazgec.UseVisualStyleBackColor = true;
             this.btnVazgec.Click += new System.EventHandler(this.btnVazgec_Click);
             // 
-            // btnCik
+            // label9
             // 
-            this.btnCik.Location = new System.Drawing.Point(253, 497);
-            this.btnCik.Name = "btnCik";
-            this.btnCik.Size = new System.Drawing.Size(33, 23);
-            this.btnCik.TabIndex = 9;
-            this.btnCik.Text = "Çık";
-            this.btnCik.UseVisualStyleBackColor = true;
-            this.btnCik.Click += new System.EventHandler(this.btnCik_Click);
+            this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.Color.Red;
+            this.label9.Location = new System.Drawing.Point(608, 472);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(165, 26);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "Bütün satırlara seçilen\r\nÜY, Depo, Parti alanlarını uygular.";
+            this.label9.Visible = false;
             // 
             // frmINTERNETiadegirme
             // 
@@ -958,5 +985,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clKYTM;
         private System.Windows.Forms.Label lblExcelden;
         private System.Windows.Forms.Button btnCik;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label9;
     }
 }

@@ -11,7 +11,7 @@ namespace Sultanlar.DbObj.Internet
         public int intMusteriID { get; set; }
         public musteriler Musteri { get { return new musteriler(intMusteriID).GetObject(); } }
         public int SMREF { get; set; }
-        public cariHesaplar Cari { get { return new cariHesaplar(SMREF).GetObject(); } }
+        public cariHesaplar Cari { get { return SMREF > 2000000 && SMREF < 3000000 ? new cariHesaplar().GetObject1(2, SMREF) : new cariHesaplar(SMREF).GetObject(); } }
         public short sintFiyatTipiID { get; set; }
         public fiyatTipleri FiyatTipi { get { return new fiyatTipleri(sintFiyatTipiID).GetObject(); } }
         public DateTime dtOlusmaTarihi { get; set; }
@@ -252,7 +252,7 @@ namespace Sultanlar.DbObj.Internet
         public string GetQ(int SiparisID)
         {
             Dictionary<int, object> dic = GetObject("db_sp_siparisQGetir", new Dictionary<string, object>() { { "SiparisID", SiparisID } }, timeout);
-            return dic[0].ToString();
+            return dic == null ? "0" : dic[0].ToString();
         }
     }
 }

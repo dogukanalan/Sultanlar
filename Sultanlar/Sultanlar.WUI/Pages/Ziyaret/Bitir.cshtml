@@ -78,7 +78,18 @@
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         window.localStorage.removeItem("ziyaret");
                         window.localStorage.removeItem("sepetV");
-                        alert('hata olustu: ' + errorThrown + ' \r\n\r\n\r\n ' + JSON.stringify(ziyaret));
+
+                        if (XMLHttpRequest.readyState == 4) {
+                            alert('hata olustu: ' + errorThrown + ' \r\n\r\n\r\n ' + JSON.stringify(ziyaret));
+                        }
+                        else if (XMLHttpRequest.readyState == 0) {
+                            alert('Bağlantı hatası.');
+                        }
+                        else {
+                            alert('hata olustu: ' + errorThrown + ' \r\n\r\n\r\n ' + JSON.stringify(ziyaret));
+                        }
+
+                        hataekle('ziyaretbitir ' + XMLHttpRequest.readyState, btoa(JSON.stringify(ziyaret)));
                     }
                 }
             );

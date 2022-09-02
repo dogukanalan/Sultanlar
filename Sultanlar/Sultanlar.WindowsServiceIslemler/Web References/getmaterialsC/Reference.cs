@@ -754,6 +754,10 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
         
         private string meinsField;
         
+        private decimal dlvryField;
+        
+        private bool dlvryFieldSpecified;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Matnr {
@@ -828,6 +832,28 @@ namespace Sultanlar.WindowsServiceIslemler.getmaterialsC {
             }
             set {
                 this.meinsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public decimal Dlvry {
+            get {
+                return this.dlvryField;
+            }
+            set {
+                this.dlvryField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool DlvrySpecified {
+            get {
+                return this.dlvryFieldSpecified;
+            }
+            set {
+                this.dlvryFieldSpecified = value;
             }
         }
     }

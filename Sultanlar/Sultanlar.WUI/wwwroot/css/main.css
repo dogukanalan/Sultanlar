@@ -609,7 +609,7 @@ iframe {
         margin-left: 15px;
     }
 
-    #divMusSub, #divRapSub {
+    #divMusSub, #divRapSub, #divUyeAlt {
         position: absolute !important;
     }
 
@@ -619,6 +619,12 @@ iframe {
 
     .navbar-brand {
         display: block;
+    }
+
+    .navbar-ic {
+        margin: 0 auto;
+        width: 100% !important; /*1000px;*/
+        font-size: 0.9rem;
     }
 }
 
@@ -1241,7 +1247,7 @@ table.dataTable {
     visibility: hidden !important;
 }
 
-#divMusSub, #divRapSub {
+#divMusSub, #divRapSub, #divUyeAlt {
     position: fixed;
 }
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sultanlar.Class;
+using Sultanlar.DatabaseObject;
 
 namespace Sultanlar.WebAPI.Controllers.Internet
 {
@@ -25,5 +26,16 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpGet, Yetkili]
         [Route("internet/[controller]/[action]")]
         public string Auth() => "";
+
+        [HttpGet, Yetkili]
+        [Route("internet/[controller]/[action]/{yer}/{json}")]
+        public string HataEkle(string yer, string json)
+        {
+            byte[] data = System.Convert.FromBase64String(json);
+            string base64Decoded = System.Text.ASCIIEncoding.ASCII.GetString(data);
+
+            Hatalar.DoInsert(base64Decoded, "api " + yer);
+            return base64Decoded;
+        }
     }
 }

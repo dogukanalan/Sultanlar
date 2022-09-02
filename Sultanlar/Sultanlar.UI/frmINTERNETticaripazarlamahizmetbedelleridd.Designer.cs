@@ -35,6 +35,7 @@
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn15 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn21 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn18 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -116,6 +117,7 @@
             this.gridColumn1,
             this.gridColumn15,
             this.gridColumn3,
+            this.gridColumn21,
             this.gridColumn18,
             this.gridColumn4,
             this.gridColumn2,
@@ -177,6 +179,19 @@
             this.gridColumn3.OptionsColumn.AllowEdit = false;
             this.gridColumn3.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             // 
+            // gridColumn21
+            // 
+            this.gridColumn21.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColumn21.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColumn21.Caption = "Müş.Tür";
+            this.gridColumn21.FieldName = "MTACIKLAMA";
+            this.gridColumn21.Name = "gridColumn21";
+            this.gridColumn21.OptionsColumn.AllowEdit = false;
+            this.gridColumn21.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
+            this.gridColumn21.Visible = true;
+            this.gridColumn21.VisibleIndex = 1;
+            this.gridColumn21.Width = 100;
+            // 
             // gridColumn18
             // 
             this.gridColumn18.AppearanceHeader.Options.UseTextOptions = true;
@@ -187,7 +202,7 @@
             this.gridColumn18.OptionsColumn.AllowEdit = false;
             this.gridColumn18.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn18.Visible = true;
-            this.gridColumn18.VisibleIndex = 1;
+            this.gridColumn18.VisibleIndex = 2;
             this.gridColumn18.Width = 225;
             // 
             // gridColumn4
@@ -208,7 +223,7 @@
             this.gridColumn2.OptionsColumn.AllowEdit = false;
             this.gridColumn2.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 2;
+            this.gridColumn2.VisibleIndex = 3;
             this.gridColumn2.Width = 100;
             // 
             // gridColumn6
@@ -223,7 +238,7 @@
             this.gridColumn6.OptionsColumn.AllowEdit = false;
             this.gridColumn6.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn6.Visible = true;
-            this.gridColumn6.VisibleIndex = 3;
+            this.gridColumn6.VisibleIndex = 4;
             this.gridColumn6.Width = 50;
             // 
             // gridColumn7
@@ -238,7 +253,7 @@
             this.gridColumn7.OptionsColumn.AllowEdit = false;
             this.gridColumn7.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn7.Visible = true;
-            this.gridColumn7.VisibleIndex = 4;
+            this.gridColumn7.VisibleIndex = 5;
             this.gridColumn7.Width = 50;
             // 
             // gridColumn5
@@ -251,7 +266,7 @@
             this.gridColumn5.OptionsColumn.AllowEdit = false;
             this.gridColumn5.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 5;
+            this.gridColumn5.VisibleIndex = 6;
             // 
             // gridColumn8
             // 
@@ -267,7 +282,7 @@
             this.gridColumn8.OptionsColumn.AllowEdit = false;
             this.gridColumn8.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn8.Visible = true;
-            this.gridColumn8.VisibleIndex = 6;
+            this.gridColumn8.VisibleIndex = 7;
             // 
             // gridColumn9
             // 
@@ -281,7 +296,7 @@
             this.gridColumn9.OptionsColumn.AllowEdit = false;
             this.gridColumn9.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn9.Visible = true;
-            this.gridColumn9.VisibleIndex = 7;
+            this.gridColumn9.VisibleIndex = 8;
             this.gridColumn9.Width = 50;
             // 
             // gridColumn10
@@ -298,7 +313,7 @@
             this.gridColumn10.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "mnNet", "{0:#.##}")});
             this.gridColumn10.Visible = true;
-            this.gridColumn10.VisibleIndex = 8;
+            this.gridColumn10.VisibleIndex = 9;
             // 
             // gridColumn11
             // 
@@ -314,7 +329,7 @@
             this.gridColumn11.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "mnKDV", "{0:#.##}")});
             this.gridColumn11.Visible = true;
-            this.gridColumn11.VisibleIndex = 9;
+            this.gridColumn11.VisibleIndex = 10;
             // 
             // gridColumn12
             // 
@@ -330,7 +345,7 @@
             this.gridColumn12.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "mnNetKDV", "{0:#.##}")});
             this.gridColumn12.Visible = true;
-            this.gridColumn12.VisibleIndex = 10;
+            this.gridColumn12.VisibleIndex = 11;
             // 
             // gridColumn13
             // 
@@ -344,7 +359,7 @@
             this.gridColumn13.OptionsColumn.AllowEdit = false;
             this.gridColumn13.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn13.Visible = true;
-            this.gridColumn13.VisibleIndex = 11;
+            this.gridColumn13.VisibleIndex = 12;
             // 
             // gridColumn20
             // 
@@ -358,7 +373,7 @@
             this.gridColumn20.OptionsColumn.AllowEdit = false;
             this.gridColumn20.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn20.Visible = true;
-            this.gridColumn20.VisibleIndex = 12;
+            this.gridColumn20.VisibleIndex = 13;
             this.gridColumn20.Width = 50;
             // 
             // gridColumn14
@@ -371,7 +386,7 @@
             this.gridColumn14.OptionsColumn.AllowEdit = false;
             this.gridColumn14.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn14.Visible = true;
-            this.gridColumn14.VisibleIndex = 13;
+            this.gridColumn14.VisibleIndex = 14;
             this.gridColumn14.Width = 150;
             // 
             // gridColumn16
@@ -384,7 +399,7 @@
             this.gridColumn16.OptionsColumn.AllowEdit = false;
             this.gridColumn16.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn16.Visible = true;
-            this.gridColumn16.VisibleIndex = 14;
+            this.gridColumn16.VisibleIndex = 15;
             this.gridColumn16.Width = 150;
             // 
             // gridColumn17
@@ -397,7 +412,7 @@
             this.gridColumn17.OptionsColumn.AllowEdit = false;
             this.gridColumn17.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn17.Visible = true;
-            this.gridColumn17.VisibleIndex = 15;
+            this.gridColumn17.VisibleIndex = 16;
             this.gridColumn17.Width = 150;
             // 
             // gridColumn19
@@ -410,7 +425,7 @@
             this.gridColumn19.OptionsColumn.AllowEdit = false;
             this.gridColumn19.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn19.Visible = true;
-            this.gridColumn19.VisibleIndex = 16;
+            this.gridColumn19.VisibleIndex = 17;
             this.gridColumn19.Width = 150;
             // 
             // btnYenile
@@ -803,5 +818,6 @@
         private System.Windows.Forms.Label lblAciklama4;
         private System.Windows.Forms.TextBox txtAciklama4;
         private System.Windows.Forms.Button btnToplu;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn21;
     }
 }

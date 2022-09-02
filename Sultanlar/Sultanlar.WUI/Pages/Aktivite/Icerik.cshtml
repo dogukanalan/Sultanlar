@@ -160,12 +160,14 @@
                     });
                 }
             }
+            var yeksen = document.documentElement.scrollTop;
             sepet = yenisepet;
             senkRoot();
             //window.location.href = window.location.href;
             table.dataTable().fnDestroy();
             aktGoster();
             keyuplar();
+            document.documentElement.scrollTop = yeksen;
         }
 
         function sil() {

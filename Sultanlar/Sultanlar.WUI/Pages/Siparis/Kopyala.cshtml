@@ -15,6 +15,7 @@
 
     <script>
         var siparisid;
+        var table;
 
         function SaticilarGetir(uyeid) {
             $.ajax(
@@ -48,18 +49,23 @@
         }
 
         function MusterilerGetir(slsref) {
-            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
                 ajax: {
                     dataSrc: "",
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "cari/gethepsi/" + slsref
+                    url: apiurl + "cari/gethepsi12/" + slsref
                 },
                 columns: [
                     {
                         "data": "smref", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "tiP_ACK", "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data + '</span>';
                         }
                     },
@@ -74,13 +80,16 @@
                         }
                     }
                 ],
+                "initComplete": function (settings, json) {
+                    //table.columns(1).search("SAP").draw();
+                },
                 "language": defaultDtLang,
                 "paging": true,
                 "ordering": true,
                 "info": false,
                 "searching": true,
                 "deferRender": true,
-                "order": [[1, "asc"]]
+                "order": [[2, "asc"]]
             });
         }
 
@@ -105,7 +114,7 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                         if (data == "")
-                            window.history.back();
+                            window.location.href = "Siparisler";
                         else
                             console.log(JSON.stringify(data));
                     },
@@ -119,7 +128,7 @@
             document.getElementById("basTitle").innerHTML = "Sipariş Kopyala (" + siparisid + ")";
             SaticilarGetir(window.localStorage["uyeid"]);
             $('#selectSaticilar').on('change', function (e) {
-                $('#dtTable').DataTable().ajax.url(apiurl + "cari/gethepsi/" + this.value).load();
+                table = $('#dtTable').DataTable().ajax.url(apiurl + "cari/gethepsi12/" + this.value).load();
             });
         });
     </script>
@@ -132,6 +141,7 @@
     <thead>
         <tr>
             <th class="keyTd"><span class="">Kod</span></th>
+            <th class="keyTd"><span class="">Tür</span></th>
             <th class="keyTd"><span class="">Şube</span></th>
             <th class="keyTd"></th>
         </tr>

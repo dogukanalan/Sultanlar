@@ -104,7 +104,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 aktiviteler akt = new aktiviteler(
                     mus.pkMusteriID, 
                     akg.SMREFs[i].smref,
-                    cari.TIP == 4 || cari.BayiMi ? (short)25 : (cari.fiyatTip500 > 500 ? Convert.ToInt16(cari.fiyatTip500) : (short)7), 
+                    cari.TIP == 4 || cari.BayiMi ? (short)25 : (cari.fiyatTip500 > 500 && cari.fiyatTip500 < 1000 ? Convert.ToInt16(cari.fiyatTip500) : (short)7), 
                     akg.SMREFs[i].AnlasmaID,
                     cari.TIP == 4 || cari.BayiMi ? 1 : 2, 
                     DateTime.Now, 

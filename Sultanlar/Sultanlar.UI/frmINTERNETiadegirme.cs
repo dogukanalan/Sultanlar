@@ -246,7 +246,7 @@ namespace Sultanlar.UI
                             return;
                         }*/
 
-                        long iadedetayid = 0;
+                        /*long iadedetayid = 0;
                         for (int j = 0; j < dt.Rows.Count; j++)
                         {
                             if (Convert.ToInt32(dataGridView1.Rows[i].Cells["clUrunID"].Value) == Convert.ToInt32(dt.Rows[j]["intUrunID"]))
@@ -264,12 +264,12 @@ namespace Sultanlar.UI
                             dataGridView1.Rows[i].Cells["clMiktar"].Value = DBNull.Value;
                         }
                         else
-                        {
+                        {*/
                             IadelerDetay id = new IadelerDetay(iade.pkIadeID, Convert.ToInt32(dataGridView1.Rows[i].Cells["clUrunID"].Value),
                                 dataGridView1.Rows[i].Cells["clAd"].Value.ToString(), Convert.ToInt32(dataGridView1.Rows[i].Cells["clMiktar"].Value), 0);
                             id.DoInsert();
                             dataGridView1.Rows[i].Cells["clMiktar"].Value = DBNull.Value;
-                        }
+                        //}
                     }
                 }
             }
@@ -326,8 +326,9 @@ namespace Sultanlar.UI
                 //string neden = string.Empty;
                 if (duzenleme)
                 {
-                    if (cmbDepo.SelectedIndex > -1 && cmbUY.SelectedIndex > -1)
-                        Iadeler.SetSapDepo(rbSaglamIade.Checked ? "Z17" : "Z16", ((Depo)cmbDepo.SelectedItem).Kod, cmbUY.SelectedItem.ToString(), txtPartiNo.Text.Trim().ToUpper(), iade.pkIadeID);
+                    /*if (cmbDepo.SelectedIndex > -1 && cmbUY.SelectedIndex > -1)
+                        Iadeler.SetSapDepo(rbSaglamIade.Checked ? "Z17" : "Z16", ((Depo)cmbDepo.SelectedItem).Kod, cmbUY.SelectedItem.ToString(), txtPartiNo.Text.Trim().ToUpper(), iade.pkIadeID);*/
+                    Iadeler.SetSapDepo(rbSaglamIade.Checked ? "Z17" : "Z16", iade.pkIadeID);
 
                     iade.strAciklama = iade.strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[0] + ";;;" /*+ "Değişikilik Yapılan İade ! - "*/ + txtAciklama1.Text.Trim() + ";;;" + txtAciklama2.Text.Trim();
                     //iade.blAktarilmis = true;
@@ -341,11 +342,14 @@ namespace Sultanlar.UI
                 }
                 else
                 {
-                    if (cmbDepo.SelectedIndex == -1 || cmbUY.SelectedIndex == -1)
+                    /*if (cmbDepo.SelectedIndex == -1 || cmbUY.SelectedIndex == -1)
                     {
                         MessageBox.Show("Depo veya ÜY seçilmedi.", "Hata");
                         return;
                     }
+
+                    Iadeler.SetSapDepo(rbSaglamIade.Checked ? "Z17" : "Z16", ((Depo)cmbDepo.SelectedItem).Kod, cmbUY.SelectedItem.ToString(), txtPartiNo.Text.Trim().ToUpper(), iade.pkIadeID);*/
+                    Iadeler.SetSapDepo(rbSaglamIade.Checked ? "Z17" : "Z16", iade.pkIadeID);
 
                     //if (rbHasarli.Checked)
                     //    neden = "HASARLI-";
@@ -371,8 +375,6 @@ namespace Sultanlar.UI
                     //    neden = "GİDEN FATURADAN İADE-";
                     //else if (rbHatali.Checked)
                     //    neden = "HATALI SİPARİŞ-";
-
-                    Iadeler.SetSapDepo(rbSaglamIade.Checked ? "Z17" : "Z16", ((Depo)cmbDepo.SelectedItem).Kod, cmbUY.SelectedItem.ToString(), txtPartiNo.Text.Trim().ToUpper(), iade.pkIadeID);
 
                     iade.strAciklama = "Sistem;;;" + /*neden +*/ txtAciklama1.Text.Trim() + ";;;" + txtAciklama2.Text.Trim();
                     iade.DoUpdate();
@@ -833,8 +835,46 @@ namespace Sultanlar.UI
 
         private void btnCik_Click(object sender, EventArgs e)
         {
+            iade.strAciklama = iade.strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[0] + ";;;" /*+ "Değişikilik Yapılan İade ! - "*/ + txtAciklama1.Text.Trim() + ";;;" + txtAciklama2.Text.Trim();
+            iade.DoUpdate();
+
             duzenleme = true;
             this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (cmbDepo.SelectedIndex == -1 || cmbUY.SelectedIndex == -1)
+            {
+                MessageBox.Show("Depo veya ÜY seçilmedi.", "Hata");
+                return;
+            }
+
+            if (MessageBox.Show("ÜY, Depo ve Parti numarası bütün satırlara uygulanacaktır. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                //string[] depolar = Iadeler.GetSapDepo(iade.pkIadeID);
+                DataTable dt = new DataTable();
+                IadelerDetay.GetObjectsByIadeID(dt, iade.pkIadeID);
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    IadelerDetay.SetSapDepo(cmbDepo.SelectedItem.ToString(), cmbUY.SelectedItem.ToString(), txtPartiNo.Text.Trim().ToUpper(), Convert.ToInt32(dt.Rows[i]["pkIadeDetayID"]));
+                }
+
+                Iadeler.SetSapDepo(rbSaglamIade.Checked ? "Z17" : "Z16", ((Depo)cmbDepo.SelectedItem).Kod, cmbUY.SelectedItem.ToString(), txtPartiNo.Text.Trim().ToUpper(), iade.pkIadeID);
+
+                MessageBox.Show("Güncelleme yapıldı.", "Başarılı");
+            }
+        }
+
+        private void button2_MouseHover(object sender, EventArgs e)
+        {
+            label9.Visible = true;
+        }
+
+        private void button2_MouseLeave(object sender, EventArgs e)
+        {
+            label9.Visible = false;
         }
     }
 

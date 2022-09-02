@@ -300,15 +300,18 @@ namespace Sultanlar.DatabaseObject.Internet
             DataTable dt = new DataTable();
             SiparislerDetay.GetObjectsBySiparisID(dt, SiparisID);
 
-            int SLSREF = CariHesaplar.GetSLSREFBySMREF(sip.SMREF);
+            int SMREF = sip.SMREF > 2000000 ? CariHesapZ.GetObject(sip.SMREF, 2, true).GMREF : sip.SMREF;
+
+            int SLSREF = CariHesaplar.GetSLSREFBySMREF(SMREF);
             Musteriler siparisiolusturanmusteri1 = Musteriler.GetMusteriByID(sip.intMusteriID);
             if (siparisiolusturanmusteri1.tintUyeTipiID == 4 || siparisiolusturanmusteri1.tintUyeTipiID == 6) // satış temsilcisi ise
                 SLSREF = siparisiolusturanmusteri1.intSLSREF;
 
             string bakiyeaciklama = Bakiye ? "*BKY*" : "";
+            string subeaciklama = sip.SMREF > 2000000 ? "*" + CariHesapZ.GetObject(sip.SMREF, 2, true).SUBE + "*" : "";
 
             string[] aciklamalar = sip.strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None);
-            string Aciklama2 = bakiyeaciklama + aciklamalar[1];
+            string Aciklama2 = bakiyeaciklama + subeaciklama + aciklamalar[1];
             string Aciklama3 = aciklamalar[2];
             DateTime tesltrh = DateTime.Now;
             try { tesltrh = Convert.ToDateTime(Aciklama3); } catch (Exception) { }
@@ -320,7 +323,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             header.Ctype = "SATIS"; //IADE
             header.Ketdat = tesltrh.Year.ToString() + (tesltrh.Month.ToString().Length == 1 ? "0" + tesltrh.Month.ToString() : tesltrh.Month.ToString()) + (tesltrh.Day.ToString().Length == 1 ? "0" + tesltrh.Day.ToString() : tesltrh.Day.ToString());
-            header.Kunwe = "000" + sip.SMREF.ToString();
+            header.Kunwe = "000" + SMREF.ToString();
             header.Pltyp = sip.sintFiyatTipiID.ToString().Length == 1 ? "0" + sip.sintFiyatTipiID.ToString() : sip.sintFiyatTipiID.ToString().Length == 3 ? "XX" : sip.sintFiyatTipiID.ToString();
             header.Vbeln = "";
             header.Xblnr = sip.pkSiparisID.ToString(); //WebGenel.DoUpdateSayac().ToString()
@@ -339,7 +342,7 @@ namespace Sultanlar.DatabaseObject.Internet
             }
             else if (CariHesaplar.GetSATKOD1BySLSREF(SLSREF) == "ZM")
             {
-                header.Pernr = CariHesaplar.GetSLSREFBySMREF(sip.SMREF).ToString();
+                header.Pernr = CariHesaplar.GetSLSREFBySMREF(SMREF).ToString();
                 header.PernrVw = "1530";
             }
             else

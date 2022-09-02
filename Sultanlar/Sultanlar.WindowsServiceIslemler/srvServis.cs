@@ -1650,7 +1650,7 @@ namespace Sultanlar.WindowsServiceIslemler
 
                 for (int i = 0; i < birst.Length; i++)
                 {
-                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Malzeme_Stock] (Charg,Clabs,Lgort,Matnr,Meins,Werks) VALUES (@Charg,@Clabs,@Lgort,@Matnr,@Meins,@Werks)", conn);
+                    SqlCommand cmd = new SqlCommand("INSERT INTO [Web_Malzeme_Stock] (Charg,Clabs,Lgort,Matnr,Meins,Werks,Dlvry) VALUES (@Charg,@Clabs,@Lgort,@Matnr,@Meins,@Werks,@Dlvry)", conn);
                     cmd.CommandTimeout = 1000;
                     cmd.Parameters.AddWithValue("@Charg", birst[i].Charg);
                     cmd.Parameters.AddWithValue("@Clabs", birst[i].Clabs);
@@ -1659,6 +1659,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     catch { cmd.Parameters.AddWithValue("@Matnr", 0); }
                     cmd.Parameters.AddWithValue("@Meins", birst[i].Meins);
                     cmd.Parameters.AddWithValue("@Werks", birst[i].Werks);
+                    cmd.Parameters.AddWithValue("@Dlvry", birst[i].Dlvry);
                     conn.Open();
                     try { cmd.ExecuteNonQuery(); }
                     catch (Exception ex) { Hatalar.DoInsert(ex, "windows servis SAP malzemeler stock"); }
@@ -1773,9 +1774,9 @@ TRUNCATE TABLE [Web-Malzeme-Full]
 INSERT INTO [Web-Malzeme-Full] SELECT * FROM [Web_Malzeme] WITH (HOLDLOCK) WHERE FRM = 'TB80'
 INSERT INTO [Web-Malzeme-Full] 
 SELECT min([AP]),[ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ],[STOKE]
-,min([FRM]) AS FRM,[STOKIH],[STOKPL],[STOKTT],[STOKUR],[STOKTK],NTGEW
+,min([FRM]) AS FRM,[STOKIH],[STOKPL],[STOKTT],[STOKUR],[STOKTK],NTGEW,TSLMT
 FROM [dbo].[Web_Malzeme]  WITH (HOLDLOCK) WHERE FRM != 'TB80' AND ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Malzeme-Full])
-GROUP BY [ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ],[STOKE],[STOKIH],[STOKPL],[STOKTT],[STOKUR],[STOKTK],NTGEW
+GROUP BY [ITEMREF],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ],[STOKE],[STOKIH],[STOKPL],[STOKTT],[STOKUR],[STOKTK],NTGEW,TSLMT
 
 COMMIT TRANSACTION t_Transaction
 ", conn);
@@ -1810,6 +1811,9 @@ COMMIT TRANSACTION t_Transaction
                 SqlCommand cmd11 = new SqlCommand("UPDATE [Web-Malzeme] SET STOKE = (SELECT sum([Clabs]) FROM [Web_Malzeme_Stock] WHERE Lgort = 'TBET' AND Matnr = [Web-Malzeme].ITEMREF) FROM [Web-Malzeme] UPDATE [Web-Malzeme-Full] SET STOKE = (SELECT sum([Clabs]) FROM [Web_Malzeme_Stock] WHERE Lgort = 'TBET' AND Matnr = [Web-Malzeme-Full].ITEMREF) FROM [Web-Malzeme-Full]", conn);
                 cmd11.CommandTimeout = 1000;
 
+                SqlCommand cmd12 = new SqlCommand("UPDATE [Web-Malzeme] SET TSLMT = (SELECT sum([Dlvry]) FROM [Web_Malzeme_Stock] WHERE Matnr = [Web-Malzeme].ITEMREF) FROM [Web-Malzeme] UPDATE [Web-Malzeme-Full] SET TSLMT = (SELECT sum([Dlvry]) FROM [Web_Malzeme_Stock] WHERE Matnr = [Web-Malzeme-Full].ITEMREF) FROM [Web-Malzeme-Full]", conn);
+                cmd12.CommandTimeout = 1000;
+
                 conn.Open();
                 cmd2.ExecuteNonQuery();
                 cmd3.ExecuteNonQuery();
@@ -1821,6 +1825,7 @@ COMMIT TRANSACTION t_Transaction
                 cmd9.ExecuteNonQuery();
                 cmd10.ExecuteNonQuery();
                 cmd11.ExecuteNonQuery();
+                cmd12.ExecuteNonQuery();
                 conn.Close();
 
 

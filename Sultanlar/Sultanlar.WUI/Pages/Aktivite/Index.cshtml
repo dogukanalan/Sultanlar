@@ -101,7 +101,7 @@
                                 $("#selectAnlasmalar").append(
                                     $("<option></option>")
                                         .text(item.pkID + " (" + item.strAciklama1 + ")")
-                                        .val(item.pkID + ";;;" + item.flTAHIsk + ";;;" + item.flTAHCiroIsk + ";;;" + (item.flTAHCiro + item.flTAHCiro3 + item.flTAHCiro6 + item.flTAHCiro12) + ";;;" + + item.flYEGIsk + ";;;" + item.flYEGCiroIsk + ";;;" + (item.flYEGCiro + item.flYEGCiro3 + item.flYEGCiro6 + item.flYEGCiro12) + ";;;" + item.fiyatTip500 +
+                                        .val(item.pkID + ";;;" + item.flTAHIsk + ";;;" + item.flTAHCiroIsk + ";;;" + (item.flTAHCiro + item.flTAHCiro3 + item.flTAHCiro6 + item.flTAHCiro12) + ";;;" + + item.flYEGIsk + ";;;" + item.flYEGCiroIsk + ";;;" + (item.flYEGCiro + item.flYEGCiro3 + item.flYEGCiro6 + item.flYEGCiro12) + ";;;" + (item.fiyatTip500 < 1000 ? item.fiyatTip500 : 0) +
                                             ";;;" + item.tahSabitBedel + ";;;" + item.yegSabitBedel + ";;;" + item.mnTAHToplamCiro + ";;;" + item.mnYEGToplamCiro)
 
                                 );

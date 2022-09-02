@@ -10,6 +10,17 @@ function getCari(tip, smref, callback, controlid) {
         });
 }
 
+function hataekle(yer, json) {
+    $.ajax(
+        {
+            beforeSend: function (xhr) { xhrTicket(xhr); },
+            url: apiurl + 'Genel/HataEkle/' + yer + '/' + json,
+            success: function (data, textStatus, response) {
+                console.log(data);
+            }
+        });
+}
+
 function getCariSube(data, controlid) {
     $("#" + controlid).val(data.sube);
     document.getElementById(controlid).innerHTML = data.sube;

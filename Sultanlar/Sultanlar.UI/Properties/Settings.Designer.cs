@@ -36,7 +36,7 @@ namespace Sultanlar.UI.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
         public string Sultanlar_SAPsendorderC_ZwebSendSalesOrderService {
             get {
                 return ((string)(this["Sultanlar_SAPsendorderC_ZwebSendSalesOrderService"]));

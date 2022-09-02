@@ -35,7 +35,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>189</ApplicationRevision>
+    <ApplicationRevision>197</ApplicationRevision>
     <ApplicationVersion>2.3.4.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -1928,10 +1928,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_selectsalesvbfaC_ZwebSelectSalesVbfaService</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\SAPsendorderC\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebSendSalesOrder</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

@@ -1370,6 +1370,32 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
 
+        public static void SetSapDepo(string Neden, int IadeID)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE tblINTERNET_Iadeler SET strNedenKod = @strNedenKod WHERE pkIadeID = @pkIadeID", conn);
+                cmd.Parameters.Add("@strNedenKod", SqlDbType.VarChar, 5).Value = Neden;
+                cmd.Parameters.Add("@pkIadeID", SqlDbType.Int).Value = IadeID;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// Neden, Depo, UY, Parti
+        /// </summary>
+        /// <returns></returns>
         public static string[] GetSapDepo(int IadeID)
         {
             string[] donendeger = new string[4];

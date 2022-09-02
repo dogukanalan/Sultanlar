@@ -64,7 +64,7 @@ namespace Sultanlar.WCF
             if (string.IsNullOrEmpty(password))
                 throw new ArgumentNullException("password");
 
-            if (userName != "test" || password != "test")
+            if (userName != "komsu" || password != "tsoft")
                 throw new SecurityTokenException("Kullanıcı adı-parola yanlış.");
         }
     }

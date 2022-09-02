@@ -20,7 +20,7 @@ namespace Sultanlar.UI
 
         private void frmINTERNETticaripazarlamaaktivitetoptan_Load(object sender, EventArgs e)
         {
-            dateTimePicker1.Value = Convert.ToDateTime("2022.06.01");
+            dateTimePicker1.Value = Convert.ToDateTime(DateTime.Now.Year.ToString() + "." + DateTime.Now.Month.ToString() + ".01");
             dateTimePicker2.Value = Convert.ToDateTime(DateTime.Now.Year.ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month).ToString());
             GetVeri(1, dateTimePicker1.Value, dateTimePicker2.Value, "");
         }
@@ -39,12 +39,12 @@ namespace Sultanlar.UI
 
             DataTable dt = new DataTable();
             WebGenel.Sorgu(dt, @" 
-SELECT [Web-Malzeme-Full].[ITEMREF] AS [SAP Kodu],HIY2.METIN AS [Kategori],HIY1.METIN AS [Alt Kategori],HYRS_TANIM AS [Marka],[GRUP ACIK] AS [Ana Bölüm],[OZEL ACIK] AS [Bölüm],dbo.YeniBolum(PRIMB) AS [Grup],[MAL ACIK] AS [Malzeme],[BRUT] AS [Liste Fiyatı],[ISK1] AS [Uygulama],dbo.IskontoDus([BRUT],[ISK1]) AS [Uygulama Fiyatı]
-FROM [Web-Fiyat-TP-Donem]
-INNER JOIN [Web-Malzeme-Full] ON [Web-Malzeme-Full].ITEMREF = [Web-Fiyat-TP-Donem].ITEMREF
-INNER JOIN [Web-Malzeme-Hiyerarsi] AS HIY1 ON [Web-Malzeme-Full].HYRS = HIY1.KOD
-INNER JOIN [Web-Malzeme-Hiyerarsi] AS HIY2 ON LEFT([Web-Malzeme-Full].HYRS,8) = HIY2.KOD
-WHERE TUR = " + TUR.ToString() + " AND BASLANGIC <='" + Datecevir(BASLANGIC) + "' AND BITIS >= '" + Datecevir(BITIS) + "'" + malzeme + " ORDER BY [Kategori],[Alt Kategori],[Malzeme]");
+SELECT pkID,TUR,BASLANGIC,BITIS,[Web-Malzeme-Full].[ITEMREF],HIY2.METIN AS [KAT],HIY1.METIN AS [ALTKAT],HYRS_TANIM AS [MARKA],[GRUP ACIK] AS [ANABOLUM],[OZEL ACIK] AS [BOLUM],dbo.YeniBolum(PRIMB) AS [GRUP],[MAL ACIK] AS [MALZEME],[BRUT],[ISK1],dbo.IskontoDus([BRUT],[ISK1]) AS [FIYAT] 
+FROM [Web-Fiyat-TP-Donem] 
+INNER JOIN [Web-Malzeme-Full] ON [Web-Malzeme-Full].ITEMREF = [Web-Fiyat-TP-Donem].ITEMREF 
+INNER JOIN [Web-Malzeme-Hiyerarsi] AS HIY1 ON [Web-Malzeme-Full].HYRS = HIY1.KOD 
+INNER JOIN [Web-Malzeme-Hiyerarsi] AS HIY2 ON LEFT([Web-Malzeme-Full].HYRS,8) = HIY2.KOD 
+WHERE TUR = " + TUR.ToString() + " AND BASLANGIC <='" + Datecevir(BASLANGIC) + "' AND BITIS >= '" + Datecevir(BITIS) + "'" + malzeme + " ORDER BY [KAT],[ALTKAT],[Malzeme]");
             gridControl4.DataSource = dt;
             gridView4.BestFitColumns();
             label2.Text = " Satır Sayısı: " + gridView4.RowCount.ToString();
@@ -74,13 +74,13 @@ WHERE TUR = " + TUR.ToString() + " AND BASLANGIC <='" + Datecevir(BASLANGIC) + "
         {
             if (textBox1.Text.Length == 7 || textBox1.Text.Length == 0)
             {
-                GetVeri(radioButton1.Checked ? 1 : 2, dateTimePicker1.Value, dateTimePicker2.Value, textBox1.Text);
+                //GetVeri(radioButton1.Checked ? 1 : 2, dateTimePicker1.Value, dateTimePicker2.Value, textBox1.Text);
             }
         }
 
         private void btnToptanAltkanal_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Başlangıç: " + dateTimePicker1.Value.ToShortDateString() + "\r\nBitiş: " + dateTimePicker2.Value.ToShortDateString() + "\r\n\r\nAktarım bu şekilde olacaktır. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+            if (MessageBox.Show("Başlangıç: " + dateTimePicker1.Value.ToShortDateString() + "\r\nBitiş: " + dateTimePicker2.Value.ToShortDateString() + "\r\nTür: " + (radioButton1.Checked ? "Alt Kanal" : "Toptan") + "\r\n\r\nAktarım bu şekilde olacaktır. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
             {
                 return;
             }
@@ -169,17 +169,88 @@ WHERE TUR = " + TUR.ToString() + " AND BASLANGIC <='" + Datecevir(BASLANGIC) + "
             for (int i = 0; i < wfd.Count; i++)
             {
                 WebGenel.Sorgu(@"
-DELETE
-FROM [Web-Fiyat-TP-Donem]
+DELETE 
+FROM [Web-Fiyat-TP-Donem] 
 WHERE ITEMREF = " + ((FiyatDonem)wfd[i]).ITEMREF.ToString() + " AND TUR = " + ((FiyatDonem)wfd[i]).TUR.ToString() + " AND BASLANGIC = '" + Datecevir(((FiyatDonem)wfd[i]).BASLANGIC) + "' AND BITIS = '" + Datecevir(((FiyatDonem)wfd[i]).BITIS) + "'");
                 
-                WebGenel.Sorgu(@"
-INSERT INTO [Web-Fiyat-TP-Donem] ([TUR],[BASLANGIC],[BITIS],[ITEMREF],[BRUT],[ISK1],[ISK2],[ISK3],[ISK4]) VALUES
+                WebGenel.Sorgu(@"INSERT INTO [Web-Fiyat-TP-Donem] ([TUR],[BASLANGIC],[BITIS],[ITEMREF],[BRUT],[ISK1],[ISK2],[ISK3],[ISK4]) VALUES
 (" + ((FiyatDonem)wfd[i]).TUR.ToString() + ",'" + Datecevir(((FiyatDonem)wfd[i]).BASLANGIC) + "','" + Datecevir(((FiyatDonem)wfd[i]).BITIS) + "'," + ((FiyatDonem)wfd[i]).ITEMREF.ToString() + "," + ((FiyatDonem)wfd[i]).BRUT.ToString().Replace(",", ".") + "," + ((FiyatDonem)wfd[i]).ISK1.ToString().Replace(",", ".") + ",0,0,0)");
             }
 
             MessageBox.Show("Aktarım tamamlandı.", "Başarılı");
             GetVeri(radioButton1.Checked ? 1 : 2, dateTimePicker1.Value, dateTimePicker2.Value, "");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Trim() == "" || textBox2.Text.Trim() == "" || textBox3.Text.Trim() == "")
+            {
+                return;
+            }
+
+            string ITEMREF = "";
+            string BRUT = "";
+            string UYG = "";
+            try
+            {
+                ITEMREF = Convert.ToInt32(textBox1.Text.Trim()).ToString();
+                BRUT = Convert.ToDouble(textBox2.Text.Trim()).ToString();
+                UYG = Convert.ToDouble(textBox3.Text.Trim()).ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+
+            if (MessageBox.Show("Başlangıç: " + dateTimePicker1.Value.ToShortDateString() + "\r\nBitiş: " + dateTimePicker2.Value.ToShortDateString() + "\r\nTür: " + (radioButton1.Checked ? "Alt Kanal" : "Toptan") + "\r\nMalzeme: " + ITEMREF + "\r\nBrüt Fiyat: " + BRUT + "\r\nUygulama İskontosu: " + UYG + "\r\n\r\nAktarım bu şekilde olacaktır. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+            {
+                return;
+            }
+
+            WebGenel.Sorgu(@"
+DELETE 
+FROM [Web-Fiyat-TP-Donem] 
+WHERE ITEMREF = " + ITEMREF + " AND TUR = " + (radioButton1.Checked ? "1" : "2") + " AND BASLANGIC = '" + Datecevir(dateTimePicker1.Value) + "' AND BITIS = '" + Datecevir(dateTimePicker2.Value) + "'");
+
+            WebGenel.Sorgu(@"INSERT INTO [Web-Fiyat-TP-Donem] ([TUR],[BASLANGIC],[BITIS],[ITEMREF],[BRUT],[ISK1],[ISK2],[ISK3],[ISK4]) VALUES
+(" + (radioButton1.Checked ? "1" : "2") + ",'" + Datecevir(dateTimePicker1.Value) + "','" + Datecevir(dateTimePicker2.Value) + "'," + ITEMREF + "," + BRUT + "," + UYG + ",0,0,0)");
+
+            MessageBox.Show("Aktarım tamamlandı.", "Başarılı");
+            GetVeri(radioButton1.Checked ? 1 : 2, dateTimePicker1.Value, dateTimePicker2.Value, "");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (gridView4.SelectedRowsCount == 0 || gridView4.IsFilterRow(gridView4.GetSelectedRows()[0]))
+            {
+                return;
+            }
+
+            int ITEMREF = Convert.ToInt32(gridView4.GetRowCellValue(gridView4.GetSelectedRows()[0], "ITEMREF"));
+            int TUR = Convert.ToInt32(gridView4.GetRowCellValue(gridView4.GetSelectedRows()[0], "TUR"));
+            DateTime BASLANGIC = Convert.ToDateTime(gridView4.GetRowCellValue(gridView4.GetSelectedRows()[0], "BASLANGIC"));
+            DateTime BITIS = Convert.ToDateTime(gridView4.GetRowCellValue(gridView4.GetSelectedRows()[0], "BITIS"));
+            int ID = Convert.ToInt32(gridView4.GetRowCellValue(gridView4.GetSelectedRows()[0], "pkID"));
+
+            if (MessageBox.Show("Seçilen satır silinecektir. Devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+            {
+                return;
+            }
+
+            WebGenel.Sorgu(@"
+DELETE 
+FROM [Web-Fiyat-TP-Donem] 
+WHERE pkID = " + ID.ToString());
+
+            MessageBox.Show("Satır silindi.", "Başarılı");
+            GetVeri(radioButton1.Checked ? 1 : 2, dateTimePicker1.Value, dateTimePicker2.Value, "");
+
+        }
+
+        private void gridView4_ColumnFilterChanged(object sender, EventArgs e)
+        {
+            label2.Text = " Satır Sayısı: " + gridView4.RowCount.ToString();
         }
     }
 

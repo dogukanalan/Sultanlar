@@ -148,57 +148,69 @@
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     url: apiurl + 'Cari/GetCari/' + parammtip + '/' + paramsmref,
                     success: function (data1, textStatus, response) {
-                        console.log(data1.fiyatTip500);
 
-                        $.ajax(
-                            {
-                                xhr: function () { return xhrDownloadUpload(); },
-                                beforeSend: function (xhr) { xhrTicket(xhr); },
-                                url: apiurl + "uyeyetki/" + localStorage["musteri"],
-                                success: function (data, textStatus, response) {
-                                    checkAuth(response);
+                        if ((parammtip == 1 || parammtip == 2 || parammtip == 4 || parammtip == 5) && data1.fiyatTip500smref != 0) {
+                            $("#selectFiyatTipler").append(
+                                $("<option></option>")
+                                    .text(data1.fiyatTip500smrefack)
+                                    .val(data1.fiyatTip500smref)
+                            );
+                        } else if ((parammtip == 1 || parammtip == 2 || parammtip == 4 || parammtip == 5) && data1.fiyatTip500 != 0) {
+                            $("#selectFiyatTipler").append(
+                                $("<option></option>")
+                                    .text(data1.fiyatTip500ack)
+                                    .val(data1.fiyatTip500)
+                            );
+                        }
+                        else {
+                            $.ajax(
+                                {
+                                    xhr: function () { return xhrDownloadUpload(); },
+                                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                                    url: apiurl + "uyeyetki/" + localStorage["musteri"],
+                                    success: function (data, textStatus, response) {
+                                        checkAuth(response);
 
-                                    var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
+                                        var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
 
-                                    $.each(rootData, function (index, item) {
-                                        if (parammtip == 1 || parammtip == 2 || parammtip == 4 || parammtip == 5) {
-                                            if (data1.fiyatTip500 == 0) {
-                                                $("#selectFiyatTipler").append(
-                                                    $("<option></option>")
-                                                        .text(item.fiyatTipi.aciklama)
-                                                        .val(item.sintFiyatTipiID)
-                                                );
-                                            }
-                                            else {
-                                                if (data1.fiyatTip500 == item.sintFiyatTipiID) {
+                                        $.each(rootData, function (index, item) {
+                                            /*if (parammtip == 1 || parammtip == 2 || parammtip == 4 || parammtip == 5) {
+                                                if (data1.fiyatTip500smref == 0 && data1.fiyatTip500 == 0) {
                                                     $("#selectFiyatTipler").append(
                                                         $("<option></option>")
                                                             .text(item.fiyatTipi.aciklama)
                                                             .val(item.sintFiyatTipiID)
                                                     );
                                                 }
+                                                else {
+                                                    if (item.sintFiyatTipiID != 0 && data1.fiyatTip500 == item.sintFiyatTipiID) {
+                                                        $("#selectFiyatTipler").append(
+                                                            $("<option></option>")
+                                                                .text(item.fiyatTipi.aciklama)
+                                                                .val(item.sintFiyatTipiID)
+                                                        );
+                                                    }
+                                                }
                                             }
-                                        }
-                                        else {
+                                            else {
+                                                $("#selectFiyatTipler").append(
+                                                    $("<option></option>")
+                                                        .text(item.fiyatTipi.aciklama)
+                                                        .val(item.sintFiyatTipiID)
+                                                );
+                                            }*/
+
                                             $("#selectFiyatTipler").append(
                                                 $("<option></option>")
                                                     .text(item.fiyatTipi.aciklama)
                                                     .val(item.sintFiyatTipiID)
                                             );
-                                        }
-                                    });
-
-                                    if ((parammtip == 1 || parammtip == 2 || parammtip == 4 || parammtip == 5) && data1.fiyatTip500 != 0 && $('#selectFiyatTipler').find('option').length == 1) {
-                                        $("#selectFiyatTipler").append(
-                                            $("<option></option>")
-                                                .text(data1.fiyatTip500)
-                                                .val(data1.fiyatTip500)
-                                        );
-                                    }
-                                },
-                                error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
-                            }
-                        );
+                                        });
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                }
+                            );
+                        }
                     }
                 }
             );
@@ -265,6 +277,7 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
+                    //timeout: 15000,
                     url: apiurl + "ziyaret/varyokekle",
                     data: JSON.stringify(sentData),
                     contentType: 'application/json; charset=utf-8',
@@ -278,7 +291,19 @@
                             alert('Liste kaydedilemedi: ' + data);
                         window.location.href = 'Ziyaret';
                     },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) { alert('hata: ' + JSON.stringify(sentData)); window.location.href = 'Ziyaret'; }
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        if (XMLHttpRequest.readyState == 4) {
+                            alert('hata:' + JSON.stringify(sentData)); window.location.href = 'Ziyaret';
+                        }
+                        else if (XMLHttpRequest.readyState == 0) {
+                            alert('Bağlantı hatası.');
+                        }
+                        else {
+                            alert('hata: ' + JSON.stringify(sentData)); window.location.href = 'Ziyaret';
+                        }
+
+                        hataekle('ziyaretvaryok ' + XMLHttpRequest.readyState, btoa(JSON.stringify(sentData)));
+                    }
                 }
             );
         }
@@ -442,7 +467,7 @@
                         {
                             xhr: function () { return xhrDownloadUpload(); },
                             beforeSend: function (xhr) { xhrTicket(xhr); },
-                            url: apiurl + "fiyat/getbytipakt/" + fiyattip,
+                            url: apiurl + "fiyat/getbytip/" + fiyattip, //getbytipakt
                             success: function (data, textStatus, response) {
                                 checkAuth(response);
 

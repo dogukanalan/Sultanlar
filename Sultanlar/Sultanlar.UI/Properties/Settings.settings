@@ -6,7 +6,7 @@
       <Value Profile="(Default)">http://exper2.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
     </Setting>
     <Setting Name="Sultanlar_SAPsendorderC_ZwebSendSalesOrderService" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>
+      <Value Profile="(Default)">http://192.168.1.5:8000/sap/bc/soap/rfc</Value>
     </Setting>
     <Setting Name="Sultanlar_SAPchangeorderC_ZWEB_CHANGE_SALES_ORDERService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://stella.tibet.com.tr:8000/sap/bc/soap/rfc</Value>

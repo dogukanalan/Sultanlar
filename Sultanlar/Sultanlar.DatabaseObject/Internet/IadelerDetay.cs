@@ -375,5 +375,67 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
             }
         }
+        //
+        //
+        public static void SetSapDepo(string Depo, string UY, string PartiNo, long IadeDetayID)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE tblINTERNET_IadelerDetay SET strDepoKod = @strDepoKod, strDepoUY = @strDepoUY, strPartiNo = @strPartiNo WHERE pkIadeDetayID = @IadeDetayID", conn);
+                cmd.Parameters.Add("@strDepoKod", SqlDbType.NVarChar, 50).Value = Depo;
+                cmd.Parameters.Add("@strDepoUY", SqlDbType.NVarChar, 50).Value = UY;
+                cmd.Parameters.Add("@strPartiNo", SqlDbType.VarChar, 10).Value = PartiNo;
+                cmd.Parameters.Add("@IadeDetayID", SqlDbType.BigInt).Value = IadeDetayID;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// UY, Depo, Parti
+        /// </summary>
+        /// <returns></returns>
+        public static string[] GetSapDepo(long IadeDetayID)
+        {
+            string[] donendeger = new string[3];
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT strDepoUY, strDepoKod, strPartiNo FROM tblINTERNET_IadelerDetay WHERE pkIadeDetayID = @IadeDetayID", conn);
+                cmd.Parameters.Add("@IadeDetayID", SqlDbType.BigInt).Value = IadeDetayID;
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    if (dr.Read())
+                    {
+                        donendeger[0] = dr[0].ToString();
+                        donendeger[1] = dr[1].ToString();
+                        donendeger[2] = dr[2].ToString();
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
     }
 }

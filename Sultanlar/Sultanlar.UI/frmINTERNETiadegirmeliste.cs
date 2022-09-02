@@ -71,6 +71,7 @@ namespace Sultanlar.UI
                     id.intMiktar = Convert.ToInt32(dataGridView1.Rows[i].Cells["clintMiktar"].Value);
                     id.DoUpdate();
 
+                    IadelerDetay.SetSapDepo(dt.Rows[i]["strDepoKod"].ToString(), dt.Rows[i]["strDepoUY"].ToString(), dt.Rows[i]["strPartiNo"].ToString().ToUpper(), Convert.ToInt32(dt.Rows[i]["pkIadeDetayID"]));
 
 
                     /*DataTable dt1 = new DataTable();

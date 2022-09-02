@@ -1104,8 +1104,6 @@ namespace Sultanlar.UI
             string Aciklama2 = aciklamalar[1];
             string Aciklama3 = aciklamalar[2];
 
-            string[] depoveneden = Iadeler.GetSapDepo(iade.pkIadeID);
-
             SAPsendorderC.ZwebSendSalesOrderService clOrder = new SAPsendorderC.ZwebSendSalesOrderService();
             clOrder.Credentials = new System.Net.NetworkCredential("MISTIF", "Ankara1923*+B");
             SAPsendorderC.Zwebs010 header = new SAPsendorderC.Zwebs010();
@@ -1181,9 +1179,10 @@ namespace Sultanlar.UI
                 line[i].Isk10Specified = true;
                 line[i].Isk10 = 0;
 
-                line[i].Lgort = Iadeler.GetSapDepo(iade.pkIadeID)[1];
-                line[i].Werks = Iadeler.GetSapDepo(iade.pkIadeID)[2];
-                line[i].Charg = Iadeler.GetSapDepo(iade.pkIadeID)[3];
+                string[] depos = IadelerDetay.GetSapDepo(Convert.ToInt32(dt.Rows[i]["pkIadeDetayID"]));
+                line[i].Werks = depos[0];
+                line[i].Lgort = depos[1].Substring(0, 4);
+                line[i].Charg = depos[2];
             }
 
             string error = string.Empty;
@@ -1863,7 +1862,7 @@ namespace Sultanlar.UI
                 btnGeriAl.Visible = rbFiyatlandirilmisOnaylanmis.Checked || rbFaturalananlar.Checked || rbDegisimler.Checked || rbSevkIadeKabulArasi.Checked; // || rbCoptekiler2.Checked || rbReddedilenler.Checked
                 iadeyiGeriAlToolStripMenuItem.Enabled = btnGeriAl.Visible;
 
-                btnIadeRed.Visible = rbFiyatlandirilmamis.Checked || rbFaturalananlar.Checked || rbFiyatlandirilmisOnaylanmis.Checked || rbSevkIadeKabulArasi.Checked || rbSevkGelisBilgili.Checked; // || rbCoptekiler2.Checked
+                btnIadeRed.Visible = rbFiyatlandirilmamis.Checked || rbFaturalananlar.Checked || rbFiyatlandirilmisOnaylanmis.Checked || rbSevkIadeKabulArasi.Checked || rbSevkGelisBilgili.Checked || rbCoptekiler2.Checked; //
                 iadeyiReddetToolStripMenuItem.Enabled = btnIadeRed.Visible;
 
                 btnFiyatlandirmaIptal.Visible = rbFiyatlandirilmis.Checked;

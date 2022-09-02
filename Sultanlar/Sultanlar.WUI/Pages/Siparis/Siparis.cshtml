@@ -91,7 +91,7 @@
                     },
                     {
                         "data": "itemref", "class": "keyTd", render: function (data, type, row) {
-                            return '<select class="ddTur">' + (window.location.href.indexOf("Aktivite") > -1 ? '' : '<option value="ST" selected="selected">Adet</option>') + (window.location.href.indexOf("Iade") > -1 ? '' : '<option value="KI">Koli</option></select>');
+                            return '<select class="ddTur">' + (window.location.href.indexOf("Aktivite") > -1 ? '' : '<option value="ST">Adet</option>') + (window.location.href.indexOf("Iade") > -1 ? '' : '<option value="KI"' + (window.localStorage["miktar"] == 'KI' ? ' selected = "selected"' : '') + '>Koli</option></select>');
                         }
                     }
                 ],
