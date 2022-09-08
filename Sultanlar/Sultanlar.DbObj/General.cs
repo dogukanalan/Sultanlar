@@ -47,7 +47,7 @@ namespace Sultanlar.DbObj
         private void CmdInit(QueryType type, string text, int timeout, Dictionary<string, object> param)
         {
             cmd.CommandText = text;
-            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandType = text.StartsWith("db_sp_") || text.StartsWith("sp_") || text.StartsWith("_") ? CommandType.StoredProcedure : CommandType.Text;
             cmd.CommandTimeout = timeout;
             cmd.Parameters.Clear();
 

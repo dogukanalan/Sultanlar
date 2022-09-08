@@ -108,11 +108,14 @@ namespace Sultanlar.WebAPI.Services.Internet
 
                     if (sip.sintFiyatTipiID == 2)
                     {
-                        if (sip.SMREF == 1014039 || sip.SMREF == 1071782 || sip.SMREF == 1072515)
+                        if (sip.SMREF == 1014039 || sip.SMREF == 1071782 || sip.SMREF == 1072515 || sip.SMREF == 1072228)
                         {
                             fiyatlar fiy = new fiyatlar(20, sipdet.intUrunID).GetObject();
                             double f = fiy.FIYAT;
-                            double isk = mal.REYKOD == "T2" ? (sip.SMREF == 1014039 || sip.SMREF == 1071782 ? 15 : 12) : (sip.SMREF == 1014039 || sip.SMREF == 1071782 ? 11 : 9);
+
+                            CariHesaplarTPEk2 bayisart = CariHesaplarTPEk2.GetObject(sip.SMREF, DateTime.Now.Year, DateTime.Now.Month);
+
+                            double isk = mal.REYKOD == "T2" ? bayisart.YEG_KAR : bayisart.TAH_KAR; //(sip.SMREF == 1014039 || sip.SMREF == 1071782 || sip.SMREF == 1072228 ? 15 : 12) : (sip.SMREF == 1014039 || sip.SMREF == 1071782 ? 11 : 9);
                             //double fiynet = f - ((f / 100) * isk);
                             double fiykdv = f + ((f * mal.KDV) / 100);
                             siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, fiy.FIYAT, isk, 0, 0, 0, 0, 0, 0, 0, 0, 0);

@@ -23,7 +23,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             {
                 List<satisTemsilcileri> sattem = new satisTemsilcileri().GetObjects();
                 if (tumu)
-                    sattem.Insert(0, new satisTemsilcileri(0, 0, "", "Tümü"));
+                    sattem.Insert(0, new satisTemsilcileri(0, 0, "", "Tümü", "", "", ""));
                 return sattem;
             }
             else if (musteri.tintUyeTipiID == 4 || musteri.tintUyeTipiID == 6) // satici ise
