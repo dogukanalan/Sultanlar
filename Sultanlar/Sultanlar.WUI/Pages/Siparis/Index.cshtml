@@ -38,18 +38,18 @@
                                     var htmlText = '<table id="dtTable1" class="dtFiyat table table-striped table-bordered"><thead><tr><th class="keyTd">Fiyat Tipi Belirleyiniz</th></tr></thead><tbody>';
                                     $.each(rootData, function (i, item) {
 
-                                        //if (data1.fiyatTip500 == 0) {
+                                        if (data1.fiyatTip500 == 0) {
                                         htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
                                         htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
                                         htmlText += '</tr>';
-                                        /*}
+                                        }
                                         else {
                                             if (data1.fiyatTip500 == item.sintFiyatTipiID) {
                                                 htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
                                                 htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
                                                 htmlText += '</tr>';
                                             }
-                                        }*/
+                                        }
                                     });
                                     var miktar = '<select id="selectMiktar" style="width: 100%"><option value="ST">Varsayılan seçim miktarı: Adet</option><option value="KI"' + (window.localStorage["miktar"] == 'KI' ? ' selected = "selected"' : '') + '>Varsayılan seçim miktarı: Koli</option></select><br><br>';
                                     divData.innerHTML = miktar + htmlText + '</table>';
