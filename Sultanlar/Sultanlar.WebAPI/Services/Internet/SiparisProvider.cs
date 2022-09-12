@@ -96,7 +96,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             siparisler kopyalanacak = new siparisler(skg.SiparisID).GetObject();
             for (int i = 0; i < skg.SMREFs.Count; i++)
             {
-                siparisler sip = new siparisler(kopyalanacak.intMusteriID, skg.SMREFs[i].smref, kopyalanacak.sintFiyatTipiID, DateTime.Now, kopyalanacak.mnToplamTutar, false, kopyalanacak.TKSREF, DateTime.Now, kopyalanacak.strAciklama);
+                siparisler sip = new siparisler(kopyalanacak.intMusteriID, skg.SMREFs[i].smref, kopyalanacak.sintFiyatTipiID, DateTime.Now, kopyalanacak.mnToplamTutar, false, skg.SMREFs[i].tip, DateTime.Now, kopyalanacak.strAciklama);
                 sip.DoInsert();
                 cariHesaplar ch = new cariHesaplar(sip.SMREF).GetObject();
                 for (int j = 0; j < kopyalanacak.detaylar.Count; j++)

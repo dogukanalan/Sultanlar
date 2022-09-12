@@ -39,6 +39,7 @@ namespace Sultanlar.WebAPI.Models.Internet
     public class SiparisKopyaSmref
     {
         public int smref { get; set; }
+        public int tip { get; set; }
     }
 
     public class SiparisKaydet

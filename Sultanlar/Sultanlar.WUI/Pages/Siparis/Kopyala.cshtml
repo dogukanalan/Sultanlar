@@ -75,8 +75,8 @@
                         }
                     },
                     {
-                        "data": "smref", "class": "keyTd", render: function (data, type, row) {
-                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" accesskey="' + data + '" /><div class="state p-primary-o"><label></label></div></div>';
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" accesskey="' + data.smref + '" value="' + data.tip + '" /><div class="state p-primary-o"><label></label></div></div>';
                         }
                     }
                 ],
@@ -97,7 +97,7 @@
             sentValue = '{ "siparisID": ' + siparisid + ', "smreFs": [';
             $('.smm').each(function () {
                 if ($(this).is(':checked')) {
-                    sentValue += '{ "smref": ' + $(this).attr("accesskey") + ' },';
+                    sentValue += '{ "smref": ' + $(this).attr("accesskey") + ', "tip": ' + $(this).attr("value") + ' },';
                 }
             });
             sentValue = sentValue.substring(0, sentValue.length - 1) + '] }';
