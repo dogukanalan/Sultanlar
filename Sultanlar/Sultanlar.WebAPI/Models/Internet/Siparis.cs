@@ -47,6 +47,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public string musteri { get; set; }
         public int smref { get; set; }
         public short ftip { get; set; }
+        public int mtip { get; set; }
         public string aciklama { get; set; }
         public string teslim { get; set; }
         public List<SiparisKaydetDetay> detaylar { get; set; }

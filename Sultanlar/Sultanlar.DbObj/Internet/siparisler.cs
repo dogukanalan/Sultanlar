@@ -11,7 +11,7 @@ namespace Sultanlar.DbObj.Internet
         public int intMusteriID { get; set; }
         public musteriler Musteri { get { return new musteriler(intMusteriID).GetObject(); } }
         public int SMREF { get; set; }
-        public cariHesaplar Cari { get { return SMREF > 2000000 && SMREF < 3000000 ? new cariHesaplar().GetObject1(2, SMREF) : new cariHesaplar(SMREF).GetObject(); } }
+        public cariHesaplar Cari { get { return TKSREF == 0 || TKSREF == 1 ? new cariHesaplar(SMREF).GetObject() : new cariHesaplar().GetObject1(TKSREF, SMREF); } }
         public short sintFiyatTipiID { get; set; }
         public fiyatTipleri FiyatTipi { get { return new fiyatTipleri(sintFiyatTipiID).GetObject(); } }
         public DateTime dtOlusmaTarihi { get; set; }
@@ -39,7 +39,7 @@ namespace Sultanlar.DbObj.Internet
             this.dtOlusmaTarihi = dtOlusmaTarihi;
             this.mnToplamTutar = mnToplamTutar;
             this.blAktarilmis = blAktarilmis;
-            this.TKSREF = TKSREF;
+            this.TKSREF = TKSREF == 0 ? 1 : TKSREF;
             this.dtOnaylamaTarihi = dtOnaylamaTarihi;
             this.strAciklama = strAciklama;
         }
@@ -52,7 +52,7 @@ namespace Sultanlar.DbObj.Internet
             this.dtOlusmaTarihi = dtOlusmaTarihi;
             this.mnToplamTutar = mnToplamTutar;
             this.blAktarilmis = blAktarilmis;
-            this.TKSREF = TKSREF;
+            this.TKSREF = TKSREF == 0 ? 1 : TKSREF;
             this.dtOnaylamaTarihi = dtOnaylamaTarihi;
             this.strAciklama = strAciklama;
             this.detay = detay;

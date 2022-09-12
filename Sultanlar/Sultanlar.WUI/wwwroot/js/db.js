@@ -81,14 +81,14 @@ function siparisdbGetir(siparisid) {
                     return;
                 }
 
-                siparisdbSenkRoot(data, data.smref, data.pkSiparisID.toString(), data.sintFiyatTipiID.toString());
+                siparisdbSenkRoot(data, data.smref, data.pkSiparisID.toString(), data.sintFiyatTipiID.toString(), data.tksref.toString());
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
         }
     );
 }
 
-function sipariskaydet(paramsmref, paramftip, siparisid, paramonay, yonlendir) {
+function sipariskaydet(paramsmref, paramftip, parammtip, siparisid, paramonay, yonlendir) {
     var arrayFromCookie = JSON.parse(window.localStorage['sepet']);
 
     var yenisiparis = 0;
@@ -98,7 +98,7 @@ function sipariskaydet(paramsmref, paramftip, siparisid, paramonay, yonlendir) {
             beforeSend: function (xhr) { xhrTicket(xhr); },
             type: 'POST',
             url: apiurl + "siparis/kaydet",
-            data: stringifySepet(arrayFromCookie, paramsmref, paramftip, siparisid),
+            data: stringifySepet(arrayFromCookie, paramsmref, paramftip, parammtip, siparisid),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             success: function (data, textStatus, response) {

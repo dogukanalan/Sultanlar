@@ -710,10 +710,10 @@ function sleep(ms) {
 //    return sepet;
 //}
 
-function stringifySepet(sepet, smref, fiyattipi, siparisid) {
+function stringifySepet(sepet, smref, fiyattipi, mtip, siparisid) {
     var sentValue;
     for (var i = 0; i < sepet.length; i++) {
-        if (sepet[i].smref === smref && sepet[i].ftip === fiyattipi && sepet[i].siparisid === siparisid) {
+        if (sepet[i].smref === smref && sepet[i].ftip === fiyattipi && sepet[i].mtip === mtip && sepet[i].siparisid === siparisid) {
             var sepet2 = sepet[i];
             sepet2.musteri = window.localStorage["uyeid"];
             sentValue = JSON.stringify(sepet2);
@@ -806,13 +806,13 @@ function sipSil(cookie) {
     window.localStorage['sepetU'] = "[]";
 }
 
-function siparisdbSenkRoot(data, smref, siparisid, ftip) {
+function siparisdbSenkRoot(data, smref, siparisid, ftip, mtip) {
     var eskisepet = JSON.parse(window.localStorage['sepet']);
     var yenisepet = [];
     for (var i = 0; i < eskisepet.length; i++) { // diger siparisleri doldur
-        if (eskisepet[i].smref != smref || eskisepet[i].siparisid != siparisid || eskisepet[i].ftip != ftip) {
+        if (eskisepet[i].smref != smref || eskisepet[i].siparisid != siparisid || eskisepet[i].ftip != ftip || eskisepet[i].mtip != mtip) {
             yenisepet.push(
-                { siparisid: eskisepet[i].siparisid, smref: eskisepet[i].smref, ftip: eskisepet[i].ftip, aciklama: eskisepet[i].aciklama, teslim: eskisepet[i].teslim, musteri: window.localStorage["uyeid"], detaylar: eskisepet[i].detaylar }
+                { siparisid: eskisepet[i].siparisid, gmref: eskisepet[i].gmref, smref: eskisepet[i].smref, ftip: eskisepet[i].ftip, mtip: eskisepet[i].mtip, aciklama: eskisepet[i].aciklama, teslim: eskisepet[i].teslim, musteri: window.localStorage["uyeid"], detaylar: eskisepet[i].detaylar }
             );
         }
     }
@@ -820,8 +820,10 @@ function siparisdbSenkRoot(data, smref, siparisid, ftip) {
     var icsepet =
     {
         siparisid: data.pkSiparisID.toString(),
+        gmref: data.cari.gmref.toString(),
         smref: data.smref.toString(),
         ftip: data.sintFiyatTipiID.toString(),
+        mtip: data.tksref.toString(),
         aciklama: data.aciklama2,
         teslim: data.aciklama3,
         musteri: window.localStorage["uyeid"],
@@ -844,7 +846,7 @@ function siparisdbSenkRoot(data, smref, siparisid, ftip) {
     });
     yenisepet.push(icsepet); // yeni siparisi doldur
     window.localStorage["sepet"] = JSON.stringify(yenisepet);
-    window.location.href = 'Icerik?smref=' + data.smref + '&ftip=' + data.sintFiyatTipiID + '&siparisid=' + data.pkSiparisID;
+    window.location.href = 'Icerik?smref=' + data.smref + '&gmref=' + data.cari.gmref + '&ftip=' + data.sintFiyatTipiID + '&mtip=' + data.tksref + '&siparisid=' + data.pkSiparisID;
 }
 
 function iadeSil(cookie) {

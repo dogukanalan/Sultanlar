@@ -22,7 +22,7 @@ namespace Sultanlar.WCF
 
             Siparisler sip = Siparisler.GetObjectsBySiparisID(Convert.ToInt32(context.Request.QueryString["siparisid"]));
 
-            if (Musteriler.GetMusteriByID(Convert.ToInt32(context.Request.QueryString["musteriid"])).blTaksitPlani) // harici bayi elemanı
+            if (Musteriler.GetMusteriByID(Convert.ToInt32(context.Request.QueryString["musteriid"])).blTaksitPlani || sip.TKSREF > 1) // harici bayi elemanı
             {
                 sip.dtOnaylamaTarihi = DateTime.Now;
                 sip.blAktarilmis = true;

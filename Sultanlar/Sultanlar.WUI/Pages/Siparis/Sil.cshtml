@@ -26,6 +26,7 @@
                     return;
                 }
                 document.getElementById("basTitle").innerHTML = "Sipariş Sil (" + json.pkSiparisID + ")";
+                document.getElementById("sipMus").innerHTML = json.cari.sube;
             }).DataTable({
                 ajax: {
                     dataSrc: "detaylar",
@@ -85,6 +86,7 @@
         }
     </script>
 }
+<h5 class="spanCiplak" id="sipMus"></h5>
 <div class="centerVeMiddle">
     <input type="button" class="btn btn-success secimTus" value="Siparişi Sistemden Sil" onclick="sil()" />
     <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.location.href = 'Siparisler'" />

@@ -24,6 +24,21 @@
         var table;
 
         function getFiyatlar() {
+            /*$.ajax(
+                {
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + 'fiyat/GetVyByGMREF/' + paramgmref,
+                    success: function (data, textStatus, response) {
+                        callback(data, controlid);
+                    }
+                }
+            ).then(function (data) {
+
+                table.dataTable().fnClearTable();
+                table.dataTable().fnAddData(data);
+                
+            });*/
+
             var url1 = apiurl + "fiyat/getbytip/" + getParameterByName("ftip");
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
@@ -43,6 +58,30 @@
                     $('.dataTables_filter input').keyup(function () {
                         $(this).val($(this).val().toLocaleUpperCase());
                     });
+
+                    var datatablethis = $(this);
+                    $.ajax(
+                        {
+                            beforeSend: function (xhr) { xhrTicket(xhr); },
+                            url: apiurl + 'fiyat/GetVyByGMREF/' + getParameterByName("gmref"),
+                            success: function (data, textStatus, response) {
+
+                                if (data.length > 0) {
+                                    var newjson = [];
+                                    $.each(json, function (i, item) {
+                                        $.each(data, function (i, item2) {
+                                            if (item.itemref == item2.itemref) {
+                                                newjson.push(item);
+                                            }
+                                        });
+                                    });
+                                    datatablethis.dataTable().fnClearTable();
+                                    datatablethis.dataTable().fnAddData(newjson);
+                                }
+
+                            }
+                        }
+                    );
                 },
                 "fnDrawCallback": function (oSettings) {
                     qtip();
@@ -165,7 +204,7 @@
 
                     for (var j = 0; j < cookie.length; j++) {
                         var cookiedet = cookie[j].detaylar;
-                        if (cookie[j].smref == paramsmref && cookie[j].ftip == paramftip && cookie[j].siparisid == siparisid) {
+                        if (cookie[j].smref == paramsmref && cookie[j].ftip == paramftip && cookie[j].mtip == parammtip && cookie[j].siparisid == siparisid) {
                             for (var i = 0; i < cookiedet.length; i++) {
                                 if (cookiedet[i].itemref == itref && cookiedet[i].miktartur == miktur) {
                                     cookiedet[i].miktar = parseInt(cookiedet[i].miktar) + mik;
@@ -218,7 +257,7 @@
             var cookie = JSON.parse(getLocal());
             var degistirildi = false;
             for (var i = 0; i < cookie.length; i++) {
-                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].siparisid == siparisid) {
+                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].mtip == parammtip && cookie[i].siparisid == siparisid) {
                     degistirildi = true;
                     cookie[i].aciklama = $("#inputAciklama").val();
                     cookie[i].teslim = $("#inputTeslim").val();
@@ -233,7 +272,7 @@
             var varmis = false;
 
             for (var i = 0; i < cookie.length; i++) {
-                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].siparisid == siparisid) {
+                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].mtip == parammtip && cookie[i].siparisid == siparisid) {
                     varmis = true;
                     $("#inputAciklama").val(cookie[i].aciklama);
                     $("#inputTeslim").val(cookie[i].teslim);
@@ -244,8 +283,10 @@
                 cookie.push(
                     {
                         siparisid: siparisid,
+                        gmref: paramgmref,
                         smref: paramsmref,
                         ftip: paramftip,
+                        mtip: parammtip,
                         aciklama: $("#inputAciklama").val(),
                         teslim: $("#inputTeslim").val(),
                         musteri: window.localStorage["uyeid"],
@@ -259,7 +300,7 @@
         function ftipdegisti() {
             var cookie = JSON.parse(getLocal());
             for (var i = 0; i < cookie.length; i++) {
-                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].siparisid == siparisid) {
+                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].mtip == parammtip && cookie[i].siparisid == siparisid) {
                     var yenidetaylar = [];
 
                     for (var j = 0; j < cookie[i].detaylar.length; j++) {

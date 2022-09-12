@@ -35,5 +35,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet, Route("internet/[controller]/[action]/{YIL}/{AY}/{TIP}/{ITEMREF}")]
         public fiyatlarTp GetOneTP(int YIL, int AY, int TIP, int ITEMREF) => new FiyatProvider().FiyatTP(YIL, AY, TIP, ITEMREF);
+
+        [HttpGet, Route("internet/[controller]/[action]/{GMREF}")]
+        public List<fiyatlar> GetVyByGMREF(int GMREF) => new FiyatProvider().FiyatlarVy(GMREF);
     }
 }
