@@ -12,6 +12,7 @@
     <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
 
     <script>
+        var paramgmref;
         var paramsmref;
         var paramftip;
         var siparisid;
@@ -244,6 +245,7 @@
 
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
+            paramgmref = getParameterByName('gmref');
             paramsmref = getParameterByName('smref');
             paramftip = getParameterByName('ftip');
             siparisid = getParameterByName('siparisid');
@@ -252,7 +254,7 @@
             sipGoster();
             UyeYetkileri(localStorage["musteri"]);
             $('#fiyattipleri').on('change', function (e) {
-                ftipdegistir($(this).val());
+                //ftipdegistir($(this).val());
             });
             $('.inputSecim').on('input', delay(function (e) {
                 urunGuncelle($(this).closest("tr").find(".itemref").text(), $(this).closest("tr").find(".spMiktarTur").attr("rel"), this.value);
@@ -260,10 +262,10 @@
         });
     </script>
 }
-<select id="fiyattipleri"></select>
+<select id="fiyattipleri" disabled></select>
 <br />
 <br />
-<input type="button" class="btn btn-info secimTus" value="Ürün Listesine Dön" onclick="window.location.href = 'Siparis?smref=' + paramsmref + '&siparisid=' + siparisid + '&ftip=' + paramftip" />
+<input type="button" class="btn btn-info secimTus" value="Ürün Listesine Dön" onclick="window.location.href = 'Siparis?gmref=' + paramgmref + '&smref=' + paramsmref + '&siparisid=' + siparisid + '&ftip=' + paramftip + '&mtip=' + parammtip" />
 <input type="button" class="btn btn-danger secimTus" value="İçeriği Sil" onclick="sil()" />
 <input type="button" class="btn btn-danger secimTus" value="Siparişi Sil" onclick="sSil()" />
 <input type="button" class="btn btn-success secimTus" value="Siparişi Kaydet" onclick="kaydet()" />

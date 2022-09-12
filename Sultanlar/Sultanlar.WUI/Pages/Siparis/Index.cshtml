@@ -19,6 +19,10 @@
     </style>
 
     <script type="text/javascript">
+        var paramgmref;
+        var paramsmref;
+        var parammtip;
+
         function UyeYetkileri(uyeid) {
             $.ajax(
                 {
@@ -38,14 +42,14 @@
                                     var htmlText = '<table id="dtTable1" class="dtFiyat table table-striped table-bordered"><thead><tr><th class="keyTd">Fiyat Tipi Belirleyiniz</th></tr></thead><tbody>';
                                     $.each(rootData, function (i, item) {
 
-                                        if (data1.fiyatTip500 == 0) {
-                                        htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
-                                        htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
-                                        htmlText += '</tr>';
+                                        if (data1.fiyatTip500 == 0 || data1.fiyatTip500 > 5000) {
+                                            htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?gmref=' + paramgmref + '&smref=' + paramsmref + '&ftip=' + rootData[i].sintFiyatTipiID + '&mtip=' + parammtip + '\'">';
+                                            htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
+                                            htmlText += '</tr>';
                                         }
                                         else {
                                             if (data1.fiyatTip500 == item.sintFiyatTipiID) {
-                                                htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
+                                                htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?gmref=' + paramgmref + '&smref=' + paramsmref + '&ftip=' + rootData[i].sintFiyatTipiID + '&mtip=' + parammtip + '\'">';
                                                 htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
                                                 htmlText += '</tr>';
                                             }
@@ -133,11 +137,16 @@
         }
 
         $(document).ready(function () {
+            paramgmref = getParameterByName('gmref');
+            paramsmref = getParameterByName('smref');
+            parammtip = getParameterByName('mtip');
+            getCari(parammtip, paramsmref, getCariSube, "sipMus");
             Bilgiler();
             UyeYetkileri(localStorage["musteri"]);
         });
     </script>
 }
+<h5 class="spanCiplak" id="sipMus"></h5>
 <table id="dtTable2" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>
         <tr>

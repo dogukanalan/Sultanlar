@@ -16,8 +16,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
 
     <script>
+        var paramgmref;
         var paramsmref;
         var paramftip;
+        var parammtip;
         var siparisid;
         var table;
 
@@ -146,7 +148,7 @@
 
         function siparisiGoster() {
             sencHeader();
-            window.location.href = 'Icerik?smref=' + paramsmref + '&ftip=' + paramftip + '&siparisid=' + siparisid;
+            window.location.href = 'Icerik?gmref=' + paramgmref + '&smref=' + paramsmref + '&ftip=' + paramftip + '&mtip=' + parammtip + '&siparisid=' + siparisid;
         }
 
         function sipariseAktar() {
@@ -306,8 +308,10 @@
         }
 
         $(document).ready(function () {
+            paramgmref = getParameterByName('gmref');
             paramsmref = getParameterByName('smref');
             paramftip = getParameterByName('ftip');
+            parammtip = getParameterByName('mtip');
             siparisid = getParameterByName('siparisid') ? getParameterByName('siparisid') : "0";
 
             $('#inputTeslim').datepicker({
@@ -322,7 +326,7 @@
             $('#inputAciklama').on('keyup', function (ev) { sencHeader(); });
 
             header();
-            getCari("1", paramsmref, getCariSube, "sipMus");
+            getCari(parammtip, paramsmref, getCariSube, "sipMus");
             getFiyatlar();
             $('#dtTable').on('draw.dt', function () {
 
@@ -372,6 +376,9 @@
           </label>
           <label class="btn btn-primary">
               <input type="radio" name="options" id="option4" value="YEG"> YEG
+          </label>
+          <label class="btn btn-primary">
+              <input type="radio" name="options" id="option4" value="ÇAPA MEDİKAL"> Banduff
           </label>
           <label class="btn btn-primary">
               <input type="radio" name="options" id="option4" value="DİĞER"> Diğer
