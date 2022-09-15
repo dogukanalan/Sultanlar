@@ -174,14 +174,38 @@
             });
         }
 
+        function VaryokKontrol() {
+            var ziyaretid = JSON.parse(window.localStorage["ziyaret"]).barkod;
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "ziyaret/varyokgetir/" + ziyaretid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data.pkID > 0) {
+                            KoordinatBaslat();
+                            ZiyaretSonlandirma();
+                        }
+                        else {
+                            window.location.href = 'Ziyaret';
+                            alert("Varyok listesi girilmemiş, liste göndermeden ziyaret bitirilemez.");
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
         voiceText = '';
         konusuldu = '';
 
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
             if (window.localStorage["ziyaret"]) {
-                KoordinatBaslat();
-                ZiyaretSonlandirma();
+                VaryokKontrol();
             }
             else {
                 window.location.href = '../Musteri';
