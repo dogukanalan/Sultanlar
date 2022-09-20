@@ -101,5 +101,20 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<fiyatTipleri> GetObjects500birlikte()
+        {
+            List<fiyatTipleri> donendeger = new List<fiyatTipleri>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_fiyatTip500BirlikteGetir", timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new fiyatTipleri(ConvertToInt32(dic[i][0]), dic[i][1].ToString(), ConvertToInt32(dic[i][2])));
+
+            return donendeger;
+        }
     }
 }

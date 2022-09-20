@@ -37,5 +37,7 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal fiyatlarTp FiyatTP(int YIL, int AY, int TIP, int ITEMREF) => new fiyatlarTp(YIL, AY, TIP, ITEMREF).GetObject();
 
         internal List<fiyatlar> FiyatlarVy(int GMREF) => new fiyatlar().GetObjectsVY(GMREF);
+
+        internal List<fiyatTipleri> FiyatTipler500birlikte() => new fiyatTipleri().GetObjects500birlikte();
     }
 }

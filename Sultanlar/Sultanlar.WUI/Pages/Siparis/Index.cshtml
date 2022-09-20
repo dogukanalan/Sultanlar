@@ -52,6 +52,23 @@
                                                 htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?gmref=' + paramgmref + '&smref=' + paramsmref + '&ftip=' + rootData[i].sintFiyatTipiID + '&mtip=' + parammtip + '\'">';
                                                 htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
                                                 htmlText += '</tr>';
+
+                                                $.ajax(
+                                                    {
+                                                        xhr: function () { return xhrDownloadUpload(); },
+                                                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                                                        url: apiurl + "fiyat/getfiyattipler500birlikte",
+                                                        async: false,
+                                                        success: function (data2, textStatus, response) {
+
+                                                            $.each(data2, function (i, item2) {
+                                                                htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?gmref=' + paramgmref + '&smref=' + paramsmref + '&ftip=' + item2.nosu + '&mtip=' + parammtip + '\'">';
+                                                                htmlText += '<td class="valueTd">' + item2.aciklama + '</td>';
+                                                                htmlText += '</tr>';
+                                                            });
+                                                        },
+                                                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                                    });
                                             }
                                         }
                                     });

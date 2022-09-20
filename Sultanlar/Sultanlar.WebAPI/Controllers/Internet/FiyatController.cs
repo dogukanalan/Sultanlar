@@ -38,5 +38,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet, Route("internet/[controller]/[action]/{GMREF}")]
         public List<fiyatlar> GetVyByGMREF(int GMREF) => new FiyatProvider().FiyatlarVy(GMREF);
+
+        [HttpGet, Route("internet/[controller]/[action]")]
+        public List<fiyatTipleri> GetFiyatTipler500birlikte() => new FiyatProvider().FiyatTipler500birlikte();
     }
 }
