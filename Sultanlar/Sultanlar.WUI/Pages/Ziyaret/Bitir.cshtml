@@ -30,6 +30,7 @@
 
             if (window.localStorage['sepetV']) {
                 if (confirm('Var/yok listesi girilmiş fakat gönderilmemiş, ziyaret sonlandırıldığında var/yok listesi silinecektir. Devam etmek istiyor musunuz?') != true) {
+                    window.location.href = 'Varyok';
                     return;
                 }
             }
@@ -205,7 +206,9 @@
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
             if (window.localStorage["ziyaret"]) {
-                VaryokKontrol();
+                //VaryokKontrol();
+                KoordinatBaslat();
+                ZiyaretSonlandirma();
             }
             else {
                 window.location.href = '../Musteri';
