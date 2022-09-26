@@ -12,7 +12,7 @@ namespace Sultanlar.DbObj.Internet
         public string RutTuru { get { return RUT_TUR == 1 ? "PLANLI RUT" : "PLANSIZ RUT"; } }
         public string RUT_ID { get; set; }
         public int GMREF { get; set; }
-        public cariHesaplar AnaCari { get { return new cariHesaplar().GetObject1(MTIP, GMREF); } }
+        public cariHesaplar AnaCari { get { return new cariHesaplar(GMREF).GetObject(); } }
         public int SMREF { get; set; }
         public cariHesaplar Cari { get { return new cariHesaplar().GetObject1(MTIP, SMREF); } }
         public int SLSREF { get; set; }

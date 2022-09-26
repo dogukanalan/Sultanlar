@@ -342,6 +342,30 @@ namespace Sultanlar.DatabaseObject
                 }
             }
         }
+        public static void SorguCl(IList List, string sorgu)
+        {
+            List.Clear();
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand(sorgu, conn);
+                    SqlDataReader dr;
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        List.Add(new WebGenelClass() { Kod = Convert.ToInt32(dr[0]), Acik = dr[1].ToString() });
+                    }
+                    conn.Close();
+                }
+                catch (Exception ex)
+                {
+                    Hatalar.DoInsert(ex, "webgenel sorgu: " + sorgu);
+                }
+            }
+        }
         public static string SorguSkalar(string sorgu)
         {
             string donendeger = string.Empty;
@@ -582,6 +606,16 @@ namespace Sultanlar.DatabaseObject
                     conn.Close();
                 }
             }
+        }
+    }
+
+    public class WebGenelClass
+    {
+        public int Kod { get; set; }
+        public string Acik { get; set; }
+        public override string ToString()
+        {
+            return Acik;
         }
     }
 }

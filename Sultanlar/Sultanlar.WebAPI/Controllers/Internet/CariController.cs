@@ -26,6 +26,9 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpPost, Route("internet/[controller]/[action]/{gmref}/{slsref}")]
         public DtAjaxResponse GetSube1(int gmref, int slsref, [FromBody]DataTableAjaxPostModel req) => new CariProvider().Cariler1Sub(gmref, slsref, req);
 
+        [HttpPost, Route("internet/[controller]/[action]/{gmref}/{slsref}")]
+        public DtAjaxResponse GetSube1detayli(int gmref, int slsref, [FromBody] DataTableAjaxPostModel req) => new CariProvider().Cariler1SubDetayli(gmref, slsref, req);
+
         [HttpGet, Route("internet/[controller]/[action]/{gmref}")]
         public List<cariHesaplar> GetSubeTp(int gmref) => new CariProvider().CarilerTpSub(gmref);
 

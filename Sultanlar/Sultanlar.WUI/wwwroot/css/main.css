@@ -696,12 +696,12 @@ iframe {
     }
 
     .sinirli3 {
-        font-size: 0.95rem;
+        font-size: 0.80rem;
         white-space: nowrap;
         display: inline-block;
         overflow: hidden !important;
         text-overflow: ellipsis;
-        width: 180px;
+        width: 160px;
     }
 
     .sinirli4 {

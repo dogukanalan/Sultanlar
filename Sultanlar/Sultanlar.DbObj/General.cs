@@ -147,6 +147,12 @@ namespace Sultanlar.DbObj
             return donendeger;
         }
 
+        protected byte[] ConvertToByteArray(object obj)
+        {
+            byte[] donendeger = obj == DBNull.Value ? null : (byte[])obj;
+            return donendeger;
+        }
+
         protected short ConvertToInt16(object obj)
         {
             short donendeger = 0;

@@ -24,6 +24,18 @@ function hataekle(yer, json) {
 function getCariSube(data, controlid) {
     $("#" + controlid).val(data.sube);
     document.getElementById(controlid).innerHTML = data.sube;
+
+    if (document.getElementById("divCariAcikGunler")) {
+        $.each(data.acik.gunler, function (index, item) {
+            document.getElementById("divCariAcikGunler").innerHTML = item.gunack.aciklama + ' (' + item.baslangic.substring(0, 10) + ' : ' + item.bitis.substring(0, 10) + ')<br>';
+        });
+    }
+
+    if (document.getElementById("divCariAcikYetkililer")) {
+        $.each(data.acik.yetkililer, function (index, item) {
+            document.getElementById("divCariAcikYetkililer").innerHTML = item.isim + ' ' + item.soyisim + ' (' + item.turack.aciklama + ': ' + item.unvan + ') (' + item.cep + ' ' + item.eposta + ')<br>';
+        });
+    }
 }
 
 function getCariMusteri(data, controlid) {

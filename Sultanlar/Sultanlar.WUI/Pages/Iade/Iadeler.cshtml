@@ -14,6 +14,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
 
     <script>
+        var table;
+
         function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
         function getGmref() { return getParameterByName("gmref") ? getParameterByName("gmref") : "0"; }
         function getSmref() { return getParameterByName("smref") ? getParameterByName("smref") : "0"; }
@@ -79,7 +81,7 @@
         }
 
         function IadelerGetir(slsref, gmref, smref) {
-            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
                 "responsive": true,
@@ -184,6 +186,11 @@
                 "deferRender": true,
                 "order": [[0, "desc"]]
             });
+
+            $("div.dataTables_filter input").unbind();
+            $("div.dataTables_filter input").on('keyup change', delay(function () {
+                table.search(this.value).draw();
+            }, aramadelay));
         }
 
         function init() {

@@ -32,12 +32,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             if (zget.search.value != "")
             {
                 donendeger2 = donendeger2.ToList().Where(k =>
-                    k.Cari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.Cari.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.Satici.SATTEM.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.AnaCari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.AnaCari.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.ZiyaretNeden.value.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1
+                    k.Cari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1
                 ).ToList();
             }
             donendeger.recordsFiltered = donendeger2.Count;

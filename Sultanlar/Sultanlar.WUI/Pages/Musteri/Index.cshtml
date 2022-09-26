@@ -58,14 +58,15 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        var htmlText = '<table id="dtTable" class="table table-striped table-bordered" style="width:100%"><thead><tr><th class="keyTd hidewhenmobile">Kod</th><th class="keyTd hidewhenmobile">Tip</th><th class="keyTd">Müşteri</th><th class="keyTd hidewhenmobile">Adres</th><th></th></tr></thead><tbody>';
+                        var htmlText = '<table id="dtTable" class="table table-striped table-bordered" style="width:100%"><thead><tr><th class="keyTd hidewhenmobile">Kod</th><th class="keyTd hidewhenmobile">Tip</th><th class="keyTd">Müşteri</th><th class="keyTd hidewhenmobile">Adres</th><th class="keyTd">V/Y</th><th></th></tr></thead><tbody>';
                         $.each(data, function (i, item) {
                             htmlText += '<tr>';
                             htmlText += '<td class="keyTd hidewhenmobile"><span class="sinirli">' + data[i].gmref + '</span></td>';
                             htmlText += '<td class="keyTd hidewhenmobile"><span class="sinirli">' + data[i].mtaciklama + '</span></td>';
                             htmlText += '<td class="valueTd"><span class="sinirli3" data-toggle="tooltip" title="' + data[i].musteri + '">' + data[i].musteri + '</span></td>';
                             htmlText += '<td class="valueTd hidewhenmobile"><span>' + data[i].adres + '</span></td>';
-                            htmlText += '<td class="keyTd"><a href="javascript:showSubMenu(div' + data[i].gmref + ')" class="btn btn-primary">İşlemler</a><div class="subMenu" id="div' + data[i].gmref + '">' +
+                            htmlText += '<td class="keyTd">' + (data[i].fiyatTip500 != 0 ? '<a href="Ziyaret/Varyok?gmref=' + data[i].gmref + '&smref=' + data[i].smref + '&mtip=' + data[i].tip + '&ziyaretid=0&ftip=' + data[i].fiyatTip500 + '">' : '') + '<span data-toggle="tooltip" title="' + (data[i].fiyatTip500 == 0 ? '-' : data[i].fiyatTip500ack) + '">' + (data[i].fiyatTip500 == 0 ? 'Y' : data[i].fiyatTip500) + '</span>' + (data[i].fiyatTip500 != 0 ? '</a>' : '') + '</td>';
+                            htmlText += '<td class="keyTd"><a href="javascript:showSubMenu(div' + data[i].gmref + ')" class="btn btn-primary">İşlem</a><div class="subMenu" id="div' + data[i].gmref + '">' +
                                 '<a href="Musteri/Musteri?gmref=' + data[i].gmref + '&slsref=' + slsref + '">Alt Cariler</a>' +
                                 (data[i].mtkod != "Z1" ? '<a href="Anlasma/?smref=' + data[i].gmref + '&tip=' + data[i].tip + '">Anlaşma</a>' : "") +
                                 '<a href="Aktivite/?smref=' + data[i].gmref + '&ftip=' + (data[i].mtkod == "Z1" ? "25" : (data[i].fiyatTip500 == 0 || data[i].fiyatTip500 > 1000 ? "7" : data[i].fiyatTip500)) + '&tip=' + data[i].tip + '&aktiviteid=0">Aktivite</a>' +
