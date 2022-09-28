@@ -94,7 +94,7 @@ namespace Sultanlar.WebAPI.Models.Internet
     public class ZiyaretVaryokDetay
     {
         public int itemref { get; set; }
-        //public bool Isaret { get; set; }
+        public bool isaret { get; set; }
         public bool varyok { get; set; }
         public bool depo { get; set; }
         public bool raf { get; set; }

@@ -62,7 +62,9 @@
                     },
                     {
                         "data": null, "class": "keyTd", render: function (data, type, row) {
-                            return (data.fiyatTip500smref != 0 ? '<a href="../Ziyaret/Varyok?gmref=' + data.gmref + '&smref=' + data.smref + '&mtip=' + data.tip + '&ziyaretid=0&ftip=' + data.fiyatTip500smref + '">' : '') + '<span data-toggle="tooltip" title="' + (data.fiyatTip500smref == 0 ? '-' : data.fiyatTip500smrefack) + '">' + (data.fiyatTip500smref == 0 ? 'Y' : data.fiyatTip500smref) + '</span>' + (data.fiyatTip500smref != 0 ? '</a>' : '');
+                            var fiyattip500 = data.fiyatTip500smref != 0 ? data.fiyatTip500smref : data.fiyatTip500;
+                            var fiyattip500ack = data.fiyatTip500smrefack ? data.fiyatTip500smrefack : data.fiyatTip500ack;
+                            return (fiyattip500 != 0 ? '<a href="../Ziyaret/Varyok?gmref=' + data.gmref + '&smref=' + data.smref + '&mtip=' + data.tip + '&ziyaretid=0&ftip=' + fiyattip500 + '">' : '') + '<span data-toggle="tooltip" title="' + (fiyattip500 == 0 ? '-' : fiyattip500ack) + '">' + (fiyattip500 == 0 ? 'Y' : fiyattip500) + '</span>' + (fiyattip500 != 0 ? '</a>' : '');
                         },
                         "width": "10%"
                     },

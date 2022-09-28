@@ -143,7 +143,10 @@ namespace Sultanlar.WebAPI.Services.Internet
                 vyd.RAF_FIYAT = varyok.detays[i].raffiyat;
                 vyd.SKT = varyok.detays[i].skt;
                 vyd.SIPARIS = varyok.detays[i].siparis;
-                vyd.DoInsert();
+                if (varyok.detays[i].isaret)
+                    vyd.DoInsert();
+                else
+                    vyd.DoInsertNull();
 
                 SiparisKaydetDetay skgd = new SiparisKaydetDetay();
                 skgd.itemref = vyd.ITEMREF;

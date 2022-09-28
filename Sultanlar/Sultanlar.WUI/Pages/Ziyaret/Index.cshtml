@@ -18,7 +18,7 @@
 
             if (getParameterByName("konum") == "" || getParameterByName("konum") == "null") {
                 alert("Müşterinin konumu sistemde kayıtlı değil. Konum alma sayfasına yönlendiriliyorsunuz.");
-                window.location.href = '../Musteri/Konum/Al?smref=' + getParameterByName("smref") + '&tip=' + getParameterByName("tip") + '&deg=0';
+                window.location.href = '../Musteri/Konum/Al?slsref=' + getParameterByName("slsref") + '&gmref=' + getParameterByName("gmref") + '&smref=' + getParameterByName("smref") + '&tip=' + getParameterByName("tip") + '&deg=0';
             }
             else {
                 KoordinatBaslat();

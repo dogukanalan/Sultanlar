@@ -200,6 +200,11 @@ namespace Sultanlar.DbObj
             return obj == DBNull.Value ? null : (object)Convert.ToBoolean(obj);
         }
 
+        protected bool ConvertToBool(object obj)
+        {
+            return obj == DBNull.Value ? false : Convert.ToBoolean(obj);
+        }
+
         protected string ConvertToString(object obj)
         {
             return obj.ToString();

@@ -203,5 +203,100 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
             }
         }
+        //
+        //
+        public static void GetOlanlar5000(DataTable dt, int TIP)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT TIP,[Web-Fiyat_VY].ITEMREF,[MAL ACIK] AS MALZEME FROM [Web-Fiyat_VY] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat_VY].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = @TIP ORDER BY [Web-Fiyat_VY].ITEMREF", conn);
+                da.SelectCommand.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                try
+                {
+                    conn.Open();
+                    da.Fill(dt);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        //
+        //
+        public static void GetOlmayanlar5000(DataTable dt, int TIP, int TIP500)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT @TIP,ITEMREF,[MAL ACIK] AS MALZEME FROM [Web-Malzeme-Full] WHERE ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Fiyat_VY] WHERE TIP = @TIP) ORDER BY ITEMREF", conn);
+                if (TIP500 > 0 && TIP500 != TIP)
+                    da.SelectCommand.CommandText = "SELECT @TIP,ITEMREF,[MAL ACIK] AS MALZEME FROM [Web-Fiyat] WHERE TIP = " + TIP500.ToString() + " AND ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Fiyat_VY] AS FIY WHERE TIP = @TIP) ORDER BY ITEMREF";
+                da.SelectCommand.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                try
+                {
+                    conn.Open();
+                    da.Fill(dt);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        //
+        //
+        public static void DoInsert5000(int TIP, int ITEMREF, int TIP500)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT count(*) FROM [Web-Fiyat_VY] WHERE TIP = @TIP AND ITEMREF = @ITEMREF", conn);
+                cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                cmd.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
+                conn.Open();
+                bool varmi = Convert.ToBoolean(cmd.ExecuteScalar());
+                if (!varmi)
+                {
+                    bool besyuzdevarmi = true;
+                    if (TIP500 != 0)
+                    {
+                        SqlCommand cmd3 = new SqlCommand("SELECT count(*) FROM [Web-Fiyat] WHERE TIP = @TIP AND ITEMREF = @ITEMREF", conn);
+                        cmd3.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP500;
+                        cmd3.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
+                        besyuzdevarmi = Convert.ToBoolean(cmd.ExecuteScalar());
+                    }
+
+                    if (besyuzdevarmi)
+                    {
+                        SqlCommand cmd2 = new SqlCommand("INSERT INTO [Web-Fiyat_VY] (TIP,MTIP,BY_REF,ANA_GMREF,GMREF,ITEMREF) VALUES (@TIP,(SELECT TOP 1 MTIP FROM [Web-Fiyat_VY] WHERE TIP = @TIP),(SELECT TOP 1 BY_REF FROM [Web-Fiyat_VY] WHERE TIP = @TIP),(SELECT TOP 1 ANA_GMREF FROM [Web-Fiyat_VY] WHERE TIP = @TIP),(SELECT TOP 1 GMREF FROM [Web-Fiyat_VY] WHERE TIP = @TIP),@ITEMREF)", conn);
+                        cmd2.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                        cmd2.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
+                        cmd2.ExecuteNonQuery();
+                    }
+                }
+                conn.Close();
+            }
+        }
+        //
+        //
+        public static void DoDelete5000(int TIP, int ITEMREF)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("DELETE FROM [Web-Fiyat_VY] WHERE TIP = @TIP AND ITEMREF = @ITEMREF", conn);
+                cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                cmd.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
     }
 }

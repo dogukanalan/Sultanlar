@@ -6,8 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Sultanlar.DatabaseObject.Internet;
 using System.Collections;
+using Sultanlar.DbObj.Internet;
+using Sultanlar.DatabaseObject.Internet;
 
 namespace Sultanlar.UI
 {
@@ -26,11 +27,11 @@ namespace Sultanlar.UI
 
         private void GetFiyatTipleri()
         {
-            FiyatTipleri.GetObject(comboBox1.Items, true);
+            new fiyatTipleri().GetObjects(comboBox1.Items);
 
             ArrayList silinecekler = new ArrayList();
             for (int i = 0; i < comboBox1.Items.Count; i++)
-                if (((FiyatTipleri)comboBox1.Items[i]).NOSU < 500)
+                if (((fiyatTipleri)comboBox1.Items[i]).NOSU < 500)
                     silinecekler.Add(comboBox1.Items[i]);
             for (int i = 0; i < silinecekler.Count; i++)
                 comboBox1.Items.Remove(silinecekler[i]);
@@ -40,8 +41,16 @@ namespace Sultanlar.UI
         {
             DataTable dt1 = new DataTable();
             DataTable dt2 = new DataTable();
-            FiyatTipUrun.GetOlanlar(dt1, ((FiyatTipleri)comboBox1.SelectedItem).NOSU);
-            FiyatTipUrun.GetOlmayanlar(dt2, ((FiyatTipleri)comboBox1.SelectedItem).NOSU);
+            if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
+            {
+                FiyatTipUrun.GetOlanlar(dt1, ((fiyatTipleri)comboBox1.SelectedItem).NOSU);
+                FiyatTipUrun.GetOlmayanlar(dt2, ((fiyatTipleri)comboBox1.SelectedItem).NOSU);
+            }
+            else
+            {
+                FiyatTipUrun.GetOlanlar5000(dt1, ((fiyatTipleri)comboBox1.SelectedItem).NOSU);
+                FiyatTipUrun.GetOlmayanlar5000(dt2, ((fiyatTipleri)comboBox1.SelectedItem).NOSU, ((fiyatTipleri)comboBox1.SelectedItem).GetAnaGmrefNo());
+            }
             gridControl1.DataSource = dt1;
             gridControl2.DataSource = dt2;
         }
@@ -55,10 +64,18 @@ namespace Sultanlar.UI
         {
             if (gridView2.SelectedRowsCount > 0 && !gridView2.IsFilterRow(gridView2.GetSelectedRows()[0]))
             {
-                int TIP = Convert.ToInt32(gridView2.GetFocusedRowCellValue("TIP"));
+                int TIP = ((fiyatTipleri)comboBox1.SelectedItem).NOSU; //Convert.ToInt32(gridView2.GetFocusedRowCellValue("TIP"))
                 int ITEMREF = Convert.ToInt32(gridView2.GetFocusedRowCellValue("ITEMREF"));
-                FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
-                ftp.DoInsert();
+
+                if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
+                {
+                    FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
+                    ftp.DoInsert();
+                }
+                else
+                {
+                    FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.SelectedItem).GetAnaGmrefNo());
+                }
                 GetFiyatlar();
             }
         }
@@ -67,9 +84,16 @@ namespace Sultanlar.UI
         {
             if (gridView1.SelectedRowsCount > 0 && !gridView1.IsFilterRow(gridView1.GetSelectedRows()[0]))
             {
-                int TIP = Convert.ToInt32(gridView1.GetFocusedRowCellValue("TIP"));
+                int TIP = ((fiyatTipleri)comboBox1.SelectedItem).NOSU; //Convert.ToInt32(gridView2.GetFocusedRowCellValue("TIP"))
                 int ITEMREF = Convert.ToInt32(gridView1.GetFocusedRowCellValue("ITEMREF"));
-                FiyatTipUrun.DoDelete(TIP, ITEMREF);
+                if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
+                {
+                    FiyatTipUrun.DoDelete(TIP, ITEMREF);
+                }
+                else
+                {
+                    FiyatTipUrun.DoDelete5000(TIP, ITEMREF);
+                }
                 GetFiyatlar();
             }
         }
@@ -80,10 +104,17 @@ namespace Sultanlar.UI
             {
                 for (int i = 0; i < gridView2.RowCount; i++)
                 {
-                    int TIP = Convert.ToInt32(gridView2.GetRowCellValue(i, "TIP"));
+                    int TIP = ((fiyatTipleri)comboBox1.SelectedItem).NOSU; //Convert.ToInt32(gridView2.GetRowCellValue(i, "TIP"))
                     int ITEMREF = Convert.ToInt32(gridView2.GetRowCellValue(i, "ITEMREF"));
-                    FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
-                    ftp.DoInsert();
+                    if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
+                    {
+                        FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
+                        ftp.DoInsert();
+                    }
+                    else
+                    {
+                        FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.SelectedItem).GetAnaGmrefNo());
+                    }
                 }
                 MessageBox.Show("Bütün ürünler eklendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 GetFiyatlar();
@@ -96,9 +127,16 @@ namespace Sultanlar.UI
             {
                 for (int i = 0; i < gridView1.RowCount; i++)
                 {
-                    int TIP = Convert.ToInt32(gridView1.GetRowCellValue(i, "TIP"));
+                    int TIP = ((fiyatTipleri)comboBox1.SelectedItem).NOSU; //Convert.ToInt32(gridView2.GetRowCellValue(i, "TIP"))
                     int ITEMREF = Convert.ToInt32(gridView1.GetRowCellValue(i, "ITEMREF"));
-                    FiyatTipUrun.DoDelete(TIP, ITEMREF);
+                    if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
+                    {
+                        FiyatTipUrun.DoDelete(TIP, ITEMREF);
+                    }
+                    else
+                    {
+                        FiyatTipUrun.DoDelete5000(TIP, ITEMREF);
+                    }
                 }
                 MessageBox.Show("Bütün ürünler çıkarıldı.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 GetFiyatlar();
@@ -131,13 +169,21 @@ namespace Sultanlar.UI
                 {
                     for (int i = 0; i < comboBox1.Items.Count; i++)
                     {
-                        decimal fiyat = Urunler.GetProductPrice(Convert.ToInt32(frmAna.InputBox), ((FiyatTipleri)comboBox1.Items[i]).NOSU);
-                        if (fiyat != 0)
+                        int TIP = ((fiyatTipleri)comboBox1.Items[i]).NOSU;
+                        int ITEMREF = Convert.ToInt32(frmAna.InputBox);
+
+                        if (((fiyatTipleri)comboBox1.Items[i]).NOSU < 5000)
                         {
-                            int TIP = Convert.ToInt32(((FiyatTipleri)comboBox1.Items[i]).NOSU);
-                            int ITEMREF = Convert.ToInt32(frmAna.InputBox);
-                            FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
-                            ftp.DoInsert();
+                            decimal fiyat = Urunler.GetProductPrice(Convert.ToInt32(frmAna.InputBox), Convert.ToInt16(((fiyatTipleri)comboBox1.Items[i]).NOSU));
+                            if (fiyat != 0)
+                            {
+                                FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
+                                ftp.DoInsert();
+                            }
+                        }
+                        else
+                        {
+                            FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.Items[i]).GetAnaGmrefNo());
                         }
                     }
                     GetFiyatlar();

@@ -54,15 +54,16 @@ namespace Sultanlar.DbObj.Internet
         public int VARYOK_ID { get; set; }
         public int ITEMREF { get; set; }
         public malzemeler Malzeme { get { return new malzemeler(ITEMREF).GetObject(); } }
-        public bool VARYOK { get; set; }
+        public object VARYOK { get; set; }
         public bool DEPO { get; set; }
         public bool RAF { get; set; }
         public double RAF_FIYAT { get; set; }
         public bool SKT { get; set; }
         public int SIPARIS { get; set; }
+        public bool ISARET { get { return VARYOK is null ? false : true; /*Convert.ToBoolean(GetObjectSc("SELECT CASE WHEN VARYOK IS NULL THEN 'False' ELSE 'True' END FROM WEB_RUT_6_VARYOK_DETAY WHERE pkID = @pkID", new Dictionary<string, object>() { { "pkID", pkID } }, timeout));*/ } }
 
         public ziyaretvaryokdetay() { }
-        public ziyaretvaryokdetay(int pkID, int VARYOK_ID, int ITEMREF, bool VARYOK, bool DEPO, bool RAF, double RAF_FIYAT, bool SKT, int SIPARIS) 
+        public ziyaretvaryokdetay(int pkID, int VARYOK_ID, int ITEMREF, object VARYOK, bool DEPO, bool RAF, double RAF_FIYAT, bool SKT, int SIPARIS) 
         { 
             this.pkID = pkID; this.VARYOK_ID = VARYOK_ID; this.ITEMREF = ITEMREF; this.VARYOK = VARYOK; this.DEPO = DEPO; this.RAF = RAF; this.RAF_FIYAT = RAF_FIYAT; this.SKT = SKT; this.SIPARIS = SIPARIS;
         }
@@ -79,6 +80,14 @@ namespace Sultanlar.DbObj.Internet
         /// <summary>
         /// 
         /// </summary>
+        public void DoInsertNull()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "pkID", pkID }, { "VARYOK_ID", VARYOK_ID }, { "ITEMREF", ITEMREF }, { "VARYOK", DBNull.Value }, { "DEPO", DBNull.Value }, { "RAF", DBNull.Value }, { "RAF_FIYAT", DBNull.Value }, { "SKT", DBNull.Value }, { "SIPARIS", DBNull.Value } };
+            pkID = ConvertToInt32(Do(QueryType.Insert, "db_sp_ziyaretVaryokDetayEkle", param, timeout));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public List<ziyaretvaryokdetay> GetObjects(int VarYokID)
         {
             List<ziyaretvaryokdetay> donendeger = new List<ziyaretvaryokdetay>();
@@ -86,7 +95,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_ziyaretVaryokDetaylarGetir", new Dictionary<string, object>() { { "VarYokID", VarYokID } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new ziyaretvaryokdetay(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), Convert.ToBoolean(dic[i][3]), Convert.ToBoolean(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDouble(dic[i][6]), Convert.ToBoolean(dic[i][7]), ConvertToInt32(dic[i][8])));
+                    donendeger.Add(new ziyaretvaryokdetay(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), dic[i][3] == DBNull.Value ? null : dic[i][3], ConvertToBool(dic[i][4]), ConvertToBool(dic[i][5]), ConvertToDouble(dic[i][6]), ConvertToBool(dic[i][7]), ConvertToInt32(dic[i][8])));
 
             return donendeger;
         }

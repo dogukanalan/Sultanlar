@@ -258,11 +258,11 @@
             var sentData = { barkod: sepet.barkod, tip: sepet.tip, musteri: window.localStorage["uyeid"], detays: [] };
 
             for (var i = 0; i < sepet.detays.length; i++) {
-                if (sepet.detays[i].fiyatvy.isaret == true) {
+                //if (sepet.detays[i].fiyatvy.isaret == true) {
                     sentData.detays.push(
                         {
                             itemref: sepet.detays[i].itemref,
-                            //isaret: sepet[i].fiyatvy.isaret,
+                            isaret: sepet.detays[i].fiyatvy.isaret,
                             varyok: sepet.detays[i].fiyatvy.varyok,
                             depo: sepet.detays[i].fiyatvy.depo,
                             raf: sepet.detays[i].fiyatvy.raf,
@@ -270,7 +270,7 @@
                             skt: sepet.detays[i].fiyatvy.skt,
                             siparis: sepet.detays[i].fiyatvy.siparis
                         });
-                }
+                //}
             }
 
             $.ajax(
@@ -368,7 +368,7 @@
                                 {
                                     xhr: function () { return xhrDownloadUpload(); },
                                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                                    url: apiurl + "fiyat/getbytipakt/" + data.fiyaT_TIP,
+                                    url: apiurl + "fiyat/getbytip/" + data.fiyaT_TIP, //getbytipakt
                                     success: function (data1, textStatus, response) {
                                         checkAuth(response);
 
@@ -376,18 +376,20 @@
                                         for (var i = 0; i < data1.length; i++) {
                                             for (var j = 0; j < data.detays.length; j++) {
                                                 if (data.detays[j].itemref == data1[i].itemref) {
-                                                    data1[i].fiyatvy.isaret = true;
+                                                    data1[i].fiyatvy.isaret = data.detays[j].isaret;
                                                     data1[i].fiyatvy.varyok = data.detays[j].varyok;
                                                     data1[i].fiyatvy.depo = data.detays[j].depo;
                                                     data1[i].fiyatvy.raf = data.detays[j].raf;
                                                     data1[i].fiyatvy.raffiyat = data.detays[j].raF_FIYAT;
                                                     data1[i].fiyatvy.skt = data.detays[j].skt;
                                                     data1[i].fiyatvy.siparis = data.detays[j].siparis;
+
+                                                    dataS.push(data1[i]);
                                                 }
                                             }
-                                            if (data1[i].fiyatvy.isaret == true) {
+                                            /*if (data1[i].fiyatvy.isaret == true) {
                                                 dataS.push(data1[i]);
-                                            }
+                                            }*/
                                         }
 
                                         sepet.detays = dataS;
@@ -415,7 +417,7 @@
                         {
                             xhr: function () { return xhrDownloadUpload(); },
                             beforeSend: function (xhr) { xhrTicket(xhr); },
-                            url: apiurl + "fiyat/getbytipakt/" + getParameterByName('ftip'),
+                            url: apiurl + "fiyat/getbytip/" + getParameterByName('ftip'), //getbytipakt
                             success: function (data1, textStatus, response) {
                                 checkAuth(response);
 
@@ -447,15 +449,15 @@
                                         {
                                             xhr: function () { return xhrDownloadUpload(); },
                                             beforeSend: function (xhr) { xhrTicket(xhr); },
-                                            url: apiurl + "fiyat/getbytipakt/" + data.fiyaT_TIP,
+                                            url: apiurl + "fiyat/getbytip/" + data.fiyaT_TIP, //getbytipakt
                                             success: function (data1, textStatus, response) {
                                                 checkAuth(response);
 
                                                 for (var i = 0; i < data1.length; i++) {
                                                     for (var j = 0; j < data.detays.length; j++) {
                                                         if (data.detays[j].itemref == data1[i].itemref) {
-                                                            data1[i].fiyatvy.isaret = true;
-                                                            data1[i].fiyatvy.varyok = data.detays[j].varyok;
+                                                            data1[i].fiyatvy.isaret = data.detays[j].isaret;
+                                                            data1[i].fiyatvy.varyok = data.detays[j].varyok ? data.detays[j].varyok : false;
                                                             data1[i].fiyatvy.depo = data.detays[j].depo;
                                                             data1[i].fiyatvy.raf = data.detays[j].raf;
                                                             data1[i].fiyatvy.raffiyat = data.detays[j].raF_FIYAT;
