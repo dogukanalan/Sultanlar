@@ -322,6 +322,8 @@ namespace Sultanlar.DbObj.Internet
         public DateTime BASLANGIC { get; set; }
         public DateTime BITIS { get; set; }
         public string ACIKLAMA { get; set; }
+        public int HAFTANIN_GUNU { get; set; }
+        public string haftaningunu { get { return HAFTANIN_GUNU == 1 ? "Pazartesi" : HAFTANIN_GUNU == 2 ? "Salı" : HAFTANIN_GUNU == 3 ? "Çarşamba" : HAFTANIN_GUNU == 4 ? "Perşembe" : HAFTANIN_GUNU == 5 ? "Cuma" : HAFTANIN_GUNU == 6 ? "Cumartesi" : HAFTANIN_GUNU == 7 ? "Pazar" : ""; } }
         public cariHesaplarAcikGunler() { }
         public cariHesaplarAcikGunler(int KOD)
         {

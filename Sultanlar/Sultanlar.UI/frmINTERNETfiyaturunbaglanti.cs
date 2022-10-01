@@ -65,5 +65,12 @@ namespace Sultanlar.UI
                 sbHizliSil.PerformClick();
             }
         }
+
+        private void sbKopyala_Click(object sender, EventArgs e)
+        {
+            frmINTERNETfiyaturunbaglantikopyalama frm = new frmINTERNETfiyaturunbaglantikopyalama();
+            frm.ShowDialog();
+            GetObjects();
+        }
     }
 }

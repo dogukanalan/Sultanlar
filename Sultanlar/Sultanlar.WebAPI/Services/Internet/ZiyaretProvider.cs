@@ -86,7 +86,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 ziy = new ziyaretler(ziyaret.MTIP, ziyaret.SMREF, ziyaret.SLSREF, Convert.ToDateTime(ziyaret.ZIY_BAS_TAR)).GetObject();
             }*/
 
-            ziy.ZIY_BIT_TAR = Convert.ToDateTime(ziyaret.ZIY_BIT_TAR);
+            ziy.ZIY_BIT_TAR = DateTime.Now; //Convert.ToDateTime(ziyaret.ZIY_BIT_TAR);
             ziy.ZIY_NDN_ID = ziyaret.ZIY_NDN_ID;
             ziy.ZIY_KONUM = ziyaret.ZIY_KONUM;
             ziy.ZIY_KONUM_ADRES = ziyaret.ZIY_KONUM_ADRES;

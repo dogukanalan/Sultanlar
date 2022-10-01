@@ -27,7 +27,7 @@ function getCariSube(data, controlid) {
 
     if (document.getElementById("divCariAcikGunler")) {
         $.each(data.acik.gunler, function (index, item) {
-            document.getElementById("divCariAcikGunler").innerHTML = item.gunack.aciklama + ' (' + item.baslangic.substring(0, 10) + ' : ' + item.bitis.substring(0, 10) + ')<br>';
+            document.getElementById("divCariAcikGunler").innerHTML = item.gunack.aciklama + ' ' + item.gunack.haftaningunu + ' (' + item.baslangic.substring(0, 10) + ' : ' + item.bitis.substring(0, 10) + ')<br>';
         });
     }
 

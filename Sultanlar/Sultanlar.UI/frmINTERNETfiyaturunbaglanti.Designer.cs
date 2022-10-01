@@ -38,6 +38,7 @@
             this.lblAlt = new System.Windows.Forms.Label();
             this.sbEkle = new DevExpress.XtraEditors.SimpleButton();
             this.sbHizliSil = new DevExpress.XtraEditors.SimpleButton();
+            this.sbKopyala = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
@@ -150,7 +151,7 @@
             // 
             // sbHizliSil
             // 
-            this.sbHizliSil.Location = new System.Drawing.Point(143, 447);
+            this.sbHizliSil.Location = new System.Drawing.Point(539, 447);
             this.sbHizliSil.Name = "sbHizliSil";
             this.sbHizliSil.Size = new System.Drawing.Size(125, 23);
             this.sbHizliSil.TabIndex = 38;
@@ -160,12 +161,22 @@
             this.sbHizliSil.Visible = false;
             this.sbHizliSil.Click += new System.EventHandler(this.sbHizliSil_Click);
             // 
+            // sbKopyala
+            // 
+            this.sbKopyala.Location = new System.Drawing.Point(143, 447);
+            this.sbKopyala.Name = "sbKopyala";
+            this.sbKopyala.Size = new System.Drawing.Size(125, 23);
+            this.sbKopyala.TabIndex = 38;
+            this.sbKopyala.Text = "Cariden Kopyalama";
+            this.sbKopyala.Click += new System.EventHandler(this.sbKopyala_Click);
+            // 
             // frmINTERNETfiyaturunbaglanti
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(676, 473);
             this.Controls.Add(this.sbHizliSil);
+            this.Controls.Add(this.sbKopyala);
             this.Controls.Add(this.sbEkle);
             this.Controls.Add(this.btnYenile);
             this.Controls.Add(this.gridControl1);
@@ -192,5 +203,6 @@
         private System.Windows.Forms.Label lblAlt;
         private DevExpress.XtraEditors.SimpleButton sbEkle;
         private DevExpress.XtraEditors.SimpleButton sbHizliSil;
+        private DevExpress.XtraEditors.SimpleButton sbKopyala;
     }
 }

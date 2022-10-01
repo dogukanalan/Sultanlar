@@ -59,29 +59,31 @@
                         $(this).val($(this).val().toLocaleUpperCase());
                     });
 
-                    var datatablethis = $(this);
-                    $.ajax(
-                        {
-                            beforeSend: function (xhr) { xhrTicket(xhr); },
-                            url: apiurl + 'fiyat/GetVyByGMREF/' + getParameterByName("gmref"),
-                            success: function (data, textStatus, response) {
+                    if (parseInt(getParameterByName("ftip")) > 5000 || parseInt(getParameterByName("ftip")) < 500) {
+                        var datatablethis = $(this);
+                        $.ajax(
+                            {
+                                beforeSend: function (xhr) { xhrTicket(xhr); },
+                                url: apiurl + 'fiyat/GetVyByGMREF/' + getParameterByName("gmref"),
+                                success: function (data, textStatus, response) {
 
-                                if (data.length > 0) {
-                                    var newjson = [];
-                                    $.each(json, function (i, item) {
-                                        $.each(data, function (i, item2) {
-                                            if (item.itemref == item2.itemref) {
-                                                newjson.push(item);
-                                            }
+                                    if (data.length > 0) {
+                                        var newjson = [];
+                                        $.each(json, function (i, item) {
+                                            $.each(data, function (i, item2) {
+                                                if (item.itemref == item2.itemref) {
+                                                    newjson.push(item);
+                                                }
+                                            });
                                         });
-                                    });
-                                    datatablethis.dataTable().fnClearTable();
-                                    datatablethis.dataTable().fnAddData(newjson);
-                                }
+                                        datatablethis.dataTable().fnClearTable();
+                                        datatablethis.dataTable().fnAddData(newjson);
+                                    }
 
+                                }
                             }
-                        }
-                    );
+                        );
+                    }
                 },
                 "fnDrawCallback": function (oSettings) {
                     qtip();
