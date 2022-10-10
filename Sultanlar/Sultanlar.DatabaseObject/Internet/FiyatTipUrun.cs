@@ -163,7 +163,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT TIP,[Web-FiyatTip-Urun].ITEMREF,[MAL ACIK] AS MALZEME FROM [Web-FiyatTip-Urun] INNER JOIN [Web-Malzeme-Full] ON [Web-FiyatTip-Urun].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = @TIP ORDER BY TIP,ITEMREF", conn);
+                SqlDataAdapter da = new SqlDataAdapter("SELECT TIP,[Web-FiyatTip-Urun].ITEMREF,[MAL ACIK] AS MALZEME,AP FROM [Web-FiyatTip-Urun] INNER JOIN [Web-Malzeme-Full] ON [Web-FiyatTip-Urun].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = @TIP ORDER BY TIP,ITEMREF", conn);
                 da.SelectCommand.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
                 try
                 {
@@ -186,7 +186,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT TIP,ITEMREF,[MAL ACIK] AS MALZEME FROM [Web-Fiyat] WHERE TIP = @TIP AND ITEMREF NOT IN (SELECT ITEMREF FROM [Web-FiyatTip-Urun] WHERE TIP = [Web-Fiyat].TIP) ORDER BY TIP,ITEMREF", conn);
+                SqlDataAdapter da = new SqlDataAdapter("SELECT [Web-Fiyat].TIP,[Web-Fiyat].ITEMREF,[Web-Fiyat].[MAL ACIK] AS MALZEME,AP FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF FULL OUTER JOIN [Web-FiyatTip-Urun] ON [Web-Fiyat].TIP = [Web-FiyatTip-Urun].TIP AND [Web-Fiyat].ITEMREF = [Web-FiyatTip-Urun].ITEMREF WHERE [Web-Fiyat].TIP = @TIP AND [Web-FiyatTip-Urun].ITEMREF IS NULL ORDER BY [Web-Fiyat].TIP,[Web-Fiyat].ITEMREF", conn);
                 da.SelectCommand.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
                 try
                 {
@@ -209,7 +209,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT TIP,[Web-Fiyat_VY].ITEMREF,[MAL ACIK] AS MALZEME FROM [Web-Fiyat_VY] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat_VY].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = @TIP ORDER BY [Web-Fiyat_VY].ITEMREF", conn);
+                SqlDataAdapter da = new SqlDataAdapter("SELECT TIP,[Web-Fiyat_VY].ITEMREF,[MAL ACIK] AS MALZEME,AP FROM [Web-Fiyat_VY] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat_VY].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = @TIP ORDER BY [Web-Fiyat_VY].ITEMREF", conn);
                 da.SelectCommand.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
                 try
                 {
@@ -232,9 +232,9 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT @TIP,ITEMREF,[MAL ACIK] AS MALZEME FROM [Web-Malzeme-Full] WHERE ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Fiyat_VY] WHERE TIP = @TIP) ORDER BY ITEMREF", conn);
+                SqlDataAdapter da = new SqlDataAdapter("SELECT @TIP,ITEMREF,[MAL ACIK] AS MALZEME,AP FROM [Web-Malzeme-Full] WHERE ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Fiyat_VY] WHERE TIP = @TIP) ORDER BY ITEMREF", conn);
                 if (TIP500 > 0 && TIP500 != TIP)
-                    da.SelectCommand.CommandText = "SELECT @TIP,ITEMREF,[MAL ACIK] AS MALZEME FROM [Web-Fiyat] WHERE TIP = " + TIP500.ToString() + " AND ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Fiyat_VY] AS FIY WHERE TIP = @TIP) ORDER BY ITEMREF";
+                    da.SelectCommand.CommandText = "SELECT @TIP,[Web-Fiyat].ITEMREF,[Web-Fiyat].[MAL ACIK] AS MALZEME,AP FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = " + TIP500.ToString() + " AND [Web-Fiyat].ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Fiyat_VY] AS FIY WHERE TIP = @TIP) ORDER BY [Web-Fiyat].ITEMREF";
                 da.SelectCommand.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
                 try
                 {

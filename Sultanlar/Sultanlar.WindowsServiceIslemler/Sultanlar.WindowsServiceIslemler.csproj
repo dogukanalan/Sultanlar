@@ -111,6 +111,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Sap.cs" />
     <Compile Include="srvServis.cs">
       <SubType>Component</SubType>
     </Compile>

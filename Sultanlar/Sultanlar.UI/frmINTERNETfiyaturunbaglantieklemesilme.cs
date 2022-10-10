@@ -21,8 +21,37 @@ namespace Sultanlar.UI
 
         private void frmINTERNETfiyaturunbaglantieklemesilme_Load(object sender, EventArgs e)
         {
+            GetBayiler();
             GetFiyatTipleri();
             comboBox1.SelectedIndex = 0;
+        }
+
+        private void GetBayiler()
+        {
+            List<CariHesaplarTP> list = new List<CariHesaplarTP>();
+            CariHesaplarTP.GetObjects(list, 0);
+
+            comboBox2.DataSource = list;
+        }
+
+        private void GetAltCariler()
+        {
+            comboBox3.Text = string.Empty;
+            if (comboBox2.SelectedIndex > -1)
+                CariHesaplarTP.GetObjects(comboBox3.Items, ((CariHesaplarTP)comboBox2.SelectedItem).GMREF);
+        }
+
+        private void GetAltCariSubeler()
+        {
+            comboBox4.Text = string.Empty;
+            if (comboBox3.SelectedIndex > -1)
+                CariHesapZ.GetObjects(comboBox4.Items, 5, ((CariHesaplarTP)comboBox3.SelectedItem).SMREF);
+        }
+
+        private void GetAltCariSulSubeler(int GMREF)
+        {
+            comboBox6.Text = string.Empty;
+            CariHesaplar.GetSUBEs(comboBox6.Items, GMREF);
         }
 
         private void GetFiyatTipleri()
@@ -35,6 +64,17 @@ namespace Sultanlar.UI
                     silinecekler.Add(comboBox1.Items[i]);
             for (int i = 0; i < silinecekler.Count; i++)
                 comboBox1.Items.Remove(silinecekler[i]);
+
+            label7.Text = string.Empty;
+        }
+
+        private void GetFiyatTipleri2(int GMREF, int MTIP)
+        {
+            gridControl1.DataSource = null;
+            gridControl2.DataSource = null;
+            new fiyatTipleri().GetObjects(comboBox1.Items, GMREF, MTIP);
+
+            button8.Visible = comboBox1.Items.Count == 0;
         }
 
         private void GetFiyatlar()
@@ -198,6 +238,89 @@ namespace Sultanlar.UI
             {
                 MessageBox.Show("İşlem iptal edildi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetAltCariler();
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetAltCariSubeler();
+        }
+
+        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox5.SelectedIndex > -1)
+                GetAltCariSulSubeler(((CariHesaplar)comboBox5.SelectedItem).GMREF);
+            //GetAltCariSubeler(((CariHesaplar)comboBox5.SelectedItem).GMREF, 2);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            comboBox4.SelectedIndex = -1;
+            comboBox4.Items.Clear();
+            comboBox3.SelectedIndex = -1;
+            comboBox3.Items.Clear();
+            comboBox2.SelectedIndex = -1;
+            comboBox6.SelectedIndex = -1;
+            comboBox6.Items.Clear();
+            comboBox5.SelectedIndex = -1;
+
+            GetFiyatTipleri();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (comboBox4.SelectedIndex > -1)
+            {
+                GetFiyatTipleri2(((CariHesapZ)comboBox4.SelectedItem).GMREF, ((CariHesapZ)comboBox4.SelectedItem).TIP);
+                label7.Text = "(" + comboBox2.SelectedItem.ToString() + " : " + comboBox3.SelectedItem.ToString() + " : " + comboBox4.SelectedItem.ToString() + ")";
+                return;
+            }
+
+            if (checkBox1.Checked)
+            {
+                if (comboBox6.SelectedIndex > -1)
+                {
+                    GetFiyatTipleri2(((CariHesaplar)comboBox6.SelectedItem).SMREF, 1);
+                    label7.Text = "(SULTANLAR PAZARLAMA : " + comboBox5.SelectedItem.ToString() + " : " + comboBox6.SelectedItem.ToString() + ")";
+                }
+                else if (comboBox5.SelectedIndex > -1)
+                {
+                    GetFiyatTipleri2(((CariHesaplar)comboBox5.SelectedItem).GMREF, 1);
+                    label7.Text = "(SULTANLAR PAZARLAMA : " + comboBox5.SelectedItem.ToString() + ")";
+                }
+            }
+            else
+            {
+                if (comboBox3.SelectedIndex > -1)
+                {
+                    GetFiyatTipleri2(((CariHesaplarTP)comboBox3.SelectedItem).SMREF, 4);
+                    label7.Text = "(" + comboBox2.SelectedItem.ToString() + " : " + comboBox3.SelectedItem.ToString() + ")";
+                }
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBox2.Enabled = !checkBox1.Checked;
+            comboBox3.Enabled = !checkBox1.Checked;
+            comboBox4.Enabled = !checkBox1.Checked;
+            comboBox5.Enabled = checkBox1.Checked;
+            comboBox6.Enabled = checkBox1.Checked;
+
+            if (checkBox1.Checked)
+            {
+                CariHesaplar.GetMUSTERIs(comboBox5.Items, "", true);
+                comboBox5.Text = string.Empty;
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
