@@ -122,7 +122,7 @@ namespace Sultanlar.DbObj.Internet
         public int GetAnaGmrefNo()
         {
             int donendeger = 0;
-            object obj = GetObjectSc("SELECT NOSU FROM [Web-FiyatTipleri] WHERE GMREF = (SELECT TOP 1 [ANA_GMREF] FROM [Web-FiyatTipleri] AS TIP WHERE GMREF = @GMREF)", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
+            object obj = GetObjectSc("SELECT NOSU FROM [Web-FiyatTipleri] WHERE GMREF != @GMREF AND GMREF = (SELECT TOP 1 [ANA_GMREF] FROM [Web-FiyatTipleri] AS TIP WHERE GMREF = @GMREF)", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
             if (obj != null)
                 donendeger = Convert.ToInt32(obj);
             return donendeger;

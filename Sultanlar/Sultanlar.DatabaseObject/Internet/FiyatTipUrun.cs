@@ -270,7 +270,7 @@ namespace Sultanlar.DatabaseObject.Internet
                         SqlCommand cmd3 = new SqlCommand("SELECT count(*) FROM [Web-Fiyat] WHERE TIP = @TIP AND ITEMREF = @ITEMREF", conn);
                         cmd3.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP500;
                         cmd3.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
-                        besyuzdevarmi = Convert.ToBoolean(cmd.ExecuteScalar());
+                        besyuzdevarmi = Convert.ToBoolean(cmd3.ExecuteScalar());
                     }
 
                     if (besyuzdevarmi)
