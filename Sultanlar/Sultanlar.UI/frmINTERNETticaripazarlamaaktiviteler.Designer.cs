@@ -158,6 +158,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.dtpBitis = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
+            this.gridColumn57 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -384,6 +385,7 @@
             this.gridColumn5,
             this.gridColumn46,
             this.gridColumn6,
+            this.gridColumn57,
             this.gridColumn7,
             this.gridColumn8,
             this.gridColumn9,
@@ -499,7 +501,7 @@
             this.gridColumn8.OptionsColumn.AllowEdit = false;
             this.gridColumn8.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn8.Visible = true;
-            this.gridColumn8.VisibleIndex = 5;
+            this.gridColumn8.VisibleIndex = 6;
             // 
             // gridColumn9
             // 
@@ -527,7 +529,7 @@
             this.gridColumn11.OptionsColumn.AllowEdit = false;
             this.gridColumn11.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn11.Visible = true;
-            this.gridColumn11.VisibleIndex = 6;
+            this.gridColumn11.VisibleIndex = 7;
             // 
             // gridColumn12
             // 
@@ -539,7 +541,7 @@
             this.gridColumn12.OptionsColumn.AllowEdit = false;
             this.gridColumn12.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn12.Visible = true;
-            this.gridColumn12.VisibleIndex = 7;
+            this.gridColumn12.VisibleIndex = 8;
             // 
             // gridColumn13
             // 
@@ -559,7 +561,7 @@
             this.gridColumn14.OptionsColumn.AllowEdit = false;
             this.gridColumn14.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn14.Visible = true;
-            this.gridColumn14.VisibleIndex = 8;
+            this.gridColumn14.VisibleIndex = 9;
             // 
             // gridColumn15
             // 
@@ -571,7 +573,7 @@
             this.gridColumn15.OptionsColumn.AllowEdit = false;
             this.gridColumn15.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn15.Visible = true;
-            this.gridColumn15.VisibleIndex = 9;
+            this.gridColumn15.VisibleIndex = 10;
             // 
             // gridColumn16
             // 
@@ -581,7 +583,7 @@
             this.gridColumn16.OptionsColumn.AllowEdit = false;
             this.gridColumn16.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn16.Visible = true;
-            this.gridColumn16.VisibleIndex = 10;
+            this.gridColumn16.VisibleIndex = 11;
             // 
             // gridColumn17
             // 
@@ -607,7 +609,7 @@
             this.gridColumn19.OptionsColumn.AllowEdit = false;
             this.gridColumn19.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn19.Visible = true;
-            this.gridColumn19.VisibleIndex = 11;
+            this.gridColumn19.VisibleIndex = 12;
             // 
             // gridColumn20
             // 
@@ -619,7 +621,7 @@
             this.gridColumn20.OptionsColumn.AllowEdit = false;
             this.gridColumn20.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn20.Visible = true;
-            this.gridColumn20.VisibleIndex = 12;
+            this.gridColumn20.VisibleIndex = 13;
             // 
             // gridColumn21
             // 
@@ -631,7 +633,7 @@
             this.gridColumn21.OptionsColumn.AllowEdit = false;
             this.gridColumn21.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn21.Visible = true;
-            this.gridColumn21.VisibleIndex = 13;
+            this.gridColumn21.VisibleIndex = 14;
             // 
             // gridColumn22
             // 
@@ -643,7 +645,7 @@
             this.gridColumn22.OptionsColumn.AllowEdit = false;
             this.gridColumn22.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn22.Visible = true;
-            this.gridColumn22.VisibleIndex = 14;
+            this.gridColumn22.VisibleIndex = 15;
             // 
             // gridColumn23
             // 
@@ -655,7 +657,7 @@
             this.gridColumn23.OptionsColumn.AllowEdit = false;
             this.gridColumn23.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn23.Visible = true;
-            this.gridColumn23.VisibleIndex = 15;
+            this.gridColumn23.VisibleIndex = 16;
             // 
             // gridColumn24
             // 
@@ -667,7 +669,7 @@
             this.gridColumn24.OptionsColumn.AllowEdit = false;
             this.gridColumn24.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn24.Visible = true;
-            this.gridColumn24.VisibleIndex = 16;
+            this.gridColumn24.VisibleIndex = 17;
             // 
             // gridColumn25
             // 
@@ -679,7 +681,7 @@
             this.gridColumn25.OptionsColumn.AllowEdit = false;
             this.gridColumn25.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn25.Visible = true;
-            this.gridColumn25.VisibleIndex = 17;
+            this.gridColumn25.VisibleIndex = 18;
             // 
             // btnFiyatExcel
             // 
@@ -1645,6 +1647,17 @@
             this.label4.Size = new System.Drawing.Size(864, 99);
             this.label4.TabIndex = 14;
             // 
+            // gridColumn57
+            // 
+            this.gridColumn57.Caption = "Şube";
+            this.gridColumn57.FieldName = "SUBE";
+            this.gridColumn57.Name = "gridColumn57";
+            this.gridColumn57.OptionsColumn.AllowEdit = false;
+            this.gridColumn57.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
+            this.gridColumn57.Visible = true;
+            this.gridColumn57.VisibleIndex = 5;
+            this.gridColumn57.Width = 180;
+            // 
             // frmINTERNETticaripazarlamaaktiviteler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1804,5 +1817,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn56;
         private System.Windows.Forms.Button btnFiyatExcel;
         private System.Windows.Forms.Button btnToptanAltkanal;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn57;
     }
 }

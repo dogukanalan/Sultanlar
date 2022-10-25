@@ -27,6 +27,8 @@
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
 
+            getCari(getParameterByName('tip'), getParameterByName('smref'), getCariSube, "aktMus");
+
             $('#inputDonem').datepicker({
                 locale: "tr",
                 language: "tr",
@@ -150,6 +152,7 @@
         }
     </script>
 }
+<h5 class="spanCiplak" id="aktMus"></h5>
 <h5 class="spanCiplak">Aktivite için başlangıç, bitiş ve anlaşma seçiniz</h5>
 <input class="form-control input100 tarihpicker" type="text" name="inputDonem" id="inputDonem" placeholder="Başlangıç" autocomplete="off" onkeypress="return false">
 <br />

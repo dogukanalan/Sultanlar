@@ -10,6 +10,7 @@ using System.Net;
 using System.IO;
 using System.Globalization;
 using System.Linq.Dynamic.Core;
+using System.Collections;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -262,7 +263,9 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             malzemeler mal = new malzemeler(ITEMREF).GetObject();
 
-            if (SMREF == 1014039 || SMREF == 1071782 || SMREF == 1072515 || SMREF == 1072228)
+            ArrayList alternatifbayiler = CariHesaplarTPEk.GetAlternatifBayiler();
+            var alternatifmi = alternatifbayiler.ToArray().Where(x => x.ToString() == SMREF.ToString()).Any();
+            if (alternatifmi) // (SMREF == 1014039 || SMREF == 1071782 || SMREF == 1072515 || SMREF == 1072228)
             {
                 CariHesaplarTPEk2 bayisart = CariHesaplarTPEk2.GetObject(SMREF, DateTime.Now.Year, DateTime.Now.Month);
                 return new SiparisIsks() { fiyat = fiyat, isk1 = (mal.REYKOD == "T2" ? bayisart.YEG_KAR : bayisart.TAH_KAR), isk2 = 0, isk3 = 0, isk4 = 0 };
@@ -274,14 +277,19 @@ namespace Sultanlar.WebAPI.Services.Internet
                 return new SiparisIsks() { fiyat = fiyat, isk1 = (mal.REYKOD == "T2" ? 12 : 9), isk2 = 0, isk3 = 0, isk4 = 0 };*/
 
             cariHesaplar ch = new cariHesaplar(SMREF).GetObject();
-            aktivitelerDetay aktd = new aktivitelerDetay().GetObjectSon(ch.GMREF, ITEMREF, Tarih);
+
+            ArrayList direkbayiler = CariHesaplarTPEk.GetDirekBayiler();
+            var direkmi = direkbayiler.ToArray().Where(x => x.ToString() == ch.GMREF.ToString()).Any();
+            int REF = direkmi ? ch.SMREF : ch.GMREF; //ch.GMREF == 1072532
+
+            aktivitelerDetay aktd = new aktivitelerDetay().GetObjectSon(REF, ITEMREF, Tarih);
             if (aktd.pkID > 0)
             {
                 donendeger = new SiparisIsks() { fiyat = aktd.mnBirimFiyatKDVli / ((100 + mal.KDV) / 100), isk1 = Convert.ToDouble(aktd.strAciklama1), isk2 = Convert.ToDouble(aktd.strAciklama2), isk3 = Convert.ToDouble(aktd.strAciklama3), isk4 = aktd.flEkIsk };
             }
             else
             {
-                anlasmalar anl = new anlasmalar().GetObjectSon(ch.GMREF, "2", Tarih);
+                anlasmalar anl = new anlasmalar().GetObjectSon(REF, "2", Tarih);
                 if (anl.pkID > 0)
                 {
                     donendeger = new SiparisIsks()

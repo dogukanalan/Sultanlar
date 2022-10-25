@@ -109,6 +109,10 @@
                 fixedHeader: {
                     headerOffset: $('.navbar').outerHeight()
                 },
+                "fnDrawCallback": function (oSettings) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
+                },
                 columns: [
                     {
                         "data": "pkID", "class": "keyTd", render: function (data, type, row) {
@@ -141,7 +145,7 @@
                     },
                     {
                         "data": "cari", "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data.sube + '</span>'
+                            return '<span class="sinirli" data-toggle="tooltip" title="' + data.musteri + '">' + data.sube + '</span>'
                         },
                         "name": "Cari.Sube",
                         "width": "30%"

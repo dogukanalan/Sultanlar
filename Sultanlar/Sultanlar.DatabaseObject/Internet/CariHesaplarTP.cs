@@ -1718,6 +1718,66 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
+
+        public static ArrayList GetAlternatifBayiler()
+        {
+            ArrayList donendeger = new ArrayList();
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT GMREF FROM [Web-Musteri-TP-Bayikodlar-Alternatif]", conn);
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        donendeger.Add(Convert.ToInt32(dr[0]));
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+
+        public static ArrayList GetDirekBayiler()
+        {
+            ArrayList donendeger = new ArrayList();
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT GMREF FROM [Web-Musteri-TP-Bayikodlar-Direk]", conn);
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        donendeger.Add(Convert.ToInt32(dr[0]));
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
     }
 
     public class CariHesaplarTPEk2
