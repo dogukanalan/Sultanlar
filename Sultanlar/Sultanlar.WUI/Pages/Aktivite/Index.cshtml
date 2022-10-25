@@ -47,7 +47,7 @@
             });
             $('#inputBitis').on('changeDate', function (ev) {
                 $(this).datepicker('hide');
-                if ($('#inputBitis').val() == "" && $('#selectAnlasmalar').val() == "0")
+                if ($('#inputDonem').val() == "" || $('#inputBitis').val() == "" || $('#selectAnlasmalar').val() == "0")
                     $("#btnDevam").attr("disabled", true);
                 else
                     $("#btnDevam").attr("disabled", false);
@@ -69,7 +69,7 @@
                     yegbedel = infos[9];
                     tahciro = infos[10];
                     yegciro = infos[11];
-                    if ($('#inputBitis').val() == "" && $('#selectAnlasmalar').val() == "0")
+                    if ($('#inputDonem').val() == "" || $('#inputBitis').val() == "" || $('#selectAnlasmalar').val() == "0")
                         $("#btnDevam").attr("disabled", true);
                     else
                         $("#btnDevam").attr("disabled", false);
@@ -111,14 +111,14 @@
                         });
 
                         if (data.length == 0) {
-                            $("#selectAnlasmalar").empty().append($("<option></option>").text("Anlaşma bulunamadı").val("0"));
+                            $("#selectAnlasmalar").empty().append($("<option></option>").text("Anlaşma bulunamadı").val("1"));
                             ahtfatalt = 0;
                             ahtfataltciro = 0;
                             ahtciroprim = 0;
                             yegfatalt = 0;
                             yegfataltciro = 0;
                             yegciroprim = 0;
-                            if ($('#inputBitis').val() == "" && $('#selectAnlasmalar').val() == "0")
+                            if ($('#inputDonem').val() == "" || $('#inputBitis').val() == "" || $('#selectAnlasmalar').val() == "0")
                                 $("#btnDevam").attr("disabled", true);
                             else
                                 $("#btnDevam").attr("disabled", false);
