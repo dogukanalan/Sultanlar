@@ -626,96 +626,31 @@ namespace Sultanlar.UI
 
             if (UY == "TB10")
             {
-                List.Add(new Depo("SP53", "SP53 Depo Yeri"));
-                List.Add(new Depo("TB10", "Tibet Hammadde"));
-                List.Add(new Depo("TB11", "Tibet Ambalaj"));
-                List.Add(new Depo("TB13", "Teslim Tesellüm"));
-                List.Add(new Depo("TB14", "Tibet Üretim"));
-                List.Add(new Depo("TB15", "İhracat Deposu"));
-                List.Add(new Depo("TB16", "Tibet Silolar"));
-                List.Add(new Depo("TB17", "Tibet Kırtasiye"));
                 List.Add(new Depo("TB18", "Tibet Sevkiyat"));
-                List.Add(new Depo("TB19", "Tibet Sevk. Adet"));
                 List.Add(new Depo("TB1A", "İade Depo"));
                 List.Add(new Depo("TB1B", "İmha Depo"));
                 List.Add(new Depo("TB1C", "Karantina Depo"));
-                List.Add(new Depo("TB1D", "Promosyon Depo"));
                 List.Add(new Depo("TB1E", "Re-Work Depo"));
-                List.Add(new Depo("TB20", "Tib.Transfer Dep"));
-                List.Add(new Depo("TB21", "Teknik Depo Y."));
-                List.Add(new Depo("TB22", "Ü.İade Tesellüm"));
-                List.Add(new Depo("TBEF", "Envanter Farkı"));
-                List.Add(new Depo("TBS1", "Sultanlar Kat 1"));
-                List.Add(new Depo("TBS2", "Sultanlar Kat 2"));
-                List.Add(new Depo("TBS3", "Sultanlar Kat 3"));
-                List.Add(new Depo("TS1A", "Sultanlar İade D"));
-                List.Add(new Depo("TS1B", "Sultanlar İmha D"));
-                List.Add(new Depo("TS5A", "Sult.Kurt İade D"));
-                List.Add(new Depo("TS5B", "Sult.Kurt İmha D"));
-                List.Add(new Depo("TBET", "E-Ticaret"));
             }
             else if (UY == "TB13")
             {
-                List.Add(new Depo("SP53", "SP53 Depo Yeri"));
-                List.Add(new Depo("TB10", "YEG Hammadde"));
-                List.Add(new Depo("TB11", "YEG Ambalaj"));
-                List.Add(new Depo("TB12", "Tibet YEG deposu"));
-                List.Add(new Depo("TB13", "Teslim Tesellüm"));
-                List.Add(new Depo("TB14", "YEG Üretim Depo"));
-                List.Add(new Depo("TB15", "İhracat Deposu"));
                 List.Add(new Depo("TB18", "YEG Sevkiyat"));
-                List.Add(new Depo("TB19", "YEG Sevk. Adet"));
                 List.Add(new Depo("TB1A", "İade Depo"));
                 List.Add(new Depo("TB1B", "İmha Depo"));
                 List.Add(new Depo("TB1C", "Karantina Depo"));
-                List.Add(new Depo("TB1D", "Promosyon Depo"));
                 List.Add(new Depo("TB1E", "Re-Work Depo"));
-                List.Add(new Depo("TB20", "Ü.İade Tesellüm"));
-                List.Add(new Depo("TBEF", "Envanter Farkı"));
-                List.Add(new Depo("TBET", "E-Ticaret"));
             }
             else if (UY == "TB20" || UY == "TB60")
             {
-                List.Add(new Depo("TS5B", "Sult.Kurt İmha D"));
-                List.Add(new Depo("TS5A", "Sult.Kurt İade D"));
-                List.Add(new Depo("TS2B", "Sultanlar İmha D"));
-                List.Add(new Depo("TS2A", "Sultanlar İade D"));
-                List.Add(new Depo("TBS3", "Sultanlar Kat 3"));
-                List.Add(new Depo("TBS2", "Sultanlar Kat 2"));
-                List.Add(new Depo("TBS1", "Sultanlar Kat 1"));
-                List.Add(new Depo("TBEF", "Envanter Farkı"));
-                List.Add(new Depo("TB30", "Ü.İade Tesellüm"));
-                List.Add(new Depo("TB2E", "Re-Work Depo"));
-                List.Add(new Depo("TB2D", "Promosyon Depo"));
-                List.Add(new Depo("TB2C", "Karantina Depo"));
-                List.Add(new Depo("TB2B", "İmha Depo"));
                 List.Add(new Depo("TB2A", "İade Depo"));
-                List.Add(new Depo("TB29", "Teknik Depo Y."));
-                List.Add(new Depo("TB28", "Dış Depolar"));
-                List.Add(new Depo("TB27", "Hyt.Transfer Dep"));
-                List.Add(new Depo("TB26", "Teslim Tesellüm"));
-                List.Add(new Depo("TB25", "İhracat Deposu"));
-                List.Add(new Depo("TB24", "Hayat Üretim"));
-                List.Add(new Depo("TB23", "Hayat Sevk. ADET"));
+                List.Add(new Depo("TB2B", "İmha Depo"));
+                List.Add(new Depo("TB2C", "Karantina Depo"));
+                List.Add(new Depo("TB2E", "Re-Work Depo"));
                 List.Add(new Depo("TB22", "Hayat Sevkiyat"));
-                List.Add(new Depo("TB21", "Hayat Ambalaj"));
-                List.Add(new Depo("TB20", "Hayat Hammadde"));
-                List.Add(new Depo("SP53", "SP53 Depo Yeri"));
-                List.Add(new Depo("TBET", "E-Ticaret"));
             }
             else if (UY == "TB80")
             {
-                List.Add(new Depo("SP53", "SP53 Depo Yeri"));
-                List.Add(new Depo("TB18", "Tibet Sevkiyat"));
-                List.Add(new Depo("TB22", "Hayat Sevkiyat"));
-                List.Add(new Depo("TB81", "Sultanlar Kat 1"));
-                List.Add(new Depo("TB82", "Sultanlar Kat 2"));
-                List.Add(new Depo("TB83", "Sultanlar Kat 3"));
                 List.Add(new Depo("TB85", "Transfer depo"));
-                List.Add(new Depo("TB8A", "İade depo"));
-                List.Add(new Depo("TB8B", "İmha Depo"));
-                List.Add(new Depo("TB8E", "Sultanlar Rework"));
-                List.Add(new Depo("TBET", "E-Ticaret"));
             }
         }
 

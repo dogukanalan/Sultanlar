@@ -123,12 +123,12 @@ namespace Sultanlar.UI
                     mail.To.Add(Eposta[i].ToString());
 
                 SmtpClient client = new SmtpClient();
-                client.Port = 587;
+                //client.Port = 587;
                 client.EnableSsl = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("sultanlar@sultan", "987456");
-                client.Host = "mail.sultanlar.com.tr";
+                client.Credentials = new NetworkCredential("sultanlar@sultan", "Rz17Av+63*");
+                client.Host = "webmail.sultanlar.com.tr";
                 mail.Subject = Konu;
                 mail.IsBodyHtml = true;
                 mail.Body = (Eposta.Count == 1 ? "Sayın " + Isimler[0].ToString() + ",<br><br>" : "") + Icerik;

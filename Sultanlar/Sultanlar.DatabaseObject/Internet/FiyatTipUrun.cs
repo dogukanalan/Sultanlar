@@ -232,7 +232,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT @TIP,ITEMREF,[MAL ACIK] AS MALZEME,AP FROM [Web-Malzeme-Full] WHERE ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Fiyat_VY] WHERE TIP = @TIP) ORDER BY ITEMREF", conn);
+                SqlDataAdapter da = new SqlDataAdapter("SELECT @TIP,[Web-Malzeme-Full].ITEMREF,[Web-Malzeme-Full].[MAL ACIK] AS MALZEME,AP FROM [Web-Malzeme-Full] INNER JOIN [Web-Fiyat] ON [Web-Malzeme-Full].ITEMREF = [Web-Fiyat].ITEMREF AND [Web-Fiyat].TIP = 20 WHERE [Web-Malzeme-Full].ITEMREF > 1200000 AND [Web-Malzeme-Full].ITEMREF < 1600000 AND [Web-Malzeme-Full].ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Fiyat_VY] WHERE TIP = @TIP) ORDER BY ITEMREF", conn); //SELECT @TIP,ITEMREF,[MAL ACIK] AS MALZEME,AP FROM [Web-Malzeme-Full] WHERE ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Fiyat_VY] WHERE TIP = @TIP) ORDER BY ITEMREF
                 if (TIP500 > 0 && TIP500 != TIP)
                     da.SelectCommand.CommandText = "SELECT @TIP,[Web-Fiyat].ITEMREF,[Web-Fiyat].[MAL ACIK] AS MALZEME,AP FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = " + TIP500.ToString() + " AND [Web-Fiyat].ITEMREF NOT IN (SELECT ITEMREF FROM [Web-Fiyat_VY] AS FIY WHERE TIP = @TIP) ORDER BY [Web-Fiyat].ITEMREF";
                 da.SelectCommand.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;

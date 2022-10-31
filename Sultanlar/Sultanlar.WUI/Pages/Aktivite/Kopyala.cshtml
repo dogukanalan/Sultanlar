@@ -243,9 +243,9 @@
                 $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsubetp/0").load();
             });
             $('#selectCariler').on('change', function (e) {
-                if (this.value == 1072532)
+                /*if (this.value == 1072532)
                     $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsube/" + this.value + "/" + $("#selectSaticilar").val()).load();
-                else
+                else*/
                     $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsubetp/" + this.value).load();
             });
         });

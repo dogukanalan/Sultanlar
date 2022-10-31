@@ -211,11 +211,11 @@ namespace Sultanlar.Class
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient client = new SmtpClient();
-                client.Port = 587;
+                //client.Port = 587;
                 client.EnableSsl = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("sultanlar", "qaWS.169!!");
+                client.Credentials = new NetworkCredential("sultanlar", "Rz17Av+63*");
                 client.Host = "webmail.sultanlar.com.tr";
                 mail.Subject = Konu;
                 mail.Body = Icerik;
@@ -297,11 +297,11 @@ namespace Sultanlar.Class
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient client = new SmtpClient();
-                client.Port = 587;
+                //client.Port = 587;
                 client.EnableSsl = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("sultanlar", "qaWS.169!!");
+                client.Credentials = new NetworkCredential("sultanlar", "Rz17Av+63*");
                 client.Host = "webmail.sultanlar.com.tr";
                 mail.Subject = Konu;
                 mail.Body = Icerik;
