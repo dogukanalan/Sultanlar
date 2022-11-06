@@ -64,6 +64,33 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
             }
         }
+        public static void GetObjectsAll(IList List, bool UI)
+        {
+            List.Clear();
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionStringGOKW3))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT [SLSMANREF],[SAT TEM] FROM [Web-SatisTemsilcileri] ORDER BY [SAT TEM]", conn);
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        List.Add(new SatisTemsilcileri(Convert.ToInt32(dr[0]), dr[1].ToString()));
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
         public static void GetObjects(ListItemCollection lic, bool web, bool Tumu)
         {
             lic.Clear();
