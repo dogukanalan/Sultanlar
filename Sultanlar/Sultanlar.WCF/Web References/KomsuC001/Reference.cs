@@ -13,7 +13,7 @@
 // 
 #pragma warning disable 1591
 
-namespace Sultanlar.WCF.Komsu002 {
+namespace Sultanlar.WCF.KomsuC001 {
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -26,17 +26,17 @@ namespace Sultanlar.WCF.Komsu002 {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3761.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="ZwebKomsuF002Binding", Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ZwebKomsuS_002[]))]
-    public partial class ZwebKomsuF002Service : System.Web.Services.Protocols.SoapHttpClientProtocol {
+    [System.Web.Services.WebServiceBindingAttribute(Name="ZwebKomsuF001Binding", Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(ZwebKomsuS_001[]))]
+    public partial class ZwebKomsuF001Service : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
-        private System.Threading.SendOrPostCallback ZwebKomsuF002OperationCompleted;
+        private System.Threading.SendOrPostCallback ZwebKomsuF001OperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
-        public ZwebKomsuF002Service() {
-            this.Url = global::Sultanlar.WCF.Properties.Settings.Default.Sultanlar_WCF_Komsu001_ZwebKomsuF001Service;
+        public ZwebKomsuF001Service() {
+            this.Url = global::Sultanlar.WCF.Properties.Settings.Default.Sultanlar_WCF_KomsuC001_ZwebKomsuF001Service;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -71,36 +71,36 @@ namespace Sultanlar.WCF.Komsu002 {
         }
         
         /// <remarks/>
-        public event ZwebKomsuF002CompletedEventHandler ZwebKomsuF002Completed;
+        public event ZwebKomsuF001CompletedEventHandler ZwebKomsuF001Completed;
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.sap.com/ZwebKomsuF002", RequestNamespace="urn:sap-com:document:sap:soap:functions:mc-style", ResponseElementName="ZwebKomsuF002Result", ResponseNamespace="urn:sap-com:document:sap:soap:functions:mc-style", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.sap.com/ZwebKomsuF001", RequestNamespace="urn:sap-com:document:sap:soap:functions:mc-style", ResponseElementName="ZwebKomsuF001Result", ResponseNamespace="urn:sap-com:document:sap:soap:functions:mc-style", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlArrayAttribute("EtExport", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         [return: System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public ZwebKomsuS_002[] ZwebKomsuF002([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string IvMatnr) {
-            object[] results = this.Invoke("ZwebKomsuF002", new object[] {
+        public ZwebKomsuS_001[] ZwebKomsuF001([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string IvMatnr) {
+            object[] results = this.Invoke("ZwebKomsuF001", new object[] {
                         IvMatnr});
-            return ((ZwebKomsuS_002[])(results[0]));
+            return ((ZwebKomsuS_001[])(results[0]));
         }
         
         /// <remarks/>
-        public void ZwebKomsuF002Async(string IvMatnr) {
-            this.ZwebKomsuF002Async(IvMatnr, null);
+        public void ZwebKomsuF001Async(string IvMatnr) {
+            this.ZwebKomsuF001Async(IvMatnr, null);
         }
         
         /// <remarks/>
-        public void ZwebKomsuF002Async(string IvMatnr, object userState) {
-            if ((this.ZwebKomsuF002OperationCompleted == null)) {
-                this.ZwebKomsuF002OperationCompleted = new System.Threading.SendOrPostCallback(this.OnZwebKomsuF002OperationCompleted);
+        public void ZwebKomsuF001Async(string IvMatnr, object userState) {
+            if ((this.ZwebKomsuF001OperationCompleted == null)) {
+                this.ZwebKomsuF001OperationCompleted = new System.Threading.SendOrPostCallback(this.OnZwebKomsuF001OperationCompleted);
             }
-            this.InvokeAsync("ZwebKomsuF002", new object[] {
-                        IvMatnr}, this.ZwebKomsuF002OperationCompleted, userState);
+            this.InvokeAsync("ZwebKomsuF001", new object[] {
+                        IvMatnr}, this.ZwebKomsuF001OperationCompleted, userState);
         }
         
-        private void OnZwebKomsuF002OperationCompleted(object arg) {
-            if ((this.ZwebKomsuF002Completed != null)) {
+        private void OnZwebKomsuF001OperationCompleted(object arg) {
+            if ((this.ZwebKomsuF001Completed != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.ZwebKomsuF002Completed(this, new ZwebKomsuF002CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.ZwebKomsuF001Completed(this, new ZwebKomsuF001CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -129,148 +129,83 @@ namespace Sultanlar.WCF.Komsu002 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="urn:sap-com:document:sap:soap:functions:mc-style")]
-    public partial class ZwebKomsuS_002 {
+    public partial class ZwebKomsuS_001 {
         
-        private string productCodeField;
+        private string categorycodeField;
         
-        private string productNameField;
+        private string categorynameField;
         
-        private string brandField;
+        private string parentcodeField;
         
-        private string categoryField;
-        
-        private string productDetailField;
-        
-        private string taxRateField;
-        
-        private string stockUnitField;
-        
-        private string priceUnitField;
-        
-        private string associationCodeField;
+        private string isactiveField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string ProductCode {
+        public string Categorycode {
             get {
-                return this.productCodeField;
+                return this.categorycodeField;
             }
             set {
-                this.productCodeField = value;
+                this.categorycodeField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string ProductName {
+        public string Categoryname {
             get {
-                return this.productNameField;
+                return this.categorynameField;
             }
             set {
-                this.productNameField = value;
+                this.categorynameField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string Brand {
+        public string Parentcode {
             get {
-                return this.brandField;
+                return this.parentcodeField;
             }
             set {
-                this.brandField = value;
+                this.parentcodeField = value;
             }
         }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string Category {
+        public string Isactive {
             get {
-                return this.categoryField;
+                return this.isactiveField;
             }
             set {
-                this.categoryField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string ProductDetail {
-            get {
-                return this.productDetailField;
-            }
-            set {
-                this.productDetailField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string TaxRate {
-            get {
-                return this.taxRateField;
-            }
-            set {
-                this.taxRateField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string StockUnit {
-            get {
-                return this.stockUnitField;
-            }
-            set {
-                this.stockUnitField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string PriceUnit {
-            get {
-                return this.priceUnitField;
-            }
-            set {
-                this.priceUnitField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string AssociationCode {
-            get {
-                return this.associationCodeField;
-            }
-            set {
-                this.associationCodeField = value;
+                this.isactiveField = value;
             }
         }
     }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3761.0")]
-    public delegate void ZwebKomsuF002CompletedEventHandler(object sender, ZwebKomsuF002CompletedEventArgs e);
+    public delegate void ZwebKomsuF001CompletedEventHandler(object sender, ZwebKomsuF001CompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.3761.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class ZwebKomsuF002CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class ZwebKomsuF001CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal ZwebKomsuF002CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal ZwebKomsuF001CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
         
         /// <remarks/>
-        public ZwebKomsuS_002[] Result {
+        public ZwebKomsuS_001[] Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((ZwebKomsuS_002[])(this.results[0]));
+                return ((ZwebKomsuS_001[])(this.results[0]));
             }
         }
     }

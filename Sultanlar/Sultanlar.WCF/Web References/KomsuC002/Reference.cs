@@ -13,7 +13,7 @@
 // 
 #pragma warning disable 1591
 
-namespace Sultanlar.WCF.Komsu002 {
+namespace Sultanlar.WCF.KomsuC002 {
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -36,7 +36,7 @@ namespace Sultanlar.WCF.Komsu002 {
         
         /// <remarks/>
         public ZwebKomsuF002Service() {
-            this.Url = global::Sultanlar.WCF.Properties.Settings.Default.Sultanlar_WCF_Komsu001_ZwebKomsuF001Service;
+            this.Url = global::Sultanlar.WCF.Properties.Settings.Default.Sultanlar_WCF_KomsuC001_ZwebKomsuF001Service;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;

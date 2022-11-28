@@ -15,15 +15,15 @@ namespace Sultanlar.WCF
         void DoWork();
 
         [OperationContract]
-        Komsu001.ZwebKomsuS_001[] komsu001(string Matnr);
+        KomsuC001.ZwebKomsuS_001[] komsu001(string Matnr);
 
         [OperationContract]
-        Komsu002.ZwebKomsuS_002[] komsu002(string Matnr);
+        KomsuC002.ZwebKomsuS_002[] komsu002(string Matnr);
 
         [OperationContract]
-        Komsu003.ZwebKomsuS_003[] komsu003(string Matnr);
+        KomsuC003.ZwebKomsuS_003[] komsu003(string Matnr);
 
         [OperationContract]
-        Komsu004.ZwebKomsuS_004[] komsu004(string Matnr, Komsu004.Werks Werks);
+        KomsuC004.ZwebKomsuS_004[] komsu004(string Matnr, KomsuC004.Werks Werks);
     }
 }

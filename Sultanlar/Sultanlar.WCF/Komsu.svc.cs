@@ -25,32 +25,32 @@ namespace Sultanlar.WCF
             return "Çalışıyor";
         }
 
-        public Komsu001.ZwebKomsuS_001[] komsu001(string Matnr)
+        public KomsuC001.ZwebKomsuS_001[] komsu001(string Matnr)
         {
-            Komsu001.ZwebKomsuF001Service srv = new Komsu001.ZwebKomsuF001Service();
+            KomsuC001.ZwebKomsuF001Service srv = new KomsuC001.ZwebKomsuF001Service();
             srv.Credentials = nc3;
             return srv.ZwebKomsuF001(Matnr);
         }
 
-        public Komsu002.ZwebKomsuS_002[] komsu002(string Matnr)
+        public KomsuC002.ZwebKomsuS_002[] komsu002(string Matnr)
         {
-            Komsu002.ZwebKomsuF002Service srv = new Komsu002.ZwebKomsuF002Service();
+            KomsuC002.ZwebKomsuF002Service srv = new KomsuC002.ZwebKomsuF002Service();
             srv.Credentials = nc3;
             return srv.ZwebKomsuF002(Matnr);
         }
 
-        public Komsu003.ZwebKomsuS_003[] komsu003(string Matnr)
+        public KomsuC003.ZwebKomsuS_003[] komsu003(string Matnr)
         {
-            Komsu003.ZwebKomsuF003Service srv = new Komsu003.ZwebKomsuF003Service();
+            KomsuC003.ZwebKomsuF003Service srv = new KomsuC003.ZwebKomsuF003Service();
             srv.Credentials = nc3;
             return srv.ZwebKomsuF003(Matnr);
         }
 
-        public Komsu004.ZwebKomsuS_004[] komsu004(string Matnr, Komsu004.Werks Werks)
+        public KomsuC004.ZwebKomsuS_004[] komsu004(string Matnr, KomsuC004.Werks Werks)
         {
-            Komsu004.ZwebKomsuF004Service srv = new Komsu004.ZwebKomsuF004Service();
+            KomsuC004.ZwebKomsuF004Service srv = new KomsuC004.ZwebKomsuF004Service();
             srv.Credentials = nc3;
-            Komsu004.ZwebKomsuS_004[] dortler = srv.ZwebKomsuF004(Matnr, Werks);
+            KomsuC004.ZwebKomsuS_004[] dortler = srv.ZwebKomsuF004(Matnr, Werks);
             return dortler;
         }
     }

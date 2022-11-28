@@ -40,7 +40,7 @@ namespace Sultanlar.DbObj.Internet
         public string strAciklama4 { get; set; }
         public int intOnay { get; set; }
 
-        public int fiyatTip500 { get { return new fiyatTipleri().GetObjectByGMREF(SMREF).NOSU; } }
+        public int fiyatTip500 { get { return new fiyatTipleri().GetObjectByGMREF(SMREF, strAciklama2 == "2" ? 1 : 4).NOSU; } }
         public double ahtCiroPrimDonusYuzdeToplam { get { return flTAHCiro + flTAHCiro3 + flTAHCiro6 + flTAHCiro12; } }
         public double yegCiroPrimDonusYuzdeToplam { get { return flYEGCiro + flYEGCiro3 + flYEGCiro6 + flYEGCiro12; } }
 

@@ -267,18 +267,21 @@
                         checkAuth(response);
 
                         bolumdata = [{
-                            name: 'ARI',
-                            data: []
-                        }, {
-                            name: 'HAYAT',
-                            data: []
-                        }, {
-                            name: 'TEMİZLİK',
-                            data: []
-                        }, {
-                            name: 'YEG',
-                            data: []
-                        }];
+                                name: 'ARI',
+                                data: []
+                            }, {
+                                name: 'HAYAT',
+                                data: []
+                            }, {
+                                name: 'TEMİZLİK',
+                                data: []
+                            }, {
+                                name: 'YEG',
+                                data: []
+                            }, {
+                                name: 'ÇAPA MEDİKAL',
+                                data: []
+                            }];
                         for (var i = 0; i < data.length; i++) {
                             for (var j = 0; j < bolumdata.length; j++) {
                                 if (data[i].bolum == bolumdata[j].name) {
@@ -299,6 +302,7 @@
             var toplamhayat = 0;
             var toplamtemizlik = 0;
             var toplamyeg = 0;
+            var toplamcapa = 0;
             for (var i = 0; i < bolumdata.length; i++) {
                 for (var j = 0; j < bolumdata[i].data.length; j++) {
                     if (bolumdata[i].name == "ARI") {
@@ -313,10 +317,13 @@
                     else if (bolumdata[i].name == "YEG") {
                         toplamyeg += bolumdata[i].data[j];
                     }
+                    else if (bolumdata[i].name == "ÇAPA MEDİKAL") {
+                        toplamcapa += bolumdata[i].data[j];
+                    }
                     toplam += bolumdata[i].data[j];
                 }
             }
-            return toplam.formatMoney(0, 0, ".") + " (Arı: " + toplamari.formatMoney(0, 0, ".") + " Hayat: " + toplamhayat.formatMoney(0, 0, ".") + " Temizlik: " + toplamtemizlik.formatMoney(0, 0, ".") + " Yeg:" + toplamyeg.formatMoney(0, 0, ".") + ")";
+            return toplam.formatMoney(0, 0, ".") + " (Arı: " + toplamari.formatMoney(0, 0, ".") + " Hayat: " + toplamhayat.formatMoney(0, 0, ".") + " Temizlik: " + toplamtemizlik.formatMoney(0, 0, ".") + " Yeg:" + toplamyeg.formatMoney(0, 0, ".") + " Çapa Medikal:" + toplamcapa.formatMoney(0, 0, ".") + ")";
         }
 
         function HedefGetir() {

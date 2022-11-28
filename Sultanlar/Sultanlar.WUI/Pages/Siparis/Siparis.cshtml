@@ -61,10 +61,11 @@
 
                     if (parseInt(getParameterByName("ftip")) > 5000 || parseInt(getParameterByName("ftip")) < 500) {
                         var datatablethis = $(this);
+                        var ref = getParameterByName("mtip") == "4" ? getParameterByName("smref") : getParameterByName("gmref");
                         $.ajax(
                             {
                                 beforeSend: function (xhr) { xhrTicket(xhr); },
-                                url: apiurl + 'fiyat/GetVyByGMREF/' + getParameterByName("gmref"),
+                                url: apiurl + 'fiyat/GetVyByGMREF/' + ref + '/' + getParameterByName("mtip"),
                                 success: function (data, textStatus, response) {
 
                                     if (data.length > 0) {

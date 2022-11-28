@@ -46,9 +46,9 @@ namespace Sultanlar.DbObj.Internet
         public bool BayiMi { get { return MTKOD == "Z1"; } }
         public bool AnaCariMi { get { return GMREF == SMREF; } }
         public string AnaCari { get { if (Subelerden) return ""; return AnaCariMi ? MUSTERI : new cariHesaplar().GetObject1(1, GMREF).MUSTERI; } }
-        public int fiyatTip500 { get { if (Subelerden) return 0; fiyatTipleri tip = TIP == 1 ? new fiyatTipleri().GetObjectByGMREF(GMREF) : TIP == 4 ? new fiyatTipleri().GetObjectByGMREF(SMREF) : TIP == 5 ? new fiyatTipleri().GetObjectByGMREF(Convert.ToInt32(NETTOP)) : new fiyatTipleri(); fiyatTip500ack = tip.ACIKLAMA; return tip.NOSU; } } //fiyatTipleri tip = TIP == 1 ? new fiyatTipleri().GetObjectByGMREF(GMREF) : TIP == 4 || TIP == 5 ? new fiyatTipleri().GetObjectVyByGMREF(SMREF) : new fiyatTipleri();
+        public int fiyatTip500 { get { if (Subelerden) return 0; fiyatTipleri tip = TIP == 1 ? new fiyatTipleri().GetObjectByGMREF(GMREF, TIP) : TIP == 4 ? new fiyatTipleri().GetObjectByGMREF(SMREF, TIP) : TIP == 5 ? new fiyatTipleri().GetObjectByGMREF(Convert.ToInt32(NETTOP), 4) : new fiyatTipleri(); fiyatTip500ack = tip.ACIKLAMA; return tip.NOSU; } } //fiyatTipleri tip = TIP == 1 ? new fiyatTipleri().GetObjectByGMREF(GMREF) : TIP == 4 || TIP == 5 ? new fiyatTipleri().GetObjectVyByGMREF(SMREF) : new fiyatTipleri();
         public string fiyatTip500ack { get; set; }
-        public int fiyatTip500smref { get { if (Subelerden) return 0; fiyatTipleri tip = new fiyatTipleri().GetObjectByGMREF(SMREF); fiyatTip500smrefack = tip.ACIKLAMA; return tip.NOSU; } } //GetObjectVyByGMREF
+        public int fiyatTip500smref { get { if (Subelerden) return 0; fiyatTipleri tip = new fiyatTipleri().GetObjectByGMREF(SMREF, TIP); fiyatTip500smrefack = tip.ACIKLAMA; return tip.NOSU; } } //GetObjectVyByGMREF
         public string fiyatTip500smrefack { get; set; }
         public konumListe konumA { get { return new konumListe().GetObject(SMREF, TIP); } }
         public cariHesaplarAcik acik { get { if (Subelerden) return new cariHesaplarAcik(); return new cariHesaplarAcik(SMREF, TIP).GetObject(); } }

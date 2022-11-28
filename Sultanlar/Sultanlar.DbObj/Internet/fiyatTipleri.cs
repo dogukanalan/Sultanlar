@@ -61,7 +61,7 @@ namespace Sultanlar.DbObj.Internet
             return donendeger;
         }
         /// <summary>
-        /// 
+        /// MTIP eklendikten sonra kullanmıyoruz
         /// </summary>
         /// <returns></returns>
         public fiyatTipleri GetObjectByGMREF(int GMREF)
@@ -69,6 +69,20 @@ namespace Sultanlar.DbObj.Internet
             fiyatTipleri donendeger = new fiyatTipleri();
 
             Dictionary<int, object> dic = GetObject("db_sp_fiyatTipiGetirByGMREF", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
+            if (dic != null)
+                donendeger = new fiyatTipleri(ConvertToInt32(dic[0]), dic[1].ToString(), ConvertToInt32(dic[2]));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public fiyatTipleri GetObjectByGMREF(int GMREF, int MTIP)
+        {
+            fiyatTipleri donendeger = new fiyatTipleri();
+
+            Dictionary<int, object> dic = GetObject("db_sp_fiyatTipiGetirByGMREFMTIP", new Dictionary<string, object>() { { "GMREF", GMREF }, { "MTIP", MTIP } }, timeout);
             if (dic != null)
                 donendeger = new fiyatTipleri(ConvertToInt32(dic[0]), dic[1].ToString(), ConvertToInt32(dic[2]));
 
