@@ -723,16 +723,17 @@ function stringifySepet(sepet, smref, fiyattipi, mtip, siparisid) {
     return sentValue;
 }
 
-function stringifySepetI(sepet, smref, iadeid) {
+function stringifySepetI(sepet, smref, mtip, iadeid) {
     var sentValue;
     for (var i = 0; i < sepet.length; i++) {
-        if (sepet[i].smref === smref && sepet[i].iadeid === iadeid) {
+        if (sepet[i].smref === smref && sepet[i].mtip === mtip && sepet[i].iadeid === iadeid) {
             var sepet2 = sepet[i];
             sepet2.musteri = window.localStorage["uyeid"];
             sentValue = JSON.stringify(sepet2);
             break;
         }
     }
+    console.log(sentValue);
     return sentValue;
 }
 

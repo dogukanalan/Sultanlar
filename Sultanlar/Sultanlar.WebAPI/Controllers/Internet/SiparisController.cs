@@ -39,5 +39,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet("{Fiyattipi}/{ITEMREF}")]
         public SiparisIsks GetIsks500(int Fiyattipi, int ITEMREF) => new SiparisProvider().Isks500(Fiyattipi, ITEMREF);
+        [HttpGet("{SLSREF}")]
+        public List<siparislerDetay> GetSevksiz(int SLSREF) => new SiparisProvider().Sevksiz(SLSREF);
     }
 }

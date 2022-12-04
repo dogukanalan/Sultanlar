@@ -55,7 +55,7 @@
                     dataSrc: "",
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "cari/gethepsi/" + slsref
+                    url: apiurl + "cari/gethepsi124/" + slsref
                 },
                 columns: [
                     {
@@ -69,8 +69,8 @@
                         }
                     },
                     {
-                        "data": "smref", "class": "keyTd", render: function (data, type, row) {
-                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" accesskey="' + data + '" /><div class="state p-primary-o"><label></label></div></div>';
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" accesskey="' + data.smref + '" value="' + data.tip + '" /><div class="state p-primary-o"><label></label></div></div>';
                         }
                     }
                 ],
@@ -88,11 +88,10 @@
             sentValue = '{ "iadeID": ' + iadeid + ', "smreFs": [';
             $('.smm').each(function () {
                 if ($(this).is(':checked')) {
-                    sentValue += '{ "smref": ' + $(this).attr("accesskey") + ' },';
+                    sentValue += '{ "smref": ' + $(this).attr("accesskey") + ', "tip": ' + $(this).attr("value") + ' },';
                 }
             });
             sentValue = sentValue.substring(0, sentValue.length - 1) + '] }';
-            console.log(sentValue);
 
             $.ajax(
                 {
@@ -120,7 +119,7 @@
             document.getElementById("basTitle").innerHTML = "İade Kopyala (" + iadeid + ")";
             SaticilarGetir(window.localStorage["uyeid"]);
             $('#selectSaticilar').on('change', function (e) {
-                $('#dtTable').DataTable().ajax.url(apiurl + "cari/gethepsi/" + this.value).load();
+                $('#dtTable').DataTable().ajax.url(apiurl + "cari/gethepsi124/" + this.value).load();
             });
         });
     </script>

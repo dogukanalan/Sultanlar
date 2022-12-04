@@ -37,6 +37,7 @@ namespace Sultanlar.WebAPI.Models.Internet
     public class IadeKopyaSmref
     {
         public int smref { get; set; }
+        public int tip { get; set; }
     }
 
     public class IadeKaydet
@@ -44,6 +45,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public int iadeid { get; set; }
         public string musteri { get; set; }
         public int smref { get; set; }
+        public int mtip { get; set; }
         public string aciklama { get; set; }
         public List<IadeKaydetDetay> detaylar { get; set; }
     }

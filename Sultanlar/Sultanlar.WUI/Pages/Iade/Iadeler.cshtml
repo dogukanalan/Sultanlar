@@ -58,7 +58,7 @@
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "cari/getsube/" + getGmref() + "/" + getSlsref(),
+                    url: apiurl + "cari/getsube1/" + getGmref() + "/" + getSlsref(),
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 

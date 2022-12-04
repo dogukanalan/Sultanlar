@@ -12,6 +12,7 @@
 
     <script>
         var paramsmref;
+        var parammtip;
         var iadeid;
         var sepet;
 
@@ -141,7 +142,7 @@
         function kaydet() {
             if (Object.keys(sepet).length != 0) {
                 if (confirm("İadeyi kaydetmek istediğinize emin misiniz?")) {
-                    window.location.href = 'Kaydet?onay=0&smref=' + paramsmref + '&iadeid=' + iadeid;
+                    window.location.href = 'Kaydet?onay=0&smref=' + paramsmref + '&mtip=' + parammtip + '&iadeid=' + iadeid;
                 }
             }
         }
@@ -162,6 +163,7 @@
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
             paramsmref = getParameterByName('smref');
+            parammtip = getParameterByName('mtip');
             iadeid = getParameterByName('iadeid');
             sepet = [];
             initSepet();

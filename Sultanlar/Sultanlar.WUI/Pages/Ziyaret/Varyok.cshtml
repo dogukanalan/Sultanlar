@@ -255,58 +255,62 @@
         }
 
         function kaydet() {
-            var sentData = { barkod: sepet.barkod, tip: sepet.tip, musteri: window.localStorage["uyeid"], detays: [] };
+            if (sepet) {
 
-            for (var i = 0; i < sepet.detays.length; i++) {
-                //if (sepet.detays[i].fiyatvy.isaret == true) {
-                    sentData.detays.push(
-                        {
-                            itemref: sepet.detays[i].itemref,
-                            isaret: sepet.detays[i].fiyatvy.isaret,
-                            varyok: sepet.detays[i].fiyatvy.varyok,
-                            depo: sepet.detays[i].fiyatvy.depo,
-                            raf: sepet.detays[i].fiyatvy.raf,
-                            raffiyat: sepet.detays[i].fiyatvy.raffiyat,
-                            skt: sepet.detays[i].fiyatvy.skt,
-                            siparis: sepet.detays[i].fiyatvy.siparis
-                        });
-                //}
-            }
+                var sentData = { barkod: sepet.barkod, tip: sepet.tip, musteri: window.localStorage["uyeid"], detays: [] };
 
-            $.ajax(
-                {
-                    xhr: function () { return xhrDownloadUpload(); },
-                    beforeSend: function (xhr) { xhrTicket(xhr); },
-                    type: 'POST',
-                    //timeout: 15000,
-                    url: apiurl + "ziyaret/varyokekle",
-                    data: JSON.stringify(sentData),
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    success: function (data, textStatus, response) {
-                        checkAuth(response);
-                        window.localStorage.removeItem("sepetV");
-                        if (data == '')
-                            alert('Liste gönderildi.');
-                        else
-                            alert('Liste kaydedilemedi: ' + data);
-                        window.location.href = 'Ziyaret';
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        if (XMLHttpRequest.readyState == 4) {
-                            alert('hata:' + JSON.stringify(sentData)); window.location.href = 'Ziyaret';
-                        }
-                        else if (XMLHttpRequest.readyState == 0) {
-                            alert('Bağlantı hatası.');
-                        }
-                        else {
-                            alert('hata: ' + JSON.stringify(sentData)); window.location.href = 'Ziyaret';
-                        }
-
-                        hataekle('ziyaretvaryok ' + XMLHttpRequest.readyState, btoa(JSON.stringify(sentData)));
-                    }
+                for (var i = 0; i < sepet.detays.length; i++) {
+                    //if (sepet.detays[i].fiyatvy.isaret == true) {
+                        sentData.detays.push(
+                            {
+                                itemref: sepet.detays[i].itemref,
+                                isaret: sepet.detays[i].fiyatvy.isaret,
+                                varyok: sepet.detays[i].fiyatvy.varyok,
+                                depo: sepet.detays[i].fiyatvy.depo,
+                                raf: sepet.detays[i].fiyatvy.raf,
+                                raffiyat: sepet.detays[i].fiyatvy.raffiyat,
+                                skt: sepet.detays[i].fiyatvy.skt,
+                                siparis: sepet.detays[i].fiyatvy.siparis
+                            });
+                    //}
                 }
-            );
+
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        type: 'POST',
+                        //timeout: 15000,
+                        url: apiurl + "ziyaret/varyokekle",
+                        data: JSON.stringify(sentData),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (data, textStatus, response) {
+                            checkAuth(response);
+                            window.localStorage.removeItem("sepetV");
+                            if (data == '')
+                                alert('Liste gönderildi.');
+                            else
+                                alert('Liste kaydedilemedi: ' + data);
+                            window.location.href = 'Ziyaret';
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            if (XMLHttpRequest.readyState == 4) {
+                                alert('hata:' + JSON.stringify(sentData)); window.location.href = 'Ziyaret';
+                            }
+                            else if (XMLHttpRequest.readyState == 0) {
+                                alert('Bağlantı hatası.');
+                            }
+                            else {
+                                alert('hata: ' + JSON.stringify(sentData)); window.location.href = 'Ziyaret';
+                            }
+
+                            hataekle('ziyaretvaryok ' + XMLHttpRequest.readyState, btoa(JSON.stringify(sentData)));
+                        }
+                    }
+                );
+
+            }
         }
 
         function sil() {

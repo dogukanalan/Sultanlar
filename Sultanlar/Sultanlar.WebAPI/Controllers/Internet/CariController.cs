@@ -42,6 +42,9 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public List<cariHesaplar> GetHepsi12(int slsref) => new CariProvider().Cariler12All(slsref);
 
         [HttpGet, Route("internet/[controller]/[action]/{slsref}")]
+        public List<cariHesaplar> GetHepsi124(int slsref) => new CariProvider().Cariler124All(slsref);
+
+        [HttpGet, Route("internet/[controller]/[action]/{slsref}")]
         public List<cariHesaplar> GetHepsi11(int slsref) => new CariProvider().Cariler11All(slsref);
 
         [HttpGet, Route("internet/[controller]/[action]/{tip}/{smref}")]

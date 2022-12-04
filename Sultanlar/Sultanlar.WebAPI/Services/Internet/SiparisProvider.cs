@@ -25,7 +25,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             DtAjaxResponse donendeger = new DtAjaxResponse();
             List<siparisler> donendeger2 = new List<siparisler>();
 
-            object Onay = sget.onay == "1" ? true : sget.onay == "0" ? false : (object)DBNull.Value;
+            object Onay = sget.onay == "1" || sget.onay == "3" ? true : sget.onay == "0" ? false : (object)DBNull.Value;
             object Ay = sget.ay == 0 ? (object)DBNull.Value : sget.ay;
 
             if (sget.smref != 0)
@@ -311,6 +311,11 @@ namespace Sultanlar.WebAPI.Services.Internet
             fiyatlar fiy = new fiyatlar(Fiyattipi, ITEMREF).GetObject();
             SiparisIsks donendeger = new SiparisIsks() { fiyat = fiy.FIYAT, isk1 = fiy.ISK1, isk2 = fiy.ISK2, isk3 = fiy.ISK3, isk4 = fiy.ISK6 };
             return donendeger;
+        }
+
+        internal List<siparislerDetay> Sevksiz(int SLSREF)
+        {
+            return new siparislerDetay().GetObjectsSevksiz(SLSREF);
         }
     }
 }

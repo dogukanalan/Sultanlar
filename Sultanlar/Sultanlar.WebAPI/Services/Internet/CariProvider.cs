@@ -91,6 +91,8 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal List<cariHesaplar> Cariler12All(int SLSREF) => new cariHesaplar().GetObjects12(SLSREF);
 
+        internal List<cariHesaplar> Cariler124All(int SLSREF) => new cariHesaplar().GetObjects124(SLSREF);
+
         internal cariHesaplar Cari(int TIP, int SMREF) => new cariHesaplar().GetObject1(TIP, SMREF);
     }
 }

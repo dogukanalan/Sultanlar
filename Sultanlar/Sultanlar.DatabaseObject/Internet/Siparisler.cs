@@ -80,6 +80,9 @@ namespace Sultanlar.DatabaseObject.Internet
         public DateTime dtOlusmaTarihi { get { return this._dtOlusmaTarihi; } set { this._dtOlusmaTarihi = value; } }
         public decimal mnToplamTutar { get { return this._mnToplamTutar; } set { this._mnToplamTutar = value; } }
         public bool blAktarilmis { get { return this._blAktarilmis; } set { this._blAktarilmis = value; } }
+        /// <summary>
+        /// MTIP
+        /// </summary>
         public int TKSREF { get { return this._TKSREF; } set { this._TKSREF = value; } }
         public DateTime dtOnaylamaTarihi { get { return this._dtOnaylamaTarihi; } set { this._dtOnaylamaTarihi = value; } }
         public string strAciklama { get { return this._strAciklama; } set { this._strAciklama = value; } }

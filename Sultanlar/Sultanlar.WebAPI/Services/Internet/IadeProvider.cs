@@ -97,7 +97,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             iadeler kopyalanacak = new iadeler(ikg.IadeID).GetObject();
             for (int i = 0; i < ikg.SMREFs.Count; i++)
             {
-                iadeler iade = new iadeler(kopyalanacak.intMusteriID, ikg.SMREFs[i].smref, DateTime.Now, kopyalanacak.mnToplamTutar, false, DateTime.Now, kopyalanacak.strAciklama, kopyalanacak.strNedenKod, kopyalanacak.strDepoKod, kopyalanacak.strDepoUY, kopyalanacak.strPartiNo);
+                iadeler iade = new iadeler(kopyalanacak.intMusteriID, ikg.SMREFs[i].smref, DateTime.Now, kopyalanacak.mnToplamTutar, false, DateTime.Now, kopyalanacak.strAciklama, kopyalanacak.strNedenKod, kopyalanacak.strDepoKod, kopyalanacak.strDepoUY, kopyalanacak.strPartiNo, ikg.SMREFs[i].tip);
                 iade.DoInsert();
                 for (int j = 0; j < kopyalanacak.detaylar.Count; j++)
                 {
@@ -125,7 +125,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(ikg.musteri))).GetObject();
             int musid = new musteriler().GetMusteriBySLSREF(new cariHesaplar(ikg.smref).GetObject().SLSREF).pkMusteriID;
 
-            iadeler iade = new iadeler(musid != 0 ? musid : mus.pkMusteriID, ikg.smref, DateTime.Now, 0, false, DateTime.Now, mus.AdSoyad + ";;;" + ikg.aciklama + ";;;", "", "", "", "");
+            iadeler iade = new iadeler(musid != 0 ? musid : mus.pkMusteriID, ikg.smref, DateTime.Now, 0, false, DateTime.Now, mus.AdSoyad + ";;;" + ikg.aciklama + ";;;", "", "", "", "", ikg.mtip);
             iade.DoInsert();
             for (int i = 0; i < ikg.detaylar.Count; i++)
             {

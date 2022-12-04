@@ -1,0 +1,252 @@
+﻿@page
+@model SevkModel
+@{
+    ViewData["Title"] = "Sipariş Sevk (" + Request.QueryString.Value.Replace("?siparisid=", "").Replace("?slsref=", "") + ")";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+
+    <script>
+        var table;
+        var sipid;
+
+        function SiparislerDetayGetir(scrollx, yazdir) {
+            var datasrc;
+            var url1;
+            if (getParameterByName('siparisid')) {
+                url1 = apiurl + "siparis/get/" + getParameterByName('siparisid');
+                datasrc = "detaylar";
+            }
+            else {
+                url1 = apiurl + "siparis/getsevksiz/" + getParameterByName('slsref');
+                datasrc = "";
+            }
+
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+
+                sipid = json.pkSiparisID;
+
+                var yazi = "Sevk";
+                if (getParameterByName('siparisid')) {
+                    document.getElementById("basTitle").innerHTML = "Sipariş " + yazi + " (" + sipid + ")";
+                    document.getElementById("sipMus").innerHTML = json.cari.sube;
+                    document.getElementById("aciklama").innerHTML = json.aciklama2;
+                }
+                else {
+                    document.getElementById("basTitle").innerHTML = "Sipariş " + yazi;
+                }
+            }).DataTable({
+                "scrollX": scrollx,
+                ajax: {
+                    dataSrc: datasrc,
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    qtip();
+
+                    if (yazdir) {
+                        window.print();
+                    }
+
+                    $('input[name="sevkler"]').on('keyup', function () {
+                        $("#span" + this.id.replace("sevk", "")).text(this.value);
+                    });
+                },
+                "fnDrawCallback": function (oSettings) {
+
+                },
+                /*dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                        },
+                        title: function () {
+                            var printTitle = document.getElementById('sipMus').innerHTML + ' (' + sipid + ')';
+                            return printTitle;
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                            format: {
+                                body: function (data, row, column, node) {
+                                    data = $('<p>' + data + '</p>').text();
+                                    return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
+                                }
+                            }
+                        }
+                    }
+                ],*/
+                columns: [
+                    {
+                        "data": "intUrunID", "class": "bgwhite keyTd hidewhenmobile", render: function (data, type, row) {
+                            return '<div class="imgKucRes"><img class="urunResim lazyload" rel="' + apiurl + 'resim/getT/' + data + '" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="' + apiurl + 'resim/getTO/' + data + '" /></div>';
+                        },
+                        "name": "ID",
+                        title: 'Resim'
+                    },
+                    {
+                        "data": "intUrunID", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        },
+                        title: 'Kod'
+                    },
+                    {
+                        "data": "malzeme", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli malacik">' + data.malacik + '</span>';
+                        },
+                        title: 'Malzeme'
+                    },
+                    {
+                        "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli koliic">' + data.koli + '</span>';
+                        },
+                        title: 'Koli'
+                    },
+                    {
+                        "data": "mnFiyat", "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli netkdv">' + data.formatMoney(2, ',', '.') + '</span>';
+                        },
+                        title: 'Fiyat'
+                    },
+                    /*{
+                        "data": null, "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli isk1">' + (data.isks ? data.isks.isK1.formatMoney(3, ',', '.') : '') + '</span>';
+                        },
+                        title: 'İsk1'
+                    },
+                    {
+                        "data": null, "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli isk2">' + (data.isks ? data.isks.isK2.formatMoney(3, ',', '.') : '') + '</span>';
+                        },
+                        title: 'İsk2'
+                    },
+                    {
+                        "data": null, "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli isk3">' + (data.isks ? data.isks.isK3.formatMoney(3, ',', '.') : '') + '</span>';
+                        },
+                        title: 'İsk3'
+                    },
+                    {
+                        "data": null, "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli isk4">' + (data.isks ? data.isks.isK4.formatMoney(3, ',', '.') : '') + '</span>';
+                        },
+                        title: 'İsk4'
+                    },*/
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<span id="miktar' + data.pkSiparisDetayID + '" class="sinirli miktarlar">' + data.intMiktar + '</span>' + '<span class="sinirli"> (' + (data.strMiktarTur === "KI" ? 'kl' : 'ad') + ')</span>';
+                        },
+                        title: 'Miktar'
+                    },
+                    {
+                        "data": null, "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + (data.isks ? iskDusCoklu((data.mnFiyat), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4).formatMoney(2, ',', '.') : '') + '</span>';
+                        },
+                        title: 'Net'
+                    },
+                    {
+                        "data": null, "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + (data.isks ? iskDusCoklu((data.mnFiyat * data.intMiktar), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4).formatMoney(2, ',', '.') : '') + '</span>';
+                        },
+                        title: 'Toplam'
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="number" name="sevkler" id="sevk' + data.pkSiparisDetayID + '" class="inputSecim" value="" /><span id="span' + data.pkSiparisDetayID + '" style="display: none">0</span>';
+                        },
+                        title: 'Sevk'
+                    }
+                ],
+                "language": defaultDtLang,
+                "paging": false,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[2, "asc"]]
+            });
+        }
+
+        $(document).ready(function () {
+            SiparislerDetayGetir(true, false);
+        });
+
+        function qtip() {
+            $('.urunResim').each(function () {
+                $(this).qtip({
+                    content: '<img src="' + $(this).attr('rel') + '" class="urunResimQtip" />',
+                    position: { at: 'top right' }
+                });
+            });
+            lazyload();
+        }
+
+        function sevkHepsi() {
+            $('#dtTable').find('.miktarlar').each(function () {
+                //console.log($(this).attr('id'));
+                $("#sevk" + $(this).attr('id').replace("miktar", "")).val($(this).text());
+                $("#span" + $(this).attr('id').replace("miktar", "")).text($(this).text());
+                //table.rows().invalidate().draw();
+            });
+        }
+
+        function sevkOnay() {
+            var sentData = "[";
+            var eksik = false;
+            $('#dtTable').find('input[name="sevkler"]').each(function () {
+                if (this.value)
+                    sentData += "{detayid: " + this.id.replace("sevk", "") + ", miktar: " + this.value + "}, ";
+                else
+                    eksik = true;
+            });
+
+            if (eksik) {
+                alert("Eksik sevk miktar seçimi var.");
+            }
+            else {
+                sentData = sentData.substring(0, sentData.length - 2) + "]";
+                console.log(sentData);
+            }
+        }
+
+        function printet() {
+            window.print();
+
+            //table.destroy();
+            //SiparislerDetayGetir(false, true);
+        }
+    </script>
+}
+<h5 class="spanCiplak" id="sipMus"></h5>
+<i><span class="spanCiplak" id="aciklama"></span></i>
+<input type="button" class="btn btn-danger secimTus" value="Tamamını sevk miktarına aktar" onclick="sevkHepsi()" />
+<input type="button" class="btn buttons-print" value="Yazdır" onclick="printet()" />
+<input type="button" class="btn btn-success secimTus" value="Sevk Onay" onclick="sevkOnay()" />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%">
+</table>

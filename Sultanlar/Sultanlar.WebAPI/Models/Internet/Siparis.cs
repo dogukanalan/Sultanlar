@@ -12,7 +12,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public int smref { get; set; }
         public int yil { get; set; }
         public int ay { get; set; }
-        public string onay { get; set; } // 1 onaylı 2 hepsi 0 onaysız
+        public string onay { get; set; } // 1 onaylı 2 hepsi 0 onaysız 3 tksref!=1
 
 
         public int draw { get; set; }

@@ -11,7 +11,8 @@ namespace Sultanlar.DbObj.Internet
         public int intMusteriID { get; set; }
         public musteriler Musteri { get { return new musteriler(intMusteriID).GetObject(); } }
         public int SMREF { get; set; }
-        public cariHesaplar Cari { get { return new cariHesaplar(SMREF).GetObject(); } }
+        //public cariHesaplar Cari { get { return new cariHesaplar(SMREF).GetObject(); } }
+        public cariHesaplar Cari { get { return TKSREF == 0 || TKSREF == 1 ? new cariHesaplar(SMREF).GetObject() : new cariHesaplar().GetObject1(TKSREF, SMREF); } }
         public DateTime dtOlusmaTarihi { get; set; }
         public double mnToplamTutar { get; set; }
         public double ToplamTutar { get { double toplam = 0; for (int i = 0; i < detaylar.Count; i++) { toplam += detaylar[i].mnFiyat * detaylar[i].intMiktar; } return toplam; } }
@@ -25,6 +26,7 @@ namespace Sultanlar.DbObj.Internet
         public string strDepoKod { get; set; }
         public string strDepoUY { get; set; }
         public string strPartiNo { get; set; }
+        public int TKSREF { get; set; }
         public string fatno { get { return GetObjectQfatno(); } }
         public bool copte { get { return GetObjectCopte(); } }
 
@@ -85,7 +87,7 @@ namespace Sultanlar.DbObj.Internet
 
         public iadeler() { detay = false; }
         public iadeler(int pkIadeID) { this.pkIadeID = pkIadeID; }
-        public iadeler(int intMusteriID, int SMREF, DateTime dtOlusmaTarihi, double mnToplamTutar, bool blAktarilmis, DateTime dtOnaylamaTarihi, string strAciklama, string strNedenKod, string strDepoKod, string strDepoUY, string strPartiNo)
+        public iadeler(int intMusteriID, int SMREF, DateTime dtOlusmaTarihi, double mnToplamTutar, bool blAktarilmis, DateTime dtOnaylamaTarihi, string strAciklama, string strNedenKod, string strDepoKod, string strDepoUY, string strPartiNo, int TKSREF)
         {
             this.intMusteriID = intMusteriID;
             this.SMREF = SMREF;
@@ -98,8 +100,9 @@ namespace Sultanlar.DbObj.Internet
             this.strDepoKod = strDepoKod;
             this.strDepoUY = strDepoUY;
             this.strPartiNo = strPartiNo;
+            this.TKSREF = TKSREF;
         }
-        private iadeler(int pkIadeID, int intMusteriID, int SMREF, DateTime dtOlusmaTarihi, double mnToplamTutar, bool blAktarilmis, DateTime dtOnaylamaTarihi, string strAciklama, string strNedenKod, string strDepoKod, string strDepoUY, string strPartiNo, bool detay)
+        private iadeler(int pkIadeID, int intMusteriID, int SMREF, DateTime dtOlusmaTarihi, double mnToplamTutar, bool blAktarilmis, DateTime dtOnaylamaTarihi, string strAciklama, string strNedenKod, string strDepoKod, string strDepoUY, string strPartiNo, int TKSREF, bool detay)
         {
             this.pkIadeID = pkIadeID;
             this.intMusteriID = intMusteriID;
@@ -114,6 +117,7 @@ namespace Sultanlar.DbObj.Internet
             this.strDepoUY = strDepoUY;
             this.strPartiNo = strPartiNo;
             this.detay = detay;
+            this.TKSREF = TKSREF;
         }
 
         public override string ToString() { return pkIadeID.ToString(); }
@@ -122,7 +126,7 @@ namespace Sultanlar.DbObj.Internet
         /// </summary>
         public override void DoInsert()
         {
-            Dictionary<string, object> param = new Dictionary<string, object>() { { "pkIadeID", pkIadeID }, { "intMusteriID", intMusteriID }, { "SMREF", SMREF }, { "dtOlusmaTarihi", dtOlusmaTarihi }, { "mnToplamTutar", mnToplamTutar }, { "blAktarilmis", blAktarilmis }, { "dtOnaylamaTarihi", dtOnaylamaTarihi }, { "strAciklama", strAciklama }, { "strNedenKod", strNedenKod }, { "strDepoKod", strDepoKod }, { "strDepoUY", strDepoUY }, { "strPartiNo", strPartiNo } };
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "pkIadeID", pkIadeID }, { "intMusteriID", intMusteriID }, { "SMREF", SMREF }, { "dtOlusmaTarihi", dtOlusmaTarihi }, { "mnToplamTutar", mnToplamTutar }, { "blAktarilmis", blAktarilmis }, { "dtOnaylamaTarihi", dtOnaylamaTarihi }, { "strAciklama", strAciklama }, { "strNedenKod", strNedenKod }, { "strDepoKod", strDepoKod }, { "strDepoUY", strDepoUY }, { "strPartiNo", strPartiNo }, { "TKSREF", TKSREF } };
             pkIadeID = ConvertToInt32(Do(QueryType.Insert, "db_sp_iadeEkle", param, timeout));
         }
         /// <summary>
@@ -130,7 +134,7 @@ namespace Sultanlar.DbObj.Internet
         /// </summary>
         public override void DoUpdate()
         {
-            Dictionary<string, object> param = new Dictionary<string, object>() { { "pkIadeID", pkIadeID }, { "intMusteriID", intMusteriID }, { "SMREF", SMREF }, { "dtOlusmaTarihi", dtOlusmaTarihi }, { "mnToplamTutar", mnToplamTutar }, { "blAktarilmis", blAktarilmis }, { "dtOnaylamaTarihi", dtOnaylamaTarihi }, { "strAciklama", strAciklama }, { "strNedenKod", strNedenKod }, { "strDepoKod", strDepoKod }, { "strDepoUY", strDepoUY }, { "strPartiNo", strPartiNo } };
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "pkIadeID", pkIadeID }, { "intMusteriID", intMusteriID }, { "SMREF", SMREF }, { "dtOlusmaTarihi", dtOlusmaTarihi }, { "mnToplamTutar", mnToplamTutar }, { "blAktarilmis", blAktarilmis }, { "dtOnaylamaTarihi", dtOnaylamaTarihi }, { "strAciklama", strAciklama }, { "strNedenKod", strNedenKod }, { "strDepoKod", strDepoKod }, { "strDepoUY", strDepoUY }, { "strPartiNo", strPartiNo }, { "TKSREF", TKSREF } };
             Do(QueryType.Update, "db_sp_iadeGuncelle", param, timeout);
         }
         /// <summary>
@@ -150,7 +154,7 @@ namespace Sultanlar.DbObj.Internet
 
             Dictionary<int, object> dic = GetObject("db_sp_iadeGetir", new Dictionary<string, object>() { { "pkIadeID", pkIadeID } }, timeout);
             if (dic != null)
-                donendeger = new iadeler(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), ConvertToDateTime(dic[3]), ConvertToDouble(dic[4]), Convert.ToBoolean(dic[5]), ConvertToDateTime(dic[6]), dic[7].ToString(), dic[8].ToString(), dic[9].ToString(), dic[10].ToString(), dic[11].ToString(), true);
+                donendeger = new iadeler(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), ConvertToDateTime(dic[3]), ConvertToDouble(dic[4]), Convert.ToBoolean(dic[5]), ConvertToDateTime(dic[6]), dic[7].ToString(), dic[8].ToString(), dic[9].ToString(), dic[10].ToString(), dic[11].ToString(), ConvertToInt32(dic[12]), true);
 
             return donendeger;
         }
@@ -165,7 +169,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("", timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), false));
+                    donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), ConvertToInt32(dic[i][12]), false));
 
             return donendeger;
         }
@@ -180,7 +184,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_iadelerGetir", new Dictionary<string, object>() { { "Yil", Yil }, { "Ay", Ay }, { "blAktarilmis", Aktarilmis } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), false));
+                    donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), ConvertToInt32(dic[i][12]), false));
 
             return donendeger;
         }
@@ -195,7 +199,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_iadelerGetirBySLSREF", new Dictionary<string, object>() { { "SLSREF", SLSREF }, { "Yil", Yil }, { "Ay", Ay }, { "blAktarilmis", Aktarilmis } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), false));
+                    donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), ConvertToInt32(dic[i][12]), false));
 
             return donendeger;
         }
@@ -210,7 +214,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_iadelerGetirByGMREF", new Dictionary<string, object>() { { "GMREF", GMREF }, { "Yil", Yil }, { "Ay", Ay }, { "blAktarilmis", Aktarilmis } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), false));
+                    donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), ConvertToInt32(dic[i][12]), false));
 
             return donendeger;
         }
@@ -225,7 +229,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_iadelerGetirBySMREF", new Dictionary<string, object>() { { "SMREF", SMREF }, { "Yil", Yil }, { "Ay", Ay }, { "blAktarilmis", Aktarilmis } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), false));
+                    donendeger.Add(new iadeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDouble(dic[i][4]), Convert.ToBoolean(dic[i][5]), ConvertToDateTime(dic[i][6]), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), ConvertToInt32(dic[i][12]), false));
 
             return donendeger;
         }
