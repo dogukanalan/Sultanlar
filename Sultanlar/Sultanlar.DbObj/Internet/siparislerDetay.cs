@@ -209,7 +209,7 @@ namespace Sultanlar.DbObj.Internet
     {
         public int ID { get; set; }
         public long bintSiparisDetayID { get; set; }
-        public siparislerDetay SiparisDetay { get { return new siparislerDetay(bintSiparisDetayID).GetObject(); } }
+        //public siparislerDetay SiparisDetay { get { return new siparislerDetay(bintSiparisDetayID).GetObject(); } }
         public int intMiktar { get; set; }
         public siparislerDetaySevk() { }
         public siparislerDetaySevk(int ID) { this.ID = ID; }

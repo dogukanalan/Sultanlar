@@ -123,7 +123,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             }
 
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(ikg.musteri))).GetObject();
-            int musid = new musteriler().GetMusteriBySLSREF(new cariHesaplar(ikg.smref).GetObject().SLSREF).pkMusteriID;
+            int musid = new musteriler().GetMusteriBySLSREF(new cariHesaplar().GetObject1(ikg.mtip, ikg.smref).SLSREF).pkMusteriID;
 
             iadeler iade = new iadeler(musid != 0 ? musid : mus.pkMusteriID, ikg.smref, DateTime.Now, 0, false, DateTime.Now, mus.AdSoyad + ";;;" + ikg.aciklama + ";;;", "", "", "", "", ikg.mtip);
             iade.DoInsert();

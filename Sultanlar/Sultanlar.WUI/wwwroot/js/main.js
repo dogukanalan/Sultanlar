@@ -733,7 +733,6 @@ function stringifySepetI(sepet, smref, mtip, iadeid) {
             break;
         }
     }
-    console.log(sentValue);
     return sentValue;
 }
 

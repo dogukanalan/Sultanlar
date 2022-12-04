@@ -56,7 +56,7 @@
                     dataSrc: "",
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "cari/gethepsi124/" + slsref
+                    url: apiurl + "cari/gethepsi12/" + slsref
                 },
                 columns: [
                     {
@@ -128,7 +128,7 @@
             document.getElementById("basTitle").innerHTML = "Sipariş Kopyala (" + siparisid + ")";
             SaticilarGetir(window.localStorage["uyeid"]);
             $('#selectSaticilar').on('change', function (e) {
-                table = $('#dtTable').DataTable().ajax.url(apiurl + "cari/gethepsi124/" + this.value).load();
+                table = $('#dtTable').DataTable().ajax.url(apiurl + "cari/gethepsi12/" + this.value).load();
             });
         });
     </script>
