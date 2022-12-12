@@ -97,7 +97,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             iadeler kopyalanacak = new iadeler(ikg.IadeID).GetObject();
             for (int i = 0; i < ikg.SMREFs.Count; i++)
             {
-                iadeler iade = new iadeler(kopyalanacak.intMusteriID, ikg.SMREFs[i].smref, DateTime.Now, kopyalanacak.mnToplamTutar, false, DateTime.Now, kopyalanacak.strAciklama, kopyalanacak.strNedenKod, kopyalanacak.strDepoKod, kopyalanacak.strDepoUY, kopyalanacak.strPartiNo, ikg.SMREFs[i].tip);
+                iadeler iade = new iadeler(kopyalanacak.intMusteriID, ikg.SMREFs[i].smref, DateTime.Now, 0, false, DateTime.Now, kopyalanacak.strAciklama, kopyalanacak.strNedenKod, kopyalanacak.strDepoKod, kopyalanacak.strDepoUY, kopyalanacak.strPartiNo, ikg.SMREFs[i].tip);
                 iade.DoInsert();
                 for (int j = 0; j < kopyalanacak.detaylar.Count; j++)
                 {
