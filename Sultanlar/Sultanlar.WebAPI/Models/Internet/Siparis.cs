@@ -75,4 +75,10 @@ namespace Sultanlar.WebAPI.Models.Internet
         public double isk3 { get; set; }
         public double isk4 { get; set; }
     }
+
+    public class SevkKaydet
+    {
+        public long detayid { get; set; }
+        public int miktar { get; set; }
+    }
 }

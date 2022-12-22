@@ -72,28 +72,23 @@
                         extend: 'pdfHtml5',
                         exportOptions: {
                             columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                        },
+                        filename: function () {
+                            return 'Sultanlar Sipariş-' + getParameterByName('siparisid');
+                        },
+                        customize: function (doc) {
+                            doc.content.splice(1, 0, {
+                                margin: [0, 0, 0, 12],
+                                alignment: 'center',
+                                text: document.getElementById("sipMus").innerHTML + ' (' + getParameterByName('siparisid') + ')'
+                            });
                         }
                     },
                     {
                         extend: 'print',
                         exportOptions: {
                             columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-                        },
-                        title: function () {
-                            var printTitle = document.getElementById('sipMus').innerHTML + ' (' + sipid + " - " + quantumid + ')';
-                            return printTitle;
-                        }/*,
-                            customize: function (win) {
-                                $(win.document.body)
-                                    .css('font-size', '10pt')
-                                    .prepend(
-                                        '<h3>' + document.getElementById('sipMus').innerHTML + ' (' + sipid + " - " + quantumid + ')</h3><br><br>'
-                                    );
-
-                                $(win.document.body).find('table')
-                                    .addClass('compact')
-                                    .css('font-size', 'inherit');
-                            }*/
+                        }
                     },
                     {
                         extend: 'excel',
@@ -105,6 +100,13 @@
                                     return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
                                 }
                             }
+                        },
+                        filename: function () {
+                            return 'Sultanlar Sipariş-' + getParameterByName('siparisid');
+                        },
+                        customize: function (xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            $('c[r=A1] t', sheet).text(document.getElementById("sipMus").innerHTML + ' (' + getParameterByName('siparisid') + ')')
                         }
                     }
                 ],

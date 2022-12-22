@@ -20,7 +20,7 @@
         <script src="~/js/main.js"></script>
         <script src="~/js/db.js"></script>
         <script src="~/js/lazyload.js"></script>
-        <script>//apiurl = "http://localhost:50544/internet/";</script>
+        <script>apiurl = "http://localhost:50544/internet/";</script>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
@@ -44,6 +44,7 @@
     <script>
         var girissayfasi = false;
         var cikissayfasi = false;
+        var yetkisizsayfa = false;
 
         $(document).ready(function () {
             document.getElementById("spanUye").textContent = window.localStorage["eposta"];
@@ -54,7 +55,7 @@
             } catch (e) { }
 
             //check(false);
-            if (!girissayfasi && !cikissayfasi)
+            if (!girissayfasi && !cikissayfasi && !yetkisizsayfa)
                 MesajSayisi();
 
             if (localStorage["ziyaret"] != null && window.localStorage["uyeid"]) {

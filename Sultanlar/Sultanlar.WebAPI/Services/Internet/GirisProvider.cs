@@ -18,7 +18,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 return new Giris();
             string datetime = giris.blBirGun ? new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59).ToString() : DateTime.Now.AddMinutes(60).ToString();
             Giris donendeger = new Giris(
-                Sifreleme.Encrypt(musteri.pkMusteriID.ToString()), Sifreleme.Encrypt(musteri.isSDE ? "8" : musteri.tintUyeTipiID.ToString()), Sifreleme.Encrypt(musteri.intGMREF.ToString()), musteri.intSLSREF.ToString(), Sifreleme.Encrypt(datetime), Sifreleme.Encrypt("ri8jtDmDQca=", datetime), musteri.pkMusteriID);
+                Sifreleme.Encrypt(musteri.pkMusteriID.ToString()), Sifreleme.Encrypt(musteri.isSDE ? "8" : musteri.tintUyeTipiID.ToString()), Sifreleme.Encrypt(musteri.intGMREF.ToString()), musteri.intSLSREF.ToString(), Sifreleme.Encrypt(datetime), Sifreleme.Encrypt("ri8jtDmDQca=", datetime), musteri.pkMusteriID, musteri.blTaksitPlani);
             return donendeger;
         }
     }

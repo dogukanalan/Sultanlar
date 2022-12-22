@@ -1,10 +1,11 @@
 ﻿@page
 @model SevkModel
 @{
-    ViewData["Title"] = "Sipariş Sevk (" + Request.QueryString.Value.Replace("?siparisid=", "").Replace("?slsref=", "") + ")";
+    ViewData["Title"] = "Sipariş Sevk (" + Request.QueryString.Value.Replace("?siparisid=", "").Replace("?slsref=", "").Replace("?onayli=1&slsref=", "").Replace("?aktarilmis=1&slsref=", "") + ")";
 }
 
 @section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
@@ -26,12 +27,28 @@
         function SiparislerDetayGetir(scrollx, yazdir) {
             var datasrc;
             var url1;
+            var aktarilmis = getParameterByName('aktarilmis') ? true : false;
+            var sevkli = getParameterByName('onayli') ? true : false;
+
+            if (sevkli) {
+                $("#aktar").css("display", "inline");
+            }
+            else if (aktarilmis) {
+                $("#aktar").css("display", "inline");
+                $("#aktar").val("Tekrar aktar");
+            }
+            else {
+                $("#sevkonay").css("display", "inline");
+                $("#sevkhepsi").css("display", "inline");
+            }
+
             if (getParameterByName('siparisid')) {
                 url1 = apiurl + "siparis/get/" + getParameterByName('siparisid');
                 datasrc = "detaylar";
             }
             else {
-                url1 = apiurl + "siparis/getsevksiz/" + getParameterByName('slsref');
+                var urlyer = getParameterByName('aktarilmis') ? "sevkliaktarilmis" : getParameterByName('onayli') ? "sevkli" : "sevksiz";
+                url1 = apiurl + "siparis/get" + urlyer + "/" + getParameterByName('slsref');
                 datasrc = "";
             }
 
@@ -47,6 +64,12 @@
                     document.getElementById("aciklama").innerHTML = json.aciklama2;
                 }
                 else {
+                    if (getParameterByName('aktarilmis')) {
+                        yazi = "Aktarılan";
+                    }
+                    else if (getParameterByName('onayli')) {
+                        yazi = "Sevk Onaylı";
+                    }
                     document.getElementById("basTitle").innerHTML = "Sipariş " + yazi;
                 }
             }).DataTable({
@@ -109,6 +132,18 @@
                         },
                         "name": "ID",
                         title: 'Resim'
+                    },
+                    {
+                        "data": "pkSiparisDetayID", "class": (getParameterByName('onayli') || getParameterByName('aktarilmis') ? "keyTd" : "hidden"), render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" rel="" accesskey="'+ data + '" /><div class="state p-primary-o"><label></label></div></div>';
+                        },
+                        title: 'Seçim'
+                    },
+                    {
+                        "data": "intSiparisID", "class": (getParameterByName('siparisid') ? "hidden" : "keyTd"), render: function (data, type, row) {
+                            return '<a href="Incele?siparisid=' + data + '&fiyattipi=0"><span class="sinirli">' + data + '</span></a>';
+                        },
+                        title: 'S.No'
                     },
                     {
                         "data": "intUrunID", "class": "keyTd", render: function (data, type, row) {
@@ -178,7 +213,9 @@
                     },
                     {
                         "data": null, "class": "keyTd", render: function (data, type, row) {
-                            return '<input type="number" name="sevkler" id="sevk' + data.pkSiparisDetayID + '" class="inputSecim" value="" /><span id="span' + data.pkSiparisDetayID + '" style="display: none">0</span>';
+                            var sevkli = data.sevk.id > 0;
+                            var miktar = sevkli ? data.sevk.intMiktar : "";
+                            return '<input type="number" name="sevkler" id="sevk' + data.pkSiparisDetayID + '" class="inputSecim" accesskey="' + sevkli + '" value="' + miktar + '" ' + (sevkli ? ' disabled' : '') + ' /><span id="span' + data.pkSiparisDetayID + '" style="display: none">0</span>';
                         },
                         title: 'Sevk'
                     }
@@ -210,8 +247,12 @@
         function sevkHepsi() {
             $('#dtTable').find('.miktarlar').each(function () {
                 //console.log($(this).attr('id'));
-                $("#sevk" + $(this).attr('id').replace("miktar", "")).val($(this).text());
-                $("#span" + $(this).attr('id').replace("miktar", "")).text($(this).text());
+                var kontrol = $("#sevk" + $(this).attr('id').replace("miktar", ""));
+
+                if (kontrol.attr('accesskey') == "false") {
+                    kontrol.val($(this).text());
+                    $("#span" + $(this).attr('id').replace("miktar", "")).text($(this).text());
+                }
                 //table.rows().invalidate().draw();
             });
         }
@@ -220,8 +261,10 @@
             var sentData = "[";
             var eksik = false;
             $('#dtTable').find('input[name="sevkler"]').each(function () {
-                if (this.value)
-                    sentData += "{detayid: " + this.id.replace("sevk", "") + ", miktar: " + this.value + "}, ";
+                if (this.value) {
+                    if ($(this).attr('accesskey') == "false")
+                        sentData += "{detayid: " + this.id.replace("sevk", "") + ", miktar: " + this.value + "},";
+                }
                 else
                     eksik = true;
             });
@@ -230,8 +273,71 @@
                 alert("Eksik sevk miktar seçimi var.");
             }
             else {
-                sentData = sentData.substring(0, sentData.length - 2) + "]";
-                console.log(sentData);
+                sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
+                //console.log(sentData);
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        type: 'POST',
+                        url: apiurl + "siparis/sevkkaydet",
+                        data: sentData,
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (data, textStatus, response) {
+                            checkAuth(response);
+
+                            window.history.back();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    }
+                );
+            }
+        }
+
+        function sevkAktar() {
+            var sentData = "[";
+            $('.smm').each(function () {
+                if ($(this).is(':checked')) {
+                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": 0 },';
+                }
+            });
+            sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
+
+            if (sentData != "[]") {
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        type: 'POST',
+                        url: apiurl + "siparis/sevkaktar",
+                        data: sentData,
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'xml',
+                        success: function (data, textStatus, response) {
+                            checkAuth(response);
+
+                            console.log(data);
+
+                            var toXml = new XMLSerializer().serializeToString(data);
+                            var filename = "example.xml";
+                            var pseudoelement = document.createElement('a');
+                            var blob = new Blob([toXml], { type: "text/plain" });
+
+                            pseudoelement.setAttribute("href", window.URL.createObjectURL(blob));
+                            pseudoelement.setAttribute("download", filename);
+
+                            pseudoelement.dataset.downloadurl = ["text/plain", pseudoelement.download, pseudoelement.href].join(":");
+                            pseudoelement.draggable = true;
+                            pseudoelement.classList.add("dragout");
+
+                            pseudoelement.click();
+
+                            window.history.back();
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    }
+                );
             }
         }
 
@@ -246,12 +352,13 @@
 <h5 class="spanCiplak" id="sipMus"></h5>
 <i><span class="spanCiplak" id="aciklama"></span></i>
 <br />
-<input type="button" class="btn btn-primary secimTus" value="Tamamını sevk miktarına aktar" onclick="sevkHepsi()" />
+<input type="button" class="btn btn-primary secimTus" id="sevkhepsi" value="Tamamını sevk miktarına aktar" onclick="sevkHepsi()" style="display: none" />
 <input type="button" class="btn buttons-print" value="Yazdır" onclick="printet()" />
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%">
 </table>
 <br />
 <div class="centerVeMiddle">
     <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.history.back()" />
-    <input type="button" class="btn btn-success secimTus" value="Sevk Onay" onclick="sevkOnay()" />
+    <input type="button" class="btn btn-success secimTus" id="sevkonay" value="Sevk Onay" onclick="sevkOnay()" style="display: none" />
+    <input type="button" class="btn btn-success secimTus" id="aktar" value="Aktar" onclick="sevkAktar()" style="display: none" />
 </div>

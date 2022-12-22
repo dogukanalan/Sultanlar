@@ -39,7 +39,20 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet("{Fiyattipi}/{ITEMREF}")]
         public SiparisIsks GetIsks500(int Fiyattipi, int ITEMREF) => new SiparisProvider().Isks500(Fiyattipi, ITEMREF);
+
         [HttpGet("{SLSREF}")]
         public List<siparislerDetay> GetSevksiz(int SLSREF) => new SiparisProvider().Sevksiz(SLSREF);
+
+        [HttpGet("{SLSREF}")]
+        public List<siparislerDetay> GetSevkli(int SLSREF) => new SiparisProvider().Sevkli(SLSREF);
+
+        [HttpGet("{SLSREF}")]
+        public List<siparislerDetay> GetSevkliAktarilmis(int SLSREF) => new SiparisProvider().SevkliAktarilmis(SLSREF);
+
+        [HttpPost]
+        public string SevkKaydet([FromBody] List<SevkKaydet> sevkkaydet) => new SiparisProvider().SevkKaydet(sevkkaydet);
+
+        [HttpPost]
+        public ContentResult SevkAktar([FromBody] List<SevkKaydet> sevkkaydet) => new SiparisProvider().SevkAktar(sevkkaydet);
     }
 }

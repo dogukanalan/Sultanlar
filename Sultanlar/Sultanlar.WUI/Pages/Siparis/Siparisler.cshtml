@@ -246,6 +246,12 @@
         }
 
         $(document).ready(function () {
+            if (window.localStorage["taksit"] == "true" || window.localStorage["uyetipiid"] == "aZZA1PyhVTw=") {
+                $("#sevkaktarilmis").css("display", "block");
+                $("#sevkonaysiz").css("display", "block");
+                $("#sevkonayli").css("display", "block");
+            }
+
             SaticilarGetir(true);
 
             $('#selectSaticilar').on('change', function (e) {
@@ -327,6 +333,9 @@
 </select>
 
 <div id="divOnay" class="btn-group" data-toggle="buttons">
+    <input type="button" id="sevkaktarilmis" class="btn btn-info secimTus" value="Aktarılmış" onclick="window.location.href = 'Sevk?aktarilmis=1&slsref=' + getSlsref()" style="display: none" />
+    <input type="button" id="sevkonayli" class="btn btn-info secimTus" value="Sevk Onaylı" onclick="window.location.href = 'Sevk?onayli=1&slsref=' + getSlsref()" style="display: none" />
+    <input type="button" id="sevkonaysiz" class="btn btn-info secimTus" value="Sevk Onaysız" onclick="window.location.href = 'Sevk?slsref=' + getSlsref()" style="display: none" />&nbsp;
     <label class="btn btn-primary">
         <input type="radio" name="options" id="option1" value="2" autocomplete="off"> Hepsi
     </label>

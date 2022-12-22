@@ -261,17 +261,17 @@
 
                 for (var i = 0; i < sepet.detays.length; i++) {
                     //if (sepet.detays[i].fiyatvy.isaret == true) {
-                        sentData.detays.push(
-                            {
-                                itemref: sepet.detays[i].itemref,
-                                isaret: sepet.detays[i].fiyatvy.isaret,
-                                varyok: sepet.detays[i].fiyatvy.varyok,
-                                depo: sepet.detays[i].fiyatvy.depo,
-                                raf: sepet.detays[i].fiyatvy.raf,
-                                raffiyat: sepet.detays[i].fiyatvy.raffiyat,
-                                skt: sepet.detays[i].fiyatvy.skt,
-                                siparis: sepet.detays[i].fiyatvy.siparis
-                            });
+                    sentData.detays.push(
+                        {
+                            itemref: sepet.detays[i].itemref,
+                            isaret: sepet.detays[i].fiyatvy.isaret,
+                            varyok: sepet.detays[i].fiyatvy.varyok,
+                            depo: sepet.detays[i].fiyatvy.depo,
+                            raf: sepet.detays[i].fiyatvy.raf,
+                            raffiyat: sepet.detays[i].fiyatvy.raffiyat,
+                            skt: sepet.detays[i].fiyatvy.skt,
+                            siparis: sepet.detays[i].fiyatvy.siparis
+                        });
                     //}
                 }
 
@@ -539,6 +539,7 @@
         });
     </script>
 }
+<script>yetkisizsayfa = true;</script>
 <h5 class="spanCiplak" id="ziyMus"></h5>
 @*<input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" autocomplete="off">*@
 <select id="selectFiyatTipler" name="selectFiyatTipler" class="dropDown">

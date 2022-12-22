@@ -11,6 +11,7 @@ using System.IO;
 using System.Globalization;
 using System.Linq.Dynamic.Core;
 using System.Collections;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -316,6 +317,58 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal List<siparislerDetay> Sevksiz(int SLSREF)
         {
             return new siparislerDetay().GetObjectsSevksiz(SLSREF);
+        }
+
+        internal List<siparislerDetay> Sevkli(int SLSREF)
+        {
+            return new siparislerDetay().GetObjectsSevkli(SLSREF);
+        }
+
+        internal List<siparislerDetay> SevkliAktarilmis(int SLSREF)
+        {
+            return new siparislerDetay().GetObjectsSevkliAktarilmis(SLSREF);
+        }
+
+        internal string SevkKaydet(List<SevkKaydet> sks)
+        {
+            for (int i = 0; i < sks.Count; i++)
+            {
+                siparislerDetaySevk sds = new siparislerDetaySevk(sks[i].detayid, sks[i].miktar, false, DateTime.Now, DateTime.Now);
+                sds.DoInsert();
+            }
+            return "";
+        }
+
+        internal ContentResult SevkAktar(List<SevkKaydet> sks)
+        {
+            var xml = "<siparisler>";
+
+            for (int i = 0; i < sks.Count; i++)
+            {
+                siparislerDetaySevk sds = new siparislerDetaySevk().GetObjectByDetayID(sks[i].detayid);
+                sds.blAktarildi = true;
+                sds.dtAktarmaTarih = DateTime.Now;
+                sds.DoUpdate();
+
+                siparislerDetay sd = new siparislerDetay(sds.bintSiparisDetayID).GetObject();
+
+                xml += "<siparis><no>" + sds.bintSiparisDetayID.ToString() + 
+                    "</no><urunkod>" + sd.intUrunID.ToString() +
+                    "</urunkod><urun><![CDATA[" + sd.Malzeme.MALACIK +
+                    "]]></urun><miktartur>" + sd.strMiktarTur + 
+                    "</miktartur><miktar>" + sds.intMiktar.ToString() + 
+                    "</miktar><fiyat>" + sd.mnFiyat.ToString("N2") + 
+                    "</fiyat></siparis>";
+            }
+
+            xml += "</siparisler>";
+
+            return new ContentResult
+            {
+                Content = xml,
+                ContentType = "application/xml",
+                StatusCode = 200
+            };
         }
     }
 }

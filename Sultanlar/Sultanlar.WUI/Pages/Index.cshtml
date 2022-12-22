@@ -48,6 +48,7 @@
                         createCookie("sulLogin", data.tokenCr, 1);
                         createCookie("sulLoginR", $('#ckb1').is(':checked') ? "true" : "false", 1);
                         window.localStorage["musteri"] = data.musteri;
+                        window.localStorage["taksit"] = data.taksit;
 
                         if (!window.localStorage["sepet"]) {
                             window.localStorage["sepet"] = "[]";

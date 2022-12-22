@@ -158,6 +158,9 @@ namespace Sultanlar.WebAPI.Services.Internet
                     skg.detaylar.Add(skgd);
             }
 
+            string eposta = new musteriler().GetMusteriBySLSREF(Convert.ToInt32(vy.Ziyaret.AnaCari.SATKOD)).strEposta;
+            new EpostaProvider().EpostaGonder("Sultanlar", eposta, "Var/Yok Liste (" + vy.Ziyaret.Satici.SATTEM + ")", vy.Ziyaret.Cari.MUSTERI + " carisine bir varyok listesi gönderilmiştir.<br><br><a href='" + "https://www.ittihadteknoloji.com.tr/site/Ziyaret/Varyok?ziyaretid=" + vy.Ziyaret.BARKOD + "&smref=" + vy.Ziyaret.SMREF + "&mtip=" + vy.Ziyaret.MTIP + "&incele=true'>Görüntülemek için tıklayınız");
+
             skg.ftip = Convert.ToInt16(vy.FIYAT_TIP);
             skg.aciklama = "Ziy.V/Y: " + varyok.barkod;
             skg.smref = vy.Ziyaret.MTIP == 1 ? vy.Ziyaret.SMREF : vy.Ziyaret.GMREF;
