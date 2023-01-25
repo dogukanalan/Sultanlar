@@ -594,25 +594,25 @@ namespace Sultanlar.WindowsServiceIslemler
                 cmd2.ExecuteNonQuery();
                 conn.Close();
 
-                SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-Fiyat] WHERE TIP = 21 " +
+                /*SqlCommand cmd3 = new SqlCommand("DELETE FROM [Web-Fiyat] WHERE TIP = 21 " +
 
                     "INSERT INTO [Web-Fiyat] ([TIP],[GMREF],[GRUP KOD],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[ITEMREF],[MAL ACIK],[FIYAT],[ISK1],[ISK2],[ISK3],[ISK4],[ISK5],[ISK6],[ISK7],[ISK8],[ISK9],[ISK10],[NET],[NET+KDV],[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH])" +
 
                     "SELECT 21,0,[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK],FIYAT,0,0,0,0,0,0,0,0,0,0,FIYAT - (FIYAT / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel)),(FIYAT - (FIYAT / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))) * ((100 + KDV) / 100),[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7"
 
-                    /*"SELECT 21,0,[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK]," +
-                    "(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF)" +
-                    ",0,0,0,0,0,0,0,0,0,0" +
-                    ",(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))" +
-                    ",((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))) * ((100 + KDV) / 100)" +
-                    ",[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]" +
+                    //"SELECT 21,0,[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK]," +
+                    //"(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF)" +
+                    //",0,0,0,0,0,0,0,0,0,0" +
+                    //",(SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))" +
+                    //",((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) - ((SELECT FIYAT FROM [Web-Fiyat] AS FIY WHERE TIP = 7 AND ITEMREF = [Web-Fiyat].ITEMREF) / 100 * (SELECT Xml_Haric_Kar FROM tblWebGenel))) * ((100 + KDV) / 100)" +
+                    //",[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]" +
 
-                    "FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7"*/
+                    //"FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 7"
                     , conn);
                 cmd3.CommandTimeout = 1000;
                 conn.Open();
                 cmd3.ExecuteNonQuery();
-                conn.Close();
+                conn.Close();*/
 
 
 
@@ -621,6 +621,12 @@ namespace Sultanlar.WindowsServiceIslemler
                 conn.Open();
                 cmd4.ExecuteNonQuery();
                 conn.Close();
+
+                /*SqlCommand cmd5 = new SqlCommand("INSERT INTO [Web-Fiyat] ([TIP],[GMREF],[GRUP KOD],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[ITEMREF],[MAL ACIK],[FIYAT],[ISK1],[ISK2],[ISK3],[ISK4],[ISK5],[ISK6],[ISK7],[ISK8],[ISK9],[ISK10],[NET],[NET+KDV],[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH]) SELECT 26,[GMREF],[Web-Fiyat].[GRUP KOD],[Web-Fiyat].[OZEL KOD],[Web-Fiyat].[HK],[Web-Fiyat].[OZEL ACIK],[Web-Fiyat].[REY KOD],[Web-Fiyat].[RK],[Web-Fiyat].[REY ACIK],[Web-Fiyat].[ITEMREF],[Web-Fiyat].[MAL ACIK],[FIYAT],CASE WHEN [Web-Fiyat].[OZEL KOD] = 'T2' THEN 12 ELSE 9 END AS [ISK1],0,0,0,0,0,0,0,0,0,dbo.IskontoDus(FIYAT,CASE WHEN [Web-Fiyat].[OZEL KOD] = 'T2' THEN 12 ELSE 9 END),dbo.KdvEkle(dbo.IskontoDus(FIYAT,CASE WHEN [Web-Fiyat].[OZEL KOD] = 'T2' THEN 12 ELSE 9 END),KDV) AS [NET+KDV],[VADE],[KAMKARTREF],[ODEME_GUN],[ODEME_TARIH] FROM [Web-Fiyat] INNER JOIN [Web-Malzeme-Full] ON [Web-Fiyat].ITEMREF = [Web-Malzeme-Full].ITEMREF WHERE TIP = 22", conn);
+                cmd5.CommandTimeout = 1000;
+                conn.Open();
+                cmd5.ExecuteNonQuery();
+                conn.Close();*/
 
 
 
@@ -1567,6 +1573,12 @@ COMMIT TRANSACTION t_Transaction
                 cmd6.ExecuteNonQuery();
                 conn.Close();
 
+                SqlCommand cmd9 = new SqlCommand("z_MusteriBayiEleman", conn);
+                cmd9.CommandType = CommandType.StoredProcedure;
+                conn.Open();
+                cmd9.ExecuteNonQuery();
+                conn.Close();
+                
                 try
                 {
                     SqlCommand cmd7 = new SqlCommand("TRUNCATE TABLE [Web-Risk-2] INSERT INTO [Web-Risk-2] ([SLSREF],[GMREF],[MUS KOD],[MUSTERI],[RISK LMT],[RISK TOP],[RISK BKY],[BAKIYE],[ACK GUN],[ACK TOP],[VB GUN],[VB TOP],[VGB GUN],[VGB TOP],[IRS TOP],[C/S TOP],[SIP TOPL],[SIP TOPLB],[SIP TOPQ]) SELECT [SAT KOD],[MUS KOD],[MUS KOD],[MUSTERI],[RISK LMT],0,[RISK LMT],[BAKIYE],0,0,0,0,0,0,[BORC],0,[ALACAK],0,0 FROM [SAP_B_A_2017] WHERE [SAT KOD] IS NOT NULL", conn);

@@ -130,7 +130,7 @@
                                 (data.blAktarilmis == 0 ? '<a href="Sil?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">Sil</a>' : '') +
                                 '<a href="Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '&yazdir=true">Yazdır</a>' +
                                 '<a href="Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '&excel=true">Kaydet</a>' +
-                                (data.blAktarilmis == 1 ? (data.tksref == 1 ? ('<a href="../Rapor/SiparisDurum?yil=' + getYil() + '&ay=' + getAy() + '&slsref=' + data.musteri.intSLSREF + '&sipno=' + data.pkSiparisID + '">Durum</a>') : ('<a href="Sevk?siparisid=' + data.pkSiparisID + '">Sevk</a>')) + '' : '');
+                                (data.blAktarilmis == 1 ? (data.tksref == 1 ? ('<a href="../Rapor/SiparisDurum?yil=' + getYil() + '&ay=' + getAy() + '&slsref=' + data.musteri.intSLSREF + '&sipno=' + data.pkSiparisID + '">Durum</a>') : ('<a href="Sevk?siparisid=' + data.pkSiparisID + '&slsref=' + getSlsref() +'">Sevk</a>')) + '' : '');
                         },
                         "name": "pkSiparisID",
                         "width": "10%"
@@ -246,7 +246,7 @@
         }
 
         $(document).ready(function () {
-            if (window.localStorage["taksit"] == "true" || window.localStorage["uyetipiid"] == "aZZA1PyhVTw=") {
+            if (window.localStorage["taksit"] == "true" || window.localStorage["uyetipiid"] == "aZZA1PyhVTw=" || window.localStorage["uyetipiid"] == "vdna04pQKLI=") {
                 $("#sevkaktarilmis").css("display", "block");
                 $("#sevkonaysiz").css("display", "block");
                 $("#sevkonayli").css("display", "block");
@@ -333,9 +333,9 @@
 </select>
 
 <div id="divOnay" class="btn-group" data-toggle="buttons">
-    <input type="button" id="sevkaktarilmis" class="btn btn-info secimTus" value="Aktarılmış" onclick="window.location.href = 'Sevk?aktarilmis=1&slsref=' + getSlsref()" style="display: none" />
-    <input type="button" id="sevkonayli" class="btn btn-info secimTus" value="Sevk Onaylı" onclick="window.location.href = 'Sevk?onayli=1&slsref=' + getSlsref()" style="display: none" />
-    <input type="button" id="sevkonaysiz" class="btn btn-info secimTus" value="Sevk Onaysız" onclick="window.location.href = 'Sevk?slsref=' + getSlsref()" style="display: none" />&nbsp;
+    <input type="button" id="sevkaktarilmis" class="btn btn-info secimTus" value="Aktarılmış" onclick="window.location.href = 'SevkBaslik?aktarilmis=1&slsref=' + getSlsref()" style="display: none" />
+    <input type="button" id="sevkonayli" class="btn btn-info secimTus" value="Sevk Onaylı" onclick="window.location.href = 'SevkBaslik?onayli=1&slsref=' + getSlsref()" style="display: none" />
+    <input type="button" id="sevkonaysiz" class="btn btn-info secimTus" value="Sevk Onaysız" onclick="window.location.href = 'SevkBaslik?slsref=' + getSlsref()" style="display: none" />&nbsp;
     <label class="btn btn-primary">
         <input type="radio" name="options" id="option1" value="2" autocomplete="off"> Hepsi
     </label>

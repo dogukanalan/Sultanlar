@@ -206,8 +206,10 @@
                                 $(this).empty().append($("<option></option>").text("Yok").val("0"));
                             });
                         }
-                        else
+                        else {
+                            alert(data);
                             console.log(JSON.stringify(data));
+                        }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }

@@ -665,7 +665,7 @@ iframe {
         padding-right: 6px !important;
     }
 
-    #dtTable .dtClearButton {
+    /*#dtTable*/ .dtClearButton {
         display: none !important;
     }
 
@@ -806,6 +806,14 @@ table tr.odd:hover {
 table tr.even:hover {
     background-color: floralwhite;
 }
+
+/*table tr.even.selected {
+    background-color: lightblue;
+}
+
+table tr.odd.selected {
+    background-color: lightblue;
+}*/
 
 .tableRowBlue {
     background-color: #EAF5FF !important;
@@ -1296,9 +1304,10 @@ button.dt-button {
 #dtTable tbody td {
 }
 
-#dtTable .dtClearButton {
+/*#dtTable*/
+.dtClearButton {
     display: none;
-    margin-top: 7px;
+    margin-top: 0.2em;
     margin-left: -25px;
     margin-right: 5px;
     width: 20px;
@@ -1377,4 +1386,13 @@ input[type="number"]:disabled {
 .disabledEverything {
     pointer-events: none;
     opacity: 0.4;
+}
+
+label.active {
+    /*opacity: .5;*/
+    color: lightblue !important;
+}
+
+.btn-group {
+    overflow: auto;
 }

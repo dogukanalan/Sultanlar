@@ -13,6 +13,26 @@ namespace Sultanlar.WCF
     [ServiceContract]
     public interface IBayiServis
     {
+        [OperationContract]
+        [WebGet(UriTemplate = "/Test")]
+        string Test();
+
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Siparis/{apikey}/{baslangic}/{bitis}")]
+        XmlDocument Siparis(string apikey, string baslangic, string bitis);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "json/Siparis/{apikey}/{baslangic}/{bitis}")]
+        Class.SiparislerDis SiparisJ(string apikey, string baslangic, string bitis);
+
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Fatura/{apikey}/{baslangic}/{bitis}")]
+        XmlDocument Fatura(string apikey, string baslangic, string bitis);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "json/Fatura/{apikey}/{baslangic}/{bitis}")]
+        Class.FaturalarDis FaturaJ(string apikey, string baslangic, string bitis);
+
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Xml, ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/Post?bayikod={Bayikod}&satis={Satis}&yilad={YilAd}&yil={Yil}&ayad={AyAd}&ay={Ay}")]
         XmlDocument PostXml(XmlDocument icerik, string Bayikod, string Satis, string YilAd, string Yil, string AyAd, string Ay);

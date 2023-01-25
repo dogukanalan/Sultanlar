@@ -115,6 +115,7 @@
     <Compile Include="Internet\FiyatListeleri.cs" />
     <Compile Include="Internet\FiyatTipleri.cs" />
     <Compile Include="Internet\FiyatTipUrun.cs" />
+    <Compile Include="Internet\Genel.cs" />
     <Compile Include="Internet\GonderilenMesajlar.cs" />
     <Compile Include="Internet\IadeFaturaTakip.cs" />
     <Compile Include="Internet\IadeFiyat.cs" />

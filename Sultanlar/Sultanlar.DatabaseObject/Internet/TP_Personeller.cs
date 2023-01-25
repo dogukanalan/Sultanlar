@@ -24,12 +24,13 @@ namespace Sultanlar.DatabaseObject.Internet
         private string _strKod;
         private string _strEposta;
         private string _strAciklama;
+        private int _intBayi;
         //
         //
         //
         // Constracter lar:
         //
-        private TP_Personeller(int pkID, int intTur, string strAd, string strSoyad, string strGorev, string strTelefon, string strKod, string strEposta, string strAciklama)
+        private TP_Personeller(int pkID, int intTur, string strAd, string strSoyad, string strGorev, string strTelefon, string strKod, string strEposta, string strAciklama, int intBayi)
         {
             this._pkID = pkID;
             this._intTur = intTur;
@@ -40,10 +41,11 @@ namespace Sultanlar.DatabaseObject.Internet
             this._strKod = strKod;
             this._strEposta = strEposta;
             this._strAciklama = strAciklama;
+            this._intBayi = intBayi;
         }
         //
         //
-        public TP_Personeller(int intTur, string strAd, string strSoyad, string strGorev, string strTelefon, string strKod, string strEposta, string strAciklama)
+        public TP_Personeller(int intTur, string strAd, string strSoyad, string strGorev, string strTelefon, string strKod, string strEposta, string strAciklama, int intBayi)
         {
             this._intTur = intTur;
             this._strAd = strAd;
@@ -53,6 +55,7 @@ namespace Sultanlar.DatabaseObject.Internet
             this._strKod = strKod;
             this._strEposta = strEposta;
             this._strAciklama = strAciklama;
+            this._intBayi = intBayi;
         }
         //
         //
@@ -74,6 +77,7 @@ namespace Sultanlar.DatabaseObject.Internet
         public string strKod { get { return this._strKod; } set { this._strKod = value; } }
         public string strEposta { get { return this._strEposta; } set { this._strEposta = value; } }
         public string strAciklama { get { return this._strAciklama; } set { this._strAciklama = value; } }
+        public int intBayi { get { return this._intBayi; } set { this._intBayi = value; } }
         //
         //
         //
@@ -101,7 +105,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Musteri-TP_Personeller] ([intTur],[strAd],[strSoyad],[strGorev],[strTelefon],strKod,strEposta,[strAciklama]) VALUES (@intTur,@strAd,@strSoyad,@strGorev,@strTelefon,@strKod,@strEposta,@strAciklama) SELECT @pkID = SCOPE_IDENTITY()", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Musteri-TP_Personeller] ([intTur],[strAd],[strSoyad],[strGorev],[strTelefon],strKod,strEposta,[strAciklama],intBayi) VALUES (@intTur,@strAd,@strSoyad,@strGorev,@strTelefon,@strKod,@strEposta,@strAciklama,@intBayi) SELECT @pkID = SCOPE_IDENTITY()", conn);
                 cmd.Parameters.Add("@intTur", SqlDbType.Int).Value = this._intTur;
                 cmd.Parameters.Add("@strAd", SqlDbType.NVarChar, 50).Value = this._strAd;
                 cmd.Parameters.Add("@strSoyad", SqlDbType.NVarChar, 50).Value = this._strSoyad;
@@ -110,6 +114,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@strKod", SqlDbType.NVarChar, 50).Value = this._strKod;
                 cmd.Parameters.Add("@strEposta", SqlDbType.NVarChar, 100).Value = this._strEposta;
                 cmd.Parameters.Add("@strAciklama", SqlDbType.NVarChar).Value = this._strAciklama;
+                cmd.Parameters.Add("@intBayi", SqlDbType.Int).Value = this._intBayi;
                 cmd.Parameters.Add("@pkID", SqlDbType.Int).Direction = ParameterDirection.Output;
                 try
                 {
@@ -133,7 +138,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("UPDATE [Web-Musteri-TP_Personeller] SET [intTur] = @intTur,[strAd] = @strAd,[strSoyad] = @strSoyad,[strGorev] = @strGorev,[strTelefon] = @strTelefon,[strKod] = @strKod,[strEposta] = @strEposta,[strAciklama] = @strAciklama WHERE pkID = @pkID", conn);
+                SqlCommand cmd = new SqlCommand("UPDATE [Web-Musteri-TP_Personeller] SET [intTur] = @intTur,[strAd] = @strAd,[strSoyad] = @strSoyad,[strGorev] = @strGorev,[strTelefon] = @strTelefon,[strKod] = @strKod,[strEposta] = @strEposta,[strAciklama] = @strAciklama,intBayi = @intBayi WHERE pkID = @pkID", conn);
                 cmd.Parameters.Add("@intTur", SqlDbType.Int).Value = this._intTur;
                 cmd.Parameters.Add("@strAd", SqlDbType.NVarChar, 50).Value = this._strAd;
                 cmd.Parameters.Add("@strSoyad", SqlDbType.NVarChar, 50).Value = this._strSoyad;
@@ -142,6 +147,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@strKod", SqlDbType.NVarChar, 50).Value = this._strKod;
                 cmd.Parameters.Add("@strEposta", SqlDbType.NVarChar, 100).Value = this._strEposta;
                 cmd.Parameters.Add("@strAciklama", SqlDbType.NVarChar).Value = this._strAciklama;
+                cmd.Parameters.Add("@intBayi", SqlDbType.Int).Value = this._intBayi;
                 cmd.Parameters.Add("@pkID", SqlDbType.Int).Value = this._pkID;
                 try
                 {
@@ -189,7 +195,7 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 List.Clear();
 
-                SqlCommand cmd = new SqlCommand("SELECT [pkID],[intTur],[strAd],[strSoyad],[strGorev],[strTelefon],strKod,strEposta,[strAciklama] FROM [Web-Musteri-TP_Personeller] ORDER BY strAd,strSoyad", conn);
+                SqlCommand cmd = new SqlCommand("SELECT [pkID],[intTur],[strAd],[strSoyad],[strGorev],[strTelefon],strKod,strEposta,[strAciklama],intBayi FROM [Web-Musteri-TP_Personeller] ORDER BY strAd,strSoyad", conn);
                 SqlDataReader dr;
                 try
                 {
@@ -197,7 +203,7 @@ namespace Sultanlar.DatabaseObject.Internet
                     dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
-                        List.Add(new TP_Personeller(Convert.ToInt32(dr[0]), Convert.ToInt32(dr[1]), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString()));
+                        List.Add(new TP_Personeller(Convert.ToInt32(dr[0]), Convert.ToInt32(dr[1]), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString(), Convert.ToInt32(dr[9])));
                     }
                 }
                 catch (SqlException ex)
@@ -218,7 +224,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT [pkID],[intTur],[strAd],[strSoyad],[strGorev],[strTelefon],strKod,strEposta,[strAciklama] FROM [Web-Musteri-TP_Personeller] WHERE pkID = @ID", conn);
+                SqlCommand cmd = new SqlCommand("SELECT [pkID],[intTur],[strAd],[strSoyad],[strGorev],[strTelefon],strKod,strEposta,[strAciklama],intBayi FROM [Web-Musteri-TP_Personeller] WHERE pkID = @ID", conn);
                 cmd.Parameters.Add("@ID", SqlDbType.Int).Value = ID;
                 SqlDataReader dr;
                 try
@@ -227,7 +233,7 @@ namespace Sultanlar.DatabaseObject.Internet
                     dr = cmd.ExecuteReader();
                     if (dr.Read())
                     {
-                        donendeger = new TP_Personeller(Convert.ToInt32(dr[0]), Convert.ToInt32(dr[1]), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString());
+                        donendeger = new TP_Personeller(Convert.ToInt32(dr[0]), Convert.ToInt32(dr[1]), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString(), Convert.ToInt32(dr[9]));
                     }
                 }
                 catch (SqlException ex)
@@ -250,7 +256,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT [pkID],[intTur],[strAd],[strSoyad],[strGorev],[strTelefon],strKod,strEposta,[strAciklama] FROM [Web-Musteri-TP_Personeller] WHERE strAd = @strAd AND strSoyad = @strSoyad", conn);
+                SqlCommand cmd = new SqlCommand("SELECT [pkID],[intTur],[strAd],[strSoyad],[strGorev],[strTelefon],strKod,strEposta,[strAciklama],intBayi FROM [Web-Musteri-TP_Personeller] WHERE strAd = @strAd AND strSoyad = @strSoyad", conn);
                 cmd.Parameters.Add("@strAd", SqlDbType.NVarChar, 50).Value = Ad;
                 cmd.Parameters.Add("@strSoyad", SqlDbType.NVarChar, 50).Value = Soyad;
                 SqlDataReader dr;
@@ -260,7 +266,7 @@ namespace Sultanlar.DatabaseObject.Internet
                     dr = cmd.ExecuteReader();
                     if (dr.Read())
                     {
-                        donendeger = new TP_Personeller(Convert.ToInt32(dr[0]), Convert.ToInt32(dr[1]), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString());
+                        donendeger = new TP_Personeller(Convert.ToInt32(dr[0]), Convert.ToInt32(dr[1]), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(), dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString(), Convert.ToInt32(dr[9]));
                     }
                 }
                 catch (SqlException ex)

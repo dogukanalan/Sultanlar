@@ -34,19 +34,7 @@
         var kolonlar = [
             {
                 "data": null, "class": "keyTd", render: function (data, type, row) {
-                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.fistur + '">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.fistur + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
-                }
-            },
-            {
-                "data": null, "class": "keyTd", render: function (data, type, row) {
                     return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.fistar.replace("T", " ").replace(" 00:00:00", "")) + '</span>';
-                }
-            },
-            {
-                "data": null, "class": "keyTd", render: function (data, type, row) {
-                    return (data.tur == 8 ? '<a href="Satis?yil=' + new Date(data.fistar).getFullYear() + '&ay=' + (new Date(data.fistar).getMonth() + 1) + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=0&fatno=' + data.fisno + '" disabled>' : '') +
-                        '<span class="sinirli4">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.matbuno) + '</span></a><span class="hide">' + data.fisno + '</span>' +
-                        (data.tur == 8 ? '</a>' : '');
                 }
             },
             {
@@ -56,22 +44,39 @@
             },
             {
                 "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return (data.tur == 8 ? '<a href="Satis?yil=' + new Date(data.fistar).getFullYear() + '&ay=' + (new Date(data.fistar).getMonth() + 1) + '&slsref=' + getSlsref() + '&gmref=' + getGmref() + '&smref=0&fatno=' + data.fisno + '" disabled>' : '') +
+                        '<span class="sinirli4">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.fisno) + '</span></a>' +
+                        (data.tur == 8 ? '</a>' : '');
+                }
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.fistur + '">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.fistur + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.matbuno + '">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.matbuno) + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
                     return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.fisaciklama + '">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "" : data.fisaciklama) + '</span>';
                 }
             },
             {
                 "data": null, "class": "floaTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.borc.formatMoney(2, ',', '.') + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
+                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.borc.formatMoney(2, ',', '') + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
                 }
             },
             {
                 "data": null, "class": "floaTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.alacak.formatMoney(2, ',', '.') + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
+                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.alacak.formatMoney(2, ',', '') + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
                 }
             },
             {
                 "data": null, "class": "floaTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.bakiye.formatMoney(2, ',', '.') + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
+                    return '<span class="sinirli">' + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "<strong><i>" : "") + data.bakiye.formatMoney(2, ',', '') + (data.fistur == "TOP." || data.fistur == "Ö.TOP." ? "</i></strong>" : "") + '</span>';
                 }
             }
         ];
@@ -164,7 +169,7 @@
                     {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                         },
                         filename: function () {
                             return 'Sultanlar Ekstre-' + $("#selectCariler option:selected").text() + " (" + $("#selectCariler").val() + ")";
@@ -180,13 +185,13 @@
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7],
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
                             format: {
                                 body: function (data, row, column, node) {
                                     data = $('<p>' + data + '</p>').text();
@@ -199,7 +204,14 @@
                         },
                         customize: function (xlsx) {
                             var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                            $('c[r=A1] t', sheet).text($("#selectCariler option:selected").text() + " (" + $("#selectCariler").val() + ")");
+                            $('c[r=A1] t', sheet).text("Müşteri Cari Hesap Ekstresi\r\n" +
+                                "Sultanlar Ev İhtiyaç Maddeleri\r\n" + 
+                                $("#selectCariler option:selected").text() + " (" + $("#selectCariler").val() + ")\r\n" +
+                                "Basım Tarihi: " + GetDateNow() + "\r\n" +
+                                "Tarih Aralığı: " + (getAy() == 0 ? "01.01.2014" : "01." + getAy() + "." + new Date().getFullYear()) + " - " + GetDateNow()
+                            );
+                            /*$('c[r=A2] t', sheet).text("Basım Tarihi: " + GetDateNow());
+                            $('c[r=A3] t', sheet).text("Tarih Aralığı: " + (getAy() == 0 ? "01.01.2014" : "01." + getAy() + "." + new Date().getFullYear()) + " - " + GetDateNow());*/
                         }
                     }
                 ],
@@ -221,7 +233,7 @@
                             .draw();
                     }
                 });
-            })
+            });
         }
 
         $(window).on("popstate", function (e) {
@@ -287,10 +299,11 @@
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>
         <tr>
-            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Tür</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Tarih</span><br /><input type="text" id="tarih" class="form-control tarihpicker" style="width: 100%" /></th>
-            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Fiş No</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Vade</span><br /><input type="text" id="vade" class="form-control tarihpicker" style="width: 100%" /></th>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Fiş No</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Fiş Türü</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Blm</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Açıklama</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Borç</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Alacak</span><br /><input type="text" class="form-control" style="width: 100%" /></th>

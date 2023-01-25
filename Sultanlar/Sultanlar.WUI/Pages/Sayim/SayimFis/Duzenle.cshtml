@@ -1,0 +1,74 @@
+﻿@page
+@model DuzenleModel
+@{
+    ViewData["Title"] = "Fiş Düzenle";
+}
+
+@section head {
+    <script>
+        $(document).ready(function () {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "sayim/getirfis/" + getParameterByName('sayimid'),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data.onayli || data.ap) {
+                            alert("Sayım aktarılmış, düzenleme yapılamaz.");
+                            window.location.href = '../?smref=' + data.gmref;
+                            return;
+                        }
+
+                        //console.log(data);
+                        dbSenkRoot(data);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        });
+
+        function dbSenkRoot(data) {
+            var eskisepet = JSON.parse(window.localStorage['sepetS']);
+            var yenisepet = [];
+            for (var i = 0; i < eskisepet.length; i++) { // diger sayimlari doldur
+                if (eskisepet[i].smref != data.gmref || eskisepet[i].sayimid != data.id || eskisepet[i].tur != data.tuR_ID) {
+                    yenisepet.push(
+                        {
+                            sayimid: eskisepet[i].sayimid,
+                            tur: eskisepet[i].tur,
+                            smref: eskisepet[i].paramsmref,
+                            aciklama: eskisepet[i].aciklama,
+                            musteri: eskisepet[i].musteri,
+                            detaylar: eskisepet[i].detaylar
+                        }
+                    );
+                }
+            }
+
+            var icsepet =
+            {
+                sayimid: data.id.toString(),
+                tur: data.tuR_ID.toString(),
+                smref: data.gmref.toString(),
+                aciklama: data.aciklama,
+                musteri: window.localStorage["uyeid"],
+                detaylar: []
+            };
+            $.each(data.detaylar, function (i, item) {
+                icsepet.detaylar.push(
+                    {
+                        itemref: data.detaylar[i].itemref.toString(),
+                        malacik: data.detaylar[i].malzeme.malacik,
+                        miktar: data.detaylar[i].stok.toString(),
+                        miktartur: "ST"
+                    }
+                );
+            });
+            yenisepet.push(icsepet); // yeni sayimi doldur
+            window.localStorage["sepetS"] = JSON.stringify(yenisepet);
+            window.location.href = 'Icerik?smref=' + data.gmref + '&tur=' + data.tuR_ID + '&sayimid=' + data.id;
+        }
+    </script>
+}

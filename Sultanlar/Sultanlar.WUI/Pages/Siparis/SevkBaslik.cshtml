@@ -1,0 +1,541 @@
+﻿@page
+@model SevkBaslikModel
+@{
+    ViewData["Title"] = "Sipariş Sevk (" + Request.QueryString.Value.Replace("?siparisid=", "").Replace("?slsref=", "").Replace("?onayli=1&slsref=", "").Replace("?aktarilmis=1&slsref=", "") + ")";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.5.0/css/select.dataTables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.5.0/js/dataTables.select.min.js"></script>
+
+    <script>
+        var table;
+        var sipid;
+        var aktarilmis;
+        var sevkli;
+
+        function SiparislerDetayGetir(scrollx, yazdir) {
+            var datasrc;
+            var url1;
+
+            if (getParameterByName('siparisid')) {
+                url1 = apiurl + "siparis/get/" + getParameterByName('siparisid');
+                datasrc = "";
+            }
+            else {
+                var urlyer = aktarilmis ? "sevkliaktarilmis" : sevkli ? "sevkli" : "sevksiz";
+                url1 = apiurl + "siparis/get" + urlyer + "/" + getParameterByName('slsref');
+                datasrc = "";
+            }
+
+            $("#dtTable input").each(function (index, element) {
+                $(element).val("");
+            });
+
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+
+                sipid = json.pkSiparisID;
+
+                var yazi = "Sevk";
+                if (getParameterByName('siparisid')) {
+                    document.getElementById("basTitle").innerHTML = "Sipariş " + yazi + " (" + sipid + ")";
+                    document.getElementById("sipMus").innerHTML = json.cari.sube;
+                    document.getElementById("aciklama").innerHTML = json.aciklama2;
+                }
+                else {
+                    if (aktarilmis) {
+                        yazi = "Aktarılan";
+                    }
+                    else if (sevkli) {
+                        yazi = "Sevk Onaylı";
+                    }
+                    document.getElementById("basTitle").innerHTML = "Sipariş " + yazi;
+                }
+
+                var iller = [];
+                var ilceler = [];
+                $.each(json, function (index, item) {
+                    if (iller.indexOf(item.cari.il) === -1)
+                        iller.push(item.cari.il);
+                    if (ilceler.indexOf(item.cari.ilce) === -1)
+                        ilceler.push(item.cari.ilce);
+                });
+
+                if (true) { //$(window).width() > 576
+                    $("#iller").autocomplete({
+                        source: iller,
+                        minLength: 0
+                    }).focus(function () {
+                        $(this).autocomplete('search', $(this).val())
+                    });
+                    $("#ilceler").autocomplete({
+                        source: ilceler,
+                        minLength: 0
+                    }).focus(function () {
+                        $(this).autocomplete('search', $(this).val())
+                    });
+                }
+
+            }).DataTable({
+                "scrollX": scrollx,
+                ajax: {
+                    dataSrc: datasrc,
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    qtip();
+
+                    if (yazdir) {
+                        window.print();
+                    }
+
+                    $('input[name="sevkler"]').on('keyup', function () {
+                        $("#span" + this.id.replace("sevk", "")).text(this.value);
+                    });
+
+                    if (sevkli) {
+                        $("#inputYazdir").css("display", "none");
+                        $("#aktar").css("display", "inline");
+                        $("#iptal").css("display", "inline");
+                    }
+                    else if (aktarilmis) {
+                        $("#inputYazdir").css("display", "none");
+                        $("#aktar").css("display", "inline");
+                        $("#aktar").val("Tekrar aktar");
+                        $("#iptal").css("display", "inline");
+                    }
+                    else {
+                        $(".dt-buttons").css("display", "none");
+                        //$("#sevkonay").css("display", "inline");
+                        $("#sevkhepsi").css("display", "inline");
+                    }
+
+                    $('.ssmm').datepicker({
+                        locale: "tr",
+                        language: "tr",
+                        format: "yyyy-mm-dd",
+                        clearBtn: true,
+                        orientation: "auto bottom"
+                    });
+                    $('.ssmm').on('changeDate', function (ev) {
+                        $(this).datepicker('hide');
+                    });
+
+                    table.on('user-select', function (e, dt, type, cell, originalEvent) {
+                        var row = dt.row(cell.index().row);
+
+                        if (row.data().quantumIptal) {
+                            e.preventDefault();
+                        }
+                    });
+                },
+                "fnDrawCallback": function (oSettings) {
+
+                },
+                columns: [
+                    {
+                        "data": null, "class": (sevkli || aktarilmis ? "keyTd" : "hidden"), render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" rel="" accesskey="' + data.pkSiparisID + '" ' + (data.quantumIptal ? 'disabled' : '') + ' /><div class="state p-primary-o"><label></label></div></div>';
+                        }
+                    },
+                    {
+                        "data": "pkSiparisID", "class": (!sevkli && !aktarilmis ? "keyTd" : "hidden"), render: function (data, type, row) {
+                            return '<input type="button" class="btn btn-success secimTus" id="sevkonay" value="Sevk" onclick="window.location.href = \'Sevk?slsref=' + getParameterByName('slsref') + '&siparisid=' + data + '\'" />';
+                        }
+                    },
+                    {
+                        "data": "pkSiparisID", "class": (getParameterByName('siparisid') ? "hidden" : "keyTd"), render: function (data, type, row) {
+                            return '<a href="Incele?siparisid=' + data + '&fiyattipi=0"><span class="sinirli">' + data + '</span></a>';
+                        }
+                    },
+                    /*{
+                        "data": "smref", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },*/
+                    {
+                        "data": null, "class": (sevkli || aktarilmis ? "keyTd" : "hidden"), render: function (data, type, row) {
+                            return sevkli ? '<input type="text" class="form-control date-range-filter ssmm keyTd" data-date-format="yyyy-mm-dd" placeholder="Fat.Tar." value="' + getDateNow().substring(0, 10) + '">' : '<span class="sinirli spanfattar">' + data.quantumFattar.substring(0, 10).replaceAll("-", ".") + '</span>';
+                        }
+                    },
+                    {
+                        "data": "quantumNo", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "dtOnaylamaTarihi", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.replace("T", " ") + '</span>';
+                        }
+                    },
+                    {
+                        "data": "musteri", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.strAd + ' ' + data.strSoyad + '</span>';
+                        }
+                    },
+                    {
+                        "data": "cari", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.il + '</span>';
+                        }
+                    },
+                    {
+                        "data": "cari", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.ilce + '</span>';
+                        }
+                    },
+                    {
+                        "data": "cari", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.sube + '</span>';
+                        }
+                    },
+                    {
+                        "data": "mnToplamTutar", "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                        }
+                    },
+                    {
+                        "data": "aciklama2", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            modifier: {
+                                selected: true
+                            },
+                            columns: [2, 3, 4, 5, 6, 7]
+                        },
+                        filename: function () {
+                            return 'Sultanlar Sipariş';
+                        },
+                        customize: function (doc) {
+                            doc.content.splice(1, 0, {
+                                margin: [0, 0, 0, 12],
+                                alignment: 'center',
+                                text: ''
+                            });
+                        }
+                    },
+                    /*{
+                        extend: 'print',
+                        text: 'Hepsini Yazdır'
+                    },*/
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            modifier: {
+                                selected: true
+                            },
+                            columns: [2, 3, 4, 5, 6, 7]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            modifier: {
+                                selected: true
+                            },
+                            columns: [2, 3, 4, 5, 6, 7],
+                            format: {
+                                body: function (data, row, column, node) {
+                                    data = $('<p>' + data + '</p>').text();
+                                    return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
+                                }
+                            }
+                        },
+                        filename: function () {
+                            return 'Sultanlar Sipariş';
+                        },
+                        customize: function (xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            $('c[r=A1] t', sheet).text('')
+                        }
+                    }
+                ],
+                select: {
+                    style: ['multi', 'os'],
+                    selector: 'td:first-child'
+                },
+                "language": defaultDtLang,
+                "paging": true,
+                "pagingType": "full_numbers",
+                "ordering": false,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[1, "asc"]]
+            });
+
+            table.columns().every(function () {
+                var that = this;
+                $('input[type=text]', this.header()).on('inputchange', delay(function () {
+                    if ($(this).val() !== '') {
+                        $(this).closest("th").find(".dtClearButton").css("display", "inline");
+                    }
+                    else {
+                        $(this).closest("th").find(".dtClearButton").css("display", "none");
+                    }
+                    if (that.search() !== this.value) {
+                        that.search(this.value.toLocaleUpperCase()).draw();
+                    }
+                }, 1));
+                $('input[type=button]', this.header()).on('click', function () {
+                    $(this).closest("th").find("input[type=text]").val("");
+                });
+            });
+        }
+
+        $(document).ready(function () {
+            aktarilmis = getParameterByName('aktarilmis') ? true : false;
+            sevkli = getParameterByName('onayli') ? true : false;
+
+            SiparislerDetayGetir(true, false);
+
+            $(document).on('click', '.keyTd', function () {
+                var checkbox = $(this).find('input');
+                if (!$(checkbox).prop('disabled'))
+                    $(checkbox).prop('checked', $(this).closest("tr").hasClass("selected"));
+            });
+
+            $('#tarih, #tarih2').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy-mm-dd",
+                clearBtn: true,
+                orientation: "auto bottom"
+            });
+            $('#tarih, #tarih2').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+                table.draw();
+            });
+        });
+
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var min = $('#tarih').val();
+                var max = $('#tarih2').val();
+                var createdAt = data[5] || 0;
+
+                if (
+                    (min == "" || max == "") ||
+                    (moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max))
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+        function qtip() {
+            $('.urunResim').each(function () {
+                $(this).qtip({
+                    content: '<img src="' + $(this).attr('rel') + '" class="urunResimQtip" />',
+                    position: { at: 'top right' }
+                });
+            });
+            lazyload();
+        }
+
+        function sevkHepsi() {
+            $('#dtTable').find('.miktarlar').each(function () {
+                //console.log($(this).attr('id'));
+                var kontrol = $("#sevk" + $(this).attr('id').replace("miktar", ""));
+
+                if (kontrol.attr('accesskey') == "false") {
+                    kontrol.val($(this).text());
+                    $("#span" + $(this).attr('id').replace("miktar", "")).text($(this).text());
+                }
+                //table.rows().invalidate().draw();
+            });
+        }
+
+        function sevkOnay() {
+            var sentData = "[";
+            var eksik = false;
+            $('#dtTable').find('input[name="sevkler"]').each(function () {
+                if (this.value) {
+                    if ($(this).attr('accesskey') == "false")
+                        sentData += "{detayid: " + this.id.replace("sevk", "") + ", miktar: " + this.value + "},";
+                }
+                else
+                    eksik = true;
+            });
+
+            if (eksik) {
+                alert("Eksik sevk miktar seçimi var.");
+            }
+            else {
+                sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        type: 'POST',
+                        url: apiurl + "siparis/sevkkaydet",
+                        data: sentData,
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (data, textStatus, response) {
+                            checkAuth(response);
+
+                            window.location.href = 'SevkBaslik?onayli=1&slsref=' + getParameterByName('slsref');
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    }
+                );
+            }
+        }
+
+        function sevkAktar() {
+            var sentData = "[";
+            $('.smm').each(function () {
+                if ($(this).is(':checked')) {
+                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": 0, "fattar": "' + $(this).closest("tr").find(".ssmm").val() + '" },';
+                }
+            });
+            sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
+
+            if (sentData != "[]") {
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        type: 'POST',
+                        url: apiurl + "siparis/sevkaktar",
+                        data: sentData,
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'xml',
+                        success: function (data, textStatus, response) {
+                            checkAuth(response);
+
+                            var toXml = new XMLSerializer().serializeToString(data);
+                            var filename = "example.xml";
+                            var pseudoelement = document.createElement('a');
+                            var blob = new Blob([toXml], { type: "text/plain" });
+
+                            pseudoelement.setAttribute("href", window.URL.createObjectURL(blob));
+                            pseudoelement.setAttribute("download", filename);
+
+                            pseudoelement.dataset.downloadurl = ["text/plain", pseudoelement.download, pseudoelement.href].join(":");
+                            pseudoelement.draggable = true;
+                            pseudoelement.classList.add("dragout");
+
+                            pseudoelement.click();
+
+                            window.location.href = 'Siparisler?slsref=' + getParameterByName('slsref');
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    }
+                );
+            }
+        }
+
+        function sevkIptal() {
+            var sentData = "[";
+            $('.smm').each(function () {
+                if ($(this).is(':checked')) {
+                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": 0, "fattar": "' + $(this).closest("tr").find(".spanfattar")[0].innerHTML + '" },';
+                }
+            });
+            sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
+
+            if (sentData != "[]") {
+
+                if (!confirm("Seçilen faturalar iptal edilecek. Emin misiniz?"))
+                    return;
+
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        type: 'POST',
+                        url: apiurl + "siparis/sevkiptal",
+                        data: sentData,
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (data, textStatus, response) {
+                            checkAuth(response);
+
+                            window.location.href = 'Siparisler?slsref=' + getParameterByName('slsref');
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    }
+                );
+            }
+        }
+
+        function printet() {
+            window.print();
+
+            //table.destroy();
+            //SiparislerDetayGetir(false, true);
+        }
+    </script>
+}
+<h5 class="spanCiplak" id="sipMus"></h5>
+<i><span class="spanCiplak" id="aciklama"></span></i>
+<br />
+<input type="button" class="btn btn-primary secimTus" id="sevkhepsi" value="Bütün detayları göster" onclick="window.location.href = 'Sevk?slsref=' + getParameterByName('slsref')" style="float: left; margin-right: 10px; height: 40px; display: none" />
+<input type="button" class="btn buttons-print" id="inputYazdir" style="float: left; margin-right: 10px; height: 40px; border: 1px solid gray" value="Yazdır" onclick="printet()" />
+
+<div>
+    <div class="pull-right">
+        <div class="input-group input-daterange">
+
+            <input type="text" id="tarih" class="form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="Başlangıç">
+
+            <div class="input-group-addon">-</div>
+
+            <input type="text" id="tarih2" class="form-control date-range-filter" data-date-format="yyyy-mm-dd" placeholder="Bitiş">
+
+            <div class="input-group-addon"><a href="javascript:$('#tarih').datepicker('clearDates');$('#tarih2').datepicker('clearDates');" style="line-height: 0px">Sıfırla</a></div>
+        </div>
+    </div>
+</div>
+
+<table id="dtTable" class="table table-striped table-bordered" style="width: 100%">
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="spanCiplak">Seçim</span><br /></th>
+            <th class="keyTd"><span class="spanCiplak">Sevk</span><br /></th>
+            <th class="keyTd"><span class="spanCiplak">S.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd"><span class="spanCiplak">F.Tar</span><br /></th>
+            <th class="keyTd"><span class="spanCiplak">B.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd"><span class="spanCiplak">Tarih</span><br /></th>
+            <th class="keyTd"><span class="spanCiplak">Üye</span><br /><input type="text" class="form-control input100yuzde aramaoldugugibi" /></th>
+            <th class="keyTd"><span class="spanCiplak">İl</span><br /><input type="text" id="iller" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" /></th>
+            <th class="keyTd"><span class="spanCiplak">İlçe</span><br /><input type="text" id="ilceler" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" /></th>
+            <th class="keyTd"><span class="spanCiplak">Nokta</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd"><span class="spanCiplak">Tutar</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd"><span class="spanCiplak">Açıklama</span><br /><input type="text" class="form-control input100yuzde aramaoldugugibi" /></th>
+        </tr>
+    </thead>
+</table>
+<br />
+<div class="centerVeMiddle">
+    <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.location.href = 'Siparisler?slsref=' + getParameterByName('slsref')" />
+    <input type="button" class="btn btn-success secimTus" id="sevkonay" value="Sevk Onay" onclick="sevkOnay()" style="display: none" />
+    <input type="button" class="btn btn-success secimTus" id="aktar" value="Aktar" onclick="sevkAktar()" style="display: none" />
+    <input type="button" class="btn btn-success secimTus" id="iptal" value="İptal Et" onclick="sevkIptal()" style="display: none" />
+</div>

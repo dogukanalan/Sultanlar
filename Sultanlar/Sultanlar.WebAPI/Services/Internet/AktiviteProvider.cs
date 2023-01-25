@@ -128,6 +128,11 @@ namespace Sultanlar.WebAPI.Services.Internet
                 {
                     malzemeler malzeme = new malzemeler(kopyalanacak.detaylar[j].intUrunID).GetObject();
                     fiyatlarTp fiyat = new fiyatlarTp().GetObject(akt.DonemYil, akt.DonemAy, akt.DonemGun, akt.sintFiyatTipiID, kopyalanacak.detaylar[j].intUrunID);
+                    if (fiyat.MALACIK is null && fiyat.FIYAT == 0)
+                    {
+                        akt.DoDelete();
+                        return kopyalanacak.detaylar[j].intUrunID + " nolu ürünün " + akt.sintFiyatTipiID.ToString() + " nolu listede fiyatı yok.";
+                    }
                     double kdv = ((fiyat.NETKDV / fiyat.NET) - 1) * 100;
                     double isk1 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHIsk : akt.Anlasma.flYEGIsk) : 0;
                     double isk2 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHCiroIsk : akt.Anlasma.flYEGCiroIsk) : 0;
@@ -169,17 +174,9 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string AktiviteKaydet(AktiviteKaydet akg)
         {
-            if (akg.id != 0) // aktivite güncelleniyorsa eskiyi silsin
-            {
-                aktiviteler aktivite = new aktiviteler(akg.id).GetObject();
-
-                if (aktivite.blAktarilmis == DBNull.Value || Convert.ToBoolean(aktivite.blAktarilmis) == true)
-                    return "hata: aktivite onaylı.";
-
-                for (int i = 0; i < aktivite.detaylar.Count; i++)
-                    aktivite.detaylar[i].DoDelete();
-                aktivite.DoDelete();
-            }
+            aktiviteler aktivite = new aktiviteler(akg.id).GetObject();
+            if (aktivite.blAktarilmis == DBNull.Value || Convert.ToBoolean(aktivite.blAktarilmis) == true)
+                return "hata: aktivite onaylı.";
 
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(akg.musteri))).GetObject();
             if (akg.anlasmaid != 0)
@@ -228,6 +225,14 @@ namespace Sultanlar.WebAPI.Services.Internet
                     dusulmuskdvli * Convert.ToInt32(akg.detaylar[i].miktar) * malzeme.KOLI,
                     isk1.ToString("N1"), isk2.ToString("N1"), isk3.ToString("N1"), "0", "");
                 aktdet.DoInsert();
+            }
+
+            if (akg.id != 0) // aktivite güncelleniyorsa eskiyi silsin
+            {
+                List<aktivitelerDetay> silinecekler = new aktivitelerDetay().GetObjects(aktivite.pkID);
+                for (int i = 0; i < silinecekler.Count; i++)
+                    silinecekler[i].DoDelete();
+                aktivite.DoDelete();
             }
 
             return akt.pkID.ToString();

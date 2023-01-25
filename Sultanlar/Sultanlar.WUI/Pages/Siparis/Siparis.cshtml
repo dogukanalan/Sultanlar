@@ -188,12 +188,32 @@
             return isks;
         }
 
+        function getIsksTP(smref, mtip, itemref, tarih) {
+            var isks;
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "siparis/getiskstp/" + smref + "/" + mtip + "/" + itemref + "/" + tarih,
+                    async: false,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        isks = data;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+
+            return isks;
+        }
+
         function siparisiGoster() {
             sencHeader();
             window.location.href = 'Icerik?gmref=' + paramgmref + '&smref=' + paramsmref + '&ftip=' + paramftip + '&mtip=' + parammtip + '&siparisid=' + siparisid;
         }
 
-        function sipariseAktar() {
+        async function sipariseAktar() {
             sencHeader();
             $('#dtTable').find('input.inputSecim').each(function () {
                 if ($(this).val() != "") {
@@ -218,8 +238,11 @@
 
                             if (!varmis) {
                                 var isks = { fiyat: 0, isk1: 0, isk2: 0, isk3: 0, isk4: 0 };
-                                if (paramftip == 2) {
+                                if (paramftip == 2 && parammtip == 1) {
                                     isks = getIsksA(paramsmref, itref, getDateNow());
+                                }
+                                else if (paramftip == 2 && parammtip != 1) {
+                                    isks = getIsksTP(paramsmref, parammtip, itref, getDateNow());
                                 }
                                 else if (paramftip > 500) {
                                     isks = getIsks500(paramftip, itref);
@@ -406,7 +429,7 @@
 <input type="button" class="btn btn-info secimTus" value="Siparişi İçeriğini Göster" onclick="siparisiGoster()" />
 <br /><br />
       <div id="divTur" data-toggle="buttons">
-          <label class="btn btn-primary">
+          <label class="btn btn-primary active">
               <input type="radio" name="options" id="option0" value="1" checked> Tümü
           </label>
           <label class="btn btn-primary">

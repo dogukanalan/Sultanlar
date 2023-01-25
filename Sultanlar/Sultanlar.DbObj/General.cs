@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System;
+using Sultanlar.DbObj.Internet;
 
 namespace Sultanlar.DbObj
 {
@@ -65,78 +66,114 @@ namespace Sultanlar.DbObj
         protected object Do(QueryType type, string storedproducer, Dictionary<string, object> param, int timeout)
         {
             object donendeger = null;
-            CmdInit(type, storedproducer, timeout, param);
-            conn.Open();
-            cmd.ExecuteNonQuery();
-            if (type == QueryType.Insert)
-                donendeger = cmd.Parameters[0].Value;
-            conn.Close();
+            try
+            {
+                CmdInit(type, storedproducer, timeout, param);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                if (type == QueryType.Insert)
+                    donendeger = cmd.Parameters[0].Value;
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                hatalar.DoInsert(ex, storedproducer);
+            }
             return donendeger;
         }
 
         protected object GetObjectSc(string storedproducer, Dictionary<string, object> param, int timeout)
         {
-            CmdInit(QueryType.Select, storedproducer, timeout, param);
-            conn.Open();
-            object donendeger = cmd.ExecuteScalar();
-            conn.Close();
-            return donendeger;
+            try
+            {
+                CmdInit(QueryType.Select, storedproducer, timeout, param);
+                conn.Open();
+                object donendeger = cmd.ExecuteScalar();
+                conn.Close();
+                return donendeger;
+            }
+            catch (Exception ex)
+            {
+                hatalar.DoInsert(ex, storedproducer);
+                return null;
+            }
         }
 
         protected Dictionary<int, object> GetObject(string storedproducer, Dictionary<string, object> param, int timeout)
         {
             Dictionary<int, object> donendeger = new Dictionary<int, object>();
-            CmdInit(QueryType.Select, storedproducer, timeout, param);
-            conn.Open();
-            dr = cmd.ExecuteReader();
-            if (dr.Read())
-                for (int i = 0; i < dr.FieldCount; i++)
-                    donendeger.Add(i, dr[i]);
-            else
-                donendeger = null;
-            conn.Close();
+            try
+            {
+                CmdInit(QueryType.Select, storedproducer, timeout, param);
+                conn.Open();
+                dr = cmd.ExecuteReader();
+                if (dr.Read())
+                    for (int i = 0; i < dr.FieldCount; i++)
+                        donendeger.Add(i, dr[i]);
+                else
+                    donendeger = null;
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                hatalar.DoInsert(ex, storedproducer);
+            }
             return donendeger;
         }
 
         protected Dictionary<int, Dictionary<int, object>> GetObjects(string storedproducer, Dictionary<string, object> param, int timeout)
         {
             Dictionary<int, Dictionary<int, object>> donendeger = new Dictionary<int, Dictionary<int, object>>();
-            CmdInit(QueryType.Select, storedproducer, timeout, param);
-            conn.Open();
-            dr = cmd.ExecuteReader();
-            int j = 0;
-            while (dr.Read())
+            try
             {
-                Dictionary<int, object> ic = new Dictionary<int, object>();
-                for (int i = 0; i < dr.FieldCount; i++)
-                    ic.Add(i, dr[i]);
-                donendeger.Add(j, ic);
-                j++;
+                CmdInit(QueryType.Select, storedproducer, timeout, param);
+                conn.Open();
+                dr = cmd.ExecuteReader();
+                int j = 0;
+                while (dr.Read())
+                {
+                    Dictionary<int, object> ic = new Dictionary<int, object>();
+                    for (int i = 0; i < dr.FieldCount; i++)
+                        ic.Add(i, dr[i]);
+                    donendeger.Add(j, ic);
+                    j++;
+                }
+                conn.Close();
+                if (j == 0)
+                    return null;
             }
-            conn.Close();
-            if (j == 0)
-                return null;
+            catch (Exception ex)
+            {
+                hatalar.DoInsert(ex, storedproducer);
+            }
             return donendeger;
         }
 
         protected Dictionary<int, Dictionary<int, object>> GetObjects(string storedproducer, int timeout)
         {
             Dictionary<int, Dictionary<int, object>> donendeger = new Dictionary<int, Dictionary<int, object>>();
-            CmdInit(QueryType.Select, storedproducer, timeout, new Dictionary<string, object>() { });
-            conn.Open();
-            dr = cmd.ExecuteReader();
-            int j = 0;
-            while (dr.Read())
+            try
             {
-                Dictionary<int, object> ic = new Dictionary<int, object>();
-                for (int i = 0; i < dr.FieldCount; i++)
-                    ic.Add(i, dr[i]);
-                donendeger.Add(j, ic);
-                j++;
+                CmdInit(QueryType.Select, storedproducer, timeout, new Dictionary<string, object>() { });
+                conn.Open();
+                dr = cmd.ExecuteReader();
+                int j = 0;
+                while (dr.Read())
+                {
+                    Dictionary<int, object> ic = new Dictionary<int, object>();
+                    for (int i = 0; i < dr.FieldCount; i++)
+                        ic.Add(i, dr[i]);
+                    donendeger.Add(j, ic);
+                    j++;
+                }
+                conn.Close();
+                if (j == 0)
+                    return null;
             }
-            conn.Close();
-            if (j == 0)
-                return null;
+            catch (Exception ex)
+            {
+                hatalar.DoInsert(ex, storedproducer);
+            }
             return donendeger;
         }
 

@@ -40,19 +40,37 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpGet("{Fiyattipi}/{ITEMREF}")]
         public SiparisIsks GetIsks500(int Fiyattipi, int ITEMREF) => new SiparisProvider().Isks500(Fiyattipi, ITEMREF);
 
-        [HttpGet("{SLSREF}")]
-        public List<siparislerDetay> GetSevksiz(int SLSREF) => new SiparisProvider().Sevksiz(SLSREF);
+        [HttpGet("{SMREF}/{TIP}/{ITEMREF}/{Tarih}")]
+        public SiparisIsks GetIsksTP(int SMREF, int TIP, int ITEMREF, DateTime Tarih) => new SiparisProvider().IsksTP(SMREF, TIP, ITEMREF, Tarih);
 
         [HttpGet("{SLSREF}")]
-        public List<siparislerDetay> GetSevkli(int SLSREF) => new SiparisProvider().Sevkli(SLSREF);
+        public List<siparislerDetay> GetDetaySevksiz(int SLSREF) => new SiparisProvider().DetaySevksiz(SLSREF);
 
         [HttpGet("{SLSREF}")]
-        public List<siparislerDetay> GetSevkliAktarilmis(int SLSREF) => new SiparisProvider().SevkliAktarilmis(SLSREF);
+        public List<siparislerDetay> GetDetaySevkli(int SLSREF) => new SiparisProvider().DetaySevkli(SLSREF);
+
+        [HttpGet("{SLSREF}")]
+        public List<siparislerDetay> GetDetaySevkliAktarilmis(int SLSREF) => new SiparisProvider().DetaySevkliAktarilmis(SLSREF);
+
+        [HttpGet("{SLSREF}")]
+        public List<siparisler> GetSevksiz(int SLSREF) => new SiparisProvider().Sevksiz(SLSREF);
+
+        [HttpGet("{SLSREF}")]
+        public List<siparisler> GetSevkli(int SLSREF) => new SiparisProvider().Sevkli(SLSREF);
+
+        [HttpGet("{SLSREF}")]
+        public List<siparisler> GetSevkliAktarilmis(int SLSREF) => new SiparisProvider().SevkliAktarilmis(SLSREF);
 
         [HttpPost]
-        public string SevkKaydet([FromBody] List<SevkKaydet> sevkkaydet) => new SiparisProvider().SevkKaydet(sevkkaydet);
+        public string DetaySevkKaydet([FromBody] List<SevkKaydet> sevkkaydet) => new SiparisProvider().DetaySevkKaydet(sevkkaydet);
+
+        [HttpPost]
+        public ContentResult DetaySevkAktar([FromBody] List<SevkKaydet> sevkkaydet) => new SiparisProvider().DetaySevkAktar(sevkkaydet);
 
         [HttpPost]
         public ContentResult SevkAktar([FromBody] List<SevkKaydet> sevkkaydet) => new SiparisProvider().SevkAktar(sevkkaydet);
+
+        [HttpPost]
+        public string SevkIptal([FromBody] List<SevkKaydet> sevkiptal) => new SiparisProvider().SevkIptal(sevkiptal);
     }
 }

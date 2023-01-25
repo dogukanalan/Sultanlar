@@ -1,0 +1,69 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Fiş Türü Seçimi";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+
+    <style>
+        table.dtFiyat {
+            width: 0px !important;
+            min-width: 270px;
+            margin: 0 auto;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var paramsmref;
+        var table;
+
+        function FisTurleri() {
+            var url1 = apiurl + "sayim/getirfisturleri";
+            table = $('#dtTable2').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    //console.log(json);
+                },
+                columns: [
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<a href="SayimFis?smref=' + paramsmref + '&tur=' + data.id + '"><span class="sinirli">' + data.aciklama + '</span></a>';
+                        }
+                    }
+                ],
+                "language": defaultDtLang,
+                "paging": false,
+                "ordering": false,
+                "info": false,
+                "searching": false,
+                "deferRender": true
+            });
+        }
+
+        $(document).ready(function () {
+            paramsmref = getParameterByName('smref');
+            FisTurleri();
+            getCari(1, paramsmref, getCariSube, "sayMus");
+        });
+    </script>
+}
+<h5 class="spanCiplak" id="sayMus"></h5>
+<table id="dtTable2" class="dtFiyat table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="spanCiplak" data-toggle="tooltip">Fiş Türü</span></th>
+        </tr>
+    </thead>
+</table>

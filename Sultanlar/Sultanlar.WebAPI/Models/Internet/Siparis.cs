@@ -78,7 +78,8 @@ namespace Sultanlar.WebAPI.Models.Internet
 
     public class SevkKaydet
     {
-        public long detayid { get; set; }
-        public int miktar { get; set; }
+        public long detayid { get; set; } // yerine göre siparisid
+        public int miktar { get; set; } // yerine göre bos
+        public string fattar { get; set; }
     }
 }

@@ -19,6 +19,20 @@ namespace Sultanlar.Class
         public List<XmlFaturaDis> Faturalar { get; set; }
     }
 
+    [XmlRoot(ElementName = "SultanlarSiparisler")]
+    public class SiparislerDis
+    {
+        [XmlElement(ElementName = "siparis", Order = 1)]
+        public List<SiparisDis> Siparisler { get; set; }
+    }
+
+    [XmlRoot(ElementName = "SultanlarFaturalar")]
+    public class FaturalarDis
+    {
+        [XmlElement(ElementName = "fatura", Order = 1)]
+        public List<SiparisDis> Faturalar { get; set; }
+    }
+
     public class XmlSiparisDis
     {
         public string SipNo { get; set; }
@@ -100,5 +114,42 @@ namespace Sultanlar.Class
         public double NET_TOP { get; set; }
         public double KDV_TOP { get; set; }
         public double NETKDV_TOP { get; set; }
+    }
+
+    public class SiparisDis
+    {
+        public string sipno { get; set; }
+        public string tur { get; set; }
+        public string vade { get; set; }
+        public string iptal { get; set; }
+        public string belgeno { get; set; }
+        public string carino { get; set; }
+        public string carino2 { get; set; }
+        public string cari { get; set; }
+        public string tarih { get; set; }
+        public string aciklama { get; set; }
+        public List<SiparisDisDetay> detaylar { get; set; }
+    }
+
+    [XmlType("detay")]
+    public class SiparisDisDetay
+    {
+        public string detayno { get; set; }
+        public MalzemeDetay malzeme { get; set; }
+        public string miktar { get; set; }
+        public string miktartur { get; set; }
+        public string isk1 { get; set; }
+        public string isk2 { get; set; }
+        public string isk3 { get; set; }
+        public string isk4 { get; set; }
+        public string fiyat { get; set; }
+    }
+
+    [XmlType("malzeme")]
+    public class MalzemeDetay
+    {
+        public string malno { get; set; }
+        public string malacik { get; set; }
+        public string koli { get; set; }
     }
 }

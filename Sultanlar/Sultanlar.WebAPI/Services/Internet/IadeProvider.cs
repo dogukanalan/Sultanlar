@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
+using Sultanlar.DatabaseObject.Internet;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -84,6 +85,15 @@ namespace Sultanlar.WebAPI.Services.Internet
             iade.DoUpdate();
             Sultanlar.DatabaseObject.Internet.Iadeler.DoInsertCopeAt(IadeID);
 
+            if (iade.TKSREF > 1)
+            {
+                int bayikod = CariHesaplarTP.GetGMREFBySMREF(iade.SMREF);
+                int siparisno = CariHesaplarTPEk.GetBayiSiparisNo(bayikod) + 1;
+                CariHesaplarTPEk.SetBayiSiparisNo(bayikod, siparisno);
+
+                IadelerQ.WriteQuantumNo(iade.pkIadeID, Genel.BayiSiparisnoDuzeltme(siparisno), "");
+            }
+
             iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 26, DateTime.Now, iade.Musteri.AdSoyad, ""); // iade onay talep edildi
             ih.DoInsert();
 
@@ -114,13 +124,9 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string IadeKaydet(IadeKaydet ikg)
         {
-            if (ikg.iadeid != 0) // iade güncelleniyorsa eskiyi silsin
-            {
-                iadeler iadees = new iadeler(ikg.iadeid).GetObject();
-                for (int i = 0; i < iadees.detaylar.Count; i++)
-                    iadees.detaylar[i].DoDelete();
-                iadees.DoDelete();
-            }
+            iadeler iadees = new iadeler(ikg.iadeid).GetObject();
+            if (iadees.tur != 0)
+                return "hata: bu iade değiştirilemez.";
 
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(ikg.musteri))).GetObject();
             int musid = new musteriler().GetMusteriBySLSREF(new cariHesaplar().GetObject1(ikg.mtip, ikg.smref).SLSREF).pkMusteriID;
@@ -135,6 +141,14 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 8, DateTime.Now, mus.AdSoyad, ""); // iade girildi
             ih.DoInsert();
+
+            if (ikg.iadeid != 0) // iade güncelleniyorsa eskiyi silsin
+            {
+                List<iadelerDetay> silinecekler = new iadelerDetay().GetObjects(iadees.pkIadeID);
+                for (int i = 0; i < silinecekler.Count; i++)
+                    silinecekler[i].DoDelete();
+                iadees.DoDelete();
+            }
 
             return iade.pkIadeID.ToString();
         }

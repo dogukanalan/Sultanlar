@@ -1,0 +1,338 @@
+﻿@page
+@model IcerikModel
+@{
+    ViewData["Title"] = "Sayım İçeriği";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+
+    <script>
+        var paramsmref;
+        var tur;
+        var sayimid;
+        var sepet;
+
+        function initSepet() {
+            var cookie = JSON.parse(getLocal());
+            for (var i = 0; i < cookie.length; i++) {
+                if (cookie[i].smref == paramsmref && cookie[i].tur == tur && cookie[i].sayimid == sayimid) {
+                    for (var j = 0; j < cookie[i].detaylar.length; j++) {
+                        sepet.push(
+                            {
+                                itemref: cookie[i].detaylar[j].itemref,
+                                malacik: cookie[i].detaylar[j].malacik,
+                                miktar: cookie[i].detaylar[j].miktar,
+                                miktartur: cookie[i].detaylar[j].miktartur
+                            }
+                        );
+                    }
+                }
+            }
+        }
+
+        function Goster() {
+            $('#dtTable').DataTable({
+                "scrollX": true,
+                "aaData": sepet,
+                "aoColumns": [
+                    {
+                        "mDataProp": "itemref", title: "Kod", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli itemref">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "mDataProp": "malacik", title: "Malzeme", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "mDataProp": "miktar", title: "", "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="number" class="inputSecim" value="' + data + '" />';
+                        }
+                    },
+                    {
+                        "mDataProp": "miktartur", title: "Tip", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="spMiktarTur" rel="' + data + '">' + (data === 'ST' ? '(ad)' : '(kl)') + '</span>';
+                        }
+                    },
+                    {
+                        "mDataProp": null, title: "", "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="button" class="btn btn-danger" value="Sil" onclick="urunSil(' + data.itemref + ', \'' + data.miktartur + '\')" />';
+                        }
+                    }
+                ],
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "order": [[1, "asc"]],
+                "fnDrawCallback": function (oSettings) {
+
+                }
+            });
+        }
+        function Kaydet(paramsmref, tur, sayimid, paramonay, yonlendir) {
+            var arrayFromCookie = JSON.parse(window.localStorage['sepetS']);
+
+            var sentValue;
+            for (var i = 0; i < arrayFromCookie.length; i++) {
+                if (arrayFromCookie[i].smref === paramsmref && arrayFromCookie[i].tur === tur && arrayFromCookie[i].sayimid === sayimid) {
+                    var sepet2 = arrayFromCookie[i];
+                    sepet2.musteri = window.localStorage["uyeid"];
+                    sentValue = JSON.stringify(sepet2);
+                    break;
+                }
+            }
+
+            var yenisayim = 0;
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "sayim/kaydet",
+                    data: sentValue,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        yenisayim = data;
+                        saySil(arrayFromCookie);
+                        if (paramonay) {
+                            Onayla(yenisayim);
+                        }
+                        else {
+                            if (yonlendir) {
+                                window.location.href = '../?smref=' + paramsmref;
+                            }
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            ).then(() => {
+                /*if (paramonay != 1 && !yonlendir) { // siparis kaydet devamet
+                    siparissil(siparisid, false);
+                    siparisdbGetir(yenisiparis);
+                }*/
+            });
+        }
+
+        function Onayla(sayimid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "sayim/onay/" + sayimid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data == "") {
+
+                        }
+                        else {
+                            alert("Sayım onaylanamadı. hata: " + data);
+                        }
+
+                        window.location.href = '../?smref=' + paramsmref;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function Sil(sayimid, yonlendir) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "sayim/sil/" + sayimid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data == "") {
+                            if (yonlendir) {
+                                window.location.href = '../?smref=' + paramsmref;
+                            }
+                        }
+                        else {
+                            alert("Sayım silinemedi. hata: " + data);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function saySil(cookie) {
+            var yenicookie = [];
+            for (var i = 0; i < cookie.length; i++) {
+                if (cookie[i].smref === paramsmref && cookie[i].tur === tur && cookie[i].sayimid === sayimid) {
+                    var asd = cookie[i].smref;
+                }
+                else {
+                    yenicookie.push({
+                        sayimid: cookie[i].sayimid,
+                        smref: cookie[i].smref,
+                        tur: cookie[i].tur,
+                        aciklama: cookie[i].aciklama,
+                        detaylar: cookie[i].detaylar
+                    });
+                }
+            }
+            window.localStorage['sepetS'] = JSON.stringify(yenicookie);
+        }
+
+        function getLocal() {
+            return window.localStorage['sepetS'];
+        }
+
+        function senkRoot() {
+            var cookie = JSON.parse(getLocal());
+            for (var i = 0; i < cookie.length; i++) {
+                if (cookie[i].smref == paramsmref && cookie[i].tur == tur && cookie[i].sayimid == sayimid) {
+                    cookie[i].detaylar = [];
+                    for (var j = 0; j < sepet.length; j++) {
+                        cookie[i].detaylar.push(
+                            {
+                                itemref: sepet[j].itemref,
+                                malacik: sepet[j].malacik,
+                                miktar: sepet[j].miktar,
+                                miktartur: sepet[j].miktartur
+                            });
+                    }
+                }
+            }
+            window.localStorage["sepetS"] = JSON.stringify(cookie);
+        }
+
+        function urunSil(itemref, miktartur) {
+            var yenisepet = [];
+            for (var i = 0; i < sepet.length; i++) {
+                if (sepet[i].itemref == itemref && sepet[i].miktartur == miktartur) {
+                    var asd = sepet[i].itemref;
+                }
+                else {
+                    yenisepet.push({
+                        itemref: sepet[i].itemref,
+                        malacik: sepet[i].malacik,
+                        miktar: sepet[i].miktar,
+                        miktartur: sepet[i].miktartur
+                    });
+                }
+            }
+            sepet = yenisepet;
+            senkRoot();
+            window.location.href = window.location.href;
+        }
+
+        function urunGuncelle(itemref, miktartur, miktar) {
+            var yenisepet = [];
+            for (var i = 0; i < sepet.length; i++) {
+                if (sepet[i].itemref == itemref && sepet[i].miktartur == miktartur) {
+                    yenisepet.push({
+                        itemref: sepet[i].itemref,
+                        malacik: sepet[i].malacik,
+                        miktar: parseInt(miktar),
+                        miktartur: sepet[i].miktartur
+                    });
+                }
+                else {
+                    yenisepet.push({
+                        itemref: sepet[i].itemref,
+                        malacik: sepet[i].malacik,
+                        miktar: parseInt(sepet[i].miktar),
+                        miktartur: sepet[i].miktartur
+                    });
+                }
+            }
+            sepet = yenisepet;
+            senkRoot();
+            window.location.href = window.location.href;
+        }
+
+        function sil() {
+            if (Object.keys(sepet).length != 0) {
+                if (confirm("Sayım içeriğini silmek istediğinize emin misiniz?")) {
+                    sepetBosalt();
+                    window.location.href = window.location.href;
+                }
+            }
+        }
+
+        function sSil() {
+            if (confirm("Sayımı silmek istediğinize emin misiniz?")) {
+                saySil(JSON.parse(getLocal()));
+                if (sayimid != 0)
+                    Sil(sayimid, true);
+                else
+                    window.location.href = '../?smref=' + paramsmref;
+            }
+        }
+
+        function kaydet() {
+            if (Object.keys(sepet).length != 0) {
+                if (confirm("Sayımı kaydetmek istediğinize emin misiniz?")) {
+                    Kaydet(paramsmref, tur, sayimid, false, true);
+                }
+            }
+        }
+
+        function kaydetdevam() {
+            if (Object.keys(sepet).length != 0) {
+                Kaydet(paramsmref, tur, sayimid, false, false);
+            }
+        }
+
+        function onayla() {
+            if (Object.keys(sepet).length != 0) {
+                if (confirm("Sayımı kaydetmek ve onaylamak istediğinize emin misiniz?")) {
+                    Kaydet(paramsmref, tur, sayimid, true, true);
+                }
+            }
+        }
+
+        function sepetBosalt() {
+            sepet = [];
+            senkRoot();
+        }
+
+        $(document).ready(function () {
+            $('#divProgress').css("display", "none");
+            paramsmref = getParameterByName('smref');
+            tur = getParameterByName('tur');
+            sayimid = getParameterByName('sayimid');
+            sepet = [];
+            initSepet();
+
+            getCari(1, paramsmref, getCariSube, "sayMus");
+
+            Goster();
+            $('.inputSecim').on('input', delay(function (e) {
+                urunGuncelle($(this).closest("tr").find(".itemref").text(), $(this).closest("tr").find(".spMiktarTur").attr("rel"), this.value);
+            }, 1));
+        });
+    </script>
+}
+<h5 class="spanCiplak" id="sayMus"></h5>
+<input type="button" class="btn btn-info secimTus" value="Ürün Listesine Dön" onclick="window.location.href = 'SayimFis?smref=' + paramsmref + '&sayimid=' + sayimid + '&tur=' + tur" />
+<input type="button" class="btn btn-danger secimTus" value="İçeriği Sil" onclick="sil()" />
+<input type="button" class="btn btn-danger secimTus" value="Sayımı Sil" onclick="sSil()" />
+<input type="button" class="btn btn-info secimTus" value="Stok Ekranına Dön" onclick="window.location.href = '../?smref=' + paramsmref" />
+<input type="button" class="btn btn-success secimTus" value="Sayımı Kaydet" onclick="kaydet()" />
+<input type="button" class="btn btn-success secimTus" value="Sayımı Kaydet ve Onayla" onclick="onayla()" />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='400'>
+    <thead>
+        <tr>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+        </tr>
+    </thead>
+</table>

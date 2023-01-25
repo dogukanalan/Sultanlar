@@ -16,20 +16,22 @@ $('.validate-form').on('submit', function () {
     return check;
 });*/
 
-var apiurl = "https://www.ittihadteknoloji.com.tr/internet/";
+var url = window.location.hostname;
+var apiurl = "https://" + (url.split('.').length > 3 && url.split('.')[0] !== 'www' ? url.split('.')[1] + '.' + url.split('.')[2] + '.' + url.split('.')[3] : url) + "/internet/";
 //http://localhost:50544/internet/
 //http://95.0.47.130/SulAPI/internet/
 //https://www.ittihadteknoloji.com.tr/internet/
 
 
 var aramadelay = 1000;
-var surum = '1.5.1';
+var surum = '1.5.3';
 
 
 
 $(document).ready(function () {
     $("#dtTable input[type=text]").keyup(function () {
-        $(this).val($(this).val().toLocaleUpperCase());
+        if (!$(this).hasClass("aramaoldugugibi"))
+            $(this).val($(this).val().toLocaleUpperCase());
     });
 
     setTimeout(function () {
@@ -42,8 +44,8 @@ $(document).ready(function () {
         }
     }, 2000);
 
-
     $('#selectYil').empty();
+    $("#selectYil").append($("<option />").val("2023").text("2023"));
     $("#selectYil").append($("<option />").val("2022").text("2022"));
     $("#selectYil").append($("<option />").val("2021").text("2021"));
     $("#selectYil").append($("<option />").val("2020").text("2020"));
@@ -932,6 +934,10 @@ function KoordinatBaslat() {
         document.getElementById('inputCoords').value = '0,0';
         document.getElementById('inputCoordAddress').value = 'Konuma erişim desteklenmiyor.';
     }
+}
+
+function mapCallBack() {
+
 }
 
 function displayError(positionError) {

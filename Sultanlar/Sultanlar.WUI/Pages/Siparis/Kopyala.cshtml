@@ -16,6 +16,7 @@
     <script>
         var siparisid;
         var table;
+        var getfunc;
 
         function SaticilarGetir(uyeid) {
             $.ajax(
@@ -49,6 +50,8 @@
         }
 
         function MusterilerGetir(slsref) {
+            getfunc = slsref > 1000000000 ? 'gethepsi124' : 'gethepsi12';
+
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
@@ -56,7 +59,7 @@
                     dataSrc: "",
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "cari/gethepsi12/" + slsref
+                    url: apiurl + "cari/" + getfunc + "/" + slsref
                 },
                 columns: [
                     {
@@ -128,7 +131,8 @@
             document.getElementById("basTitle").innerHTML = "Sipariş Kopyala (" + siparisid + ")";
             SaticilarGetir(window.localStorage["uyeid"]);
             $('#selectSaticilar').on('change', function (e) {
-                table = $('#dtTable').DataTable().ajax.url(apiurl + "cari/gethepsi12/" + this.value).load();
+                getfunc = this.value > 1000000000 ? 'gethepsi124' : 'gethepsi12';
+                table = $('#dtTable').DataTable().ajax.url(apiurl + "cari/" + getfunc + "/" + this.value).load();
             });
         });
     </script>

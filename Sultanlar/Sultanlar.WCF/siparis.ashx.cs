@@ -14,7 +14,6 @@ namespace Sultanlar.WCF
     /// </summary>
     public class siparis : IHttpHandler
     {
-
         public void ProcessRequest(HttpContext context)
         {
             string donendeger = "hata";
@@ -28,6 +27,12 @@ namespace Sultanlar.WCF
                 sip.blAktarilmis = true;
                 sip.DoUpdate();
                 aktarildi = true;
+
+                int bayikod = CariHesaplarTP.GetGMREFBySMREF(sip.SMREF);
+                int siparisno = CariHesaplarTPEk.GetBayiSiparisNo(bayikod) + 1;
+                CariHesaplarTPEk.SetBayiSiparisNo(bayikod, siparisno);
+
+                Siparisler.DoInsertQ(sip.pkSiparisID, Genel.BayiSiparisnoDuzeltme(siparisno));
             }
             else
             {

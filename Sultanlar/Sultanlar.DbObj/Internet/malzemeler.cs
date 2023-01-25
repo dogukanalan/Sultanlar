@@ -36,6 +36,8 @@ namespace Sultanlar.DbObj.Internet
         public int DONUSUM { get; set; }
         public int MHDHB { get; set; }
         public int MHDRZ { get; set; }
+        public int STOKYER { get; set; }
+        public double STOKDIS { get { return new bayiStokRaporu().GetObject(STOKYER, ITEMREF).STOKAY; } }
         public string[] eskodlar { 
             get 
             {
@@ -100,6 +102,22 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, object> dic = GetObject("db_sp_malzemeGetir", new Dictionary<string, object>() { { "ITEMREF", ITEMREF } }, timeout);
             if (dic != null)
                 donendeger = new malzemeler(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), dic[2].ToString(), dic[3].ToString(), dic[4].ToString(), dic[5].ToString(), dic[6].ToString(), dic[7].ToString(), dic[8].ToString(), dic[9].ToString(), dic[10].ToString(), dic[11].ToString(), dic[12].ToString(), dic[13].ToString(), dic[14].ToString(), dic[15].ToString(), ConvertToDouble(dic[16]), ConvertToDouble(dic[17]), dic[18].ToString(), ConvertToDouble(dic[19]), ConvertToInt32(dic[20]), ConvertToInt32(dic[21]), ConvertToInt32(dic[22]), ConvertToInt32(dic[23]), dic[24].ToString(), dic[25].ToString(), ConvertToInt32(dic[26]), ConvertToInt32(dic[27]), ConvertToInt32(dic[28]));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public malzemeler GetObject(int ITEMREF, int STOKYER)
+        {
+            malzemeler donendeger = new malzemeler();
+
+            Dictionary<int, object> dic = GetObject("db_sp_malzemeGetir", new Dictionary<string, object>() { { "ITEMREF", ITEMREF } }, timeout);
+            if (dic != null)
+                donendeger = new malzemeler(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), dic[2].ToString(), dic[3].ToString(), dic[4].ToString(), dic[5].ToString(), dic[6].ToString(), dic[7].ToString(), dic[8].ToString(), dic[9].ToString(), dic[10].ToString(), dic[11].ToString(), dic[12].ToString(), dic[13].ToString(), dic[14].ToString(), dic[15].ToString(), ConvertToDouble(dic[16]), ConvertToDouble(dic[17]), dic[18].ToString(), ConvertToDouble(dic[19]), ConvertToInt32(dic[20]), ConvertToInt32(dic[21]), ConvertToInt32(dic[22]), ConvertToInt32(dic[23]), dic[24].ToString(), dic[25].ToString(), ConvertToInt32(dic[26]), ConvertToInt32(dic[27]), ConvertToInt32(dic[28]));
+
+            donendeger.STOKYER = STOKYER;
 
             return donendeger;
         }

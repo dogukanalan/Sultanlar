@@ -1,0 +1,269 @@
+﻿@page
+@model SayimFisModel
+@{ViewData["Title"] = "Sayım Fişi";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+    <script>
+        var paramsmref;
+        var sayimid;
+        var tur;
+        var table;
+
+        function getFiyatlar() {
+            var url1 = apiurl + "fiyat/getallbytip/22";
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+                window.localStorage['sepetU'] = JSON.stringify(json);
+            }).DataTable({
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    $('.dataTables_filter input').keyup(function () {
+                        $(this).val($(this).val().toLocaleUpperCase());
+                    });
+                },
+                "fnDrawCallback": function (oSettings) {
+                    qtip();
+                },
+                columns: [
+                    {
+                        "data": null, "class": "bgwhite keyTd hidewhenmobile", render: function (data, type, row) {
+                            if (data.odemE_GUN > 0)
+                                return '<div class="imgKucRes"><img class="urunResim lazyload" rel="' + apiurl + 'resim/getT/' + data.itemref + '" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="' + apiurl + 'resim/getTO/' + data.itemref + '" /></div>';
+                            else
+                                return '<div style="width:100px; height:100px" />';
+                        }
+                    },
+                    {
+                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malacik", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli malacik">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": "hide", render: function (data, type, row) {
+                            return '<span class="sinirli ozelacik">' + data.ozelacik + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.koli + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.kdv + '</span>';
+                        }
+                    },
+                    {
+                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="number" class="inputSecim" accesskey="' + data + '" onkeyup="clickButton(event,\'sayAktar\')" />';
+                        }
+                    },
+                    {
+                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<select class="ddTur"><option value="ST">Adet</option></select>';
+                        }
+                    }
+                ],
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true
+            });
+        }
+
+        function Goster() {
+            sencHeader();
+            window.location.href = 'Icerik?smref=' + paramsmref + '&tur=' + tur + '&sayimid=' + sayimid;
+        }
+
+        function Aktar() {
+            sencHeader();
+            $('#dtTable').find('input.inputSecim').each(function () {
+                if ($(this).val() != "") {
+                    var cookie = JSON.parse(getLocal());
+                    var varmis = false;
+                    var itref = $(this).attr('accesskey');
+                    var miktur = $(this).closest("tr").find(".ddTur").val();
+                    var malac = $(this).closest("tr").find(".malacik").text();
+                    var mik = parseInt($(this).val());
+
+                    for (var j = 0; j < cookie.length; j++) {
+                        var cookiedet = cookie[j].detaylar;
+                        if (cookie[j].smref == paramsmref && cookie[j].tur == tur && cookie[j].sayimid == sayimid) {
+                            for (var i = 0; i < cookiedet.length; i++) {
+                                if (cookiedet[i].itemref == itref && cookiedet[i].miktartur == miktur) {
+                                    cookiedet[i].miktar = parseInt(cookiedet[i].miktar) + mik;
+                                    varmis = true;
+                                    break;
+                                }
+                            }
+
+                            if (!varmis) {
+                                cookiedet.push(
+                                    {
+                                        itemref: itref,
+                                        malacik: malac,
+                                        miktar: mik,
+                                        miktartur: miktur
+                                    }
+                                );
+                            }
+                        }
+                    }
+
+                    sencLocal(cookie);
+                    $(this).val("");
+                }
+            });
+        }
+
+        function getLocal() {
+            return window.localStorage['sepetS'];
+        }
+
+        function sencLocal(data) {
+            window.localStorage['sepetS'] = JSON.stringify(data);
+        }
+
+        function sencHeader() {
+            var cookie = JSON.parse(getLocal());
+            var degistirildi = false;
+            for (var i = 0; i < cookie.length; i++) {
+                if (cookie[i].smref == paramsmref && cookie[i].tur == tur && cookie[i].sayimid == sayimid) {
+                    degistirildi = true;
+                    cookie[i].aciklama = $("#inputAciklama").val();
+                }
+            }
+            if (degistirildi)
+                sencLocal(cookie);
+        }
+
+        function header() {
+            var cookie = JSON.parse(getLocal());
+            var varmis = false;
+
+            for (var i = 0; i < cookie.length; i++) {
+                if (cookie[i].smref == paramsmref && cookie[i].tur == tur && cookie[i].sayimid == sayimid) {
+                    varmis = true;
+                    $("#inputAciklama").val(cookie[i].aciklama);
+                }
+            }
+
+            if (!varmis) { // sayim yeni başlıyor ya da hiç sayim cookie yoktu
+                cookie.push(
+                    {
+                        sayimid: sayimid,
+                        tur: tur,
+                        smref: paramsmref,
+                        aciklama: $("#inputAciklama").val(),
+                        musteri: window.localStorage["uyeid"],
+                        detaylar: []
+                    }
+                );
+                sencLocal(cookie);
+            }
+        }
+
+        $(document).ready(function () {
+            paramsmref = getParameterByName('smref');
+            tur = getParameterByName('tur');
+            sayimid = getParameterByName('sayimid') ? getParameterByName('sayimid') : "0";
+
+            $('#inputAciklama').on('keyup', function (ev) { sencHeader(); });
+
+            header();
+            getCari(1, getParameterByName("smref"), getCariSube, "sayMus");
+            getFiyatlar();
+            $('#dtTable').on('draw.dt', function () {
+
+            });
+
+            $('input[type=radio][name=options]').change(function () {
+                var val;
+                $("#divTur input").each(function (index, element) {
+                    if ($(element).is(':checked')) {
+                        val = $(element).val();
+                    }
+                });
+
+                table.columns(3).search(val == 1 ? "" : val).draw();
+            });
+        });
+
+        function qtip() {
+            $('.urunResim').each(function () {
+                $(this).qtip({
+                    content: '<img src="' + $(this).attr('rel') + '" class="urunResimQtip" />',
+                    position: { at: 'top right' }
+                });
+            });
+            lazyload();
+        }
+    </script>
+}
+<h5 class="spanCiplak" id="sayMus"></h5>
+<input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" maxlength="34" autocomplete="off">
+<input type="button" id="sayAktar" class="btn btn-primary secimTus" value="Seçimi Aktar" onclick="Aktar()" />
+<input type="button" class="btn btn-info secimTus" value="İçeriği Göster" onclick="Goster()" />
+<br />
+<br />
+<div id="divTur" data-toggle="buttons">
+    <label class="btn btn-primary active">
+        <input type="radio" name="options" id="option0" value="1" checked> Tümü
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option1" value="ARI"> Arı
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option2" value="HAYAT"> Hayat
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option3" value="TİBET"> Temizlik
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option4" value="YEG"> YEG
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option4" value="ÇAPA MEDİKAL"> Banduff
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option4" value="DİĞER"> Diğer
+    </label>
+</div>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+            <th class="keyTd"><span class="">Kod</span></th>
+            <th class="keyTd"><span class="">Malzeme</span></th>
+            <th class="keyTd"><span class="">Blm</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Koli</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Kdv</span></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+        </tr>
+    </thead>
+</table>

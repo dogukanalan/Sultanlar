@@ -69,6 +69,16 @@
                         "width": "1%"
                     },
                     {
+                        "mDataProp": "fiyatvy", "class": "keyTd hide", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.isaret + '</span>';
+                        }
+                    },
+                    {
+                        "mDataProp": "fiyatvy", "class": "keyTd hide", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.varyok + '</span>';
+                        }
+                    },
+                    {
                         "mDataProp": null, "class": "keyTd", render: function (data, type, row) {
                             return '<div class="pretty p-default p-curve prettyMargin2 p-toggle">' +
                                 '<input type="checkbox" onchange="checkDisEn(this)" ' + (incele ? 'disabled' : '') + ' accesskey="' + data.itemref + '"' + (data.fiyatvy.isaret == true ? 'checked="checked"' : '') + ' />' +
@@ -366,6 +376,8 @@
                         success: function (data, textStatus, response) {
                             checkAuth(response);
 
+                            console.log(data);
+                            document.getElementById("tarih").innerHTML = data.tarih.replace("T", " ");
                             sepet = { barkod: data.barkod, tip: data.fiyaT_TIP, detays: [] };
 
                             $.ajax(
@@ -522,7 +534,11 @@
                 }
             }
 
-            $('input[type=radio][name=options]').change(function () {
+            $('input[type=radio]').change(function () {
+                filtrele();
+            });
+
+            function filtrele() {
                 var val;
                 $("#divTur input").each(function (index, element) {
                     if ($(element).is(':checked')) {
@@ -530,8 +546,32 @@
                     }
                 });
 
+                var val1;
+                $("#divKontrol input").each(function (index, element) {
+                    if ($(element).is(':checked')) {
+                        val1 = $(element).val();
+                    }
+                });
+
+                var val2;
+                $("#divVy input").each(function (index, element) {
+                    if ($(element).is(':checked')) {
+                        val2 = $(element).val();
+                    }
+                });
+
+                if (val1 != 0)
+                    table.columns(6).search(val1 == 1 ? "true" : val1 == 2 ? "false" : val1.toString()).draw();
+                else
+                    table.columns(6).search('').draw();
+
+                if (val2 != 0)
+                    table.columns(7).search(val2 == 1 ? "true" : val2 == 2 ? "false" : val2.toString()).draw();
+                else
+                    table.columns(7).search('').draw();
+
                 table.columns(3).search(val == 1 ? "" : val).draw();
-            });
+            }
 
             $('#dtTable').on('draw.dt', function () {
 
@@ -541,6 +581,7 @@
 }
 <script>yetkisizsayfa = true;</script>
 <h5 class="spanCiplak" id="ziyMus"></h5>
+<h5 class="spanCiplak" id="tarih"></h5>
 @*<input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" autocomplete="off">*@
 <select id="selectFiyatTipler" name="selectFiyatTipler" class="dropDown">
     <option value="1" selected="selected">Seçiniz</option>
@@ -552,25 +593,49 @@
     <br />
     <br />
 </div>
-<div id="divTur" data-toggle="buttons">
-    <label class="btn btn-primary">
-        <input type="radio" name="options" id="option0" value="1" checked> Tümü
-    </label>
-    <label class="btn btn-primary">
-        <input type="radio" name="options" id="option1" value="ARI"> Arı
-    </label>
-    <label class="btn btn-primary">
-        <input type="radio" name="options" id="option2" value="HAYAT"> Hayat
-    </label>
-    <label class="btn btn-primary">
-        <input type="radio" name="options" id="option3" value="TİBET"> Temizlik
-    </label>
-    <label class="btn btn-primary">
-        <input type="radio" name="options" id="option4" value="YEG"> YEG
-    </label>
-    <label class="btn btn-primary">
-        <input type="radio" name="options" id="option5" value="ÇAPA MEDİKAL"> Banduff
-    </label>
+<div class="centerVeMiddle">
+    <div id="divTur" data-toggle="buttons">
+        <label class="btn btn-primary active">
+            <input type="radio" name="options" id="option0" value="1" checked> Tümü
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option1" value="ARI"> Arı
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option2" value="HAYAT"> Hayat
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option3" value="TİBET"> Temizlik
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option4" value="YEG"> YEG
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option5" value="ÇAPA MEDİKAL"> Banduff
+        </label>
+    </div>
+    <div id="divKontrol" data-toggle="buttons">
+        <label class="btn btn-info active">
+            <input type="radio" name="options1" id="option0" value="0" checked> Tümü
+        </label>
+        <label class="btn btn-info">
+            <input type="radio" name="options1" id="option1" value="1"> Kontrol Edilmiş
+        </label>
+        <label class="btn btn-info">
+            <input type="radio" name="options1" id="option2" value="2"> Kontrol Edilmemiş
+        </label>
+    </div>
+    <div id="divVy" data-toggle="buttons">
+        <label class="btn btn-success active">
+            <input type="radio" name="options2" id="option0" value="0" checked> Tümü
+        </label>
+        <label class="btn btn-success">
+            <input type="radio" name="options2" id="option1" value="1"> Var
+        </label>
+        <label class="btn btn-success">
+            <input type="radio" name="options2" id="option2" value="2"> Yok
+        </label>
+    </div>
 </div>
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%; display: none" data-page-length='25'>
     <thead>
@@ -581,6 +646,8 @@
             <th class="keyTd"><span class="">Blm</span></th>
             <th class="keyTd"><span class="">Malzeme</span></th>
             <th class="keyTd"><span class="">Koli</span></th>
+            <th class="keyTd"><span class="">is</span></th>
+            <th class="keyTd"><span class="">vy</span></th>
             <th class="keyTd"><span class="">Knt.</span></th>
             <th class="keyTd"><span class="">V/Y</span></th>
             <th class="keyTd"><span class="">Depo</span></th>

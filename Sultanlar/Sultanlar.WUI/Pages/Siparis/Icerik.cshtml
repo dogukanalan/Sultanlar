@@ -117,6 +117,7 @@
         }
 
         function urunGuncelle(itemref, miktartur, miktar) {
+            miktar = miktar.toString().trim() == '' ? 1 : miktar;
             var yenisepet = [];
             for (var i = 0; i < sepet.length; i++) {
                 if (sepet[i].itemref == itemref && sepet[i].miktartur == miktartur) {

@@ -46,6 +46,8 @@
             this.txtKod = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtEposta = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cmbBayi = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -148,7 +150,7 @@
             // 
             // btnEkle
             // 
-            this.btnEkle.Location = new System.Drawing.Point(197, 219);
+            this.btnEkle.Location = new System.Drawing.Point(197, 246);
             this.btnEkle.Name = "btnEkle";
             this.btnEkle.Size = new System.Drawing.Size(75, 23);
             this.btnEkle.TabIndex = 8;
@@ -188,12 +190,31 @@
             this.txtEposta.Size = new System.Drawing.Size(188, 20);
             this.txtEposta.TabIndex = 6;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(12, 222);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(30, 13);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "Bayi:";
+            // 
+            // cmbBayi
+            // 
+            this.cmbBayi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBayi.FormattingEnabled = true;
+            this.cmbBayi.Location = new System.Drawing.Point(84, 219);
+            this.cmbBayi.Name = "cmbBayi";
+            this.cmbBayi.Size = new System.Drawing.Size(188, 21);
+            this.cmbBayi.TabIndex = 2;
+            // 
             // frmINTERNETpersonelekle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 253);
+            this.ClientSize = new System.Drawing.Size(284, 279);
             this.Controls.Add(this.btnEkle);
+            this.Controls.Add(this.cmbBayi);
             this.Controls.Add(this.cmbTur);
             this.Controls.Add(this.txtAciklama);
             this.Controls.Add(this.label6);
@@ -204,6 +225,7 @@
             this.Controls.Add(this.txtTelefon);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtGorev);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtSoyad);
@@ -240,5 +262,7 @@
         private System.Windows.Forms.TextBox txtKod;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtEposta;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cmbBayi;
     }
 }

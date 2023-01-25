@@ -56,5 +56,19 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// bayii_stok_toplam
+        /// </summary>
+        /// <returns></returns>
+        public bayiStokRaporu GetObject(int SMREF, int ITEMREF)
+        {
+            bayiStokRaporu donendeger = new bayiStokRaporu();
+
+            Dictionary<int, object> dic = GetObject("db_sp_bayiStokSatirGetir", new Dictionary<string, object>() { { "SMREF", SMREF }, { "ITEMREF", ITEMREF } }, timeout);
+            if (dic != null)
+                 donendeger = new bayiStokRaporu(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), ConvertToDouble(dic[3]), ConvertToDouble(dic[4]), ConvertToDouble(dic[5]), ConvertToDouble(dic[6]), ConvertToDouble(dic[7]), false, false);
+
+            return donendeger;
+        }
     }
 }

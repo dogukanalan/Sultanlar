@@ -1778,6 +1778,55 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
+
+        public static int GetBayiSiparisNo(int GMREF)
+        {
+            int donendeger = 0;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT SIPNO FROM [Web-Musteri-TP-Bayikodlar] WHERE GMREF = @GMREF", conn);
+                cmd.Parameters.Add("@GMREF", SqlDbType.Int).Value = GMREF;
+                try
+                {
+                    conn.Open();
+                    donendeger = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+
+        public static void SetBayiSiparisNo(int GMREF, int SIPNO)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE [Web-Musteri-TP-Bayikodlar] SET SIPNO = @SIPNO WHERE GMREF = @GMREF", conn);
+                cmd.Parameters.Add("@SIPNO", SqlDbType.Int).Value = SIPNO;
+                cmd.Parameters.Add("@GMREF", SqlDbType.Int).Value = GMREF;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
     }
 
     public class CariHesaplarTPEk2

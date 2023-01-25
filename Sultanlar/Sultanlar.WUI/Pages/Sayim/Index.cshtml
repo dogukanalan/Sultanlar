@@ -1,0 +1,233 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Sayım Fişleri";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.5.0/css/select.dataTables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/select/1.5.0/js/dataTables.select.min.js"></script>
+
+    <script>
+        var table;
+        var smref;
+
+        function FislerGetir() {
+            var datasrc = "";
+            var url1 = apiurl + "sayim/getirfisler/" + smref;
+
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+
+            }).DataTable({
+                "scrollX": true,
+                ajax: {
+                    dataSrc: datasrc,
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    $(".smm").change(function () {
+                        if (!confirm("Onaylamak istediğinize emin misiniz?")) {
+                            $(this).prop('checked', false);
+                            return;
+                        }
+
+                        var cek = this;
+                        var id = $(cek).attr("accesskey");
+                        if (cek.checked) {
+                            $.ajax(
+                                {
+                                    xhr: function () { return xhrDownloadUpload(); },
+                                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                                    url: apiurl + "sayim/onay/" + id,
+                                    success: function (data, textStatus, response) {
+                                        checkAuth(response);
+                                        if (data == "") {
+                                            window.location.href = window.location.href;
+                                        }
+                                        else {
+                                            alert("Sayım onaylanamadı. hata: " + data);
+                                        }
+
+                                        $(cek).prop("disabled", "disabled");
+                                        $("#span" + id)[0].innerHTML = "onaylı";
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                }
+                            );
+                        }
+                    });
+                },
+                "fnDrawCallback": function (oSettings) {
+
+                },
+                columns: [
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="hide" id="span' + data.basliK_ID + '">' + (data.onayli ? 'onaylı' : 'onaysız') + '</span><div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" rel="" accesskey="' + data.basliK_ID + '" ' + (data.onayli ? 'checked="checked" disabled' : '') + ' /><div class="state p-primary-o"><label></label></div></div>';
+                        },
+                        title: 'Onay'
+                    },
+                    {
+                        "data": "basliK_ID", "class": "keyTd", render: function (data, type, row) {
+                            return '<a href="SayimFis/Duzenle?sayimid=' + data + '"><span class="sinirli">' + data + '</span></a>';
+                        },
+                        title: 'No'
+                    },
+                    {
+                        "data": "musteri", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.strAd + ' ' + data.strSoyad + '</span>';
+                        },
+                        title: 'Üye'
+                    },
+                    {
+                        "data": "tur", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.aciklama + '</span>';
+                        },
+                        title: 'Tür'
+                    },
+                    {
+                        "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.itemref + '</span>';
+                        },
+                        title: 'Mal.No'
+                    },
+                    {
+                        "data": "malzeme", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.malacik + '</span>';
+                        },
+                        title: 'Malzeme'
+                    },
+                    {
+                        "data": "tarih", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.replace("T", " ") + '</span>';
+                        },
+                        title: 'Tarih'
+                    },
+                    {
+                        "data": "stok", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        },
+                        title: 'Stok'
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="button" class="btn btn-danger" value="Sil" onclick="Sil(' + data.basliK_ID + ')"' + (data.onayli ? ' disabled' : '') + ' />';
+                        },
+                        title: 'Sil'
+                    }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        },
+                        filename: function () {
+                            return 'Sultanlar Sayım';
+                        },
+                        customize: function (doc) {
+                            doc.content.splice(1, 0, {
+                                margin: [0, 0, 0, 12],
+                                alignment: 'center',
+                                text: document.getElementById("sayMus").innerHTML
+                            });
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7],
+                            format: {
+                                body: function (data, row, column, node) {
+                                    data = $('<p>' + data + '</p>').text();
+                                    return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
+                                }
+                            }
+                        },
+                        filename: function () {
+                            return 'Sultanlar Sayım';
+                        },
+                        customize: function (xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            $('c[r=A1] t', sheet).text(document.getElementById("sayMus").innerHTML);
+                        }
+                    }
+                ],
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[1, "desc"]]
+            });
+        }
+
+        function Sil(sayimid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "sayim/sil/" + sayimid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data == "") {
+                            window.location.href = window.location.href;
+                        }
+                        else {
+                            alert("Sayım silinemedi. hata: " + data);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            smref = getParameterByName('smref');
+            getCari(1, smref, getCariSube, "sayMus");
+
+            FislerGetir();
+        });
+
+        function fis() {
+            window.location.href = 'Fis?smref=' + smref;
+        }
+
+        function sayim() {
+            window.location.href = 'SayimFis/?smref=' + smref;
+        }
+    </script>
+}
+<h5 class="spanCiplak" id="sayMus"></h5>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%">
+</table>
+<br />
+<div class="centerVeMiddle">
+    <input type="button" class="btn btn-danger secimTus" value="Geri Dön" onclick="window.location.href = '../Musteri'" />
+    <input type="button" class="btn btn-primary secimTus" value="Stok Raporu" onclick="window.location.href = 'Rapor?smref=' + smref" />
+    <input type="button" class="btn btn-success secimTus" value="Tekli Fiş Girişi" onclick="fis()" />
+    <input type="button" class="btn btn-success secimTus" value="Toplu Fiş Girişi" onclick="sayim()" />
+</div>

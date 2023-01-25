@@ -1,4 +1,5 @@
 ﻿using Sultanlar.DbObj.Internet;
+using Sultanlar.DatabaseObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 {
     public class EpostaProvider
     {
-        public void EpostaGonder(string EpostaFromDisplayName, string EpostaTo, string Konu, string Icerik)
+        public void EpostaGonder(string EpostaFromDisplayName, string[] EpostaTo, string Konu, string Icerik)
         {
             try
             {
@@ -19,13 +20,16 @@ namespace Sultanlar.WebAPI.Services.Internet
                 client.EnableSsl = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("sultanlar", "Rz17Av+63*");
+                client.Credentials = new NetworkCredential("sultanlar", WebGenel.SultanlarEpostaSifre());
                 client.Host = "webmail.sultanlar.com.tr";
                 mail.Subject = Konu;
                 mail.Body = Icerik;
                 mail.IsBodyHtml = true;
                 mail.From = new MailAddress("sultanlar@sultanlar.com.tr", EpostaFromDisplayName);
-                mail.To.Add(new MailAddress(EpostaTo));
+                for (int i = 0; i < EpostaTo.Length; i++)
+                {
+                    mail.To.Add(new MailAddress(EpostaTo[i]));
+                }
                 client.Send(mail);
             }
             catch (Exception ex)

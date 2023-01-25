@@ -12,6 +12,8 @@ using System.Globalization;
 using System.Linq.Dynamic.Core;
 using System.Collections;
 using Microsoft.AspNetCore.Mvc;
+using Sultanlar.DatabaseObject;
+using System.Data;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -72,10 +74,10 @@ namespace Sultanlar.WebAPI.Services.Internet
         {
             string Donen = string.Empty;
             siparisler sip = new siparisler(SiparisID).GetObject();
-            List<siparislerDetay> silinecekler = new siparislerDetay().GetObjects(sip.pkSiparisID);
+            List<siparislerDetay> silinecekler = new siparislerDetay().GetObjects(sip.pkSiparisID, 0);
             for (int i = 0; i < silinecekler.Count; i++)
             {
-                new siparislerDetayISKs(silinecekler[i].pkSiparisDetayID).GetObject().DoDelete();
+                //new siparislerDetayISKs(silinecekler[i].pkSiparisDetayID).GetObject().DoDelete(); gereksiz
                 silinecekler[i].DoDelete();
             }
             sip.DoDelete();
@@ -110,7 +112,9 @@ namespace Sultanlar.WebAPI.Services.Internet
 
                     if (sip.sintFiyatTipiID == 2)
                     {
-                        if (sip.SMREF == 1014039 || sip.SMREF == 1071782 || sip.SMREF == 1072515 || sip.SMREF == 1072228)
+                        ArrayList alternatifbayiler = CariHesaplarTPEk.GetAlternatifBayiler();
+                        var alternatifmi = alternatifbayiler.ToArray().Where(x => x.ToString() == sip.SMREF.ToString()).Any();
+                        if (alternatifmi) // if (sip.SMREF == 1014039 || sip.SMREF == 1071782 || sip.SMREF == 1072515 || sip.SMREF == 1072228)
                         {
                             fiyatlar fiy = new fiyatlar(20, sipdet.intUrunID).GetObject();
                             double f = fiy.FIYAT;
@@ -139,20 +143,29 @@ namespace Sultanlar.WebAPI.Services.Internet
                         }*/
                         else
                         {
-                            fiyatlar fiy = new fiyatlar(2, sipdet.intUrunID).GetObject();
-                            aktivitelerDetay aktd = new aktivitelerDetay().GetObjectSon(ch.GMREF, sipdet.intUrunID, DateTime.Now);
-                            if (aktd.pkID > 0)
+                            if (sip.TKSREF > 1) // bayi alt cari
                             {
-                                siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, fiy.FIYAT, Convert.ToDouble(aktd.strAciklama1), Convert.ToDouble(aktd.strAciklama2), Convert.ToDouble(aktd.strAciklama3), aktd.flEkIsk, 0, 0, 0, 0, 0, 0);
+                                SiparisIsks sipisks = IsksTP(sip.SMREF, sip.TKSREF, sipdet.intUrunID, DateTime.Now);
+                                siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, sipisks.fiyat, sipisks.isk1, sipisks.isk2, sipisks.isk3, sipisks.isk4, 0, 0, 0, 0, 0, 0);
                                 sipdetisks.DoInsert();
                             }
                             else
                             {
-                                anlasmalar anl = new anlasmalar().GetObjectSon(ch.GMREF, "2", DateTime.Now);
-                                if (anl.pkID > 0)
+                                fiyatlar fiy = new fiyatlar(2, sipdet.intUrunID).GetObject();
+                                aktivitelerDetay aktd = new aktivitelerDetay().GetObjectSon(ch.GMREF, sipdet.intUrunID, DateTime.Now);
+                                if (aktd.pkID > 0)
                                 {
-                                    siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, fiy.FIYAT, (mal.GRUPKOD == "STG-1" ? anl.flTAHIsk : anl.flYEGIsk), (mal.GRUPKOD == "STG-1" ? anl.flTAHCiroIsk : anl.flYEGCiroIsk), 0, 0, 0, 0, 0, 0, 0, 0);
+                                    siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, fiy.FIYAT, Convert.ToDouble(aktd.strAciklama1), Convert.ToDouble(aktd.strAciklama2), Convert.ToDouble(aktd.strAciklama3), aktd.flEkIsk, 0, 0, 0, 0, 0, 0);
                                     sipdetisks.DoInsert();
+                                }
+                                else
+                                {
+                                    anlasmalar anl = new anlasmalar().GetObjectSon(ch.GMREF, "2", DateTime.Now);
+                                    if (anl.pkID > 0)
+                                    {
+                                        siparislerDetayISKs sipdetisks = new siparislerDetayISKs(sipdet.pkSiparisDetayID, fiy.FIYAT, (mal.GRUPKOD == "STG-1" ? anl.flTAHIsk : anl.flYEGIsk), (mal.GRUPKOD == "STG-1" ? anl.flTAHCiroIsk : anl.flYEGCiroIsk), 0, 0, 0, 0, 0, 0, 0, 0);
+                                        sipdetisks.DoInsert();
+                                    }
                                 }
                             }
                         }
@@ -165,13 +178,9 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string SiparisKaydet(SiparisKaydet skg)
         {
-            if (skg.siparisid != 0) // sipariş güncelleniyorsa eskiyi silsin
-            {
-                siparisler siparis = new siparisler(skg.siparisid).GetObject();
-                for (int i = 0; i < siparis.detaylar.Count; i++)
-                    siparis.detaylar[i].DoDelete();
-                siparis.DoDelete();
-            }
+            siparisler siparis = new siparisler(skg.siparisid).GetObject();
+            if (Convert.ToBoolean(siparis.blAktarilmis) == true)
+                return "hata: sipariş onaylı.";
 
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(skg.musteri))).GetObject();
             int musid = mus.pkMusteriID; //new musteriler().GetMusteriBySLSREF(new cariHesaplar(skg.smref).GetObject().SLSREF).pkMusteriID;
@@ -187,7 +196,9 @@ namespace Sultanlar.WebAPI.Services.Internet
 
                 if (sip.sintFiyatTipiID == 2)
                 {
-                    if (sip.SMREF == 1014039 || sip.SMREF == 1071782 || sip.SMREF == 1072515 || sip.SMREF == 1072228)
+                    ArrayList alternatifbayiler = CariHesaplarTPEk.GetAlternatifBayiler();
+                    var alternatifmi = alternatifbayiler.ToArray().Where(x => x.ToString() == sip.SMREF.ToString()).Any();
+                    if (alternatifmi) // if (sip.SMREF == 1014039 || sip.SMREF == 1071782 || sip.SMREF == 1072515 || sip.SMREF == 1072228)
                     {
                         malzemeler mal = new malzemeler(sipdet.intUrunID).GetObject();
                         fiyatlar fiy = new fiyatlar(20, sipdet.intUrunID).GetObject();
@@ -234,6 +245,17 @@ namespace Sultanlar.WebAPI.Services.Internet
             }
             sip.mnToplamTutar = toplam;
             sip.DoUpdate();
+
+            if (skg.siparisid != 0) // sipariş güncelleniyorsa eskiyi silsin
+            {
+                List<siparislerDetay> silinecekler = new siparislerDetay().GetObjects(siparis.pkSiparisID, 0);
+                for (int i = 0; i < silinecekler.Count; i++)
+                {
+                    //new siparislerDetayISKs(silinecekler[i].pkSiparisDetayID).GetObject().DoDelete(); gereksiz
+                    silinecekler[i].DoDelete();
+                }
+                siparis.DoDelete();
+            }
 
             return sip.pkSiparisID.ToString();
         }
@@ -314,27 +336,134 @@ namespace Sultanlar.WebAPI.Services.Internet
             return donendeger;
         }
 
-        internal List<siparislerDetay> Sevksiz(int SLSREF)
+        internal SiparisIsks IsksTP(int SMREF, int TIP, int ITEMREF, DateTime Tarih)
+        {
+            double fiyat = new fiyatlar(20, ITEMREF).GetObject().FIYAT;
+            SiparisIsks donendeger = new SiparisIsks() { fiyat = fiyat, isk1 = 0, isk2 = 0, isk3 = 0, isk4 = 0 };
+
+            malzemeler mal = new malzemeler(ITEMREF).GetObject();
+            cariHesaplar ch = new cariHesaplar().GetObject1(TIP, SMREF);
+
+            long aktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(
+                SMREF,
+                ITEMREF.ToString(),
+                Tarih,
+                25);
+            aktivitelerDetay aktd = new aktivitelerDetay(aktivitedetayid).GetObject();
+
+            if (aktivitedetayid > 0) // aktivite
+            {
+                donendeger = new SiparisIsks() { fiyat = aktd.mnBirimFiyatKDVli / ((100 + mal.KDV) / 100), isk1 = Convert.ToDouble(aktd.strAciklama1), isk2 = Convert.ToDouble(aktd.strAciklama2), isk3 = Convert.ToDouble(aktd.strAciklama3), isk4 = aktd.flEkIsk };
+            }
+            else
+            {
+                anlasmalar anl = new anlasmalar().GetObjectSon(SMREF, "1", Tarih);
+                if (anl.pkID > 0) // anlaşma
+                {
+                    donendeger = new SiparisIsks()
+                    {
+                        fiyat = fiyat,
+                        isk1 = (mal.GRUPKOD == "STG-1" ? anl.flTAHIsk : anl.flYEGIsk),
+                        isk2 = (mal.GRUPKOD == "STG-1" ? anl.flTAHCiroIsk : anl.flYEGCiroIsk),
+                        isk3 = 0,
+                        isk4 = 0
+                    };
+                }
+                else
+                {
+                    long genelaktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(ch.GMREF,
+                            ITEMREF.ToString(),
+                            Tarih,
+                            25);
+                    if (genelaktivitedetayid > 0) // genel anlaşmasız
+                    {
+                        aktivitelerDetay aktdG = new aktivitelerDetay(aktivitedetayid).GetObject();
+                        donendeger.isk4 = aktdG.flEkIsk;
+                    }
+                    else // otoaktivite
+                    {
+                        int tur = ch.MTKOD == "B1" ? 2 : 1;
+                        DataTable dtS = WebGenel.WCFdata("SELECT TOP 1 ISK1 FROM [Web-Fiyat-TP-Donem] WHERE TUR = @TUR AND ITEMREF = @ITEMREF AND BASLANGIC <= @FATURA AND BITIS >= @FATURA ORDER BY BASLANGIC DESC",
+                                        new ArrayList() { "TUR", "ITEMREF", "FATURA" }, new SqlDbType[] { SqlDbType.Int, SqlDbType.Int, SqlDbType.DateTime }, new ArrayList() { tur, ITEMREF, Tarih }, "");
+
+                        donendeger.isk4 = dtS.Rows.Count > 0 ? Convert.ToDouble(dtS.Rows[0][0]) : 0;
+                    }
+                }
+            }
+
+            return donendeger;
+        }
+
+        internal List<siparislerDetay> DetaySevksiz(int SLSREF)
         {
             return new siparislerDetay().GetObjectsSevksiz(SLSREF);
         }
 
-        internal List<siparislerDetay> Sevkli(int SLSREF)
+        internal List<siparislerDetay> DetaySevkli(int SLSREF)
         {
             return new siparislerDetay().GetObjectsSevkli(SLSREF);
         }
 
-        internal List<siparislerDetay> SevkliAktarilmis(int SLSREF)
+        internal List<siparislerDetay> DetaySevkliAktarilmis(int SLSREF)
         {
             return new siparislerDetay().GetObjectsSevkliAktarilmis(SLSREF);
         }
 
-        internal string SevkKaydet(List<SevkKaydet> sks)
+        internal List<siparisler> Sevksiz(int SLSREF)
+        {
+            return new siparisler().GetObjectsSevksiz(SLSREF);
+        }
+
+        internal List<siparisler> Sevkli(int SLSREF)
+        {
+            return new siparisler().GetObjectsSevkli(SLSREF);
+        }
+
+        internal List<siparisler> SevkliAktarilmis(int SLSREF)
+        {
+            return new siparisler().GetObjectsSevkliAktarilmis(SLSREF);
+        }
+
+        /*internal string SevkKaydet(List<SevkKaydet> sks)
+        {
+            for (int i = 0; i < sks.Count; i++)
+            {
+                siparisler sip = new siparisler(Convert.ToInt32(sks[i].detayid)).GetObject();
+                for (int j = 0; j < sip.detaylar.Count; j++)
+                {
+
+                    siparislerDetaySevk sds = new siparislerDetaySevk(sip.detaylar[j].pkSiparisDetayID).GetObject();
+                    sds.DoUpdate();
+                }
+
+            }
+            return "";
+        }*/
+
+        internal string DetaySevkKaydet(List<SevkKaydet> sks)
         {
             for (int i = 0; i < sks.Count; i++)
             {
                 siparislerDetaySevk sds = new siparislerDetaySevk(sks[i].detayid, sks[i].miktar, false, DateTime.Now, DateTime.Now);
                 sds.DoInsert();
+            }
+            return "";
+        }
+
+        internal string SevkIptal(List<SevkKaydet> sks)
+        {
+            for (int i = 0; i < sks.Count; i++)
+            {
+                new siparisler().DoUpdateQ(Convert.ToInt32(sks[i].detayid), Convert.ToDateTime(sks[i].fattar), true);
+
+                siparisler sip = new siparisler(Convert.ToInt32(sks[i].detayid)).GetObject(); // önce aktar sonra iptal
+                for (int j = 0; j < sip.detaylar.Count; j++)
+                {
+                    siparislerDetaySevk sds = new siparislerDetaySevk().GetObjectByDetayID(sip.detaylar[j].pkSiparisDetayID);
+                    sds.blAktarildi = true;
+                    sds.dtAktarmaTarih = DateTime.Now;
+                    sds.DoUpdate();
+                }
             }
             return "";
         }
@@ -345,6 +474,71 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             for (int i = 0; i < sks.Count; i++)
             {
+                siparisler sip = new siparisler(Convert.ToInt32(sks[i].detayid)).GetObject();
+                new siparisler().DoUpdateQ(sip.pkSiparisID, Convert.ToDateTime(sks[i].fattar), false);
+
+                cariHesaplar cari = new cariHesaplar().GetObject1(sip.TKSREF, sip.SMREF);
+
+                xml += "<siparis><sipno>" + sip.pkSiparisID.ToString() +
+                    "</sipno><tur>" + "8" +
+                    "</tur><belgeno>" + sip.QuantumNo +
+                    "</belgeno><carino>" + (sip.TKSREF == 5 ? cari.NETTOP.ToString() : sip.SMREF.ToString()) +
+                    "</carino><carino2>" + (sip.TKSREF == 5 ? new cariHesaplar().GetObject1(4, Convert.ToInt32(cari.NETTOP)).MUSKOD : sip.Cari.MUSKOD.ToString()) +
+                    "</carino2><cari><![CDATA[" + (sip.TKSREF == 5 ? new cariHesaplar().GetObject1(4, Convert.ToInt32(cari.NETTOP)).SUBE : sip.Cari.SUBE) +
+                    "]]></cari><tarih>" + sip.dtOnaylamaTarihi +
+                    "</tarih>" + 
+                    "<aciklama><![CDATA[" + (sip.TKSREF == 5 ? "Şube: " + sip.Cari.SUBE + " (" + sip.Cari.SMREF + ")" : "") +
+                    "]]></aciklama><detaylar>";
+
+                for (int j = 0; j < sip.detaylar.Count; j++)
+                {
+                    siparislerDetaySevk sds = new siparislerDetaySevk().GetObjectByDetayID(sip.detaylar[j].pkSiparisDetayID);
+                    sds.blAktarildi = true;
+                    sds.dtAktarmaTarih = DateTime.Now;
+                    sds.DoUpdate();
+
+                    xml += "<detay><detayno>" + sip.detaylar[j].pkSiparisDetayID.ToString() +
+                        "</detayno>" + 
+                        "<malzeme><malno>" + sip.detaylar[j].intUrunID.ToString() +
+                        "</malno><malacik><![CDATA[" + sip.detaylar[j].Malzeme.MALACIK +
+                        "]]></malacik><koli>" + sip.detaylar[j].Malzeme.KOLI.ToString("N0") +
+                        "</koli></malzeme>" + 
+                        "<miktartur>" + sip.detaylar[j].strMiktarTur +
+                        "</miktartur><miktar>" + sds.intMiktar.ToString() +
+                        "</miktar><isk1>" + sip.detaylar[j].isks.ISK1.ToString("N2") +
+                        "</isk1><isk2>" + sip.detaylar[j].isks.ISK2.ToString("N2") +
+                        "</isk2><isk3>" + sip.detaylar[j].isks.ISK3.ToString("N2") +
+                        "</isk3><isk4>" + sip.detaylar[j].isks.ISK4.ToString("N2") +
+                        "</isk4><fiyat>" + sip.detaylar[j].mnFiyat.ToString("N2") +
+                        "</fiyat></detay>";
+                }
+
+                xml += "</detaylar></siparis>";
+            }
+
+            xml += "</siparisler>";
+
+            return new ContentResult
+            {
+                Content = xml,
+                ContentType = "application/xml",
+                StatusCode = 200
+            };
+        }
+
+        internal ContentResult DetaySevkAktar(List<SevkKaydet> sks)
+        {
+            var xml = "<siparisler>";
+
+            siparisler sip = new siparisler(new siparislerDetay(new siparislerDetaySevk().GetObjectByDetayID(sks[0].detayid).bintSiparisDetayID).GetObject().intSiparisID).GetObject(); // hangi müşteri için
+            
+            xml += "<siparis><fatura_seri_no>" + sip.QuantumNo +
+                "</fatura_seri_no><musteri_kod>" + sip.SMREF.ToString() +
+                "</musteri_kod><musteri><![CDATA[" + sip.Cari.SUBE +
+                "]]></musteri><detaylar>";
+
+            for (int i = 0; i < sks.Count; i++)
+            {
                 siparislerDetaySevk sds = new siparislerDetaySevk().GetObjectByDetayID(sks[i].detayid);
                 sds.blAktarildi = true;
                 sds.dtAktarmaTarih = DateTime.Now;
@@ -352,16 +546,16 @@ namespace Sultanlar.WebAPI.Services.Internet
 
                 siparislerDetay sd = new siparislerDetay(sds.bintSiparisDetayID).GetObject();
 
-                xml += "<siparis><no>" + sds.bintSiparisDetayID.ToString() + 
-                    "</no><urunkod>" + sd.intUrunID.ToString() +
-                    "</urunkod><urun><![CDATA[" + sd.Malzeme.MALACIK +
-                    "]]></urun><miktartur>" + sd.strMiktarTur + 
-                    "</miktartur><miktar>" + sds.intMiktar.ToString() + 
-                    "</miktar><fiyat>" + sd.mnFiyat.ToString("N2") + 
-                    "</fiyat></siparis>";
+                xml += "<detay><urun_kod>" + sd.intUrunID.ToString() +
+                    "</urun_kod><urun><![CDATA[" + sd.Malzeme.MALACIK +
+                    "]]></urun><koli_ici>" + sd.Malzeme.KOLI.ToString("N0") +
+                    "</koli_ici><miktar_tur>" + sd.strMiktarTur + 
+                    "</miktar_tur><miktar>" + sds.intMiktar.ToString() + 
+                    "</miktar><fiyat>" + sd.mnFiyat.ToString("N2") +
+                    "</fiyat></detay>";
             }
 
-            xml += "</siparisler>";
+            xml += "</detaylar></siparis></siparisler>";
 
             return new ContentResult
             {

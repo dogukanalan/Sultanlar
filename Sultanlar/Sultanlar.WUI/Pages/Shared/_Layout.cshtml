@@ -65,9 +65,16 @@
                 document.getElementById("divZiy").style.display = "none";
             }
 
-            if (window.location.href.indexOf("/Dashboard") > -1 || window.location.href.indexOf("/Rapor/") > -1 || window.location.href.indexOf("/Siparis/") > -1 || window.location.href.indexOf("/Iade/") > -1
-                || window.location.href.indexOf("/Anlasma/") > -1 || window.location.href.indexOf("/Aktivite/") > -1 || window.location.href.indexOf("/Hizmet/") > -1) {
-                if (window.localStorage["uyetipiid"] == "OtBFcTxR8BU=") {
+            if (window.localStorage["uyetipiid"] == "OtBFcTxR8BU=") {
+                if (window.location.href.indexOf("/Dashboard") > -1 || window.location.href.indexOf("/Rapor/") > -1 || window.location.href.indexOf("/Siparis/") > -1 || window.location.href.indexOf("/Iade/") > -1
+                    || window.location.href.indexOf("/Anlasma/") > -1 || window.location.href.indexOf("/Aktivite/") > -1 || window.location.href.indexOf("/Hizmet/") > -1) {
+                    window.location.replace("../Musteri");
+                }
+            }
+
+            if (window.localStorage["taksit"] == "true") {
+                if (window.location.href.indexOf("/Dashboard") > -1 || window.location.href.indexOf("/Rapor/") > -1
+                    || window.location.href.indexOf("/Anlasma/") > -1 || window.location.href.indexOf("/Aktivite/") > -1 || window.location.href.indexOf("/Hizmet/") > -1) {
                     window.location.replace("../Musteri");
                 }
             }
@@ -76,6 +83,14 @@
                 $("#liDashboard").css("display", "none");
                 $("#liSiparis").css("display", "none");
                 $("#liIade").css("display", "none");
+                $("#liAnlasma").css("display", "none");
+                $("#liAktivite").css("display", "none");
+                $("#liHizmet").css("display", "none");
+                $("#liRapor").css("display", "none");
+            }
+
+            if (window.localStorage["taksit"] == "true") {
+                $("#liDashboard").css("display", "none");
                 $("#liAnlasma").css("display", "none");
                 $("#liAktivite").css("display", "none");
                 $("#liHizmet").css("display", "none");

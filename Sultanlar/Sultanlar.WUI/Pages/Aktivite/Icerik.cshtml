@@ -125,6 +125,7 @@
         }
 
         function urunGuncelle(itemref, isk) {
+            isk = isk.toString().trim() == '' ? 0 : isk;
             var yenisepet = [];
             for (var i = 0; i < sepet.length; i++) {
                 if (sepet[i].itemref != itemref) {
