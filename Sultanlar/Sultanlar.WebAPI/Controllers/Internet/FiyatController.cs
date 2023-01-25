@@ -15,14 +15,14 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpGet, Route("internet/[controller]/[action]")]
         public List<fiyatlar> Get() => new FiyatProvider().Fiyatlar();
         
-        [HttpGet, Route("internet/[controller]/[action]/{TIP}")]
-        public List<fiyatlar> GetByTip(int TIP) => new FiyatProvider().Fiyatlar(TIP);
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}")]
+        public List<fiyatlar> GetByTip(int TIP, int GMREF, int MTIP) => new FiyatProvider().Fiyatlar(TIP, GMREF, MTIP);
 
-        [HttpGet, Route("internet/[controller]/[action]/{TIP}")]
-        public List<fiyatlar> GetAllByTip(int TIP) => new FiyatProvider().FiyatlarAll(TIP);
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}")]
+        public async Task<List<fiyatlar>> GetAllByTip(int TIP, int GMREF, int MTIP) => await Task.Run(() => new FiyatProvider().FiyatlarAll(TIP, GMREF, MTIP));
 
-        [HttpGet, Route("internet/[controller]/[action]/{TIP}")]
-        public List<fiyatlar> GetByTipAkt(int TIP) => new FiyatProvider().FiyatlarAktif(TIP);
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}")]
+        public List<fiyatlar> GetByTipAkt(int TIP, int GMREF, int MTIP) => new FiyatProvider().FiyatlarAktif(TIP, GMREF, MTIP);
 
         [HttpGet, Route("internet/[controller]/[action]/{TIP}/{ITEMREF}")]
         public fiyatlar GetOne(int TIP, int ITEMREF) => new FiyatProvider().Fiyat(TIP, ITEMREF);

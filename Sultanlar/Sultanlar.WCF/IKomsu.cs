@@ -14,7 +14,7 @@ namespace Sultanlar.WCF
         [OperationContract]
         void DoWork();
 
-        [OperationContract]
+        /*[OperationContract]
         KomsuC001.ZwebKomsuS_001[] komsu001(string Matnr);
 
         [OperationContract]
@@ -24,6 +24,6 @@ namespace Sultanlar.WCF
         KomsuC003.ZwebKomsuS_003[] komsu003(string Matnr);
 
         [OperationContract]
-        KomsuC004.ZwebKomsuS_004[] komsu004(string Matnr, KomsuC004.Werks Werks);
+        KomsuC004.ZwebKomsuS_004[] komsu004(string Matnr, KomsuC004.Werks Werks);*/
     }
 }

@@ -39,7 +39,7 @@
                 
             });*/
 
-            var url1 = apiurl + "fiyat/getbytip/" + getParameterByName("ftip");
+            var url1 = apiurl + "fiyat/getbytip/" + getParameterByName("ftip") + "/" + getParameterByName("gmref") + "/" + getParameterByName("mtip");
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
                 window.localStorage['sepetU'] = JSON.stringify(json);
@@ -126,6 +126,16 @@
                     {
                         "data": "netkdv", "class": window.location.href.indexOf("Iade") > -1 ? "floaTd hide" : "floaTd hidewhenmobile", render: function (data, type, row) {
                             return '<span class="sinirli netkdv">' + data.toFixed(2) + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": parammtip > 1 ? 'hide' : "floaTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli netkdv">' + data.stok + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": parammtip == 1 ? 'hide' : "floaTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli netkdv">' + data.stokdis + '</span>';
                         }
                     },
                     {
@@ -461,6 +471,8 @@
             <th class="keyTd hidewhenmobile"><span class="">Koli</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Kdv</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Fiyat</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Stok</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Stok</span></th>
             <th class="keyTd"></th>
             <th class="keyTd"></th>
         </tr>

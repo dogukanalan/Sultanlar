@@ -18,7 +18,7 @@ namespace Sultanlar.DbObj.Internet
         public string REYACIK;
         public int ITEMREF;
         public string MALACIK;
-        public malzemeler malzeme { get { return new malzemeler(ITEMREF).GetObject(); } }
+        public malzemeler malzeme { get { return new malzemeler().GetObject(ITEMREF, STOKYER); } }
         public double FIYAT;
         public double ISK1;
         public double ISK2;
@@ -36,11 +36,12 @@ namespace Sultanlar.DbObj.Internet
         public Guid KAMKARTREF;
         public double ODEME_GUN;
         public DateTime ODEME_TARIH;
+        public int STOKYER;
         public fiyatvy fiyatvy { get { return new fiyatvy(ITEMREF); } }
 
         public fiyatlar() { }
         public fiyatlar(int TIP, int ITEMREF) { this.TIP = TIP; this.ITEMREF = ITEMREF; }
-        public fiyatlar(int TIP, int GMREF, string GRUPKOD, string OZELKOD, string HK, string OZELACIK, string REYKOD, string RK, string REYACIK, int ITEMREF, string MALACIK, double FIYAT, double ISK1, double ISK2, double ISK3, double ISK4, double ISK5, double ISK6, double ISK7, double ISK8, double ISK9, double ISK10, double NET, double NETKDV, int VADE, Guid KAMKARTREF, double ODEME_GUN, DateTime ODEME_TARIH)
+        public fiyatlar(int TIP, int GMREF, string GRUPKOD, string OZELKOD, string HK, string OZELACIK, string REYKOD, string RK, string REYACIK, int ITEMREF, string MALACIK, double FIYAT, double ISK1, double ISK2, double ISK3, double ISK4, double ISK5, double ISK6, double ISK7, double ISK8, double ISK9, double ISK10, double NET, double NETKDV, int VADE, Guid KAMKARTREF, double ODEME_GUN, DateTime ODEME_TARIH, int STOKYER)
         {
             this.TIP = TIP;
             this.GMREF = GMREF;
@@ -70,6 +71,7 @@ namespace Sultanlar.DbObj.Internet
             this.KAMKARTREF = KAMKARTREF;
             this.ODEME_GUN = ODEME_GUN;
             this.ODEME_TARIH = ODEME_TARIH;
+            this.STOKYER = STOKYER;
         }
 
         public override string ToString() { return MALACIK; }
@@ -83,7 +85,7 @@ namespace Sultanlar.DbObj.Internet
 
             Dictionary<int, object> dic = GetObject("db_sp_fiyatGetir", new Dictionary<string, object>() { { "TIP", TIP }, { "ITEMREF", ITEMREF } }, timeout);
             if (dic != null)
-                donendeger = new fiyatlar(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), dic[2].ToString(), dic[3].ToString(), dic[4].ToString(), dic[5].ToString(), dic[6].ToString(), dic[7].ToString(), dic[8].ToString(), ConvertToInt32(dic[9]), dic[10].ToString(), ConvertToDouble(dic[11]), ConvertToDouble(dic[12]), ConvertToDouble(dic[13]), ConvertToDouble(dic[14]), ConvertToDouble(dic[15]), ConvertToDouble(dic[16]), ConvertToDouble(dic[17]), ConvertToDouble(dic[18]), ConvertToDouble(dic[19]), ConvertToDouble(dic[20]), ConvertToDouble(dic[21]), ConvertToDouble(dic[22]), ConvertToDouble(dic[23]), ConvertToInt32(dic[24]), ConvertToGuid(dic[25].ToString()), ConvertToDouble(dic[26]), ConvertToDateTime(dic[27]));
+                donendeger = new fiyatlar(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), dic[2].ToString(), dic[3].ToString(), dic[4].ToString(), dic[5].ToString(), dic[6].ToString(), dic[7].ToString(), dic[8].ToString(), ConvertToInt32(dic[9]), dic[10].ToString(), ConvertToDouble(dic[11]), ConvertToDouble(dic[12]), ConvertToDouble(dic[13]), ConvertToDouble(dic[14]), ConvertToDouble(dic[15]), ConvertToDouble(dic[16]), ConvertToDouble(dic[17]), ConvertToDouble(dic[18]), ConvertToDouble(dic[19]), ConvertToDouble(dic[20]), ConvertToDouble(dic[21]), ConvertToDouble(dic[22]), ConvertToDouble(dic[23]), ConvertToInt32(dic[24]), ConvertToGuid(dic[25].ToString()), ConvertToDouble(dic[26]), ConvertToDateTime(dic[27]), 0);
 
             return donendeger;
         }
@@ -98,7 +100,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_fiyatlarGetir", timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new fiyatlar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToInt32(dic[i][24]), ConvertToGuid(dic[i][25].ToString()), ConvertToDouble(dic[i][26]), ConvertToDateTime(dic[i][27])));
+                    donendeger.Add(new fiyatlar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToInt32(dic[i][24]), ConvertToGuid(dic[i][25].ToString()), ConvertToDouble(dic[i][26]), ConvertToDateTime(dic[i][27]), 0));
 
             return donendeger;
         }
@@ -106,14 +108,14 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<fiyatlar> GetObjects(int TIP)
+        public List<fiyatlar> GetObjects(int TIP, int GMREF, int MTIP)
         {
             List<fiyatlar> donendeger = new List<fiyatlar>();
 
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_fiyatlarGetirByTip", new Dictionary<string, object>() { { "TIP", TIP } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new fiyatlar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToInt32(dic[i][24]), ConvertToGuid(dic[i][25].ToString()), ConvertToDouble(dic[i][26]), ConvertToDateTime(dic[i][27])));
+                    donendeger.Add(new fiyatlar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToInt32(dic[i][24]), ConvertToGuid(dic[i][25].ToString()), ConvertToDouble(dic[i][26]), ConvertToDateTime(dic[i][27]), GMREF));
 
             return donendeger;
         }
@@ -121,14 +123,14 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<fiyatlar> GetObjectsAll(int TIP)
+        public List<fiyatlar> GetObjectsAll(int TIP, int GMREF, int MTIP)
         {
             List<fiyatlar> donendeger = new List<fiyatlar>();
 
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_fiyatlarGetirAllByTip", new Dictionary<string, object>() { { "TIP", TIP } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new fiyatlar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToInt32(dic[i][24]), ConvertToGuid(dic[i][25].ToString()), ConvertToDouble(dic[i][26]), ConvertToDateTime(dic[i][27])));
+                    donendeger.Add(new fiyatlar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToInt32(dic[i][24]), ConvertToGuid(dic[i][25].ToString()), ConvertToDouble(dic[i][26]), ConvertToDateTime(dic[i][27]), GMREF));
 
             return donendeger;
         }
@@ -157,7 +159,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_fiyatlarVyGetirByGMREF", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new fiyatlar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToInt32(dic[i][24]), ConvertToGuid(dic[i][25].ToString()), ConvertToDouble(dic[i][26]), ConvertToDateTime(dic[i][27])));
+                    donendeger.Add(new fiyatlar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToInt32(dic[i][24]), ConvertToGuid(dic[i][25].ToString()), ConvertToDouble(dic[i][26]), ConvertToDateTime(dic[i][27]), 0));
 
             return donendeger;
         }
@@ -172,7 +174,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_fiyatlarVyGetirByGMREFMTIP", new Dictionary<string, object>() { { "GMREF", GMREF }, { "MTIP", MTIP } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new fiyatlar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToInt32(dic[i][24]), ConvertToGuid(dic[i][25].ToString()), ConvertToDouble(dic[i][26]), ConvertToDateTime(dic[i][27])));
+                    donendeger.Add(new fiyatlar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToInt32(dic[i][24]), ConvertToGuid(dic[i][25].ToString()), ConvertToDouble(dic[i][26]), ConvertToDateTime(dic[i][27]), 0));
 
             return donendeger;
         }

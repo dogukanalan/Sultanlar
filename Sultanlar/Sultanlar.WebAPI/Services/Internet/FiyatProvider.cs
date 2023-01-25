@@ -10,13 +10,13 @@ namespace Sultanlar.WebAPI.Services.Internet
     {
         internal List<fiyatlar> Fiyatlar() => new fiyatlar().GetObjects();
 
-        internal List<fiyatlar> Fiyatlar(int TIP) => new fiyatlar().GetObjects(TIP);
+        internal List<fiyatlar> Fiyatlar(int TIP, int GMREF, int MTIP) => new fiyatlar().GetObjects(TIP, GMREF, MTIP);
 
-        internal List<fiyatlar> FiyatlarAll(int TIP) => new fiyatlar().GetObjectsAll(TIP);
+        internal List<fiyatlar> FiyatlarAll(int TIP, int GMREF, int MTIP) => new fiyatlar().GetObjectsAll(TIP, GMREF, MTIP);
 
-        internal List<fiyatlar> FiyatlarAktif(int TIP)
+        internal List<fiyatlar> FiyatlarAktif(int TIP, int GMREF, int MTIP)
         {
-            List<fiyatlar> fiys = new fiyatlar().GetObjects(TIP);
+            List<fiyatlar> fiys = new fiyatlar().GetObjects(TIP, GMREF, MTIP);
             List<fiyatlar> donendeger = new List<fiyatlar>();
             for (int i = 0; i < fiys.Count; i++)
             {

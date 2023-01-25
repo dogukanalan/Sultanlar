@@ -376,7 +376,6 @@
                         success: function (data, textStatus, response) {
                             checkAuth(response);
 
-                            console.log(data);
                             document.getElementById("tarih").innerHTML = data.tarih.replace("T", " ");
                             sepet = { barkod: data.barkod, tip: data.fiyaT_TIP, detays: [] };
 
@@ -384,7 +383,7 @@
                                 {
                                     xhr: function () { return xhrDownloadUpload(); },
                                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                                    url: apiurl + "fiyat/getbytip/" + data.fiyaT_TIP, //getbytipakt
+                                    url: apiurl + "fiyat/getbytip/" + data.fiyaT_TIP + "/" + paramgmref + "/" + parammtip, //getbytipakt
                                     success: function (data1, textStatus, response) {
                                         checkAuth(response);
 
@@ -426,6 +425,8 @@
                     $("#inputKaydet").css("display", "none");
                     $("#inputSil").css("display", "none");
                     $("#selectFiyatTipler").css("display", "none");
+                    $("#divKontrol").css("display", "none");
+                    $("#divVy").css("display", "none");
                     incele = true;
                     sepet = { barkod: '', tip: getParameterByName('ftip'), detays: [] };
 
@@ -433,7 +434,7 @@
                         {
                             xhr: function () { return xhrDownloadUpload(); },
                             beforeSend: function (xhr) { xhrTicket(xhr); },
-                            url: apiurl + "fiyat/getbytip/" + getParameterByName('ftip'), //getbytipakt
+                            url: apiurl + "fiyat/getbytip/" + getParameterByName('ftip') + "/" + paramgmref + "/" + parammtip, //getbytipakt
                             success: function (data1, textStatus, response) {
                                 checkAuth(response);
 
@@ -465,7 +466,7 @@
                                         {
                                             xhr: function () { return xhrDownloadUpload(); },
                                             beforeSend: function (xhr) { xhrTicket(xhr); },
-                                            url: apiurl + "fiyat/getbytip/" + data.fiyaT_TIP, //getbytipakt
+                                            url: apiurl + "fiyat/getbytip/" + data.fiyaT_TIP + "/" + paramgmref + "/" + parammtip, //getbytipakt
                                             success: function (data1, textStatus, response) {
                                                 checkAuth(response);
 
@@ -518,7 +519,7 @@
                             {
                                 xhr: function () { return xhrDownloadUpload(); },
                                 beforeSend: function (xhr) { xhrTicket(xhr); },
-                                url: apiurl + "fiyat/getbytip/" + fiyattip, //getbytipakt
+                                url: apiurl + "fiyat/getbytip/" + fiyattip + "/" + paramgmref + "/" + parammtip, //getbytipakt
                                 success: function (data, textStatus, response) {
                                     checkAuth(response);
 

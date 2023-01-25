@@ -77,7 +77,7 @@
                                 (data.tip == 4 ? '<a href="../Hizmet/?smref=' + data.smref + '">Hizmet Bedeli</a>' : '') +
                                 '<a href="../Ziyaret/?smref=' + data.smref + '&gmref=' + gmref + '&slsref=' + (window.localStorage["slsref"] != "0" ? window.localStorage["slsref"] : getParameterByName("slsref")) + '&tip=' + data.tip + '&konum=' + data.konumA.konum + '">Ziyaret</a>' +
                                 (data.tip == 1 || data.tip == 2 || data.tip == 4 || data.tip == 5 ? '<a href="../Siparis/?gmref=' + data.gmref + '&smref=' + data.smref + '&mtip=' + data.tip + '">Sipariş</a>' : '') +
-                                (data.tip == 1 || data.tip == 2 || data.tip == 4 || data.tip == 5 ? '<a href="../Iade/?smref=' + data.smref + '&mtip=' + data.tip + '">İade</a></div>' : '');
+                                (data.tip == 1 || data.tip == 2 || data.tip == 4 || data.tip == 5 ? '<a href="../Iade/?gmref=' + data.gmref + '&smref=' + data.smref + '&mtip=' + data.tip + '">İade</a></div>' : '');
                         },
                         "width": "10%"
                     }

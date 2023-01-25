@@ -14,7 +14,7 @@ namespace Sultanlar.WCF
     // NOTE: In order to launch WCF Test Client for testing this service, please select Komsu.svc or Komsu.svc.cs at the Solution Explorer and start debugging.
     public class Komsu : IKomsu
     {
-        NetworkCredential nc3 = new NetworkCredential("mbozdag", "Alfa123**"); //mbozdag Alfa123**
+        //NetworkCredential nc3 = new NetworkCredential("mbozdag", "Alfa123**"); //mbozdag Alfa123**
 
         public void DoWork()
         {
@@ -25,7 +25,7 @@ namespace Sultanlar.WCF
             return "Çalışıyor";
         }
 
-        public KomsuC001.ZwebKomsuS_001[] komsu001(string Matnr)
+        /*public KomsuC001.ZwebKomsuS_001[] komsu001(string Matnr)
         {
             KomsuC001.ZwebKomsuF001Service srv = new KomsuC001.ZwebKomsuF001Service();
             srv.Credentials = nc3;
@@ -52,7 +52,7 @@ namespace Sultanlar.WCF
             srv.Credentials = nc3;
             KomsuC004.ZwebKomsuS_004[] dortler = srv.ZwebKomsuF004(Matnr, Werks);
             return dortler;
-        }
+        }*/
     }
 
     public class KomsuServiceAuthenticator : UserNamePasswordValidator

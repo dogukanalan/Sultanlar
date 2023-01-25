@@ -19,7 +19,7 @@
         var table;
 
         function getMalzemeler() {
-            var url1 = apiurl + "fiyat/getallbytip/20";
+            var url1 = apiurl + "fiyat/getallbytip/20/" + getParameterByName("gmref") + "/" + getParameterByName("mtip");
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
