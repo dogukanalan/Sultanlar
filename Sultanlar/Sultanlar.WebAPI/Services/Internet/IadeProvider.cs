@@ -91,7 +91,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 int siparisno = CariHesaplarTPEk.GetBayiSiparisNo(bayikod) + 1;
                 CariHesaplarTPEk.SetBayiSiparisNo(bayikod, siparisno);
 
-                IadelerQ.WriteQuantumNo(iade.pkIadeID, Genel.BayiSiparisnoDuzeltme(siparisno), "");
+                IadelerQ.WriteQuantumNo(iade.pkIadeID, Sultanlar.DatabaseObject.Internet.Genel.BayiSiparisnoDuzeltme(siparisno), "");
             }
 
             iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 26, DateTime.Now, iade.Musteri.AdSoyad, ""); // iade onay talep edildi

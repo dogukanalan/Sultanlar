@@ -125,6 +125,7 @@
                         $(".dt-buttons").css("display", "none");
                         //$("#sevkonay").css("display", "inline");
                         $("#sevkhepsi").css("display", "inline");
+                        $("#sevkhepsi2").css("display", "inline");
                     }
 
                     $('.ssmm').datepicker({
@@ -152,12 +153,13 @@
                 columns: [
                     {
                         "data": null, "class": (sevkli || aktarilmis ? "keyTd" : "hidden"), render: function (data, type, row) {
-                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" rel="" accesskey="' + data.pkSiparisID + '" ' + (data.quantumIptal ? 'disabled' : '') + ' /><div class="state p-primary-o"><label></label></div></div>';
+                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" rel="" accesskey2="' + data.cari.bayikod.apikey + '" accesskey="' + data.pkSiparisID + '" ' + (data.quantumIptal ? 'disabled' : '') + ' /><div class="state p-primary-o"><label></label></div></div>';
                         }
                     },
                     {
                         "data": "pkSiparisID", "class": (!sevkli && !aktarilmis ? "keyTd" : "hidden"), render: function (data, type, row) {
-                            return '<input type="button" class="btn btn-success secimTus" id="sevkonay" value="Sevk" onclick="window.location.href = \'Sevk?slsref=' + getParameterByName('slsref') + '&siparisid=' + data + '\'" />';
+                            return '<input type="button" class="btn btn-success secimTus" id="sevkonay" value="Sevk" onclick="window.location.href = \'Sevk?slsref=' + getParameterByName('slsref') + '&siparisid=' + data + '\'" />' + 
+                            '<input type="button" class="btn btn-danger secimTus" id="sevksil" value="Geri al" onclick="sevkSil(' + data + ')" />';
                         }
                     },
                     {
@@ -411,7 +413,7 @@
             var sentData = "[";
             $('.smm').each(function () {
                 if ($(this).is(':checked')) {
-                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": 0, "fattar": "' + $(this).closest("tr").find(".ssmm").val() + '" },';
+                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": "' + $(this).attr("accesskey2") + '", "fattar": "' + $(this).closest("tr").find(".ssmm").val() + '" },';
                 }
             });
             sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
@@ -485,6 +487,44 @@
             }
         }
 
+        function sevkSil(sipid) {
+                if (!confirm("Seçilen sipariş sevkten geri alınacak. Emin misiniz?"))
+                    return;
+
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        url: apiurl + "siparis/sevksil/" + sipid,
+                        success: function (data, textStatus, response) {
+                            checkAuth(response);
+
+                            window.location.href = window.location.href;
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    }
+                );
+        }
+
+        function tamamisevk() {
+            if (!confirm("Seçilen tarih aralığındaki bütün ürünler, stok durumuna göre sevk edilecek. Emin misiniz?"))
+                return;
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "siparis//" + getParameterByName('slsref'),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        window.location.href = window.location.href;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
         function printet() {
             window.print();
 
@@ -498,6 +538,7 @@
 <br />
 <input type="button" class="btn btn-primary secimTus" id="sevkhepsi" value="Bütün detayları göster" onclick="window.location.href = 'Sevk?slsref=' + getParameterByName('slsref')" style="float: left; margin-right: 10px; height: 40px; display: none" />
 <input type="button" class="btn buttons-print" id="inputYazdir" style="float: left; margin-right: 10px; height: 40px; border: 1px solid gray" value="Yazdır" onclick="printet()" />
+<input type="button" class="btn btn-success secimTus" id="sevkhepsi2" value="Tamamını sevk et" onclick="tamamisevk()" style="float: left; margin-right: 10px; height: 40px; display: none" />
 
 <div>
     <div class="pull-right">

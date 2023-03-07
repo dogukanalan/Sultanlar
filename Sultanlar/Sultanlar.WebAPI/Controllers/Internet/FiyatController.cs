@@ -15,14 +15,17 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpGet, Route("internet/[controller]/[action]")]
         public List<fiyatlar> Get() => new FiyatProvider().Fiyatlar();
         
-        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}")]
-        public List<fiyatlar> GetByTip(int TIP, int GMREF, int MTIP) => new FiyatProvider().Fiyatlar(TIP, GMREF, MTIP);
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}/{SMREF}")]
+        public List<fiyatlar> GetByTip(int TIP, int GMREF, int MTIP, int SMREF) => new FiyatProvider().Fiyatlar(TIP, GMREF, MTIP, SMREF);
 
-        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}")]
-        public async Task<List<fiyatlar>> GetAllByTip(int TIP, int GMREF, int MTIP) => await Task.Run(() => new FiyatProvider().FiyatlarAll(TIP, GMREF, MTIP));
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}/{SMREF}")]
+        public List<fiyatlar> GetNonByTip(int TIP, int GMREF, int MTIP, int SMREF) => new FiyatProvider().FiyatlarNon(TIP, GMREF, MTIP, SMREF);
 
-        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}")]
-        public List<fiyatlar> GetByTipAkt(int TIP, int GMREF, int MTIP) => new FiyatProvider().FiyatlarAktif(TIP, GMREF, MTIP);
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}/{SMREF}")]
+        public async Task<List<fiyatlar>> GetAllByTip(int TIP, int GMREF, int MTIP, int SMREF) => await Task.Run(() => new FiyatProvider().FiyatlarAll(TIP, GMREF, MTIP, SMREF));
+
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}/{SMREF}")]
+        public List<fiyatlar> GetByTipAkt(int TIP, int GMREF, int MTIP, int SMREF) => new FiyatProvider().FiyatlarAktif(TIP, GMREF, MTIP, SMREF);
 
         [HttpGet, Route("internet/[controller]/[action]/{TIP}/{ITEMREF}")]
         public fiyatlar GetOne(int TIP, int ITEMREF) => new FiyatProvider().Fiyat(TIP, ITEMREF);
@@ -39,7 +42,19 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpGet, Route("internet/[controller]/[action]/{GMREF}/{MTIP}")]
         public List<fiyatlar> GetVyByGMREF(int GMREF, int MTIP) => new FiyatProvider().FiyatlarVy(GMREF, MTIP);
 
+        [HttpGet, Route("internet/[controller]/[action]/{GMREF}/{MTIP}")]
+        public List<fiyatlar> GetNonVyByGMREF(int GMREF, int MTIP) => new FiyatProvider().FiyatlarNonVy(GMREF, MTIP);
+
         [HttpGet, Route("internet/[controller]/[action]")]
         public List<fiyatTipleri> GetFiyatTipler500birlikte() => new FiyatProvider().FiyatTipler500birlikte();
+
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{ITEMREF}/{KULLANICI}")]
+        public string SetEkle(int TIP, int ITEMREF, string KULLANICI) => new FiyatProvider().FiyatEkle(TIP, ITEMREF, KULLANICI);
+
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{ITEMREF}/{KULLANICI}")]
+        public string SetCikar(int TIP, int ITEMREF, string KULLANICI) => new FiyatProvider().FiyatCikar(TIP, ITEMREF, KULLANICI);
+
+        [HttpGet, Route("internet/[controller]/[action]/{GMREF}/{NETTOP}/{SMREF}/{TIP}/{MUSTERI}")]
+        public string YeniFiyatTip(int GMREF, int NETTOP, int SMREF, int TIP, string MUSTERI) => new FiyatProvider().FiyatTipOlustur(GMREF, NETTOP, SMREF, TIP, MUSTERI);
     }
 }

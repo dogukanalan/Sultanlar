@@ -34,6 +34,16 @@ namespace Sultanlar.DbObj.Internet
         /// <summary>
         /// 
         /// </summary>
+        public static int DoInsert(string ACIKLAMA, int MTIP, int BY_REF, int ANA_GMREF, int GMREF)
+        {
+            return Convert.ToInt32(ExecSc("db_sp_fiyatTipiEkle2", 
+                new ArrayList() { "ACIKLAMA", "MTIP", "BY_REF", "ANA_GMREF", "GMREF" }, 
+                new System.Data.SqlDbType[] { System.Data.SqlDbType.NVarChar, System.Data.SqlDbType.Int, System.Data.SqlDbType.Int, System.Data.SqlDbType.Int, System.Data.SqlDbType.Int }, 
+                new ArrayList() { ACIKLAMA, MTIP, BY_REF, ANA_GMREF, GMREF }));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         public override void DoUpdate()
         {
             Dictionary<string, object> param = new Dictionary<string, object>() { { "NOSU", NOSU }, { "ACIKLAMA", ACIKLAMA }, { "GMREF", GMREF } };

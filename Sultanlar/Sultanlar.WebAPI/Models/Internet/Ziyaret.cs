@@ -88,6 +88,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public string barkod { get; set; }
         public string musteri { get; set; }
         public int tip { get; set; }
+        public string sonalim { get; set; }
         public List<ZiyaretVaryokDetay> detays { get; set; }
     }
 

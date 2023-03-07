@@ -527,7 +527,7 @@ namespace Sultanlar.UI
                 Convert.ToInt32(dataGridView1.Rows[rowindex].Cells["clpkIadeDetayID"].Value),
                 GMREF, SMREF, Convert.ToInt32(dataGridView1.Rows[rowindex].Cells["clintUrunID"].Value),
                 Convert.ToInt32(dataGridView1.Rows[rowindex].Cells["clintMiktar"].Value),
-                dateTimePicker1.Value, dateTimePicker2.Value);
+                dateTimePicker1.Value, dateTimePicker2.Value, cbOto.Checked);
             frm.ShowDialog();
 
             GetIadelerDetay();

@@ -72,5 +72,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpPost]
         public string SevkIptal([FromBody] List<SevkKaydet> sevkiptal) => new SiparisProvider().SevkIptal(sevkiptal);
+
+        [HttpGet("{SiparisID}")]
+        public string SevkSil(int SiparisID) => new SiparisProvider().SevksizOnaydanGeri(SiparisID);
     }
 }

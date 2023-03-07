@@ -139,10 +139,10 @@ namespace Sultanlar.WebAPI.Services.Internet
                     double isk3 = 0;
                     double cirop = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.ahtCiroPrimDonusYuzdeToplam : akt.Anlasma.yegCiroPrimDonusYuzdeToplam) : 0;
                     double ekisk = kopyalanacak.detaylar[j].flEkIsk;
-                    double birimfiyatkdvli = KdvEkle(fiyat.FIYAT, kdv);
-                    double dusulmuskdvsiz = IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
-                    double ciroprimdahil = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, cirop);
-                    double dusulmuskdvli = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, 0);
+                    double birimfiyatkdvli = Genel.KdvEkle(fiyat.FIYAT, kdv);
+                    double dusulmuskdvsiz = Genel.IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
+                    double ciroprimdahil = Genel.IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, cirop);
+                    double dusulmuskdvli = Genel.IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, 0);
 
                     aktivitelerDetay aktdet = new aktivitelerDetay(
                         akt.pkID, 
@@ -164,7 +164,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                         isk2.ToString("N1"), 
                         isk3.ToString("N1"),
                         "0",
-                        "");
+                        "", kopyalanacak.detaylar[j].strAciklama6);
                     aktdet.DoInsert();
                 }
             }
@@ -202,10 +202,10 @@ namespace Sultanlar.WebAPI.Services.Internet
                 double isk3 = akg.detaylar[i].pazisk;
                 double cirop = akg.detaylar[i].ciroprim;
                 double ekisk = akg.detaylar[i].ekisk;
-                double birimfiyatkdvli = KdvEkle(fiyat.FIYAT, kdv);
-                double dusulmuskdvsiz = IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
-                double ciroprimdahil = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, cirop);
-                double dusulmuskdvli = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, 0);
+                double birimfiyatkdvli = Genel.KdvEkle(fiyat.FIYAT, kdv);
+                double dusulmuskdvsiz = Genel.IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
+                double ciroprimdahil = Genel.IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, cirop);
+                double dusulmuskdvli = Genel.IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, 0);
 
                 aktivitelerDetay aktdet = new aktivitelerDetay(
                     akt.pkID, 
@@ -223,7 +223,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                     dusulmuskdvli, 
                     0,
                     dusulmuskdvli * Convert.ToInt32(akg.detaylar[i].miktar) * malzeme.KOLI,
-                    isk1.ToString("N1"), isk2.ToString("N1"), isk3.ToString("N1"), "0", "");
+                    isk1.ToString("N1"), isk2.ToString("N1"), isk3.ToString("N1"), "0", "", akg.detaylar[i].aciklama);
                 aktdet.DoInsert();
             }
 
@@ -236,20 +236,6 @@ namespace Sultanlar.WebAPI.Services.Internet
             }
 
             return akt.pkID.ToString();
-        }
-
-        internal double IskontoDus(double fiyat, double isk1, double isk2, double isk3, double isk4, double isk5)
-        {
-            double birinci = fiyat - (fiyat * isk1 / 100);
-            double ikinci = birinci - (birinci * isk2 / 100);
-            double ucuncu = ikinci - (ikinci * isk3 / 100);
-            double dorduncu = ucuncu - (ucuncu * isk4 / 100);
-            return dorduncu - (dorduncu * isk5 / 100);
-        }
-
-        internal double KdvEkle(double fiyat, double kdv)
-        {
-            return fiyat * (100 + kdv) / 100;
         }
     }
 }

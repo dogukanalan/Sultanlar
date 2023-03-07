@@ -14,7 +14,7 @@ namespace Sultanlar.WCF
     // NOTE: In order to launch WCF Test Client for testing this service, please select Komsu.svc or Komsu.svc.cs at the Solution Explorer and start debugging.
     public class Komsu : IKomsu
     {
-        //NetworkCredential nc3 = new NetworkCredential("mbozdag", "Alfa123**"); //mbozdag Alfa123**
+        NetworkCredential nc3 = new NetworkCredential("mbozdag", "Alfa123**"); //mbozdag Alfa123**
 
         public void DoWork()
         {
@@ -25,8 +25,10 @@ namespace Sultanlar.WCF
             return "Çalışıyor";
         }
 
-        /*public KomsuC001.ZwebKomsuS_001[] komsu001(string Matnr)
+        public KomsuC001.ZwebKomsuS_001[] komsu001(string Matnr)
         {
+            if (Matnr == "0")
+                Matnr = "";
             KomsuC001.ZwebKomsuF001Service srv = new KomsuC001.ZwebKomsuF001Service();
             srv.Credentials = nc3;
             return srv.ZwebKomsuF001(Matnr);
@@ -34,6 +36,8 @@ namespace Sultanlar.WCF
 
         public KomsuC002.ZwebKomsuS_002[] komsu002(string Matnr)
         {
+            if (Matnr == "0")
+                Matnr = "";
             KomsuC002.ZwebKomsuF002Service srv = new KomsuC002.ZwebKomsuF002Service();
             srv.Credentials = nc3;
             return srv.ZwebKomsuF002(Matnr);
@@ -41,18 +45,36 @@ namespace Sultanlar.WCF
 
         public KomsuC003.ZwebKomsuS_003[] komsu003(string Matnr)
         {
+            if (Matnr == "0")
+                Matnr = "";
             KomsuC003.ZwebKomsuF003Service srv = new KomsuC003.ZwebKomsuF003Service();
             srv.Credentials = nc3;
             return srv.ZwebKomsuF003(Matnr);
         }
 
-        public KomsuC004.ZwebKomsuS_004[] komsu004(string Matnr, KomsuC004.Werks Werks)
+        public KomsuC004.ZwebKomsuS_004[] komsu004(KomsuC004.Werks werks, string Matnr)
         {
+            if (Matnr == "0")
+                Matnr = "";
+
             KomsuC004.ZwebKomsuF004Service srv = new KomsuC004.ZwebKomsuF004Service();
             srv.Credentials = nc3;
-            KomsuC004.ZwebKomsuS_004[] dortler = srv.ZwebKomsuF004(Matnr, Werks);
+            KomsuC004.ZwebKomsuS_004[] dortler = srv.ZwebKomsuF004(Matnr, werks);
             return dortler;
-        }*/
+        }
+
+        public KomsuC004.ZwebKomsuS_004[] komsu004get(string Werks, string Matnr)
+        {
+            if (Matnr == "0")
+                Matnr = "";
+            if (Werks == "0")
+                Werks = "";
+
+            KomsuC004.ZwebKomsuF004Service srv = new KomsuC004.ZwebKomsuF004Service();
+            srv.Credentials = nc3;
+            KomsuC004.ZwebKomsuS_004[] dortler = srv.ZwebKomsuF004(Matnr, new KomsuC004.Werks() { Werks1 = Werks });
+            return dortler;
+        }
     }
 
     public class KomsuServiceAuthenticator : UserNamePasswordValidator

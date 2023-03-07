@@ -57,6 +57,49 @@ namespace Sultanlar.WebAPI.Controllers.Internet
             return "";
         }
 
+        [HttpPost("{bayikod}/{satis}/{yilad}/{basyil}/{bityil}/{ayad}/{basay}/{bitay}")]
+        public string SatisStok2(string bayikod, string satis, string yilad, string basyil, string bityil, string ayad, string basay, string bitay, [FromBody] XmlDocument icerik)
+        {
+            try
+            {
+                string xml = icerik.OuterXml;
+                DataSet ds = new DataSet();
+                ds.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
+                DataTable dt = ds.Tables[0];
+
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/Post2?bayikod=" + bayikod +
+                    "&satis=" + satis +
+                    "&yilad=" + (satis == "Satis" ? yilad : "") +
+                    "&basyil=" + basyil.ToString() +
+                    "&bityil=" + bityil.ToString() +
+                    "&ayad=" + (satis == "Satis" ? ayad : "") +
+                    "&basay=" + basay.ToString() +
+                    "&bitay=" + bitay.ToString());
+                wr.Method = "POST";
+                wr.ContentType = "text/xml; encoding='utf-8'";
+                wr.Timeout = 600000;
+                wr.ReadWriteTimeout = 600000;
+                byte[] bytes = Encoding.UTF8.GetBytes(ds.GetXml());
+
+                Stream requestStream = wr.GetRequestStream();
+                requestStream.Write(bytes, 0, bytes.Length);
+                requestStream.Close();
+                HttpWebResponse response = (HttpWebResponse)wr.GetResponse();
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Stream responseStream = response.GetResponseStream();
+                    string responseStr = new StreamReader(responseStream).ReadToEnd();
+                    return responseStr;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+            return "";
+        }
+
         [HttpGet("json/{apikey}/{baslangic}/{bitis}")]
         public IActionResult Siparis(string apikey, string type, string baslangic, string bitis)
         {

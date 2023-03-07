@@ -24,7 +24,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             sattem.DoUpdate();
             return "";
         }
-        internal satisTemsilcileri Getir(string uyeid)
+        /*internal satisTemsilcileri Getir(string uyeid)
         {
             musteriler musteri = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(uyeid))).GetObject();
             return new satisTemsilcileri(musteri.intSLSREF).GetObject2();
@@ -32,6 +32,6 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal List<satisTemsilcileri> Getir()
         {
             return new satisTemsilcileri().GetObjects2();
-        }
+        }*/
     }
 }

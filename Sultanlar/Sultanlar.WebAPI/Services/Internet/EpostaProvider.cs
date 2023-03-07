@@ -6,12 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
     public class EpostaProvider
     {
-        public void EpostaGonder(string EpostaFromDisplayName, string[] EpostaTo, string Konu, string Icerik)
+        public void EpostaGonder(string EpostaFromDisplayName, ArrayList EpostaTo, string Konu, string Icerik)
         {
             try
             {
@@ -26,9 +27,9 @@ namespace Sultanlar.WebAPI.Services.Internet
                 mail.Body = Icerik;
                 mail.IsBodyHtml = true;
                 mail.From = new MailAddress("sultanlar@sultanlar.com.tr", EpostaFromDisplayName);
-                for (int i = 0; i < EpostaTo.Length; i++)
+                for (int i = 0; i < EpostaTo.Count; i++)
                 {
-                    mail.To.Add(new MailAddress(EpostaTo[i]));
+                    mail.To.Add(new MailAddress(EpostaTo[i].ToString()));
                 }
                 client.Send(mail);
             }

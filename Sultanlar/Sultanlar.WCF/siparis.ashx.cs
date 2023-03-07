@@ -18,6 +18,7 @@ namespace Sultanlar.WCF
         {
             string donendeger = "hata";
             bool aktarildi = false;
+            bool bakiye = Convert.ToBoolean(context.Request.QueryString["bakiye"]);
 
             Siparisler sip = Siparisler.GetObjectsBySiparisID(Convert.ToInt32(context.Request.QueryString["siparisid"]));
 
@@ -32,7 +33,7 @@ namespace Sultanlar.WCF
                 int siparisno = CariHesaplarTPEk.GetBayiSiparisNo(bayikod) + 1;
                 CariHesaplarTPEk.SetBayiSiparisNo(bayikod, siparisno);
 
-                Siparisler.DoInsertQ(sip.pkSiparisID, Genel.BayiSiparisnoDuzeltme(siparisno));
+                Siparisler.DoInsertQ(sip.pkSiparisID, Genel.BayiSiparisnoDuzeltme(siparisno), bakiye);
             }
             else
             {

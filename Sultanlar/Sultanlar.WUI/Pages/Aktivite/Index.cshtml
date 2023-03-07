@@ -47,7 +47,7 @@
             });
             $('#inputBitis').on('changeDate', function (ev) {
                 $(this).datepicker('hide');
-                if ($('#inputDonem').val() == "" || $('#inputBitis').val() == "" || $('#selectAnlasmalar').val() == "0")
+                if ($('#inputDonem').val() == "" || $('#inputBitis').val() == "") // || $('#selectAnlasmalar').val() == "0"
                     $("#btnDevam").attr("disabled", true);
                 else
                     $("#btnDevam").attr("disabled", false);
@@ -69,13 +69,14 @@
                     yegbedel = infos[9];
                     tahciro = infos[10];
                     yegciro = infos[11];
-                    if ($('#inputDonem').val() == "" || $('#inputBitis').val() == "" || $('#selectAnlasmalar').val() == "0")
+                    if ($('#inputDonem').val() == "" || $('#inputBitis').val() == "") // || $('#selectAnlasmalar').val() == "0"
                         $("#btnDevam").attr("disabled", true);
                     else
                         $("#btnDevam").attr("disabled", false);
                 }
                 else {
-                    $("#btnDevam").attr("disabled", true);
+                    anlasmaid = 0;
+                    //$("#btnDevam").attr("disabled", true);
                 }
             });
 
@@ -97,7 +98,7 @@
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        $("#selectAnlasmalar").empty().append($("<option></option>").text("Seçiniz").val("0"));
+                        $("#selectAnlasmalar").empty().append($("<option></option>").text("Seçim yok").val("0"));
                         $.each(data, function (index, item) {
                             if (item.strAciklama3 != 'PASİF') {
                                 $("#selectAnlasmalar").append(
@@ -118,7 +119,7 @@
                             yegfatalt = 0;
                             yegfataltciro = 0;
                             yegciroprim = 0;
-                            if ($('#inputDonem').val() == "" || $('#inputBitis').val() == "" || $('#selectAnlasmalar').val() == "0")
+                            if ($('#inputDonem').val() == "" || $('#inputBitis').val() == "") // || $('#selectAnlasmalar').val() == "0"
                                 $("#btnDevam").attr("disabled", true);
                             else
                                 $("#btnDevam").attr("disabled", false);
@@ -142,6 +143,10 @@
                 yegfatalt = 0;
                 yegfataltciro = 0;
                 yegciroprim = 0;
+                tahbedel = 0;
+                yegbedel = 0;
+                tahciro = 0;
+                yegciro = 0;
             }
             else {
                 ftip = fiyattip500 != 0 ? fiyattip500 : ftip;
@@ -159,7 +164,7 @@
 <input class="form-control input100 tarihpicker" type="text" name="inputBitis" id="inputBitis" placeholder="Bitiş" autocomplete="off" onkeypress="return false">
 <br />
 <select id="selectAnlasmalar" name="selectAnlasmalar" class="form-control input100">
-    <option value="0" selected="selected">Seçiniz</option>
+    <option value="0" selected="selected">Seçim yok</option>
 </select>
 <br />
 <input type="button" id="btnDevam" class="btn btn-primary secimTus" value="Aktiviteye devam et" onclick="devam()" disabled />

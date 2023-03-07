@@ -139,7 +139,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     DateTime.Now.Hour == 23*/)
                 )
             {
-                Sap.GetSAP();
+                Sap.GetSAP(true, true, true, true, true, true, true, true);
                 //EntegraSiparis();
             }
             //else if (DateTime.Now.Hour == 23 && DateTime.Now.Minute >= 30 && DateTime.Now.Minute < 40) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya

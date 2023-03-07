@@ -109,12 +109,12 @@ namespace Sultanlar.UI
 
                 if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
                 {
-                    FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
+                    FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF, frmAna.KAdi);
                     ftp.DoInsert();
                 }
                 else
                 {
-                    FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.SelectedItem).GetAnaGmrefNo());
+                    FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.SelectedItem).GetAnaGmrefNo(), frmAna.KAdi);
                 }
                 GetFiyatlar();
             }
@@ -128,11 +128,11 @@ namespace Sultanlar.UI
                 int ITEMREF = Convert.ToInt32(gridView1.GetFocusedRowCellValue("ITEMREF"));
                 if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
                 {
-                    FiyatTipUrun.DoDelete(TIP, ITEMREF);
+                    FiyatTipUrun.DoDelete(TIP, ITEMREF, frmAna.KAdi);
                 }
                 else
                 {
-                    FiyatTipUrun.DoDelete5000(TIP, ITEMREF);
+                    FiyatTipUrun.DoDelete5000(TIP, ITEMREF, frmAna.KAdi);
                 }
                 GetFiyatlar();
             }
@@ -148,12 +148,12 @@ namespace Sultanlar.UI
                     int ITEMREF = Convert.ToInt32(gridView2.GetRowCellValue(i, "ITEMREF"));
                     if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
                     {
-                        FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
+                        FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF, frmAna.KAdi);
                         ftp.DoInsert();
                     }
                     else
                     {
-                        FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.SelectedItem).GetAnaGmrefNo());
+                        FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.SelectedItem).GetAnaGmrefNo(), frmAna.KAdi);
                     }
                 }
                 MessageBox.Show("Bütün ürünler eklendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -171,11 +171,11 @@ namespace Sultanlar.UI
                     int ITEMREF = Convert.ToInt32(gridView1.GetRowCellValue(i, "ITEMREF"));
                     if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
                     {
-                        FiyatTipUrun.DoDelete(TIP, ITEMREF);
+                        FiyatTipUrun.DoDelete(TIP, ITEMREF, frmAna.KAdi);
                     }
                     else
                     {
-                        FiyatTipUrun.DoDelete5000(TIP, ITEMREF);
+                        FiyatTipUrun.DoDelete5000(TIP, ITEMREF, frmAna.KAdi);
                     }
                 }
                 MessageBox.Show("Bütün ürünler çıkarıldı.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -217,13 +217,13 @@ namespace Sultanlar.UI
                             decimal fiyat = Urunler.GetProductPrice(Convert.ToInt32(frmAna.InputBox), Convert.ToInt16(((fiyatTipleri)comboBox1.Items[i]).NOSU));
                             if (fiyat != 0)
                             {
-                                FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
+                                FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF, frmAna.KAdi);
                                 ftp.DoInsert();
                             }
                         }
                         else
                         {
-                            FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.Items[i]).GetAnaGmrefNo());
+                            FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.Items[i]).GetAnaGmrefNo(), frmAna.KAdi);
                         }
                     }
                     GetFiyatlar();

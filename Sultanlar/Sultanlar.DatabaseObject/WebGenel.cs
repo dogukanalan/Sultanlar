@@ -554,7 +554,7 @@ namespace Sultanlar.DatabaseObject
                         var = true;
                         if (i == 0)
                             where = " WHERE ";
-                        where += "[" + ParameterNames[i] + "] = @" + ParameterNames[i] + " AND ";
+                        where += "[" + ParameterNames[i] + "] = @" + ParameterNames[i].ToString().Replace(" ", "_") + " AND ";
                     }
                 }
                 where = var ? where.Substring(0, where.Length - 5) : where;
@@ -569,7 +569,7 @@ namespace Sultanlar.DatabaseObject
                     da.SelectCommand.CommandType = CommandType.StoredProcedure;
 
                 for (int i = 0; i < Parameters.Count; i++)
-                    da.SelectCommand.Parameters.AddWithValue(ParameterNames[i].ToString(), Parameters[i].ToString());
+                    da.SelectCommand.Parameters.AddWithValue(ParameterNames[i].ToString().Replace(" ", "_"), Parameters[i].ToString());
                 try
                 {
                     conn.Open();

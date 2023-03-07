@@ -19,7 +19,7 @@
         var table;
 
         function getMalzemeler() {
-            var url1 = apiurl + "fiyat/getallbytip/20/" + getParameterByName("gmref") + "/" + getParameterByName("mtip");
+            var url1 = apiurl + "fiyat/getallbytip/20/" + getParameterByName("gmref") + "/" + getParameterByName("mtip") + "/" + paramsmref;
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
@@ -234,7 +234,7 @@
         <input type="radio" name="options" id="option1" value="ARI"> Arı
     </label>
     <label class="btn btn-primary">
-        <input type="radio" name="options" id="option2" value="HAYAT"> Hayat
+        <input type="radio" name="options" id="option2" value="HAYAT"> Gıda
     </label>
     <label class="btn btn-primary">
         <input type="radio" name="options" id="option3" value="TİBET"> Temizlik

@@ -236,9 +236,9 @@ namespace Sultanlar.DbObj.Internet
         /// <summary>
         /// 
         /// </summary>
-        public void DoInsertQ(int SiparisID, string QUANTUMNO)
+        public void DoInsertQ(int SiparisID, string QUANTUMNO, bool BAKIYE)
         {
-            Dictionary<string, object> param = new Dictionary<string, object>() { { "SiparisID", SiparisID }, { "QUANTUMNO", QUANTUMNO } };
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "SiparisID", SiparisID }, { "QUANTUMNO", QUANTUMNO }, { "BAKIYE", BAKIYE } };
             Do(QueryType.Update, "db_sp_siparisQEkle", param, timeout);
         }
         /// <summary>
@@ -248,6 +248,14 @@ namespace Sultanlar.DbObj.Internet
         {
             Dictionary<string, object> param = new Dictionary<string, object>() { { "SiparisID", SiparisID }, { "FATTAR", FATTAR }, { "IPTAL", IPTAL } };
             Do(QueryType.Update, "db_sp_siparisQGuncelle", param, timeout);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DoDeleteQ()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "SiparisID", pkSiparisID } };
+            Do(QueryType.Update, "db_sp_siparisQSil", param, timeout);
         }
         /// <summary>
         /// 

@@ -40,11 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bayi\Bimat.cs" />
     <Compile Include="Dashboard\BayiSatisHedef.cs" />
     <Compile Include="Dashboard\BolumYillik.cs" />
     <Compile Include="Dashboard\SatisHedefBolge.cs" />
     <Compile Include="Dashboard\SatisHedefVgb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Xml\Fatura.cs" />
+    <Compile Include="Xml\Siparis.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

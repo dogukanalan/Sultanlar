@@ -37,8 +37,8 @@
                 },
                 columns: [
                     {
-                        "data": "smref", "class": "keyTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data + '</span>';
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli" data-toggle="tooltip" title="' + satkodgetir(data) + '">' + data.smref + '</span>';
                         },
                         "width": "10%"
                     },
@@ -70,14 +70,25 @@
                     },
                     {
                         "data": null, "class": "keyTd", render: function (data, type, row) {
-                            return '<a href="javascript:showSubMenu(div' + data.smref + ')" class="btn btn-primary">İşlem</a>' +
+                            return '<a href="javascript:showSubMenu(div' + data.smref + ')" class="btn btn-primary"><span class="sinirli4">İşlemler<span></a>' +
                                 '<div class="subMenu" id="div' + data.smref + '">' +
                                 (data.tip == 4 ? '<a href="../Anlasma/?smref=' + data.smref + '&tip=' + data.tip + '">Anlaşma</a>' : '') +
-                                (data.tip == 4 /*|| (data.tip == 1 && gmref == 1072532) */? '<a href="../Aktivite/?smref=' + data.smref + '&ftip=' + (data.tip == 4 ? '25' : '7') + '&tip=' + data.tip + '&aktiviteid=0">Aktivite</a>' : '') +
+                                (data.tip == 4 /*|| (data.tip == 1 && gmref == 1072532) */ ? '<a href="../Aktivite/?smref=' + data.smref + '&ftip=' + (data.tip == 4 ? '25' : '7') + '&tip=' + data.tip + '&aktiviteid=0">Aktivite</a>' : '') +
                                 (data.tip == 4 ? '<a href="../Hizmet/?smref=' + data.smref + '">Hizmet Bedeli</a>' : '') +
                                 '<a href="../Ziyaret/?smref=' + data.smref + '&gmref=' + gmref + '&slsref=' + (window.localStorage["slsref"] != "0" ? window.localStorage["slsref"] : getParameterByName("slsref")) + '&tip=' + data.tip + '&konum=' + data.konumA.konum + '">Ziyaret</a>' +
                                 (data.tip == 1 || data.tip == 2 || data.tip == 4 || data.tip == 5 ? '<a href="../Siparis/?gmref=' + data.gmref + '&smref=' + data.smref + '&mtip=' + data.tip + '">Sipariş</a>' : '') +
-                                (data.tip == 1 || data.tip == 2 || data.tip == 4 || data.tip == 5 ? '<a href="../Iade/?gmref=' + data.gmref + '&smref=' + data.smref + '&mtip=' + data.tip + '">İade</a></div>' : '');
+                                (data.tip == 1 || data.tip == 2 || data.tip == 4 || data.tip == 5 ? '<a href="../Iade/?gmref=' + data.gmref + '&smref=' + data.smref + '&mtip=' + data.tip + '">İade</a>' : '') +
+                                (
+                                    data.gmref != data.smref && (data.satkod == window.localStorage["slsref"] || window.localStorage["slsref"] == 0) ?
+                                    (
+                                        data.fiyatTip500 != 0 ? '<a href="Fiyat/?yeni=0&nettop=' + data.nettop + '&musteri=gmref=' + gmref + '&smref=' + (data.fiyatTip500smref == 0 ? (data.tip == 5 ? data.nettop + '&mtip=4' : gmref + '&mtip=' + data.tip) : data.smref + '&mtip=' + data.tip) + '&tip=' + (data.fiyatTip500smref == 0 ? data.fiyatTip500 : data.fiyatTip500smref) + '">Ürün Ekle Çıkar</a>' :
+                                            (data.tip != 5 ? '<a href="Fiyat/?yeni=1&nettop=0&musteri=' + data.sube.querystringReplace() + '&gmref=' + data.gmref + '&smref=' + data.smref + '&mtip=' + data.tip + '&tip=0">Açık Ürün Listesi Oluştur</a>' : '<a href="javascript:alert(\'Öncelikle ana cariye açık ürün listesi oluşturulmalıdır. Ana cari kodu: ' + data.nettop + '\')">Açık Ürün Listesi Oluştur</a>')
+                                    )
+                                        : ''
+                                ) +
+                                (data.fiyatTip500 != 0 && (data.fiyatTip500smref == 0) && (data.satkod == window.localStorage["slsref"] || window.localStorage["slsref"] == 0) ?
+                                '<a href="Fiyat/?yeni=1&nettop=' + data.nettop + '&musteri=' + data.sube.querystringReplace() + '&gmref=' + data.gmref + '&smref=' + data.smref + '&mtip=' + data.tip + '&tip=0">Açık Ürün Listesi Oluştur</a>' : '') +
+                                '</div>';
                         },
                         "width": "10%"
                     }
@@ -131,6 +142,15 @@
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
             );*/
+        }
+
+        function satkodgetir(data) {
+            for (var i = 0; i < data.muhataplar.length; i++) {
+                if (data.muhataplar[i].slsmanref == data.satkod) {
+                    return data.muhataplar[i].sattem;
+                }
+            }
+            return "";
         }
 
         $(document).ready(function () {

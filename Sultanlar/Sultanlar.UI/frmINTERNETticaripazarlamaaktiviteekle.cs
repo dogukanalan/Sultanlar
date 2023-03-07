@@ -206,7 +206,8 @@ namespace Sultanlar.UI
                             gridView1.GetRowCellValue(j, "strAciklama2").ToString(),
                             gridView1.GetRowCellValue(j, "strAciklama3").ToString(),
                             gridView1.GetRowCellValue(j, "strAciklama4").ToString(),
-                            gridView1.GetRowCellValue(j, "strAciklama5").ToString()
+                            gridView1.GetRowCellValue(j, "strAciklama5").ToString(),
+                            ""
                         );
                         aktivitelerdetay.DoInsert();
                     }

@@ -350,6 +350,10 @@
       <Project>{4dc20636-1474-437f-9a16-ff1b32d145fe}</Project>
       <Name>Sultanlar.DatabaseObject</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sultanlar.Model\Sultanlar.Model.csproj">
+      <Project>{07195502-5e83-4505-b932-f1fa1eff768e}</Project>
+      <Name>Sultanlar.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

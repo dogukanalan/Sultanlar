@@ -13,6 +13,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using Sultanlar.Model.Xml;
 
 namespace Sultanlar.WCF
 {
@@ -46,11 +47,11 @@ namespace Sultanlar.WCF
             da.Fill(dt);
 
 
-            Sultanlar.Class.XmlFaturalarDis faturalar = new Sultanlar.Class.XmlFaturalarDis();
-            faturalar.Faturalar = new List<Sultanlar.Class.XmlFaturaDis>();
+            XmlFaturalarDis faturalar = new XmlFaturalarDis();
+            faturalar.Faturalar = new List<XmlFaturaDis>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Sultanlar.Class.XmlFaturaDis fatura = new Class.XmlFaturaDis();
+                XmlFaturaDis fatura = new XmlFaturaDis();
                 DataTable dt1 = WebGenel.WCFdata("SELECT MAL_KOD,MALZEME,ADET_TOP,KOLI_TOP,ISK_TOP,NET_TOP,KDV_TOP,NETKDV_TOP FROM vw_Pirpa_Satis", new ArrayList() { "FAT_NO" }, new ArrayList() { dt.Rows[i]["FAT_NO"].ToString() }, "InvoiceDetail");
 
                 fatura.FAT_NO = dt.Rows[i]["FAT_NO"].ToString();
@@ -59,10 +60,10 @@ namespace Sultanlar.WCF
                 fatura.PER_KOD = dt.Rows[i]["PER_KOD"].ToString();
                 fatura.PER_TEM = dt.Rows[i]["PER_TEM"].ToString();
 
-                fatura.Kalemler = new List<Class.XmlFaturaDisDetay>();
+                fatura.Kalemler = new List<XmlFaturaDisDetay>();
                 for (int j = 0; j < dt1.Rows.Count; j++)
                 {
-                    Sultanlar.Class.XmlFaturaDisDetay detay = new Class.XmlFaturaDisDetay();
+                    XmlFaturaDisDetay detay = new XmlFaturaDisDetay();
                     detay.MAL_KOD = Convert.ToInt32(dt1.Rows[j]["MAL_KOD"]);
                     detay.MALZEME = dt1.Rows[j]["MALZEME"].ToString();
                     detay.ADET_TOP = Convert.ToDouble(dt1.Rows[j]["ADET_TOP"]);
@@ -78,7 +79,7 @@ namespace Sultanlar.WCF
 
             XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
             xsn.Add("g", "http://base.google.com/ns/1.0");
-            XmlSerializer MySerializer = new XmlSerializer(typeof(Sultanlar.Class.XmlFaturalarDis), "http://www.w3.org/2005/Atom");
+            XmlSerializer MySerializer = new XmlSerializer(typeof(XmlFaturalarDis), "http://www.w3.org/2005/Atom");
 
             TextWriter TW = new StringWriter();
 
@@ -132,14 +133,14 @@ namespace Sultanlar.WCF
 
 
 
-            Sultanlar.Class.XmlSiparislerDis siparisler = new Sultanlar.Class.XmlSiparislerDis();
-            siparisler.Siparisler = new List<Sultanlar.Class.XmlSiparisDis>();
+            XmlSiparislerDis siparisler = new XmlSiparislerDis();
+            siparisler.Siparisler = new List<XmlSiparisDis>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Sultanlar.Class.XmlSiparisDis siparis = new Class.XmlSiparisDis();
+                XmlSiparisDis siparis = new XmlSiparisDis();
 
                 DataTable dt2 = WebGenel.WCFdata("SELECT DISTINCT [IL] AS Sehir,[ILCE] AS Ilce,[GMREF] AS BayiKod,[MUSTERI] AS BayiUnvan,[SMREF] AS Kod,[SUBE] AS Unvan,[MT ACIKLAMA] AS Aciklama,SEHIR AS FaturaTip,[VRG DAIRE] AS VergiDaire,[VRG NO] AS VergiNo,[ADRES] AS Adres,[TEL-1] AS Telefon,[CEP-1] AS Mobil,[FAX-1] AS Fax,[EMAIL-1] AS Eposta FROM [Web-Musteri]", new ArrayList() { "SMREF" }, new ArrayList() { dt.Rows[i]["MusKod"].ToString() }, "Musteri");
-                siparis.Musteri = new Sultanlar.Class.XmlSiparisMusteri();
+                siparis.Musteri = new XmlSiparisMusteri();
                 siparis.Musteri.Sehir = dt2.Rows[0]["Sehir"].ToString();
                 siparis.Musteri.Ilce = dt2.Rows[0]["Ilce"].ToString();
                 siparis.Musteri.BayiKod = dt2.Rows[0]["BayiKod"].ToString();
@@ -164,7 +165,7 @@ namespace Sultanlar.WCF
                 siparis.Tarih = Convert.ToDateTime(dt.Rows[i]["Tarih"]);
                 //siparis.Tutar = Convert.ToDouble(dt.Rows[i]["Tutar"]);
                 siparis.Aciklama = dt.Rows[i]["strAciklama"].ToString().Split(new string[] { ";;;" }, StringSplitOptions.None)[1];
-                siparis.Kalemler = new List<Class.XmlSiparisDisDetay>();
+                siparis.Kalemler = new List<XmlSiparisDisDetay>();
 
                 DataTable dt1 = WebGenel.WCFdata("" +
 
@@ -194,7 +195,7 @@ namespace Sultanlar.WCF
                 double toplamnetkdv = 0;
                 for (int j = 0; j < dt1.Rows.Count; j++)
                 {
-                    Sultanlar.Class.XmlSiparisDisDetay detay = new Class.XmlSiparisDisDetay();
+                    XmlSiparisDisDetay detay = new XmlSiparisDisDetay();
                     detay.UrunKod = dt1.Rows[j]["UrunKod"].ToString();
                     detay.Bolum = dt1.Rows[j]["Bolum"].ToString();
                     detay.Barkod = dt1.Rows[j]["Barkod"].ToString();
@@ -230,7 +231,7 @@ namespace Sultanlar.WCF
 
             XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
             xsn.Add("g", "http://base.google.com/ns/1.0");
-            XmlSerializer MySerializer = new XmlSerializer(typeof(Sultanlar.Class.XmlSiparislerDis), "http://www.w3.org/2005/Atom");
+            XmlSerializer MySerializer = new XmlSerializer(typeof(XmlSiparislerDis), "http://www.w3.org/2005/Atom");
 
             TextWriter TW = new StringWriter();
 

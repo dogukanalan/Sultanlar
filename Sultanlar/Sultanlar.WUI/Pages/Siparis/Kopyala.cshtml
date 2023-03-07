@@ -14,6 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
 
     <script>
+        var paramftip;
         var siparisid;
         var table;
         var getfunc;
@@ -128,8 +129,10 @@
 
         $(document).ready(function () {
             siparisid = getParameterByName('siparisid');
+            paramftip = getParameterByName('fiyattipi');
             document.getElementById("basTitle").innerHTML = "Sipariş Kopyala (" + siparisid + ")";
             SaticilarGetir(window.localStorage["uyeid"]);
+            UyeYetkileri(localStorage["musteri"]);
             $('#selectSaticilar').on('change', function (e) {
                 getfunc = this.value > 1000000000 ? 'gethepsi124' : 'gethepsi12';
                 table = $('#dtTable').DataTable().ajax.url(apiurl + "cari/" + getfunc + "/" + this.value).load();
@@ -140,6 +143,8 @@
 <select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar">
     <option value="1" selected="selected">Seçiniz</option>
 </select>
+<br />
+<select id="fiyattipleri"></select>
 
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>

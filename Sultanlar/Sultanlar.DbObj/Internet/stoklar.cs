@@ -52,7 +52,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_bayiStokGetir", new Dictionary<string, object>() { { "SLSREF", SLSREF }, { "SMREF", SMREF } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new bayiStokRaporu(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDouble(dic[i][3]), ConvertToDouble(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToDouble(dic[i][6]), ConvertToDouble(dic[i][7]), false, false));
+                    donendeger.Add(new bayiStokRaporu(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDouble(dic[i][3]), ConvertToDouble(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToDouble(dic[i][6]), ConvertToDouble(dic[i][7]), false, true));
 
             return donendeger;
         }

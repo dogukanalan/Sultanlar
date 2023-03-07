@@ -65,20 +65,6 @@ namespace Sultanlar.DbObj.Internet
             return donendeger;
         }
         /// <summary>
-        /// 2
-        /// </summary>
-        /// <returns></returns>
-        public satisTemsilcileri GetObject2()
-        {
-            satisTemsilcileri donendeger = new satisTemsilcileri();
-
-            Dictionary<int, object> dic = GetObject("SELECT ACTIVE, SLSMANREF, [SAT KOD1], [SAT TEM], [SAT KOD], TELEFON, POSITION_ FROM [Web-SatisTemsilcileri-2] WHERE SLSMANREF = @SLSMANREF", new Dictionary<string, object>() { { "SLSMANREF", SLSMANREF } }, timeout);
-            if (dic != null)
-                donendeger = new satisTemsilcileri(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), dic[2].ToString(), dic[3].ToString(), dic[4].ToString(), dic[5].ToString(), dic[6].ToString());
-
-            return donendeger;
-        }
-        /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
@@ -94,14 +80,14 @@ namespace Sultanlar.DbObj.Internet
             return donendeger;
         }
         /// <summary>
-        /// 2
+        /// Muhataplar
         /// </summary>
         /// <returns></returns>
-        public List<satisTemsilcileri> GetObjects2()
+        public List<satisTemsilcileri> GetObjectsBySMREF(int SMREF)
         {
             List<satisTemsilcileri> donendeger = new List<satisTemsilcileri>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("SELECT ACTIVE, SLSMANREF, [SAT KOD1], [SAT TEM], [SAT KOD], TELEFON, POSITION_ FROM [Web-SatisTemsilcileri-2] ORDER BY [SAT TEM]", timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisTemsilcileriGetirBySMREF", new Dictionary<string, object>() { { "SMREF", SMREF } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new satisTemsilcileri(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString()));

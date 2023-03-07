@@ -48,6 +48,7 @@
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn46 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn57 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -158,7 +159,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.dtpBitis = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
-            this.gridColumn57 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn58 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -485,6 +486,17 @@
             this.gridColumn6.VisibleIndex = 4;
             this.gridColumn6.Width = 180;
             // 
+            // gridColumn57
+            // 
+            this.gridColumn57.Caption = "Şube";
+            this.gridColumn57.FieldName = "SUBE";
+            this.gridColumn57.Name = "gridColumn57";
+            this.gridColumn57.OptionsColumn.AllowEdit = false;
+            this.gridColumn57.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
+            this.gridColumn57.Visible = true;
+            this.gridColumn57.VisibleIndex = 5;
+            this.gridColumn57.Width = 180;
+            // 
             // gridColumn7
             // 
             this.gridColumn7.Caption = "sintFiyatTipiID";
@@ -753,7 +765,8 @@
             this.gridColumn56,
             this.gridColumn50,
             this.gridColumn53,
-            this.gridColumn55});
+            this.gridColumn55,
+            this.gridColumn58});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.NewItemRowText = "Yeni satır eklemek için tıklayın";
@@ -1647,16 +1660,16 @@
             this.label4.Size = new System.Drawing.Size(864, 99);
             this.label4.TabIndex = 14;
             // 
-            // gridColumn57
+            // gridColumn58
             // 
-            this.gridColumn57.Caption = "Şube";
-            this.gridColumn57.FieldName = "SUBE";
-            this.gridColumn57.Name = "gridColumn57";
-            this.gridColumn57.OptionsColumn.AllowEdit = false;
-            this.gridColumn57.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
-            this.gridColumn57.Visible = true;
-            this.gridColumn57.VisibleIndex = 5;
-            this.gridColumn57.Width = 180;
+            this.gridColumn58.Caption = "Açıklama";
+            this.gridColumn58.FieldName = "strAciklama6";
+            this.gridColumn58.Name = "gridColumn58";
+            this.gridColumn58.OptionsColumn.AllowEdit = false;
+            this.gridColumn58.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
+            this.gridColumn58.Visible = true;
+            this.gridColumn58.VisibleIndex = 24;
+            this.gridColumn58.Width = 250;
             // 
             // frmINTERNETticaripazarlamaaktiviteler
             // 
@@ -1818,5 +1831,6 @@
         private System.Windows.Forms.Button btnFiyatExcel;
         private System.Windows.Forms.Button btnToptanAltkanal;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn57;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn58;
     }
 }

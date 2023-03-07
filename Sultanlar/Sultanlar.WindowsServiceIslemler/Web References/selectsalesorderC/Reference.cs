@@ -39,7 +39,7 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesorderC {
         
         /// <remarks/>
         public ZwebSelectSalesOrderService() {
-            this.Url = global::Sultanlar.WindowsServiceIslemler.Properties.Settings.Default.Sultanlar_WindowsServiceIslemler_selectsalesvbfaC_ZwebSelectSalesVbfaService;
+            this.Url = global::Sultanlar.WindowsServiceIslemler.Properties.Settings.Default.Sultanlar_WindowsServiceIslemler_selectsalesdeliveryC_ZwebSelectSalesDeliveryService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -1041,6 +1041,8 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesorderC {
         
         private string bezeiAbField;
         
+        private string pstyvField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Vbeln {
@@ -1885,6 +1887,17 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesorderC {
             }
             set {
                 this.bezeiAbField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Pstyv {
+            get {
+                return this.pstyvField;
+            }
+            set {
+                this.pstyvField = value;
             }
         }
     }

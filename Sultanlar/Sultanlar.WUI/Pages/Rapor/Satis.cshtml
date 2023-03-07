@@ -76,39 +76,63 @@
                     return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.musteri + '">' + data.musteri + '</span>';
                 },
                 "name": "anacari",
-                "width": "10%"
+                "width": "8%"
             },
             {
                 "data": "sube", "class": "keyTd", render: function (data, type, row) {
                     return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.sube + '">' + data.sube + '</span>';
                 },
                 "name": "sube",
-                "width": "10%"
+                "width": "8%"
             },
             {
                 "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
                     return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.malacik + '">' + data.malacik + '</span>';
                 },
                 "name": "malzeme",
-                "width": "10%"
+                "width": "8%"
             },
             {
+                "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer">' + data.kdv + '</span>';
+                },
+                "name": "kdv",
+                "width": "6%"
+            },
+            /*{
                 "data": "adett", "class": "keyTd", render: function (data, type, row) {
                     return '<span class="sinirli">' + data + '</span>';
                 },
-                "width": "8%"
+                "name": "adet",
+                "width": "4%"
+            },*/
+            {
+                "data": null, "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + (data.netkdvt - data.nett).toFixed(2) + '</span>';
+                },
+                "name": "kdv tutar",
+                "width": "6%"
             },
             {
-                "data": "kolit", "class": "keyTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data.formatMoney(1, ',', '.') + '</span>';
+                "data": "kolit", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.toFixed(1) + '</span>';
                 },
-                "width": "8%"
+                "name": "koli",
+                "width": "6%"
             },
             {
-                "data": "nett", "class": "keyTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                "data": "nett", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.toFixed(2) + '</span>';
                 },
-                "width": "8%"
+                "name": "net",
+                "width": "6%"
+            },
+            {
+                "data": "netkdvt", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.toFixed(2) + '</span>';
+                },
+                "name": "net+kdv",
+                "width": "6%"
             }
         ];
 
@@ -246,9 +270,10 @@
                     $('[data-toggle="tooltip"]').tooltip();
                     $('[data-toggle="tooltip"]').css("cursor", "pointer");
 
-                    $("#spFtAdet").html(oSettings.json.sum1.formatMoney(0, ',', '.'));
-                    $("#spFtKoli").html(oSettings.json.sum2.formatMoney(0, ',', '.'));
-                    $("#spFtNet").html(oSettings.json.sum3.formatMoney(0, ',', '.'));
+                    $("#spFtKoli").html(oSettings.json.sum2.formatMoney(1, ',', '.'));
+                    $("#spFtNet").html(oSettings.json.sum3.formatMoney(2, ',', '.'));
+                    $("#spFtKdv").html(oSettings.json.sum4.formatMoney(2, ',', '.'));
+                    $("#spFtNetKdv").html(oSettings.json.sum5.formatMoney(2, ',', '.'));
 
                 },
                 dom: 'Bfrtip',
@@ -381,7 +406,7 @@
     <option value="0" selected="selected">Tümü</option>
 </select>
 <br />
-<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='100'>
     <thead>
         <tr>
             <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Tür</span><br /><input type="text" class="form-control input100yuzde" /></th>
@@ -392,9 +417,11 @@
             <th class="keyTd desktop"><span class="spanCiplak">Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Sube</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Adet</span></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Kdv O.</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Kdv T.</span></th>
             <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Koli</span></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Net</span></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Net+Kdv</span></th>
         </tr>
     </thead>
     <tfoot>
@@ -407,9 +434,11 @@
             <th class="keyTd"></th>
             <th class="keyTd"></th>
             <th class="keyTd"></th>
-            <th class="keyTd"><span class="spanCiplak" id="spFtAdet">0</span></th>
-            <th class="keyTd"><span class="spanCiplak" id="spFtKoli">0</span></th>
-            <th class="keyTd"><span class="spanCiplak" id="spFtNet">0</span></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"><span class="spanCiplak" id="spFtKdv">0</span></th>
+            <th class="floaTd"><span class="spanCiplak" id="spFtKoli">0</span></th>
+            <th class="floaTd"><span class="spanCiplak" id="spFtNet">0</span></th>
+            <th class="floaTd"><span class="spanCiplak" id="spFtNetKdv">0</span></th>
         </tr>
     </tfoot>
 </table>

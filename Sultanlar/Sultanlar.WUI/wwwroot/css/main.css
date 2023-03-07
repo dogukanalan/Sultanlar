@@ -609,7 +609,7 @@ iframe {
         margin-left: 15px;
     }
 
-    #divMusSub, #divRapSub, #divUyeAlt {
+    #divMusSub, #divRapSub, #divUyeAlt, #divDash {
         position: absolute !important;
     }
 
@@ -1255,7 +1255,7 @@ table.dataTable {
     visibility: hidden !important;
 }
 
-#divMusSub, #divRapSub, #divUyeAlt {
+#divMusSub, #divRapSub, #divUyeAlt, #divDash {
     position: fixed;
 }
 
@@ -1395,4 +1395,17 @@ label.active {
 
 .btn-group {
     overflow: auto;
+}
+
+div.table {
+    display: table;
+}
+
+div.tr {
+    display: table-row;
+}
+
+div.td {
+    text-align: right;
+    display: table-cell;
 }

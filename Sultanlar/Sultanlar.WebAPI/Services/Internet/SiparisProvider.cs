@@ -187,6 +187,9 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             siparisler sip = new siparisler(musid != 0 ? musid : mus.pkMusteriID, skg.smref, skg.ftip, DateTime.Now, 0, false, skg.mtip, DateTime.Now, mus.AdSoyad + ";;;" + skg.aciklama + ";;;" + Convert.ToDateTime(skg.teslim).ToShortDateString());
             sip.DoInsert();
+            if (sip.pkSiparisID == 0) // sipariş kaydedilemezse
+                return "hata: sipariş kaydedilemedi.";
+
             double toplam = 0;
             for (int i = 0; i < skg.detaylar.Count; i++)
             {
@@ -281,6 +284,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal SiparisIsks Isks(int SMREF, int ITEMREF, DateTime Tarih)
         {
+            Tarih = Convert.ToDateTime(Tarih.ToShortDateString());
             double fiyat = new fiyatlar(20, ITEMREF).GetObject().FIYAT;
             SiparisIsks donendeger = new SiparisIsks() { fiyat = fiyat, isk1 = 0, isk2 = 0, isk3 = 0, isk4 = 0 };
 
@@ -338,6 +342,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal SiparisIsks IsksTP(int SMREF, int TIP, int ITEMREF, DateTime Tarih)
         {
+            Tarih = Convert.ToDateTime(Tarih.ToShortDateString());
             double fiyat = new fiyatlar(20, ITEMREF).GetObject().FIYAT;
             SiparisIsks donendeger = new SiparisIsks() { fiyat = fiyat, isk1 = 0, isk2 = 0, isk3 = 0, isk4 = 0 };
 
@@ -377,7 +382,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                             25);
                     if (genelaktivitedetayid > 0) // genel anlaşmasız
                     {
-                        aktivitelerDetay aktdG = new aktivitelerDetay(aktivitedetayid).GetObject();
+                        aktivitelerDetay aktdG = new aktivitelerDetay(genelaktivitedetayid).GetObject();
                         donendeger.isk4 = aktdG.flEkIsk;
                     }
                     else // otoaktivite
@@ -444,7 +449,7 @@ namespace Sultanlar.WebAPI.Services.Internet
         {
             for (int i = 0; i < sks.Count; i++)
             {
-                siparislerDetaySevk sds = new siparislerDetaySevk(sks[i].detayid, sks[i].miktar, false, DateTime.Now, DateTime.Now);
+                siparislerDetaySevk sds = new siparislerDetaySevk(sks[i].detayid, Convert.ToInt32(sks[i].miktar), false, DateTime.Now, DateTime.Now);
                 sds.DoInsert();
             }
             return "";
@@ -472,9 +477,11 @@ namespace Sultanlar.WebAPI.Services.Internet
         {
             var xml = "<siparisler>";
 
+            string sipler = "";
             for (int i = 0; i < sks.Count; i++)
             {
-                siparisler sip = new siparisler(Convert.ToInt32(sks[i].detayid)).GetObject();
+                sipler += sks[i].detayid + ".";
+                /*siparisler sip = new siparisler(Convert.ToInt32(sks[i].detayid)).GetObject();
                 new siparisler().DoUpdateQ(sip.pkSiparisID, Convert.ToDateTime(sks[i].fattar), false);
 
                 cariHesaplar cari = new cariHesaplar().GetObject1(sip.TKSREF, sip.SMREF);
@@ -513,10 +520,23 @@ namespace Sultanlar.WebAPI.Services.Internet
                         "</fiyat></detay>";
                 }
 
-                xml += "</detaylar></siparis>";
+                xml += "</detaylar></siparis>";*/
             }
 
             xml += "</siparisler>";
+
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/fatura2/" + sks[0].miktar.ToUpper() + "/" + sipler.Substring(0, sipler.Length - 1)); //http://localhost:18006/bayiservis.svc/web/xml/fatura2/
+            wr.Method = "GET";
+            wr.ContentType = "text/xml; encoding='utf-8'";
+            wr.Timeout = 600000;
+            wr.ReadWriteTimeout = 600000;
+            HttpWebResponse response = (HttpWebResponse)wr.GetResponse();
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                Stream responseStream = response.GetResponseStream();
+                string responseStr = new StreamReader(responseStream).ReadToEnd();
+                xml = responseStr.Replace("><", ">\r\n<");
+            }
 
             return new ContentResult
             {
@@ -563,6 +583,15 @@ namespace Sultanlar.WebAPI.Services.Internet
                 ContentType = "application/xml",
                 StatusCode = 200
             };
+        }
+
+        internal string SevksizOnaydanGeri(int SiparisID)
+        {
+            siparisler sip = new siparisler(SiparisID).GetObject();
+            sip.blAktarilmis = false;
+            sip.DoUpdate();
+            sip.DoDeleteQ();
+            return "";
         }
     }
 }

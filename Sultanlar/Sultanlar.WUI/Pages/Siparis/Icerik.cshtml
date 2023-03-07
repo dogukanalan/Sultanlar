@@ -209,42 +209,6 @@
             senkRoot();
         }
 
-        function UyeYetkileri(uyeid) {
-            $.ajax(
-                {
-                    xhr: function () { return xhrDownloadUpload(); },
-                    beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "uyeyetki/" + uyeid,
-                    success: function (data, textStatus, response) {
-                        checkAuth(response);
-
-                        var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
-                        $.each(rootData, function (index, item) {
-
-                            if (paramftip < 500) {
-                                $("#fiyattipleri").append(
-                                    $("<option></option>")
-                                        .text(item.fiyatTipi.aciklama)
-                                        .val(item.sintFiyatTipiID)
-                                );
-                            }
-                            else {
-                                if (paramftip == item.sintFiyatTipiID) {
-                                    $("#fiyattipleri").append(
-                                        $("<option></option>")
-                                            .text(item.fiyatTipi.aciklama)
-                                            .val(item.sintFiyatTipiID)
-                                    );
-                                }
-                            }
-                        });
-                        $('select[id=fiyattipleri]').val(paramftip);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
-                }
-            );
-        }
-
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
             paramgmref = getParameterByName('gmref');

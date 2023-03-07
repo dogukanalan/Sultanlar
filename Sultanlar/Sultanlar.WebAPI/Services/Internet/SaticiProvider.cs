@@ -39,8 +39,8 @@ namespace Sultanlar.WebAPI.Services.Internet
 
 
 
-                List<satisTemsilcileri> sattem = CacheControl("SatTems", 10, CacheItemPriority.Normal);
-                List<satisTemsilcileriSefler> hepsi = CacheControl1("SatTemSefs", 10, CacheItemPriority.Normal);
+                List<satisTemsilcileri> sattem = CacheControl("SatTems", 5, CacheItemPriority.Normal);
+                List<satisTemsilcileriSefler> hepsi = CacheControl1("SatTemSefs", 5, CacheItemPriority.Normal);
                 var ustler = hepsi.Where(x => x.ustSLSREF == musteri.intSLSREF).Select(x => x.altSLSREF);
                 donendeger = sattem.Where(y => ustler.Contains(y.SLSMANREF)).ToList();
 

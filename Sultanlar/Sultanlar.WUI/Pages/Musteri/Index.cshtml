@@ -13,10 +13,10 @@
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
 
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-basic-latest.min.js"></script>
-    <script src="~/js/pivot.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.22.0/plotly_renderers.min.js"></script>*@
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-basic-latest.min.js"></script>
+        <script src="~/js/pivot.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.22.0/plotly_renderers.min.js"></script>*@
 
     <script>
         function SaticilarGetir(uyeid) {
@@ -61,23 +61,37 @@
                         var htmlText = '<table id="dtTable" class="table table-striped table-bordered" style="width:100%"><thead><tr><th class="keyTd">Kod</th><th class="keyTd hidewhenmobile">Tip</th><th class="keyTd">Müşteri</th><th class="keyTd hidewhenmobile">Adres</th><th class="keyTd">V/Y</th><th></th></tr></thead><tbody>';
                         $.each(data, function (i, item) {
                             htmlText += '<tr>';
-                            htmlText += '<td class="keyTd"><span class="sinirli">' + data[i].gmref + '</span></td>';
+                            htmlText += '<td class="keyTd"><span class="sinirli" data-toggle="tooltip" title="' + satkodgetir(data[i]) + '">' + data[i].gmref + '</span></td>';
                             htmlText += '<td class="keyTd hidewhenmobile"><span class="sinirli">' + data[i].mtaciklama + '</span></td>';
                             htmlText += '<td class="valueTd"><span class="sinirli4" data-toggle="tooltip" title="' + data[i].musteri + '">' + data[i].musteri + '</span></td>';
                             htmlText += '<td class="valueTd hidewhenmobile"><span>' + data[i].adres + '</span></td>';
                             htmlText += '<td class="keyTd">' + (data[i].fiyatTip500 != 0 ? '<a href="Ziyaret/Varyok?gmref=' + data[i].gmref + '&smref=' + data[i].smref + '&mtip=' + data[i].tip + '&ziyaretid=0&ftip=' + data[i].fiyatTip500 + '">' : '') + '<span data-toggle="tooltip" title="' + (data[i].fiyatTip500 == 0 ? '-' : data[i].fiyatTip500ack) + '">' + (data[i].fiyatTip500 == 0 ? 'Y' : data[i].fiyatTip500) + '</span>' + (data[i].fiyatTip500 != 0 ? '</a>' : '') + '</td>';
-                            htmlText += '<td class="keyTd"><a href="javascript:showSubMenu(div' + data[i].gmref + ')" class="btn btn-primary">İşlem</a><div class="subMenu" id="div' + data[i].gmref + '">' +
+                            htmlText += '<td class="keyTd"><a href="javascript:showSubMenu(div' + data[i].gmref + ')" class="btn btn-primary"><span class="sinirli4">İşlemler<span></a><div class="subMenu" id="div' + data[i].gmref + '">' +
                                 '<a href="Musteri/Musteri?gmref=' + data[i].gmref + '&slsref=' + slsref + '">Alt Cariler</a>' +
                                 (data[i].mtkod != "Z1" ? '<a href="Anlasma/?smref=' + data[i].gmref + '&tip=' + data[i].tip + '">Anlaşma</a>' : "") +
                                 '<a href="Aktivite/?smref=' + data[i].gmref + '&ftip=' + (data[i].mtkod == "Z1" ? "25" : (data[i].fiyatTip500 == 0 || data[i].fiyatTip500 > 1000 ? "7" : data[i].fiyatTip500)) + '&tip=' + data[i].tip + '&aktiviteid=0">Aktivite</a>' +
                                 '<a href="Ziyaret/?smref=' + data[i].gmref + '&gmref=' + data[i].gmref + '&slsref=' + (window.localStorage["slsref"] != "0" ? window.localStorage["slsref"] : slsref) + '&tip=' + data[i].tip + '&konum=' + data[i].konumA.konum + '">Ziyaret</a>' +
                                 '<a href="Siparis/?gmref=' + data[i].gmref + '&smref=' + data[i].gmref + '&mtip=' + data[i].tip + '">Sipariş</a>' +
                                 '<a href="Iade/?gmref=' + data[i].gmref + '&smref=' + data[i].gmref + '&mtip=' + data[i].tip + '">İade</a>' +
-                                (data[i].mtkod == "Z1" ? '<a href="Sayim/?smref=' + data[i].gmref + '">Stok</a></div>' : '</div>');
+                                (data[i].mtkod == "Z1" ? '<a href="Sayim/?smref=' + data[i].gmref + '">Stok</a>' : '') +
+                                (
+                                    data[i].mtkod != "Z1" && (data[i].satkod == window.localStorage["slsref"] || window.localStorage["slsref"] == 0) ?
+                                    (
+                                        data[i].fiyatTip500 != 0 ? '<a href="Musteri/Fiyat/?yeni=0&nettop=0&musteri=gmref=' + data[i].gmref + '&smref=' + data[i].smref + '&mtip=' + data[i].tip + '&tip=' + data[i].fiyatTip500 + '">Ürün Ekle Çıkar</a>' :
+                                            '<a href="Musteri/Fiyat/?yeni=1&nettop=0&musteri=' + data[i].musteri.querystringReplace() + '&gmref=' + data[i].gmref + '&smref=' + data[i].smref + '&mtip=' + data[i].tip + '&tip=0">Açık Ürün Listesi Oluştur</a>'
+                                    )
+                                        : ''
+                                ) +
+                                '</div>';
                             htmlText += '</td></tr>';
                         });
                         divData.innerHTML = htmlText + '</table>';
                         initDt(2, true, true, true);
+
+                        $('#dtTable').on('draw.dt', function (e, settings, len) {
+                            $('[data-toggle="tooltip"]').tooltip();
+                            $('[data-toggle="tooltip"]').css("cursor", "pointer");
+                        });
 
                         $('[data-toggle="tooltip"]').tooltip();
                         $('[data-toggle="tooltip"]').css("cursor", "pointer");
@@ -101,6 +115,15 @@
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
             );
+        }
+
+        function satkodgetir(data) {
+            for (var i = 0; i < data.muhataplar.length; i++) {
+                if (data.muhataplar[i].slsmanref == data.satkod) {
+                    return data.muhataplar[i].sattem;
+                }
+            }
+            return "";
         }
 
         $(document).ready(function () {

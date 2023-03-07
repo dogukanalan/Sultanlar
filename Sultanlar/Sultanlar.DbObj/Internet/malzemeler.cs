@@ -37,7 +37,7 @@ namespace Sultanlar.DbObj.Internet
         public int MHDHB { get; set; }
         public int MHDRZ { get; set; }
         public int STOKYER { get; set; }
-        public double STOKDIS { get { return new bayiStokRaporu().GetObject(STOKYER, ITEMREF).STOKAY; } }
+        public double STOKDIS { get { if (STOKYER == 0) return 0; else return new bayiStokRaporu().GetObject(STOKYER, ITEMREF).STOKAY; } }
         public string[] eskodlar { 
             get 
             {

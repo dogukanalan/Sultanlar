@@ -159,3 +159,81 @@ function siparissil(siparisid, yonlendir) {
         }
     );
 }
+
+function UyeYetkileri(uyeid) {
+    $.ajax(
+        {
+            xhr: function () { return xhrDownloadUpload(); },
+            beforeSend: function (xhr) { xhrTicket(xhr); },
+            url: apiurl + "uyeyetki/" + uyeid,
+            success: function (data, textStatus, response) {
+                checkAuth(response);
+
+                var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
+                $.each(rootData, function (index, item) {
+
+                    if (paramftip < 500) {
+                        $("#fiyattipleri").append(
+                            $("<option></option>")
+                                .text(item.fiyatTipi.aciklama)
+                                .val(item.sintFiyatTipiID)
+                        );
+                    }
+                    else {
+                        if (paramftip == item.sintFiyatTipiID) {
+                            $("#fiyattipleri").append(
+                                $("<option></option>")
+                                    .text(item.fiyatTipi.aciklama)
+                                    .val(item.sintFiyatTipiID)
+                            );
+                        }
+                    }
+                });
+                $('select[id=fiyattipleri]').val(paramftip);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+        }
+    );
+}
+
+function getSonFaturaTarih(gmref, tip, smref, controlid) {
+    $.ajax(
+        {
+            beforeSend: function (xhr) { xhrTicket(xhr); },
+            url: apiurl + 'satisraporu/sonalim/' + gmref + '/' +  + tip + '/' + smref,
+            success: function (data, textStatus, response) {
+                document.getElementById(controlid).innerHTML = data.substring(0, 10);
+            }
+        });
+}
+
+function getSonFaturaTarihDetay(gmref, tip, smref, itemref, controlid) {
+    $.ajax(
+        {
+            xhr: function () { return xhrDownloadUpload2(); },
+            beforeSend: function (xhr) { xhrTicket(xhr); },
+            url: apiurl + 'satisraporu/sonalimdetay/' + gmref + '/' + + tip + '/' + smref + '/' + itemref,
+            success: function (data, textStatus, response) {
+                if (document.getElementById(controlid)) {
+                    console.log(data);
+                    document.getElementById(controlid).innerHTML = data.substring(0, 10);
+                }
+            }
+        });
+}
+
+function getBase64Image(url) {
+    if (url == undefined)
+        return "iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA+SURBVHhe7cExAQAAAMKg9U9tCy8gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgqAacpAAB5eVcggAAAABJRU5ErkJggg==";
+
+    var request = new XMLHttpRequest();
+
+    var url1 = url.indexOf("getTObase64") == -1 ? url.replace("getTO", "getTObase64") : url;
+
+    request.open('GET', url1, false);
+    request.send(null);
+
+    if (request.status === 200) {
+        return request.responseText.trim();
+    }
+}

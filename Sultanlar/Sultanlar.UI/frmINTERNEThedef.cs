@@ -207,5 +207,17 @@ namespace Sultanlar.UI
             frmINTERNEThedeforan frm = new frmINTERNEThedeforan();
             frm.ShowDialog();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Hedef silinecek, emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                if (radioButton1.Checked)
+                {
+                    Urunler.SilHedef(0, Convert.ToInt32(txtBAYISIL.Text.Trim()), Convert.ToInt32(txtYILSIL.Text.Trim()), Convert.ToInt32(numericUpDown2.Value), checkBox2.Checked);
+                    MessageBox.Show("Hedef silindi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
     }
 }

@@ -30,6 +30,7 @@
         function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
         function getGmref() { return getParameterByName("gmref") ? getParameterByName("gmref") : "0"; }
         function getAy() { return getParameterByName("ay") ? getParameterByName("ay") : (new Date().getMonth() + 1).toString(); }
+        function getYil() { return getParameterByName("yil") ? getParameterByName("yil") : (new Date().getFullYear()).toString(); }
 
         var kolonlar = [
             {
@@ -141,7 +142,7 @@
             $("#dtTable input").each(function (index, element) {
                 $(element).val("");
             });
-            var url1 = apiurl + "ekstre/getir/" + getGmref() + "/" + (getGmref() == "0" ? "0" : getAy());
+            var url1 = apiurl + "ekstre/getir/" + getGmref() + "/" + getYil() + "/" + (getGmref() == "0" ? "0" : getAy());
             var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
@@ -205,7 +206,7 @@
                         customize: function (xlsx) {
                             var sheet = xlsx.xl.worksheets['sheet1.xml'];
                             $('c[r=A1] t', sheet).text("Müşteri Cari Hesap Ekstresi\r\n" +
-                                "Sultanlar Ev İhtiyaç Maddeleri\r\n" + 
+                                "Sultanlar Ev İhtiyaç Maddeleri\r\n" +
                                 $("#selectCariler option:selected").text() + " (" + $("#selectCariler").val() + ")\r\n" +
                                 "Basım Tarihi: " + GetDateNow() + "\r\n" +
                                 "Tarih Aralığı: " + (getAy() == 0 ? "01.01.2014" : "01." + getAy() + "." + new Date().getFullYear()) + " - " + GetDateNow()
@@ -243,21 +244,27 @@
         });
 
         $(document).ready(function () {
+            $('select[name=selectYil]').val(getYil());
             $('select[name=selectAy]').val(getAy());
             SaticilarGetir();
 
             $('#selectSaticilar').on('change', function (e) {
-                window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=0&ay=' + $('select[name=selectAy]').val());
+                window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=0&yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val());
                 CarilerGetir();
             });
 
             $('#selectCariler').on('change', function (e) {
-                window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&ay=' + $('select[name=selectAy]').val());
+                window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val());
+                getEkstre();
+            });
+
+            $('#selectYil').on('change', function (e) {
+                window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val());
                 getEkstre();
             });
 
             $('#selectAy').on('change', function (e) {
-                window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&ay=' + $('select[name=selectAy]').val());
+                window.history.pushState("", "Title", 'Ekstre?slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val());
                 getEkstre();
             });
 
@@ -276,8 +283,16 @@
 }
 <select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
 
+<select id="selectYil" name="selectYil" class="dropDown selYil">
+    <option value="2019" selected="selected">2019</option>
+    <option value="2018">2018</option>
+    <option value="2017">2017</option>
+    <option value="2016">2016</option>
+    <option value="2015">2015</option>
+    <option value="2014">2014</option>
+</select>
+
 <select id="selectAy" name="selectAy" class="dropDown selYil">
-    <option value="0">Tümü</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>

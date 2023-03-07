@@ -15,7 +15,7 @@
 
         function kaydet() {
             var cookie = JSON.parse(window.localStorage['sepetA']);
-
+            
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },

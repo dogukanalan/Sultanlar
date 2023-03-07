@@ -1,6 +1,7 @@
 ﻿@page
 @model SayimFisModel
-@{ViewData["Title"] = "Sayım Fişi";
+@{
+    ViewData["Title"] = "Sayım Fişi";
 }
 
 @section head {
@@ -21,7 +22,7 @@
         var table;
 
         function getFiyatlar() {
-            var url1 = apiurl + "fiyat/getallbytip/22";
+            var url1 = apiurl + "fiyat/getallbytip/22/0/0/0";
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
                 window.localStorage['sepetU'] = JSON.stringify(json);

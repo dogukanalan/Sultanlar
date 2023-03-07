@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System;
 using Sultanlar.DbObj.Internet;
+using System.Collections;
 
 namespace Sultanlar.DbObj
 {
@@ -245,6 +246,90 @@ namespace Sultanlar.DbObj
         protected string ConvertToString(object obj)
         {
             return obj.ToString();
+        }
+
+        public static DataTable getCustomData(string CommandText, ArrayList ParameterNames, SqlDbType[] Types, ArrayList Parameters, string TableName)
+        {
+            DataTable dt = new DataTable(TableName);
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter(CommandText, conn);
+                da.SelectCommand.CommandTimeout = 1000;
+
+                if (CommandText.StartsWith("sp_") || CommandText.StartsWith("db_"))
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+                for (int i = 0; i < Parameters.Count; i++)
+                    da.SelectCommand.Parameters.Add(ParameterNames[i].ToString(), (SqlDbType)Types[i]).Value = Parameters[i].ToString();
+                try
+                {
+                    conn.Open();
+                    da.Fill(dt);
+                }
+                catch (SqlException ex)
+                {
+                    hatalar.DoInsert(ex, CommandText);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return dt;
+        }
+
+        public static void ExecNQ(string CommandText, ArrayList ParameterNames, SqlDbType[] Types, ArrayList Parameters)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand(CommandText, conn);
+                if (CommandText.StartsWith("sp_") || CommandText.StartsWith("db_"))
+                    cmd.CommandType = CommandType.StoredProcedure;
+                for (int i = 0; i < Parameters.Count; i++)
+                    cmd.Parameters.Add(ParameterNames[i].ToString(), (SqlDbType)Types[i]).Value = Parameters[i].ToString();
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    hatalar.DoInsert(ex, CommandText);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public static object ExecSc(string CommandText, ArrayList ParameterNames, SqlDbType[] Types, ArrayList Parameters)
+        {
+            object donendeger = null;
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand(CommandText, conn);
+                if (CommandText.StartsWith("sp_") || CommandText.StartsWith("db_"))
+                    cmd.CommandType = CommandType.StoredProcedure;
+                for (int i = 0; i < Parameters.Count; i++)
+                    cmd.Parameters.Add(ParameterNames[i].ToString(), (SqlDbType)Types[i]).Value = Parameters[i].ToString();
+                try
+                {
+                    conn.Open();
+                    donendeger = cmd.ExecuteScalar();
+                }
+                catch (SqlException ex)
+                {
+                    hatalar.DoInsert(ex, CommandText);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return donendeger;
         }
     }
 

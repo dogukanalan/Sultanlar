@@ -179,6 +179,25 @@ function xhrDownloadUpload() {
     return xhr;
 }
 
+function xhrDownloadUpload2() {
+    $('#divProgress').css("display", "none");
+    var xhr = new window.XMLHttpRequest();
+    //Upload progress
+    xhr.upload.addEventListener("progress", function (evt) {
+        $('#divProgress').css("display", "none");
+    }, false);
+    //Download progress
+    xhr.addEventListener("progress", function (evt) {
+        $('#divProgress').css("display", "none");
+    }, false);
+    //Complated
+    xhr.addEventListener("load", function (evt) {
+        $('#divProgress').css("display", "none");
+    }, false);
+    $('#divProgress').css("display", "none");
+    return xhr;
+}
+
 function xhrTicket(xhr) {
     xhr.setRequestHeader("STicket", window.localStorage["token"]);
     xhr.setRequestHeader("sulLogin", readCookie("sulLogin"));
@@ -747,7 +766,7 @@ function stringifySepetA(sepet, smref, donem, tip, aktiviteid, anlasmaid) {
                 '", "tahbedel": "' + (sepet[i].tahbedel ? sepet[i].tahbedel : 0) + '", "yegbedel": "' + (sepet[i].yegbedel ? sepet[i].yegbedel : 0) + '", "tahciro": "' + (sepet[i].tahciro ? sepet[i].tahciro : 0) + '", "yegciro": "' + (sepet[i].yegciro ? sepet[i].yegciro : 0) +
                 '", "detaylar": [';
             for (var j = 0; j < sepet[i].detaylar.length; j++) {
-                sentValue += '{ "urun": ' + sepet[i].detaylar[j].itemref + ', "urunacik": "' + sepet[i].detaylar[j].malacik + '", "kdv": ' + sepet[i].detaylar[j].kdv + ', "miktar": ' + sepet[i].detaylar[j].miktar + ', "aksiyon": 0, "birimfiyat": ' + sepet[i].detaylar[j].birimfiyat + ', "fatalt": ' + sepet[i].detaylar[j].fatalt + ', "fataltciro": ' + sepet[i].detaylar[j].fataltciro + ', "ciroprim": ' + sepet[i].detaylar[j].ciroprim + ', "pazisk": ' + sepet[i].detaylar[j].pazisk + ', "ekisk": ' + sepet[i].detaylar[j].iskonto + ' },';
+                sentValue += '{ "urun": ' + sepet[i].detaylar[j].itemref + ', "urunacik": "' + sepet[i].detaylar[j].malacik + '", "kdv": ' + sepet[i].detaylar[j].kdv + ', "miktar": ' + sepet[i].detaylar[j].miktar + ', "aksiyon": 0, "birimfiyat": ' + sepet[i].detaylar[j].birimfiyat + ', "fatalt": ' + sepet[i].detaylar[j].fatalt + ', "fataltciro": ' + sepet[i].detaylar[j].fataltciro + ', "ciroprim": ' + sepet[i].detaylar[j].ciroprim + ', "pazisk": ' + sepet[i].detaylar[j].pazisk + ', "ekisk": ' + sepet[i].detaylar[j].iskonto + ', "aciklama": "' + sepet[i].detaylar[j].aciklama + '" },';
             }
             sentValue = sentValue.substring(0, sentValue.length - 1) + '] }';
         }
@@ -1189,4 +1208,35 @@ function AndroidToast(ileti) {
     } catch (e) {
         alert(ileti);
     }
+}
+
+String.prototype.querystringReplace = function () {
+    return this.replaceAll("&", "-").replaceAll("+", "-").replaceAll("=", "-").replaceAll("?", "-");
+}
+
+function anlasmaMaliyet(anlasma, bedeller) {
+    $("#divMal").css("display", "inline");
+    
+    var tahbedeltoplam = parseFloat(anlasma[0].anldisikgt);
+    var yegbedeltoplam = parseFloat(anlasma[0].anldisinf);
+
+    for (var i = 0; i < bedeller.length; i++) {
+        if (bedeller[i].tur == "kgt") {
+            tahbedeltoplam += bedeller[i].bedel * bedeller[i].adet;
+        }
+        if (bedeller[i].tur == "nf") {
+            yegbedeltoplam += bedeller[i].bedel * bedeller[i].adet;
+        }
+    }
+    
+    var tahyilsonumaliyet = anlasma[0].topcirokgt != 0 ? tahbedeltoplam / anlasma[0].topcirokgt : 0;
+    var yegyilsonumaliyet = anlasma[0].topcironf != 0 ? yegbedeltoplam / anlasma[0].topcironf : 0;
+
+    var tahyilsonuciroprdahil = tahyilsonumaliyet + (anlasma[0].cirofataltkgt / 100) + (anlasma[0].fataltkgt / 100) + (anlasma[0].cirokgt / 100) + (anlasma[0].ciro3kgt / 100) + (anlasma[0].ciro6kgt / 100) + (anlasma[0].ciro12kgt / 100);
+    var yegyilsonuciroprdahil = yegyilsonumaliyet + (anlasma[0].cirofataltnf / 100) + (anlasma[0].fataltnf / 100) + (anlasma[0].cironf / 100) + (anlasma[0].ciro3nf / 100) + (anlasma[0].ciro6nf / 100) + (anlasma[0].ciro12nf / 100);
+
+    inputMalKGT.value = "%" + (tahyilsonumaliyet * 100).toFixed(2);
+    inputMalNF.value = "%" + (yegyilsonumaliyet * 100).toFixed(2);
+    inputMalCiroKGT.value = "%" + (tahyilsonuciroprdahil * 100).toFixed(2);
+    inputMalCiroNF.value = "%" + (yegyilsonuciroprdahil * 100).toFixed(2);
 }

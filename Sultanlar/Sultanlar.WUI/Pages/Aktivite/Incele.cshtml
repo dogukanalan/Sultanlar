@@ -39,6 +39,89 @@
         var yazdir;
         var table;
 
+        var kolonlar = [
+            {
+                "data": "intUrunID", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                }
+            },
+            /*{
+                "data": "intUrunID", "class": "bgwhite keyTd", render: function (data, type, row) {
+                    return '<div class="imgKucRes"><img class="urunResim" rel="' + apiurl + 'resim/getT/' + data + '" src="' + apiurl + 'resim/getTO/' + data + '" /></div>';
+                }
+            },
+            {
+                "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirliHeryer">' + data.barkod + '</span>';
+                }
+            },*/
+            {
+                "data": "malzeme", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli malacik">' + data.malacik + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + (((data.mnDusulmusBirimFiyatKDVli / data.kdVsiz) - 1) * 100).toFixed(0) + '</span>';
+                }
+            },
+            {
+                "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.koli + '</span>';
+                }
+            },
+            {
+                "data": "mnBirimFiyatKDVli", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli netkdv">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "strAciklama1", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + parseFloat(data).formatMoney(1, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "strAciklama2", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + parseFloat(data).formatMoney(1, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "flCiroPrimDonusYuzde", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(1, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.flEkIsk.formatMoney(1, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + (data.degisti ? data.mnBayiMaliyet.formatMoney(1, ',', '.') : data.flEkIsk.formatMoney(1, ',', '.')) + '</span>';
+                }
+            },
+            {
+                "data": "mnTutar", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "kdVsiz", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "mnDusulmusBirimFiyatKDVli", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                }
+            },
+            {
+                "data": "strAciklama6", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                }
+            }
+        ];
+
         function AktivitelerDetayGetir() {
             var url1 = apiurl + "aktivite/get/" + getParameterByName('aktiviteid');
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
@@ -95,7 +178,7 @@
                     {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                         },
                         filename: function () {
                             return 'Sultanlar Aktivite-' + getParameterByName('aktiviteid');
@@ -111,13 +194,13 @@
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
-                            columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
                             format: {
                                 body: function (data, row, column, node) {
                                     data = $('<p>' + data + '</p>').text();
@@ -134,14 +217,14 @@
                         }
                     }
                 ],
-                columns: aktinceleonaylasilcolumns,
+                columns: kolonlar,
                 "language": defaultDtLang,
                 "paging": false,
                 "ordering": true,
                 "info": false,
                 "searching": true,
                 "deferRender": true,
-                "order": [[3, "asc"]]
+                "order": [[2, "asc"]]
             });
 
             //new $.fn.dataTable.FixedHeader(table, {
@@ -179,8 +262,8 @@
     <thead>
         <tr>
             <th class="keyTd" data-priority="1"><span class="">Kod</span></th>
-            <th class="keyTd" data-priority="4"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
-            <th class="keyTd" data-priority="7"><span class="">Barkod</span></th>
+            @*<th class="keyTd" data-priority="4"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+        <th class="keyTd" data-priority="7"><span class="">Barkod</span></th>*@
             <th class="keyTd" data-priority="2"><span class="">Malzeme</span></th>
             <th class="keyTd"><span class="">Kdv</span></th>
             <th class="keyTd"><span class="">Koli</span></th>
@@ -188,15 +271,19 @@
             <th class="keyTd"><span class="" data-toggle="tooltip" data-placement="right" title="Fatura Altı İskonto">F.Alt</span></th>
             <th class="keyTd"><span class="" data-toggle="tooltip" data-placement="right" title="Fatura Altı Ciro Primi">F.A.C</span></th>
             <th class="keyTd"><span class="" data-toggle="tooltip" data-placement="right" title="Ciro Primi Dönüş Yüzdesi">C.P.D</span></th>
-            <th class="keyTd" data-priority="3"><span class="" data-toggle="tooltip" data-placement="right" title="İstenen Ek İskonto">Isk.</span></th>
+            <th class="keyTd" data-priority="3"><span class="" data-toggle="tooltip" data-placement="right" title="Verilen">ver.</span></th>
+            <th class="keyTd" data-priority="3"><span class="" data-toggle="tooltip" data-placement="right" title="İstenen">ist.</span></th>
             <th class="keyTd" data-priority="5"><span class="" data-toggle="tooltip" data-placement="right" title="Ciro Primi Dahil KDV'li Birim Fiyat">C.P.T</span></th>
             <th class="keyTd"><span class="">KDVsiz</span></th>
             <th class="keyTd" data-priority="6"><span class="">KDVli</span></th>
+            <th class="keyTd"><span class="">Açk</span></th>
         </tr>
     </thead>
     <tfoot>
         <tr>
             <th class="keyTd"></th>
+            @*<th class="keyTd"></th>
+        <th class="keyTd"></th>*@
             <th class="keyTd"></th>
             <th class="keyTd"></th>
             <th class="keyTd"></th>

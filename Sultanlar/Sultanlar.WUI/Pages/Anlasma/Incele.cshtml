@@ -64,6 +64,48 @@
                                 '<br /></div>';
                         });
                         divData.innerHTML = htmlText + '</div>';
+                        
+                        var anlasma = [];
+                        var bedeller = [];
+                        for (var i = 0; i < data.bedeller.length; i++) {
+                            if (data.bedeller[i].intTAHAdet > 0)
+                                bedeller.push({ id: data.bedeller[i].intAnlasmaBedelAdID, tur: "kgt", adet: data.bedeller[i].intTAHAdet, bedel: data.bedeller[i].mnTAHBedel });
+                            if (data.bedeller[i].intYEGAdet > 0)
+                                bedeller.push({ id: data.bedeller[i].intAnlasmaBedelAdID, tur: "nf", adet: data.bedeller[i].intYEGAdet, bedel: data.bedeller[i].mnTAHBedel });
+                        }
+                        anlasma.push(
+                            {
+                                musteri: window.localStorage["uyeid"],
+                                smref: data.smref,
+                                aciklama2: data.strAciklama2,
+                                subesay: data.strAciklama4,
+                                baslangic: data.dtBaslangic,
+                                bitis: data.dtBitis,
+                                vadekgt: data.intVadeTAH,
+                                vadenf: data.intVadeYEG,
+                                skukgt: data.intListSKUTAH,
+                                skunf: data.intListSKUYEG,
+                                fataltkgt: data.flTAHIsk,
+                                fataltnf: data.flYEGIsk,
+                                cirokgt: data.flTAHCiro,
+                                cironf: data.flYEGCiro,
+                                ciro3kgt: data.flTAHCiro3,
+                                ciro3nf: data.flYEGCiro3,
+                                ciro6kgt: data.flTAHCiro6,
+                                ciro6nf: data.flYEGCiro6,
+                                ciro12kgt: data.flTAHCiro12,
+                                ciro12nf: data.flYEGCiro12,
+                                cirofataltkgt: data.flTAHCiroIsk,
+                                cirofataltnf: data.flYEGCiroIsk,
+                                anldisikgt: data.mnTAHAnlasmaDisiBedeller,
+                                anldisinf: data.mnYEGAnlasmaDisiBedeller,
+                                topcirokgt: data.mnTAHToplamCiro,
+                                topcironf: data.mnYEGToplamCiro,
+                                aciklama: data.strAciklama1,
+                                bedeller: bedeller
+                            });
+                        console.log(bedeller);
+                        anlasmaMaliyet(anlasma, bedeller);
 
                         if (yazdir)
                             window.print();
@@ -220,3 +262,30 @@
 </div>
 <br />
 <div id="divData"></div>
+<br />
+<div class="centerVeMiddle" id="divMal">
+    <span class="txt1">
+        Maliyet
+    </span>
+    <div class="anlasmaBolum">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="text" name="inputTopCiroKGT" id="inputMalKGT" placeholder="KGT" disabled>
+    </div>
+    &nbsp;
+    <div class="anlasmaBolum">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="text" name="inputTopCiroNF" id="inputMalNF" placeholder="NF" disabled>
+    </div>
+    <br />
+    <br />
+    <span class="txt1">
+        Ciro Primi Dahil Maliyet
+    </span>
+    <div class="anlasmaBolum">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="text" name="inputTopCiroKGT" id="inputMalCiroKGT" placeholder="KGT" disabled>
+    </div>
+    &nbsp;
+    <div class="anlasmaBolum">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="text" name="inputTopCiroNF" id="inputMalCiroNF" placeholder="NF" disabled>
+    </div>
+    <br />
+    <br />
+</div>

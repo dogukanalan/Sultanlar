@@ -628,6 +628,12 @@ namespace Sultanlar.WindowsServiceIslemler
                 cmd5.ExecuteNonQuery();
                 conn.Close();*/
 
+                SqlCommand cmd6 = new SqlCommand("sp_SAP_YENI_FIYAT_TIP", conn);
+                cmd6.CommandType = CommandType.StoredProcedure;
+                cmd6.CommandTimeout = 1000;
+                conn.Open();
+                cmd6.ExecuteNonQuery();
+                conn.Close();
 
 
                 cmdLog.Parameters.AddWithValue("@strLog", listMaterialPrices.Length.ToString() + " Satır");
@@ -1372,7 +1378,7 @@ COMMIT TRANSACTION t_Transaction
                 }
             }
 
-            SqlCommand cmd2 = new SqlCommand("UPDATE [Web-SatisTemsilcileri] SET [SAT KOD1] = (SELECT TOP 1 [SAT KOD1] FROM [Web-Musteri] WHERE SLSREF = [Web-SatisTemsilcileri].SLSMANREF ORDER BY [SAT KOD1])", conn);
+            SqlCommand cmd2 = new SqlCommand("UPDATE [Web-SatisTemsilcileri] SET [SAT KOD1] = (SELECT TOP 1 [SAT KOD1] FROM [Web-Musteri] WHERE SLSREF = [Web-SatisTemsilcileri].SLSMANREF ORDER BY [SAT KOD1] DESC)", conn);
             cmd2.CommandTimeout = 1000;
             conn.Open();
             cmd2.ExecuteNonQuery();
@@ -1984,18 +1990,18 @@ COMMIT TRANSACTION t_Transaction
         #endregion
 
         #region getsap
-        public static void GetSAP()
+        public static void GetSAP(bool vbfa, bool siparis, bool teslimat, bool nakilmalfatura, bool nakilsiparis, bool malcikis, bool fatura, bool kolietiket)
         {
             SqlConnection conn = new SqlConnection(General.ConnectionString);
 
-            bool vbfa = true;
+            /*bool vbfa = true;
             bool siparis = true;
             bool teslimat = true;
             bool nakilmalfatura = true;
             bool nakilsiparis = true;
             bool malcikis = true;
             bool fatura = true;
-            bool kolietiket = true;
+            bool kolietiket = true;*/
             bool accounting = false;
             bool efatura = false;
             bool ekstre = DateTime.Now.Hour == 12;
@@ -2306,7 +2312,7 @@ COMMIT TRANSACTION t_Transaction
                                 conn.Open();
                                 SqlCommand cmd = new SqlCommand(
                                     "DELETE FROM [SAP_SIPARIS_DETAY] WHERE Vbeln = @Vbeln AND Posnr = @Posnr " +
-                                    "INSERT INTO [SAP_SIPARIS_DETAY] (KAYIT_TARIHI,[Vbeln],[Posnr],[Matnr],[Arktx],[Pltyp],[Ptext],[Zterm],[Netdt],[Matkl],[Wgbez],[Spart],[Vtext2],[Ean11],[Kwmeng],[Vrkme],[Vrkme Text],[Kwmeng2],[Vrkme2],[Vrkme2Text],[Ean112],[Yuz1],[Yuz2],[Yuz3],[Yuz4],[Yuz5],[Yuz6],[Yuz7],[Yuz8],[Yuz9],[Yuz10],[Brtpr],[Netpr],[Netwr],[Kzwi1],[Kdvoran],[Mwsbp],[Waerk],[Brgew],[Ntgew],[Gewei],[Volum],[Voleh],[Ksc1],[Ksc2],[Ksc3],[Ksc4],[Ksc5],[Ksc6],[Ksc7],[Ksc8],[Ksc9],[Ksc10],[Zzpirbz],[Zzpirgt],[Abgru],[Bezei_ab]) VALUES (@KAYIT_TARIHI,@Vbeln,@Posnr,@Matnr,@Arktx,@Pltyp,@Ptext,@Zterm,@Netdt,@Matkl,@Wgbez,@Spart,@Vtext2,@Ean11,@Kwmeng,@Vrkme,@VrkmeText,@Kwmeng2,@Vrkme2,@Vrkme2Text,@Ean112,@Yuz1,@Yuz2,@Yuz3,@Yuz4,@Yuz5,@Yuz6,@Yuz7,@Yuz8,@Yuz9,@Yuz10,@Brtpr,@Netpr,@Netwr,@Kzwi1,@Kdvoran,@Mwsbp,@Waerk,@Brgew,@Ntgew,@Gewei,@Volum,@Voleh,@Ksc1,@Ksc2,@Ksc3,@Ksc4,@Ksc5,@Ksc6,@Ksc7,@Ksc8,@Ksc9,@Ksc10,@Zzpirbz,@Zzpirgt,@Abgru,@Bezei_ab)", conn);
+                                    "INSERT INTO [SAP_SIPARIS_DETAY] (KAYIT_TARIHI,[Vbeln],[Posnr],[Matnr],[Arktx],[Pltyp],[Ptext],[Zterm],[Netdt],[Matkl],[Wgbez],[Spart],[Vtext2],[Ean11],[Kwmeng],[Vrkme],[Vrkme Text],[Kwmeng2],[Vrkme2],[Vrkme2Text],[Ean112],[Yuz1],[Yuz2],[Yuz3],[Yuz4],[Yuz5],[Yuz6],[Yuz7],[Yuz8],[Yuz9],[Yuz10],[Brtpr],[Netpr],[Netwr],[Kzwi1],[Kdvoran],[Mwsbp],[Waerk],[Brgew],[Ntgew],[Gewei],[Volum],[Voleh],[Ksc1],[Ksc2],[Ksc3],[Ksc4],[Ksc5],[Ksc6],[Ksc7],[Ksc8],[Ksc9],[Ksc10],[Zzpirbz],[Zzpirgt],[Abgru],[Bezei_ab],Pstyv) VALUES (@KAYIT_TARIHI,@Vbeln,@Posnr,@Matnr,@Arktx,@Pltyp,@Ptext,@Zterm,@Netdt,@Matkl,@Wgbez,@Spart,@Vtext2,@Ean11,@Kwmeng,@Vrkme,@VrkmeText,@Kwmeng2,@Vrkme2,@Vrkme2Text,@Ean112,@Yuz1,@Yuz2,@Yuz3,@Yuz4,@Yuz5,@Yuz6,@Yuz7,@Yuz8,@Yuz9,@Yuz10,@Brtpr,@Netpr,@Netwr,@Kzwi1,@Kdvoran,@Mwsbp,@Waerk,@Brgew,@Ntgew,@Gewei,@Volum,@Voleh,@Ksc1,@Ksc2,@Ksc3,@Ksc4,@Ksc5,@Ksc6,@Ksc7,@Ksc8,@Ksc9,@Ksc10,@Zzpirbz,@Zzpirgt,@Abgru,@Bezei_ab,@Pstyv)", conn);
                                 #region parameters
                                 cmd.Parameters.AddWithValue("@KAYIT_TARIHI", DateTime.Now);
                                 cmd.Parameters.AddWithValue("@Vbeln", Convert.ToInt64(oniki[j].Vbeln));
@@ -2365,6 +2371,7 @@ COMMIT TRANSACTION t_Transaction
                                 cmd.Parameters.AddWithValue("@Zzpirgt", oniki[j].Zzpirgt);
                                 cmd.Parameters.AddWithValue("@Abgru", oniki[j].Abgru);
                                 cmd.Parameters.AddWithValue("@Bezei_ab", oniki[j].BezeiAb);
+                                cmd.Parameters.AddWithValue("@Pstyv", oniki[j].Pstyv);
                                 #endregion
                                 cmd.ExecuteNonQuery();
                             }
@@ -2539,7 +2546,7 @@ COMMIT TRANSACTION t_Transaction
                                     "DELETE FROM [SAP_TESLIMAT_DETAY] WHERE Vbeln = @Vbeln " +
                                     "DELETE FROM [SAP_VBFA] WHERE Vbeln = @Vbeln " +
                                     "DELETE FROM [SAP_VBFA] WHERE Vbelv = @Vbeln " +
-                                    "INSERT INTO [SAP_TESLIMAT_BASLIK] (KAYIT_TARIHI,[Lfart],[Vtext],[Vbeln],[Ernam],[Erzet],[Erdat],[Sevkalani],[Sevkyeri],[Teslimat Aciklama],[Volum],[Btgew],[Voleh],[Gewei],[Lifex],Vkorg) VALUES (@KAYIT_TARIHI,@Lfart,@Vtext,@Vbeln,@Ernam,@Erzet,@Erdat,@Sevkalani,@Sevkyeri,@TeslimatAciklama,@Volum,@Btgew,@Voleh,@Gewei,@Lifex,@Vkorg)", conn);
+                                    "INSERT INTO [SAP_TESLIMAT_BASLIK] (KAYIT_TARIHI,[Lfart],[Vtext],[Vbeln],[Ernam],[Erzet],[Erdat],[Sevkalani],[Sevkyeri],[Teslimat Aciklama],[Volum],[Btgew],[Voleh],[Gewei],[Lifex],Vkorg,Doctp) VALUES (@KAYIT_TARIHI,@Lfart,@Vtext,@Vbeln,@Ernam,@Erzet,@Erdat,@Sevkalani,@Sevkyeri,@TeslimatAciklama,@Volum,@Btgew,@Voleh,@Gewei,@Lifex,@Vkorg,@Doctp)", conn);
                                 #region parameters
                                 cmd.Parameters.AddWithValue("@KAYIT_TARIHI", DateTime.Now);
                                 cmd.Parameters.AddWithValue("@Lfart", alti[j].Lfart);
@@ -2557,6 +2564,7 @@ COMMIT TRANSACTION t_Transaction
                                 cmd.Parameters.AddWithValue("@Gewei", alti[j].Gewei);
                                 cmd.Parameters.AddWithValue("@Lifex", alti[j].Lifex);
                                 cmd.Parameters.AddWithValue("@Vkorg", alti[j].Vkorg);
+                                cmd.Parameters.AddWithValue("@Doctp", alti[j].Doctp);
                                 #endregion
                                 cmd.ExecuteNonQuery();
                             }
@@ -2579,7 +2587,7 @@ COMMIT TRANSACTION t_Transaction
                                 conn.Open();
                                 SqlCommand cmd = new SqlCommand(
                                     "DELETE FROM [SAP_TESLIMAT_DETAY] WHERE Vbeln = @Vbeln AND Posnr = @Posnr " +
-                                    "INSERT INTO [SAP_TESLIMAT_DETAY] (KAYIT_TARIHI,[Vbeln],[Posnr],[Matnr],[Ernam],[Erzet],[Erdat],[Matkl],[Werks],[Lgort],[Charg],[Lfimg],[Meins],[Meins Text],[Ntgew],[Brgew],[Gewei],[Volum],[Voleh],Hsdat,Spart) VALUES (@KAYIT_TARIHI,@Vbeln,@Posnr,@Matnr,@Ernam,@Erzet,@Erdat,@Matkl,@Werks,@Lgort,@Charg,@Lfimg,@Meins,@MeinsText,@Ntgew,@Brgew,@Gewei,@Volum,@Voleh,@Hsdat,@Spart)", conn);
+                                    "INSERT INTO [SAP_TESLIMAT_DETAY] (KAYIT_TARIHI,[Vbeln],[Posnr],[Matnr],[Ernam],[Erzet],[Erdat],[Matkl],[Werks],[Lgort],[Charg],[Lfimg],[Meins],[Meins Text],[Ntgew],[Brgew],[Gewei],[Volum],[Voleh],Hsdat,Spart,Pstyv) VALUES (@KAYIT_TARIHI,@Vbeln,@Posnr,@Matnr,@Ernam,@Erzet,@Erdat,@Matkl,@Werks,@Lgort,@Charg,@Lfimg,@Meins,@MeinsText,@Ntgew,@Brgew,@Gewei,@Volum,@Voleh,@Hsdat,@Spart,@Pstyv)", conn);
                                 #region parameters
                                 cmd.Parameters.AddWithValue("@KAYIT_TARIHI", DateTime.Now);
                                 cmd.Parameters.AddWithValue("@Vbeln", Convert.ToInt64(onuc[j].Vbeln));
@@ -2602,6 +2610,7 @@ COMMIT TRANSACTION t_Transaction
                                 cmd.Parameters.AddWithValue("@Voleh", onuc[j].Voleh);
                                 cmd.Parameters.AddWithValue("@Hsdat", (onuc[j].Hsdat != "0000-00-00" ? (Convert.ToDateTime(onuc[j].Hsdat) < Convert.ToDateTime("01.01.1900") ? Convert.ToDateTime("01.01.1900") : Convert.ToDateTime(onuc[j].Hsdat)) : Convert.ToDateTime("01.01.1900")));
                                 cmd.Parameters.AddWithValue("@Spart", onuc[j].Spart);
+                                cmd.Parameters.AddWithValue("@Pstyv", onuc[j].Pstyv);
                                 #endregion
                                 cmd.ExecuteNonQuery();
                             }
@@ -3719,7 +3728,7 @@ COMMIT TRANSACTION t_Transaction
                                 conn.Open();
                                 SqlCommand cmd = new SqlCommand(
                                     "DELETE FROM [SAP_SIPARIS_DETAY] WHERE Vbeln = @Vbeln AND Posnr = @Posnr " +
-                                    "INSERT INTO [SAP_SIPARIS_DETAY] (KAYIT_TARIHI,[Vbeln],[Posnr],[Matnr],[Arktx],[Pltyp],[Ptext],[Zterm],[Netdt],[Matkl],[Wgbez],[Spart],[Vtext2],[Ean11],[Kwmeng],[Vrkme],[Vrkme Text],[Kwmeng2],[Vrkme2],[Vrkme2Text],[Ean112],[Yuz1],[Yuz2],[Yuz3],[Yuz4],[Yuz5],[Yuz6],[Yuz7],[Yuz8],[Yuz9],[Yuz10],[Brtpr],[Netpr],[Netwr],[Kzwi1],[Kdvoran],[Mwsbp],[Waerk],[Brgew],[Ntgew],[Gewei],[Volum],[Voleh],[Ksc1],[Ksc2],[Ksc3],[Ksc4],[Ksc5],[Ksc6],[Ksc7],[Ksc8],[Ksc9],[Ksc10],[Zzpirbz],[Zzpirgt],[Abgru],[Bezei_ab]) VALUES (@KAYIT_TARIHI,@Vbeln,@Posnr,@Matnr,@Arktx,@Pltyp,@Ptext,@Zterm,@Netdt,@Matkl,@Wgbez,@Spart,@Vtext2,@Ean11,@Kwmeng,@Vrkme,@VrkmeText,@Kwmeng2,@Vrkme2,@Vrkme2Text,@Ean112,@Yuz1,@Yuz2,@Yuz3,@Yuz4,@Yuz5,@Yuz6,@Yuz7,@Yuz8,@Yuz9,@Yuz10,@Brtpr,@Netpr,@Netwr,@Kzwi1,@Kdvoran,@Mwsbp,@Waerk,@Brgew,@Ntgew,@Gewei,@Volum,@Voleh,@Ksc1,@Ksc2,@Ksc3,@Ksc4,@Ksc5,@Ksc6,@Ksc7,@Ksc8,@Ksc9,@Ksc10,@Zzpirbz,@Zzpirgt,@Abgru,@Bezei_ab)", conn);
+                                    "INSERT INTO [SAP_SIPARIS_DETAY] (KAYIT_TARIHI,[Vbeln],[Posnr],[Matnr],[Arktx],[Pltyp],[Ptext],[Zterm],[Netdt],[Matkl],[Wgbez],[Spart],[Vtext2],[Ean11],[Kwmeng],[Vrkme],[Vrkme Text],[Kwmeng2],[Vrkme2],[Vrkme2Text],[Ean112],[Yuz1],[Yuz2],[Yuz3],[Yuz4],[Yuz5],[Yuz6],[Yuz7],[Yuz8],[Yuz9],[Yuz10],[Brtpr],[Netpr],[Netwr],[Kzwi1],[Kdvoran],[Mwsbp],[Waerk],[Brgew],[Ntgew],[Gewei],[Volum],[Voleh],[Ksc1],[Ksc2],[Ksc3],[Ksc4],[Ksc5],[Ksc6],[Ksc7],[Ksc8],[Ksc9],[Ksc10],[Zzpirbz],[Zzpirgt],[Abgru],[Bezei_ab],Pstyv) VALUES (@KAYIT_TARIHI,@Vbeln,@Posnr,@Matnr,@Arktx,@Pltyp,@Ptext,@Zterm,@Netdt,@Matkl,@Wgbez,@Spart,@Vtext2,@Ean11,@Kwmeng,@Vrkme,@VrkmeText,@Kwmeng2,@Vrkme2,@Vrkme2Text,@Ean112,@Yuz1,@Yuz2,@Yuz3,@Yuz4,@Yuz5,@Yuz6,@Yuz7,@Yuz8,@Yuz9,@Yuz10,@Brtpr,@Netpr,@Netwr,@Kzwi1,@Kdvoran,@Mwsbp,@Waerk,@Brgew,@Ntgew,@Gewei,@Volum,@Voleh,@Ksc1,@Ksc2,@Ksc3,@Ksc4,@Ksc5,@Ksc6,@Ksc7,@Ksc8,@Ksc9,@Ksc10,@Zzpirbz,@Zzpirgt,@Abgru,@Bezei_ab,@Pstyv)", conn);
                                 #region parameters
                                 cmd.Parameters.AddWithValue("@KAYIT_TARIHI", DateTime.Now);
                                 cmd.Parameters.AddWithValue("@Vbeln", Convert.ToInt64(oniki[j].Vbeln));
@@ -3778,6 +3787,7 @@ COMMIT TRANSACTION t_Transaction
                                 cmd.Parameters.AddWithValue("@Zzpirgt", oniki[j].Zzpirgt);
                                 cmd.Parameters.AddWithValue("@Abgru", oniki[j].Abgru);
                                 cmd.Parameters.AddWithValue("@Bezei_ab", oniki[j].BezeiAb);
+                                cmd.Parameters.AddWithValue("@Pstyv", oniki[j].Pstyv);
                                 #endregion
                                 cmd.ExecuteNonQuery();
                             }
@@ -3952,7 +3962,7 @@ COMMIT TRANSACTION t_Transaction
                                     "DELETE FROM [SAP_TESLIMAT_DETAY] WHERE Vbeln = @Vbeln " +
                                     "DELETE FROM [SAP_VBFA] WHERE Vbeln = @Vbeln " +
                                     "DELETE FROM [SAP_VBFA] WHERE Vbelv = @Vbeln " +
-                                    "INSERT INTO [SAP_TESLIMAT_BASLIK] (KAYIT_TARIHI,[Lfart],[Vtext],[Vbeln],[Ernam],[Erzet],[Erdat],[Sevkalani],[Sevkyeri],[Teslimat Aciklama],[Volum],[Btgew],[Voleh],[Gewei],[Lifex]) VALUES (@KAYIT_TARIHI,@Lfart,@Vtext,@Vbeln,@Ernam,@Erzet,@Erdat,@Sevkalani,@Sevkyeri,@TeslimatAciklama,@Volum,@Btgew,@Voleh,@Gewei,@Lifex)", conn);
+                                    "INSERT INTO [SAP_TESLIMAT_BASLIK] (KAYIT_TARIHI,[Lfart],[Vtext],[Vbeln],[Ernam],[Erzet],[Erdat],[Sevkalani],[Sevkyeri],[Teslimat Aciklama],[Volum],[Btgew],[Voleh],[Gewei],[Lifex],Vkorg,Doctp) VALUES (@KAYIT_TARIHI,@Lfart,@Vtext,@Vbeln,@Ernam,@Erzet,@Erdat,@Sevkalani,@Sevkyeri,@TeslimatAciklama,@Volum,@Btgew,@Voleh,@Gewei,@Lifex,@Vkorg,@Doctp)", conn);
                                 #region parameters
                                 cmd.Parameters.AddWithValue("@KAYIT_TARIHI", DateTime.Now);
                                 cmd.Parameters.AddWithValue("@Lfart", alti[j].Lfart);
@@ -3969,6 +3979,8 @@ COMMIT TRANSACTION t_Transaction
                                 cmd.Parameters.AddWithValue("@Voleh", alti[j].Voleh);
                                 cmd.Parameters.AddWithValue("@Gewei", alti[j].Gewei);
                                 cmd.Parameters.AddWithValue("@Lifex", alti[j].Lifex);
+                                cmd.Parameters.AddWithValue("@Vkorg", alti[j].Vkorg);
+                                cmd.Parameters.AddWithValue("@Doctp", alti[j].Doctp);
                                 #endregion
                                 cmd.ExecuteNonQuery();
                             }
@@ -3991,7 +4003,7 @@ COMMIT TRANSACTION t_Transaction
                                 conn.Open();
                                 SqlCommand cmd = new SqlCommand(
                                     "DELETE FROM [SAP_TESLIMAT_DETAY] WHERE Vbeln = @Vbeln AND Posnr = @Posnr " +
-                                    "INSERT INTO [SAP_TESLIMAT_DETAY] (KAYIT_TARIHI,[Vbeln],[Posnr],[Matnr],[Ernam],[Erzet],[Erdat],[Matkl],[Werks],[Lgort],[Charg],[Lfimg],[Meins],[Meins Text],[Ntgew],[Brgew],[Gewei],[Volum],[Voleh],Hsdat) VALUES (@KAYIT_TARIHI,@Vbeln,@Posnr,@Matnr,@Ernam,@Erzet,@Erdat,@Matkl,@Werks,@Lgort,@Charg,@Lfimg,@Meins,@MeinsText,@Ntgew,@Brgew,@Gewei,@Volum,@Voleh,@Hsdat)", conn);
+                                    "INSERT INTO [SAP_TESLIMAT_DETAY] (KAYIT_TARIHI,[Vbeln],[Posnr],[Matnr],[Ernam],[Erzet],[Erdat],[Matkl],[Werks],[Lgort],[Charg],[Lfimg],[Meins],[Meins Text],[Ntgew],[Brgew],[Gewei],[Volum],[Voleh],Hsdat,Spart,Pstyv) VALUES (@KAYIT_TARIHI,@Vbeln,@Posnr,@Matnr,@Ernam,@Erzet,@Erdat,@Matkl,@Werks,@Lgort,@Charg,@Lfimg,@Meins,@MeinsText,@Ntgew,@Brgew,@Gewei,@Volum,@Voleh,@Hsdat,@Spart,@Pstyv)", conn);
                                 #region parameters
                                 cmd.Parameters.AddWithValue("@KAYIT_TARIHI", DateTime.Now);
                                 cmd.Parameters.AddWithValue("@Vbeln", Convert.ToInt64(onuc[j].Vbeln));
@@ -4013,6 +4025,8 @@ COMMIT TRANSACTION t_Transaction
                                 cmd.Parameters.AddWithValue("@Volum", onuc[j].Volum);
                                 cmd.Parameters.AddWithValue("@Voleh", onuc[j].Voleh);
                                 cmd.Parameters.AddWithValue("@Hsdat", (onuc[j].Hsdat != "0000-00-00" ? (Convert.ToDateTime(onuc[j].Hsdat) < Convert.ToDateTime("01.01.1900") ? Convert.ToDateTime("01.01.1900") : Convert.ToDateTime(onuc[j].Hsdat)) : Convert.ToDateTime("01.01.1900")));
+                                cmd.Parameters.AddWithValue("@Spart", onuc[j].Spart);
+                                cmd.Parameters.AddWithValue("@Pstyv", onuc[j].Pstyv);
                                 #endregion
                                 cmd.ExecuteNonQuery();
                             }

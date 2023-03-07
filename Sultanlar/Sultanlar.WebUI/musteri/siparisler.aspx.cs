@@ -1277,7 +1277,7 @@ namespace Sultanlar.WebUI.musteri
 
             if (donen != string.Empty)
             {
-                Siparisler.DoInsertQ(sip.pkSiparisID, donen);
+                Siparisler.DoInsertQ(sip.pkSiparisID, donen, BakiyeSiparis);
                 error = string.Empty;
             }
             else

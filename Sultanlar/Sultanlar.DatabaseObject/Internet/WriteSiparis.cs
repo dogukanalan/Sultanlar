@@ -429,7 +429,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             if (donen != string.Empty)
             {
-                Siparisler.DoInsertQ(sip.pkSiparisID, donen);
+                Siparisler.DoInsertQ(sip.pkSiparisID, donen, Bakiye);
                 error = string.Empty;
             }
             else
@@ -543,7 +543,7 @@ namespace Sultanlar.DatabaseObject.Internet
             string str7;
             if (EvVbeln != string.Empty)
             {
-                Siparisler.DoInsertQ(111, EvVbeln);
+                Siparisler.DoInsertQ(111, EvVbeln, false);
                 str7 = string.Empty;
             }
             else
@@ -655,7 +655,7 @@ namespace Sultanlar.DatabaseObject.Internet
             string str7;
             if (EvVbeln != string.Empty)
             {
-                Siparisler.DoInsertQ(111, EvVbeln);
+                Siparisler.DoInsertQ(111, EvVbeln, false);
                 str7 = string.Empty;
             }
             else

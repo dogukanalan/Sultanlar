@@ -122,5 +122,13 @@ namespace Sultanlar.UI
                 GetFiyatlar();
             }
         }
+
+        private void simpleButton5_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Günün fiyatları yenilenecek, devam etmek istiyor musunuz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+            {
+                FiyatlarTP.GetJob();
+            }
+        }
     }
 }

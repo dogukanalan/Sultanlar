@@ -168,6 +168,36 @@ namespace Sultanlar.WebAPI
 
             return true;
         }
+
+        public static bool ValidateTicketOut(HttpContext context)
+        {
+            if (context != null)
+            {
+                string cookieTicket = context.Request.Headers["komsu"];
+                string ip = context.Request.HttpContext.Connection.RemoteIpAddress.ToString();
+
+                if (string.IsNullOrEmpty(cookieTicket))
+                {
+                    return false;
+                    throw new System.Security.SecurityException("empty ticket");
+                }
+
+
+
+                if (string.Compare("tsoft", cookieTicket, false) != 0)
+                {
+                    return false;
+                    throw new System.Security.SecurityException("not logged");
+                }
+            }
+            else
+            {
+                return false;
+                throw new System.Security.SecurityException("not authorized");
+            }
+
+            return true;
+        }
     }
 
     public class Yetkili : ActionFilterAttribute
@@ -223,6 +253,29 @@ namespace Sultanlar.WebAPI
                         "",
                         context.HttpContext.Connection.RemoteIpAddress.ToString()
                         );
+        }
+    }
+
+    public class YetkiliOut : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            if (Startup.ValidateTicketOut(context.HttpContext))
+            {
+                context.HttpContext.Response.Headers.Add("auth", "logged");
+            }
+            else
+            {
+                try
+                {
+                    context.HttpContext.Response.Headers.Add("auth", "notlogged");
+                    context.Result = new BadRequestObjectResult(context.ModelState) { StatusCode = 200 };
+                }
+                catch (Exception ex)
+                {
+                    Hatalar.DoInsert(ex, "webapi startup");
+                }
+            }
         }
     }
 }

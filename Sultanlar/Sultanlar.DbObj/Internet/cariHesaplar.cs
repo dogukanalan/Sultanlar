@@ -46,12 +46,15 @@ namespace Sultanlar.DbObj.Internet
         public bool BayiMi { get { return MTKOD == "Z1"; } }
         public bool AnaCariMi { get { return GMREF == SMREF; } }
         public string AnaCari { get { if (Subelerden) return ""; return AnaCariMi ? MUSTERI : new cariHesaplar().GetObject1(1, GMREF).MUSTERI; } }
+
         public int fiyatTip500 { get { if (Subelerden) return 0; fiyatTipleri tip = TIP == 1 ? new fiyatTipleri().GetObjectByGMREF(GMREF, TIP) : TIP == 4 ? new fiyatTipleri().GetObjectByGMREF(SMREF, TIP) : TIP == 5 ? new fiyatTipleri().GetObjectByGMREF(Convert.ToInt32(NETTOP), 4) : new fiyatTipleri(); fiyatTip500ack = tip.ACIKLAMA; return tip.NOSU; } } //fiyatTipleri tip = TIP == 1 ? new fiyatTipleri().GetObjectByGMREF(GMREF) : TIP == 4 || TIP == 5 ? new fiyatTipleri().GetObjectVyByGMREF(SMREF) : new fiyatTipleri();
         public string fiyatTip500ack { get; set; }
         public int fiyatTip500smref { get { if (Subelerden) return 0; fiyatTipleri tip = new fiyatTipleri().GetObjectByGMREF(SMREF, TIP); fiyatTip500smrefack = tip.ACIKLAMA; return tip.NOSU; } } //GetObjectVyByGMREF
         public string fiyatTip500smrefack { get; set; }
         public konumListe konumA { get { return new konumListe().GetObject(SMREF, TIP); } }
         public cariHesaplarAcik acik { get { if (Subelerden) return new cariHesaplarAcik(); return new cariHesaplarAcik(SMREF, TIP).GetObject(); } }
+        public List<satisTemsilcileri> muhataplar { get { return new satisTemsilcileri().GetObjectsBySMREF(SMREF); } }
+        public cariHesaplarBayikodlar bayikod { get { return MTKOD == "Z1" ? new cariHesaplarBayikodlar().GetObject(SMREF) : TIP != 1 ? new cariHesaplarBayikodlar().GetObject(GMREF) : new cariHesaplarBayikodlar(); } }
 
 
         public cariHesaplar() { Subelerden = false; }
@@ -450,6 +453,25 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, object> dic = GetObject("SELECT [KOD],[ACIKLAMA] FROM [Web-Musteri-Acik-Kaynak] WHERE KOD = @KOD", new Dictionary<string, object>() { { "KOD", KOD } }, timeout);
             if (dic != null)
                 donendeger = new cariHesaplarAcikKaynak() { KOD = ConvertToInt32(dic[0]), ACIKLAMA = dic[1].ToString() };
+
+            return donendeger;
+        }
+    }
+    public class cariHesaplarBayikodlar : DbObj
+    {
+        public int GMREF { get; set; }
+        public string BAYIUNVAN { get; set; }
+        public string BOLGE { get; set; }
+        public string SEHIR { get; set; }
+        public string SIPNO { get; set; }
+        public string APIKEY { get; set; }
+        public cariHesaplarBayikodlar GetObject(int GMREF)
+        {
+            cariHesaplarBayikodlar donendeger = new cariHesaplarBayikodlar();
+
+            Dictionary<int, object> dic = GetObject("SELECT GMREF,[BAYIUNVAN],[BOLGE],[SEHIR],[SIPNO],[API] FROM [Web-Musteri-TP-Bayikodlar] WHERE GMREF = @GMREF", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
+            if (dic != null)
+                donendeger = new cariHesaplarBayikodlar() { GMREF = ConvertToInt32(dic[0]), BAYIUNVAN = dic[1].ToString(), BOLGE = dic[2].ToString(), SEHIR = dic[3].ToString(), SIPNO = dic[4].ToString(), APIKEY = dic[5].ToString() };
 
             return donendeger;
         }

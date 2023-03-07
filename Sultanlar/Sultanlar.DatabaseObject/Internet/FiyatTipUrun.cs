@@ -22,16 +22,23 @@ namespace Sultanlar.DatabaseObject.Internet
         //
         // Constracter lar:
         //
-        public FiyatTipUrun(int TIP, int ITEMREF)
+        /*public FiyatTipUrun(int TIP, int ITEMREF)
         {
             this._TIP = TIP;
             this._ITEMREF = ITEMREF;
+        }*/
+        public FiyatTipUrun(int TIP, int ITEMREF, string KULLANICI)
+        {
+            this._TIP = TIP;
+            this._ITEMREF = ITEMREF;
+            this.KULLANICI = KULLANICI;
         }
         //
         //
         //
         // Özellikler:
         //
+        private string KULLANICI {get;set;}
         public int TIP
         {
             get
@@ -95,12 +102,19 @@ namespace Sultanlar.DatabaseObject.Internet
                     cmd2.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = this._ITEMREF;
                     cmd2.ExecuteNonQuery();
                 }
+                SqlCommand cmd3 = new SqlCommand("INSERT INTO [Web-FiyatTip-Urun-Log] (TIP,ITEMREF,KULLANICI,EKLE,TARIH) VALUES (@TIP,@ITEMREF,@KULLANICI,@EKLE,@TARIH)", conn);
+                cmd3.Parameters.Add("@TIP", SqlDbType.Int).Value = this._TIP;
+                cmd3.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = this._ITEMREF;
+                cmd3.Parameters.Add("@KULLANICI", SqlDbType.NVarChar).Value = this.KULLANICI;
+                cmd3.Parameters.Add("@EKLE", SqlDbType.Bit).Value = true;
+                cmd3.Parameters.Add("@TARIH", SqlDbType.DateTime).Value = DateTime.Now;
+                cmd3.ExecuteNonQuery();
                 conn.Close();
             }
         }
         //
         //
-        public static void DoDelete(int TIP, int ITEMREF)
+        public static void DoDelete(int TIP, int ITEMREF, string KULLANICI)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
@@ -109,6 +123,14 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
                 conn.Open();
                 cmd.ExecuteNonQuery();
+
+                SqlCommand cmd3 = new SqlCommand("INSERT INTO [Web-FiyatTip-Urun-Log] (TIP,ITEMREF,KULLANICI,EKLE,TARIH) VALUES (@TIP,@ITEMREF,@KULLANICI,@EKLE,@TARIH)", conn);
+                cmd3.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                cmd3.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
+                cmd3.Parameters.Add("@KULLANICI", SqlDbType.NVarChar).Value = KULLANICI;
+                cmd3.Parameters.Add("@EKLE", SqlDbType.Bit).Value = false;
+                cmd3.Parameters.Add("@TARIH", SqlDbType.DateTime).Value = DateTime.Now;
+                cmd3.ExecuteNonQuery();
                 conn.Close();
             }
         }
@@ -253,7 +275,7 @@ namespace Sultanlar.DatabaseObject.Internet
         }
         //
         //
-        public static void DoInsert5000(int TIP, int ITEMREF, int TIP500)
+        public static void DoInsert5000(int TIP, int ITEMREF, int TIP500, string KULLANICI)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
@@ -267,26 +289,34 @@ namespace Sultanlar.DatabaseObject.Internet
                     bool besyuzdevarmi = true;
                     if (TIP500 != 0)
                     {
-                        SqlCommand cmd3 = new SqlCommand("SELECT count(*) FROM [Web-Fiyat] WHERE TIP = @TIP AND ITEMREF = @ITEMREF", conn);
-                        cmd3.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP500;
-                        cmd3.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
-                        besyuzdevarmi = Convert.ToBoolean(cmd3.ExecuteScalar());
+                        SqlCommand cmd4 = new SqlCommand("SELECT count(*) FROM [Web-Fiyat] WHERE TIP = @TIP AND ITEMREF = @ITEMREF", conn);
+                        cmd4.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP500;
+                        cmd4.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
+                        besyuzdevarmi = Convert.ToBoolean(cmd4.ExecuteScalar());
                     }
 
                     if (besyuzdevarmi)
                     {
-                        SqlCommand cmd2 = new SqlCommand("INSERT INTO [Web-Fiyat_VY] (TIP,MTIP,BY_REF,ANA_GMREF,GMREF,ITEMREF) VALUES (@TIP,(SELECT TOP 1 MTIP FROM [Web-Fiyat_VY] WHERE TIP = @TIP),(SELECT TOP 1 BY_REF FROM [Web-Fiyat_VY] WHERE TIP = @TIP),(SELECT TOP 1 ANA_GMREF FROM [Web-Fiyat_VY] WHERE TIP = @TIP),(SELECT TOP 1 GMREF FROM [Web-Fiyat_VY] WHERE TIP = @TIP),@ITEMREF)", conn);
+                        SqlCommand cmd2 = new SqlCommand("INSERT INTO [Web-Fiyat_VY] (TIP,MTIP,BY_REF,ANA_GMREF,GMREF,ITEMREF) VALUES (@TIP,(SELECT MTIP FROM [Web-FiyatTipleri] WHERE NOSU = @TIP),(SELECT BY_REF FROM [Web-FiyatTipleri] WHERE NOSU = @TIP),(SELECT ANA_GMREF FROM [Web-FiyatTipleri] WHERE NOSU = @TIP),(SELECT GMREF FROM [Web-FiyatTipleri] WHERE NOSU = @TIP),@ITEMREF)", conn);
                         cmd2.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
                         cmd2.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
                         cmd2.ExecuteNonQuery();
                     }
+
+                    SqlCommand cmd3 = new SqlCommand("INSERT INTO [Web-FiyatTip-Urun-Log] (TIP,ITEMREF,KULLANICI,EKLE,TARIH) VALUES (@TIP,@ITEMREF,@KULLANICI,@EKLE,@TARIH)", conn);
+                    cmd3.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                    cmd3.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
+                    cmd3.Parameters.Add("@KULLANICI", SqlDbType.NVarChar).Value = KULLANICI;
+                    cmd3.Parameters.Add("@EKLE", SqlDbType.Bit).Value = true;
+                    cmd3.Parameters.Add("@TARIH", SqlDbType.DateTime).Value = DateTime.Now;
+                    cmd3.ExecuteNonQuery();
                 }
                 conn.Close();
             }
         }
         //
         //
-        public static void DoDelete5000(int TIP, int ITEMREF)
+        public static void DoDelete5000(int TIP, int ITEMREF, string KULLANICI)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
@@ -295,6 +325,14 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
                 conn.Open();
                 cmd.ExecuteNonQuery();
+
+                SqlCommand cmd3 = new SqlCommand("INSERT INTO [Web-FiyatTip-Urun-Log] (TIP,ITEMREF,KULLANICI,EKLE,TARIH) VALUES (@TIP,@ITEMREF,@KULLANICI,@EKLE,@TARIH)", conn);
+                cmd3.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                cmd3.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
+                cmd3.Parameters.Add("@KULLANICI", SqlDbType.NVarChar).Value = KULLANICI;
+                cmd3.Parameters.Add("@EKLE", SqlDbType.Bit).Value = false;
+                cmd3.Parameters.Add("@TARIH", SqlDbType.DateTime).Value = DateTime.Now;
+                cmd3.ExecuteNonQuery();
                 conn.Close();
             }
         }

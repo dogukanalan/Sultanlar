@@ -63,9 +63,6 @@
             // gridControl4
             // 
             this.gridControl4.Dock = System.Windows.Forms.DockStyle.Fill;
-            // 
-            // 
-            // 
             this.gridControl4.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
             this.gridControl4.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
             this.gridControl4.EmbeddedNavigator.Appearance.Options.UseBackColor = true;

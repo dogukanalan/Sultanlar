@@ -1,4 +1,5 @@
 ﻿using Sultanlar.DbObj.Internet;
+using Sultanlar.DatabaseObject.Internet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,30 @@ namespace Sultanlar.WebAPI.Services.Internet
     {
         internal List<fiyatlar> Fiyatlar() => new fiyatlar().GetObjects();
 
-        internal List<fiyatlar> Fiyatlar(int TIP, int GMREF, int MTIP) => new fiyatlar().GetObjects(TIP, GMREF, MTIP);
+        internal List<fiyatlar> Fiyatlar(int TIP, int GMREF, int MTIP, int SMREF) => new fiyatlar().GetObjects(TIP, GMREF, MTIP, SMREF);
 
-        internal List<fiyatlar> FiyatlarAll(int TIP, int GMREF, int MTIP) => new fiyatlar().GetObjectsAll(TIP, GMREF, MTIP);
-
-        internal List<fiyatlar> FiyatlarAktif(int TIP, int GMREF, int MTIP)
+        internal List<fiyatlar> FiyatlarNon(int TIP, int GMREF, int MTIP, int SMREF)
         {
-            List<fiyatlar> fiys = new fiyatlar().GetObjects(TIP, GMREF, MTIP);
+            List<fiyatlar> donendeger = new List<fiyatlar>();
+            List<fiyatlar> fiys = new fiyatlar().GetObjects(TIP, GMREF, MTIP, SMREF);
+            List<fiyatlar> hepsi = new fiyatlar().GetObjects(20, GMREF, MTIP, GMREF);
+            //donendeger = fiys.Count == 0 ? hepsi : hepsi.Where(z => fiys.ToList().Any(x => x.ITEMREF != z.ITEMREF)).ToList();
+            for (int i = 0; i < hepsi.Count; i++)
+            {
+                if (!fiys.ToList().Any(x => x.ITEMREF == hepsi[i].ITEMREF))
+                {
+                    hepsi[i].TIP = TIP;
+                    donendeger.Add(hepsi[i]);
+                }
+            }
+            return donendeger;
+        }
+
+        internal List<fiyatlar> FiyatlarAll(int TIP, int GMREF, int MTIP, int SMREF) => new fiyatlar().GetObjectsAll(TIP, GMREF, MTIP, SMREF);
+
+        internal List<fiyatlar> FiyatlarAktif(int TIP, int GMREF, int MTIP, int SMREF)
+        {
+            List<fiyatlar> fiys = new fiyatlar().GetObjects(TIP, GMREF, MTIP, SMREF);
             List<fiyatlar> donendeger = new List<fiyatlar>();
             for (int i = 0; i < fiys.Count; i++)
             {
@@ -25,6 +43,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                     donendeger.Add(fiys[i]);
                 }
             }
+            //List<fiyatlar> donendeger = new fiyatlar().GetObjects(TIP, GMREF, MTIP, SMREF).Where(x => !x.malzeme.MALACIK.EndsWith("&")).ToList();
             return donendeger;
         }
 
@@ -38,6 +57,76 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal List<fiyatlar> FiyatlarVy(int GMREF, int MTIP) => new fiyatlar().GetObjectsVY(GMREF, MTIP);
 
+        internal List<fiyatlar> FiyatlarNonVy(int GMREF, int MTIP)
+        {
+            List<fiyatlar> donendeger = new List<fiyatlar>();
+            List<fiyatlar> fiys = new fiyatlar().GetObjectsVY(GMREF, MTIP);
+            List<fiyatlar> hepsi = new fiyatlar().GetObjects(20, GMREF, MTIP, GMREF);
+            //donendeger = fiys.Count == 0 ? hepsi : hepsi.Where(z => fiys.Any(x => x.ITEMREF != z.ITEMREF)).ToList();
+            for (int i = 0; i < hepsi.Count; i++)
+            {
+                if (!fiys.ToList().Any(x => x.ITEMREF == hepsi[i].ITEMREF))
+                {
+                    donendeger.Add(hepsi[i]);
+                }
+            }
+            return donendeger;
+        }
+
         internal List<fiyatTipleri> FiyatTipler500birlikte() => new fiyatTipleri().GetObjects500birlikte();
+
+        internal string FiyatEkle(int TIP, int ITEMREF, string KULLANICI)
+        {
+            if (TIP > 5000)
+            {
+                fiyatTipleri ft = new fiyatTipleri(TIP).GetObject();
+                FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ft.GetAnaGmrefNo(), KULLANICI);
+            }
+            else
+            {
+                FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF, KULLANICI);
+                ftp.DoInsert();
+            }
+
+            return "";
+        }
+
+        internal string FiyatCikar(int TIP, int ITEMREF, string KULLANICI)
+        {
+            if (TIP > 5000)
+            {
+                FiyatTipUrun.DoDelete5000(TIP, ITEMREF, KULLANICI);
+            }
+            else
+            {
+                FiyatTipUrun.DoDelete(TIP, ITEMREF, KULLANICI);
+            }
+
+            return "";
+        }
+
+        internal string FiyatTipOlustur(int GMREF, int NETTOP, int SMREF, int TIP, string MUSTERI)
+        {
+            string donendeger = string.Empty;
+
+            fiyatTipleri ft = new fiyatTipleri().GetObjectByGMREF(SMREF, TIP);
+            if (ft.NOSU > 0)
+                return "";
+
+            if (TIP == 1)
+            {
+                donendeger = fiyatTipleri.DoInsert(MUSTERI, TIP, 1008700, GMREF, SMREF).ToString();
+            }
+            else if (TIP == 4)
+            {
+                donendeger = fiyatTipleri.DoInsert(MUSTERI, TIP, GMREF, SMREF, SMREF).ToString();
+            }
+            else if (TIP == 5)
+            {
+                donendeger = fiyatTipleri.DoInsert(MUSTERI, TIP, GMREF, NETTOP, SMREF).ToString();
+            }
+
+            return donendeger;
+        }
     }
 }

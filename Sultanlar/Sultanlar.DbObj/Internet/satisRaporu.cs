@@ -20,7 +20,26 @@ namespace Sultanlar.DbObj.Internet
         public int GMREF { get; set; }
         public cariHesaplar AnaCari { get { cariHesaplar cariana = new cariHesaplar(GMREF).GetObject();  if (cariAna) return cariana; else { cariHesaplar cari = new cariHesaplar(); cari.MUSTERI = cariana.MUSTERI; return cari; } } }
         public int SMREF { get; set; }
-        public cariHesaplar Sube { get { cariHesaplar carisube = new cariHesaplar(SMREF).GetObject(); if (cariSube) return carisube; else { cariHesaplar cari = new cariHesaplar(); cari.SUBE = carisube.SUBE; return cari; } } }
+        public cariHesaplar Sube 
+        { 
+            get 
+            {
+                if (AnaCari.MTKOD == "Z1") 
+                {
+                    if (GMREF == SMREF) return AnaCari;
+                    return new cariHesaplar().GetObject1(4, SMREF); 
+                }
+                cariHesaplar carisube = new cariHesaplar(SMREF).GetObject();
+                if (cariSube) 
+                { 
+                    return carisube; 
+                } 
+                else 
+                { 
+                    cariHesaplar cari = new cariHesaplar(); cari.SUBE = carisube.SUBE; return cari; 
+                } 
+            } 
+        }
         public int ITEMREF { get; set; }
         public malzemeler Malzeme { get { malzemeler mal = new malzemeler(ITEMREF).GetObject(); if (malzeme) return mal; else { malzemeler rmal = new malzemeler(); rmal.MALACIK = mal.MALACIK; return rmal; } } }
         public string FTUR { get; set; }
@@ -78,6 +97,86 @@ namespace Sultanlar.DbObj.Internet
             List<satisRaporu> donendeger = new List<satisRaporu>();
 
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisRaporGetir", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "SLSREF", SLSREF }, { "GMREF", GMREF }, { "SMREF", SMREF }, { "ITEMREF", ITEMREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new satisRaporu(dic[i][0].ToString(), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToDateTime(dic[i][3]), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), ConvertToInt32(dic[i][10]), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), true, true, true));
+
+            return donendeger;
+        }
+
+        /// <summary>
+        /// YIL ve AY zorunlu, diğerleri DBNull.Value olabilir
+        /// </summary>
+        /// <returns></returns>
+        public List<satisRaporu> GetObjectsTP(int YIL, object AY, int SLSREF, object GMREF, object SMREF, object ITEMREF)
+        {
+            List<satisRaporu> donendeger = new List<satisRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisRaporTpGetir", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "SLSREF", SLSREF }, { "GMREF", GMREF }, { "SMREF", SMREF }, { "ITEMREF", ITEMREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new satisRaporu(dic[i][0].ToString(), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToDateTime(dic[i][3]), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), ConvertToInt32(dic[i][10]), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), true, true, true));
+
+            return donendeger;
+        }
+
+        /// <summary>
+        /// YIL ve AY zorunlu, diğerleri DBNull.Value olabilir
+        /// </summary>
+        /// <returns></returns>
+        public List<satisRaporu> GetObjectsTPDis(int YIL, object AY, int SLSREF, object GMREF, object SMREF, object ITEMREF)
+        {
+            List<satisRaporu> donendeger = new List<satisRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisRaporTpDisGetir", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "SLSREF", SLSREF }, { "GMREF", GMREF }, { "SMREF", SMREF }, { "ITEMREF", ITEMREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new satisRaporu(dic[i][0].ToString(), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToDateTime(dic[i][3]), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), ConvertToInt32(dic[i][10]), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), true, true, true));
+
+            return donendeger;
+        }
+
+        public List<satisRaporu> GetLast(int GMREF, int SMREF)
+        {
+            List<satisRaporu> donendeger = new List<satisRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisRaporSonGetir", new Dictionary<string, object>() { { "GMREF", GMREF }, { "SMREF", SMREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new satisRaporu(dic[i][0].ToString(), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToDateTime(dic[i][3]), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), ConvertToInt32(dic[i][10]), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), true, true, true));
+
+            return donendeger;
+        }
+
+        public List<satisRaporu> GetLast(int GMREF, int SMREF, int ITEMREF)
+        {
+            List<satisRaporu> donendeger = new List<satisRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisRaporSonDetayGetir", new Dictionary<string, object>() { { "GMREF", GMREF }, { "SMREF", SMREF }, { "ITEMREF", ITEMREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new satisRaporu(dic[i][0].ToString(), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToDateTime(dic[i][3]), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), ConvertToInt32(dic[i][10]), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), true, true, true));
+
+            return donendeger;
+        }
+
+        public List<satisRaporu> GetTpLast(int GMREF, int SMREF)
+        {
+            List<satisRaporu> donendeger = new List<satisRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisRaporTpSonGetir", new Dictionary<string, object>() { { "GMREF", GMREF }, { "SMREF", SMREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new satisRaporu(dic[i][0].ToString(), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToDateTime(dic[i][3]), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), ConvertToInt32(dic[i][10]), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), true, true, true));
+
+            return donendeger;
+        }
+
+        public List<satisRaporu> GetTpLast(int GMREF, int SMREF, int ITEMREF)
+        {
+            List<satisRaporu> donendeger = new List<satisRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisRaporTpSonDetayGetir", new Dictionary<string, object>() { { "GMREF", GMREF }, { "SMREF", SMREF }, { "ITEMREF", ITEMREF } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new satisRaporu(dic[i][0].ToString(), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToDateTime(dic[i][3]), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), ConvertToInt32(dic[i][10]), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), true, true, true));

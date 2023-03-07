@@ -53,7 +53,7 @@ namespace Sultanlar.UI
             {
                 int TIP = Convert.ToInt32(gridView1.GetFocusedRowCellValue("TIP"));
                 int ITEMREF = Convert.ToInt32(gridView1.GetFocusedRowCellValue("ITEMREF"));
-                FiyatTipUrun.DoDelete(TIP, ITEMREF);
+                FiyatTipUrun.DoDelete(TIP, ITEMREF, frmAna.KAdi);
                 GetObjects();
             }
         }

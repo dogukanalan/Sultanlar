@@ -20,7 +20,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpPost]
         public string Sil([FromBody]satisTemsilcileri sattem) => new Satici2Provider().Sil(sattem);
 
-        [HttpGet]
-        public satisTemsilcileri Getir(string uyeid) => new Satici2Provider().Getir(uyeid);
+        /*[HttpGet]
+        public satisTemsilcileri Getir(string uyeid) => new Satici2Provider().Getir(uyeid);*/
     }
 }

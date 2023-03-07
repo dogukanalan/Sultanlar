@@ -10,7 +10,7 @@ using Sultanlar.WebAPI.Services.Internet;
 
 namespace Sultanlar.WebAPI.Controllers.Internet
 {
-    [Yetkili]
+    //[Yetkili]
     [Produces("application/json")]
     public class SatisRaporuController : Controller
     {
@@ -18,7 +18,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public List<satisRaporu> Getir(int YIL, int AY, int SLSREF, int GMREF, int SMREF, int ITEMREF) => new SatisRaporuProvider().SatisRapor(YIL, AY, SLSREF, GMREF, SMREF, ITEMREF);
 
         [HttpPost, Route("internet/[controller]/[action]/{YIL}/{AY}/{SLSREF}/{GMREF}/{SMREF}/{ITEMREF}")]
-        public DtAjaxResponse GetirDy(int YIL, int AY, int SLSREF, int GMREF, int SMREF, int ITEMREF, [FromBody]DataTableAjaxPostModel req) => new SatisRaporuProvider().SatisRapor(YIL, AY, SLSREF, GMREF, SMREF, ITEMREF, req);
+        public DtAjaxResponse GetirDy(int YIL, int AY, int SLSREF, int GMREF, int SMREF, int ITEMREF, [FromBody]DataTableAjaxPostModel req) => new SatisRaporuProvider().SatisRapor(false, YIL, AY, SLSREF, GMREF, SMREF, ITEMREF, req);
 
         [HttpGet, Route("internet/[controller]/[action]/{YIL}/{AY}/{SLSREF}/{TUR}/{GMREF}")]
         public List<satisRaporuOzet> GetirOzet(int YIL, int AY, int SLSREF, string TUR, int GMREF) => new SatisRaporuProvider().SatisRaporOzet(YIL, AY, SLSREF, TUR, GMREF);
@@ -34,5 +34,17 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet, Route("internet/[controller]/[action]/{YIL}/{AY}/{SLSREF}/{SIPNO}")]
         public List<siparisDurumRaporu> GetirSiparisDurum(int YIL, int AY, int SLSREF, int SIPNO) => new SiparisProvider().SiparisDurumRapor(YIL, AY, SLSREF, SIPNO);
+
+        [HttpGet, Route("internet/[controller]/[action]/{GMREF}/{MTIP}/{SMREF}")]
+        public DateTime SonAlim(int GMREF, int MTIP, int SMREF) => new SatisRaporuProvider().SonAlis(GMREF, MTIP, SMREF);
+
+        [HttpGet, Route("internet/[controller]/[action]/{GMREF}/{MTIP}/{SMREF}/{ITEMREF}")]
+        public DateTime SonAlimDetay(int GMREF, int MTIP, int SMREF, int ITEMREF) => new SatisRaporuProvider().SonDetayAlis(GMREF, MTIP, SMREF, ITEMREF);
+
+        [HttpPost, Route("internet/[controller]/[action]/{YIL}/{AY}/{SLSREF}/{GMREF}/{SMREF}/{ITEMREF}")]
+        public DtAjaxResponse GetirTpDy(int YIL, int AY, int SLSREF, int GMREF, int SMREF, int ITEMREF, [FromBody] DataTableAjaxPostModel req) => new SatisRaporuProvider().SatisRapor(true, YIL, AY, SLSREF, GMREF, SMREF, ITEMREF, req);
+
+        [HttpPost, Route("internet/[controller]/[action]/{YIL}/{AY}/{SLSREF}/{GMREF}/{SMREF}/{ITEMREF}")]
+        public DtAjaxResponse GetirTpDisDy(int YIL, int AY, int SLSREF, int GMREF, int SMREF, int ITEMREF, [FromBody] DataTableAjaxPostModel req) => new SatisRaporuProvider().SatisRapor(null, YIL, AY, SLSREF, GMREF, SMREF, ITEMREF, req);
     }
 }

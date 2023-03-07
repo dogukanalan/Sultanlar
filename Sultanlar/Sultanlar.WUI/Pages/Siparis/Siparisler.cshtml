@@ -124,7 +124,7 @@
                             return '<a href="javascript:showSubMenu(div' + data.pkSiparisID + ')" class="btn btn-primary">İşlemler</a>' +
                                 '<div class="subMenu" id="div' + data.pkSiparisID + '">' +
                                 '<a href="Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">İncele</a>' +
-                                '<a href="Kopyala?siparisid=' + data.pkSiparisID + '">Kopyala</a>' +
+                                '<a href="Kopyala?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">Kopyala</a>' +
                                 (data.blAktarilmis == 0 ? '<a href="Onayla?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">Onayla</a>' : '') +
                                 (data.blAktarilmis == 0 ? '<a href="Duzenle?siparisid=' + data.pkSiparisID + '">Düzenle</a>' : '') +
                                 (data.blAktarilmis == 0 ? '<a href="Sil?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">Sil</a>' : '') +

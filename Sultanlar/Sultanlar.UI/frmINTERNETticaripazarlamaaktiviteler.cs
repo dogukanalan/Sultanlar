@@ -288,7 +288,7 @@ namespace Sultanlar.UI
 
                 GetAktiviteDetaylar();
                 lblSatirSayisi2.Text = gridView1.RowCount.ToString();
-                gridView1.ViewCaption = "(Aktivite No: " + aktivite.pkID.ToString() + ")       " + lblAktiviteBayi.Text + " : " + lblAktiviteAltCari.Text + " [" + CariHesaplar.GetGMREFBySMREF(aktivite.SMREF).ToString() + "]" + "       (" + aktivite.dtAktiviteBaslangic.ToShortDateString() + " - " + aktivite.dtAktiviteBitis.ToShortDateString() + ")";
+                gridView1.ViewCaption = "(Aktivite No: " + aktivite.pkID.ToString() + ")       " + lblAktiviteBayi.Text + " : " + lblAktiviteAltCari.Text + " [" + (aktivite.intAktiviteTipiID == 2 ? CariHesaplar.GetGMREFBySMREF(aktivite.SMREF).ToString() : aktivite.SMREF.ToString()) + "]" + "       (" + aktivite.dtAktiviteBaslangic.ToShortDateString() + " - " + aktivite.dtAktiviteBitis.ToShortDateString() + ")";
 
                 AktiviteEnableDisable(aktivite);
             }

@@ -39,7 +39,7 @@
                 
             });*/
 
-            var url1 = apiurl + "fiyat/getbytip/" + getParameterByName("ftip") + "/" + getParameterByName("gmref") + "/" + getParameterByName("mtip");
+            var url1 = apiurl + "fiyat/getbytip/" + getParameterByName("ftip") + "/" + paramgmref + "/" + parammtip + "/" + paramsmref;
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
                 window.localStorage['sepetU'] = JSON.stringify(json);
@@ -87,6 +87,7 @@
                     }
                 },
                 "fnDrawCallback": function (oSettings) {
+                    netfiyatlar();
                     qtip();
                 },
                 columns: [
@@ -124,8 +125,21 @@
                         }
                     },
                     {
-                        "data": "netkdv", "class": window.location.href.indexOf("Iade") > -1 ? "floaTd hide" : "floaTd hidewhenmobile", render: function (data, type, row) {
-                            return '<span class="sinirli netkdv">' + data.toFixed(2) + '</span>';
+                        "data": null, "class": window.location.href.indexOf("Iade") > -1 ? "floaTd hide" : "floaTd hidewhenmobile", render: function (data, type, row) {
+                            //var kdvli = kdvEkle(iskDusCoklu((data.netfiyat.fiyat), data.netfiyat.isk1, data.netfiyat.isk2, data.netfiyat.isk3, data.netfiyat.isk4), data.malzeme.kdv).formatMoney(2, ',', '.');
+                            //var rell = "<div class='table'><div class='tr'>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>Liste Fiyatı</div><div class='iadegecmisIc td'>" + data.netfiyat.fiyat.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>İskonto 1</div><div class='iadegecmisIc td'>" + data.netfiyat.isk1.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>İskonto 2</div><div class='iadegecmisIc td'>" + data.netfiyat.isk2.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>İskonto 3</div><div class='iadegecmisIc td'>" + data.netfiyat.isk3.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>İskonto 4</div><div class='iadegecmisIc td'>" + data.netfiyat.isk4.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>Kdv</div><div class='iadegecmisIc td'>" + data.malzeme.kdv.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>Net Fiyat</div><div class='iadegecmisIc td'>" + iskDusCoklu((data.netfiyat.fiyat), data.netfiyat.isk1, data.netfiyat.isk2, data.netfiyat.isk3, data.netfiyat.isk4).formatMoney(2, ',', '.') + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>Net+Kdv Fiyatı</div><div class='iadegecmisIc td'>" + kdvli + "</div></div>";
+                            //rell += "</div>";
+
+                            //return '<span class="sinirli netfiyatlar netkdv" rel="' + rell + '" style="cursor: pointer">' + data.netkdv.toFixed(2) + '</span>';
+                            return '<span class="sinirli netfiyatlar netkdv" rel="' + data.malzeme.itemref + '.' + data.malzeme.kdv + '" style="cursor: pointer">' + data.netkdv.toFixed(2) + '</span>';
                         }
                     },
                     {
@@ -158,7 +172,55 @@
             });
         }
 
-        function getIsksA(smref, itemref, tarih) {
+        function netfiyatlar() {
+            if (paramftip == 2) {
+                $('.netfiyatlar').each(function () {
+                    var that = this;
+                    $(this).qtip({
+                        content: //$(this).attr('rel'),
+                        {
+                            text: function (event, api) {
+                                content = getIsksTP(paramsmref, parammtip, $(this).attr('rel').split(".")[0], getDateNow(), false);
+                                var rell = "";
+                                rell += "<div class='iadegecmisIc'>Liste Fiyatı: " + content.fiyat.toFixed(2) + "</div>";
+                                rell += "<div class='iadegecmisIc'>İskonto 1: " + content.isk1.toFixed(2) + "</div>";
+                                rell += "<div class='iadegecmisIc'>İskonto 2: " + content.isk2.toFixed(2) + "</div>";
+                                rell += "<div class='iadegecmisIc'>İskonto 3: " + content.isk3.toFixed(2) + "</div>";
+                                rell += "<div class='iadegecmisIc'>İskonto 4: " + content.isk4.toFixed(2) + "</div>";
+                                rell += "<div class='iadegecmisIc'>Kdv: " + $(that).attr('rel').split(".")[1] + "</div>";
+    
+                                api.set('content.text', rell);
+    
+                                $.ajax({
+                                    xhr: function () { return xhrDownloadUpload2(); },
+                                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                                    url: apiurl + "siparis/getiskstp/" + paramsmref + "/" + parammtip + "/" + $(that).attr('rel').split(".")[0] + "/" + getDateNow()
+                                })
+                                    .then(function (content) {
+    
+                                        var rell = "";
+                                        rell += "<div class='iadegecmisIc'>Liste Fiyatı: " + content.fiyat.toFixed(2) + "</div>";
+                                        rell += "<div class='iadegecmisIc'>İskonto 1: " + content.isk1.toFixed(2) + "</div>";
+                                        rell += "<div class='iadegecmisIc'>İskonto 2: " + content.isk2.toFixed(2) + "</div>";
+                                        rell += "<div class='iadegecmisIc'>İskonto 3: " + content.isk3.toFixed(2) + "</div>";
+                                        rell += "<div class='iadegecmisIc'>İskonto 4: " + content.isk4.toFixed(2) + "</div>";
+                                        rell += "<div class='iadegecmisIc'>Kdv: " + $(that).attr('rel').split(".")[1] + "</div>";
+    
+                                        api.set('content.text', rell);
+                                }, function (xhr, status, error) {
+                                    api.set('content.text', status + ': ' + error);
+                                });
+    
+                                return rell;
+                        }
+                    },
+                        position: { at: 'bottom left' }
+                    });
+                });
+            }
+        }
+
+        function getIsksA(smref, itemref, tarih, asink) {
             var isks;
 
             $.ajax(
@@ -166,7 +228,7 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     url: apiurl + "siparis/getisks/" + smref + "/" + itemref + "/" + tarih,
-                    async: false,
+                    async: asink,
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                         isks = data;
@@ -178,7 +240,7 @@
             return isks;
         }
 
-        function getIsks500(ftip, itemref) {
+        function getIsks500(ftip, itemref, asink) {
             var isks;
 
             $.ajax(
@@ -186,7 +248,7 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     url: apiurl + "siparis/getisks500/" + ftip + "/" + itemref,
-                    async: false,
+                    async: asink,
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                         isks = data;
@@ -198,7 +260,7 @@
             return isks;
         }
 
-        function getIsksTP(smref, mtip, itemref, tarih) {
+        function getIsksTP(smref, mtip, itemref, tarih, asink) {
             var isks;
 
             $.ajax(
@@ -206,7 +268,7 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     url: apiurl + "siparis/getiskstp/" + smref + "/" + mtip + "/" + itemref + "/" + tarih,
-                    async: false,
+                    async: asink,
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                         isks = data;
@@ -249,13 +311,13 @@
                             if (!varmis) {
                                 var isks = { fiyat: 0, isk1: 0, isk2: 0, isk3: 0, isk4: 0 };
                                 if (paramftip == 2 && parammtip == 1) {
-                                    isks = getIsksA(paramsmref, itref, getDateNow());
+                                    isks = getIsksA(paramsmref, itref, getDateNow(), false);
                                 }
                                 else if (paramftip == 2 && parammtip != 1) {
-                                    isks = getIsksTP(paramsmref, parammtip, itref, getDateNow());
+                                    isks = getIsksTP(paramsmref, parammtip, itref, getDateNow(), false);
                                 }
                                 else if (paramftip > 500) {
-                                    isks = getIsks500(paramftip, itref);
+                                    isks = getIsks500(paramftip, itref, false);
                                 }
 
                                 cookiedet.push(
@@ -346,7 +408,7 @@
                         var isk4 = cookie[i].detaylar[j].isk4;
 
                         if (cookie[i].ftip == 2) {
-                            isks = getIsksA(paramsmref, cookie[i].detaylar[j].itemref, getDateNow());
+                            isks = getIsksA(paramsmref, cookie[i].detaylar[j].itemref, getDateNow(), false);
                             isk1 = isks.isk1;
                             isk2 = isks.isk2;
                             isk3 = isks.isk3;
@@ -446,7 +508,7 @@
               <input type="radio" name="options" id="option1" value="ARI"> Arı
           </label>
           <label class="btn btn-primary">
-              <input type="radio" name="options" id="option2" value="HAYAT"> Hayat
+              <input type="radio" name="options" id="option2" value="HAYAT"> Gıda
           </label>
           <label class="btn btn-primary">
               <input type="radio" name="options" id="option3" value="TİBET"> Temizlik
@@ -470,7 +532,7 @@
             <th class="keyTd"><span class="">Blm</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Koli</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Kdv</span></th>
-            <th class="keyTd hidewhenmobile"><span class="">Fiyat</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Fiyat (Brüt)</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Stok</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Stok</span></th>
             <th class="keyTd"></th>
