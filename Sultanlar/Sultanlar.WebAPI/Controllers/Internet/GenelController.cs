@@ -103,5 +103,31 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
             return "";
         }
+
+        public string WcfGetToJSON(string url)
+        {
+            try
+            {
+                HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
+                wr.Method = "GET";
+                wr.ContentType = "application/json; encoding='utf-8'";
+                wr.Timeout = 600000;
+                wr.ReadWriteTimeout = 600000;
+
+                HttpWebResponse response = (HttpWebResponse)wr.GetResponse();
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    Stream responseStream = response.GetResponseStream();
+                    string responseStr = new StreamReader(responseStream).ReadToEnd();
+                    return responseStr;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+            return "";
+        }
     }
 }

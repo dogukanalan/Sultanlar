@@ -103,8 +103,9 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpGet("json/{apikey}/{baslangic}/{bitis}")]
         public IActionResult Siparis(string apikey, string type, string baslangic, string bitis)
         {
-            //return Ok(new HttpResponseMessage() { Content = new StringContent(GetData(type, "siparis", apikey, baslangic, bitis), Encoding.UTF8, "application/xml") });
-            return Ok(GetData("json", "siparis", apikey, baslangic, bitis));
+            return Ok(new GenelController().WcfGetToJSON("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/json/siparis/" + apikey + "/" + baslangic + "/" + bitis));
+            ////return Ok(new HttpResponseMessage() { Content = new StringContent(GetData(type, "siparis", apikey, baslangic, bitis), Encoding.UTF8, "application/xml") });
+            //return Ok(GetData("json", "siparis", apikey, baslangic, bitis));
         }
 
         [Produces("application/xml")]
@@ -112,19 +113,41 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public IActionResult Siparis(string apikey, string baslangic, string bitis)
         {
             XmlDocument xdoc = new XmlDocument();
-            xdoc.LoadXml(GetData("xml", "siparis", apikey, baslangic, bitis));
+            xdoc.LoadXml(new GenelController().WcfGetTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/siparis/" + apikey + "/" + baslangic + "/" + bitis));
+            //xdoc.LoadXml(GetData("xml", "siparis", apikey, baslangic, bitis));
             return Ok(xdoc);
         }
 
         [HttpGet("json/{apikey}/{baslangic}/{bitis}")]
-        public IActionResult Fatura(string apikey, string type, string baslangic, string bitis) => Ok(GetData("json", "fatura", apikey, baslangic, bitis));
+        public IActionResult Fatura(string apikey, string type, string baslangic, string bitis)
+        {
+            return Ok(new GenelController().WcfGetToJSON("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/json/fatura/" + apikey + "/" + baslangic + "/" + bitis));
+            //return Ok(GetData("json", "fatura", apikey, baslangic, bitis));
+        }
 
         [Produces("application/xml")]
         [HttpGet("xml/{apikey}/{baslangic}/{bitis}")]
         public IActionResult Fatura(string apikey, string baslangic, string bitis)
         {
             XmlDocument xdoc = new XmlDocument();
-            xdoc.LoadXml(GetData("xml", "fatura", apikey, baslangic, bitis));
+            xdoc.LoadXml(new GenelController().WcfGetTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/fatura/" + apikey + "/" + baslangic + "/" + bitis));
+            //xdoc.LoadXml(GetData("xml", "fatura", apikey, baslangic, bitis));
+            return Ok(xdoc);
+        }
+
+        [HttpGet("json/{apikey}/{sipno}")]
+        public IActionResult Fatura2(string apikey, string type, string sipno)
+        {
+            return Ok(new GenelController().WcfGetToJSON("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/json/fatura2/" + apikey + "/" + sipno));
+        }
+
+        [Produces("application/xml")]
+        [HttpGet("xml/{apikey}/{sipno}")]
+        public IActionResult Fatura2(string apikey, string sipno)
+        {
+            XmlDocument xdoc = new XmlDocument();
+
+            xdoc.LoadXml(new GenelController().WcfGetTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/fatura2/" + apikey + "/" + sipno));
             return Ok(xdoc);
         }
 
@@ -140,7 +163,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public IActionResult Fatura(string apikey, string type, string baslangic, string bitis) => Ok(GetData(type, "fatura", apikey, baslangic, bitis));
         */
 
-        private string GetData(string type, string method, string apikey, string baslangic, string bitis)
+        /*private string GetData(string type, string method, string apikey, string baslangic, string bitis)
         {
             try
             {
@@ -164,6 +187,6 @@ namespace Sultanlar.WebAPI.Controllers.Internet
             }
 
             return "";
-        }
+        }*/
     }
 }

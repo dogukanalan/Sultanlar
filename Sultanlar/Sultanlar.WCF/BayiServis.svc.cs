@@ -63,9 +63,9 @@ namespace Sultanlar.WCF
             DateTime bas = Convert.ToDateTime(baslangic);
             DateTime bit = Convert.ToDateTime(bitis);
 
-            if (apikey == "F7FF8316-3C41-482B-BB06-901D0E4C38A7")
+            /*if (apikey == "F7FF8316-3C41-482B-BB06-901D0E4C38A7")
             {
-                BimatFaturalarDis faturalar = FaturaGetirBimat(new string[0], bas, bit);
+                BimatFaturalarDis faturalar = FaturaGetirBimat(new string[0], apikey, bas, bit);
                 XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
                 xsn.Add("g", "http://base.google.com/ns/1.0");
 
@@ -77,10 +77,10 @@ namespace Sultanlar.WCF
                 TextWriter TW = new StringWriter();
                 MySerializer.Serialize(TW, faturalar, xsn);
                 donendeger.LoadXml(TW.ToString());
-            }
+            /
             else
-            {
-                FaturalarDis faturalar = FaturaGetir(Guid.Parse(apikey), bas, bit);
+            {*/
+                FaturalarDis faturalar = FaturaGetir(new string[0], Guid.Parse(apikey), bas, bit);
                 XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
                 xsn.Add("g", "http://base.google.com/ns/1.0");
                 XmlSerializer MySerializer = new XmlSerializer(typeof(FaturalarDis), "http://www.w3.org/2005/Atom");
@@ -88,7 +88,7 @@ namespace Sultanlar.WCF
                 TextWriter TW = new StringWriter();
                 MySerializer.Serialize(TW, faturalar, xsn);
                 donendeger.LoadXml(TW.ToString());
-            }
+            //}
 
 
             return donendeger;
@@ -99,7 +99,7 @@ namespace Sultanlar.WCF
             DateTime bas = Convert.ToDateTime(baslangic);
             DateTime bit = Convert.ToDateTime(bitis);
 
-            FaturalarDis faturalar = FaturaGetir(Guid.Parse(apikey), bas, bit);
+            FaturalarDis faturalar = FaturaGetir(new string[0], Guid.Parse(apikey), bas, bit);
 
             return faturalar;
         }
@@ -152,11 +152,15 @@ namespace Sultanlar.WCF
             return siparisler;
         }
 
-        private FaturalarDis FaturaGetir(Guid apikey, DateTime baslangic, DateTime bitis)
+        private FaturalarDis FaturaGetir(string[] SiparisNo, Guid apikey, DateTime baslangic, DateTime bitis)
         {
             FaturalarDis faturalar = new FaturalarDis();
 
-            DataTable dt = BaslikVeriGetir(false, apikey, new string[0], baslangic, bitis);
+            DataTable dt = new DataTable();
+            if (SiparisNo.Length == 0)
+                dt = BaslikVeriGetir(false, apikey, new string[0], baslangic, bitis);
+            else
+                dt = BaslikVeriGetir(false, apikey, SiparisNo, baslangic, bitis);
 
             faturalar.Faturalar = new List<SiparisDis>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -204,12 +208,85 @@ namespace Sultanlar.WCF
         {
             XmlDocument donendeger = new XmlDocument();
 
-            if (apikey != "F7FF8316-3C41-482B-BB06-901D0E4C38A7")
-                return donendeger;
+            string[] sips = sipler.Split('.');
+
+            FaturalarDis faturalar = FaturaGetir(sips, Guid.Parse(apikey), DateTime.Now, DateTime.Now);
+            XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
+            xsn.Add("g", "http://base.google.com/ns/1.0");
+
+            var allXMLAttribueOverrides = GetXMLAttributeOverrides(XmlAttrInit(
+                new List<Type>() { typeof(FaturalarDis), typeof(SiparisDis), typeof(SiparisDisDetay), typeof(MalzemeDetay) } ));
+            XmlSerializer MySerializer = new XmlSerializer(typeof(FaturalarDis), allXMLAttribueOverrides);
+
+            TextWriter TW = new StringWriter();
+            MySerializer.Serialize(TW, faturalar, xsn);
+            donendeger.LoadXml(TW.ToString());
+
+            return donendeger;
+        }
+
+        public FaturalarDis Fatura2J(string apikey, string sipler)
+        {
+            string[] sips = sipler.Split('.');
+
+            FaturalarDis faturalar = FaturaGetir(sips, Guid.Parse(apikey), DateTime.Now, DateTime.Now);
+            return faturalar;
+        }
+
+        #region logo
+        public XmlDocument SiparisLogo(string apikey, string baslangic, string bitis)
+        {
+            return Siparis(apikey, baslangic, bitis);
+        }
+
+        public SiparislerDis SiparisJLogo(string apikey, string baslangic, string bitis)
+        {
+            return SiparisJ(apikey, baslangic, bitis);
+        }
+
+        public XmlDocument FaturaLogo(string apikey, string baslangic, string bitis)
+        {
+            XmlDocument donendeger = new XmlDocument();
+
+            DateTime bas = Convert.ToDateTime(baslangic);
+            DateTime bit = Convert.ToDateTime(bitis);
+
+            BimatFaturalarDis faturalar = FaturaGetirLogo(new string[0], apikey, bas, bit);
+            XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
+            xsn.Add("g", "http://base.google.com/ns/1.0");
+
+            var allXMLAttribueOverrides = GetXMLAttributeOverrides(XmlAttrInit(
+                new List<Type>() { typeof(BimatSiparisDis), typeof(BimatSiparisDisDetay) }
+                ));
+            XmlSerializer MySerializer = new XmlSerializer(typeof(BimatFaturalarDis), allXMLAttribueOverrides);
+
+            TextWriter TW = new StringWriter();
+            MySerializer.Serialize(TW, faturalar, xsn);
+            donendeger.LoadXml(TW.ToString());
+
+            return donendeger;
+        }
+
+        public BimatFaturalarDis FaturaJLogo(string apikey, string baslangic, string bitis)
+        {
+            DateTime bas = Convert.ToDateTime(baslangic);
+            DateTime bit = Convert.ToDateTime(bitis);
+
+            BimatFaturalarDis faturalar = FaturaGetirLogo(new string[0], apikey, bas, bit);
+
+            return faturalar;
+        }
+
+        public XmlDocument Fatura2Logo(string apikey, string sipler)
+        {
+            XmlDocument donendeger = new XmlDocument();
+
+            /*if (apikey != "F7FF8316-3C41-482B-BB06-901D0E4C38A7")
+                return donendeger;*/
 
             string[] sips = sipler.Split('.');
 
-            BimatFaturalarDis faturalar = FaturaGetirBimat(sips, DateTime.Now, DateTime.Now);
+            BimatFaturalarDis faturalar = FaturaGetirLogo(sips, apikey, DateTime.Now, DateTime.Now);
             XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
             xsn.Add("g", "http://base.google.com/ns/1.0");
 
@@ -226,103 +303,28 @@ namespace Sultanlar.WCF
             return donendeger;
         }
 
-        private DataTable BaslikVeriGetir(bool siparis, Guid apikey, string[] SiparisNo, DateTime baslangic, DateTime bitis)
+        public BimatFaturalarDis Fatura2JLogo(string apikey, string sipler)
         {
-            ArrayList paramnames = new ArrayList() { "API", "BASLANGIC", "BITIS" };
-            ArrayList paramvalues = new ArrayList() { apikey, baslangic, bitis };
+            /*if (apikey != "F7FF8316-3C41-482B-BB06-901D0E4C38A7")
+                return donendeger;*/
 
-            string where = "API = @API AND dtOlusmaTarihi >= @BASLANGIC AND DATEADD(dd,-1,dtOlusmaTarihi) <= @BITIS ";
-            string iadewhere = "API = @API AND dtOlusmaTarihi >= @BASLANGIC AND DATEADD(dd,-1,dtOlusmaTarihi) <= @BITIS ";
-            if (SiparisNo.Length > 0)
-            {
-                paramnames = new ArrayList();
-                paramvalues = new ArrayList();
-                where = "(";
-                iadewhere = "(";
-                for (int i = 0; i < SiparisNo.Length; i++)
-                {
-                    where += "pkSiparisID = " + SiparisNo[i].ToString() + " OR ";
-                    iadewhere += "pkIadeID = " + SiparisNo[i].ToString() + " OR ";
-                }
-                where = where.Substring(0, where.Length - 4) + ")";
-                iadewhere = iadewhere.Substring(0, iadewhere.Length - 4) + ")";
-            }
+            string[] sips = sipler.Split('.');
 
-            DataTable dt = WebGenel.WCFdata(@"SELECT DISTINCT pkSiparisID AS sipno,8 AS tur, QUANTUMNO AS belgeno, 
-CASE WHEN TKSREF = 5 THEN [Web-Musteri-1].NETTOP ELSE [Web-Musteri-1].SMREF END AS carino, 
-CASE WHEN TKSREF = 5 THEN (SELECT [MUS KOD] FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE [Web-Musteri-1].[MUS KOD] END AS carino2, 
-CASE WHEN TKSREF = 5 THEN (SELECT MUSTERI FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE SUBE END AS cari, " + 
-(siparis ? "dtOlusmaTarihi" : "FATTAR") + " AS tarih," +
-(siparis ? "'False'" : "IPTAL") + " AS iptal," +
-@"28 AS vade
-,CASE WHEN TKSREF = 5 THEN 'Şube: ' + SUBE + ' (' + CONVERT(nvarchar(50),[Web-Musteri-1].SMREF) + ')' ELSE '' END AS aciklama
-,intMusteriID AS saticino
-,dtOlusmaTarihi as siptar
-FROM tblINTERNET_Siparisler
-INNER JOIN (SELECT TIP,GMREF,SMREF,[MUS KOD],SUBE,NETTOP FROM [Web-Musteri-1]) AS [Web-Musteri-1] ON tblINTERNET_Siparisler.SMREF = [Web-Musteri-1].SMREF AND tblINTERNET_Siparisler.TKSREF = [Web-Musteri-1].TIP
-INNER JOIN tblINTERNET_SiparislerDetay ON pkSiparisID = intSiparisID
-INNER JOIN tblINTERNET_SiparislerDetaySevk ON pkSiparisDetayID = bintSiparisDetayID
-INNER JOIN tblINTERNET_SiparislerQ ON pkSiparisID = tblINTERNET_SiparislerQ.intSiparisID
-INNER JOIN [Web-Musteri-TP-Bayikodlar] ON [Web-Musteri-1].GMREF = [Web-Musteri-TP-Bayikodlar].GMREF
-WHERE blAktarildi = 'True' AND " +
-where + 
-
-(siparis ? @"UNION
-
-SELECT DISTINCT pkIadeID AS sipno,3 AS tur, QUANTUMNO AS belgeno, 
-CASE WHEN TKSREF = 5 THEN [Web-Musteri-1].NETTOP ELSE [Web-Musteri-1].SMREF END AS carino, 
-CASE WHEN TKSREF = 5 THEN (SELECT [MUS KOD] FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE [Web-Musteri-1].[MUS KOD] END AS carino2, 
-CASE WHEN TKSREF = 5 THEN (SELECT MUSTERI FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE SUBE END AS cari, 
-dtOlusmaTarihi AS tarih,'False' AS iptal,28 AS vade
-,CASE WHEN TKSREF = 5 THEN 'Şube: ' + SUBE + ' (' + CONVERT(nvarchar(50),[Web-Musteri-1].SMREF) + ')' ELSE '' END AS aciklama
-,intMusteriID AS saticino
-,dtOlusmaTarihi as siptar
-FROM tblINTERNET_Iadeler
-INNER JOIN (SELECT TIP,GMREF,SMREF,[MUS KOD],SUBE,NETTOP FROM [Web-Musteri-1]) AS [Web-Musteri-1] ON tblINTERNET_Iadeler.SMREF = [Web-Musteri-1].SMREF AND tblINTERNET_Iadeler.TKSREF = [Web-Musteri-1].TIP
-INNER JOIN tblINTERNET_IadelerDetay ON pkIadeID = intIadeID
-INNER JOIN tblINTERNET_IadelerQ ON pkIadeID = tblINTERNET_IadelerQ.intIadeID
-INNER JOIN [Web-Musteri-TP-Bayikodlar] ON [Web-Musteri-1].GMREF = [Web-Musteri-TP-Bayikodlar].GMREF
-WHERE TKSREF != 1 AND " +
-iadewhere
-: "") +
-
-"ORDER BY belgeno DESC", CommandType.Text, paramnames, paramvalues, "SiparisDetay");
-            return dt;
+            BimatFaturalarDis faturalar = FaturaGetirLogo(sips, apikey, DateTime.Now, DateTime.Now);
+            return faturalar;
         }
 
-        private DataTable DetayVeriGetir(bool IadeMi, bool SiparisMi, string SiparisID)
-        {
-            string where = "AND pkSiparisID = " + SiparisID;
-            string sorgu = "SELECT pkSiparisDetayID as detayno, intUrunID as malno, strUrunAdi as malzeme, KOLI as koli, " + (SiparisMi ? "tblINTERNET_SiparislerDetay.intMiktar" : "tblINTERNET_SiparislerDetaySevk.intMiktar") + @" as miktar, strMiktarTur as miktartur, ISK1 as isk1, ISK2 as isk2, ISK3 as isk3, ISK4 as isk4, mnFiyat AS fiyat,KDV
-FROM tblINTERNET_Siparisler
-INNER JOIN tblINTERNET_SiparislerDetay ON pkSiparisID = intSiparisID
-INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID
-INNER JOIN tblINTERNET_SiparislerDetaySevk ON pkSiparisDetayID = tblINTERNET_SiparislerDetaySevk.bintSiparisDetayID
-LEFT OUTER JOIN tblINTERNET_SiparislerDetayISK ON pkSiparisDetayID = tblINTERNET_SiparislerDetayISK.bintSiparisDetayID WHERE tblINTERNET_SiparislerDetaySevk.intMiktar > 0 " + where;
-            //string parametername = "pkSiparisID";
 
-            if (IadeMi)
-            {
-                sorgu = @"SELECT pkIadeDetayID as detayno, intUrunID as malno, strUrunAdi as malzeme, KOLI as koli, tblINTERNET_IadelerDetay.intMiktar as miktar, 'ST' as miktartur, 0 as isk1, 0 as isk2, 0 as isk3, 0 as isk4, mnFiyat AS fiyat,KDV
-FROM tblINTERNET_Iadeler
-INNER JOIN tblINTERNET_IadelerDetay ON pkIadeID = intIadeID
-INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + SiparisID;
-                //parametername = "pkIadeID";
-            }
 
-            DataTable dt = WebGenel.WCFdata(sorgu, new ArrayList(), new ArrayList(), "SiparisDetay");
-            return dt;
-        }
-
-        private BimatFaturalarDis FaturaGetirBimat(string[] SiparisNo, DateTime baslangic, DateTime bitis)
+        private BimatFaturalarDis FaturaGetirLogo(string[] SiparisNo, string apikey, DateTime baslangic, DateTime bitis)
         {
             BimatFaturalarDis faturalar = new BimatFaturalarDis();
 
             DataTable dt = new DataTable();
             if (SiparisNo.Length == 0)
-                dt = BaslikVeriGetir(false, Guid.Parse("F7FF8316-3C41-482B-BB06-901D0E4C38A7"), new string[0], baslangic, bitis);
+                dt = BaslikVeriGetir(false, Guid.Parse(apikey), new string[0], baslangic, bitis);
             else
-                dt = BaslikVeriGetir(false, Guid.Parse("F7FF8316-3C41-482B-BB06-901D0E4C38A7"), SiparisNo, baslangic, bitis);
+                dt = BaslikVeriGetir(false, Guid.Parse(apikey), SiparisNo, baslangic, bitis);
 
             faturalar.Faturalar = new List<BimatSiparisDis>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -481,41 +483,94 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + Sipari
 
             return faturalar;
         }
+        #endregion
 
-        public XmlDocument PostXml(XmlDocument icerik, string Bayikod, string Satis, string YilAd, string Yil, string AyAd, string Ay)
+        private DataTable BaslikVeriGetir(bool siparis, Guid apikey, string[] SiparisNo, DateTime baslangic, DateTime bitis)
         {
-            XmlDocument donendeger = new XmlDocument();
+            ArrayList paramnames = new ArrayList() { "API", "BASLANGIC", "BITIS" };
+            ArrayList paramvalues = new ArrayList() { apikey, baslangic, bitis };
 
-            DateTime baslangic = DateTime.Now;
+            string where = "API = @API AND dtOlusmaTarihi >= @BASLANGIC AND DATEADD(dd,-1,dtOlusmaTarihi) <= @BITIS ";
+            string iadewhere = "API = @API AND dtOlusmaTarihi >= @BASLANGIC AND DATEADD(dd,-1,dtOlusmaTarihi) <= @BITIS ";
+            if (SiparisNo.Length > 0)
+            {
+                paramnames = new ArrayList();
+                paramvalues = new ArrayList();
+                where = "(";
+                iadewhere = "(";
+                for (int i = 0; i < SiparisNo.Length; i++)
+                {
+                    where += "pkSiparisID = " + SiparisNo[i].ToString() + " OR ";
+                    iadewhere += "pkIadeID = " + SiparisNo[i].ToString() + " OR ";
+                }
+                where = where.Substring(0, where.Length - 4) + ")";
+                iadewhere = iadewhere.Substring(0, iadewhere.Length - 4) + ")";
+            }
 
-            string xml = icerik.OuterXml;
-            DataSet ds = new DataSet();
-            ds.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
-            DataTable dt = ds.Tables[0];
+            DataTable dt = WebGenel.WCFdata(@"SELECT DISTINCT pkSiparisID AS sipno,8 AS tur, QUANTUMNO AS belgeno, 
+CASE WHEN TKSREF = 5 THEN [Web-Musteri-1].NETTOP ELSE [Web-Musteri-1].SMREF END AS carino, 
+CASE WHEN TKSREF = 5 THEN (SELECT [MUS KOD] FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE [Web-Musteri-1].[MUS KOD] END AS carino2, 
+CASE WHEN TKSREF = 5 THEN (SELECT MUSTERI FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE SUBE END AS cari, " + 
+(siparis ? "dtOlusmaTarihi" : "FATTAR") + " AS tarih," +
+(siparis ? "'False'" : "IPTAL") + " AS iptal," +
+@"28 AS vade
+,CASE WHEN TKSREF = 5 THEN 'Şube: ' + SUBE + ' (' + CONVERT(nvarchar(50),[Web-Musteri-1].SMREF) + ')' ELSE '' END AS aciklama
+,intMusteriID AS saticino
+,dtOlusmaTarihi as siptar
+FROM tblINTERNET_Siparisler
+INNER JOIN (SELECT TIP,GMREF,SMREF,[MUS KOD],SUBE,NETTOP FROM [Web-Musteri-1]) AS [Web-Musteri-1] ON tblINTERNET_Siparisler.SMREF = [Web-Musteri-1].SMREF AND tblINTERNET_Siparisler.TKSREF = [Web-Musteri-1].TIP
+INNER JOIN tblINTERNET_SiparislerDetay ON pkSiparisID = intSiparisID
+INNER JOIN tblINTERNET_SiparislerDetaySevk ON pkSiparisDetayID = bintSiparisDetayID
+INNER JOIN tblINTERNET_SiparislerQ ON pkSiparisID = tblINTERNET_SiparislerQ.intSiparisID
+INNER JOIN [Web-Musteri-TP-Bayikodlar] ON [Web-Musteri-1].GMREF = [Web-Musteri-TP-Bayikodlar].GMREF
+WHERE tblINTERNET_SiparislerDetaySevk.intMiktar > 0 AND blAktarildi = 'True' AND API = '" + apikey.ToString() + "' AND " + 
+where + 
 
-            donendeger = BayiVeriYaz(dt, Bayikod, Satis, YilAd, Yil, AyAd, Ay);
+(siparis ? @"UNION
 
-            SAPs.BayiLogYaz("bayi win servis xml " + Satis, true, Bayikod + " nolu bayi " + Yil + "-" + Ay + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
+SELECT DISTINCT pkIadeID AS sipno,3 AS tur, QUANTUMNO AS belgeno, 
+CASE WHEN TKSREF = 5 THEN [Web-Musteri-1].NETTOP ELSE [Web-Musteri-1].SMREF END AS carino, 
+CASE WHEN TKSREF = 5 THEN (SELECT [MUS KOD] FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE [Web-Musteri-1].[MUS KOD] END AS carino2, 
+CASE WHEN TKSREF = 5 THEN (SELECT MUSTERI FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE SUBE END AS cari, 
+dtOlusmaTarihi AS tarih,'False' AS iptal,28 AS vade
+,CASE WHEN TKSREF = 5 THEN 'Şube: ' + SUBE + ' (' + CONVERT(nvarchar(50),[Web-Musteri-1].SMREF) + ')' ELSE '' END AS aciklama
+,intMusteriID AS saticino
+,dtOlusmaTarihi as siptar
+FROM tblINTERNET_Iadeler
+INNER JOIN (SELECT TIP,GMREF,SMREF,[MUS KOD],SUBE,NETTOP FROM [Web-Musteri-1]) AS [Web-Musteri-1] ON tblINTERNET_Iadeler.SMREF = [Web-Musteri-1].SMREF AND tblINTERNET_Iadeler.TKSREF = [Web-Musteri-1].TIP
+INNER JOIN tblINTERNET_IadelerDetay ON pkIadeID = intIadeID
+INNER JOIN tblINTERNET_IadelerQ ON pkIadeID = tblINTERNET_IadelerQ.intIadeID
+INNER JOIN [Web-Musteri-TP-Bayikodlar] ON [Web-Musteri-1].GMREF = [Web-Musteri-TP-Bayikodlar].GMREF
+WHERE TKSREF != 1 AND API = '" + apikey.ToString() + "' AND " +
+iadewhere
+: "") +
 
-            return donendeger;
+"ORDER BY belgeno DESC", CommandType.Text, paramnames, paramvalues, "SiparisDetay");
+            return dt;
         }
 
-        public XmlDocument PostXml2(XmlDocument icerik, string Bayikod, string Satis, string YilAd, string BasYil, string BitYil, string AyAd, string BasAy, string BitAy)
+        private DataTable DetayVeriGetir(bool IadeMi, bool SiparisMi, string SiparisID)
         {
-            XmlDocument donendeger = new XmlDocument();
+            string where = "AND pkSiparisID = " + SiparisID;
+            string sorgu = "SELECT pkSiparisDetayID as detayno, intUrunID as malno, strUrunAdi as malzeme, KOLI as koli, " + (SiparisMi ? "tblINTERNET_SiparislerDetay.intMiktar" : "tblINTERNET_SiparislerDetaySevk.intMiktar") + @" as miktar, strMiktarTur as miktartur, ISK1 as isk1, ISK2 as isk2, ISK3 as isk3, ISK4 as isk4, mnFiyat AS fiyat,KDV
+FROM tblINTERNET_Siparisler
+INNER JOIN tblINTERNET_SiparislerDetay ON pkSiparisID = intSiparisID
+INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID
+INNER JOIN tblINTERNET_SiparislerDetaySevk ON pkSiparisDetayID = tblINTERNET_SiparislerDetaySevk.bintSiparisDetayID
+LEFT OUTER JOIN tblINTERNET_SiparislerDetayISK ON pkSiparisDetayID = tblINTERNET_SiparislerDetayISK.bintSiparisDetayID WHERE tblINTERNET_SiparislerDetaySevk.intMiktar > 0 " + where;
+            //string parametername = "pkSiparisID";
 
-            DateTime baslangic = DateTime.Now;
+            if (IadeMi)
+            {
+                sorgu = @"SELECT pkIadeDetayID as detayno, intUrunID as malno, strUrunAdi as malzeme, KOLI as koli, tblINTERNET_IadelerDetay.intMiktar as miktar, 'ST' as miktartur, 0 as isk1, 0 as isk2, 0 as isk3, 0 as isk4, mnFiyat AS fiyat,KDV
+FROM tblINTERNET_Iadeler
+INNER JOIN tblINTERNET_IadelerDetay ON pkIadeID = intIadeID
+INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + SiparisID;
+                //parametername = "pkIadeID";
+            }
 
-            string xml = icerik.OuterXml;
-            DataSet ds = new DataSet();
-            ds.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
-            DataTable dt = ds.Tables[0];
-
-            donendeger = BayiVeriYaz(dt, Bayikod, Satis, YilAd, BasYil, BitYil, AyAd, BasAy, BitAy);
-
-            SAPs.BayiLogYaz("bayi win servis xml " + Satis, true, Bayikod + " nolu bayi " + BasYil + "-" + BasAy + " : " + BitYil + "-" + BitAy + " arası. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
-
-            return donendeger;
+            DataTable dt = WebGenel.WCFdata(sorgu, new ArrayList(), new ArrayList(), "SiparisDetay");
+            return dt;
         }
 
         public string IadeXml(XmlDocument icerik, string Bayikod, string Musteri)
@@ -618,6 +673,46 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + Sipari
             return donendeger;
         }
 
+
+
+
+
+        public XmlDocument PostXml(XmlDocument icerik, string Bayikod, string Satis, string YilAd, string Yil, string AyAd, string Ay)
+        {
+            XmlDocument donendeger = new XmlDocument();
+
+            DateTime baslangic = DateTime.Now;
+
+            string xml = icerik.OuterXml;
+            DataSet ds = new DataSet();
+            ds.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
+            DataTable dt = ds.Tables[0];
+
+            donendeger = BayiVeriYaz(dt, Bayikod, Satis, YilAd, Yil, AyAd, Ay);
+
+            SAPs.BayiLogYaz("bayi win servis xml " + Satis, true, Bayikod + " nolu bayi " + Yil + "-" + Ay + " dönemi. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
+
+            return donendeger;
+        }
+
+        public XmlDocument PostXml2(XmlDocument icerik, string Bayikod, string Satis, string YilAd, string BasYil, string BitYil, string AyAd, string BasAy, string BitAy)
+        {
+            XmlDocument donendeger = new XmlDocument();
+
+            DateTime baslangic = DateTime.Now;
+
+            string xml = icerik.OuterXml;
+            DataSet ds = new DataSet();
+            ds.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
+            DataTable dt = ds.Tables[0];
+
+            donendeger = BayiVeriYaz(dt, Bayikod, Satis, YilAd, BasYil, BitYil, AyAd, BasAy, BitAy);
+
+            SAPs.BayiLogYaz("bayi win servis xml " + Satis, true, Bayikod + " nolu bayi " + BasYil + "-" + BasAy + " : " + BitYil + "-" + BitAy + " arası. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
+
+            return donendeger;
+        }
+
         private XmlDocument BayiVeriYaz(DataTable dt, string Bayikod, string Satis, string YilAd, string Yil, string AyAd, string Ay)
         {
             XmlDocument donendeger = new XmlDocument();
@@ -692,6 +787,10 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + Sipari
 
             return donendeger;
         }
+
+
+
+
 
         private List<XmlSer> XmlAttrInit(List<Type> tip)
         {
