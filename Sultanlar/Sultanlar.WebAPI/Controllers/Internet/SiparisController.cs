@@ -75,5 +75,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet("{SiparisID}")]
         public string SevkSil(int SiparisID) => new SiparisProvider().SevksizOnaydanGeri(SiparisID);
+
+        [HttpGet("{Slsref}")]
+        public string SevkTamami(int SLSREF) => new SiparisProvider().SevkTamami(SLSREF);
     }
 }

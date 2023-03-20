@@ -162,7 +162,7 @@ namespace Sultanlar.WCF
         //
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/json/View/Get?sifre={Sifre}&name={Name}&paramn={ParamNames}&paramv={ParamValues}"), DataContractFormat]
-        string GetViewJson(string Sifre, string Name, string ParamNames, string ParamValues);
+        Stream GetViewJson(string Sifre, string Name, string ParamNames, string ParamValues);
         //
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Orders/Pirpa")]

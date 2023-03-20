@@ -292,24 +292,25 @@ iadewhere
 
         private DataTable DetayVeriGetir(bool IadeMi, bool SiparisMi, string SiparisID)
         {
+            string where = "AND pkSiparisID = " + SiparisID;
             string sorgu = "SELECT pkSiparisDetayID as detayno, intUrunID as malno, strUrunAdi as malzeme, KOLI as koli, " + (SiparisMi ? "tblINTERNET_SiparislerDetay.intMiktar" : "tblINTERNET_SiparislerDetaySevk.intMiktar") + @" as miktar, strMiktarTur as miktartur, ISK1 as isk1, ISK2 as isk2, ISK3 as isk3, ISK4 as isk4, mnFiyat AS fiyat,KDV
 FROM tblINTERNET_Siparisler
 INNER JOIN tblINTERNET_SiparislerDetay ON pkSiparisID = intSiparisID
 INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID
 INNER JOIN tblINTERNET_SiparislerDetaySevk ON pkSiparisDetayID = tblINTERNET_SiparislerDetaySevk.bintSiparisDetayID
-LEFT OUTER JOIN tblINTERNET_SiparislerDetayISK ON pkSiparisDetayID = tblINTERNET_SiparislerDetayISK.bintSiparisDetayID";
-            string parametername = "pkSiparisID";
+LEFT OUTER JOIN tblINTERNET_SiparislerDetayISK ON pkSiparisDetayID = tblINTERNET_SiparislerDetayISK.bintSiparisDetayID WHERE tblINTERNET_SiparislerDetaySevk.intMiktar > 0 " + where;
+            //string parametername = "pkSiparisID";
 
             if (IadeMi)
             {
                 sorgu = @"SELECT pkIadeDetayID as detayno, intUrunID as malno, strUrunAdi as malzeme, KOLI as koli, tblINTERNET_IadelerDetay.intMiktar as miktar, 'ST' as miktartur, 0 as isk1, 0 as isk2, 0 as isk3, 0 as isk4, mnFiyat AS fiyat,KDV
 FROM tblINTERNET_Iadeler
 INNER JOIN tblINTERNET_IadelerDetay ON pkIadeID = intIadeID
-INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID";
-                parametername = "pkIadeID";
+INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + SiparisID;
+                //parametername = "pkIadeID";
             }
 
-            DataTable dt = WebGenel.WCFdata(sorgu, new ArrayList() { parametername }, new ArrayList() { SiparisID }, "SiparisDetay");
+            DataTable dt = WebGenel.WCFdata(sorgu, new ArrayList(), new ArrayList(), "SiparisDetay");
             return dt;
         }
 
@@ -341,6 +342,7 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID";
                 siparis.carino2 = dt.Rows[i]["carino2"].ToString();
                 siparis.tarih = tarih.ToString("dd'.'MM'.'yyyy");
                 siparis.TIME = tarih.ToShortTimeString();
+                siparis.SHIP_DATE = siparis.tarih;
                 siparis.DOC_DATE = siparis.tarih;
 
                 siparis.DATE_CREATED = siparis.DOC_DATE;
@@ -348,8 +350,9 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID";
                 siparis.MIN_CREATED = tarih.Minute.ToString();
                 siparis.SEC_CREATED = tarih.Second.ToString();
                 siparis.SALESMANCODE = dt.Rows[i]["saticino"].ToString();
+                siparis.INVOICE_NUMBER = siparis.belgeno;
 
-                siparis.DISPATCHES = new List<BimatSiparisDisDispatch>();
+                //siparis.DISPATCHES = new List<BimatSiparisDisDispatch>();
                 BimatSiparisDisDispatch dispatch = new BimatSiparisDisDispatch();
                 dispatch.DATE = siparis.tarih;
                 dispatch.INVOICE_NUMBER = siparis.belgeno;
@@ -449,10 +452,10 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID";
                 dispatch.TOTAL_DISCOUNTED = topiskonto.ToString("N4").Replace(",", ".");
                 dispatch.TOTAL_VAT = topkdv.ToString("N4").Replace(",", ".");
                 dispatch.TOTAL_GROSS = topfiyat.ToString("N4").Replace(",", ".");
-                dispatch.TOTAL_NET = topnet.ToString("N4").Replace(",", ".");
-                dispatch.RC_NET = topnet.ToString("N4").Replace(",", ".");
+                dispatch.TOTAL_NET = topnetkdv.ToString("N4").Replace(",", ".");
+                dispatch.RC_NET = topnetkdv.ToString("N4").Replace(",", ".");
                 dispatch.GUID = Guid.NewGuid().ToString();
-                siparis.DISPATCHES.Add(dispatch);
+                //siparis.DISPATCHES.Add(dispatch);
 
                 payment.TOTAL = dispatch.TOTAL_NET;
 
@@ -460,8 +463,8 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID";
                 siparis.TOTAL_DISCOUNTED = topiskonto.ToString("N4").Replace(",", ".");
                 siparis.TOTAL_VAT = topkdv.ToString("N4").Replace(",", ".");
                 siparis.TOTAL_GROSS = topfiyat.ToString("N4").Replace(",", ".");
-                siparis.TOTAL_NET = topnet.ToString("N4").Replace(",", ".");
-                siparis.RC_NET = topnet.ToString("N4").Replace(",", ".");
+                siparis.TOTAL_NET = topnetkdv.ToString("N4").Replace(",", ".");
+                siparis.RC_NET = topnetkdv.ToString("N4").Replace(",", ".");
 
                 siparis.GUID = dispatch.GUID;
 
@@ -512,6 +515,106 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID";
 
             SAPs.BayiLogYaz("bayi win servis xml " + Satis, true, Bayikod + " nolu bayi " + BasYil + "-" + BasAy + " : " + BitYil + "-" + BitAy + " arası. Gelen satır: " + dt.Rows.Count.ToString(), baslangic, DateTime.Now);
 
+            return donendeger;
+        }
+
+        public string IadeXml(XmlDocument icerik, string Bayikod, string Musteri)
+        {
+            string donendeger = string.Empty;
+            string aktarilan = "Aktarılanlar.";
+            string hatali = "Aktarılamayanlar.";
+
+            XmlDocument gelen = new XmlDocument();
+            DateTime tarih = DateTime.Now;
+            Musteriler musteri = Musteriler.GetMusteriByID(Convert.ToInt32(Musteri));
+
+            gelen.Load(new MemoryStream(Convert.FromBase64String(icerik.InnerText)));
+            XmlNodeList faturalar = gelen.SelectNodes("SALES_INVOICES/INVOICE");
+            for (int i = 0; i < faturalar.Count; i++)
+            {
+                string muskod = faturalar[i].SelectSingleNode("ARP_CODE").InnerText;
+                string docnumber = faturalar[i].SelectSingleNode("DOC_NUMBER").InnerText;
+                string docdate = faturalar[i].SelectSingleNode("DATE").InnerText;
+                string hour = faturalar[i].SelectSingleNode("HOUR_CREATED").InnerText;
+                string minute = faturalar[i].SelectSingleNode("MIN_CREATED").InnerText;
+                string second = faturalar[i].SelectSingleNode("SEC_CREATED").InnerText;
+                DateTime date = DateTime.ParseExact(docdate + " " + hour + ":" + minute + ":" + second, "dd.MM.yyyy H:m:s", System.Globalization.CultureInfo.CurrentCulture);
+                int SMREF = CariHesaplarTP.GetSMREFByMUSKOD(Convert.ToInt32(Bayikod), muskod);
+
+                if (IadelerQ.QuantumNoVarMi(docnumber))
+                {
+                    hatali += docnumber + ": fatura numarası zaten kayıtlı.";
+                }
+                else
+                {
+                    if (SMREF > 0)
+                    {
+                        Iadeler iade = new Iadeler(Convert.ToInt32(Musteri), SMREF, date, -2, false, tarih, "Sistem;;;" + docnumber + ";;;bimat xml");
+                        iade.DoInsert();
+                        iade.DoUpdate();
+                        Iadeler.SetTksref(4, iade.pkIadeID);
+                        Iadeler.SetSapDepo("", "", "", "", iade.pkIadeID);
+
+                        XmlNodeList transactions = faturalar[i].SelectNodes("TRANSACTIONS/TRANSACTION");
+                        string hataliurun = string.Empty;
+                        for (int j = 0; j < transactions.Count; j++)
+                        {
+                            string type = transactions[j].SelectSingleNode("TYPE").InnerText;
+                            if (type == "0") // malzeme
+                            {
+                                string itemref = transactions[j].SelectSingleNode("MASTER_CODE").InnerText;
+
+                                if (Urunler.GetProductUrunID(itemref) == 0) // ilk bulamadığı üründe buraya girecek
+                                {
+                                    hataliurun += itemref;
+
+                                    DataTable dt = new DataTable();
+                                    IadelerDetay.GetObjectsByIadeID(dt, iade.pkIadeID);
+                                    for (int k = 0; k < dt.Rows.Count; k++)
+                                    {
+                                        IadelerDetay id = IadelerDetay.GetObjectByIadelerDetayID(Convert.ToInt64(dt.Rows[k]["pkIadeDetayID"]));
+                                        IadelerDetayFiy idf = IadelerDetayFiy.GetObjectByIadelerDetayID(id.pkIadeDetayID);
+                                        idf.DoDelete();
+                                        id.DoDelete();
+                                    }
+
+                                    iade.DoDelete();
+                                    hatali += docnumber + ": " + itemref + " kodlu malzeme bulunamadı.";
+                                    break;
+                                }
+                                else
+                                {
+                                    string malzeme = transactions[j].SelectSingleNode("MASTER_DEF").InnerText;
+                                    string miktar = transactions[j].SelectSingleNode("QUANTITY").InnerText;
+                                    string nettoplamfiyat = transactions[j].SelectSingleNode("TOTAL_NET").InnerText.Replace(".", ",");
+                                    decimal netfiyat = Convert.ToDecimal(nettoplamfiyat) / Convert.ToInt32(miktar);
+                                    IadelerDetay iadedetay = new IadelerDetay(iade.pkIadeID, Convert.ToInt32(itemref), malzeme, Convert.ToInt32(miktar), netfiyat);
+                                    iadedetay.DoInsert();
+                                    IadelerDetayFiy fiy = new IadelerDetayFiy(iadedetay.pkIadeDetayID, netfiyat * Convert.ToInt32(miktar), 0, tarih, "Bimat", DateTime.MinValue, string.Empty);
+                                    fiy.DoInsert();
+                                }
+                            }
+                            else if (type == "2") // iskontolara gerek yok
+                            {
+                            }
+                        }
+
+                        if (hataliurun == string.Empty) // bütün ürünler vardıysa eklendiyse
+                        {
+                            IadelerQ.WriteQuantumNo(iade.pkIadeID, docnumber, docnumber);
+                            IadeHareketleri.DoInsert(iade.pkIadeID, 6, musteri.strAd + " " + musteri.strSoyad, "xml");
+
+                            aktarilan += docnumber + ".";
+                        }
+                    }
+                    else
+                    {
+                        hatali += docnumber + ": " + muskod + " kodlu müşteri bulunamadı.";
+                    }
+                }
+            }
+
+            donendeger = aktarilan + "." + hatali;
             return donendeger;
         }
 
@@ -608,7 +711,7 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID";
             return returnValue;
         }
 
-        public XmlAttributeOverrides GetXMLAttributeOverrides(List<XmlSer> propertiesToInlcudeInOrder)
+        private XmlAttributeOverrides GetXMLAttributeOverrides(List<XmlSer> propertiesToInlcudeInOrder)
         {
             var allXMLAttribueOverrides = new XmlAttributeOverrides();
 

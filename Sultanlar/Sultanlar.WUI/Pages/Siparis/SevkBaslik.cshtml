@@ -148,12 +148,13 @@
                     });
                 },
                 "fnDrawCallback": function (oSettings) {
-
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
                 },
                 columns: [
                     {
                         "data": null, "class": (sevkli || aktarilmis ? "keyTd" : "hidden"), render: function (data, type, row) {
-                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" rel="" accesskey2="' + data.cari.bayikod.apikey + '" accesskey="' + data.pkSiparisID + '" ' + (data.quantumIptal ? 'disabled' : '') + ' /><div class="state p-primary-o"><label></label></div></div>';
+                            return '<div class="pretty p-default p-curve prettyMargin2" data-toggle="tooltip" title="' + (data.quantumIptal ? 'İptal fatura' : '') + '"><input type="checkbox" class="smm" rel="" accesskey2="' + data.cari.bayikod.apikey + '" accesskey="' + data.pkSiparisID + '" ' + (data.quantumIptal ? 'disabled' : '') + ' /><div class="state p-primary-o"><label></label></div></div>';
                         }
                     },
                     {
@@ -163,8 +164,8 @@
                         }
                     },
                     {
-                        "data": "pkSiparisID", "class": (getParameterByName('siparisid') ? "hidden" : "keyTd"), render: function (data, type, row) {
-                            return '<a href="Incele?siparisid=' + data + '&fiyattipi=0"><span class="sinirli">' + data + '</span></a>';
+                        "data": null, "class": (getParameterByName('siparisid') ? "hidden" : "keyTd"), render: function (data, type, row) {
+                            return '<a href="Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=0"><span class="sinirli">' + data.pkSiparisID + '</span></a>';
                         }
                     },
                     /*{
@@ -413,11 +414,12 @@
             var sentData = "[";
             $('.smm').each(function () {
                 if ($(this).is(':checked')) {
-                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": "' + $(this).attr("accesskey2") + '", "fattar": "' + $(this).closest("tr").find(".ssmm").val() + '" },';
+                    var fattar = $(this).closest("tr").find(".spanfattar")[0] ? $(this).closest("tr").find(".spanfattar")[0].innerHTML : $(this).closest("tr").find(".ssmm")[0].value;
+                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": "' + $(this).attr("accesskey2") + '", "fattar": "' + fattar + '" },';
                 }
             });
             sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
-
+            
             if (sentData != "[]") {
                 $.ajax(
                     {
@@ -457,11 +459,12 @@
             var sentData = "[";
             $('.smm').each(function () {
                 if ($(this).is(':checked')) {
-                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": 0, "fattar": "' + $(this).closest("tr").find(".spanfattar")[0].innerHTML + '" },';
+                    var fattar = $(this).closest("tr").find(".spanfattar")[0] ? $(this).closest("tr").find(".spanfattar")[0].innerHTML : $(this).closest("tr").find(".ssmm")[0].value;
+                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": 0, "fattar": "' + fattar + '" },';
                 }
             });
             sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
-
+            
             if (sentData != "[]") {
 
                 if (!confirm("Seçilen faturalar iptal edilecek. Emin misiniz?"))
@@ -507,14 +510,14 @@
         }
 
         function tamamisevk() {
-            if (!confirm("Seçilen tarih aralığındaki bütün ürünler, stok durumuna göre sevk edilecek. Emin misiniz?"))
+            if (!confirm("Sevk edilmemiş siparişlerdeki bütün ürünler, stok durumuna göre sevk edilecek. Emin misiniz?"))
                 return;
 
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "siparis//" + getParameterByName('slsref'),
+                    url: apiurl + "siparis/sevktamami/" + getParameterByName('slsref'),
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
@@ -536,9 +539,9 @@
 <h5 class="spanCiplak" id="sipMus"></h5>
 <i><span class="spanCiplak" id="aciklama"></span></i>
 <br />
-<input type="button" class="btn btn-primary secimTus" id="sevkhepsi" value="Bütün detayları göster" onclick="window.location.href = 'Sevk?slsref=' + getParameterByName('slsref')" style="float: left; margin-right: 10px; height: 40px; display: none" />
-<input type="button" class="btn buttons-print" id="inputYazdir" style="float: left; margin-right: 10px; height: 40px; border: 1px solid gray" value="Yazdır" onclick="printet()" />
+@*<input type="button" class="btn btn-primary secimTus" id="sevkhepsi" value="Bütün detayları göster" onclick="window.location.href = 'Sevk?slsref=' + getParameterByName('slsref')" style="float: left; margin-right: 10px; height: 40px; display: none" />*@
 <input type="button" class="btn btn-success secimTus" id="sevkhepsi2" value="Tamamını sevk et" onclick="tamamisevk()" style="float: left; margin-right: 10px; height: 40px; display: none" />
+<input type="button" class="btn buttons-print" id="inputYazdir" style="float: left; margin-right: 10px; height: 40px; border: 1px solid gray" value="Yazdır" onclick="printet()" />
 
 <div>
     <div class="pull-right">

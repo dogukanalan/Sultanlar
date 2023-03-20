@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s0="urn:sap-com:document:sap:soap:functions:mc-style" targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style">
+      <xsd:element name="ZwebKomsuF001">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element minOccurs="0" name="IvMatnr">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="18" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ZwebKomsuF001Result">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="EtExport">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element minOccurs="0" maxOccurs="unbounded" name="ZwebKomsuS_001" type="s0:ZwebKomsuS_001" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="ZwebKomsuS_001">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Categorycode">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="9" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Categoryname">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="40" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Parentcode">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="4" />
+                <xsd:pattern value="\d*" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Isactive">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="1" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="ZwebKomsuF001Input">
+    <part name="parameters" element="s0:ZwebKomsuF001" />
+  </message>
+  <message name="ZwebKomsuF001Output">
+    <part name="parameters" element="s0:ZwebKomsuF001Result" />
+  </message>
+  <portType name="ZwebKomsuF001PortType">
+    <operation name="ZwebKomsuF001">
+      <input message="s0:ZwebKomsuF001Input" />
+      <output message="s0:ZwebKomsuF001Output" />
+    </operation>
+  </portType>
+  <binding name="ZwebKomsuF001Binding" type="s0:ZwebKomsuF001PortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="ZwebKomsuF001">
+      <soap:operation soapAction="http://www.sap.com/ZwebKomsuF001" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ZwebKomsuF001Service">
+    <documentation>SAP Service ZwebKomsuF001 via SOAP</documentation>
+    <port name="ZwebKomsuF001PortType" binding="s0:ZwebKomsuF001Binding">
+      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+    </port>
+  </service>
+</definitions>

@@ -1392,6 +1392,29 @@ namespace Sultanlar.DatabaseObject.Internet
                 }
             }
         }
+
+        public static void SetTksref(int TKSREF, int IadeID)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE tblINTERNET_Iadeler SET TKSREF = @TKSREF WHERE pkIadeID = @pkIadeID", conn);
+                cmd.Parameters.Add("@TKSREF", SqlDbType.Int).Value = TKSREF;
+                cmd.Parameters.Add("@pkIadeID", SqlDbType.Int).Value = IadeID;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
         /// <summary>
         /// Neden, Depo, UY, Parti
         /// </summary>

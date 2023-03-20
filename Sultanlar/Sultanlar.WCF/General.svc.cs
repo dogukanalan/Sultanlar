@@ -16,6 +16,7 @@ using System.Xml.Serialization;
 using System.Drawing;
 using Sultanlar.Model.Xml;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Sultanlar.WCF
 {
@@ -951,7 +952,7 @@ namespace Sultanlar.WCF
         /// <summary>
         /// View
         /// </summary>
-        public string GetViewJson(string Sifre, string Name, string ParamNames, string ParamValues)
+        public Stream GetViewJson(string Sifre, string Name, string ParamNames, string ParamValues)
         {
             DataSet ds = new DataSet("Views");
             DataTable dt = new DataTable(Name);
@@ -983,13 +984,15 @@ namespace Sultanlar.WCF
                 rows.Add(row);
             }
 
-            JsonSerializerSettings jss = new JsonSerializerSettings();
-            jss.MaxDepth = int.MaxValue;
-            System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
-            js.MaxJsonLength = int.MaxValue;
+            //JsonSerializerSettings jss = new JsonSerializerSettings();
+            //jss.MaxDepth = int.MaxValue;
+            //System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
+            //js.MaxJsonLength = int.MaxValue;
             /*return JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(donendeger);*/
             //return Newtonsoft.Json.JsonConvert.SerializeObject(rows, Newtonsoft.Json.Formatting.None);
-            return js.Serialize(rows);
+            //return js.Serialize(rows);
+            string donendeger = JsonConvert.SerializeObject(dt, new DataTableConverter());
+            return new MemoryStream(Encoding.UTF8.GetBytes(donendeger));
             //return JsonConvert.SerializeObject(dt.AsEnumerable().Select(r => r.ItemArray));
         }
         /// <summary>

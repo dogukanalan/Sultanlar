@@ -1661,7 +1661,7 @@ COMMIT TRANSACTION t_Transaction
                 //SAPs.LogYaz("ekstre oncesi", true, "sap ile bağlantı kuruluyor", DateTime.Now, DateTime.Now);
                 try
                 {
-                    yirmiuc = ekstre.ZwebSelectEkstre("", yillar[j].ToString(), "", out yirmiuc2); // 20160101
+                    yirmiuc = ekstre.ZwebSelectEkstre("", "", yillar[j].ToString(), "", out yirmiuc2); // 20160101
                     SAPs.LogYaz("ekstre sonrasi", true, "sap yanıt verdi, " + yillar[j].ToString() + " yılı verisi alındı, " + (yirmiuc.Length + yirmiuc2.Length).ToString() + " satır", DateTime.Now, DateTime.Now);
                     ayniyiltekrar = 0;
                 }
@@ -1986,6 +1986,293 @@ COMMIT TRANSACTION t_Transaction
                     SAPs.LogYaz("ekstre yeni", hataa != string.Empty ? false : true, hataa, bastarih, DateTime.Now);
                 }
             }
+        }
+        public static void GetEkstre2()
+        {
+            DateTime Baslangic = Convert.ToDateTime("01.01.2014");
+
+            string hata = string.Empty;
+            string hata2 = string.Empty;
+            DateTime baslangic = DateTime.Now;
+
+            List<int> yillar = new List<int>();
+            for (int i = 0; i < DateTime.Now.Year - Baslangic.Year + 1; i++)
+                yillar.Add(Baslangic.Year + i);
+
+            SqlConnection conn = new SqlConnection(General.ConnectionString);
+
+            DateTime sontarih = MaxTarihGetir(conn, "SAP_Ekstre").AddDays(-2);
+            string sonTarih = sontarih.ToString("yyyyMMdd");
+
+            int ayniyiltekrar = 0;
+            for (int j = 0; j < yillar.Count; j++)
+            {
+                DateTime bas = DateTime.Now;
+                bool buyilhatayok = true;
+
+
+                selectekstreC.ZwebSelectEkstreService ekstre = new selectekstreC.ZwebSelectEkstreService();
+                ekstre.Timeout = 6000000;
+                selectekstreC.Zwebs023[] yirmiuc = null;
+                selectekstreC.Zwebs023[] yirmiuc2 = null;
+                ekstre.Credentials = nc1;
+
+                try
+                {
+                    yirmiuc = ekstre.ZwebSelectEkstre(sonTarih, "", yillar[j].ToString(), "", out yirmiuc2);
+                    SAPs.LogYaz("ekstre deneme", true, "sap yanıt verdi, " + yillar[j].ToString() + " yılı verisi " + sonTarih + " için alındı, " + (yirmiuc.Length + yirmiuc2.Length).ToString() + " satır", DateTime.Now, DateTime.Now);
+                    ayniyiltekrar = 0;
+                }
+                catch (Exception ex)
+                {
+                    SAPs.LogYaz("ekstre deneme", true, "sap hata döndürdü " + yillar[j].ToString() + " - " + sonTarih + ":" + ex.Message, DateTime.Now, DateTime.Now);
+                    buyilhatayok = false;
+                    if (ayniyiltekrar < 3)
+                    {
+                        j--;
+                        ayniyiltekrar++;
+                    }
+                    else
+                    {
+                        ayniyiltekrar = 0;
+                    }
+                }
+
+
+                if (buyilhatayok)
+                {
+                    #region DataTable
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("Tur", typeof(string));
+                    dt.Columns.Add("Bukrs", typeof(string));
+                    dt.Columns.Add("Kunnr", typeof(int));
+                    dt.Columns.Add("Umsks", typeof(string));
+                    dt.Columns.Add("Umskz", typeof(string));
+                    dt.Columns.Add("Gjahr", typeof(int));
+                    dt.Columns.Add("Belnr", typeof(string));
+                    dt.Columns.Add("Buzei", typeof(int));
+                    dt.Columns.Add("Augdt", typeof(DateTime));
+                    dt.Columns.Add("Augbl", typeof(string));
+                    dt.Columns.Add("Zuonr", typeof(string));
+                    dt.Columns.Add("Budat", typeof(DateTime));
+                    dt.Columns.Add("Blart", typeof(string));
+                    dt.Columns.Add("Ltext", typeof(string));
+                    dt.Columns.Add("Sgtxt", typeof(string));
+                    dt.Columns.Add("Borc", typeof(double));
+                    dt.Columns.Add("Alacak", typeof(double));
+                    dt.Columns.Add("Shkzg", typeof(string));
+                    dt.Columns.Add("Waers", typeof(string));
+                    dt.Columns.Add("Lifnr", typeof(string));
+                    dt.Columns.Add("Awkey", typeof(string));
+                    dt.Columns.Add("Zfbdt", typeof(DateTime));
+                    dt.Columns.Add("Zbd1t", typeof(int));
+                    dt.Columns.Add("Xref1", typeof(string));
+                    dt.Columns.Add("Xref2", typeof(string));
+                    dt.Columns.Add("Kidno", typeof(string));
+                    dt.Columns.Add("Vbeln", typeof(int));
+                    dt.Columns.Add("Kunag", typeof(int));
+                    dt.Columns.Add("Ernam", typeof(string));
+                    dt.Columns.Add("Erdat", typeof(DateTime));
+                    dt.Columns.Add("Erzet", typeof(string));
+                    dt.Columns.Add("Xblnr", typeof(string));
+                    dt.Columns.Add("Rebzg", typeof(string));
+                    dt.Columns.Add("Rebzj", typeof(int));
+                    dt.Columns.Add("Rebzz", typeof(int));
+                    dt.Columns.Add("Hkont", typeof(string));
+                    #endregion
+
+                    #region Musteri
+                    for (int i = 0; i < yirmiuc.Length; i++)
+                    {
+                        try
+                        {
+                            DataRow drow = dt.NewRow();
+                            drow["Tur"] = "M";
+                            drow["Bukrs"] = yirmiuc[i].Bukrs;
+                            try { drow["Kunnr"] = Convert.ToInt32(yirmiuc[i].Kunnr); }
+                            catch (Exception) { drow["Kunnr"] = 10; }
+                            drow["Umsks"] = yirmiuc[i].Umsks;
+                            drow["Umskz"] = yirmiuc[i].Umskz;
+                            drow["Gjahr"] = yirmiuc[i].Gjahr;
+                            drow["Belnr"] = yirmiuc[i].Belnr;
+                            drow["Buzei"] = yirmiuc[i].Buzei;
+                            if (yirmiuc[i].Augdt.StartsWith("00")) drow["Augdt"] = Convert.ToDateTime("01.01.1900"); else drow["Augdt"] = Convert.ToDateTime(yirmiuc[i].Augdt);
+                            drow["Augbl"] = yirmiuc[i].Augbl;
+                            drow["Zuonr"] = yirmiuc[i].Zuonr;
+                            if (yirmiuc[i].Budat.StartsWith("00")) drow["Budat"] = Convert.ToDateTime("01.01.1900"); else drow["Budat"] = Convert.ToDateTime(yirmiuc[i].Budat);
+                            drow["Blart"] = yirmiuc[i].Blart;
+                            drow["Ltext"] = yirmiuc[i].Ltext;
+                            drow["Sgtxt"] = yirmiuc[i].Sgtxt;
+                            drow["Borc"] = yirmiuc[i].Borc;
+                            drow["Alacak"] = yirmiuc[i].Alacak;
+                            drow["Shkzg"] = yirmiuc[i].Shkzg;
+                            drow["Waers"] = yirmiuc[i].Waers;
+                            drow["Lifnr"] = yirmiuc[i].Lifnr;
+                            drow["Awkey"] = yirmiuc[i].Awkey;
+                            if (yirmiuc[i].Zfbdt.StartsWith("00")) drow["Zfbdt"] = Convert.ToDateTime("01.01.1900"); else drow["Zfbdt"] = Convert.ToDateTime(yirmiuc[i].Zfbdt);
+                            drow["Zbd1t"] = yirmiuc[i].Zbd1t;
+                            drow["Xref1"] = yirmiuc[i].Xref1;
+                            drow["Xref2"] = yirmiuc[i].Xref2;
+                            drow["Kidno"] = yirmiuc[i].Kidno;
+                            try { drow["Vbeln"] = Convert.ToInt32(yirmiuc[i].Vbeln); }
+                            catch (Exception) { drow["Vbeln"] = DBNull.Value; }
+                            try { drow["Kunag"] = Convert.ToInt32(yirmiuc[i].Kunag); }
+                            catch (Exception) { drow["Kunag"] = 10; }
+                            drow["Ernam"] = yirmiuc[i].Ernam;
+                            drow["Erdat"] = Convert.ToDateTime(yirmiuc[i].Erdat + " " + yirmiuc[i].Erzet);
+                            drow["Erzet"] = yirmiuc[i].Erzet;
+                            drow["Xblnr"] = yirmiuc[i].Xblnr;
+                            drow["Rebzg"] = yirmiuc[i].Rebzg;
+                            drow["Rebzj"] = yirmiuc[i].Rebzj == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzj);
+                            drow["Rebzz"] = yirmiuc[i].Rebzz == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzz);
+                            drow["Hkont"] = yirmiuc[i].Hkont;
+                            dt.Rows.Add(drow);
+                        }
+                        catch (Exception ex)
+                        {
+                            hata = ex.Message;
+                            SAPs.LogYaz("ekstre deneme", true, "musteri ekstresi bellege alinirken bir satirda hata olustu: " + ex.Message, DateTime.Now, DateTime.Now);
+                        }
+                    }
+                    #endregion
+
+                    #region Tedarikci
+                    for (int i = 0; i < yirmiuc2.Length; i++)
+                    {
+                        try
+                        {
+                            DataRow drow = dt.NewRow();
+                            drow["Tur"] = "T";
+                            drow["Bukrs"] = yirmiuc2[i].Bukrs;
+                            try { drow["Kunnr"] = Convert.ToInt32(yirmiuc2[i].Kunnr); }
+                            catch (Exception) { drow["Kunnr"] = 10; }
+                            drow["Umsks"] = yirmiuc2[i].Umsks;
+                            drow["Umskz"] = yirmiuc2[i].Umskz;
+                            drow["Gjahr"] = yirmiuc2[i].Gjahr;
+                            drow["Belnr"] = yirmiuc2[i].Belnr;
+                            drow["Buzei"] = yirmiuc2[i].Buzei;
+                            if (yirmiuc2[i].Augdt.StartsWith("00")) drow["Augdt"] = Convert.ToDateTime("01.01.1900"); else drow["Augdt"] = Convert.ToDateTime(yirmiuc2[i].Augdt);
+                            drow["Augbl"] = yirmiuc2[i].Augbl;
+                            drow["Zuonr"] = yirmiuc2[i].Zuonr;
+                            if (yirmiuc2[i].Budat.StartsWith("00")) drow["Budat"] = Convert.ToDateTime("01.01.1900"); else drow["Budat"] = Convert.ToDateTime(yirmiuc2[i].Budat);
+                            drow["Blart"] = yirmiuc2[i].Blart;
+                            drow["Ltext"] = yirmiuc2[i].Ltext;
+                            drow["Sgtxt"] = yirmiuc2[i].Sgtxt;
+                            drow["Borc"] = yirmiuc2[i].Borc;
+                            drow["Alacak"] = yirmiuc2[i].Alacak;
+                            drow["Shkzg"] = yirmiuc2[i].Shkzg;
+                            drow["Waers"] = yirmiuc2[i].Waers;
+                            drow["Lifnr"] = yirmiuc2[i].Lifnr;
+                            drow["Awkey"] = yirmiuc2[i].Awkey;
+                            if (yirmiuc2[i].Zfbdt.StartsWith("00")) drow["Zfbdt"] = Convert.ToDateTime("01.01.1900"); else drow["Zfbdt"] = Convert.ToDateTime(yirmiuc2[i].Zfbdt);
+                            drow["Zbd1t"] = yirmiuc2[i].Zbd1t;
+                            drow["Xref1"] = yirmiuc2[i].Xref1;
+                            drow["Xref2"] = yirmiuc2[i].Xref2;
+                            drow["Kidno"] = yirmiuc2[i].Kidno;
+                            try { drow["Vbeln"] = Convert.ToInt32(yirmiuc2[i].Vbeln); }
+                            catch (Exception) { drow["Vbeln"] = DBNull.Value; }
+                            try { drow["Kunag"] = Convert.ToInt32(yirmiuc2[i].Kunag); }
+                            catch (Exception) { drow["Kunag"] = 10; }
+                            drow["Ernam"] = yirmiuc2[i].Ernam;
+                            drow["Erdat"] = Convert.ToDateTime(yirmiuc2[i].Erdat + " " + yirmiuc2[i].Erzet);
+                            drow["Erzet"] = yirmiuc2[i].Erzet;
+                            drow["Xblnr"] = yirmiuc2[i].Xblnr;
+                            drow["Rebzg"] = yirmiuc2[i].Rebzg;
+                            drow["Rebzj"] = yirmiuc2[i].Rebzj == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzj);
+                            drow["Rebzz"] = yirmiuc2[i].Rebzz == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzz);
+                            drow["Hkont"] = yirmiuc2[i].Hkont;
+                            dt.Rows.Add(drow);
+                        }
+                        catch (Exception ex)
+                        {
+                            hata2 = ex.Message;
+                            SAPs.LogYaz("ekstre deneme", true, "tedarikci ekstresi bellege alinirken bir satirda hata olustu: " + ex.Message, DateTime.Now, DateTime.Now);
+                        }
+                    }
+                    #endregion
+
+                    #region silme ve yazma
+                    if (hata == string.Empty && hata2 == string.Empty)
+                    {
+                        conn.Open();
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            SqlCommand cmd1 = new SqlCommand("DELETE FROM [SAP_EKSTRE_DENEME] WHERE [Bukrs] = @Bukrs AND [Kunnr] = @Kunnr AND [Umsks] = @Umsks AND [Umskz] = @Umskz AND [Gjahr] = @Gjahr AND [Belnr] = @Belnr AND [Buzei] = @Buzei AND [Augdt] = @Augdt AND [Augbl] = @Augbl AND [Zuonr] = @Zuonr", conn);
+                            cmd1.Parameters.Add("@Bukrs", SqlDbType.VarChar, 4).Value = dt.Rows[i]["Bukrs"];
+                            cmd1.Parameters.Add("@Kunnr", SqlDbType.Int).Value = dt.Rows[i]["Kunnr"];
+                            cmd1.Parameters.Add("@Umsks", SqlDbType.VarChar, 1).Value = dt.Rows[i]["Umsks"];
+                            cmd1.Parameters.Add("@Umskz", SqlDbType.VarChar, 1).Value = dt.Rows[i]["Umskz"];
+                            cmd1.Parameters.Add("@Gjahr", SqlDbType.Int).Value = dt.Rows[i]["Gjahr"];
+                            cmd1.Parameters.Add("@Belnr", SqlDbType.VarChar, 10).Value = dt.Rows[i]["Belnr"];
+                            cmd1.Parameters.Add("@Buzei", SqlDbType.Int).Value = dt.Rows[i]["Buzei"];
+                            cmd1.Parameters.Add("@Augdt", SqlDbType.DateTime).Value = dt.Rows[i]["Augdt"];
+                            cmd1.Parameters.Add("@Augbl", SqlDbType.VarChar, 10).Value = dt.Rows[i]["Augbl"];
+                            cmd1.Parameters.Add("@Zuonr", SqlDbType.VarChar, 18).Value = dt.Rows[i]["Zuonr"];
+                            cmd1.CommandTimeout = 1000;
+                            cmd1.ExecuteNonQuery();
+                        }
+                        conn.Close();
+
+                        SAPs.LogYaz("ekstre deneme", true, "sap_ekstre_deneme tablosu " + yillar[j].ToString() + " yılı " + sonTarih + " sonraki değişiklik olan satırlar silindi", DateTime.Now, DateTime.Now);
+
+                        try
+                        {
+                            SqlDataAdapter da = new SqlDataAdapter();
+                            da.InsertCommand = new SqlCommand("INSERT INTO [SAP_EKSTRE_DENEME] (Tur,[Bukrs],[Kunnr],[Umsks],[Umskz],[Gjahr],[Belnr],[Buzei],[Augdt],[Augbl],[Zuonr],[Budat],[Blart],[Ltext],[Sgtxt],[Borc],[Alacak],[Shkzg],[Waers],[Lifnr],[Awkey],[Zfbdt],[Zbd1t],[Xref1],[Xref2],[Kidno],[Vbeln],[Kunag],Ernam,Erdat,Erzet,Xblnr,Rebzg,Rebzj,Rebzz,Hkont) VALUES (@Tur,@Bukrs,@Kunnr,@Umsks,@Umskz,@Gjahr,@Belnr,@Buzei,@Augdt,@Augbl,@Zuonr,@Budat,@Blart,@Ltext,@Sgtxt,@Borc,@Alacak,@Shkzg,@Waers,@Lifnr,@Awkey,@Zfbdt,@Zbd1t,@Xref1,@Xref2,@Kidno,@Vbeln,@Kunag,@Ernam,@Erdat,@Erzet,@Xblnr,@Rebzg,@Rebzj,@Rebzz,@Hkont)", conn);
+                            da.InsertCommand.Parameters.Add("@Tur", SqlDbType.Char, 1, "Tur");
+                            da.InsertCommand.Parameters.Add("@Bukrs", SqlDbType.VarChar, 4, "Bukrs");
+                            da.InsertCommand.Parameters.Add("@Kunnr", SqlDbType.Int, 4, "Kunnr");
+                            da.InsertCommand.Parameters.Add("@Umsks", SqlDbType.VarChar, 1, "Umsks");
+                            da.InsertCommand.Parameters.Add("@Umskz", SqlDbType.VarChar, 1, "Umskz");
+                            da.InsertCommand.Parameters.Add("@Gjahr", SqlDbType.Int, 4, "Gjahr");
+                            da.InsertCommand.Parameters.Add("@Belnr", SqlDbType.VarChar, 10, "Belnr");
+                            da.InsertCommand.Parameters.Add("@Buzei", SqlDbType.Int, 4, "Buzei");
+                            da.InsertCommand.Parameters.Add("@Augdt", SqlDbType.DateTime, 8, "Augdt");
+                            da.InsertCommand.Parameters.Add("@Augbl", SqlDbType.VarChar, 10, "Augbl");
+                            da.InsertCommand.Parameters.Add("@Zuonr", SqlDbType.VarChar, 18, "Zuonr");
+                            da.InsertCommand.Parameters.Add("@Budat", SqlDbType.DateTime, 8, "Budat");
+                            da.InsertCommand.Parameters.Add("@Blart", SqlDbType.VarChar, 2, "Blart");
+                            da.InsertCommand.Parameters.Add("@Ltext", SqlDbType.NVarChar, 40, "Ltext");
+                            da.InsertCommand.Parameters.Add("@Sgtxt", SqlDbType.NVarChar, 50, "Sgtxt");
+                            da.InsertCommand.Parameters.Add("@Borc", SqlDbType.Float, 8, "Borc");
+                            da.InsertCommand.Parameters.Add("@Alacak", SqlDbType.Float, 8, "Alacak");
+                            da.InsertCommand.Parameters.Add("@Shkzg", SqlDbType.VarChar, 1, "Shkzg");
+                            da.InsertCommand.Parameters.Add("@Waers", SqlDbType.NVarChar, 50, "Waers");
+                            da.InsertCommand.Parameters.Add("@Lifnr", SqlDbType.VarChar, 10, "Lifnr");
+                            da.InsertCommand.Parameters.Add("@Awkey", SqlDbType.VarChar, 20, "Awkey");
+                            da.InsertCommand.Parameters.Add("@Zfbdt", SqlDbType.DateTime, 8, "Zfbdt");
+                            da.InsertCommand.Parameters.Add("@Zbd1t", SqlDbType.Int, 4, "Zbd1t");
+                            da.InsertCommand.Parameters.Add("@Xref1", SqlDbType.VarChar, 12, "Xref1");
+                            da.InsertCommand.Parameters.Add("@Xref2", SqlDbType.NVarChar, 12, "Xref2");
+                            da.InsertCommand.Parameters.Add("@Kidno", SqlDbType.VarChar, 30, "Kidno");
+                            da.InsertCommand.Parameters.Add("@Vbeln", SqlDbType.Int, 4, "Vbeln");
+                            da.InsertCommand.Parameters.Add("@Kunag", SqlDbType.Int, 4, "Kunag");
+                            da.InsertCommand.Parameters.Add("@Ernam", SqlDbType.NVarChar, 12, "Ernam");
+                            da.InsertCommand.Parameters.Add("@Erdat", SqlDbType.DateTime, 8, "Erdat");
+                            da.InsertCommand.Parameters.Add("@Erzet", SqlDbType.NVarChar, 8, "Erzet");
+                            da.InsertCommand.Parameters.Add("@Xblnr", SqlDbType.NVarChar, 16, "Xblnr");
+                            da.InsertCommand.Parameters.Add("@Rebzg", SqlDbType.NVarChar, 10, "Rebzg");
+                            da.InsertCommand.Parameters.Add("@Rebzj", SqlDbType.Int, 4, "Rebzj");
+                            da.InsertCommand.Parameters.Add("@Rebzz", SqlDbType.Int, 4, "Rebzz");
+                            da.InsertCommand.Parameters.Add("@Hkont", SqlDbType.NVarChar, 10, "Hkont");
+                            da.Update(dt);
+                        }
+                        catch (Exception ex)
+                        {
+                            hata2 = ex.Message;
+                            SAPs.LogYaz("ekstre deneme", true, "sap_ekstre_deneme tablosu doldurulurken hata olustu: " + ex.Message, DateTime.Now, DateTime.Now);
+                        }
+                    }
+                    #endregion
+
+                    SAPs.LogYaz("ekstre deneme", true, yillar[j].ToString() + " yılı " + sonTarih + " sonraki değişiklik olan satırlar yazıldı, " + dt.Rows.Count.ToString() + " satır", bas, DateTime.Now);
+                }
+            }
+
+
+
+            MaxTarihYaz(conn, "SAP_Ekstre", baslangic);
+            SAPs.LogYaz("ekstre deneme", hata != string.Empty && hata2 != string.Empty ? false : true, (hata + " " + hata2).Trim(), baslangic, DateTime.Now);
         }
         #endregion
 

@@ -168,7 +168,8 @@ namespace Sultanlar.WindowsServiceIslemler
                 {
                     if (DateTime.Now.Minute > 40 && DateTime.Now.Minute <= 45)
                     {
-                        Sap.GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014") 
+                        Sap.GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014")
+                        Sap.GetEkstre2();
                         //GetSatisJob();
                     }
                 }
@@ -204,6 +205,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     if (DateTime.Now.Minute > 40 && DateTime.Now.Minute <= 45)
                     {
                         Sap.GetEkstre(Convert.ToDateTime("01.01.2014")); // Convert.ToDateTime("01.01.2014")
+                        Sap.GetEkstre2();
                         //GetSatisJob();
                     }
                 }
@@ -219,6 +221,7 @@ namespace Sultanlar.WindowsServiceIslemler
                     if (DateTime.Now.Minute > 33 && DateTime.Now.Minute <= 38)
                     {
                         Sap.GetEkstre(Convert.ToDateTime("01.01.2014")); //Convert.ToDateTime("01.01.2014")
+                        Sap.GetEkstre2();
                     }
                 }
             }

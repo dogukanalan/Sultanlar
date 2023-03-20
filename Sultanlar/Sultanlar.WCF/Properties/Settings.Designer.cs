@@ -102,5 +102,45 @@ namespace Sultanlar.WCF.Properties {
                 return ((string)(this["Sultanlar_WCF_KomsuC004_ZwebKomsuF004Service"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_komsuC0011_ZwebKomsuF001Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_komsuC0011_ZwebKomsuF001Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_komsuC0021_ZwebKomsuF002Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_komsuC0021_ZwebKomsuF002Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_komsuC0031_ZwebKomsuF003Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_komsuC0031_ZwebKomsuF003Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://stella.tibet.com.tr:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_komsuC0041_ZwebKomsuF004Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_komsuC0041_ZwebKomsuF004Service"]));
+            }
+        }
     }
 }

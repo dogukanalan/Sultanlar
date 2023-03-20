@@ -36,7 +36,7 @@ namespace Sultanlar.WindowsServiceIslemler.selectekstreC {
         
         /// <remarks/>
         public ZwebSelectEkstreService() {
-            this.Url = global::Sultanlar.WindowsServiceIslemler.Properties.Settings.Default.Sultanlar_WindowsServiceIslemler_selectsalesvbfaC_ZwebSelectSalesVbfaService;
+            this.Url = global::Sultanlar.WindowsServiceIslemler.Properties.Settings.Default.Sultanlar_WindowsServiceIslemler_selectekstreC_ZwebSelectEkstreService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -77,8 +77,9 @@ namespace Sultanlar.WindowsServiceIslemler.selectekstreC {
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://www.sap.com/ZwebSelectEkstre", RequestNamespace="urn:sap-com:document:sap:soap:functions:mc-style", ResponseElementName="ZwebSelectEkstreResult", ResponseNamespace="urn:sap-com:document:sap:soap:functions:mc-style", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlArrayAttribute("EtMusteriEkstre", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         [return: System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
-        public Zwebs023[] ZwebSelectEkstre([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string IBegda, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string IGjahr, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string IKunnr, [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)] out Zwebs023[] EtSaticiEkstre) {
+        public Zwebs023[] ZwebSelectEkstre([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string IAedat, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string IBegda, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string IGjahr, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string IKunnr, [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)] out Zwebs023[] EtSaticiEkstre) {
             object[] results = this.Invoke("ZwebSelectEkstre", new object[] {
+                        IAedat,
                         IBegda,
                         IGjahr,
                         IKunnr});
@@ -87,16 +88,17 @@ namespace Sultanlar.WindowsServiceIslemler.selectekstreC {
         }
         
         /// <remarks/>
-        public void ZwebSelectEkstreAsync(string IBegda, string IGjahr, string IKunnr) {
-            this.ZwebSelectEkstreAsync(IBegda, IGjahr, IKunnr, null);
+        public void ZwebSelectEkstreAsync(string IAedat, string IBegda, string IGjahr, string IKunnr) {
+            this.ZwebSelectEkstreAsync(IAedat, IBegda, IGjahr, IKunnr, null);
         }
         
         /// <remarks/>
-        public void ZwebSelectEkstreAsync(string IBegda, string IGjahr, string IKunnr, object userState) {
+        public void ZwebSelectEkstreAsync(string IAedat, string IBegda, string IGjahr, string IKunnr, object userState) {
             if ((this.ZwebSelectEkstreOperationCompleted == null)) {
                 this.ZwebSelectEkstreOperationCompleted = new System.Threading.SendOrPostCallback(this.OnZwebSelectEkstreOperationCompleted);
             }
             this.InvokeAsync("ZwebSelectEkstre", new object[] {
+                        IAedat,
                         IBegda,
                         IGjahr,
                         IKunnr}, this.ZwebSelectEkstreOperationCompleted, userState);

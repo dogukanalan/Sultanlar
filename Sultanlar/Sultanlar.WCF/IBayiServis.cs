@@ -8,6 +8,7 @@ using System.Text;
 using System.Xml;
 using Sultanlar.Model.Xml;
 using Sultanlar.Model.Bayi;
+using System.IO;
 
 namespace Sultanlar.WCF
 {
@@ -46,5 +47,9 @@ namespace Sultanlar.WCF
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Xml, ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/Post2?bayikod={Bayikod}&satis={Satis}&yilad={YilAd}&basyil={BasYil}&bityil={BitYil}&ayad={AyAd}&basay={BasAy}&bitay={BitAy}")]
         XmlDocument PostXml2(XmlDocument icerik, string Bayikod, string Satis, string YilAd, string BasYil, string BitYil, string AyAd, string BasAy, string BitAy);
+
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Xml, ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Iade?bayikod={Bayikod}&musteri={Musteri}")]
+        string IadeXml(XmlDocument icerik, string Bayikod, string Musteri);
     }
 }

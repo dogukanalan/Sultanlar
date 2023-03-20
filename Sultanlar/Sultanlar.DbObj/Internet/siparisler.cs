@@ -27,6 +27,7 @@ namespace Sultanlar.DbObj.Internet
         public string QuantumNo { get { return blAktarilmis ? GetQ(pkSiparisID) : ""; } }
         public DateTime QuantumFattar { get { return blAktarilmis ? GetQFattar(pkSiparisID) : DateTime.Now; } }
         public bool QuantumIptal { get { return GetQIptal(pkSiparisID); } }
+        public bool QuantumBakiye { get { return GetQBakiye(pkSiparisID); } }
 
         private bool detay { get; set; }
         public List<siparislerDetay> detaylar { get { if (detay) return new siparislerDetay().GetObjects(pkSiparisID, TKSREF > 1 ? Cari.GMREF : 0); else return new List<siparislerDetay>(); } }
@@ -284,6 +285,13 @@ namespace Sultanlar.DbObj.Internet
         public bool GetQIptal(int SiparisID)
         {
             Dictionary<int, object> dic = GetObject("db_sp_siparisQIptalGetir", new Dictionary<string, object>() { { "SiparisID", SiparisID } }, timeout);
+            return dic == null || dic[0] == DBNull.Value ? false : Convert.ToBoolean(dic[0]);
+        }
+        //
+        //
+        public bool GetQBakiye(int SiparisID)
+        {
+            Dictionary<int, object> dic = GetObject("db_sp_siparisQBakiyeGetir", new Dictionary<string, object>() { { "SiparisID", SiparisID } }, timeout);
             return dic == null || dic[0] == DBNull.Value ? false : Convert.ToBoolean(dic[0]);
         }
         /// <summary>

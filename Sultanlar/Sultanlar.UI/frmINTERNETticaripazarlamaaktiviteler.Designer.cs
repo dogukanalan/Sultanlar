@@ -103,6 +103,7 @@
             this.gridColumn50 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn53 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn55 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn58 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.lblUyari = new System.Windows.Forms.TextBox();
             this.sbExcel2 = new DevExpress.XtraEditors.SimpleButton();
@@ -159,7 +160,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.dtpBitis = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
-            this.gridColumn58 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn59 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -765,6 +766,7 @@
             this.gridColumn56,
             this.gridColumn50,
             this.gridColumn53,
+            this.gridColumn59,
             this.gridColumn55,
             this.gridColumn58});
             this.gridView1.GridControl = this.gridControl1;
@@ -1136,8 +1138,19 @@
             this.gridColumn55.OptionsColumn.AllowEdit = false;
             this.gridColumn55.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn55.Visible = true;
-            this.gridColumn55.VisibleIndex = 23;
+            this.gridColumn55.VisibleIndex = 24;
             this.gridColumn55.Width = 100;
+            // 
+            // gridColumn58
+            // 
+            this.gridColumn58.Caption = "Açıklama";
+            this.gridColumn58.FieldName = "strAciklama6";
+            this.gridColumn58.Name = "gridColumn58";
+            this.gridColumn58.OptionsColumn.AllowEdit = false;
+            this.gridColumn58.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
+            this.gridColumn58.Visible = true;
+            this.gridColumn58.VisibleIndex = 25;
+            this.gridColumn58.Width = 250;
             // 
             // repositoryItemComboBox1
             // 
@@ -1660,16 +1673,17 @@
             this.label4.Size = new System.Drawing.Size(864, 99);
             this.label4.TabIndex = 14;
             // 
-            // gridColumn58
+            // gridColumn59
             // 
-            this.gridColumn58.Caption = "Açıklama";
-            this.gridColumn58.FieldName = "strAciklama6";
-            this.gridColumn58.Name = "gridColumn58";
-            this.gridColumn58.OptionsColumn.AllowEdit = false;
-            this.gridColumn58.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
-            this.gridColumn58.Visible = true;
-            this.gridColumn58.VisibleIndex = 24;
-            this.gridColumn58.Width = 250;
+            this.gridColumn59.Caption = "Maliyet Düş.";
+            this.gridColumn59.DisplayFormat.FormatString = "C4";
+            this.gridColumn59.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.gridColumn59.FieldName = "MaliyetFiy";
+            this.gridColumn59.Name = "gridColumn59";
+            this.gridColumn59.OptionsColumn.AllowEdit = false;
+            this.gridColumn59.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
+            this.gridColumn59.Visible = true;
+            this.gridColumn59.VisibleIndex = 23;
             // 
             // frmINTERNETticaripazarlamaaktiviteler
             // 
@@ -1832,5 +1846,6 @@
         private System.Windows.Forms.Button btnToptanAltkanal;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn57;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn58;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn59;
     }
 }

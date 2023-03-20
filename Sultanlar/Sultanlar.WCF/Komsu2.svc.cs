@@ -10,9 +10,9 @@ using System.Text;
 
 namespace Sultanlar.WCF
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Komsu" in code, svc and config file together.
-    // NOTE: In order to launch WCF Test Client for testing this service, please select Komsu.svc or Komsu.svc.cs at the Solution Explorer and start debugging.
-    public class Komsu : IKomsu
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Komsu2" in code, svc and config file together.
+    // NOTE: In order to launch WCF Test Client for testing this service, please select Komsu2.svc or Komsu2.svc.cs at the Solution Explorer and start debugging.
+    public class Komsu2 : IKomsu2
     {
         NetworkCredential nc3 = new NetworkCredential("MISTIF", "Ankara1923*+B"); //mbozdag Alfa123**
 
@@ -92,20 +92,6 @@ namespace Sultanlar.WCF
             srv.Credentials = nc3;
             komsuC0041.ZwebKomsuS_004[] dortler = srv.ZwebKomsuF004(Matnr, new komsuC0041.Werks() { Werks1 = Werks });
             return dortler;
-        }
-    }
-
-    public class KomsuServiceAuthenticator : UserNamePasswordValidator
-    {
-        public override void Validate(string userName, string password)
-        {
-            if (string.IsNullOrEmpty(userName))
-                throw new ArgumentNullException("username");
-            if (string.IsNullOrEmpty(password))
-                throw new ArgumentNullException("password");
-
-            if (userName != "komsu" || password != "tsoft")
-                throw new SecurityTokenException("Kullanıcı adı-parola yanlış.");
         }
     }
 }

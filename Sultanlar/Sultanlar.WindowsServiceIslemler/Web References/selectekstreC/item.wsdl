@@ -5,6 +5,7 @@
       <xsd:element name="ZwebSelectEkstre">
         <xsd:complexType>
           <xsd:all>
+            <xsd:element minOccurs="0" name="IAedat" type="s0:date" />
             <xsd:element minOccurs="0" name="IBegda" type="s0:date" />
             <xsd:element name="IGjahr">
               <xsd:simpleType>

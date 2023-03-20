@@ -356,6 +356,12 @@ namespace Sultanlar.UI
             gridColumn53.OptionsColumn.AllowEdit = false;
             gridColumn54.OptionsColumn.AllowEdit = false;
             gridColumn55.OptionsColumn.AllowEdit = false;
+            gridColumn56.OptionsColumn.AllowEdit = false;
+            gridColumn48.OptionsColumn.AllowEdit = false;
+            gridColumn52.OptionsColumn.AllowEdit = false;
+            gridColumn100.OptionsColumn.AllowEdit = false;
+            gridColumn58.OptionsColumn.AllowEdit = false;
+            gridColumn59.OptionsColumn.AllowEdit = false;
         }
 
         private void AktiviteEnableDisable(bool Aktif)

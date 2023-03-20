@@ -78,7 +78,9 @@
                     }
 
                     $('input[name="sevkler"]').on('keyup', function () {
-                        $("#span" + this.id.replace("sevk", "")).text(this.value);
+                        var miktar = parseInt($(this).attr("accesskey2")) < parseInt(this.value) ? parseInt($(this).attr("accesskey2")) : parseInt(this.value);
+                        $(this).val(miktar);
+                        $("#span" + this.id.replace("sevk", "")).text(miktar);
                     });
 
                     if (sevkli) {
@@ -195,7 +197,7 @@
                         "data": null, "class": "keyTd", render: function (data, type, row) {
                             var sevkli = data.sevk.id > 0;
                             var miktar = sevkli ? data.sevk.intMiktar : "";
-                            return '<input type="number" name="sevkler" id="sevk' + data.pkSiparisDetayID + '" class="inputSecim" accesskey="' + sevkli + '" value="' + miktar + '" ' + (sevkli ? ' disabled' : '') + ' /><span id="span' + data.pkSiparisDetayID + '" style="display: none">' + miktar + '</span>';
+                            return '<input type="number" name="sevkler" id="sevk' + data.pkSiparisDetayID + '" class="inputSecim" accesskey2="' + data.malzeme.stokdis + '" accesskey="' + sevkli + '" value="' + miktar + '" ' + (sevkli ? ' disabled' : '') + ' /><span id="span' + data.pkSiparisDetayID + '" style="display: none">' + miktar + '</span>';
                         },
                         title: 'Sevk'
                     }
@@ -299,14 +301,16 @@
                 var stok = $(this).closest("tr").find(".stoklar")[0].innerHTML;
                 var mal = $(this).closest("tr").find(".malacik")[0].innerHTML;
 
-                if (parseInt(stok) < parseInt($(this).text())) {
+                /*if (parseInt(stok) < parseInt($(this).text())) {
                     if (!confirm(mal + " için sevk adedi (" + $(this).text() + ") mevcut stoktan (" + stok + ") daha fazla. Aktarmak istiyor musunuz?"))
                         return;
-                }
+                }*/
+
+                var miktar = parseInt(stok) < parseInt($(this).text()) ? parseInt(stok) : parseInt($(this).text());
 
                 if (kontrol.attr('accesskey') == "false") {
-                    kontrol.val($(this).text());
-                    $("#span" + $(this).attr('id').replace("miktar", "")).text($(this).text());
+                    kontrol.val(miktar);
+                    $("#span" + $(this).attr('id').replace("miktar", "")).text(miktar);
                 }
                 //table.rows().invalidate().draw();
             });

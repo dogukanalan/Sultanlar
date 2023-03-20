@@ -71,14 +71,14 @@ namespace Sultanlar.Model.Bayi
         [XmlElement(ElementName = "TIME")]
         public string TIME { get; set; }
 
+        [XmlElement(ElementName = "INVOICE_NUMBER")]
+        public string INVOICE_NUMBER { get; set; }
+
         [XmlElement(ElementName = "ARP_CODE")]
         public string carino2 { get; set; }
 
-        [XmlElement(ElementName = "POST_FLAGS"), DefaultValue("247")]
-        public string POST_FLAGS { get; set; }
-
-        [XmlElement(ElementName = "VAT_RATE"), DefaultValue("")]
-        public string VAT_RATE { get; set; }
+        [XmlElement(ElementName = "INVOICED"), DefaultValue("1")]
+        public string INVOICED { get; set; }
 
         [XmlElement(ElementName = "ADD_DISCOUNTS"), DefaultValue("")]
         public string ADD_DISCOUNTS { get; set; }
@@ -97,9 +97,6 @@ namespace Sultanlar.Model.Bayi
 
         [XmlElement(ElementName = "TOTAL_NET")]
         public string TOTAL_NET { get; set; }
-
-        [XmlElement(ElementName = "CURR_INVOICE"), DefaultValue("1")]
-        public string CURR_INVOICE { get; set; }
 
         [XmlElement(ElementName = "RC_XRATE"), DefaultValue("1")]
         public string RC_XRATE { get; set; }
@@ -131,17 +128,16 @@ namespace Sultanlar.Model.Bayi
         [XmlElement(ElementName = "DATA_REFERENCE"), DefaultValue("6")]
         public string DATA_REFERENCE { get; set; }
 
-        public List<BimatSiparisDisDispatch> DISPATCHES { get; set; }
 
-        public List<BimatSiparisDisDetay> TRANSACTIONS { get; set; }
 
-        public List<BimatSiparisDisPayment> PAYMENT_LIST { get; set; }
+        [XmlElement(ElementName = "ORIG_NUMBER"), DefaultValue("")]
+        public string ORIG_NUMBER { get; set; }
 
         [XmlElement(ElementName = "ORGLOGOID"), DefaultValue("")]
         public string ORGLOGOID { get; set; }
 
-        [XmlElement(ElementName = "DEFNFLDSLIST"), DefaultValue("")]
-        public string DEFNFLDSLIST { get; set; }
+        [XmlElement(ElementName = "CURR_TRANSACTION"), DefaultValue("1")]
+        public string CURR_TRANSACTION { get; set; }
 
         [XmlElement(ElementName = "DEDUCTIONPART1"), DefaultValue("2")]
         public string DEDUCTIONPART1 { get; set; }
@@ -149,22 +145,39 @@ namespace Sultanlar.Model.Bayi
         [XmlElement(ElementName = "DEDUCTIONPART2"), DefaultValue("3")]
         public string DEDUCTIONPART2 { get; set; }
 
+        [XmlElement(ElementName = "AFFECT_RISK"), DefaultValue("0")]
+        public string AFFECT_RISK { get; set; }
+
+        [XmlElement(ElementName = "DISP_STATUS"), DefaultValue("1")]
+        public string DISP_STATUS { get; set; }
+
+        [XmlElement(ElementName = "GUID"), DefaultValue("")]
+        public string GUID { get; set; }
+
+        [XmlElement(ElementName = "SHIP_DATE")]
+        public string SHIP_DATE { get; set; }
+
+        [XmlElement(ElementName = "DOC_DATE")]
+        public string DOC_DATE { get; set; }
+
+
+
+        public List<BimatSiparisDisDispatch> DISPATCHES { get; set; }
+
+        public List<BimatSiparisDisDetay> TRANSACTIONS { get; set; }
+
+        public List<BimatSiparisDisPayment> PAYMENT_LIST { get; set; }
+
+        [XmlElement(ElementName = "DEFNFLDSLIST"), DefaultValue("")]
+        public string DEFNFLDSLIST { get; set; }
+
         [XmlElement(ElementName = "DATA_LINK_REFERENCE"), DefaultValue("6")]
         public string DATA_LINK_REFERENCE { get; set; }
 
         public List<BimatSiparisDisIntel> INTEL_LIST { get; set; }
 
-        [XmlElement(ElementName = "AFFECT_RISK"), DefaultValue("0")]
-        public string AFFECT_RISK { get; set; }
-
         [XmlElement(ElementName = "PREACCLINES"), DefaultValue(" ")]
         public string PREACCLINES { get; set; }
-
-        [XmlElement(ElementName = "DOC_DATE")]
-        public string DOC_DATE { get; set; }
-
-        [XmlElement(ElementName = "GUID")]
-        public string GUID { get; set; }
 
         [XmlElement(ElementName = "EDURATION_TYPE"), DefaultValue("0")]
         public string EDURATION_TYPE { get; set; }
@@ -182,6 +195,15 @@ namespace Sultanlar.Model.Bayi
         public string EARCHIVEDETR_INTPAYMENTTYPE { get; set; }
 
         public List<BimatSiparisDisOkcInfo> OKCINFO_LIST { get; set; }
+
+        [XmlElement(ElementName = "POST_FLAGS"), DefaultValue("247")]
+        public string POST_FLAGS { get; set; }
+
+        [XmlElement(ElementName = "CURR_INVOICE"), DefaultValue("1")]
+        public string CURR_INVOICE { get; set; }
+
+        [XmlElement(ElementName = "VAT_RATE"), DefaultValue("")]
+        public string VAT_RATE { get; set; }
     }
 
     [XmlType("TRANSACTION")]

@@ -176,7 +176,7 @@ namespace Sultanlar.DbObj.Internet
         public double ISK9 { get; set; }
         public double ISK10 { get; set; }
         public double dusulmusFiyat { get { return iskDusCoklu(FIYAT, ISK1, ISK2, ISK3, ISK4, ISK5, ISK6, ISK7, ISK8, ISK9, ISK10); } }
-        private siparislerDetayISKs() { }
+        public siparislerDetayISKs() { }
         public siparislerDetayISKs(long bintSiparisDetayID) { this.bintSiparisDetayID = bintSiparisDetayID; }
         public siparislerDetayISKs(long bintSiparisDetayID, double FIYAT, double ISK1, double ISK2, double ISK3, double ISK4, double ISK5, double ISK6, double ISK7, double ISK8, double ISK9, double ISK10)
         {

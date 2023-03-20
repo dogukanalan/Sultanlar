@@ -48,6 +48,7 @@
         }
 
         function onayla() {
+            window.localStorage["bakiye"] = $("#cbBakiye").is(':checked');
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
@@ -72,6 +73,7 @@
         }
 
         $(document).ready(function () {
+            $("#cbBakiye").prop('checked', window.localStorage["bakiye"] == "true" ? true : false);
             siparisid = getParameterByName('siparisid');
             SiparislerDetayGetir();
             $('#dtTable').on('draw.dt', function () {
