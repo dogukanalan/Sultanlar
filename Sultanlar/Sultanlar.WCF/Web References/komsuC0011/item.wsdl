@@ -48,7 +48,6 @@
             <xsd:simpleType>
               <xsd:restriction base="xsd:string">
                 <xsd:maxLength value="4" />
-                <xsd:pattern value="\d*" />
               </xsd:restriction>
             </xsd:simpleType>
           </xsd:element>

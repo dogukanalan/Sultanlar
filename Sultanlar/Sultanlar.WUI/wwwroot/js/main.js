@@ -263,22 +263,22 @@ var inceleonaylasilcolumns = [
         }
     },
     {
-        "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+        "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
             return '<span class="sinirli isk1">' + (data.isks ? data.isks.isK1.formatMoney(3, ',', '.') : '') + '</span>';
         }
     },
     {
-        "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+        "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
             return '<span class="sinirli isk2">' + (data.isks ? data.isks.isK2.formatMoney(3, ',', '.') : '') + '</span>';
         }
     },
     {
-        "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+        "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
             return '<span class="sinirli isk3">' + (data.isks ? data.isks.isK3.formatMoney(3, ',', '.') : '') + '</span>';
         }
     },
     {
-        "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+        "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
             return '<span class="sinirli isk4">' + (data.isks ? data.isks.isK4.formatMoney(3, ',', '.') : '') + '</span>';
         }
     },
@@ -289,12 +289,12 @@ var inceleonaylasilcolumns = [
     },
     {
         "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
-            return '<span class="sinirli">' + (data.isks ? iskDusCoklu((data.mnFiyat), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4).formatMoney(2, ',', '.') : '') + '</span>';
+            return '<span class="sinirli">' + (data.isks ? ((data.strMiktarTur === "KI" ? data.malzeme.koli : 1) *iskDusCoklu((data.mnFiyat), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4)).formatMoney(2, ',', '.') : '') + '</span>';
         }
     },
     {
         "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
-            return '<span class="sinirli">' + (data.isks ? iskDusCoklu((data.mnFiyat * data.intMiktar), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4).formatMoney(2, ',', '.') : '') + '</span>';
+            return '<span class="sinirli">' + (data.isks ? ((data.strMiktarTur === "KI" ? data.malzeme.koli : 1) * iskDusCoklu((data.mnFiyat * data.intMiktar), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4)).formatMoney(2, ',', '.') : '') + '</span>';
         }
     }
 ];
@@ -897,6 +897,10 @@ function getDateNow() {
     var date = new Date();
     //return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
     return new Date().toJSON();
+}
+
+function getDateNowLocal() {
+    return new Date().toLocaleDateString();
 }
 
 function GetDateNow() {

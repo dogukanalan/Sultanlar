@@ -13,6 +13,8 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal List<fiyatlar> Fiyatlar(int TIP, int GMREF, int MTIP, int SMREF) => new fiyatlar().GetObjects(TIP, GMREF, MTIP, SMREF);
 
+        internal List<fiyatlar> Fiyatlar2(int TIP, int GMREF, int MTIP, int SMREF) => new fiyatlar().GetObjectsByGmrefMtip(TIP, GMREF, MTIP, SMREF);
+
         internal List<fiyatlar> FiyatlarNon(int TIP, int GMREF, int MTIP, int SMREF)
         {
             List<fiyatlar> donendeger = new List<fiyatlar>();
@@ -127,6 +129,11 @@ namespace Sultanlar.WebAPI.Services.Internet
             }
 
             return donendeger;
+        }
+
+        internal List<fiyatlar> Smrefad(int SMREF)
+        {
+            return new fiyatlar().GetObjectsSmrefad(SMREF); ;
         }
     }
 }

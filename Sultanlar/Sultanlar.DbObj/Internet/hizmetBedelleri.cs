@@ -25,14 +25,17 @@ namespace Sultanlar.DbObj.Internet
         public string strAciklama2 { get; set; }
         public string strAciklama3 { get; set; }
         public string strAciklama4 { get; set; }
+        
         public decimal mnMudurButcesi { get; set; }
         public decimal mnElemanButcesi { get; set; }
         public bool blKapamaEtki { get; set; }
+        public int intTAHKDVoran { get; set; }
+        public int intYEGKDVoran { get; set; }
 
         public hizmetBedelleri() { }
         public hizmetBedelleri(int pkID) { this.pkID = pkID; }
         public hizmetBedelleri(int intMusteriID, int SMREF, int intAnlasmaBedelAdID, int intAy, int intYil, string strFaturaNo, DateTime dtFaturaTarih, decimal mnTAHBedel, decimal mnYEGBedel, int intAnlasmaBedelID,
-            string strAciklama1, string strAciklama2, string strAciklama3, string strAciklama4, decimal mnMudurButcesi, decimal mnElemanButcesi, bool blKapamaEtki)
+            string strAciklama1, string strAciklama2, string strAciklama3, string strAciklama4, decimal mnMudurButcesi, decimal mnElemanButcesi, bool blKapamaEtki, int intTAHKDVoran, int intYEGKDVoran)
         {
             this.intMusteriID = intMusteriID;
             this.SMREF = SMREF;
@@ -51,9 +54,11 @@ namespace Sultanlar.DbObj.Internet
             this.mnMudurButcesi = mnMudurButcesi;
             this.mnElemanButcesi = mnElemanButcesi;
             this.blKapamaEtki = blKapamaEtki;
+            this.intTAHKDVoran = intTAHKDVoran;
+            this.intYEGKDVoran = intYEGKDVoran;
         }
         private hizmetBedelleri(int pkID, int intMusteriID, int SMREF, int intAnlasmaBedelAdID, int intAy, int intYil, string strFaturaNo, DateTime dtFaturaTarih, decimal mnTAHBedel, decimal mnYEGBedel, int intAnlasmaBedelID,
-            string strAciklama1, string strAciklama2, string strAciklama3, string strAciklama4, decimal mnMudurButcesi, decimal mnElemanButcesi, bool blKapamaEtki)
+            string strAciklama1, string strAciklama2, string strAciklama3, string strAciklama4, decimal mnMudurButcesi, decimal mnElemanButcesi, bool blKapamaEtki, int intTAHKDVoran, int intYEGKDVoran)
         {
             this.pkID = pkID;
             this.intMusteriID = intMusteriID;
@@ -73,6 +78,8 @@ namespace Sultanlar.DbObj.Internet
             this.mnMudurButcesi = mnMudurButcesi;
             this.mnElemanButcesi = mnElemanButcesi;
             this.blKapamaEtki = blKapamaEtki;
+            this.intTAHKDVoran = intTAHKDVoran;
+            this.intYEGKDVoran = intYEGKDVoran;
         }
 
         public override string ToString() { return pkID.ToString(); }
@@ -84,7 +91,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<string, object> param = new Dictionary<string, object>() { { "pkID", pkID }, { "intMusteriID", intMusteriID }, { "SMREF", SMREF }, { "intAnlasmaBedelAdID", intAnlasmaBedelAdID }, 
                 { "intAy", intAy }, { "intYil", intYil }, { "strFaturaNo", strFaturaNo }, { "dtFaturaTarih", dtFaturaTarih }, { "mnTAHBedel", mnTAHBedel }, { "mnYEGBedel", mnYEGBedel }, 
                 { "intAnlasmaBedelID", intAnlasmaBedelID }, { "strAciklama1", strAciklama1 }, { "strAciklama2", strAciklama2 }, { "strAciklama3", strAciklama3 }, { "strAciklama4", strAciklama4 }, 
-                { "mnMudurButcesi", mnMudurButcesi }, { "mnElemanButcesi", mnElemanButcesi }, { "blKapamaEtki", blKapamaEtki } };
+                { "mnMudurButcesi", mnMudurButcesi }, { "mnElemanButcesi", mnElemanButcesi }, { "blKapamaEtki", blKapamaEtki }, { "intTAHKDVoran", intTAHKDVoran }, { "intYEGKDVoran", intYEGKDVoran } };
             pkID = ConvertToByte(Do(QueryType.Insert, "db_sp_hizmetBedelleriEkle", param, timeout));
         }
         /// <summary>
@@ -95,7 +102,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<string, object> param = new Dictionary<string, object>() { { "pkID", pkID }, { "intMusteriID", intMusteriID }, { "SMREF", SMREF }, { "intAnlasmaBedelAdID", intAnlasmaBedelAdID },
                 { "intAy", intAy }, { "intYil", intYil }, { "strFaturaNo", strFaturaNo }, { "dtFaturaTarih", dtFaturaTarih }, { "mnTAHBedel", mnTAHBedel }, { "mnYEGBedel", mnYEGBedel },
                 { "intAnlasmaBedelID", intAnlasmaBedelID }, { "strAciklama1", strAciklama1 }, { "strAciklama2", strAciklama2 }, { "strAciklama3", strAciklama3 }, { "strAciklama4", strAciklama4 },
-                { "mnMudurButcesi", mnMudurButcesi }, { "mnElemanButcesi", mnElemanButcesi }, { "blKapamaEtki", blKapamaEtki } };
+                { "mnMudurButcesi", mnMudurButcesi }, { "mnElemanButcesi", mnElemanButcesi }, { "blKapamaEtki", blKapamaEtki }, { "intTAHKDVoran", intTAHKDVoran }, { "intYEGKDVoran", intYEGKDVoran } };
             Do(QueryType.Update, "db_sp_hizmetBedelleriGuncelle", param, timeout);
         }
         /// <summary>
@@ -117,7 +124,7 @@ namespace Sultanlar.DbObj.Internet
             if (dic != null)
                 donendeger = new hizmetBedelleri(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), ConvertToInt32(dic[3]), ConvertToInt32(dic[4]), ConvertToInt32(dic[5]), 
                     ConvertToString(dic[6]), ConvertToDateTime(dic[7]), Convert.ToDecimal(dic[8]), Convert.ToDecimal(dic[9]), ConvertToInt32(dic[10]), ConvertToString(dic[11]), 
-                    ConvertToString(dic[12]), ConvertToString(dic[13]), ConvertToString(dic[14]), Convert.ToDecimal(dic[15]), Convert.ToDecimal(dic[16]), Convert.ToBoolean(dic[17]));
+                    ConvertToString(dic[12]), ConvertToString(dic[13]), ConvertToString(dic[14]), Convert.ToDecimal(dic[15]), Convert.ToDecimal(dic[16]), Convert.ToBoolean(dic[17]), Convert.ToInt32(dic[18]), Convert.ToInt32(dic[19]));
 
             return donendeger;
         }
@@ -134,7 +141,7 @@ namespace Sultanlar.DbObj.Internet
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new hizmetBedelleri(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]),
                     ConvertToString(dic[i][6]), ConvertToDateTime(dic[i][7]), Convert.ToDecimal(dic[i][8]), Convert.ToDecimal(dic[i][9]), ConvertToInt32(dic[i][10]), ConvertToString(dic[i][11]),
-                    ConvertToString(dic[i][12]), ConvertToString(dic[i][13]), ConvertToString(dic[i][14]), Convert.ToDecimal(dic[i][15]), Convert.ToDecimal(dic[i][16]), Convert.ToBoolean(dic[i][17])));
+                    ConvertToString(dic[i][12]), ConvertToString(dic[i][13]), ConvertToString(dic[i][14]), Convert.ToDecimal(dic[i][15]), Convert.ToDecimal(dic[i][16]), Convert.ToBoolean(dic[i][17]), Convert.ToInt32(dic[i][18]), Convert.ToInt32(dic[i][19])));
 
             return donendeger;
         }
@@ -151,7 +158,7 @@ namespace Sultanlar.DbObj.Internet
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new hizmetBedelleri(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]),
                     ConvertToString(dic[i][6]), ConvertToDateTime(dic[i][7]), Convert.ToDecimal(dic[i][8]), Convert.ToDecimal(dic[i][9]), ConvertToInt32(dic[i][10]), ConvertToString(dic[i][11]),
-                    ConvertToString(dic[i][12]), ConvertToString(dic[i][13]), ConvertToString(dic[i][14]), Convert.ToDecimal(dic[i][15]), Convert.ToDecimal(dic[i][16]), Convert.ToBoolean(dic[i][17])));
+                    ConvertToString(dic[i][12]), ConvertToString(dic[i][13]), ConvertToString(dic[i][14]), Convert.ToDecimal(dic[i][15]), Convert.ToDecimal(dic[i][16]), Convert.ToBoolean(dic[i][17]), Convert.ToInt32(dic[i][18]), Convert.ToInt32(dic[i][19])));
 
             return donendeger;
         }
@@ -168,7 +175,7 @@ namespace Sultanlar.DbObj.Internet
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new hizmetBedelleri(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]),
                     ConvertToString(dic[i][6]), ConvertToDateTime(dic[i][7]), Convert.ToDecimal(dic[i][8]), Convert.ToDecimal(dic[i][9]), ConvertToInt32(dic[i][10]), ConvertToString(dic[i][11]),
-                    ConvertToString(dic[i][12]), ConvertToString(dic[i][13]), ConvertToString(dic[i][14]), Convert.ToDecimal(dic[i][15]), Convert.ToDecimal(dic[i][16]), Convert.ToBoolean(dic[i][17])));
+                    ConvertToString(dic[i][12]), ConvertToString(dic[i][13]), ConvertToString(dic[i][14]), Convert.ToDecimal(dic[i][15]), Convert.ToDecimal(dic[i][16]), Convert.ToBoolean(dic[i][17]), Convert.ToInt32(dic[i][18]), Convert.ToInt32(dic[i][19])));
 
             return donendeger;
         }
@@ -185,7 +192,7 @@ namespace Sultanlar.DbObj.Internet
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new hizmetBedelleri(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]),
                     ConvertToString(dic[i][6]), ConvertToDateTime(dic[i][7]), Convert.ToDecimal(dic[i][8]), Convert.ToDecimal(dic[i][9]), ConvertToInt32(dic[i][10]), ConvertToString(dic[i][11]),
-                    ConvertToString(dic[i][12]), ConvertToString(dic[i][13]), ConvertToString(dic[i][14]), Convert.ToDecimal(dic[i][15]), Convert.ToDecimal(dic[i][16]), Convert.ToBoolean(dic[i][17])));
+                    ConvertToString(dic[i][12]), ConvertToString(dic[i][13]), ConvertToString(dic[i][14]), Convert.ToDecimal(dic[i][15]), Convert.ToDecimal(dic[i][16]), Convert.ToBoolean(dic[i][17]), Convert.ToInt32(dic[i][18]), Convert.ToInt32(dic[i][19])));
 
             return donendeger;
         }

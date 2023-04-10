@@ -136,8 +136,8 @@ namespace Sultanlar.WCF
                     detay.malzeme.malno = dt1.Rows[j]["malno"].ToString();
                     detay.malzeme.malacik = dt1.Rows[j]["malzeme"].ToString();
                     detay.malzeme.koli = dt1.Rows[j]["koli"].ToString();
-                    detay.miktar = dt1.Rows[j]["miktar"].ToString();
-                    detay.miktartur = dt1.Rows[j]["miktartur"].ToString();
+                    detay.miktar = dt1.Rows[j]["miktartur"].ToString() == "KI" ? (Convert.ToInt32(dt1.Rows[j]["miktar"]) * Convert.ToInt32(dt1.Rows[j]["koli"])).ToString() : dt1.Rows[j]["miktar"].ToString();
+                    detay.miktartur = "ST"; //dt1.Rows[j]["miktartur"].ToString();
                     detay.isk1 = dt1.Rows[j]["isk1"].ToString();
                     detay.isk2 = dt1.Rows[j]["isk2"].ToString();
                     detay.isk3 = dt1.Rows[j]["isk3"].ToString();
@@ -188,8 +188,8 @@ namespace Sultanlar.WCF
                     detay.malzeme.malno = dt1.Rows[j]["malno"].ToString();
                     detay.malzeme.malacik = dt1.Rows[j]["malzeme"].ToString();
                     detay.malzeme.koli = dt1.Rows[j]["koli"].ToString();
-                    detay.miktar = dt1.Rows[j]["miktar"].ToString();
-                    detay.miktartur = dt1.Rows[j]["miktartur"].ToString();
+                    detay.miktar = dt1.Rows[j]["miktartur"].ToString() == "KI" ? (Convert.ToInt32(dt1.Rows[j]["miktar"]) * Convert.ToInt32(dt1.Rows[j]["koli"])).ToString() : dt1.Rows[j]["miktar"].ToString();
+                    detay.miktartur = "ST";  //dt1.Rows[j]["miktartur"].ToString();
                     detay.isk1 = dt1.Rows[j]["isk1"].ToString();
                     detay.isk2 = dt1.Rows[j]["isk2"].ToString();
                     detay.isk3 = dt1.Rows[j]["isk3"].ToString();
@@ -404,16 +404,16 @@ namespace Sultanlar.WCF
                     BimatSiparisDisDetay detay = new BimatSiparisDisDetay();
                     detay.malno = dt1.Rows[j]["malno"].ToString();
                     detay.malacik = dt1.Rows[j]["malzeme"].ToString();
-                    detay.miktar = dt1.Rows[j]["miktar"].ToString();
-                    detay.PRICE = fiyat.ToString("N4").Replace(",", ".");
-                    detay.TOTAL = toplam.ToString("N4").Replace(",", ".");
-                    detay.COST_DISTR = toplamindirim.ToString("N4").Replace(",", ".");
-                    detay.DISCOUNT_DISTR = toplamindirim.ToString("N4").Replace(",", ".");
-                    detay.UNIT_CODE = dt1.Rows[j]["miktartur"].ToString();
+                    detay.miktar = dt1.Rows[j]["miktartur"].ToString() == "KI" ? (Convert.ToInt32(dt1.Rows[j]["miktar"]) * Convert.ToInt32(dt1.Rows[j]["koli"])).ToString() : dt1.Rows[j]["miktar"].ToString();
+                    detay.PRICE = fiyat.ToString("N4").Replace(".", "").Replace(",", ".");
+                    detay.TOTAL = toplam.ToString("N4").Replace(".", "").Replace(",", ".");
+                    detay.COST_DISTR = toplamindirim.ToString("N4").Replace(".", "").Replace(",", ".");
+                    detay.DISCOUNT_DISTR = toplamindirim.ToString("N4").Replace(".", "").Replace(",", ".");
+                    detay.UNIT_CODE = "ST"; //dt1.Rows[j]["miktartur"].ToString();
                     detay.VAT_RATE = dt1.Rows[j]["kdv"].ToString();
-                    detay.VAT_AMOUNT = toplamkdv.ToString("N4").Replace(",", ".");
+                    detay.VAT_AMOUNT = toplamkdv.ToString("N2").Replace(".", "").Replace(",", ".");
                     detay.VAT_BASE = detay.VAT_RATE;
-                    detay.TOTAL_NET = toplamnetkdv.ToString("N4").Replace(",", ".");
+                    detay.TOTAL_NET = toplamnetkdv.ToString("N4").Replace(".", "").Replace(",", ".");
                     detay.EDT_PRICE = detay.PRICE;
                     detay.MONTH = tarih.Month.ToString();
                     detay.YEAR = tarih.Year.ToString();
@@ -432,8 +432,8 @@ namespace Sultanlar.WCF
                         detayi.malno = "";
                         detayi.DETAIL_LEVEL = "1";
                         detayi.miktar = "0";
-                        detayi.TOTAL = toplamindirim.ToString("N4").Replace(",", ".");
-                        detayi.DISCOUNT_RATE = (k == 0 ? isk1.ToString("N4") : k == 1 ? isk2.ToString("N4") : k == 2 ? isk3.ToString("N4") : k == 3 ? isk4.ToString("N4") : "0").Replace(",", ".");
+                        detayi.TOTAL = toplamindirim.ToString("N4").Replace(".", "").Replace(",", ".");
+                        detayi.DISCOUNT_RATE = (k == 0 ? isk1.ToString("N4") : k == 1 ? isk2.ToString("N4") : k == 2 ? isk3.ToString("N4") : k == 3 ? isk4.ToString("N4") : "0").Replace(".", "").Replace(",", ".");
                         detayi.BASE_AMOUNT = "0";
                         detayi.UNIT_CONV1 = "0";
                         detayi.UNIT_CONV2 = "0";
@@ -450,23 +450,23 @@ namespace Sultanlar.WCF
                     }
                 }
 
-                dispatch.TOTAL_DISCOUNTS = topiskonto.ToString("N4").Replace(",", ".");
-                dispatch.TOTAL_DISCOUNTED = topiskonto.ToString("N4").Replace(",", ".");
-                dispatch.TOTAL_VAT = topkdv.ToString("N4").Replace(",", ".");
-                dispatch.TOTAL_GROSS = topfiyat.ToString("N4").Replace(",", ".");
-                dispatch.TOTAL_NET = topnetkdv.ToString("N4").Replace(",", ".");
-                dispatch.RC_NET = topnetkdv.ToString("N4").Replace(",", ".");
+                dispatch.TOTAL_DISCOUNTS = topiskonto.ToString("N4").Replace(".", "").Replace(",", ".");
+                dispatch.TOTAL_DISCOUNTED = topiskonto.ToString("N4").Replace(".", "").Replace(",", ".");
+                dispatch.TOTAL_VAT = topkdv.ToString("N2").Replace(".", "").Replace(",", ".");
+                dispatch.TOTAL_GROSS = topfiyat.ToString("N4").Replace(".", "").Replace(",", ".");
+                dispatch.TOTAL_NET = topnetkdv.ToString("N4").Replace(".", "").Replace(",", ".");
+                dispatch.RC_NET = topnetkdv.ToString("N4").Replace(".", "").Replace(",", ".");
                 dispatch.GUID = Guid.NewGuid().ToString();
                 //siparis.DISPATCHES.Add(dispatch);
 
                 payment.TOTAL = dispatch.TOTAL_NET;
 
-                siparis.TOTAL_DISCOUNTS = topiskonto.ToString("N4").Replace(",", ".");
-                siparis.TOTAL_DISCOUNTED = topiskonto.ToString("N4").Replace(",", ".");
-                siparis.TOTAL_VAT = topkdv.ToString("N4").Replace(",", ".");
-                siparis.TOTAL_GROSS = topfiyat.ToString("N4").Replace(",", ".");
-                siparis.TOTAL_NET = topnetkdv.ToString("N4").Replace(",", ".");
-                siparis.RC_NET = topnetkdv.ToString("N4").Replace(",", ".");
+                siparis.TOTAL_DISCOUNTS = topiskonto.ToString("N4").Replace(".", "").Replace(",", ".");
+                siparis.TOTAL_DISCOUNTED = topiskonto.ToString("N4").Replace(".", "").Replace(",", ".");
+                siparis.TOTAL_VAT = topkdv.ToString("N2").Replace(".", "").Replace(",", ".");
+                siparis.TOTAL_GROSS = topfiyat.ToString("N4").Replace(".", "").Replace(",", ".");
+                siparis.TOTAL_NET = topnetkdv.ToString("N4").Replace(".", "").Replace(",", ".");
+                siparis.RC_NET = topnetkdv.ToString("N4").Replace(".", "").Replace(",", ".");
 
                 siparis.GUID = dispatch.GUID;
 

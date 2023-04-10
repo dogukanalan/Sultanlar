@@ -87,7 +87,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             XmlSerializer xser = new XmlSerializer(data.GetType());
             using (MemoryStream ms = new MemoryStream())
             {
-                xser.Serialize(ms, data);
+                xser.Serialize(new hizmetBedelXmlTextWriter(ms, Encoding.UTF8) , data);
                 ms.Position = 0;
                 xml.Load(ms);
             }
@@ -106,7 +106,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(hbk.musteri))).GetObject();
 
             hizmetBedelleri hb = new hizmetBedelleri(mus.pkMusteriID, hbk.smref, hbk.anlasmabedeladid, hbk.ay, hbk.yil, hbk.faturano, Convert.ToDateTime(hbk.faturatarih),
-                Convert.ToDecimal(hbk.tahbedel), Convert.ToDecimal(hbk.yegbedel), 0, hbk.aciklama, "", "", "", hbk.mudurbutcesi, hbk.elemanbutcesi, Convert.ToBoolean(hbk.kapamaetki));
+                Convert.ToDecimal(hbk.tahbedel), Convert.ToDecimal(hbk.yegbedel), 0, hbk.aciklama, "", "", "", hbk.mudurbutcesi, hbk.elemanbutcesi, Convert.ToBoolean(hbk.kapamaetki), hbk.tahkdvoran, hbk.yegkdvoran);
 
             if (hbk.id > 0)
             {
@@ -127,6 +127,25 @@ namespace Sultanlar.WebAPI.Services.Internet
             hizmetBedelleri hb = new hizmetBedelleri(HizmetBedeliID).GetObject();
             hb.DoDelete();
             return Donen;
+        }
+    }
+    public class hizmetBedelXmlTextWriter : XmlTextWriter
+    {
+        public hizmetBedelXmlTextWriter(Stream w, Encoding e)
+            : base(w, e)
+        {
+        }
+
+        public override void WriteStartElement(string prefix, string localName, string ns)
+        {
+            switch (localName)
+            {
+                case "pkID":
+                    localName = "NO";
+                    break;
+            }
+
+            base.WriteStartElement(prefix, localName, ns);
         }
     }
 }

@@ -65,6 +65,8 @@
                         $('#inputKapamaYil').val(data.mnMudurButcesi);
                         $('#inputKapamaAy').val(data.mnElemanButcesi);
                         $('#cbEtki').prop('checked', data.blKapamaEtki);
+                        $('#inputTAHKDV').val(data.intTAHKDVoran);
+                        $('#inputYEGKDV').val(data.intYEGKDVoran);
                         GetCari(4, data.smref, getCariSube, "inputCari", "inputBayi", Yazdir);
 
                     },
@@ -116,7 +118,9 @@
                     aciklama: $('#inputAcik').val(),
                     mudurbutcesi: $('#inputKapamaYil').val(),
                     elemanbutcesi: $('#inputKapamaAy').val(),
-                    kapamaetki: $('#cbEtki').is(':checked') ? 1 : 0
+                    kapamaetki: $('#cbEtki').is(':checked') ? 1 : 0,
+                    tahkdvoran: $('#inputTAHKDV').val(),
+                    yegkdvoran: $('#inputYEGKDV').val()
                 });
 
             var sentData = JSON.stringify(bedel).substring(1, JSON.stringify(bedel).length - 1);
@@ -297,6 +301,16 @@
         Kapama Yıl
     </span>
     <input class="form-control input100" type="number" name="inputKapamaYil" min="2000" max="2050" id="inputKapamaYil" autocomplete="off">
+    <br />
+    <span class="txt1">
+        KGT KDV Oranı
+    </span>
+    <input class="form-control input100" type="number" name="inputTAHKDV" min="1" max="18" id="inputTAHKDV" autocomplete="off" value="8">
+    <br />
+    <span class="txt1">
+        NF KDV Oranı
+    </span>
+    <input class="form-control input100" type="number" name="inputYEGKDV" min="1" max="18" id="inputYEGKDV" autocomplete="off" value="18">
     <br />
     <span class="txt1">
         Kapamayı Etkilesin

@@ -214,6 +214,10 @@ namespace Sultanlar.WindowsServiceIslemler.selectekstreC {
         
         private string hkontField;
         
+        private string aedatField;
+        
+        private string stblgField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Bukrs {
@@ -629,6 +633,28 @@ namespace Sultanlar.WindowsServiceIslemler.selectekstreC {
             }
             set {
                 this.hkontField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Aedat {
+            get {
+                return this.aedatField;
+            }
+            set {
+                this.aedatField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Stblg {
+            get {
+                return this.stblgField;
+            }
+            set {
+                this.stblgField = value;
             }
         }
     }

@@ -46,11 +46,15 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpPost]
         public string VaryokEkle([FromBody]ZiyaretVaryok varyok) => new ZiyaretProvider().VaryokEkle(varyok);
 
+        [Yetkili]
         [HttpGet("{BARKOD}")]
         public ziyaretvaryok VaryokGetir(string BARKOD) => new ZiyaretProvider().VaryokGetir(BARKOD);
 
         [Yetkili]
         [HttpGet("{BARKOD}")]
         public string VaryokSil(string BARKOD) => new ZiyaretProvider().VaryokSil(BARKOD);
+
+        [HttpGet("{ID}/{MUSTERIID}/{SLSREF}")]
+        public string VaryokLogEkle(string ID, string MUSTERIID, string SLSREF) => new ZiyaretProvider().VaryokLogekle(ID, MUSTERIID, SLSREF);
     }
 }

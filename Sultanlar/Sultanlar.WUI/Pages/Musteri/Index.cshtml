@@ -66,20 +66,20 @@
                             htmlText += '<td class="valueTd"><span class="sinirli4" data-toggle="tooltip" title="' + data[i].musteri + '">' + data[i].musteri + '</span></td>';
                             htmlText += '<td class="valueTd hidewhenmobile"><span>' + data[i].adres + '</span></td>';
                             htmlText += '<td class="keyTd">' + (data[i].fiyatTip500 != 0 ? '<a href="Ziyaret/Varyok?gmref=' + data[i].gmref + '&smref=' + data[i].smref + '&mtip=' + data[i].tip + '&ziyaretid=0&ftip=' + data[i].fiyatTip500 + '">' : '') + '<span data-toggle="tooltip" title="' + (data[i].fiyatTip500 == 0 ? '-' : data[i].fiyatTip500ack) + '">' + (data[i].fiyatTip500 == 0 ? 'Y' : data[i].fiyatTip500) + '</span>' + (data[i].fiyatTip500 != 0 ? '</a>' : '') + '</td>';
-                            htmlText += '<td class="keyTd"><a href="javascript:showSubMenu(div' + data[i].gmref + ')" class="btn btn-primary"><span class="sinirli4">İşlemler<span></a><div class="subMenu" id="div' + data[i].gmref + '">' +
+                            htmlText += '<td class="keyTd"><a href="javascript:showSubMenu(div' + data[i].gmref + ')" class="btn btn-primary"><span class="sinirli4">İşlem<span></a><div class="subMenu" id="div' + data[i].gmref + '">' +
                                 '<a href="Musteri/Musteri?gmref=' + data[i].gmref + '&slsref=' + slsref + '">Alt Cariler</a>' +
                                 (data[i].mtkod != "Z1" ? '<a href="Anlasma/?smref=' + data[i].gmref + '&tip=' + data[i].tip + '">Anlaşma</a>' : "") +
                                 '<a href="Aktivite/?smref=' + data[i].gmref + '&ftip=' + (data[i].mtkod == "Z1" ? "25" : (data[i].fiyatTip500 == 0 || data[i].fiyatTip500 > 1000 ? "7" : data[i].fiyatTip500)) + '&tip=' + data[i].tip + '&aktiviteid=0">Aktivite</a>' +
                                 '<a href="Ziyaret/?smref=' + data[i].gmref + '&gmref=' + data[i].gmref + '&slsref=' + (window.localStorage["slsref"] != "0" ? window.localStorage["slsref"] : slsref) + '&tip=' + data[i].tip + '&konum=' + data[i].konumA.konum + '">Ziyaret</a>' +
-                                '<a href="Siparis/?gmref=' + data[i].gmref + '&smref=' + data[i].gmref + '&mtip=' + data[i].tip + '">Sipariş</a>' +
-                                '<a href="Iade/?gmref=' + data[i].gmref + '&smref=' + data[i].gmref + '&mtip=' + data[i].tip + '">İade</a>' +
+                                (parseInt(localStorage["slsref"]) > 1000000000 ? '' : '<a href="Siparis/?gmref=' + data[i].gmref + '&smref=' + data[i].gmref + '&mtip=' + data[i].tip + '">Sipariş</a>') +
+                                (parseInt(localStorage["slsref"]) > 1000000000 ? '' : '<a href="Iade/?gmref=' + data[i].gmref + '&smref=' + data[i].gmref + '&mtip=' + data[i].tip + '">İade</a>') +
                                 (data[i].mtkod == "Z1" ? '<a href="Sayim/?smref=' + data[i].gmref + '">Stok</a>' : '') +
                                 (
                                     data[i].mtkod != "Z1" && (data[i].satkod == window.localStorage["slsref"] || window.localStorage["slsref"] == 0) ?
-                                    (
-                                        data[i].fiyatTip500 != 0 ? '<a href="Musteri/Fiyat/?yeni=0&nettop=0&musteri=gmref=' + data[i].gmref + '&smref=' + data[i].smref + '&mtip=' + data[i].tip + '&tip=' + data[i].fiyatTip500 + '">Ürün Ekle Çıkar</a>' :
-                                            '<a href="Musteri/Fiyat/?yeni=1&nettop=0&musteri=' + data[i].musteri.querystringReplace() + '&gmref=' + data[i].gmref + '&smref=' + data[i].smref + '&mtip=' + data[i].tip + '&tip=0">Açık Ürün Listesi Oluştur</a>'
-                                    )
+                                        (
+                                            data[i].fiyatTip500 != 0 ? '<a href="Musteri/Fiyat/?yeni=0&nettop=0&musteri=gmref=' + data[i].gmref + '&smref=' + data[i].smref + '&mtip=' + data[i].tip + '&tip=' + data[i].fiyatTip500 + '">Ürün Ekle Çıkar</a>' :
+                                                '<a href="Musteri/Fiyat/?yeni=1&nettop=0&musteri=' + data[i].musteri.querystringReplace() + '&gmref=' + data[i].gmref + '&smref=' + data[i].smref + '&mtip=' + data[i].tip + '&tip=0">Açık Ürün Listesi Oluştur</a>'
+                                        )
                                         : ''
                                 ) +
                                 '</div>';

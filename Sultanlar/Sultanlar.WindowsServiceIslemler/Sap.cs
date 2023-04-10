@@ -1039,8 +1039,9 @@ namespace Sultanlar.WindowsServiceIslemler
                     string reyacik = listMaterials[i].Ewbez != string.Empty ? listMaterials[i].Ewbez : "TİBET DİĞER";
                     double kdv = 0; try { kdv = Convert.ToDouble(listMaterials[i].Kbetr); }
                     catch { }
-                    double koli = 0; try { koli = Convert.ToDouble(listMaterials[i].Kolad); }
+                    double koli = 1; try { koli = Convert.ToDouble(listMaterials[i].Kolad); }
                     catch { }
+                    koli = koli == 0 ? 1 : koli;
                     string barkod = listMaterials[i].Ean11;
                     double stok = 0; try { stok = Convert.ToDouble(listMaterials[i].Menge); }
                     catch { }
@@ -1721,6 +1722,8 @@ COMMIT TRANSACTION t_Transaction
                     dt.Columns.Add("Rebzj", typeof(int));
                     dt.Columns.Add("Rebzz", typeof(int));
                     dt.Columns.Add("Hkont", typeof(string));
+                    dt.Columns.Add("Aedat", typeof(DateTime));
+                    dt.Columns.Add("Stblg", typeof(string));
                     #endregion
 
                     #region Musteri
@@ -1768,6 +1771,8 @@ COMMIT TRANSACTION t_Transaction
                             drow["Rebzj"] = yirmiuc[i].Rebzj == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzj);
                             drow["Rebzz"] = yirmiuc[i].Rebzz == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzz);
                             drow["Hkont"] = yirmiuc[i].Hkont;
+                            drow["Aedat"] = yirmiuc[i].Aedat;
+                            drow["Stblg"] = yirmiuc[i].Stblg;
                             dt.Rows.Add(drow);
                         }
                         catch (Exception ex)
@@ -1874,9 +1879,11 @@ COMMIT TRANSACTION t_Transaction
                             drow["Erzet"] = yirmiuc2[i].Erzet;
                             drow["Xblnr"] = yirmiuc2[i].Xblnr;
                             drow["Rebzg"] = yirmiuc2[i].Rebzg;
-                            drow["Rebzj"] = yirmiuc2[i].Rebzj == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzj);
-                            drow["Rebzz"] = yirmiuc2[i].Rebzz == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzz);
+                            drow["Rebzj"] = yirmiuc2[i].Rebzj == string.Empty ? 0 : Convert.ToInt32(yirmiuc2[i].Rebzj);
+                            drow["Rebzz"] = yirmiuc2[i].Rebzz == string.Empty ? 0 : Convert.ToInt32(yirmiuc2[i].Rebzz);
                             drow["Hkont"] = yirmiuc2[i].Hkont;
+                            drow["Aedat"] = yirmiuc2[i].Aedat;
+                            drow["Stblg"] = yirmiuc2[i].Stblg;
                             dt.Rows.Add(drow);
                         }
                         catch (Exception ex)
@@ -1902,7 +1909,7 @@ COMMIT TRANSACTION t_Transaction
                         try
                         {
                             SqlDataAdapter da = new SqlDataAdapter();
-                            da.InsertCommand = new SqlCommand("INSERT INTO [SAP_EKSTRE] (Tur,[Bukrs],[Kunnr],[Umsks],[Umskz],[Gjahr],[Belnr],[Buzei],[Augdt],[Augbl],[Zuonr],[Budat],[Blart],[Ltext],[Sgtxt],[Borc],[Alacak],[Shkzg],[Waers],[Lifnr],[Awkey],[Zfbdt],[Zbd1t],[Xref1],[Xref2],[Kidno],[Vbeln],[Kunag],Ernam,Erdat,Erzet,Xblnr,Rebzg,Rebzj,Rebzz,Hkont) VALUES (@Tur,@Bukrs,@Kunnr,@Umsks,@Umskz,@Gjahr,@Belnr,@Buzei,@Augdt,@Augbl,@Zuonr,@Budat,@Blart,@Ltext,@Sgtxt,@Borc,@Alacak,@Shkzg,@Waers,@Lifnr,@Awkey,@Zfbdt,@Zbd1t,@Xref1,@Xref2,@Kidno,@Vbeln,@Kunag,@Ernam,@Erdat,@Erzet,@Xblnr,@Rebzg,@Rebzj,@Rebzz,@Hkont)", conn);
+                            da.InsertCommand = new SqlCommand("INSERT INTO [SAP_EKSTRE] (Tur,[Bukrs],[Kunnr],[Umsks],[Umskz],[Gjahr],[Belnr],[Buzei],[Augdt],[Augbl],[Zuonr],[Budat],[Blart],[Ltext],[Sgtxt],[Borc],[Alacak],[Shkzg],[Waers],[Lifnr],[Awkey],[Zfbdt],[Zbd1t],[Xref1],[Xref2],[Kidno],[Vbeln],[Kunag],Ernam,Erdat,Erzet,Xblnr,Rebzg,Rebzj,Rebzz,Hkont,Aedat,Stblg) VALUES (@Tur,@Bukrs,@Kunnr,@Umsks,@Umskz,@Gjahr,@Belnr,@Buzei,@Augdt,@Augbl,@Zuonr,@Budat,@Blart,@Ltext,@Sgtxt,@Borc,@Alacak,@Shkzg,@Waers,@Lifnr,@Awkey,@Zfbdt,@Zbd1t,@Xref1,@Xref2,@Kidno,@Vbeln,@Kunag,@Ernam,@Erdat,@Erzet,@Xblnr,@Rebzg,@Rebzj,@Rebzz,@Hkont,@Aedat,@Stblg)", conn);
                             da.InsertCommand.Parameters.Add("@Tur", SqlDbType.Char, 1, "Tur");
                             da.InsertCommand.Parameters.Add("@Bukrs", SqlDbType.VarChar, 4, "Bukrs");
                             da.InsertCommand.Parameters.Add("@Kunnr", SqlDbType.Int, 4, "Kunnr");
@@ -1939,6 +1946,8 @@ COMMIT TRANSACTION t_Transaction
                             da.InsertCommand.Parameters.Add("@Rebzj", SqlDbType.Int, 4, "Rebzj");
                             da.InsertCommand.Parameters.Add("@Rebzz", SqlDbType.Int, 4, "Rebzz");
                             da.InsertCommand.Parameters.Add("@Hkont", SqlDbType.NVarChar, 10, "Hkont");
+                            da.InsertCommand.Parameters.Add("@Aedat", SqlDbType.DateTime, 8, "Aedat");
+                            da.InsertCommand.Parameters.Add("@Stblg", SqlDbType.VarChar, 20, "Stblg");
                             da.Update(dt);
 
                             SAPs.LogYaz("ekstre sonrasi", true, "sap_ekstre tablosu dolduruldu", DateTime.Now, DateTime.Now);
@@ -2079,6 +2088,8 @@ COMMIT TRANSACTION t_Transaction
                     dt.Columns.Add("Rebzj", typeof(int));
                     dt.Columns.Add("Rebzz", typeof(int));
                     dt.Columns.Add("Hkont", typeof(string));
+                    dt.Columns.Add("Aedat", typeof(DateTime));
+                    dt.Columns.Add("Stblg", typeof(string));
                     #endregion
 
                     #region Musteri
@@ -2126,6 +2137,8 @@ COMMIT TRANSACTION t_Transaction
                             drow["Rebzj"] = yirmiuc[i].Rebzj == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzj);
                             drow["Rebzz"] = yirmiuc[i].Rebzz == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzz);
                             drow["Hkont"] = yirmiuc[i].Hkont;
+                            drow["Aedat"] = yirmiuc[i].Aedat;
+                            drow["Stblg"] = yirmiuc[i].Stblg;
                             dt.Rows.Add(drow);
                         }
                         catch (Exception ex)
@@ -2181,6 +2194,8 @@ COMMIT TRANSACTION t_Transaction
                             drow["Rebzj"] = yirmiuc2[i].Rebzj == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzj);
                             drow["Rebzz"] = yirmiuc2[i].Rebzz == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzz);
                             drow["Hkont"] = yirmiuc2[i].Hkont;
+                            drow["Aedat"] = yirmiuc2[i].Aedat;
+                            drow["Stblg"] = yirmiuc2[i].Stblg;
                             dt.Rows.Add(drow);
                         }
                         catch (Exception ex)
@@ -2194,31 +2209,33 @@ COMMIT TRANSACTION t_Transaction
                     #region silme ve yazma
                     if (hata == string.Empty && hata2 == string.Empty)
                     {
+                        int silinensatirsayisi = 0;
                         conn.Open();
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            SqlCommand cmd1 = new SqlCommand("DELETE FROM [SAP_EKSTRE_DENEME] WHERE [Bukrs] = @Bukrs AND [Kunnr] = @Kunnr AND [Umsks] = @Umsks AND [Umskz] = @Umskz AND [Gjahr] = @Gjahr AND [Belnr] = @Belnr AND [Buzei] = @Buzei AND [Augdt] = @Augdt AND [Augbl] = @Augbl AND [Zuonr] = @Zuonr", conn);
-                            cmd1.Parameters.Add("@Bukrs", SqlDbType.VarChar, 4).Value = dt.Rows[i]["Bukrs"];
+                            SqlCommand cmd2 = new SqlCommand("SELECT count(*) FROM [SAP_EKSTRE_DENEME] WHERE [Buzei] = @Buzei AND [Kunnr] = @Kunnr AND [Gjahr] = @Gjahr AND [Belnr] = @Belnr", conn);
+                            cmd2.Parameters.Add("@Buzei", SqlDbType.Int).Value = dt.Rows[i]["Buzei"];
+                            cmd2.Parameters.Add("@Kunnr", SqlDbType.Int).Value = dt.Rows[i]["Kunnr"];
+                            cmd2.Parameters.Add("@Gjahr", SqlDbType.Int).Value = dt.Rows[i]["Gjahr"];
+                            cmd2.Parameters.Add("@Belnr", SqlDbType.VarChar, 10).Value = dt.Rows[i]["Belnr"];
+                            SqlCommand cmd1 = new SqlCommand("DELETE FROM [SAP_EKSTRE_DENEME] WHERE [Buzei] = @Buzei AND [Kunnr] = @Kunnr AND [Gjahr] = @Gjahr AND [Belnr] = @Belnr", conn);
+                            cmd1.Parameters.Add("@Buzei", SqlDbType.Int).Value = dt.Rows[i]["Buzei"];
                             cmd1.Parameters.Add("@Kunnr", SqlDbType.Int).Value = dt.Rows[i]["Kunnr"];
-                            cmd1.Parameters.Add("@Umsks", SqlDbType.VarChar, 1).Value = dt.Rows[i]["Umsks"];
-                            cmd1.Parameters.Add("@Umskz", SqlDbType.VarChar, 1).Value = dt.Rows[i]["Umskz"];
                             cmd1.Parameters.Add("@Gjahr", SqlDbType.Int).Value = dt.Rows[i]["Gjahr"];
                             cmd1.Parameters.Add("@Belnr", SqlDbType.VarChar, 10).Value = dt.Rows[i]["Belnr"];
-                            cmd1.Parameters.Add("@Buzei", SqlDbType.Int).Value = dt.Rows[i]["Buzei"];
-                            cmd1.Parameters.Add("@Augdt", SqlDbType.DateTime).Value = dt.Rows[i]["Augdt"];
-                            cmd1.Parameters.Add("@Augbl", SqlDbType.VarChar, 10).Value = dt.Rows[i]["Augbl"];
-                            cmd1.Parameters.Add("@Zuonr", SqlDbType.VarChar, 18).Value = dt.Rows[i]["Zuonr"];
                             cmd1.CommandTimeout = 1000;
+                            if (Convert.ToInt32(cmd2.ExecuteScalar()) > 0)
+                                silinensatirsayisi++;
                             cmd1.ExecuteNonQuery();
                         }
                         conn.Close();
 
-                        SAPs.LogYaz("ekstre deneme", true, "sap_ekstre_deneme tablosu " + yillar[j].ToString() + " yılı " + sonTarih + " sonraki değişiklik olan satırlar silindi", DateTime.Now, DateTime.Now);
+                        SAPs.LogYaz("ekstre deneme", true, "sap_ekstre_deneme tablosu " + yillar[j].ToString() + " yılı " + sonTarih + " sonraki değişiklik olan satırlar silindi, " + silinensatirsayisi + " satır", DateTime.Now, DateTime.Now);
 
                         try
                         {
                             SqlDataAdapter da = new SqlDataAdapter();
-                            da.InsertCommand = new SqlCommand("INSERT INTO [SAP_EKSTRE_DENEME] (Tur,[Bukrs],[Kunnr],[Umsks],[Umskz],[Gjahr],[Belnr],[Buzei],[Augdt],[Augbl],[Zuonr],[Budat],[Blart],[Ltext],[Sgtxt],[Borc],[Alacak],[Shkzg],[Waers],[Lifnr],[Awkey],[Zfbdt],[Zbd1t],[Xref1],[Xref2],[Kidno],[Vbeln],[Kunag],Ernam,Erdat,Erzet,Xblnr,Rebzg,Rebzj,Rebzz,Hkont) VALUES (@Tur,@Bukrs,@Kunnr,@Umsks,@Umskz,@Gjahr,@Belnr,@Buzei,@Augdt,@Augbl,@Zuonr,@Budat,@Blart,@Ltext,@Sgtxt,@Borc,@Alacak,@Shkzg,@Waers,@Lifnr,@Awkey,@Zfbdt,@Zbd1t,@Xref1,@Xref2,@Kidno,@Vbeln,@Kunag,@Ernam,@Erdat,@Erzet,@Xblnr,@Rebzg,@Rebzj,@Rebzz,@Hkont)", conn);
+                            da.InsertCommand = new SqlCommand("INSERT INTO [SAP_EKSTRE_DENEME] (Tur,[Bukrs],[Kunnr],[Umsks],[Umskz],[Gjahr],[Belnr],[Buzei],[Augdt],[Augbl],[Zuonr],[Budat],[Blart],[Ltext],[Sgtxt],[Borc],[Alacak],[Shkzg],[Waers],[Lifnr],[Awkey],[Zfbdt],[Zbd1t],[Xref1],[Xref2],[Kidno],[Vbeln],[Kunag],Ernam,Erdat,Erzet,Xblnr,Rebzg,Rebzj,Rebzz,Hkont,Aedat,Stblg) VALUES (@Tur,@Bukrs,@Kunnr,@Umsks,@Umskz,@Gjahr,@Belnr,@Buzei,@Augdt,@Augbl,@Zuonr,@Budat,@Blart,@Ltext,@Sgtxt,@Borc,@Alacak,@Shkzg,@Waers,@Lifnr,@Awkey,@Zfbdt,@Zbd1t,@Xref1,@Xref2,@Kidno,@Vbeln,@Kunag,@Ernam,@Erdat,@Erzet,@Xblnr,@Rebzg,@Rebzj,@Rebzz,@Hkont,@Aedat,@Stblg)", conn);
                             da.InsertCommand.Parameters.Add("@Tur", SqlDbType.Char, 1, "Tur");
                             da.InsertCommand.Parameters.Add("@Bukrs", SqlDbType.VarChar, 4, "Bukrs");
                             da.InsertCommand.Parameters.Add("@Kunnr", SqlDbType.Int, 4, "Kunnr");
@@ -2255,6 +2272,8 @@ COMMIT TRANSACTION t_Transaction
                             da.InsertCommand.Parameters.Add("@Rebzj", SqlDbType.Int, 4, "Rebzj");
                             da.InsertCommand.Parameters.Add("@Rebzz", SqlDbType.Int, 4, "Rebzz");
                             da.InsertCommand.Parameters.Add("@Hkont", SqlDbType.NVarChar, 10, "Hkont");
+                            da.InsertCommand.Parameters.Add("@Aedat", SqlDbType.DateTime, 8, "Aedat");
+                            da.InsertCommand.Parameters.Add("@Stblg", SqlDbType.VarChar, 20, "Stblg");
                             da.Update(dt);
                         }
                         catch (Exception ex)

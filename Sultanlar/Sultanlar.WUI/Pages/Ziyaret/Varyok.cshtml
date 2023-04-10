@@ -167,6 +167,33 @@
                     $('.dataTables_filter input').keyup(function () {
                         $(this).val($(this).val().toLocaleUpperCase());
                     });
+                    var json1 = settings.oInit.aaData;
+
+                    if (parseInt(sepet.tip) == 7) {
+                        var datatablethis = $(this);
+                        $.ajax(
+                            {
+                                beforeSend: function (xhr) { xhrTicket(xhr); },
+                                url: apiurl + 'fiyat/GetSmrefad/' + paramsmref,
+                                success: function (data, textStatus, response) {
+
+                                    if (data.length > 0) {
+                                        var newjson = [];
+                                        $.each(json1, function (i, item) {
+                                            $.each(data, function (i, item2) {
+                                                if (item.itemref == item2.itemref) {
+                                                    newjson.push(item);
+                                                }
+                                            });
+                                        });
+                                        datatablethis.dataTable().fnClearTable();
+                                        datatablethis.dataTable().fnAddData(newjson);
+                                    }
+
+                                }
+                            }
+                        );
+                    }
                 },
                 "rowCallback": function (row, data, index) {
 
@@ -518,6 +545,18 @@
                                         sepet.detays = dataS;
                                         $("#dtTable").css("display", "table");
                                         getListe();
+
+                                        if (data.pkID != 0) {
+                                            $.ajax(
+                                                {
+                                                    url: apiurl + "ziyaret/varyoklogekle/" + data.pkID + "/" + localStorage["musteri"] + "/" + localStorage["slsref"],
+                                                    success: function (data, textStatus, response) {
+
+                                                    },
+                                                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                                }
+                                            );
+                                        }
                                     },
                                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                                 }
@@ -530,8 +569,6 @@
             else {
                 $("#divKontrol").css("display", "none");
                 $("#divVy").css("display", "none");
-
-                getSonFaturaTarih(paramgmref, parammtip, paramsmref, "sonAlim");
 
                 if (ziyaretid == 0) {
                     $("#inputKaydet").css("display", "none");
@@ -558,6 +595,8 @@
 
                 }
                 else {
+
+                    getSonFaturaTarih(paramgmref, parammtip, paramsmref, "sonAlim");
 
                     $.ajax(
                         {
@@ -692,7 +731,7 @@
         });
     </script>
 }
-<script>yetkisizsayfa = true;</script>
+
 <h5 class="spanCiplak" id="ziyMus"></h5>
 <h5 class="spanCiplak" id="tarih"></h5>
 @*<input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" autocomplete="off">*@

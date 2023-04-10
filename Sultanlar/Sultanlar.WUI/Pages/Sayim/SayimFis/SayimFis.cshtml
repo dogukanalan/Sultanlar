@@ -15,6 +15,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+
     <script>
         var paramsmref;
         var sayimid;
@@ -103,7 +106,9 @@
         function Aktar() {
             sencHeader();
             $('#dtTable').find('input.inputSecim').each(function () {
-                if ($(this).val() != "") {
+                Ekle(this);
+
+                /*if ($(this).val() != "") {
                     var cookie = JSON.parse(getLocal());
                     var varmis = false;
                     var itref = $(this).attr('accesskey');
@@ -137,8 +142,61 @@
 
                     sencLocal(cookie);
                     $(this).val("");
-                }
+                }*/
             });
+        }
+
+        function Ekle(kontrol) {
+            if ($(kontrol).val() != "") {
+                var itref = $(kontrol).attr('accesskey');
+                var miktur = $(kontrol).closest("tr").find(".ddTur").val();
+                var malac = $(kontrol).closest("tr").find(".malacik").text();
+                var mik = parseInt($(kontrol).val());
+
+                Kontrol(itref, miktur, malac, mik);
+
+                $(kontrol).val("");
+            }
+        }
+
+        function Kontrol(itref, miktur, malac, mik) {
+            var varmis = false;
+            var cookie = JSON.parse(getLocal());
+            for (var j = 0; j < cookie.length; j++) {
+                var cookiedet = cookie[j].detaylar;
+                if (cookie[j].smref == paramsmref && cookie[j].tur == tur && cookie[j].sayimid == sayimid) {
+                    for (var i = 0; i < cookiedet.length; i++) {
+                        if (cookiedet[i].itemref == itref && cookiedet[i].miktartur == miktur) {
+                            cookiedet[i].miktar = parseInt(cookiedet[i].miktar) + mik;
+                            varmis = true;
+                            break;
+                        }
+                    }
+
+                    if (!varmis) {
+                        cookiedet.push(
+                            {
+                                itemref: itref,
+                                malacik: malac,
+                                miktar: mik,
+                                miktartur: miktur
+                            }
+                        );
+                    }
+                }
+            }
+
+            sencLocal(cookie);
+        }
+
+        function malacikgetir(itemref) {
+            var malzemeler = JSON.parse(window.localStorage["sepetU"]);
+            for (var i = 0; i < malzemeler.length; i++) {
+                if (malzemeler[i].itemref == itemref) {
+                    return malzemeler[i].malacik;
+                }
+            }
+            return "";
         }
 
         function getLocal() {
@@ -229,6 +287,10 @@
 <input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" maxlength="34" autocomplete="off">
 <input type="button" id="sayAktar" class="btn btn-primary secimTus" value="Seçimi Aktar" onclick="Aktar()" />
 <input type="button" class="btn btn-info secimTus" value="İçeriği Göster" onclick="Goster()" />
+<label for="inputExcel" class="btn btn-default secimTus">
+    <i class="fa fa-cloud-upload"></i> Excel'den Aktar
+</label>
+<input id="inputExcel" type="file" accept="text/xlsx" class="custom-file-upload" />
 <br />
 <br />
 <div id="divTur" data-toggle="buttons">
@@ -268,3 +330,71 @@
         </tr>
     </thead>
 </table>
+
+<script>
+
+    document.getElementById('inputExcel').addEventListener('change', handleFileSelect, false);
+
+    function handleFileSelect(evt) {
+
+        var files = evt.target.files;
+        var xl2json = new ExcelToJSON();
+        xl2json.parseExcel(files[0]);
+    }
+
+    var ExcelToJSON = function () {
+
+        this.parseExcel = function (file) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var data = e.target.result;
+                var workbook = XLSX.read(data, {
+                    type: 'binary'
+                });
+
+                workbook.SheetNames.forEach(function (sheetName) {
+                    var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                    var malzemeler = "";
+                    var hata = "";
+                    var aktarilansayi = 0;
+                    if (XL_row_object[0].MALZEME && XL_row_object[0].MIKTAR) {
+                        for (var i = 0; i < XL_row_object.length; i++) {
+                            if (XL_row_object[i].MALZEME && XL_row_object[i].MIKTAR) {
+                                var malacik = malacikgetir(XL_row_object[i].MALZEME);
+                                if (malacik == "") {
+                                    hata += (i + 2) + ". satır: " + XL_row_object[i].MALZEME + " nolu malzeme bulunamadı.\r\n";
+                                }
+                                else {
+                                    var tur = "ST";
+                                    var turack = "ADET";
+                                    Kontrol(XL_row_object[i].MALZEME, tur, malacik, parseInt(XL_row_object[i].MIKTAR.replace(",", "").replace(".", "")));
+                                    malzemeler += XL_row_object[i].MALZEME + " " + malacik.substring(0, 20) + "... " + XL_row_object[i].MIKTAR + " (" + turack + ")\r\n";
+                                    aktarilansayi++;
+                                }
+                            }
+                            else {
+                                hata = (i + 2) + ". satırda hata var.";
+                                break;
+                            }
+                        }
+
+                        alert(XL_row_object.length + " satırdan " + aktarilansayi + " tanesi aktarıldı: \r\n" + malzemeler +
+                            (hata != "" ? "\r\n" + (XL_row_object.length - aktarilansayi) + " satırda hata oluştu:\r\n" + hata : ""));
+                    }
+                    else {
+                        alert("Excel formatı uygun değil.");
+                    }
+                })
+
+            };
+
+            reader.onerror = function (ex) {
+                console.log(ex);
+                alert("Dosya desteklenmiyor!");
+            };
+
+            reader.readAsBinaryString(file);
+        };
+    };
+</script>

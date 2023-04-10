@@ -27,18 +27,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
 
     <script>
+        var fiyattip;
         var excelcikar;
         var yazdir;
         var table;
         var sipid;
         var quantumid;
         var tksref;
+        var bakiye;
 
         function SiparislerDetayGetir() {
             var url1 = apiurl + "siparis/get/" + getParameterByName('siparisid');
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
 
+                bakiye = getParameterByName('bakiye') ? true : false;
                 sipid = json.pkSiparisID;
                 tksref = json.tksref;
                 quantumid = json.quantumNo ? (" - " + json.quantumNo) : "";
@@ -68,15 +71,29 @@
                         yazdir = false;
                     }
 
-                    if (tksref == 1)
+                    table.column(10).visible(false);
+                    table.column(11).visible(false);
+                    if (tksref == 1) {
                         table.column(9).visible(false);
+                    }
+                    if (bakiye) {
+                        $('#bakiyeolustur').css("display", "inline");
+                        table.column(10).visible(true);
+                        table.column(11).visible(true);
+                    }
+                    if (fiyattip != 2) {
+                        table.column(4).visible(false);
+                        table.column(5).visible(false);
+                        table.column(6).visible(false);
+                        table.column(7).visible(false);
+                    }
                 },
                 dom: 'Bfrtip',
                 buttons: [
                     {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 10, 11]
+                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 12, 13]
                         },
                         filename: function () {
                             return 'Sultanlar Sipariş-' + getParameterByName('siparisid');
@@ -92,13 +109,13 @@
                     {
                         extend: 'print',
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 10, 11]
+                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 12, 13]
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 10, 11],
+                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 12, 13],
                             format: {
                                 body: function (data, row, column, node) {
                                     data = $('<p>' + data + '</p>').text();
@@ -153,25 +170,25 @@
                 title: 'Fiyat'
             },
             {
-                "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+                "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
                     return '<span class="sinirli isk1">' + (data.isks ? data.isks.isK1.formatMoney(3, ',', '.') : '') + '</span>';
                 },
                 title: 'İsk1'
             },
             {
-                "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+                "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
                     return '<span class="sinirli isk2">' + (data.isks ? data.isks.isK2.formatMoney(3, ',', '.') : '') + '</span>';
                 },
                 title: 'İsk2'
             },
             {
-                "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+                "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
                     return '<span class="sinirli isk3">' + (data.isks ? data.isks.isK3.formatMoney(3, ',', '.') : '') + '</span>';
                 },
                 title: 'İsk3'
             },
             {
-                "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+                "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
                     return '<span class="sinirli isk4">' + (data.isks ? data.isks.isK4.formatMoney(3, ',', '.') : '') + '</span>';
                 },
                 title: 'İsk4'
@@ -189,24 +206,54 @@
                 title: 'Sevk'
             },
             {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + (parseInt(data.intMiktar) - parseInt(data.sevk.intMiktar)) + ' (' + (data.strMiktarTur === "KI" ? 'kl' : 'ad') + ')' + '</span>';
+                },
+                title: 'Kalan'
+            },
+            {
+                "data": null, "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli stoklar">' + data.malzeme.stokdis + ' (ad)</span>';
+                },
+                title: 'Stok'
+            },
+            {
                 "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
-                    return '<span class="sinirli">' + (data.isks ? iskDusCoklu((data.mnFiyat), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4).formatMoney(2, ',', '.') : '') + '</span>';
+                    return '<span class="sinirli">' + (data.isks ? ((data.strMiktarTur === "KI" ? data.malzeme.koli : 1) * iskDusCoklu((data.mnFiyat), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4)).formatMoney(2, ',', '.') : '') + '</span>';
                 },
                 title: 'Net'
             },
             {
                 "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
-                    return '<span class="sinirli">' + (data.isks ? iskDusCoklu((data.mnFiyat * data.intMiktar), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4).formatMoney(2, ',', '.') : '') + '</span>';
+                    return '<span class="sinirli">' + (data.isks ? ((data.strMiktarTur === "KI" ? data.malzeme.koli : 1) * iskDusCoklu((data.mnFiyat * data.intMiktar), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4)).formatMoney(2, ',', '.') : '') + '</span>';
                 },
                 title: 'Toplam'
             }
         ];
 
         $(document).ready(function () {
+            fiyattip = getParameterByName("fiyattipi");
             excelcikar = getParameterByName("excel") == "true";
             yazdir = getParameterByName("yazdir") == "true";
             SiparislerDetayGetir();
         });
+
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+
+                if (bakiye) {
+                    var kalanvarmi = parseInt(data[10]) > 0;
+
+                    if (kalanvarmi) {
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                return true;
+            }
+        );
 
         function qtip() {
             $('.urunResim').each(function () {
@@ -217,24 +264,54 @@
             });
             lazyload();
         }
+
+        function olustur() {
+            if (!confirm("Bu sipariş ekranındaki kalan sevk adetlerinden yeni bir sipariş oluşturulacak. Emin misiniz?"))
+                return;
+
+            sentData = '[{ "detayid": ' + sipid + ', "miktar": 0 }]';
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "siparis/bakiyeolustur",
+                    data: sentData,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        window.location.href = window.location.href;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
     </script>
 }
 <h5 class="spanCiplak" id="sipMus"></h5>
 <i><span class="spanCiplak" id="aciklama"></span></i>
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%">
     @*<thead>
-        <tr>
-            <th class="keyTd hidewhenmobile"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
-            <th class="keyTd"><span class="">Kod</span></th>
-            <th class="keyTd"><span class="">Malzeme</span></th>
-            <th class="keyTd hidewhenmobile"><span class="">Fiyat</span></th>
-            <th class="keyTd hidewhenmobile"><span class="">İsk1</span></th>
-            <th class="keyTd hidewhenmobile"><span class="">İsk2</span></th>
-            <th class="keyTd hidewhenmobile"><span class="">İsk3</span></th>
-            <th class="keyTd hidewhenmobile"><span class="">İsk4</span></th>
-            <th class="keyTd"><span class="">Miktar</span></th>
-            <th class="keyTd hidewhenmobile"><span class="">Net</span></th>
-            <th class="keyTd hidewhenmobile"><span class="">Toplam</span></th>
-        </tr>
-    </thead>*@
+            <tr>
+                <th class="keyTd hidewhenmobile"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+                <th class="keyTd"><span class="">Kod</span></th>
+                <th class="keyTd"><span class="">Malzeme</span></th>
+                <th class="keyTd hidewhenmobile"><span class="">Fiyat</span></th>
+                <th class="keyTd hidewhenmobile"><span class="">İsk1</span></th>
+                <th class="keyTd hidewhenmobile"><span class="">İsk2</span></th>
+                <th class="keyTd hidewhenmobile"><span class="">İsk3</span></th>
+                <th class="keyTd hidewhenmobile"><span class="">İsk4</span></th>
+                <th class="keyTd"><span class="">Miktar</span></th>
+                <th class="keyTd hidewhenmobile"><span class="">Net</span></th>
+                <th class="keyTd hidewhenmobile"><span class="">Toplam</span></th>
+            </tr>
+        </thead>*@
 </table>
+<br />
+<div class="centerVeMiddle">
+    <input type="button" class="btn btn-danger secimTus" value="Geri Dön" onclick="window.history.back()" />
+    <input type="button" class="btn btn-success secimTus" id="bakiyeolustur" value="Yeni Sipariş Oluştur" onclick="olustur()" style="display: none" />
+</div>

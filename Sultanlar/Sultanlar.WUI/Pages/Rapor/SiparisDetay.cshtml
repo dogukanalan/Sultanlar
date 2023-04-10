@@ -64,7 +64,12 @@
             },
             {
                 "data": null, "class": "floaTd", render: function (data, type, row) {
-                    return '<span class="sinirli" data-toggle="tooltip" title="Koli Top.: ' + data.kolit.formatMoney(1, ',', '.') + '">' + data.adt.formatMoney(0, ',', '.') + '</span><span class="hide">' + data.kolit.formatMoney(1, ',', '.') + '</span>';
+                    return '<span class="sinirli">' + data.adt + '</span>';
+                }
+            },
+            {
+                "data": null, "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.kolit + '</span>';
                 }
             },
             {
@@ -229,8 +234,9 @@
             <th class="keyTd" data-priority="2"><span class="spanCiplak">Alt Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd"><span class="spanCiplak">Mal.Kod</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd" data-priority="3"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd" data-priority="4"><span class="spanCiplak">Adet</span><br /><input type="text" class="form-control input100yuzde" /></th>
-            <th class="keyTd"><span class="spanCiplak">Net</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd" data-priority="4"><span class="spanCiplak">Adet</span></th>
+            <th class="keyTd" data-priority="5"><span class="spanCiplak">Koli</span></th>
+            <th class="keyTd"><span class="spanCiplak">Net</span></th>
         </tr>
     </thead>
 </table>

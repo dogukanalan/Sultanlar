@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -39,6 +40,12 @@ namespace Sultanlar.WebAPI.Controllers
         public string Kaydet([FromBody]IadeKaydet iadekaydet) => new IadeProvider().IadeKaydet(iadekaydet);
 
         [HttpPost("{bayikod}/{musteri}")]
-        public string DisKaydet(string bayikod, string musteri, [FromBody]XmlDocument icerik) => new Internet.GenelController().WcfPostTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/Iade?bayikod=" + bayikod + "&musteri=" + musteri, "application/soap+xml", icerik);
+        public string DisKaydet(string bayikod, string musteri, [FromBody] XmlDocument icerik)
+        {
+            string donendeger = new Internet.GenelController().WcfPostTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/Iade?bayikod=" + bayikod + "&musteri=" + musteri, "application/soap+xml", icerik);
+            iadeler.ExecNQ("db_sp_bayiStokGuncelle1b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { Convert.ToInt32(bayikod) });
+            iadeler.ExecNQ("db_sp_bayiStokGuncelle2b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { Convert.ToInt32(bayikod) });
+            return donendeger;
+        }
     }
 }

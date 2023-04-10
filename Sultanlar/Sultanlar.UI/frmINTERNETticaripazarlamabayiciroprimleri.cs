@@ -46,14 +46,14 @@ namespace Sultanlar.UI
         {
             try
             {
-                if (BayiCiroPrimleri.VarMi(((CariHesaplarTP)cmbBayi.SelectedItem).SMREF, Convert.ToInt32(txtYil.Text.Trim()), Convert.ToInt32(txtAy.Text.Trim())))
+                /*if (BayiCiroPrimleri.VarMi(((CariHesaplarTP)cmbBayi.SelectedItem).SMREF, Convert.ToInt32(txtYil.Text.Trim()), Convert.ToInt32(txtAy.Text.Trim())))
                 {
                     MessageBox.Show("Girilen bayi, yıl ve ay değerine ait ciro primleri zaten kayıtı, aynı döneme ikinci bir değer girilemez.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
-                }
+                }*/
 
                 BayiCiroPrimleri bcp = new BayiCiroPrimleri(((CariHesaplarTP)cmbBayi.SelectedItem).SMREF, Convert.ToInt32(txtYil.Text.Trim()),
-                    Convert.ToInt32(txtAy.Text.Trim()), Convert.ToDecimal(txtTAH.Text.Trim()), Convert.ToDecimal(txtYEG.Text.Trim()), txtAciklama.Text);
+                    Convert.ToInt32(txtAy.Text.Trim()), Convert.ToDecimal(txtTAH.Text.Trim()), Convert.ToDecimal(txtYEG.Text.Trim()), txtAciklama.Text, Convert.ToInt32(txtTAHKDV.Text.Trim()), Convert.ToInt32(txtYEGKDV.Text.Trim()));
                 bcp.DoInsert();
 
                 MessageBox.Show("Kayıt başarıyla eklendi.", "Ekleme", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -68,7 +68,7 @@ namespace Sultanlar.UI
 
         private void sbGuncelle_Click(object sender, EventArgs e)
         {
-            if (gridView4.SelectedRowsCount > 0 && !gridView4.IsFilterRow(gridView4.GetSelectedRows()[0]))
+            /*if (gridView4.SelectedRowsCount > 0 && !gridView4.IsFilterRow(gridView4.GetSelectedRows()[0]))
             {
                 int SMREF = Convert.ToInt32(gridView4.GetRowCellValue(gridView4.FocusedRowHandle, "SMREF"));
                 int Yil = Convert.ToInt32(gridView4.GetRowCellValue(gridView4.FocusedRowHandle, "intYil"));
@@ -81,6 +81,8 @@ namespace Sultanlar.UI
                 bcp.intAy = Convert.ToInt32(txtAy.Text);
                 bcp.mnTAH = Convert.ToDecimal(txtTAH.Text);
                 bcp.mnYEG = Convert.ToDecimal(txtYEG.Text);
+                bcp.intTAHKDVoran = Convert.ToInt32(txtTAHKDV.Text);
+                bcp.intYEGKDVoran = Convert.ToInt32(txtYEGKDV.Text);
                 bcp.strAciklama = txtAciklama.Text;
 
                 bcp.DoUpdate();
@@ -88,7 +90,7 @@ namespace Sultanlar.UI
                 MessageBox.Show("Kayıt başarıyla güncellendi.", "Güncelleme", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 GetObjects();
-            }
+            }*/
         }
 
         private void sbSil_Click(object sender, EventArgs e)
@@ -124,6 +126,8 @@ namespace Sultanlar.UI
                 txtTAH.Text = bcp.mnTAH.ToString("N2");
                 txtYEG.Text = bcp.mnYEG.ToString("N2");
                 txtAciklama.Text = bcp.strAciklama;
+                txtTAHKDV.Text = bcp.intTAHKDVoran.ToString();
+                txtYEGKDV.Text = bcp.intYEGKDVoran.ToString();
 
                 for (int i = 0; i < cmbBayi.Items.Count; i++)
                 {
@@ -140,6 +144,8 @@ namespace Sultanlar.UI
                 txtYil.Text = DateTime.Now.Year.ToString();
                 txtTAH.Text = "0";
                 txtYEG.Text = "0";
+                txtTAHKDV.Text = "8";
+                txtYEGKDV.Text = "18";
                 txtAciklama.Text = string.Empty;
             }
         }
@@ -150,7 +156,7 @@ namespace Sultanlar.UI
             ofd.Filter = "Excel dosyaları (*.xls, *.xlsx)|*.xls;*.xlsx;|Bütün Dosyalar|*.*";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                if (MessageBox.Show("Dosyadan aktarım yapmak istediğinize emin misiniz?\r\nExcel dosyası kolonları sırasıyla aşağıdaki gibi olmalı:\r\n\r\nA-Bayi Kodu, B-Yıl, C-Ay, D-KGT Bedel, E-NF Bedel, F-Açıklama", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                if (MessageBox.Show("Dosyadan aktarım yapmak istediğinize emin misiniz?\r\nExcel dosyası kolonları sırasıyla aşağıdaki gibi olmalı:\r\n\r\nA-Bayi Kodu, B-Yıl, C-Ay, D-KGT Bedel, E-NF Bedel, F-Açıklama, G-TAH Kdv oran H-YEG Kdv oran", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                 {
                     ExceldenAl(ofd.FileName);
                 }
@@ -206,7 +212,7 @@ namespace Sultanlar.UI
 
                 try
                 {
-                    BayiCiroPrimleri.DoInsert(Convert.ToInt32(values[i, 1]), Convert.ToInt32(values[i, 2]), Convert.ToInt32(values[i, 3]), Convert.ToDecimal(values[i, 4]), Convert.ToDecimal(values[i, 5]), values[i, 6].ToString());
+                    BayiCiroPrimleri.DoInsert(Convert.ToInt32(values[i, 1]), Convert.ToInt32(values[i, 2]), Convert.ToInt32(values[i, 3]), Convert.ToDecimal(values[i, 4]), Convert.ToDecimal(values[i, 5]), values[i, 6].ToString(), Convert.ToInt32(values[i, 7]), Convert.ToInt32(values[i, 8]));
                 }
                 catch (Exception ex)
                 {

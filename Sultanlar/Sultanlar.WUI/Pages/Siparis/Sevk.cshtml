@@ -1,7 +1,8 @@
 ﻿@page
 @model SevkModel
 @{
-    ViewData["Title"] = "Sipariş Sevk (" + Request.QueryString.Value.Replace("?siparisid=", "").Replace("?slsref=", "").Replace("?onayli=1&slsref=", "").Replace("?aktarilmis=1&slsref=", "") + ")";
+    //ViewData["Title"] = "Sipariş Sevk (" + Request.QueryString.Value.Replace("?siparisid=", "").Replace("?slsref=", "").Replace("?onayli=1&slsref=", "").Replace("?aktarilmis=1&slsref=", "").Replace("&siparisid=", " Sipariş:") + ")";
+    ViewData["Title"] = "Bayi Otomasyon Siparişidir";
 }
 
 @section head {
@@ -50,7 +51,16 @@
                 var yazi = "Sevk";
                 if (getParameterByName('siparisid')) {
                     document.getElementById("basTitle").innerHTML = "Sipariş " + yazi + " (" + sipid + ")";
+                    document.getElementById("sipMusSiparisNo").innerHTML = json.pkSiparisID;
+                    document.getElementById("sipMusBelgeNo").innerHTML = json.quantumNo;
                     document.getElementById("sipMus").innerHTML = json.cari.sube;
+                    document.getElementById("sipMusKod").innerHTML = json.cari.smref;
+                    document.getElementById("sipMusIl").innerHTML = json.cari.il;
+                    document.getElementById("sipMusIlce").innerHTML = json.cari.ilce;
+                    document.getElementById("sipMusAdres").innerHTML = json.cari.adres;
+                    document.getElementById("sipMusMusteri").innerHTML = json.musteri.adSoyad;
+                    document.getElementById("sipMusTarih").innerHTML = json.dtOnaylamaTarihi.replace("T", " ");
+
                     document.getElementById("aciklama").innerHTML = json.aciklama2;
                 }
                 else {
@@ -93,7 +103,7 @@
                         $("#aktar").val("Tekrar aktar");
                     }
                     else {
-                        $(".dt-buttons").css("display", "none");
+                        //$(".dt-buttons").css("display", "none");
                         $("#sevkonay").css("display", "inline");
                         $("#sevkhepsi").css("display", "inline");
                     }
@@ -126,6 +136,12 @@
                             return '<span class="sinirli">' + data + '</span>';
                         },
                         title: 'Kod'
+                    },
+                    {
+                        "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.barkod + '</span>';
+                        },
+                        title: 'Barkod'
                     },
                     {
                         "data": "malzeme", "class": "valueTd", render: function (data, type, row) {
@@ -197,7 +213,7 @@
                         "data": null, "class": "keyTd", render: function (data, type, row) {
                             var sevkli = data.sevk.id > 0;
                             var miktar = sevkli ? data.sevk.intMiktar : "";
-                            return '<input type="number" name="sevkler" id="sevk' + data.pkSiparisDetayID + '" class="inputSecim" accesskey2="' + data.malzeme.stokdis + '" accesskey="' + sevkli + '" value="' + miktar + '" ' + (sevkli ? ' disabled' : '') + ' /><span id="span' + data.pkSiparisDetayID + '" style="display: none">' + miktar + '</span>';
+                            return '<input type="number" name="sevkler" id="sevk' + data.pkSiparisDetayID + '" class="inputSecim" accesskey3="' + data.intMiktar + '" accesskey2="' + data.malzeme.stokdis + '" accesskey="' + sevkli + '" value="' + miktar + '" ' + (sevkli ? ' disabled' : '') + ' /><span id="span' + data.pkSiparisDetayID + '" style="display: none">' + miktar + '</span>';
                         },
                         title: 'Sevk'
                     }
@@ -207,10 +223,17 @@
                     {
                         extend: 'pdfHtml5',
                         exportOptions: {
-                            modifier: {
+                            /*modifier: {
                                 selected: true
-                            },
-                            columns: [2, 3, 4, 5, 6, 7, 8, 9, 10]
+                            },*/
+                            columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                            format: {
+                                body: function (data, row, column, node) {
+                                    return $(data).is("input") ?
+                                        document.getElementById($(data).attr("id")).value :
+                                        $(data)[0].innerText;
+                                }
+                            }
                         },
                         filename: function () {
                             return 'Sultanlar Sipariş';
@@ -218,8 +241,14 @@
                         customize: function (doc) {
                             doc.content.splice(1, 0, {
                                 margin: [0, 0, 0, 12],
-                                alignment: 'center',
-                                text: ''
+                                alignment: 'left',
+                                text: 'Sipariş No: ' + document.getElementById("sipMusSiparisNo").innerHTML + '\r\n'
+                                    + 'Belge No: ' + document.getElementById("sipMusBelgeNo").innerHTML + '\r\n'
+                                    + 'Siparişi Giren: ' + document.getElementById("sipMusMusteri").innerHTML + '\r\n'
+                                    + 'Müşteri: ' + document.getElementById("sipMus").innerHTML + ' (' + document.getElementById("sipMusKod").innerHTML + ')' + '\r\n'
+                                    + 'Adres: ' + document.getElementById("sipMusIl").innerHTML + ' - ' + document.getElementById("sipMusIlce").innerHTML + ' - ' + document.getElementById("sipMusAdres").innerHTML + '\r\n'
+                                    + 'Sipariş Tarihi: ' + document.getElementById("sipMusTarih").innerHTML + '\r\n'
+                                    + 'Baskı Tarihi: ' + getDateNow().replace("T", " ").replace("Z", " ").substring(0, getDateNow().length - 5)
                             });
                         }
                     },
@@ -230,21 +259,31 @@
                     {
                         extend: 'print',
                         exportOptions: {
-                            modifier: {
+                            /*modifier: {
                                 selected: true
-                            },
-                            columns: [2, 3, 4, 5, 6, 7, 8, 9, 10]
+                            },*/
+                            columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                            format: {
+                                body: function (data, row, column, node) {
+                                    return $(data).is("input") ?
+                                        document.getElementById($(data).attr("id")).value :
+                                        data;
+                                }
+                            }
                         }
                     },
                     {
                         extend: 'excel',
                         exportOptions: {
-                            modifier: {
+                            /*modifier: {
                                 selected: true
-                            },
-                            columns: [2, 3, 4, 5, 6, 7, 8, 9, 10],
+                            },*/
+                            columns: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                             format: {
                                 body: function (data, row, column, node) {
+                                    data = $(data).is("input") ?
+                                        document.getElementById($(data).attr("id")).value :
+                                        data;
                                     data = $('<p>' + data + '</p>').text();
                                     return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
                                 }
@@ -319,10 +358,19 @@
         function sevkOnay() {
             var sentData = "[";
             var eksik = false;
+            var hata = false;
+            var toplamsevk = 0;
             $('#dtTable').find('input[name="sevkler"]').each(function () {
                 if (this.value) {
-                    if ($(this).attr('accesskey') == "false")
+                    if ($(this).attr('accesskey') == "false") {
+                        /*console.log("miktar: " + parseInt($(this).attr('accesskey3')));
+                        console.log("stok: " + parseInt($(this).attr('accesskey2')));
+                        console.log("sevk: " + parseInt(this.value));*/
+                        if (parseInt(this.value) > parseInt($(this).attr('accesskey3')) || parseInt(this.value) > parseInt($(this).attr('accesskey2')))
+                            hata = true;
                         sentData += "{detayid: " + this.id.replace("sevk", "") + ", miktar: " + this.value + "},";
+                        toplamsevk = toplamsevk + parseInt(this.value);
+                    }
                 }
                 else
                     eksik = true;
@@ -331,9 +379,14 @@
             if (eksik) {
                 alert("Eksik sevk miktar seçimi var.");
             }
+            else if (hata) {
+                alert("Stok veya sipariş miktarından fazla sevk adedi girilmiş.");
+            }
+            else if (toplamsevk == 0) {
+                alert("Hiç bir satırda sevk miktarı yok, sevk toplamı 0.");
+            }
             else {
                 sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
-                //console.log(sentData);
                 $.ajax(
                     {
                         xhr: function () { return xhrDownloadUpload(); },
@@ -377,7 +430,7 @@
                             checkAuth(response);
 
                             var toXml = new XMLSerializer().serializeToString(data);
-                            var filename = "example.xml";
+                            var filename = "sultanlar.xml";
                             var pseudoelement = document.createElement('a');
                             var blob = new Blob([toXml], { type: "text/plain" });
 
@@ -406,11 +459,15 @@
         }
     </script>
 }
-<h5 class="spanCiplak" id="sipMus"></h5>
+<span class="spanCiplak" id="sipMus"></span> (<span id="sipMusKod"></span>)<br />
+
+<span id="sipMusIl" style="display: none"></span><span id="sipMusIlce" style="display: none"></span><span id="sipMusAdres" style="display: none"></span><span id="sipMusMusteri" style="display: none"></span>
+<span id="sipMusTarih" style="display: none"></span><span id="sipMusSiparisNo" style="display: none"></span><span id="sipMusBelgeNo" style="display: none"></span>
+
 <i><span class="spanCiplak" id="aciklama"></span></i>
 <br />
 <input type="button" class="btn btn-primary secimTus" id="sevkhepsi" value="Tamamını sevk miktarına aktar" onclick="sevkHepsi()" style="float: left; margin-right: 10px; height: 40px; display: none" />
-<input type="button" class="btn buttons-print" id="inputYazdir" style="float: left; margin-right: 10px; height: 40px; border: 1px solid gray" value="Yazdır" onclick="printet()" />
+@*<input type="button" class="btn buttons-print" id="inputYazdir" style="float: left; margin-right: 10px; height: 40px; border: 1px solid gray" value="Yazdır" onclick="printet()" />*@
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%">
 </table>
 <br />

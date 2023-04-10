@@ -19,6 +19,9 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public List<fiyatlar> GetByTip(int TIP, int GMREF, int MTIP, int SMREF) => new FiyatProvider().Fiyatlar(TIP, GMREF, MTIP, SMREF);
 
         [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}/{SMREF}")]
+        public List<fiyatlar> GetByTip2(int TIP, int GMREF, int MTIP, int SMREF) => new FiyatProvider().Fiyatlar2(TIP, GMREF, MTIP, SMREF);
+
+        [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}/{SMREF}")]
         public List<fiyatlar> GetNonByTip(int TIP, int GMREF, int MTIP, int SMREF) => new FiyatProvider().FiyatlarNon(TIP, GMREF, MTIP, SMREF);
 
         [HttpGet, Route("internet/[controller]/[action]/{TIP}/{GMREF}/{MTIP}/{SMREF}")]
@@ -56,5 +59,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet, Route("internet/[controller]/[action]/{GMREF}/{NETTOP}/{SMREF}/{TIP}/{MUSTERI}")]
         public string YeniFiyatTip(int GMREF, int NETTOP, int SMREF, int TIP, string MUSTERI) => new FiyatProvider().FiyatTipOlustur(GMREF, NETTOP, SMREF, TIP, MUSTERI);
+
+        [HttpGet, Route("internet/[controller]/[action]/{SMREF}")]
+        public List<fiyatlar> GetSmrefad(int SMREF) => new FiyatProvider().Smrefad(SMREF);
     }
 }

@@ -33,6 +33,8 @@ namespace Sultanlar.DatabaseObject.Internet
         private decimal _mnMudurButce;
         private decimal _mnElemanButce;
         private bool _blKapamaEtki;
+        private int _intTAHKDVoran;
+        private int _intYEGKDVoran;
         //
         //
         //
@@ -47,7 +49,7 @@ namespace Sultanlar.DatabaseObject.Internet
         private AnlasmaHizmetBedelleri(int pkID, int SMREF, int intMusteriID, int intAnlasmaBedelAdID, int intAy, int intYil, string strFaturaNo, 
             DateTime dtFaturaTarih,
             decimal mnTAHBedel, decimal mnYEGBedel, int intAnlasmaBedelID, string strAciklama1, string strAciklama2, string strAciklama3,
-            string strAciklama4, decimal mnMudurButce, decimal mnElemanButce, bool blKapamaEtki)
+            string strAciklama4, decimal mnMudurButce, decimal mnElemanButce, bool blKapamaEtki, int intTAHKDVoran, int intYEGKDVoran)
         {
             this._pkID = pkID;
             this._intMusteriID = intMusteriID;
@@ -67,13 +69,15 @@ namespace Sultanlar.DatabaseObject.Internet
             this._mnMudurButce = mnMudurButce;
             this._mnElemanButce = mnElemanButce;
             this._blKapamaEtki = blKapamaEtki;
+            this._intTAHKDVoran = intTAHKDVoran;
+            this._intYEGKDVoran = intYEGKDVoran;
         }
         //
         //
         public AnlasmaHizmetBedelleri(int SMREF, int intMusteriID, int intAnlasmaBedelAdID, int intAy, int intYil, string strFaturaNo, 
             DateTime dtFaturaTarih,
             decimal mnTAHBedel, decimal mnYEGBedel, int intAnlasmaBedelID, string strAciklama1, string strAciklama2, string strAciklama3,
-            string strAciklama4, decimal mnMudurButce, decimal mnElemanButce, bool blKapamaEtki)
+            string strAciklama4, decimal mnMudurButce, decimal mnElemanButce, bool blKapamaEtki, int intTAHKDVoran, int intYEGKDVoran)
         {
             this._intMusteriID = intMusteriID;
             this._SMREF = SMREF;
@@ -92,6 +96,8 @@ namespace Sultanlar.DatabaseObject.Internet
             this._mnMudurButce = mnMudurButce;
             this._mnElemanButce = mnElemanButce;
             this._blKapamaEtki = blKapamaEtki;
+            this._intTAHKDVoran = intTAHKDVoran;
+            this._intYEGKDVoran = intYEGKDVoran;
         }
         //
         //
@@ -116,6 +122,8 @@ namespace Sultanlar.DatabaseObject.Internet
         public decimal mnMudurButce { get { return this._mnMudurButce; } set { this._mnMudurButce = value; } }
         public decimal mnElemanButce { get { return this._mnElemanButce; } set { this._mnElemanButce = value; } }
         public bool blKapamaEtki { get { return this._blKapamaEtki; } set { this._blKapamaEtki = value; } }
+        public int intTAHKDVoran { get { return this._intTAHKDVoran; } set { this._intTAHKDVoran = value; } }
+        public int intYEGKDVoran { get { return this._intYEGKDVoran; } set { this._intYEGKDVoran = value; } }
         //
         //
         //
@@ -159,6 +167,8 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@mnMudurButcesi", SqlDbType.Money).Value = this._mnMudurButce;
                 cmd.Parameters.Add("@mnElemanButcesi", SqlDbType.Money).Value = this._mnElemanButce;
                 cmd.Parameters.Add("@blKapamaEtki", SqlDbType.Bit).Value = this._blKapamaEtki;
+                cmd.Parameters.Add("@intTAHKDVoran", SqlDbType.Int).Value = this._intTAHKDVoran;
+                cmd.Parameters.Add("@intYEGKDVoran", SqlDbType.Int).Value = this._intYEGKDVoran;
                 cmd.Parameters.Add("@pkID", SqlDbType.Int).Direction = ParameterDirection.Output;
                 try
                 {
@@ -202,6 +212,8 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@mnMudurButcesi", SqlDbType.Money).Value = this._mnMudurButce;
                 cmd.Parameters.Add("@mnElemanButcesi", SqlDbType.Money).Value = this._mnElemanButce;
                 cmd.Parameters.Add("@blKapamaEtki", SqlDbType.Bit).Value = this._blKapamaEtki;
+                cmd.Parameters.Add("@intTAHKDVoran", SqlDbType.Int).Value = this._intTAHKDVoran;
+                cmd.Parameters.Add("@intYEGKDVoran", SqlDbType.Int).Value = this._intYEGKDVoran;
                 try
                 {
                     conn.Open();
@@ -437,7 +449,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT [pkID],intMusteriID,CASE WHEN [intAnlasmaBedelID] > 0 THEN CONVERT(bit,'True') ELSE CONVERT(bit,'False') END AS Kapatilmis,[SMREF],(SELECT [Web-Musteri-TP].MUSTERI FROM [Web-Musteri-TP] WHERE [Web-Musteri-TP].GMREF = [Web-Musteri-TP].SMREF AND [Web-Musteri-TP].GMREF = (SELECT MUSTERITP.GMREF FROM [Web-Musteri-TP] AS MUSTERITP WHERE MUSTERITP.SMREF = [tblINTERNET_AnlasmaHizmetBedelleri].SMREF)) AS BAYI,(SELECT TOP 1 SUBE FROM [Web-Musteri-TP] WHERE SMREF = [tblINTERNET_AnlasmaHizmetBedelleri].SMREF) AS MUSTERI,[intAnlasmaBedelAdID],(SELECT strBedel FROM tblINTERNET_AnlasmaBedelAdlari WHERE pkID = [tblINTERNET_AnlasmaHizmetBedelleri].[intAnlasmaBedelAdID]) AS Bedel,[intAy],[intYil],[strFaturaNo],[dtFaturaTarih],[mnTAHBedel],[mnYEGBedel],[intAnlasmaBedelID],[strAciklama1],[strAciklama2],[strAciklama3],[strAciklama4],mnMudurButcesi,mnElemanButcesi,blKapamaEtki FROM [KurumsalWebSAP].[dbo].[tblINTERNET_AnlasmaHizmetBedelleri] WHERE (" + smrefs + ") AND [dtFaturaTarih] >= @BaslangicTarih AND [dtFaturaTarih] <= @BitisTarih " + onayli + " ORDER BY [pkID] DESC", conn);
+                SqlDataAdapter da = new SqlDataAdapter("SELECT [pkID],intMusteriID,CASE WHEN [intAnlasmaBedelID] > 0 THEN CONVERT(bit,'True') ELSE CONVERT(bit,'False') END AS Kapatilmis,[SMREF],(SELECT [Web-Musteri-TP].MUSTERI FROM [Web-Musteri-TP] WHERE [Web-Musteri-TP].GMREF = [Web-Musteri-TP].SMREF AND [Web-Musteri-TP].GMREF = (SELECT MUSTERITP.GMREF FROM [Web-Musteri-TP] AS MUSTERITP WHERE MUSTERITP.SMREF = [tblINTERNET_AnlasmaHizmetBedelleri].SMREF)) AS BAYI,(SELECT TOP 1 SUBE FROM [Web-Musteri-TP] WHERE SMREF = [tblINTERNET_AnlasmaHizmetBedelleri].SMREF) AS MUSTERI,[intAnlasmaBedelAdID],(SELECT strBedel FROM tblINTERNET_AnlasmaBedelAdlari WHERE pkID = [tblINTERNET_AnlasmaHizmetBedelleri].[intAnlasmaBedelAdID]) AS Bedel,[intAy],[intYil],[strFaturaNo],[dtFaturaTarih],[mnTAHBedel],[mnYEGBedel],[intAnlasmaBedelID],[strAciklama1],[strAciklama2],[strAciklama3],[strAciklama4],mnMudurButcesi,mnElemanButcesi,blKapamaEtki,intTAHKDVoran,intYEGKDVoran FROM [KurumsalWebSAP].[dbo].[tblINTERNET_AnlasmaHizmetBedelleri] WHERE (" + smrefs + ") AND [dtFaturaTarih] >= @BaslangicTarih AND [dtFaturaTarih] <= @BitisTarih " + onayli + " ORDER BY [pkID] DESC", conn);
                 da.SelectCommand.Parameters.Add("@BaslangicTarih", SqlDbType.SmallDateTime).Value = BaslangicTarih;
                 da.SelectCommand.Parameters.Add("@BitisTarih", SqlDbType.SmallDateTime).Value = BitisTarih;
                 try
@@ -477,7 +489,7 @@ namespace Sultanlar.DatabaseObject.Internet
                             Convert.ToInt32(dr[3]),
                             Convert.ToInt32(dr[4]), Convert.ToInt32(dr[5]), dr[6].ToString(), Convert.ToDateTime(dr[7]), Convert.ToDecimal(dr[8]),
                             Convert.ToDecimal(dr[9]), Convert.ToInt32(dr[10]), dr[11].ToString(), dr[12].ToString(), dr[13].ToString(),
-                            dr[14].ToString(), Convert.ToDecimal(dr[15]), Convert.ToDecimal(dr[16]), Convert.ToBoolean(dr[17]));
+                            dr[14].ToString(), Convert.ToDecimal(dr[15]), Convert.ToDecimal(dr[16]), Convert.ToBoolean(dr[17]), Convert.ToInt32(dr[18]), Convert.ToInt32(dr[19]));
                     }
                 }
                 catch (SqlException ex)

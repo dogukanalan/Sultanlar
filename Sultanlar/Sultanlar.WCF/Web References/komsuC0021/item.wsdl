@@ -44,6 +44,13 @@
               </xsd:restriction>
             </xsd:simpleType>
           </xsd:element>
+          <xsd:element minOccurs="0" name="Barcode">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
           <xsd:element minOccurs="0" name="Brand">
             <xsd:simpleType>
               <xsd:restriction base="xsd:string">

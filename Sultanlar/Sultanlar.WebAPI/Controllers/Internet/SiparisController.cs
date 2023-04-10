@@ -61,8 +61,17 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpGet("{SLSREF}")]
         public List<siparisler> GetSevkliAktarilmis(int SLSREF) => new SiparisProvider().SevkliAktarilmis(SLSREF);
 
+        [HttpGet("{SLSREF}")]
+        public List<siparisler> GetBakiyeler(int SLSREF) => new SiparisProvider().BakiyeSiparisler(SLSREF);
+
         [HttpPost]
-        public string DetaySevkKaydet([FromBody] List<SevkKaydet> sevkkaydet) => new SiparisProvider().DetaySevkKaydet(sevkkaydet);
+        public string BakiyeOlustur([FromBody]List<SevkKaydet> sks) => new SiparisProvider().BakiyeKalanOlustur(sks);
+
+        [HttpPost]
+        public string DetaySevkKaydet([FromBody]List<SevkKaydet> sevkkaydet) => new SiparisProvider().DetaySevkKaydet(sevkkaydet);
+
+        [HttpPost]
+        public string SevkKaydet([FromBody]List<SevkKaydet> sevkkaydet) => new SiparisProvider().SevkKaydet(sevkkaydet);
 
         [HttpPost]
         public ContentResult DetaySevkAktar([FromBody] List<SevkKaydet> sevkkaydet) => new SiparisProvider().DetaySevkAktar(sevkkaydet);

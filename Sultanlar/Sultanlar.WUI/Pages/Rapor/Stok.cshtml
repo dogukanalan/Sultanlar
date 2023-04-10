@@ -38,27 +38,27 @@
             },
             {
                 "data": "stoktl", "class": "floaTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                    return '<span class="sinirli">' + data.toFixed(2) + '</span>';
                 }
             },
             {
                 "data": "stokkoli", "class": "floaTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data.formatMoney(1, ',', '.') + '</span>';
+                    return '<span class="sinirli">' + data.toFixed(1) + '</span>';
                 }
             },
             {
                 "data": "yilliksatilankoli", "class": "floaTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data.formatMoney(1, ',', '.') + '</span>';
+                    return '<span class="sinirli">' + data.toFixed(1) + '</span>';
                 }
             },
             {
                 "data": "stokay", "class": "floaTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                    return '<span class="sinirli">' + data.toFixed(2) + '</span>';
                 }
             },
             {
                 "data": "stokgun", "class": "floaTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data.formatMoney(2, ',', '.') + '</span>';
+                    return '<span class="sinirli">' + data.toFixed(2) + '</span>';
                 }
             }
         ];

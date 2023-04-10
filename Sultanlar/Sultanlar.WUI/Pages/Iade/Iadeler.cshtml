@@ -297,7 +297,7 @@
 
         $(document).ready(function () {
             SaticilarGetir(true);
-            if (localStorage["taksit"] == true || localStorage["uyetipiid"] == "aZZA1PyhVTw=") {
+            if (localStorage["taksit"] == "true" || localStorage["uyetipiid"] == "aZZA1PyhVTw=") {
                 $("#xmlAktarim").css("display", "inline");
             }
 
@@ -441,7 +441,7 @@
 
                 reader.readAsText(file);
             } else {
-                console.log("Dosya desteklenmiyor!");
+                alert("Dosya desteklenmiyor!");
             }
         });
     }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Sultanlar.Class;
@@ -62,7 +64,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 {
                     sf.ONAYLI = true;
                     sf.DoUpdate();
-                    if (sf.TUR_ID == 1)
+                    if (sf.TUR_ID == 1 || sf.TUR_ID == 7)
                     {
                         List<sayimEksikFazlaFisleri> sef = new sayimEksikFazlaFisleri().GetObjects(true, sf.ID);
                         List<sayimEksikFazlaFisleri> sef1 = new sayimEksikFazlaFisleri().GetObjects(false, sf.ID);
@@ -87,6 +89,8 @@ namespace Sultanlar.WebAPI.Services.Internet
                         sf.AP = true;
                         sf.DoUpdate();
                     }
+                    sayimFis.ExecNQ("db_sp_bayiStokGuncelle1b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { sf.Cari.GMREF });
+                    sayimFis.ExecNQ("db_sp_bayiStokGuncelle2b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { sf.Cari.GMREF });
                     return "";
                 }
             }

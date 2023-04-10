@@ -48,6 +48,20 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ziyaretvaryok GetObject(int ID)
+        {
+            ziyaretvaryok donendeger = new ziyaretvaryok();
+            donendeger.BARKOD = "";
+
+            Dictionary<int, object> dic = GetObject("db_sp_ziyaretVaryokGetirByID", new Dictionary<string, object>() { { "pkID", ID } }, timeout);
+            if (dic != null)
+                donendeger = new ziyaretvaryok(ConvertToInt32(dic[0]), dic[1].ToString(), ConvertToInt32(dic[2]), ConvertToDateTime(dic[3]), ConvertToDateTime(dic[4]));
+
+            return donendeger;
+        }
     }
     public class ziyaretvaryokdetay : DbObj
     {

@@ -7,6 +7,7 @@ using Sultanlar.DbObj.Internet;
 using Sultanlar.WebAPI.Models.Internet;
 using System.Linq.Dynamic.Core;
 using System.Collections;
+using System.Data;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -181,7 +182,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 musteriler mus = new musteriler().GetMusteriBySLSREF(Convert.ToInt32(vy.Ziyaret.AnaCari.SATKOD));
                 eposta.Add(mus.strEposta2);
                 eposta.Add("fkaya@sultanlar.com.tr");
-                eposta.Add("tolgatopcu@tibet.com.tr");
+                eposta.Add("kemalbayulgen@tibet.com.tr");
                 new EpostaProvider().EpostaGonder("Sultanlar",
                     eposta,
                     "Var/Yok Liste (" + vy.Ziyaret.Satici.SATTEM + ")",
@@ -262,7 +263,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                         skg.detaylar.Add(skgd);
                 }
 
-                if (false) //vy.Ziyaret.BARKOD != ""
+                if (vy.Ziyaret.BARKOD != "")
                 {
                     ArrayList eposta = new ArrayList();
                     /*for (int i = 0; i < vy.Ziyaret.AnaCari.muhataplar.Count; i++)
@@ -274,7 +275,9 @@ namespace Sultanlar.WebAPI.Services.Internet
                     musteriler mus = new musteriler().GetMusteriBySLSREF(Convert.ToInt32(vy.Ziyaret.AnaCari.SATKOD));
                     eposta.Add(mus.strEposta2);
                     eposta.Add("fkaya@sultanlar.com.tr");
+                    eposta.Add("asayin@sultanlar.com.tr");
                     eposta.Add("tolgatopcu@tibet.com.tr");
+                    eposta.Add("ihsantetik@tibet.com.tr");
                     new EpostaProvider().EpostaGonder("Sultanlar",
                         eposta,
                         "Var/Yok Liste (" + vy.Ziyaret.Satici.SATTEM + ")",
@@ -307,6 +310,27 @@ namespace Sultanlar.WebAPI.Services.Internet
         internal string VaryokSil(string BARKOD)
         {
             new ziyaretvaryok().GetObject(BARKOD).DoDelete();
+            return "";
+        }
+
+        internal string VaryokLogekle(string ID, string MUSTERIID, string SLSREF)
+        {
+            ziyaretvaryok varyok = new ziyaretvaryok().GetObject(Convert.ToInt32(ID));
+            bool YONETICI = varyok.Ziyaret.AnaCari.SATKOD == SLSREF;
+            bool MUDUR = false;
+            for (int i = 0; i < varyok.Ziyaret.AnaCari.muhataplar.Count; i++)
+            {
+                if (varyok.Ziyaret.AnaCari.muhataplar[i].SATKOD1 == "ZM" && Convert.ToInt32(SLSREF) == varyok.Ziyaret.AnaCari.muhataplar[i].SLSMANREF)
+                {
+                    MUDUR = true;
+                    break;
+                }
+            }
+
+            ziyaretvaryok.ExecNQ("db_sp_ziyaretVaryokLogEkle", 
+                new ArrayList() { "pkID", "VARYOK_ID", "intMusteriID", "SLSREF", "TARIH", "YONETICI", "MUDUR" }, 
+                new SqlDbType[] { SqlDbType.Int, SqlDbType.Int, SqlDbType.Int, SqlDbType.Int, SqlDbType.DateTime, SqlDbType.Bit, SqlDbType.Bit }, 
+                new ArrayList() { 0, Convert.ToInt32(ID), Convert.ToInt32(MUSTERIID), Convert.ToInt32(SLSREF), DateTime.Now, YONETICI, MUDUR });
             return "";
         }
     }

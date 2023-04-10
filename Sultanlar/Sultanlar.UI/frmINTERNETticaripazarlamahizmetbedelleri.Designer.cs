@@ -92,6 +92,12 @@
             this.txtTAHBedel = new System.Windows.Forms.TextBox();
             this.lblBayi = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
+            this.gridColumn22 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn23 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtTAHKDV = new System.Windows.Forms.TextBox();
+            this.txtYEGKDV = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -122,6 +128,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.cbKapamaEtki);
             this.splitContainer1.Panel2.Controls.Add(this.txtMudurButcesi);
+            this.splitContainer1.Panel2.Controls.Add(this.txtYEGKDV);
+            this.splitContainer1.Panel2.Controls.Add(this.txtTAHKDV);
             this.splitContainer1.Panel2.Controls.Add(this.txtElemanButcesi);
             this.splitContainer1.Panel2.Controls.Add(this.cmbAnlasmaBedelAdlari);
             this.splitContainer1.Panel2.Controls.Add(this.label5);
@@ -142,11 +150,13 @@
             this.splitContainer1.Panel2.Controls.Add(this.label8);
             this.splitContainer1.Panel2.Controls.Add(this.label10);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
+            this.splitContainer1.Panel2.Controls.Add(this.label13);
             this.splitContainer1.Panel2.Controls.Add(this.label12);
             this.splitContainer1.Panel2.Controls.Add(this.lblAltCari);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Panel2.Controls.Add(this.label4);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
+            this.splitContainer1.Panel2.Controls.Add(this.label6);
             this.splitContainer1.Panel2.Controls.Add(this.label11);
             this.splitContainer1.Panel2.Controls.Add(this.txtFatNo);
             this.splitContainer1.Panel2.Controls.Add(this.txtYEGBedel);
@@ -265,7 +275,9 @@
             this.gridColumn12,
             this.gridColumn14,
             this.gridColumn15,
-            this.gridColumn16});
+            this.gridColumn16,
+            this.gridColumn22,
+            this.gridColumn23});
             this.gridView4.GridControl = this.gridControl4;
             this.gridView4.Name = "gridView4";
             this.gridView4.OptionsView.ColumnAutoWidth = false;
@@ -533,7 +545,7 @@
             // 
             this.dtpFatTar.Location = new System.Drawing.Point(84, 51);
             this.dtpFatTar.Name = "dtpFatTar";
-            this.dtpFatTar.Size = new System.Drawing.Size(105, 20);
+            this.dtpFatTar.Size = new System.Drawing.Size(114, 20);
             this.dtpFatTar.TabIndex = 30;
             // 
             // sbOnayla
@@ -548,9 +560,9 @@
             // txtYil
             // 
             this.txtYil.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.txtYil.Location = new System.Drawing.Point(229, 51);
+            this.txtYil.Location = new System.Drawing.Point(220, 51);
             this.txtYil.Name = "txtYil";
-            this.txtYil.Size = new System.Drawing.Size(58, 20);
+            this.txtYil.Size = new System.Drawing.Size(31, 20);
             this.txtYil.TabIndex = 25;
             this.txtYil.TextChanged += new System.EventHandler(this.txtAy_TextChanged);
             // 
@@ -586,9 +598,9 @@
             // txtAy
             // 
             this.txtAy.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.txtAy.Location = new System.Drawing.Point(229, 30);
+            this.txtAy.Location = new System.Drawing.Point(220, 30);
             this.txtAy.Name = "txtAy";
-            this.txtAy.Size = new System.Drawing.Size(58, 20);
+            this.txtAy.Size = new System.Drawing.Size(31, 20);
             this.txtAy.TabIndex = 27;
             this.txtAy.TextChanged += new System.EventHandler(this.txtAy_TextChanged);
             // 
@@ -634,7 +646,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(204, 54);
+            this.label9.Location = new System.Drawing.Point(202, 54);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(18, 13);
             this.label9.TabIndex = 21;
@@ -660,7 +672,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(204, 33);
+            this.label8.Location = new System.Drawing.Point(201, 33);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(19, 13);
             this.label8.TabIndex = 15;
@@ -687,7 +699,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(302, 54);
+            this.label12.Location = new System.Drawing.Point(254, 54);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(51, 13);
             this.label12.TabIndex = 17;
@@ -731,7 +743,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(302, 33);
+            this.label11.Location = new System.Drawing.Point(254, 33);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(59, 13);
             this.label11.TabIndex = 18;
@@ -741,12 +753,12 @@
             // 
             this.txtFatNo.Location = new System.Drawing.Point(84, 30);
             this.txtFatNo.Name = "txtFatNo";
-            this.txtFatNo.Size = new System.Drawing.Size(105, 20);
+            this.txtFatNo.Size = new System.Drawing.Size(114, 20);
             this.txtFatNo.TabIndex = 26;
             // 
             // txtYEGBedel
             // 
-            this.txtYEGBedel.Location = new System.Drawing.Point(367, 51);
+            this.txtYEGBedel.Location = new System.Drawing.Point(313, 51);
             this.txtYEGBedel.Name = "txtYEGBedel";
             this.txtYEGBedel.Size = new System.Drawing.Size(73, 20);
             this.txtYEGBedel.TabIndex = 26;
@@ -754,7 +766,7 @@
             // 
             // txtTAHBedel
             // 
-            this.txtTAHBedel.Location = new System.Drawing.Point(367, 30);
+            this.txtTAHBedel.Location = new System.Drawing.Point(313, 30);
             this.txtTAHBedel.Name = "txtTAHBedel";
             this.txtTAHBedel.Size = new System.Drawing.Size(73, 20);
             this.txtTAHBedel.TabIndex = 28;
@@ -776,6 +788,62 @@
             this.label17.Size = new System.Drawing.Size(27, 13);
             this.label17.TabIndex = 19;
             this.label17.Text = "Bayi";
+            // 
+            // gridColumn22
+            // 
+            this.gridColumn22.Caption = "KGT KDV Oran";
+            this.gridColumn22.FieldName = "intTAHKDVoran";
+            this.gridColumn22.Name = "gridColumn22";
+            this.gridColumn22.OptionsColumn.AllowEdit = false;
+            this.gridColumn22.Visible = true;
+            this.gridColumn22.VisibleIndex = 15;
+            // 
+            // gridColumn23
+            // 
+            this.gridColumn23.Caption = "NF KDV Oran";
+            this.gridColumn23.FieldName = "intYEGKDVoran";
+            this.gridColumn23.Name = "gridColumn23";
+            this.gridColumn23.OptionsColumn.AllowEdit = false;
+            this.gridColumn23.Visible = true;
+            this.gridColumn23.VisibleIndex = 16;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(389, 33);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(40, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "KDV %";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(389, 54);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(40, 13);
+            this.label13.TabIndex = 17;
+            this.label13.Text = "KDV %";
+            // 
+            // txtTAHKDV
+            // 
+            this.txtTAHKDV.Location = new System.Drawing.Point(430, 30);
+            this.txtTAHKDV.Name = "txtTAHKDV";
+            this.txtTAHKDV.Size = new System.Drawing.Size(25, 20);
+            this.txtTAHKDV.TabIndex = 26;
+            this.txtTAHKDV.Text = "8";
+            this.txtTAHKDV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtTAHKDV.TextChanged += new System.EventHandler(this.txtTAHBedel_TextChanged);
+            // 
+            // txtYEGKDV
+            // 
+            this.txtYEGKDV.Location = new System.Drawing.Point(430, 51);
+            this.txtYEGKDV.Name = "txtYEGKDV";
+            this.txtYEGKDV.Size = new System.Drawing.Size(25, 20);
+            this.txtYEGKDV.TabIndex = 26;
+            this.txtYEGKDV.Text = "18";
+            this.txtYEGKDV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtYEGKDV.TextChanged += new System.EventHandler(this.txtTAHBedel_TextChanged);
             // 
             // frmINTERNETticaripazarlamahizmetbedelleri
             // 
@@ -868,5 +936,11 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn19;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn21;
         private System.Windows.Forms.CheckBox cbKapamaEtki;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn22;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn23;
+        private System.Windows.Forms.TextBox txtYEGKDV;
+        private System.Windows.Forms.TextBox txtTAHKDV;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label6;
     }
 }

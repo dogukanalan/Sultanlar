@@ -334,10 +334,10 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\komsuC0011\item.wsdl" />
-    <Content Include="Web References\komsuC0011\Reference.map">
+    <None Include="Web References\komsuC0011\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\komsuC0011\ZwebKomsuS_001.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -350,10 +350,10 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\komsuC0021\item.wsdl" />
-    <Content Include="Web References\komsuC0021\Reference.map">
+    <None Include="Web References\komsuC0021\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\komsuC0021\ZwebKomsuS_002.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -366,10 +366,10 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\komsuC0031\item.wsdl" />
-    <Content Include="Web References\komsuC0031\Reference.map">
+    <None Include="Web References\komsuC0031\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\komsuC0031\ZwebKomsuS_003.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
@@ -382,10 +382,10 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\komsuC0041\item.wsdl" />
-    <Content Include="Web References\komsuC0041\Reference.map">
+    <None Include="Web References\komsuC0041\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\komsuC0041\ZwebKomsuS_004.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>

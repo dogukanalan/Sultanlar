@@ -108,6 +108,14 @@ namespace Sultanlar.WebAPI.Controllers.Internet
             //return Ok(GetData("json", "siparis", apikey, baslangic, bitis));
         }
 
+        [HttpGet("json/{apikey}/{baslangic}/{bitis}")]
+        public IActionResult SiparisLogo(string apikey, string type, string baslangic, string bitis)
+        {
+            return Ok(new GenelController().WcfGetToJSON("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/json/siparis/logo/" + apikey + "/" + baslangic + "/" + bitis));
+            ////return Ok(new HttpResponseMessage() { Content = new StringContent(GetData(type, "siparis", apikey, baslangic, bitis), Encoding.UTF8, "application/xml") });
+            //return Ok(GetData("json", "siparis", apikey, baslangic, bitis));
+        }
+
         [Produces("application/xml")]
         [HttpGet("xml/{apikey}/{baslangic}/{bitis}")]
         public IActionResult Siparis(string apikey, string baslangic, string bitis)
@@ -118,10 +126,27 @@ namespace Sultanlar.WebAPI.Controllers.Internet
             return Ok(xdoc);
         }
 
+        [Produces("application/xml")]
+        [HttpGet("xml/{apikey}/{baslangic}/{bitis}")]
+        public IActionResult SiparisLogo(string apikey, string baslangic, string bitis)
+        {
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.LoadXml(new GenelController().WcfGetTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/siparis/logo/" + apikey + "/" + baslangic + "/" + bitis));
+            //xdoc.LoadXml(GetData("xml", "siparis", apikey, baslangic, bitis));
+            return Ok(xdoc);
+        }
+
         [HttpGet("json/{apikey}/{baslangic}/{bitis}")]
         public IActionResult Fatura(string apikey, string type, string baslangic, string bitis)
         {
             return Ok(new GenelController().WcfGetToJSON("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/json/fatura/" + apikey + "/" + baslangic + "/" + bitis));
+            //return Ok(GetData("json", "fatura", apikey, baslangic, bitis));
+        }
+
+        [HttpGet("json/{apikey}/{baslangic}/{bitis}")]
+        public IActionResult FaturaLogo(string apikey, string type, string baslangic, string bitis)
+        {
+            return Ok(new GenelController().WcfGetToJSON("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/json/fatura/logo/" + apikey + "/" + baslangic + "/" + bitis));
             //return Ok(GetData("json", "fatura", apikey, baslangic, bitis));
         }
 
@@ -135,10 +160,26 @@ namespace Sultanlar.WebAPI.Controllers.Internet
             return Ok(xdoc);
         }
 
+        [Produces("application/xml")]
+        [HttpGet("xml/{apikey}/{baslangic}/{bitis}")]
+        public IActionResult FaturaLogo(string apikey, string baslangic, string bitis)
+        {
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.LoadXml(new GenelController().WcfGetTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/fatura/logo/" + apikey + "/" + baslangic + "/" + bitis));
+            //xdoc.LoadXml(GetData("xml", "fatura", apikey, baslangic, bitis));
+            return Ok(xdoc);
+        }
+
         [HttpGet("json/{apikey}/{sipno}")]
         public IActionResult Fatura2(string apikey, string type, string sipno)
         {
             return Ok(new GenelController().WcfGetToJSON("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/json/fatura2/" + apikey + "/" + sipno));
+        }
+
+        [HttpGet("json/{apikey}/{sipno}")]
+        public IActionResult Fatura2Logo(string apikey, string type, string sipno)
+        {
+            return Ok(new GenelController().WcfGetToJSON("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/json/fatura2/logo/" + apikey + "/" + sipno));
         }
 
         [Produces("application/xml")]
@@ -148,6 +189,16 @@ namespace Sultanlar.WebAPI.Controllers.Internet
             XmlDocument xdoc = new XmlDocument();
 
             xdoc.LoadXml(new GenelController().WcfGetTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/fatura2/" + apikey + "/" + sipno));
+            return Ok(xdoc);
+        }
+
+        [Produces("application/xml")]
+        [HttpGet("xml/{apikey}/{sipno}")]
+        public IActionResult Fatura2Logo(string apikey, string sipno)
+        {
+            XmlDocument xdoc = new XmlDocument();
+
+            xdoc.LoadXml(new GenelController().WcfGetTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/fatura2/logo/" + apikey + "/" + sipno));
             return Ok(xdoc);
         }
 

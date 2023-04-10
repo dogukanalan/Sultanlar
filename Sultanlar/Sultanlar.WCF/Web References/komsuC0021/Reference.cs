@@ -135,6 +135,8 @@ namespace Sultanlar.WCF.komsuC0021 {
         
         private string productNameField;
         
+        private string barcodeField;
+        
         private string brandField;
         
         private string categoryField;
@@ -168,6 +170,17 @@ namespace Sultanlar.WCF.komsuC0021 {
             }
             set {
                 this.productNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Barcode {
+            get {
+                return this.barcodeField;
+            }
+            set {
+                this.barcodeField = value;
             }
         }
         
