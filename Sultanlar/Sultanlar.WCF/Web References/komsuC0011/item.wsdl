@@ -89,7 +89,7 @@
   <service name="ZwebKomsuF001Service">
     <documentation>SAP Service ZwebKomsuF001 via SOAP</documentation>
     <port name="ZwebKomsuF001PortType" binding="s0:ZwebKomsuF001Binding">
-      <soap:address location="http://stella.tibet.com.tr:8000/sap/bc/soap/rfc" />
+      <soap:address location="http://192.168.1.5:8000/sap/bc/soap/rfc" />
     </port>
   </service>
 </definitions>

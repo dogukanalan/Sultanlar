@@ -507,10 +507,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WCF_KomsuC004_ZwebKomsuF004Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF001">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF001">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\komsuC0011\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF001</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF001</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -518,10 +518,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WCF_komsuC0011_ZwebKomsuF001Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF002">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF002">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\komsuC0021\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF002</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF002</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -529,10 +529,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WCF_komsuC0021_ZwebKomsuF002Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF003">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF003">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\komsuC0031\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF003</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF003</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -540,10 +540,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WCF_komsuC0031_ZwebKomsuF003Service</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF004">
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF004">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\komsuC0041\</RelPath>
-      <UpdateFromURL>http://stella.tibet.com.tr:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF004</UpdateFromURL>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF004</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
