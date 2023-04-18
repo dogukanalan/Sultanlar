@@ -3,3 +3,59 @@
 @{
     ViewData["Title"] = "Kullanıcı Ekle";
 }
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
+}
+<html>
+    <script>
+    </script>
+    <head>
+    </head>
+            <body>
+                <form class="form1 validate-form"></form>
+                <span class="txt1">Ad</span>
+                <div class="validate-input" data-validate="Gerekli Alan">
+                    <input class="form-control input100" type="text" name="inputAd" id="inputAd"  />
+                </div>
+                <br/>
+
+                <span class="txt1">Soyad</span>
+                <div>
+                    <input class="form-control input100" type="text" name="inputSoyad" id="inputSoyad"  />
+                </div>
+                <br/>
+
+                 <span class="txt1">Telefon Numarası</span>
+                <div>
+
+                    <input class="form-control input100" type="text" name="inputTelNo" id="inputTelNo"  />
+                </div>
+                <br/>
+
+                 <span class="txt1">E-Posta Adresi</span>
+                <div>
+                    <input class="form-control input100" type="text" name="inputEposta" id="inputEposta"  />
+                </div>
+                <br/>
+                <span class="txt1">Unvanı</span>
+                <div>
+                    <input class="form-control input100" type="text" name="inputUnvan" id="inputUnvan"  />
+                </div>
+                <br/>
+                 <span class="txt1">İl</span>
+                <div>
+                    <input class="form-control input100" type="text" name="inputİl" id="inputİl" />
+                </div>
+                <br/>
+                <span class="txt1">Bölge</span>
+                <div>
+                    <input class="form-control input100" type="text" name="inputBolge" id="inputBolge"  />
+                </div>
+                <br/>
+                <input type="button" class="btn btn-success btnWidthFull" value="Kullanıcıyı Kaydet" />
+            </body>
+</html>
