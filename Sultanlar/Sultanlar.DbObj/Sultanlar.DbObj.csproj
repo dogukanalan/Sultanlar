@@ -74,6 +74,7 @@
     <Compile Include="Internet\satisRaporu.cs" />
     <Compile Include="Internet\satisTemsilcileri.cs" />
     <Compile Include="Internet\satisTemsilcileriSefler.cs" />
+    <Compile Include="Internet\sayimFisleri.cs" />
     <Compile Include="Internet\siparisler.cs" />
     <Compile Include="Internet\siparislerDetay.cs" />
     <Compile Include="Internet\siparisRaporu.cs" />

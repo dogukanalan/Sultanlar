@@ -1192,6 +1192,13 @@
               </xsd:restriction>
             </xsd:simpleType>
           </xsd:element>
+          <xsd:element minOccurs="0" name="Pstyv">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="4" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="Zwebs021">

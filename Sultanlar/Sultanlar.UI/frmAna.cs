@@ -81,13 +81,15 @@ namespace Sultanlar.UI
 
             //XmlDocument xml = Gokw3satis("2014","1");
             //xml.Save("f:\\asd.xml");
+
+            //Sultanlar.WindowsServiceIslemler.Sap.MalzemelerC(true, true);
         }
 
         private void tmr_Tick(object sender, EventArgs e)
         {
             try
             {
-                WebResponse wr = WebRequest.Create("https://www.sultanlar.com.tr/sultanlarui/index.htm").GetResponse();
+                WebResponse wr = WebRequest.Create("http://www.sultanlar.com.tr/sultanlarui/index.htm").GetResponse();
                 Stream stream = wr.GetResponseStream();
                 StreamReader strR = new StreamReader(stream, Encoding.GetEncoding("iso-8859-9"));
                 string sayfa = strR.ReadToEnd();

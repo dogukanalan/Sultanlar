@@ -207,5 +207,23 @@ namespace Sultanlar.UI
             frmINTERNEThedeforan frm = new frmINTERNEThedeforan();
             frm.ShowDialog();
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                if (Convert.ToInt32(txtBAYISIL.Text.Trim()) == 0)
+                {
+                    if (MessageBox.Show("Bayi kodu 0 girildiği için seçilen bütün yıl ve ay silinecek, emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                        Urunler.SilHedef(0, Convert.ToInt32(txtYILSIL.Text.Trim()), Convert.ToInt32(numericUpDown2.Value), checkBox2.Checked);
+                }
+                else
+                {
+                    if (MessageBox.Show("Seçilen bayi, yıl ve ay hedefi silinecek. Emin misiniz?", "Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                        Urunler.SilHedef(0, Convert.ToInt32(txtBAYISIL.Text.Trim()), Convert.ToInt32(txtYILSIL.Text.Trim()), Convert.ToInt32(numericUpDown2.Value), checkBox2.Checked);
+                }
+                MessageBox.Show("Hedef silindi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }

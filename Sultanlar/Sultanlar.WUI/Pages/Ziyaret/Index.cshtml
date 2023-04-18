@@ -18,7 +18,7 @@
 
             if (getParameterByName("konum") == "" || getParameterByName("konum") == "null") {
                 alert("Müşterinin konumu sistemde kayıtlı değil. Konum alma sayfasına yönlendiriliyorsunuz.");
-                window.location.href = '../Musteri/Konum/Al?smref=' + getParameterByName("smref") + '&tip=' + getParameterByName("tip") + '&deg=0';
+                window.location.href = '../Musteri/Konum/Al?slsref=' + getParameterByName("slsref") + '&gmref=' + getParameterByName("gmref") + '&smref=' + getParameterByName("smref") + '&tip=' + getParameterByName("tip") + '&deg=0';
             }
             else {
                 KoordinatBaslat();
@@ -59,4 +59,4 @@
 <input type="button" class="btn btn-danger" value="Geri Dön" onclick="window.history.back()" />
 <input type="button" id="btnZiyBaslat" class="btn btn-success konumTamam" value="Ziyareti Başlat" onclick="baslat()" disabled />
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXm_Z4J-I9jrTO72lGvx1jRzTWsP6qi7Q&libraries=geometry"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXm_Z4J-I9jrTO72lGvx1jRzTWsP6qi7Q&libraries=geometry&callback=mapCallBack"></script>

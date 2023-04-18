@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using Sultanlar.DatabaseObject;
 
 namespace Sultanlar.Class
 {
@@ -31,7 +32,7 @@ namespace Sultanlar.Class
             mm.Subject = konu;
             mm.Body = ileti;
             mm.IsBodyHtml = true;
-            SmtpClient sc = new SmtpClient("mail.sultanlar.com.tr");
+            SmtpClient sc = new SmtpClient("webmail.sultanlar.com.tr");
 
             try
             {
@@ -62,12 +63,12 @@ namespace Sultanlar.Class
             mm.Sender = new MailAddress(kimden, yollayanadsoyad);
             mm.IsBodyHtml = true;
             SmtpClient sc = new SmtpClient();
-            sc.Host = "mail.sultanlar.com.tr";
+            sc.Host = "webmail.sultanlar.com.tr";
             NetworkCredential cr = new NetworkCredential(kimden, sifre);
 
-            if (kimden == "sultanlar@sultanlar.com.tr")
+            if (kimden == "sultanlar")
             {
-                cr = new NetworkCredential(kimden, "morgen"); // sultanlar@sultanlar.com.tr şifresi
+                cr = new NetworkCredential(kimden, WebGenel.SultanlarEpostaSifre()); // sultanlar@sultanlar.com.tr şifresi
             }
 
             //sc.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -107,12 +108,12 @@ namespace Sultanlar.Class
             mm.Sender = new MailAddress(kimden, yollayanadsoyad);
             mm.IsBodyHtml = true;
             SmtpClient sc = new SmtpClient();
-            sc.Host = "mail.sultanlar.com.tr";
+            sc.Host = "webmail.sultanlar.com.tr";
             NetworkCredential cr = new NetworkCredential(kimden, sifre);
 
-            if (kimden == "sultanlar@sultanlar.com.tr")
+            if (kimden == "sultanlar")
             {
-                cr = new NetworkCredential(kimden, "morgen"); // sultanlar@sultanlar.com.tr şifresi
+                cr = new NetworkCredential(kimden, WebGenel.SultanlarEpostaSifre()); // sultanlar@sultanlar.com.tr şifresi
             }
 
             //sc.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -149,12 +150,12 @@ namespace Sultanlar.Class
             mm.Sender = new MailAddress(kimden, yollayanadsoyad);
             mm.IsBodyHtml = true;
             SmtpClient sc = new SmtpClient();
-            sc.Host = "mail.sultanlar.com.tr";
+            sc.Host = "webmail.sultanlar.com.tr";
             NetworkCredential cr = new NetworkCredential(kimden, sifre);
 
-            if (kimden == "sultanlar@sultanlar.com.tr")
+            if (kimden == "sultanlar")
             {
-                cr = new NetworkCredential(kimden, "morgen"); // sultanlar@sultanlar.com.tr şifresi
+                cr = new NetworkCredential(kimden, WebGenel.SultanlarEpostaSifre()); // sultanlar@sultanlar.com.tr şifresi
             }
 
             sc.Credentials = cr;
@@ -211,11 +212,11 @@ namespace Sultanlar.Class
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient client = new SmtpClient();
-                client.Port = 587;
+                //client.Port = 587;
                 client.EnableSsl = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("sultanlar", "qaWS.169!!");
+                client.Credentials = new NetworkCredential("sultanlar", WebGenel.SultanlarEpostaSifre());
                 client.Host = "webmail.sultanlar.com.tr";
                 mail.Subject = Konu;
                 mail.Body = Icerik;
@@ -244,7 +245,7 @@ namespace Sultanlar.Class
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
                 client.Port = 587;
                 client.EnableSsl = true;
-                client.Credentials = new NetworkCredential("mistif.sultanlar@gmail.com", "mistif1234");
+                client.Credentials = new NetworkCredential("mistif.sultanlar@gmail.com", WebGenel.MistifGmailEpostaSifre()); //mistifMorgen
                 mail.Subject = Konu;
                 mail.Body = Icerik;
                 mail.IsBodyHtml = true;
@@ -271,7 +272,7 @@ namespace Sultanlar.Class
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
                 client.Port = 587;
                 client.EnableSsl = true;
-                client.Credentials = new NetworkCredential("mistif.sultanlar@gmail.com", "mistif1234");
+                client.Credentials = new NetworkCredential("mistif.sultanlar@gmail.com", WebGenel.MistifGmailEpostaSifre());
                 mail.Subject = Konu;
                 mail.Body = Icerik;
                 mail.IsBodyHtml = true;
@@ -297,11 +298,11 @@ namespace Sultanlar.Class
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient client = new SmtpClient();
-                client.Port = 587;
+                //client.Port = 587;
                 client.EnableSsl = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("sultanlar", "qaWS.169!!");
+                client.Credentials = new NetworkCredential("sultanlar", WebGenel.SultanlarEpostaSifre());
                 client.Host = "webmail.sultanlar.com.tr";
                 mail.Subject = Konu;
                 mail.Body = Icerik;

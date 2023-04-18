@@ -78,5 +78,6 @@ namespace Sultanlar.WebAPI.Models.Internet
         public double pazisk { get; set; }
         public double aksiyon { get; set; }
         public double ekisk { get; set; }
+        public string aciklama { get; set; }
     }
 }

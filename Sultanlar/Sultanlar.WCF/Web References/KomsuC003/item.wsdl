@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s0="urn:sap-com:document:sap:soap:functions:mc-style" targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema targetNamespace="urn:sap-com:document:sap:soap:functions:mc-style">
+      <xsd:element name="ZwebKomsuF003">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element minOccurs="0" name="IvMatnr">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:maxLength value="18" />
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ZwebKomsuF003Result">
+        <xsd:complexType>
+          <xsd:all>
+            <xsd:element name="EtExport">
+              <xsd:complexType>
+                <xsd:sequence>
+                  <xsd:element minOccurs="0" maxOccurs="unbounded" name="ZwebKomsuS_003" type="s0:ZwebKomsuS_003" />
+                </xsd:sequence>
+              </xsd:complexType>
+            </xsd:element>
+          </xsd:all>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="ZwebKomsuS_003">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="ProductCode">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Subproductcode">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Attributes1">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Attributes2">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Barcode">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="18" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+          <xsd:element minOccurs="0" name="Stock">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:decimal">
+                <xsd:totalDigits value="13" />
+                <xsd:fractionDigits value="3" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="ZwebKomsuF003Input">
+    <part name="parameters" element="s0:ZwebKomsuF003" />
+  </message>
+  <message name="ZwebKomsuF003Output">
+    <part name="parameters" element="s0:ZwebKomsuF003Result" />
+  </message>
+  <portType name="ZwebKomsuF003PortType">
+    <operation name="ZwebKomsuF003">
+      <input message="s0:ZwebKomsuF003Input" />
+      <output message="s0:ZwebKomsuF003Output" />
+    </operation>
+  </portType>
+  <binding name="ZwebKomsuF003Binding" type="s0:ZwebKomsuF003PortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="ZwebKomsuF003">
+      <soap:operation soapAction="http://www.sap.com/ZwebKomsuF003" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ZwebKomsuF003Service">
+    <documentation>SAP Service ZwebKomsuF003 via SOAP</documentation>
+    <port name="ZwebKomsuF003PortType" binding="s0:ZwebKomsuF003Binding">
+      <soap:address location="http://192.168.1.42:8000/sap/bc/soap/rfc" />
+    </port>
+  </service>
+</definitions>

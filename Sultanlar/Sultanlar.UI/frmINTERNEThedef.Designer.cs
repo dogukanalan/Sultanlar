@@ -59,10 +59,18 @@
             this.btnExcelYardim = new System.Windows.Forms.Button();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtYILSIL = new System.Windows.Forms.TextBox();
+            this.txtBAYISIL = new System.Windows.Forms.TextBox();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.SuspendLayout();
             // 
             // listBox1
@@ -73,7 +81,7 @@
             this.listBox1.ItemHeight = 12;
             this.listBox1.Location = new System.Drawing.Point(0, 28);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(286, 345);
+            this.listBox1.Size = new System.Drawing.Size(286, 400);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
@@ -214,7 +222,7 @@
             this.gridControl1.Location = new System.Drawing.Point(0, 0);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(684, 373);
+            this.gridControl1.Size = new System.Drawing.Size(684, 428);
             this.gridControl1.TabIndex = 10;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -337,17 +345,24 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.comboBox1);
+            this.panel1.Controls.Add(this.numericUpDown2);
+            this.panel1.Controls.Add(this.txtBAYISIL);
             this.panel1.Controls.Add(this.numericUpDown1);
+            this.panel1.Controls.Add(this.txtYILSIL);
             this.panel1.Controls.Add(this.txtPRIM);
             this.panel1.Controls.Add(this.txtYIL);
+            this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Location = new System.Drawing.Point(292, 28);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(392, 345);
+            this.panel1.Size = new System.Drawing.Size(392, 400);
             this.panel1.TabIndex = 11;
             // 
             // checkBox1
@@ -393,11 +408,76 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(4, 267);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(21, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Yıl:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(4, 241);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(22, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Ay:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(4, 297);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 13);
+            this.label8.TabIndex = 6;
+            this.label8.Text = "Kod:";
+            // 
+            // txtYILSIL
+            // 
+            this.txtYILSIL.Location = new System.Drawing.Point(73, 264);
+            this.txtYILSIL.Name = "txtYILSIL";
+            this.txtYILSIL.Size = new System.Drawing.Size(307, 20);
+            this.txtYILSIL.TabIndex = 3;
+            this.txtYILSIL.Text = "2030";
+            this.txtYILSIL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtYILSIL.TextChanged += new System.EventHandler(this.txtYIL_TextChanged);
+            // 
+            // txtBAYISIL
+            // 
+            this.txtBAYISIL.Location = new System.Drawing.Point(73, 294);
+            this.txtBAYISIL.Name = "txtBAYISIL";
+            this.txtBAYISIL.Size = new System.Drawing.Size(307, 20);
+            this.txtBAYISIL.TabIndex = 3;
+            this.txtBAYISIL.Text = "1001327";
+            this.txtBAYISIL.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(73, 239);
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(307, 20);
+            this.numericUpDown2.TabIndex = 2;
+            this.numericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(73, 320);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(307, 49);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "Sil";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // frmINTERNEThedef
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 373);
+            this.ClientSize = new System.Drawing.Size(684, 428);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.btnExcelYardim);
             this.Controls.Add(this.checkBox1);
@@ -418,6 +498,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -455,5 +536,12 @@
         private System.Windows.Forms.Button btnExcelYardim;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.TextBox txtBAYISIL;
+        private System.Windows.Forms.TextBox txtYILSIL;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
     }
 }

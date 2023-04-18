@@ -35,6 +35,9 @@
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Sultanlar.DatabaseObject">
+      <HintPath>..\..\..\..\..\..\Desktop\Sultanlar.DatabaseObject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
@@ -58,6 +61,7 @@
     <Compile Include="Efatura.cs" />
     <Compile Include="Eposta.cs" />
     <Compile Include="HtmlCapture.cs" />
+    <Compile Include="Math.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

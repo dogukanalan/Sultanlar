@@ -6,8 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Sultanlar.DatabaseObject.Internet;
 using System.Collections;
+using Sultanlar.DbObj.Internet;
+using Sultanlar.DatabaseObject.Internet;
 
 namespace Sultanlar.UI
 {
@@ -20,28 +21,76 @@ namespace Sultanlar.UI
 
         private void frmINTERNETfiyaturunbaglantieklemesilme_Load(object sender, EventArgs e)
         {
+            GetBayiler();
             GetFiyatTipleri();
             comboBox1.SelectedIndex = 0;
         }
 
+        private void GetBayiler()
+        {
+            List<CariHesaplarTP> list = new List<CariHesaplarTP>();
+            CariHesaplarTP.GetObjects(list, 0);
+
+            comboBox2.DataSource = list;
+        }
+
+        private void GetAltCariler()
+        {
+            comboBox3.Text = string.Empty;
+            if (comboBox2.SelectedIndex > -1)
+                CariHesaplarTP.GetObjects(comboBox3.Items, ((CariHesaplarTP)comboBox2.SelectedItem).GMREF);
+        }
+
+        private void GetAltCariSubeler()
+        {
+            comboBox4.Text = string.Empty;
+            if (comboBox3.SelectedIndex > -1)
+                CariHesapZ.GetObjects(comboBox4.Items, 5, ((CariHesaplarTP)comboBox3.SelectedItem).SMREF);
+        }
+
+        private void GetAltCariSulSubeler(int GMREF)
+        {
+            comboBox6.Text = string.Empty;
+            CariHesaplar.GetSUBEs(comboBox6.Items, GMREF);
+        }
+
         private void GetFiyatTipleri()
         {
-            FiyatTipleri.GetObject(comboBox1.Items, true);
+            new fiyatTipleri().GetObjects(comboBox1.Items);
 
             ArrayList silinecekler = new ArrayList();
             for (int i = 0; i < comboBox1.Items.Count; i++)
-                if (((FiyatTipleri)comboBox1.Items[i]).NOSU < 500)
+                if (((fiyatTipleri)comboBox1.Items[i]).NOSU < 500)
                     silinecekler.Add(comboBox1.Items[i]);
             for (int i = 0; i < silinecekler.Count; i++)
                 comboBox1.Items.Remove(silinecekler[i]);
+
+            label7.Text = string.Empty;
+        }
+
+        private void GetFiyatTipleri2(int GMREF, int MTIP)
+        {
+            gridControl1.DataSource = null;
+            gridControl2.DataSource = null;
+            new fiyatTipleri().GetObjects(comboBox1.Items, GMREF, MTIP);
+
+            button8.Visible = comboBox1.Items.Count == 0;
         }
 
         private void GetFiyatlar()
         {
             DataTable dt1 = new DataTable();
             DataTable dt2 = new DataTable();
-            FiyatTipUrun.GetOlanlar(dt1, ((FiyatTipleri)comboBox1.SelectedItem).NOSU);
-            FiyatTipUrun.GetOlmayanlar(dt2, ((FiyatTipleri)comboBox1.SelectedItem).NOSU);
+            if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
+            {
+                FiyatTipUrun.GetOlanlar(dt1, ((fiyatTipleri)comboBox1.SelectedItem).NOSU);
+                FiyatTipUrun.GetOlmayanlar(dt2, ((fiyatTipleri)comboBox1.SelectedItem).NOSU);
+            }
+            else
+            {
+                FiyatTipUrun.GetOlanlar5000(dt1, ((fiyatTipleri)comboBox1.SelectedItem).NOSU);
+                FiyatTipUrun.GetOlmayanlar5000(dt2, ((fiyatTipleri)comboBox1.SelectedItem).NOSU, ((fiyatTipleri)comboBox1.SelectedItem).GetAnaGmrefNo());
+            }
             gridControl1.DataSource = dt1;
             gridControl2.DataSource = dt2;
         }
@@ -55,10 +104,18 @@ namespace Sultanlar.UI
         {
             if (gridView2.SelectedRowsCount > 0 && !gridView2.IsFilterRow(gridView2.GetSelectedRows()[0]))
             {
-                int TIP = Convert.ToInt32(gridView2.GetFocusedRowCellValue("TIP"));
+                int TIP = ((fiyatTipleri)comboBox1.SelectedItem).NOSU; //Convert.ToInt32(gridView2.GetFocusedRowCellValue("TIP"))
                 int ITEMREF = Convert.ToInt32(gridView2.GetFocusedRowCellValue("ITEMREF"));
-                FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
-                ftp.DoInsert();
+
+                if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
+                {
+                    FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF, frmAna.KAdi);
+                    ftp.DoInsert();
+                }
+                else
+                {
+                    FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.SelectedItem).GetAnaGmrefNo(), frmAna.KAdi);
+                }
                 GetFiyatlar();
             }
         }
@@ -67,9 +124,16 @@ namespace Sultanlar.UI
         {
             if (gridView1.SelectedRowsCount > 0 && !gridView1.IsFilterRow(gridView1.GetSelectedRows()[0]))
             {
-                int TIP = Convert.ToInt32(gridView1.GetFocusedRowCellValue("TIP"));
+                int TIP = ((fiyatTipleri)comboBox1.SelectedItem).NOSU; //Convert.ToInt32(gridView2.GetFocusedRowCellValue("TIP"))
                 int ITEMREF = Convert.ToInt32(gridView1.GetFocusedRowCellValue("ITEMREF"));
-                FiyatTipUrun.DoDelete(TIP, ITEMREF);
+                if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
+                {
+                    FiyatTipUrun.DoDelete(TIP, ITEMREF, frmAna.KAdi);
+                }
+                else
+                {
+                    FiyatTipUrun.DoDelete5000(TIP, ITEMREF, frmAna.KAdi);
+                }
                 GetFiyatlar();
             }
         }
@@ -80,10 +144,17 @@ namespace Sultanlar.UI
             {
                 for (int i = 0; i < gridView2.RowCount; i++)
                 {
-                    int TIP = Convert.ToInt32(gridView2.GetRowCellValue(i, "TIP"));
+                    int TIP = ((fiyatTipleri)comboBox1.SelectedItem).NOSU; //Convert.ToInt32(gridView2.GetRowCellValue(i, "TIP"))
                     int ITEMREF = Convert.ToInt32(gridView2.GetRowCellValue(i, "ITEMREF"));
-                    FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
-                    ftp.DoInsert();
+                    if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
+                    {
+                        FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF, frmAna.KAdi);
+                        ftp.DoInsert();
+                    }
+                    else
+                    {
+                        FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.SelectedItem).GetAnaGmrefNo(), frmAna.KAdi);
+                    }
                 }
                 MessageBox.Show("Bütün ürünler eklendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 GetFiyatlar();
@@ -96,9 +167,16 @@ namespace Sultanlar.UI
             {
                 for (int i = 0; i < gridView1.RowCount; i++)
                 {
-                    int TIP = Convert.ToInt32(gridView1.GetRowCellValue(i, "TIP"));
+                    int TIP = ((fiyatTipleri)comboBox1.SelectedItem).NOSU; //Convert.ToInt32(gridView2.GetRowCellValue(i, "TIP"))
                     int ITEMREF = Convert.ToInt32(gridView1.GetRowCellValue(i, "ITEMREF"));
-                    FiyatTipUrun.DoDelete(TIP, ITEMREF);
+                    if (((fiyatTipleri)comboBox1.SelectedItem).NOSU < 5000)
+                    {
+                        FiyatTipUrun.DoDelete(TIP, ITEMREF, frmAna.KAdi);
+                    }
+                    else
+                    {
+                        FiyatTipUrun.DoDelete5000(TIP, ITEMREF, frmAna.KAdi);
+                    }
                 }
                 MessageBox.Show("Bütün ürünler çıkarıldı.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 GetFiyatlar();
@@ -131,13 +209,21 @@ namespace Sultanlar.UI
                 {
                     for (int i = 0; i < comboBox1.Items.Count; i++)
                     {
-                        decimal fiyat = Urunler.GetProductPrice(Convert.ToInt32(frmAna.InputBox), ((FiyatTipleri)comboBox1.Items[i]).NOSU);
-                        if (fiyat != 0)
+                        int TIP = ((fiyatTipleri)comboBox1.Items[i]).NOSU;
+                        int ITEMREF = Convert.ToInt32(frmAna.InputBox);
+
+                        if (((fiyatTipleri)comboBox1.Items[i]).NOSU < 5000)
                         {
-                            int TIP = Convert.ToInt32(((FiyatTipleri)comboBox1.Items[i]).NOSU);
-                            int ITEMREF = Convert.ToInt32(frmAna.InputBox);
-                            FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF);
-                            ftp.DoInsert();
+                            decimal fiyat = Urunler.GetProductPrice(Convert.ToInt32(frmAna.InputBox), Convert.ToInt16(((fiyatTipleri)comboBox1.Items[i]).NOSU));
+                            if (fiyat != 0)
+                            {
+                                FiyatTipUrun ftp = new FiyatTipUrun(TIP, ITEMREF, frmAna.KAdi);
+                                ftp.DoInsert();
+                            }
+                        }
+                        else
+                        {
+                            FiyatTipUrun.DoInsert5000(TIP, ITEMREF, ((fiyatTipleri)comboBox1.Items[i]).GetAnaGmrefNo(), frmAna.KAdi);
                         }
                     }
                     GetFiyatlar();
@@ -152,6 +238,89 @@ namespace Sultanlar.UI
             {
                 MessageBox.Show("İşlem iptal edildi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetAltCariler();
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetAltCariSubeler();
+        }
+
+        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox5.SelectedIndex > -1)
+                GetAltCariSulSubeler(((CariHesaplar)comboBox5.SelectedItem).GMREF);
+            //GetAltCariSubeler(((CariHesaplar)comboBox5.SelectedItem).GMREF, 2);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            comboBox4.SelectedIndex = -1;
+            comboBox4.Items.Clear();
+            comboBox3.SelectedIndex = -1;
+            comboBox3.Items.Clear();
+            comboBox2.SelectedIndex = -1;
+            comboBox6.SelectedIndex = -1;
+            comboBox6.Items.Clear();
+            comboBox5.SelectedIndex = -1;
+
+            GetFiyatTipleri();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (comboBox4.SelectedIndex > -1)
+            {
+                GetFiyatTipleri2(((CariHesapZ)comboBox4.SelectedItem).GMREF, ((CariHesapZ)comboBox4.SelectedItem).TIP);
+                label7.Text = "(" + comboBox2.SelectedItem.ToString() + " : " + comboBox3.SelectedItem.ToString() + " : " + comboBox4.SelectedItem.ToString() + ")";
+                return;
+            }
+
+            if (checkBox1.Checked)
+            {
+                if (comboBox6.SelectedIndex > -1)
+                {
+                    GetFiyatTipleri2(((CariHesaplar)comboBox6.SelectedItem).SMREF, 1);
+                    label7.Text = "(SULTANLAR PAZARLAMA : " + comboBox5.SelectedItem.ToString() + " : " + comboBox6.SelectedItem.ToString() + ")";
+                }
+                else if (comboBox5.SelectedIndex > -1)
+                {
+                    GetFiyatTipleri2(((CariHesaplar)comboBox5.SelectedItem).GMREF, 1);
+                    label7.Text = "(SULTANLAR PAZARLAMA : " + comboBox5.SelectedItem.ToString() + ")";
+                }
+            }
+            else
+            {
+                if (comboBox3.SelectedIndex > -1)
+                {
+                    GetFiyatTipleri2(((CariHesaplarTP)comboBox3.SelectedItem).SMREF, 4);
+                    label7.Text = "(" + comboBox2.SelectedItem.ToString() + " : " + comboBox3.SelectedItem.ToString() + ")";
+                }
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBox2.Enabled = !checkBox1.Checked;
+            comboBox3.Enabled = !checkBox1.Checked;
+            comboBox4.Enabled = !checkBox1.Checked;
+            comboBox5.Enabled = checkBox1.Checked;
+            comboBox6.Enabled = checkBox1.Checked;
+
+            if (checkBox1.Checked)
+            {
+                CariHesaplar.GetMUSTERIs(comboBox5.Items, "", true);
+                comboBox5.Text = string.Empty;
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Sultanlar.UI
             SMREF = smref;
             Nereden = nereden;
 
-            if (frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR" || frmAna.KAdi.ToUpper() == "YN02" 
+            if (frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR" || frmAna.KAdi.ToUpper() == "YN02" || frmAna.KAdi.ToUpper() == "LK21"
                 || frmAna.KAdi.ToUpper() == "LK12" || frmAna.KAdi.ToUpper() == "LK13" || frmAna.KAdi.ToUpper() == "LK14"
                 || frmAna.KAdi.ToUpper() == "ST08") //frmAna.KAdi.ToUpper() == "ST16" || frmAna.KAdi.ToUpper() == "MI01" || frmAna.KAdi.ToUpper() == "ST03" || frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR" || frmAna.KAdi.ToUpper() == "ST12" || frmAna.KAdi.ToUpper() == "FN03" || frmAna.KAdi.ToUpper() == "YN04" || frmAna.KAdi.ToUpper() == "YN02" || frmAna.KAdi.ToUpper() == "ST07" || frmAna.KAdi.ToUpper() == "ST13"
             {
@@ -527,7 +527,7 @@ namespace Sultanlar.UI
                 Convert.ToInt32(dataGridView1.Rows[rowindex].Cells["clpkIadeDetayID"].Value),
                 GMREF, SMREF, Convert.ToInt32(dataGridView1.Rows[rowindex].Cells["clintUrunID"].Value),
                 Convert.ToInt32(dataGridView1.Rows[rowindex].Cells["clintMiktar"].Value),
-                dateTimePicker1.Value, dateTimePicker2.Value);
+                dateTimePicker1.Value, dateTimePicker2.Value, cbOto.Checked);
             frm.ShowDialog();
 
             GetIadelerDetay();

@@ -14,7 +14,7 @@ namespace Sultanlar.WCF
     // NOTE: In order to launch WCF Test Client for testing this service, please select Komsu.svc or Komsu.svc.cs at the Solution Explorer and start debugging.
     public class Komsu : IKomsu
     {
-        NetworkCredential nc3 = new NetworkCredential("mbozdag", "Alfa123**"); //mbozdag Alfa123**
+        NetworkCredential nc3 = new NetworkCredential("MISTIF", "Ankara1923*+B"); //mbozdag Alfa123**
 
         public void DoWork()
         {
@@ -25,32 +25,72 @@ namespace Sultanlar.WCF
             return "Çalışıyor";
         }
 
-        public Komsu001.ZwebKomsuS_001[] komsu001(string Matnr)
+        public komsuC0011.ZwebKomsuS_001[] komsu001(string Matnr)
         {
-            Komsu001.ZwebKomsuF001Service srv = new Komsu001.ZwebKomsuF001Service();
+            if (Matnr == "0")
+                Matnr = "";
+            else if (Matnr.Length == 7)
+            {
+                Matnr = "00000000000" + Matnr;
+            }
+            komsuC0011.ZwebKomsuF001Service srv = new komsuC0011.ZwebKomsuF001Service();
             srv.Credentials = nc3;
             return srv.ZwebKomsuF001(Matnr);
         }
 
-        public Komsu002.ZwebKomsuS_002[] komsu002(string Matnr)
+        public komsuC0021.ZwebKomsuS_002[] komsu002(string Matnr)
         {
-            Komsu002.ZwebKomsuF002Service srv = new Komsu002.ZwebKomsuF002Service();
+            if (Matnr == "0")
+                Matnr = "";
+            else if (Matnr.Length == 7)
+            {
+                Matnr = "00000000000" + Matnr;
+            }
+            komsuC0021.ZwebKomsuF002Service srv = new komsuC0021.ZwebKomsuF002Service();
             srv.Credentials = nc3;
             return srv.ZwebKomsuF002(Matnr);
         }
 
-        public Komsu003.ZwebKomsuS_003[] komsu003(string Matnr)
+        public komsuC0031.ZwebKomsuS_003[] komsu003(string Matnr)
         {
-            Komsu003.ZwebKomsuF003Service srv = new Komsu003.ZwebKomsuF003Service();
+            if (Matnr == "0")
+                Matnr = "";
+            else if (Matnr.Length == 7)
+            {
+                Matnr = "00000000000" + Matnr;
+            }
+            komsuC0031.ZwebKomsuF003Service srv = new komsuC0031.ZwebKomsuF003Service();
             srv.Credentials = nc3;
             return srv.ZwebKomsuF003(Matnr);
         }
 
-        public Komsu004.ZwebKomsuS_004[] komsu004(string Matnr, Komsu004.Werks Werks)
+        public komsuC0041.ZwebKomsuS_004[] komsu004(komsuC0041.Werks werks, string Matnr)
         {
-            Komsu004.ZwebKomsuF004Service srv = new Komsu004.ZwebKomsuF004Service();
+            if (Matnr == "0")
+                Matnr = "";
+            else if (Matnr.Length == 7)
+            {
+                Matnr = "00000000000" + Matnr;
+            }
+            komsuC0041.ZwebKomsuF004Service srv = new komsuC0041.ZwebKomsuF004Service();
             srv.Credentials = nc3;
-            Komsu004.ZwebKomsuS_004[] dortler = srv.ZwebKomsuF004(Matnr, Werks);
+            komsuC0041.ZwebKomsuS_004[] dortler = srv.ZwebKomsuF004(Matnr, werks);
+            return dortler;
+        }
+
+        public komsuC0041.ZwebKomsuS_004[] komsu004get(string Werks, string Matnr)
+        {
+            if (Matnr == "0")
+                Matnr = "";
+            else if (Matnr.Length == 7)
+            {
+                Matnr = "00000000000" + Matnr;
+            }
+            if (Werks == "0")
+                Werks = "";
+            komsuC0041.ZwebKomsuF004Service srv = new komsuC0041.ZwebKomsuF004Service();
+            srv.Credentials = nc3;
+            komsuC0041.ZwebKomsuS_004[] dortler = srv.ZwebKomsuF004(Matnr, new komsuC0041.Werks() { Werks1 = Werks });
             return dortler;
         }
     }

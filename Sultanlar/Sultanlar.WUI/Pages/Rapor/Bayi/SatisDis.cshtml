@@ -1,0 +1,446 @@
+﻿@page
+@model SatisDisModel
+@{
+    ViewData["Title"] = "Bayi Satış Raporu (Ham)";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+    <script>
+        function getYil() { return getParameterByName("yil") ? getParameterByName("yil") : (new Date().getFullYear()).toString(); }
+        function getAy() { return getParameterByName("ay") ? getParameterByName("ay") : (new Date().getMonth() + 1).toString(); }
+        function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
+        function getGmref() { return getParameterByName("gmref") ? getParameterByName("gmref") : "0"; }
+        function getSmref() { return getParameterByName("smref") ? getParameterByName("smref") : "0"; }
+        function getItemref() { return getParameterByName("itemref") ? getParameterByName("itemref") : "0"; }
+
+        var kolonlar = [
+            {
+                "data": "turack", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data + '">' + data + '</span>';
+                },
+                "name": "turack",
+                "width": "8%"
+            },
+            {
+                "data": "siptar", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.replace("T", " ").replace(" 00:00:00", "") + '</span>';
+                },
+                "name": "siptar",
+                "width": "11%"
+            },
+            {
+                "data": "sipno", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data + '">' + data + '</span>';
+                },
+                "name": "sipno",
+                "width": "8%"
+            },
+            {
+                "data": "fattar", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.replace("T", " ").replace(" 00:00:00", "") + '</span>';
+                },
+                "name": "fattar",
+                "width": "11%"
+            },
+            {
+                "data": "fatnomtb", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data + '">' + data + '</span>';
+                },
+                "name": "fatnomtb",
+                "width": "8%"
+            },
+            {
+                "data": "anaCari", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.musteri + '">' + data.musteri + '</span>';
+                },
+                "name": "anacari",
+                "width": "8%"
+            },
+            {
+                "data": "sube", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.sube + '">' + data.sube + '</span>';
+                },
+                "name": "sube",
+                "width": "8%"
+            },
+            {
+                "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.malacik + '">' + data.malacik + '</span>';
+                },
+                "name": "malzeme",
+                "width": "8%"
+            },
+            {
+                "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer">' + data.kdv + '</span>';
+                },
+                "name": "kdv",
+                "width": "6%"
+            },
+            /*{
+                "data": "adett", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + '</span>';
+                },
+                "name": "adet",
+                "width": "4%"
+            },*/
+            {
+                "data": null, "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + (data.netkdvt - data.nett).toFixed(2) + '</span>';
+                },
+                "name": "kdv tutar",
+                "width": "6%"
+            },
+            {
+                "data": "kolit", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.toFixed(1) + '</span>';
+                },
+                "name": "koli",
+                "width": "6%"
+            },
+            {
+                "data": "nett", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.toFixed(2) + '</span>';
+                },
+                "name": "net",
+                "width": "6%"
+            },
+            {
+                "data": "netkdvt", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.toFixed(2) + '</span>';
+                },
+                "name": "net+kdv",
+                "width": "6%"
+            }
+        ];
+
+        function SaticilarGetir() {
+            var uyeid = window.localStorage["uyeid"];
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "satici",
+                    data: '{ "uyeid": "' + uyeid + '" }',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $.each(data, function (index, item) {
+                            $("#selectSaticilar").append(
+                                $("<option></option>")
+                                    .text(item.sattem)
+                                    .val(item.slsmanref)
+                            );
+                        });
+
+                        $('select[name=selectSaticilar]').val(getSlsref());
+                        CarilerGetir();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function CarilerGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getana/" + getSlsref(),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectCariler").empty().append($("<option></option>").text("Tümü").val("0"));
+                        $.each(data, function (index, item) {
+                            if (item.mtkod == 'Z1') { // sadece bayiler
+                                $("#selectCariler").append(
+                                    $("<option></option>")
+                                        .text(item.musteri)
+                                        .val(item.gmref)
+                                );
+                            }
+                        });
+
+                        $('select[name=selectCariler]').val(getGmref());
+                        if ($('#selectSubeler > option').length == 1)
+                            SubelerGetir();
+                        else
+                            $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0"));
+                        getRapor();
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function SubelerGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getsube1/" + getGmref() + "/" + getSlsref(),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0"));
+                        $.each(data, function (index, item) {
+                            if (item.smref != getGmref()) { // tp den bayi tekrar gelmesin
+                                $("#selectSubeler").append(
+                                    $("<option></option>")
+                                        .text(item.sube)
+                                        .val(item.smref)
+                                );
+                            }
+                        });
+
+                        $('select[name=selectSubeler]').val(getSmref());
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function getRapor() {
+            $("#dtTable input").each(function (index, element) {
+                $(element).val("");
+            });
+            var url1 = apiurl + "satisraporu/getirtpdisdy/" + getYil() + "/" + getAy() + "/" + getSlsref() + "/" + getGmref() + "/" + getSmref() + "/" + getItemref();
+            var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                "responsive": true,
+                "destroy": true,
+                "processing": true,
+                "serverSide": true,
+                ajax: {
+                    dataSrc: "json",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1,
+                    data: function (d) {
+                        if (getParameterByName("fatno")) {
+                            d.columns[4].search.value = getParameterByName("fatno");
+                        }
+                        return JSON.stringify(d);
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8'
+                },
+                fixedHeader: {
+                    headerOffset: $('.navbar').outerHeight()
+                },
+                "initComplete": function (settings, json) {
+
+                    if (getParameterByName("fatno")) {
+                        $('input', table.columns(4).header()).val(getParameterByName("fatno"));
+                        /*setTimeout(function () {
+                            table.columns(4).search(getParameterByName("fatno")).draw();
+                        }, aramadelay);*/
+                    }
+
+                    /*$("#spFtAdet").html(json.sum1.formatMoney(0, ',', '.'));
+                    $("#spFtKoli").html(json.sum2.formatMoney(1, ',', '.'));
+                    $("#spFtNet").html(json.sum3.formatMoney(2, ',', '.'));*/
+                },
+                "drawCallback": function (oSettings) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
+
+                    $("#spFtKoli").html(oSettings.json.sum2.formatMoney(1, ',', '.'));
+                    $("#spFtNet").html(oSettings.json.sum3.formatMoney(2, ',', '.'));
+                    $("#spFtKdv").html(oSettings.json.sum4.formatMoney(2, ',', '.'));
+                    $("#spFtNetKdv").html(oSettings.json.sum5.formatMoney(2, ',', '.'));
+
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5'
+                    },
+                    {
+                        extend: 'print'
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            format: {
+                                body: function (data, row, column, node) {
+                                    data = $('<p>' + data + '</p>').text();
+                                    return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
+                                }
+                            }
+                        }
+                    }
+                ],
+                columns: kolonlar,
+                "language": defaultDtLang,
+                "paging": true,
+                "pagingType": "full_numbers",
+                "ordering": false,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[3, "asc"]]
+            });
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.header()).on('keyup change', delay(function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                }, aramadelay));
+            });
+            /*table.on('page.dt', function () {
+
+            });*/
+        }
+
+        $(window).on("popstate", function (e) {
+            $('select[name=selectSaticilar]').val(getSlsref());
+            $('select[name=selectCariler]').val(getGmref());
+            $('select[name=selectSubeler]').val(getSmref());
+            getRapor();
+        });
+
+        $(document).ready(function () {
+            $('select[name=selectYil]').val(getYil());
+            $('select[name=selectAy]').val(getAy());
+            SaticilarGetir();
+
+            $('#selectSaticilar').on('change', function (e) {
+                window.history.pushState("", "Title", 'Satis?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=0&smref=0');
+                CarilerGetir();
+            });
+
+            $('#selectCariler').on('change', function (e) {
+                window.history.pushState("", "Title", 'Satis?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&smref=0');
+                SubelerGetir();
+                getRapor();
+            });
+
+            $('#selectSubeler').on('change', function (e) {
+                window.history.pushState("", "Title", 'Satis?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&smref=' + $('select[name=selectSubeler]').val());
+                getRapor();
+            });
+
+            $('#selectYil').on('change', function (e) {
+                window.history.pushState("", "Title", 'Satis?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&smref=' + $('select[name=selectSubeler]').val());
+                getRapor();
+            });
+
+            $('#selectAy').on('change', function (e) {
+                window.history.pushState("", "Title", 'Satis?yil=' + $('select[name=selectYil]').val() + '&ay=' + $('select[name=selectAy]').val() + '&slsref=' + $('select[name=selectSaticilar]').val() + '&gmref=' + $('select[name=selectCariler]').val() + '&smref=' + $('select[name=selectSubeler]').val());
+                getRapor();
+            });
+
+            $('#siptar,#fattar').datepicker({
+                locale: "tr",
+                language: "tr",
+                format: "yyyy-mm-dd",
+                clearBtn: true,
+                orientation: "auto bottom"
+            });
+            $('#siptar,#fattar').on('changeDate', function (ev) {
+                $(this).datepicker('hide');
+            });
+        });
+    </script>
+}
+
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar"></select>
+
+<select id="selectYil" name="selectYil" class="dropDown selYil">
+    <option value="2019" selected="selected">2019</option>
+    <option value="2018">2018</option>
+    <option value="2017">2017</option>
+    <option value="2016">2016</option>
+    <option value="2015">2015</option>
+    <option value="2014">2014</option>
+</select>
+
+<select id="selectAy" name="selectAy" class="dropDown selYil">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+</select>
+
+<select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
+    <option value="0" selected="selected">Tümü</option>
+</select>
+<select id="selectSubeler" name="selectSubeler" class="dropDown selSaticilar">
+    <option value="0" selected="selected">Tümü</option>
+</select>
+<br />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='100'>
+    <thead>
+        <tr>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Tür</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Sip.Tar.</span><br /><input type="text" id="siptar" class="form-control input100yuzde tarihpicker" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Sip.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Fat.Tar.</span><br /><input type="text" id="fattar" class="form-control input100yuzde tarihpicker" /></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Fat.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Sube</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Kdv O.</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Kdv T.</span></th>
+            <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Koli</span></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Net</span></th>
+            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Net+Kdv</span></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"></th>
+            <th class="keyTd"><span class="spanCiplak" id="spFtKdv">0</span></th>
+            <th class="floaTd"><span class="spanCiplak" id="spFtKoli">0</span></th>
+            <th class="floaTd"><span class="spanCiplak" id="spFtNet">0</span></th>
+            <th class="floaTd"><span class="spanCiplak" id="spFtNetKdv">0</span></th>
+        </tr>
+    </tfoot>
+</table>

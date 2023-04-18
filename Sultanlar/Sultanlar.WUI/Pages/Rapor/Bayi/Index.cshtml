@@ -1,0 +1,27 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Bayi Raporları";
+}
+
+@section head {
+
+}
+<br />
+<table class="dtFiyat table table-striped table-bordered">
+    <thead><tr><th class="keyTd">Raporlar</th></tr></thead>
+    <tbody>
+        <tr class="onclickcursor" onclick="window.location.href = 'Bayi/Satis'">
+            <td class="valueTd">Saha Çıkış Raporu (TP'ye aktarılmış)</td>
+        </tr>
+        <tr class="onclickcursor" onclick="window.location.href = 'Bayi/SatisDis'">
+            <td class="valueTd">Saha Çıkış Raporu (ham ve güncel)</td>
+        </tr>
+        <tr class="onclickcursor" onclick="window.location.href = 'Bayi/Stok'">
+            <td class="valueTd">Stok Raporu (ham ve güncel)</td>
+        </tr>
+        <tr class="onclickcursor" onclick="window.location.href = 'Bayi/SiparisDetay'">
+            <td class="valueTd">Sipariş Raporu</td>
+        </tr>
+    </tbody>
+</table>

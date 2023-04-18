@@ -124,6 +124,7 @@
     <Content Include="ilkyuz.aspx" />
     <Content Include="JScript.js" />
     <Content Include="Komsu.svc" />
+    <Content Include="Komsu2.svc" />
     <Content Include="matruska.aspx" />
     <Content Include="Pirpa.svc" />
     <Content Include="StyleSheet.css" />
@@ -171,6 +172,7 @@
     <Compile Include="IDirect.cs" />
     <Compile Include="IGeneral.cs" />
     <Compile Include="IKomsu.cs" />
+    <Compile Include="IKomsu2.cs" />
     <Compile Include="ilkyuz.aspx.cs">
       <DependentUpon>ilkyuz.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -182,6 +184,9 @@
     <Compile Include="ITarifSepeti.cs" />
     <Compile Include="Komsu.svc.cs">
       <DependentUpon>Komsu.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Komsu2.svc.cs">
+      <DependentUpon>Komsu2.svc</DependentUpon>
     </Compile>
     <Compile Include="matruska.aspx.cs">
       <DependentUpon>matruska.aspx</DependentUpon>
@@ -239,6 +244,46 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\komsuC0011\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\KomsuC001\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\komsuC0021\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\KomsuC002\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\komsuC0031\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\KomsuC003\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\komsuC0041\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\KomsuC004\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -257,35 +302,99 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Web References\Komsu001\item.wsdl" />
-    <Content Include="Web References\Komsu001\Reference.map">
+    <None Include="Web References\Komsu001\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\Komsu001\ZwebKomsuS_001.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\Komsu002\item.wsdl" />
-    <Content Include="Web References\Komsu002\Reference.map">
+    <None Include="Web References\Komsu002\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\Komsu002\ZwebKomsuS_002.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\Komsu003\item.wsdl" />
-    <Content Include="Web References\Komsu003\Reference.map">
+    <None Include="Web References\Komsu003\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
+    </None>
     <Content Include="Web References\Komsu003\ZwebKomsuS_003.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\Komsu004\item.wsdl" />
-    <Content Include="Web References\Komsu004\Reference.map">
+    <None Include="Web References\Komsu004\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Web References\Komsu004\ZwebKomsuS_004.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\komsuC0011\item.wsdl" />
+    <None Include="Web References\komsuC0011\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Web References\komsuC0011\ZwebKomsuS_001.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\KomsuC001\item.wsdl" />
+    <Content Include="Web References\KomsuC001\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
-    <Content Include="Web References\Komsu004\ZwebKomsuS_004.datasource">
+    <Content Include="Web References\KomsuC001\ZwebKomsuS_001.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\komsuC0021\item.wsdl" />
+    <None Include="Web References\komsuC0021\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Web References\komsuC0021\ZwebKomsuS_002.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\KomsuC002\item.wsdl" />
+    <Content Include="Web References\KomsuC002\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\KomsuC002\ZwebKomsuS_002.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\komsuC0031\item.wsdl" />
+    <None Include="Web References\komsuC0031\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Web References\komsuC0031\ZwebKomsuS_003.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\KomsuC003\item.wsdl" />
+    <Content Include="Web References\KomsuC003\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\KomsuC003\ZwebKomsuS_003.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\komsuC0041\item.wsdl" />
+    <None Include="Web References\komsuC0041\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Web References\komsuC0041\ZwebKomsuS_004.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\KomsuC004\item.wsdl" />
+    <Content Include="Web References\KomsuC004\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\KomsuC004\ZwebKomsuS_004.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
   </ItemGroup>
@@ -297,6 +406,10 @@
     <ProjectReference Include="..\Sultanlar.DatabaseObject\Sultanlar.DatabaseObject.csproj">
       <Project>{4dc20636-1474-437f-9a16-ff1b32d145fe}</Project>
       <Name>Sultanlar.DatabaseObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sultanlar.Model\Sultanlar.Model.csproj">
+      <Project>{07195502-5e83-4505-b932-f1fa1eff768e}</Project>
+      <Name>Sultanlar.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +462,94 @@
       </CachedDynamicPropName>
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>Sultanlar_WCF_Komsu004_ZwebKomsuF004Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.42:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF001">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\KomsuC001\</RelPath>
+      <UpdateFromURL>http://192.168.1.42:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF001</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_KomsuC001_ZwebKomsuF001Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.42:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF002">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\KomsuC002\</RelPath>
+      <UpdateFromURL>http://192.168.1.42:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF002</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_KomsuC002_ZwebKomsuF002Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.42:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF003">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\KomsuC003\</RelPath>
+      <UpdateFromURL>http://192.168.1.42:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF003</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_KomsuC003_ZwebKomsuF003Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.42:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF004">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\KomsuC004\</RelPath>
+      <UpdateFromURL>http://192.168.1.42:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF004</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_KomsuC004_ZwebKomsuF004Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF001">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\komsuC0011\</RelPath>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF001</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_komsuC0011_ZwebKomsuF001Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF002">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\komsuC0021\</RelPath>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF002</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_komsuC0021_ZwebKomsuF002Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF003">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\komsuC0031\</RelPath>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF003</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_komsuC0031_ZwebKomsuF003Service</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF004">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\komsuC0041\</RelPath>
+      <UpdateFromURL>http://192.168.1.5:8000/sap/bc/soap/wsdl/%3fservices=ZwebKomsuF004</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Sultanlar_WCF_komsuC0041_ZwebKomsuF004Service</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>

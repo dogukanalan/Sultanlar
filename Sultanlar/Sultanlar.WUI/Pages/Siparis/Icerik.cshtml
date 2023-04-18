@@ -12,15 +12,17 @@
     <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
 
     <script>
+        var paramgmref;
         var paramsmref;
         var paramftip;
+        var parammtip;
         var siparisid;
         var sepet;
 
         function initSepet() {
             var cookie = JSON.parse(getLocal());
             for (var i = 0; i < cookie.length; i++) {
-                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].siparisid == siparisid) {
+                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].mtip == parammtip && cookie[i].siparisid == siparisid) {
                     for (var j = 0; j < cookie[i].detaylar.length; j++) {
                         sepet.push(
                             {
@@ -115,6 +117,7 @@
         }
 
         function urunGuncelle(itemref, miktartur, miktar) {
+            miktar = miktar.toString().trim() == '' ? 1 : miktar;
             var yenisepet = [];
             for (var i = 0; i < sepet.length; i++) {
                 if (sepet[i].itemref == itemref && sepet[i].miktartur == miktartur) {
@@ -171,21 +174,21 @@
         function kaydet() {
             if (Object.keys(sepet).length != 0) {
                 if (confirm("Siparişi kaydetmek istediğinize emin misiniz?")) {
-                    window.location.href = 'Kaydet?onay=0&smref=' + paramsmref + '&fiyattipi=' + paramftip + '&siparisid=' + siparisid;
+                    window.location.href = 'Kaydet?onay=0&smref=' + paramsmref + '&fiyattipi=' + paramftip + '&mtip=' + parammtip + '&siparisid=' + siparisid;
                 }
             }
         }
 
         function kaydetdevam() {
             if (Object.keys(sepet).length != 0) {
-                sipariskaydet(paramsmref, paramftip, siparisid, 0, false);
+                sipariskaydet(paramsmref, paramftip, parammtip, siparisid, 0, false);
             }
         }
 
         function onayla() {
             if (Object.keys(sepet).length != 0) {
                 if (confirm("Siparişi kaydetmek ve onaylamak istediğinize emin misiniz?")) {
-                    window.location.href = 'Kaydet?onay=1&smref=' + paramsmref + '&fiyattipi=' + paramftip + '&siparisid=' + siparisid;
+                    window.location.href = 'Kaydet?onay=1&smref=' + paramsmref + '&fiyattipi=' + paramftip + '&mtip=' + parammtip + '&siparisid=' + siparisid;
                 }
             }
         }
@@ -193,12 +196,12 @@
         function ftipdegistir(yeniftip) {
             var cookie = JSON.parse(getLocal());
             for (var i = 0; i < cookie.length; i++) {
-                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].siparisid == siparisid) {
+                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].mtip == parammtip && cookie[i].siparisid == siparisid) {
                     cookie[i].ftip = yeniftip;
                 }
             }
             window.localStorage["sepet"] = JSON.stringify(cookie);
-            window.location.href = 'Siparis?smref=' + paramsmref + '&ftip=' + yeniftip + '&siparisid=' + siparisid + '&ftipdegisti=1';
+            window.location.href = 'Siparis?smref=' + paramsmref + '&ftip=' + yeniftip + '&mtip=' + parammtip + '&siparisid=' + siparisid + '&ftipdegisti=1';
         }
 
         function sepetBosalt() {
@@ -206,53 +209,23 @@
             senkRoot();
         }
 
-        function UyeYetkileri(uyeid) {
-            $.ajax(
-                {
-                    xhr: function () { return xhrDownloadUpload(); },
-                    beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "uyeyetki/" + uyeid,
-                    success: function (data, textStatus, response) {
-                        checkAuth(response);
-
-                        var rootData = Object.keys(data.fiyatTipleri).length == 0 ? data.grupFiyatTipleri : data.fiyatTipleri;
-                        $.each(rootData, function (index, item) {
-
-                            if (paramftip < 500) {
-                                $("#fiyattipleri").append(
-                                    $("<option></option>")
-                                        .text(item.fiyatTipi.aciklama)
-                                        .val(item.sintFiyatTipiID)
-                                );
-                            }
-                            else {
-                                if (paramftip == item.sintFiyatTipiID) {
-                                    $("#fiyattipleri").append(
-                                        $("<option></option>")
-                                            .text(item.fiyatTipi.aciklama)
-                                            .val(item.sintFiyatTipiID)
-                                    );
-                                }
-                            }
-                        });
-                        $('select[id=fiyattipleri]').val(paramftip);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
-                }
-            );
-        }
-
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
+            paramgmref = getParameterByName('gmref');
             paramsmref = getParameterByName('smref');
             paramftip = getParameterByName('ftip');
+            parammtip = getParameterByName('mtip');
             siparisid = getParameterByName('siparisid');
             sepet = [];
             initSepet();
+
+            getCari(parammtip, paramsmref, getCariSube, "sipMus");
+            document.getElementById("basTitle").innerHTML = "Sipariş İçeriği " + (siparisid != 0 ? "(" + siparisid + ")" : "");
+
             sipGoster();
             UyeYetkileri(localStorage["musteri"]);
             $('#fiyattipleri').on('change', function (e) {
-                ftipdegistir($(this).val());
+                //ftipdegistir($(this).val());
             });
             $('.inputSecim').on('input', delay(function (e) {
                 urunGuncelle($(this).closest("tr").find(".itemref").text(), $(this).closest("tr").find(".spMiktarTur").attr("rel"), this.value);
@@ -260,10 +233,11 @@
         });
     </script>
 }
-<select id="fiyattipleri"></select>
+<h5 class="spanCiplak" id="sipMus"></h5>
+<select id="fiyattipleri" disabled></select>
 <br />
 <br />
-<input type="button" class="btn btn-info secimTus" value="Ürün Listesine Dön" onclick="window.location.href = 'Siparis?smref=' + paramsmref + '&siparisid=' + siparisid + '&ftip=' + paramftip" />
+<input type="button" class="btn btn-info secimTus" value="Ürün Listesine Dön" onclick="window.location.href = 'Siparis?gmref=' + paramgmref + '&smref=' + paramsmref + '&siparisid=' + siparisid + '&ftip=' + paramftip + '&mtip=' + parammtip" />
 <input type="button" class="btn btn-danger secimTus" value="İçeriği Sil" onclick="sil()" />
 <input type="button" class="btn btn-danger secimTus" value="Siparişi Sil" onclick="sSil()" />
 <input type="button" class="btn btn-success secimTus" value="Siparişi Kaydet" onclick="kaydet()" />

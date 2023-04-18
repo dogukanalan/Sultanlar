@@ -12,7 +12,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public int smref { get; set; }
         public int yil { get; set; }
         public int ay { get; set; }
-        public string onay { get; set; } // 1 onaylı 2 hepsi 0 onaysız
+        public string onay { get; set; } // 1 onaylı 2 hepsi 0 onaysız 3 tksref!=1
 
 
         public int draw { get; set; }
@@ -33,12 +33,14 @@ namespace Sultanlar.WebAPI.Models.Internet
     public class SiparisKopya
     {
         public int SiparisID { get; set; }
+        public int FiyatTipi { get; set; }
         public List<SiparisKopyaSmref> SMREFs { get; set; }
     }
 
     public class SiparisKopyaSmref
     {
         public int smref { get; set; }
+        public int tip { get; set; }
     }
 
     public class SiparisKaydet
@@ -47,6 +49,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public string musteri { get; set; }
         public int smref { get; set; }
         public short ftip { get; set; }
+        public int mtip { get; set; }
         public string aciklama { get; set; }
         public string teslim { get; set; }
         public List<SiparisKaydetDetay> detaylar { get; set; }
@@ -72,5 +75,12 @@ namespace Sultanlar.WebAPI.Models.Internet
         public double isk2 { get; set; }
         public double isk3 { get; set; }
         public double isk4 { get; set; }
+    }
+
+    public class SevkKaydet
+    {
+        public long detayid { get; set; } // yerine göre siparisid
+        public string miktar { get; set; } // yerine göre bos
+        public string fattar { get; set; }
     }
 }

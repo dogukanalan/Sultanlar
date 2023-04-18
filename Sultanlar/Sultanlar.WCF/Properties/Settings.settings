@@ -14,5 +14,29 @@
     <Setting Name="Sultanlar_WCF_Komsu004_ZwebKomsuF004Service" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://192.168.1.41:8000/sap/bc/soap/rfc</Value>
     </Setting>
+    <Setting Name="Sultanlar_WCF_KomsuC001_ZwebKomsuF001Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.1.42:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WCF_KomsuC002_ZwebKomsuF002Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.1.42:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WCF_KomsuC003_ZwebKomsuF003Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.1.42:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WCF_KomsuC004_ZwebKomsuF004Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.1.42:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WCF_komsuC0011_ZwebKomsuF001Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.1.5:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WCF_komsuC0021_ZwebKomsuF002Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.1.5:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WCF_komsuC0031_ZwebKomsuF003Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.1.5:8000/sap/bc/soap/rfc</Value>
+    </Setting>
+    <Setting Name="Sultanlar_WCF_komsuC0041_ZwebKomsuF004Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://192.168.1.5:8000/sap/bc/soap/rfc</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

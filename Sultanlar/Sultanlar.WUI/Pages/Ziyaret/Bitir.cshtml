@@ -30,6 +30,7 @@
 
             if (window.localStorage['sepetV']) {
                 if (confirm('Var/yok listesi girilmiş fakat gönderilmemiş, ziyaret sonlandırıldığında var/yok listesi silinecektir. Devam etmek istiyor musunuz?') != true) {
+                    window.location.href = 'Varyok';
                     return;
                 }
             }
@@ -174,12 +175,38 @@
             });
         }
 
+        function VaryokKontrol() {
+            var ziyaretid = JSON.parse(window.localStorage["ziyaret"]).barkod;
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "ziyaret/varyokgetir/" + ziyaretid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data.pkID > 0) {
+                            KoordinatBaslat();
+                            ZiyaretSonlandirma();
+                        }
+                        else {
+                            window.location.href = 'Ziyaret';
+                            alert("Varyok listesi girilmemiş, liste göndermeden ziyaret bitirilemez.");
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
         voiceText = '';
         konusuldu = '';
 
         $(document).ready(function () {
             $('#divProgress').css("display", "none");
             if (window.localStorage["ziyaret"]) {
+                //VaryokKontrol();
                 KoordinatBaslat();
                 ZiyaretSonlandirma();
             }
@@ -211,4 +238,4 @@
 </div>
 <br />
 <input type="button" class="btn btn-success konumTamam btnWidthFull" value="Ziyareti Sonlandır" onclick="ZiyaretBitir()" disabled />
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXm_Z4J-I9jrTO72lGvx1jRzTWsP6qi7Q&libraries=geometry"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXm_Z4J-I9jrTO72lGvx1jRzTWsP6qi7Q&libraries=geometry&callback=mapCallBack"></script>

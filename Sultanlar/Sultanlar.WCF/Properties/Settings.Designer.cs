@@ -62,5 +62,85 @@ namespace Sultanlar.WCF.Properties {
                 return ((string)(this["Sultanlar_WCF_Komsu004_ZwebKomsuF004Service"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.42:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_KomsuC001_ZwebKomsuF001Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_KomsuC001_ZwebKomsuF001Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.42:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_KomsuC002_ZwebKomsuF002Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_KomsuC002_ZwebKomsuF002Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.42:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_KomsuC003_ZwebKomsuF003Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_KomsuC003_ZwebKomsuF003Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.42:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_KomsuC004_ZwebKomsuF004Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_KomsuC004_ZwebKomsuF004Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_komsuC0011_ZwebKomsuF001Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_komsuC0011_ZwebKomsuF001Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_komsuC0021_ZwebKomsuF002Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_komsuC0021_ZwebKomsuF002Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_komsuC0031_ZwebKomsuF003Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_komsuC0031_ZwebKomsuF003Service"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.5:8000/sap/bc/soap/rfc")]
+        public string Sultanlar_WCF_komsuC0041_ZwebKomsuF004Service {
+            get {
+                return ((string)(this["Sultanlar_WCF_komsuC0041_ZwebKomsuF004Service"]));
+            }
+        }
     }
 }

@@ -256,6 +256,8 @@ namespace Sultanlar.UI
         private void lbBayiler_SelectedIndexChanged(object sender, EventArgs e)
         {
             GetAltCariler();
+            cbAlternatif.Checked = Convert.ToBoolean(Convert.ToInt32(WebGenel.SorguSkalar("SELECT count(GMREF) FROM [Web-Musteri-TP-Bayikodlar-Alternatif] WHERE GMREF = " + ((CariHesaplarTP)lbBayiler.SelectedItem).GMREF)));
+            cbDirekBayi.Checked = Convert.ToBoolean(Convert.ToInt32(WebGenel.SorguSkalar("SELECT count(GMREF) FROM [Web-Musteri-TP-Bayikodlar-Direk] WHERE GMREF = " + ((CariHesaplarTP)lbBayiler.SelectedItem).GMREF)));
         }
 
         private void GetAltCariler()
@@ -416,6 +418,37 @@ namespace Sultanlar.UI
                 cariek.TAH_ISK = Convert.ToDouble(txtTAHIsk.Text);
                 cariek.YEG_ISK = Convert.ToDouble(txtYEGIsk.Text);
                 cariek.DoUpdate();
+
+                if (cbDirekBayi.Checked)
+                {
+                    if (!Convert.ToBoolean(Convert.ToInt32(WebGenel.SorguSkalar("SELECT count(GMREF) FROM [Web-Musteri-TP-Bayikodlar-Direk] WHERE GMREF = " + ((CariHesaplarTP)lbBayiler.SelectedItem).GMREF))))
+                    {
+                        WebGenel.Sorgu("INSERT INTO [Web-Musteri-TP-Bayikodlar-Direk] (GMREF) VALUES (" + cariek.GMREF.ToString() + ")");
+                    }
+                }
+                else
+                {
+                    if (Convert.ToBoolean(Convert.ToInt32(WebGenel.SorguSkalar("SELECT count(GMREF) FROM [Web-Musteri-TP-Bayikodlar-Direk] WHERE GMREF = " + ((CariHesaplarTP)lbBayiler.SelectedItem).GMREF))))
+                    {
+                        WebGenel.Sorgu("DELETE FROM [Web-Musteri-TP-Bayikodlar-Direk] WHERE GMREF = " + cariek.GMREF.ToString());
+                    }
+                }
+
+                if (cbAlternatif.Checked)
+                {
+                    if (!Convert.ToBoolean(Convert.ToInt32(WebGenel.SorguSkalar("SELECT count(GMREF) FROM [Web-Musteri-TP-Bayikodlar-Alternatif] WHERE GMREF = " + ((CariHesaplarTP)lbBayiler.SelectedItem).GMREF))))
+                    {
+                        WebGenel.Sorgu("INSERT INTO [Web-Musteri-TP-Bayikodlar-Alternatif] (GMREF) VALUES (" + cariek.GMREF.ToString() + ")");
+                    }
+                }
+                else
+                {
+                    if (Convert.ToBoolean(Convert.ToInt32(WebGenel.SorguSkalar("SELECT count(GMREF) FROM [Web-Musteri-TP-Bayikodlar-Alternatif] WHERE GMREF = " + ((CariHesaplarTP)lbBayiler.SelectedItem).GMREF))))
+                    {
+                        WebGenel.Sorgu("DELETE FROM [Web-Musteri-TP-Bayikodlar-Alternatif] WHERE GMREF = " + cariek.GMREF.ToString());
+                    }
+                }
+
                 MessageBox.Show("Değişiklik kaydedildi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -1004,6 +1037,16 @@ namespace Sultanlar.UI
         private void cbBayiPasif_CheckedChanged(object sender, EventArgs e)
         {
             GetBayiler();
+        }
+
+        private void checkBox2_MouseHover(object sender, EventArgs e)
+        {
+            lblAlternatif.Visible = true;
+        }
+
+        private void checkBox2_MouseLeave(object sender, EventArgs e)
+        {
+            lblAlternatif.Visible = false;
         }
     }
 }

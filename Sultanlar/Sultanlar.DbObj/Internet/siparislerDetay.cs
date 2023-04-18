@@ -11,7 +11,7 @@ namespace Sultanlar.DbObj.Internet
         public int intSiparisID { get; set; }
         //public siparisler Siparis { get { return new siparisler(intSiparisID).GetObject(); } }
         public int intUrunID { get; set; }
-        public malzemeler Malzeme { get { return new malzemeler(intUrunID).GetObject(); } }
+        public malzemeler Malzeme { get { return stokYeri == 0 ? new malzemeler(intUrunID).GetObject() : new malzemeler().GetObject(intUrunID, stokYeri); } }
         public string strUrunAdi { get; set; }
         public int intMiktar { get; set; }
         public double mnFiyat { get; set; }
@@ -19,7 +19,9 @@ namespace Sultanlar.DbObj.Internet
         public bool blKampanyaHediye { get; set; }
         public Guid unKampanyaSatir { get; set; }
         public string strMiktarTur { get; set; }
+        public int stokYeri { get; set; }
 
+        public siparislerDetaySevk sevk { get { return new siparislerDetaySevk().GetObjectByDetayID(pkSiparisDetayID); } }
         public siparislerDetayISKs isks { get { return new siparislerDetayISKs(pkSiparisDetayID).GetObject(); } }
 
         public siparislerDetay() { }
@@ -36,7 +38,7 @@ namespace Sultanlar.DbObj.Internet
             this.unKampanyaSatir = unKampanyaSatir;
             this.strMiktarTur = strMiktarTur;
         }
-        private siparislerDetay(long pkSiparisDetayID, int intSiparisID, int intUrunID, string strUrunAdi, int intMiktar, double mnFiyat, Guid unKampanyaKart, bool blKampanyaHediye, Guid unKampanyaSatir, string strMiktarTur)
+        private siparislerDetay(long pkSiparisDetayID, int intSiparisID, int intUrunID, string strUrunAdi, int intMiktar, double mnFiyat, Guid unKampanyaKart, bool blKampanyaHediye, Guid unKampanyaSatir, string strMiktarTur, int stokYeri)
         {
             this.pkSiparisDetayID = pkSiparisDetayID;
             this.intSiparisID = intSiparisID;
@@ -48,6 +50,7 @@ namespace Sultanlar.DbObj.Internet
             this.blKampanyaHediye = blKampanyaHediye;
             this.unKampanyaSatir = unKampanyaSatir;
             this.strMiktarTur = strMiktarTur;
+            this.stokYeri = stokYeri;
         }
 
         public override string ToString() { return pkSiparisDetayID.ToString(); }
@@ -84,7 +87,7 @@ namespace Sultanlar.DbObj.Internet
 
             Dictionary<int, object> dic = GetObject("db_sp_siparislerDetayGetir", new Dictionary<string, object>() { { "pkSiparisDetayID", pkSiparisDetayID } }, timeout);
             if (dic != null)
-                donendeger = new siparislerDetay(ConvertToInt64(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), dic[3].ToString(), ConvertToInt32(dic[4]), ConvertToDouble(dic[5]), ConvertToGuid(dic[6].ToString()), Convert.ToBoolean(dic[7]), ConvertToGuid(dic[8].ToString()), dic[9].ToString());
+                donendeger = new siparislerDetay(ConvertToInt64(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), dic[3].ToString(), ConvertToInt32(dic[4]), ConvertToDouble(dic[5]), ConvertToGuid(dic[6].ToString()), Convert.ToBoolean(dic[7]), ConvertToGuid(dic[8].ToString()), dic[9].ToString(), 0);
 
             return donendeger;
         }
@@ -92,14 +95,73 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<siparislerDetay> GetObjects(int SiparisID)
+        public siparislerDetay GetObject(int StokYeri)
+        {
+            siparislerDetay donendeger = new siparislerDetay();
+
+            Dictionary<int, object> dic = GetObject("db_sp_siparislerDetayGetir", new Dictionary<string, object>() { { "pkSiparisDetayID", pkSiparisDetayID } }, timeout);
+            if (dic != null)
+                donendeger = new siparislerDetay(ConvertToInt64(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), dic[3].ToString(), ConvertToInt32(dic[4]), ConvertToDouble(dic[5]), ConvertToGuid(dic[6].ToString()), Convert.ToBoolean(dic[7]), ConvertToGuid(dic[8].ToString()), dic[9].ToString(), StokYeri);
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<siparislerDetay> GetObjects(int SiparisID, int StokYeri)
         {
             List<siparislerDetay> donendeger = new List<siparislerDetay>();
 
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerDetaylarGetir", new Dictionary<string, object>() { { "intSiparisID", SiparisID } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new siparislerDetay(ConvertToInt64(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), dic[i][3].ToString(), ConvertToInt32(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToGuid(dic[i][6].ToString()), Convert.ToBoolean(dic[i][7]), ConvertToGuid(dic[i][8].ToString()), dic[i][9].ToString()));
+                    donendeger.Add(new siparislerDetay(ConvertToInt64(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), dic[i][3].ToString(), ConvertToInt32(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToGuid(dic[i][6].ToString()), Convert.ToBoolean(dic[i][7]), ConvertToGuid(dic[i][8].ToString()), dic[i][9].ToString(), StokYeri));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<siparislerDetay> GetObjectsSevksiz(int SLSREF)
+        {
+            List<siparislerDetay> donendeger = new List<siparislerDetay>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerDetayGetirSevksizBySLSREF", new Dictionary<string, object>() { { "SLSREF", SLSREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new siparislerDetay(ConvertToInt64(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), dic[i][3].ToString(), ConvertToInt32(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToGuid(dic[i][6].ToString()), Convert.ToBoolean(dic[i][7]), ConvertToGuid(dic[i][8].ToString()), dic[i][9].ToString(), 0));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<siparislerDetay> GetObjectsSevkli(int SLSREF)
+        {
+            List<siparislerDetay> donendeger = new List<siparislerDetay>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerDetayGetirSevkliBySLSREF", new Dictionary<string, object>() { { "SLSREF", SLSREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new siparislerDetay(ConvertToInt64(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), dic[i][3].ToString(), ConvertToInt32(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToGuid(dic[i][6].ToString()), Convert.ToBoolean(dic[i][7]), ConvertToGuid(dic[i][8].ToString()), dic[i][9].ToString(), 0));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<siparislerDetay> GetObjectsSevkliAktarilmis(int SLSREF)
+        {
+            List<siparislerDetay> donendeger = new List<siparislerDetay>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerDetayGetirSevkliAktarilmisBySLSREF", new Dictionary<string, object>() { { "SLSREF", SLSREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new siparislerDetay(ConvertToInt64(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), dic[i][3].ToString(), ConvertToInt32(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToGuid(dic[i][6].ToString()), Convert.ToBoolean(dic[i][7]), ConvertToGuid(dic[i][8].ToString()), dic[i][9].ToString(), 0));
 
             return donendeger;
         }
@@ -127,7 +189,8 @@ namespace Sultanlar.DbObj.Internet
         public double ISK8 { get; set; }
         public double ISK9 { get; set; }
         public double ISK10 { get; set; }
-        private siparislerDetayISKs() { }
+        public double dusulmusFiyat { get { return iskDusCoklu(FIYAT, ISK1, ISK2, ISK3, ISK4, ISK5, ISK6, ISK7, ISK8, ISK9, ISK10); } }
+        public siparislerDetayISKs() { }
         public siparislerDetayISKs(long bintSiparisDetayID) { this.bintSiparisDetayID = bintSiparisDetayID; }
         public siparislerDetayISKs(long bintSiparisDetayID, double FIYAT, double ISK1, double ISK2, double ISK3, double ISK4, double ISK5, double ISK6, double ISK7, double ISK8, double ISK9, double ISK10)
         {
@@ -143,6 +206,16 @@ namespace Sultanlar.DbObj.Internet
             this.ISK8 = ISK8;
             this.ISK9 = ISK9;
             this.ISK10 = ISK10;
+        }
+
+        internal double iskDus(double fiyat, double iskonto)
+        {
+            return fiyat - (fiyat / 100 * iskonto);
+        }
+
+        internal double iskDusCoklu(double fiyat, double iskonto1, double iskonto2, double iskonto3, double iskonto4, double iskonto5, double iskonto6, double iskonto7, double iskonto8, double iskonto9, double iskonto10)
+        {
+            return iskDus(iskDus(iskDus(iskDus(iskDus(iskDus(iskDus(iskDus(iskDus(iskDus(fiyat, iskonto1), iskonto2), iskonto3), iskonto4), iskonto5), iskonto6), iskonto7), iskonto8), iskonto9), iskonto10);
         }
 
         public override string ToString() { return bintSiparisDetayID.ToString(); }
@@ -184,6 +257,107 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparislerDetayISKsGetir", timeout);
             for (int i = 0; i < dic.Count; i++)
                 donendeger.Add(new siparislerDetayISKs(ConvertToInt64(dic[i][0]), ConvertToDouble(dic[i][1]), ConvertToDouble(dic[i][2]), ConvertToDouble(dic[i][3]), ConvertToDouble(dic[i][4]), ConvertToDouble(dic[i][5]), ConvertToDouble(dic[i][6]), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8]), ConvertToDouble(dic[i][9]), ConvertToDouble(dic[i][10]), ConvertToDouble(dic[i][11])));
+
+            return donendeger;
+        }
+    }
+
+    public class siparislerDetaySevk : DbObj
+    {
+        public int ID { get; set; }
+        public long bintSiparisDetayID { get; set; }
+        //public siparislerDetay SiparisDetay { get { return new siparislerDetay(bintSiparisDetayID).GetObject(); } }
+        public int intMiktar { get; set; }
+        public bool blAktarildi { get; set; }
+        public DateTime dtTarih { get; set; }
+        public DateTime dtAktarmaTarih { get; set; }
+        public siparislerDetaySevk() { }
+        public siparislerDetaySevk(long bintSiparisDetayID) { this.bintSiparisDetayID = bintSiparisDetayID; }
+        public siparislerDetaySevk(long bintSiparisDetayID, int intMiktar, bool blAktarildi, DateTime dtTarih, DateTime dtAktarmaTarih) 
+        { 
+            this.bintSiparisDetayID = bintSiparisDetayID; 
+            this.intMiktar = intMiktar;
+            this.blAktarildi = blAktarildi;
+            this.dtTarih = dtTarih;
+            this.dtAktarmaTarih = dtAktarmaTarih;
+        }
+        public siparislerDetaySevk(int ID, long bintSiparisDetayID, int intMiktar, bool blAktarildi, DateTime dtTarih, DateTime dtAktarmaTarih)
+        {
+            this.ID = ID;
+            this.bintSiparisDetayID = bintSiparisDetayID;
+            this.intMiktar = intMiktar;
+            this.blAktarildi = blAktarildi;
+            this.dtTarih = dtTarih;
+            this.dtAktarmaTarih = dtAktarmaTarih;
+        }
+
+        public override string ToString() { return ID.ToString(); }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void DoInsert()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "ID", ID }, { "bintSiparisDetayID", bintSiparisDetayID }, { "intMiktar", intMiktar }, { "blAktarildi", blAktarildi }, { "dtTarih", dtTarih }, { "dtAktarmaTarih", dtAktarmaTarih } };
+            ID = ConvertToInt32(Do(QueryType.Insert, "db_sp_siparislerDetaySevkEkle", param, timeout));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void DoUpdate()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "ID", ID }, { "bintSiparisDetayID", bintSiparisDetayID }, { "intMiktar", intMiktar }, { "blAktarildi", blAktarildi }, { "dtTarih", dtTarih }, { "dtAktarmaTarih", dtAktarmaTarih } };
+            Do(QueryType.Update, "db_sp_siparislerDetaySevkGuncelle", param, timeout);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void DoDelete()
+        {
+            Do(QueryType.Delete, "db_sp_siparislerDetaySevkSil", new Dictionary<string, object>() { { "ID", ID } }, timeout);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DoDelete(int bintSiparisDetayID)
+        {
+            Do(QueryType.Delete, "db_sp_siparislerDetaySevkSilBySipDetID", new Dictionary<string, object>() { { "bintSiparisDetayID", bintSiparisDetayID } }, timeout);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public siparislerDetaySevk GetObject()
+        {
+            siparislerDetaySevk donendeger = new siparislerDetaySevk();
+
+            Dictionary<int, object> dic = GetObject("db_sp_siparislerDetaySevkGetir", new Dictionary<string, object>() { { "ID", ID } }, timeout);
+            if (dic != null)
+                donendeger = new siparislerDetaySevk(ConvertToInt32(dic[0]), ConvertToInt64(dic[1]), ConvertToInt32(dic[2]), ConvertToBool(dic[3]), ConvertToDateTime(dic[4]), ConvertToDateTime(dic[5]));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public siparislerDetaySevk GetObjectByDetayID(long bintSiparisDetayID)
+        {
+            siparislerDetaySevk donendeger = new siparislerDetaySevk();
+
+            Dictionary<int, object> dic = GetObject("db_sp_siparislerDetaySevkGetirBySipDetID", new Dictionary<string, object>() { { "bintSiparisDetayID", bintSiparisDetayID } }, timeout);
+            if (dic != null)
+                donendeger = new siparislerDetaySevk(ConvertToInt32(dic[0]), ConvertToInt64(dic[1]), ConvertToInt32(dic[2]), ConvertToBool(dic[3]), ConvertToDateTime(dic[4]), ConvertToDateTime(dic[5]));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<siparislerDetaySevk> GetObjects(int SiparisID)
+        {
+            List<siparislerDetaySevk> donendeger = new List<siparislerDetaySevk>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("", new Dictionary<string, object>() { { "SiparisID", SiparisID } }, timeout);
+            for (int i = 0; i < dic.Count; i++)
+                donendeger.Add(new siparislerDetaySevk(ConvertToInt32(dic[i][0]), ConvertToInt64(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToBool(dic[i][3]), ConvertToDateTime(dic[i][4]), ConvertToDateTime(dic[i][5])));
 
             return donendeger;
         }

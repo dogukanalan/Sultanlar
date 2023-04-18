@@ -116,6 +116,9 @@
             this.label27 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
             this.cbBayiPasif = new System.Windows.Forms.CheckBox();
+            this.cbAlternatif = new System.Windows.Forms.CheckBox();
+            this.lblAlternatif = new System.Windows.Forms.Label();
+            this.cbDirekBayi = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -689,7 +692,7 @@
             this.btnKarIskKaydet.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnKarIskKaydet.Location = new System.Drawing.Point(741, 88);
             this.btnKarIskKaydet.Name = "btnKarIskKaydet";
-            this.btnKarIskKaydet.Size = new System.Drawing.Size(276, 22);
+            this.btnKarIskKaydet.Size = new System.Drawing.Size(425, 22);
             this.btnKarIskKaydet.TabIndex = 2;
             this.btnKarIskKaydet.Text = "Kaydet";
             this.btnKarIskKaydet.UseVisualStyleBackColor = true;
@@ -1080,11 +1083,49 @@
             this.cbBayiPasif.UseVisualStyleBackColor = true;
             this.cbBayiPasif.CheckedChanged += new System.EventHandler(this.cbBayiPasif_CheckedChanged);
             // 
+            // cbAlternatif
+            // 
+            this.cbAlternatif.AutoSize = true;
+            this.cbAlternatif.Location = new System.Drawing.Point(1099, 14);
+            this.cbAlternatif.Name = "cbAlternatif";
+            this.cbAlternatif.Size = new System.Drawing.Size(67, 17);
+            this.cbAlternatif.TabIndex = 16;
+            this.cbAlternatif.Text = "Alternatif";
+            this.cbAlternatif.UseVisualStyleBackColor = true;
+            this.cbAlternatif.MouseLeave += new System.EventHandler(this.checkBox2_MouseLeave);
+            this.cbAlternatif.MouseHover += new System.EventHandler(this.checkBox2_MouseHover);
+            // 
+            // lblAlternatif
+            // 
+            this.lblAlternatif.AutoSize = true;
+            this.lblAlternatif.ForeColor = System.Drawing.Color.Red;
+            this.lblAlternatif.Location = new System.Drawing.Point(1023, 34);
+            this.lblAlternatif.Name = "lblAlternatif";
+            this.lblAlternatif.Size = new System.Drawing.Size(147, 52);
+            this.lblAlternatif.TabIndex = 3;
+            this.lblAlternatif.Text = "Direk: Direk çalışılmaktadır.\r\n\r\nAlternatif: Kar oranları iskonto \r\nolarak yansıt" +
+    "ılmaktadır.";
+            this.lblAlternatif.Visible = false;
+            // 
+            // cbDirekBayi
+            // 
+            this.cbDirekBayi.AutoSize = true;
+            this.cbDirekBayi.Location = new System.Drawing.Point(1042, 14);
+            this.cbDirekBayi.Name = "cbDirekBayi";
+            this.cbDirekBayi.Size = new System.Drawing.Size(51, 17);
+            this.cbDirekBayi.TabIndex = 16;
+            this.cbDirekBayi.Text = "Direk";
+            this.cbDirekBayi.UseVisualStyleBackColor = true;
+            this.cbDirekBayi.MouseLeave += new System.EventHandler(this.checkBox2_MouseLeave);
+            this.cbDirekBayi.MouseHover += new System.EventHandler(this.checkBox2_MouseHover);
+            // 
             // frmINTERNETticaripazarlamamusteriler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 572);
+            this.Controls.Add(this.cbDirekBayi);
+            this.Controls.Add(this.cbAlternatif);
             this.Controls.Add(this.cbBayiPasif);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cmbAy);
@@ -1103,6 +1144,7 @@
             this.Controls.Add(this.label18);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label26);
+            this.Controls.Add(this.lblAlternatif);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.label24);
@@ -1225,5 +1267,8 @@
         private System.Windows.Forms.TextBox txtSMREF;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.CheckBox cbBayiPasif;
+        private System.Windows.Forms.CheckBox cbAlternatif;
+        private System.Windows.Forms.Label lblAlternatif;
+        private System.Windows.Forms.CheckBox cbDirekBayi;
     }
 }

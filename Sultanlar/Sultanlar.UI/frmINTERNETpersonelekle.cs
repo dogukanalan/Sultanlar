@@ -17,6 +17,7 @@ namespace Sultanlar.UI
             InitializeComponent();
             id = 0;
             GetTurler();
+            GetBayiler();
         }
 
         public frmINTERNETpersonelekle(bool Duzenle, int ID)
@@ -24,6 +25,7 @@ namespace Sultanlar.UI
             InitializeComponent();
             id = ID;
             GetTurler();
+            GetBayiler();
             TP_Personeller per = TP_Personeller.GetObject(ID);
             this.Text = "Personel Düzenle (" + per.strAd + " " + per.strSoyad + ")";
             txtAd.Text = per.strAd;
@@ -41,6 +43,14 @@ namespace Sultanlar.UI
                     break;
                 }
             }
+            for (int i = 0; i < cmbBayi.Items.Count; i++)
+            {
+                if (((CariHesaplarTP)cmbBayi.Items[i]).GMREF == per.intBayi)
+                {
+                    cmbBayi.SelectedIndex = i;
+                    break;
+                }
+            }
             btnEkle.Text = "Güncelle";
         }
 
@@ -49,6 +59,15 @@ namespace Sultanlar.UI
         private void frmINTERNETpersonelekle_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void GetBayiler()
+        {
+            List<CariHesaplarTP> list = new List<CariHesaplarTP>();
+            CariHesaplarTP.GetObjects(list, 0);
+
+            cmbBayi.DataSource = list.Where(x => x.ACTIVE == 0).ToList();
+            cmbBayi.SelectedIndex = -1;
         }
 
         private void GetTurler()
@@ -61,7 +80,7 @@ namespace Sultanlar.UI
             if (id == 0)
             {
                 TP_Personeller per = new TP_Personeller(((TP_PersonelTurleri)cmbTur.SelectedItem).pkID, txtAd.Text.Trim(), 
-                    txtSoyad.Text.Trim(), txtGorev.Text.Trim(), txtTelefon.Text.Trim(), txtKod.Text.Trim(), txtEposta.Text.Trim(), txtAciklama.Text.Trim());
+                    txtSoyad.Text.Trim(), txtGorev.Text.Trim(), txtTelefon.Text.Trim(), txtKod.Text.Trim(), txtEposta.Text.Trim(), txtAciklama.Text.Trim(), ((CariHesaplarTP)cmbBayi.SelectedItem).GMREF);
                 per.DoInsert();
 
                 MessageBox.Show("Personel eklendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -84,6 +103,7 @@ namespace Sultanlar.UI
                 per.strKod = txtKod.Text.Trim();
                 per.strEposta = txtEposta.Text.Trim();
                 per.strAciklama = txtAciklama.Text.Trim();
+                per.intBayi = ((CariHesaplarTP)cmbBayi.SelectedItem).GMREF;
                 per.DoUpdate();
 
                 MessageBox.Show("Personel güncellendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -128,16 +128,21 @@ namespace Sultanlar.WebAPI.Services.Internet
                 {
                     malzemeler malzeme = new malzemeler(kopyalanacak.detaylar[j].intUrunID).GetObject();
                     fiyatlarTp fiyat = new fiyatlarTp().GetObject(akt.DonemYil, akt.DonemAy, akt.DonemGun, akt.sintFiyatTipiID, kopyalanacak.detaylar[j].intUrunID);
+                    if (fiyat.MALACIK is null && fiyat.FIYAT == 0)
+                    {
+                        akt.DoDelete();
+                        return kopyalanacak.detaylar[j].intUrunID + " nolu ürünün " + akt.sintFiyatTipiID.ToString() + " nolu listede fiyatı yok.";
+                    }
                     double kdv = ((fiyat.NETKDV / fiyat.NET) - 1) * 100;
                     double isk1 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHIsk : akt.Anlasma.flYEGIsk) : 0;
                     double isk2 = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.flTAHCiroIsk : akt.Anlasma.flYEGCiroIsk) : 0;
                     double isk3 = 0;
                     double cirop = akt.intAnlasmaID > 0 ? (malzeme.GRUPKOD == "STG-1" ? akt.Anlasma.ahtCiroPrimDonusYuzdeToplam : akt.Anlasma.yegCiroPrimDonusYuzdeToplam) : 0;
                     double ekisk = kopyalanacak.detaylar[j].flEkIsk;
-                    double birimfiyatkdvli = KdvEkle(fiyat.FIYAT, kdv);
-                    double dusulmuskdvsiz = IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
-                    double ciroprimdahil = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, cirop);
-                    double dusulmuskdvli = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, 0);
+                    double birimfiyatkdvli = Genel.KdvEkle(fiyat.FIYAT, kdv);
+                    double dusulmuskdvsiz = Genel.IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
+                    double ciroprimdahil = Genel.IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, cirop);
+                    double dusulmuskdvli = Genel.IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, 0);
 
                     aktivitelerDetay aktdet = new aktivitelerDetay(
                         akt.pkID, 
@@ -159,7 +164,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                         isk2.ToString("N1"), 
                         isk3.ToString("N1"),
                         "0",
-                        "");
+                        "", kopyalanacak.detaylar[j].strAciklama6);
                     aktdet.DoInsert();
                 }
             }
@@ -169,17 +174,9 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string AktiviteKaydet(AktiviteKaydet akg)
         {
-            if (akg.id != 0) // aktivite güncelleniyorsa eskiyi silsin
-            {
-                aktiviteler aktivite = new aktiviteler(akg.id).GetObject();
-
-                if (aktivite.blAktarilmis == DBNull.Value || Convert.ToBoolean(aktivite.blAktarilmis) == true)
-                    return "hata: aktivite onaylı.";
-
-                for (int i = 0; i < aktivite.detaylar.Count; i++)
-                    aktivite.detaylar[i].DoDelete();
-                aktivite.DoDelete();
-            }
+            aktiviteler aktivite = new aktiviteler(akg.id).GetObject();
+            if (aktivite.blAktarilmis == DBNull.Value || Convert.ToBoolean(aktivite.blAktarilmis) == true)
+                return "hata: aktivite onaylı.";
 
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(akg.musteri))).GetObject();
             if (akg.anlasmaid != 0)
@@ -205,10 +202,10 @@ namespace Sultanlar.WebAPI.Services.Internet
                 double isk3 = akg.detaylar[i].pazisk;
                 double cirop = akg.detaylar[i].ciroprim;
                 double ekisk = akg.detaylar[i].ekisk;
-                double birimfiyatkdvli = KdvEkle(fiyat.FIYAT, kdv);
-                double dusulmuskdvsiz = IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
-                double ciroprimdahil = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, cirop);
-                double dusulmuskdvli = IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, 0);
+                double birimfiyatkdvli = Genel.KdvEkle(fiyat.FIYAT, kdv);
+                double dusulmuskdvsiz = Genel.IskontoDus(fiyat.FIYAT, isk1, isk2, isk3, ekisk, 0);
+                double ciroprimdahil = Genel.IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, cirop);
+                double dusulmuskdvli = Genel.IskontoDus(birimfiyatkdvli, isk1, isk2, isk3, ekisk, 0);
 
                 aktivitelerDetay aktdet = new aktivitelerDetay(
                     akt.pkID, 
@@ -226,25 +223,19 @@ namespace Sultanlar.WebAPI.Services.Internet
                     dusulmuskdvli, 
                     0,
                     dusulmuskdvli * Convert.ToInt32(akg.detaylar[i].miktar) * malzeme.KOLI,
-                    isk1.ToString("N1"), isk2.ToString("N1"), isk3.ToString("N1"), "0", "");
+                    isk1.ToString("N1"), isk2.ToString("N1"), isk3.ToString("N1"), "0", "", akg.detaylar[i].aciklama);
                 aktdet.DoInsert();
             }
 
+            if (akg.id != 0) // aktivite güncelleniyorsa eskiyi silsin
+            {
+                List<aktivitelerDetay> silinecekler = new aktivitelerDetay().GetObjects(aktivite.pkID);
+                for (int i = 0; i < silinecekler.Count; i++)
+                    silinecekler[i].DoDelete();
+                aktivite.DoDelete();
+            }
+
             return akt.pkID.ToString();
-        }
-
-        internal double IskontoDus(double fiyat, double isk1, double isk2, double isk3, double isk4, double isk5)
-        {
-            double birinci = fiyat - (fiyat * isk1 / 100);
-            double ikinci = birinci - (birinci * isk2 / 100);
-            double ucuncu = ikinci - (ikinci * isk3 / 100);
-            double dorduncu = ucuncu - (ucuncu * isk4 / 100);
-            return dorduncu - (dorduncu * isk5 / 100);
-        }
-
-        internal double KdvEkle(double fiyat, double kdv)
-        {
-            return fiyat * (100 + kdv) / 100;
         }
     }
 }

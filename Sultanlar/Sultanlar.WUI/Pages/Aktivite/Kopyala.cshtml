@@ -206,8 +206,10 @@
                                 $(this).empty().append($("<option></option>").text("Yok").val("0"));
                             });
                         }
-                        else
+                        else {
+                            alert(data);
                             console.log(JSON.stringify(data));
+                        }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
@@ -243,7 +245,10 @@
                 $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsubetp/0").load();
             });
             $('#selectCariler').on('change', function (e) {
-                $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsubetp/" + this.value).load();
+                /*if (this.value == 1072532)
+                    $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsube/" + this.value + "/" + $("#selectSaticilar").val()).load();
+                else*/
+                    $('#dtTable').DataTable().ajax.url(apiurl + "cari/getsubetp/" + this.value).load();
             });
         });
     </script>

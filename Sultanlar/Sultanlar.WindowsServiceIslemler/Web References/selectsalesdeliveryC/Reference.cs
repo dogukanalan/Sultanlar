@@ -39,7 +39,7 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
         
         /// <remarks/>
         public ZwebSelectSalesDeliveryService() {
-            this.Url = global::Sultanlar.WindowsServiceIslemler.Properties.Settings.Default.Sultanlar_WindowsServiceIslemler_selectsalesvbfaC_ZwebSelectSalesVbfaService;
+            this.Url = global::Sultanlar.WindowsServiceIslemler.Properties.Settings.Default.Sultanlar_WindowsServiceIslemler_selectsalesdeliveryC_ZwebSelectSalesDeliveryService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -174,6 +174,8 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
         private string lifexField;
         
         private string vkorgField;
+        
+        private string doctpField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
@@ -359,6 +361,17 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
             }
             set {
                 this.vkorgField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Doctp {
+            get {
+                return this.doctpField;
+            }
+            set {
+                this.doctpField = value;
             }
         }
     }
@@ -1165,6 +1178,8 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
         
         private string spartField;
         
+        private string pstyvField;
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public string Vbeln {
@@ -1426,6 +1441,17 @@ namespace Sultanlar.WindowsServiceIslemler.selectsalesdeliveryC {
             }
             set {
                 this.spartField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string Pstyv {
+            get {
+                return this.pstyvField;
+            }
+            set {
+                this.pstyvField = value;
             }
         }
     }

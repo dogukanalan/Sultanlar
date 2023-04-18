@@ -15,14 +15,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+
     <script>
+        var paramgmref;
         var paramsmref;
         var paramftip;
+        var parammtip;
         var siparisid;
         var table;
 
         function getFiyatlar() {
-            var url1 = apiurl + "fiyat/getbytip/" + getParameterByName("ftip");
+            /*$.ajax(
+                {
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + 'fiyat/GetVyByGMREF/' + paramgmref,
+                    success: function (data, textStatus, response) {
+                        callback(data, controlid);
+                    }
+                }
+            ).then(function (data) {
+
+                table.dataTable().fnClearTable();
+                table.dataTable().fnAddData(data);
+
+            });*/
+
+            var url1 = apiurl + "fiyat/getbytip/" + getParameterByName("ftip") + "/" + paramgmref + "/" + parammtip + "/" + paramsmref;
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
                 window.localStorage['sepetU'] = JSON.stringify(json);
@@ -41,8 +61,36 @@
                     $('.dataTables_filter input').keyup(function () {
                         $(this).val($(this).val().toLocaleUpperCase());
                     });
+
+                    if (parseInt(getParameterByName("ftip")) > 5000 || parseInt(getParameterByName("ftip")) < 500) {
+                        var datatablethis = $(this);
+                        var ref = getParameterByName("mtip") == "4" ? getParameterByName("smref") : getParameterByName("gmref");
+                        $.ajax(
+                            {
+                                beforeSend: function (xhr) { xhrTicket(xhr); },
+                                url: apiurl + 'fiyat/GetVyByGMREF/' + ref + '/' + getParameterByName("mtip"),
+                                success: function (data, textStatus, response) {
+
+                                    if (data.length > 0) {
+                                        var newjson = [];
+                                        $.each(json, function (i, item) {
+                                            $.each(data, function (i, item2) {
+                                                if (item.itemref == item2.itemref) {
+                                                    newjson.push(item);
+                                                }
+                                            });
+                                        });
+                                        datatablethis.dataTable().fnClearTable();
+                                        datatablethis.dataTable().fnAddData(newjson);
+                                    }
+
+                                }
+                            }
+                        );
+                    }
                 },
                 "fnDrawCallback": function (oSettings) {
+                    netfiyatlar();
                     qtip();
                 },
                 columns: [
@@ -80,8 +128,31 @@
                         }
                     },
                     {
-                        "data": "netkdv", "class": window.location.href.indexOf("Iade") > -1 ? "floaTd hide" : "floaTd hidewhenmobile", render: function (data, type, row) {
-                            return '<span class="sinirli netkdv">' + data.toFixed(2) + '</span>';
+                        "data": null, "class": window.location.href.indexOf("Iade") > -1 ? "floaTd hide" : "floaTd hidewhenmobile", render: function (data, type, row) {
+                            //var kdvli = kdvEkle(iskDusCoklu((data.netfiyat.fiyat), data.netfiyat.isk1, data.netfiyat.isk2, data.netfiyat.isk3, data.netfiyat.isk4), data.malzeme.kdv).formatMoney(2, ',', '.');
+                            //var rell = "<div class='table'><div class='tr'>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>Liste Fiyatı</div><div class='iadegecmisIc td'>" + data.netfiyat.fiyat.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>İskonto 1</div><div class='iadegecmisIc td'>" + data.netfiyat.isk1.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>İskonto 2</div><div class='iadegecmisIc td'>" + data.netfiyat.isk2.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>İskonto 3</div><div class='iadegecmisIc td'>" + data.netfiyat.isk3.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>İskonto 4</div><div class='iadegecmisIc td'>" + data.netfiyat.isk4.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>Kdv</div><div class='iadegecmisIc td'>" + data.malzeme.kdv.toFixed(2) + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>Net Fiyat</div><div class='iadegecmisIc td'>" + iskDusCoklu((data.netfiyat.fiyat), data.netfiyat.isk1, data.netfiyat.isk2, data.netfiyat.isk3, data.netfiyat.isk4).formatMoney(2, ',', '.') + "</div></div>";
+                            //rell += "<div class='tr'><div class='iadegecmisIc td'>Net+Kdv Fiyatı</div><div class='iadegecmisIc td'>" + kdvli + "</div></div>";
+                            //rell += "</div>";
+
+                            //return '<span class="sinirli netfiyatlar netkdv" rel="' + rell + '" style="cursor: pointer">' + data.netkdv.toFixed(2) + '</span>';
+                            return '<span class="sinirli netfiyatlar netkdv" rel="' + data.malzeme.itemref + '.' + data.malzeme.kdv + '" style="cursor: pointer">' + data.netkdv.toFixed(2) + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": parammtip > 1 ? 'hide' : "floaTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli netkdv">' + data.stok + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": parammtip == 1 ? 'hide' : "floaTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli netkdv">' + data.stokdis + '</span>';
                         }
                     },
                     {
@@ -104,7 +175,56 @@
             });
         }
 
-        function getIsksA(smref, itemref, tarih) {
+        function netfiyatlar() {
+            if (paramftip == 2) {
+                $('.netfiyatlar').each(function () {
+                    var that = this;
+                    $(this).qtip({
+                        content: //$(this).attr('rel'),
+                        {
+                            text: function (event, api) {
+                                content = parammtip == 4 ? getIsksTP(paramsmref, parammtip, $(this).attr('rel').split(".")[0], getDateNow(), false) : getIsksA(paramsmref, $(this).attr('rel').split(".")[0], getDateNow(), false);
+                                var rell = "";
+                                rell += "<div class='iadegecmisIc'>Liste Fiyatı: " + content.fiyat.toFixed(2) + "</div>";
+                                rell += "<div class='iadegecmisIc'>İskonto 1: " + content.isk1.toFixed(2) + "</div>";
+                                rell += "<div class='iadegecmisIc'>İskonto 2: " + content.isk2.toFixed(2) + "</div>";
+                                rell += "<div class='iadegecmisIc'>İskonto 3: " + content.isk3.toFixed(2) + "</div>";
+                                rell += "<div class='iadegecmisIc'>İskonto 4: " + content.isk4.toFixed(2) + "</div>";
+                                rell += "<div class='iadegecmisIc'>Kdv: " + $(that).attr('rel').split(".")[1] + "</div>";
+                                rell += "<div class='iadegecmisIc'>Net+Kdv: " + kdvEkle(iskDusCoklu(content.fiyat, content.isk1, content.isk2, content.isk3, content.isk4), $(that).attr('rel').split(".")[1]).toFixed(2) + "</div>";
+
+                                api.set('content.text', rell);
+
+                                /*$.ajax({
+                                    xhr: function () { return xhrDownloadUpload2(); },
+                                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                                    url: apiurl + "siparis/getiskstp/" + paramsmref + "/" + parammtip + "/" + $(that).attr('rel').split(".")[0] + "/" + getDateNow()
+                                })
+                                    .then(function (content) {
+
+                                        var rell = "";
+                                        rell += "<div class='iadegecmisIc'>Liste Fiyatı: " + content.fiyat.toFixed(2) + "</div>";
+                                        rell += "<div class='iadegecmisIc'>İskonto 1: " + content.isk1.toFixed(2) + "</div>";
+                                        rell += "<div class='iadegecmisIc'>İskonto 2: " + content.isk2.toFixed(2) + "</div>";
+                                        rell += "<div class='iadegecmisIc'>İskonto 3: " + content.isk3.toFixed(2) + "</div>";
+                                        rell += "<div class='iadegecmisIc'>İskonto 4: " + content.isk4.toFixed(2) + "</div>";
+                                        rell += "<div class='iadegecmisIc'>Kdv: " + $(that).attr('rel').split(".")[1] + "</div>";
+
+                                        api.set('content.text', rell);
+                                    }, function (xhr, status, error) {
+                                        api.set('content.text', status + ': ' + error);
+                                    });*/
+
+                                return rell;
+                            }
+                        },
+                        position: { at: 'bottom left' }
+                    });
+                });
+            }
+        }
+
+        function getIsksA(smref, itemref, tarih, asink) {
             var isks;
 
             $.ajax(
@@ -112,7 +232,7 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     url: apiurl + "siparis/getisks/" + smref + "/" + itemref + "/" + tarih,
-                    async: false,
+                    async: asink,
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                         isks = data;
@@ -124,7 +244,7 @@
             return isks;
         }
 
-        function getIsks500(ftip, itemref) {
+        function getIsks500(ftip, itemref, asink) {
             var isks;
 
             $.ajax(
@@ -132,7 +252,27 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     url: apiurl + "siparis/getisks500/" + ftip + "/" + itemref,
-                    async: false,
+                    async: asink,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        isks = data;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+
+            return isks;
+        }
+
+        function getIsksTP(smref, mtip, itemref, tarih, asink) {
+            var isks;
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "siparis/getiskstp/" + smref + "/" + mtip + "/" + itemref + "/" + tarih,
+                    async: asink,
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                         isks = data;
@@ -146,62 +286,73 @@
 
         function siparisiGoster() {
             sencHeader();
-            window.location.href = 'Icerik?smref=' + paramsmref + '&ftip=' + paramftip + '&siparisid=' + siparisid;
+            window.location.href = 'Icerik?gmref=' + paramgmref + '&smref=' + paramsmref + '&ftip=' + paramftip + '&mtip=' + parammtip + '&siparisid=' + siparisid;
         }
 
-        function sipariseAktar() {
+        async function sipariseAktar() {
             sencHeader();
             $('#dtTable').find('input.inputSecim').each(function () {
-                if ($(this).val() != "") {
-                    var cookie = JSON.parse(getLocal());
-                    var varmis = false;
-                    var itref = $(this).attr('accesskey');
-                    var miktur = $(this).closest("tr").find(".ddTur").val();
-                    var malac = $(this).closest("tr").find(".malacik").text();
-                    var mik = parseInt($(this).val());
-                    var netkd = $(this).closest("tr").find(".netkdv").text();
+                siparisEkle(this);
+            });
+        }
 
-                    for (var j = 0; j < cookie.length; j++) {
-                        var cookiedet = cookie[j].detaylar;
-                        if (cookie[j].smref == paramsmref && cookie[j].ftip == paramftip && cookie[j].siparisid == siparisid) {
-                            for (var i = 0; i < cookiedet.length; i++) {
-                                if (cookiedet[i].itemref == itref && cookiedet[i].miktartur == miktur) {
-                                    cookiedet[i].miktar = parseInt(cookiedet[i].miktar) + mik;
-                                    varmis = true;
-                                    break;
-                                }
-                            }
+        function siparisEkle(kontrol) {
+            if ($(kontrol).val() != "") {
+                var itref = $(kontrol).attr('accesskey');
+                var miktur = $(kontrol).closest("tr").find(".ddTur").val();
+                var malac = $(kontrol).closest("tr").find(".malacik").text();
+                var mik = parseInt($(kontrol).val());
+                var netkd = $(kontrol).closest("tr").find(".netkdv").text();
 
-                            if (!varmis) {
-                                var isks = { fiyat: 0, isk1: 0, isk2: 0, isk3: 0, isk4: 0 };
-                                if (paramftip == 2) {
-                                    isks = getIsksA(paramsmref, itref, getDateNow());
-                                }
-                                else if (paramftip > 500) {
-                                    isks = getIsks500(paramftip, itref);
-                                }
+                siparisKontrol(itref, miktur, malac, mik, netkd);
 
-                                cookiedet.push(
-                                    {
-                                        itemref: itref,
-                                        malacik: malac,
-                                        miktar: mik,
-                                        miktartur: miktur,
-                                        isk1: isks.isk1,
-                                        isk2: isks.isk2,
-                                        isk3: isks.isk3,
-                                        isk4: isks.isk4,
-                                        netkdv: netkd
-                                    }
-                                );
-                            }
+                $(kontrol).val("");
+            }
+        }
+
+        function siparisKontrol(itref, miktur, malac, mik, netkd) {
+            var varmis = false;
+            var cookie = JSON.parse(getLocal());
+            for (var j = 0; j < cookie.length; j++) {
+                var cookiedet = cookie[j].detaylar;
+                if (cookie[j].smref == paramsmref && cookie[j].ftip == paramftip && cookie[j].mtip == parammtip && cookie[j].siparisid == siparisid) {
+                    for (var i = 0; i < cookiedet.length; i++) {
+                        if (cookiedet[i].itemref == itref && cookiedet[i].miktartur == miktur) {
+                            cookiedet[i].miktar = parseInt(cookiedet[i].miktar) + mik;
+                            varmis = true;
+                            break;
                         }
                     }
 
-                    sencLocal(cookie);
-                    $(this).val("");
+                    if (!varmis) {
+                        var isks = { fiyat: 0, isk1: 0, isk2: 0, isk3: 0, isk4: 0 };
+                        if (paramftip == 2 && parammtip == 1) {
+                            isks = getIsksA(paramsmref, itref, getDateNow(), false);
+                        }
+                        else if (paramftip == 2 && parammtip != 1) {
+                            isks = getIsksTP(paramsmref, parammtip, itref, getDateNow(), false);
+                        }
+                        else if (paramftip > 500) {
+                            isks = getIsks500(paramftip, itref, false);
+                        }
+
+                        cookiedet.push(
+                            {
+                                itemref: itref,
+                                malacik: malac,
+                                miktar: mik,
+                                miktartur: miktur,
+                                isk1: isks.isk1,
+                                isk2: isks.isk2,
+                                isk3: isks.isk3,
+                                isk4: isks.isk4,
+                                netkdv: netkd
+                            }
+                        );
+                    }
                 }
-            });
+            }
+            sencLocal(cookie);
         }
 
         function getLocal() {
@@ -216,7 +367,7 @@
             var cookie = JSON.parse(getLocal());
             var degistirildi = false;
             for (var i = 0; i < cookie.length; i++) {
-                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].siparisid == siparisid) {
+                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].mtip == parammtip && cookie[i].siparisid == siparisid) {
                     degistirildi = true;
                     cookie[i].aciklama = $("#inputAciklama").val();
                     cookie[i].teslim = $("#inputTeslim").val();
@@ -231,7 +382,7 @@
             var varmis = false;
 
             for (var i = 0; i < cookie.length; i++) {
-                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].siparisid == siparisid) {
+                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].mtip == parammtip && cookie[i].siparisid == siparisid) {
                     varmis = true;
                     $("#inputAciklama").val(cookie[i].aciklama);
                     $("#inputTeslim").val(cookie[i].teslim);
@@ -242,8 +393,10 @@
                 cookie.push(
                     {
                         siparisid: siparisid,
+                        gmref: paramgmref,
                         smref: paramsmref,
                         ftip: paramftip,
+                        mtip: parammtip,
                         aciklama: $("#inputAciklama").val(),
                         teslim: $("#inputTeslim").val(),
                         musteri: window.localStorage["uyeid"],
@@ -257,7 +410,7 @@
         function ftipdegisti() {
             var cookie = JSON.parse(getLocal());
             for (var i = 0; i < cookie.length; i++) {
-                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].siparisid == siparisid) {
+                if (cookie[i].smref == paramsmref && cookie[i].ftip == paramftip && cookie[i].mtip == parammtip && cookie[i].siparisid == siparisid) {
                     var yenidetaylar = [];
 
                     for (var j = 0; j < cookie[i].detaylar.length; j++) {
@@ -267,7 +420,7 @@
                         var isk4 = cookie[i].detaylar[j].isk4;
 
                         if (cookie[i].ftip == 2) {
-                            isks = getIsksA(paramsmref, cookie[i].detaylar[j].itemref, getDateNow());
+                            isks = getIsksA(paramsmref, cookie[i].detaylar[j].itemref, getDateNow(), false);
                             isk1 = isks.isk1;
                             isk2 = isks.isk2;
                             isk3 = isks.isk3;
@@ -305,9 +458,21 @@
             return 0;
         }
 
+        function malacikgetir(itemref) {
+            var malzemeler = JSON.parse(window.localStorage["sepetU"]);
+            for (var i = 0; i < malzemeler.length; i++) {
+                if (malzemeler[i].itemref == itemref) {
+                    return malzemeler[i].malacik;
+                }
+            }
+            return "";
+        }
+
         $(document).ready(function () {
+            paramgmref = getParameterByName('gmref');
             paramsmref = getParameterByName('smref');
             paramftip = getParameterByName('ftip');
+            parammtip = getParameterByName('mtip');
             siparisid = getParameterByName('siparisid') ? getParameterByName('siparisid') : "0";
 
             $('#inputTeslim').datepicker({
@@ -322,7 +487,7 @@
             $('#inputAciklama').on('keyup', function (ev) { sencHeader(); });
 
             header();
-            getCari("1", paramsmref, getCariSube, "sipMus");
+            getCari(parammtip, paramsmref, getCariSube, "sipMus");
             getFiyatlar();
             $('#dtTable').on('draw.dt', function () {
 
@@ -353,30 +518,37 @@
 }
 <h5 class="spanCiplak" id="sipMus"></h5>
 <input class="form-control inputCiplak tarihpicker" type="text" name="inputTeslim" id="inputTeslim" placeholder="Teslim Tarihi" autocomplete="off" onkeypress="return false">
-<input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" autocomplete="off">
+<input class="form-control inputCiplak" type="text" name="inputAciklama" id="inputAciklama" placeholder="Açıklama" maxlength="34" autocomplete="off">
 <input type="button" id="sipAktar" class="btn btn-primary secimTus" value="Seçimi Siparişe Aktar" onclick="sipariseAktar()" />
 <input type="button" class="btn btn-info secimTus" value="Siparişi İçeriğini Göster" onclick="siparisiGoster()" />
+<label for="inputExcel" class="btn btn-default secimTus">
+    <i class="fa fa-cloud-upload"></i> Excel'den Aktar
+</label>
+<input id="inputExcel" type="file" accept="text/xlsx" class="custom-file-upload" />
 <br /><br />
-      <div id="divTur" data-toggle="buttons">
-          <label class="btn btn-primary">
-              <input type="radio" name="options" id="option0" value="1" checked> Tümü
-          </label>
-          <label class="btn btn-primary">
-              <input type="radio" name="options" id="option1" value="ARI"> Arı
-          </label>
-          <label class="btn btn-primary">
-              <input type="radio" name="options" id="option2" value="HAYAT"> Hayat
-          </label>
-          <label class="btn btn-primary">
-              <input type="radio" name="options" id="option3" value="TİBET"> Temizlik
-          </label>
-          <label class="btn btn-primary">
-              <input type="radio" name="options" id="option4" value="YEG"> YEG
-          </label>
-          <label class="btn btn-primary">
-              <input type="radio" name="options" id="option4" value="DİĞER"> Diğer
-          </label>
-      </div>
+<div id="divTur" data-toggle="buttons">
+    <label class="btn btn-primary active">
+        <input type="radio" name="options" id="option0" value="1" checked> Tümü
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option1" value="ARI"> Arı
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option2" value="HAYAT"> Gıda
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option3" value="TİBET"> Temizlik
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option4" value="YEG"> YEG
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option4" value="ÇAPA MEDİKAL"> Banduff
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option4" value="DİĞER"> Diğer
+    </label>
+</div>
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>
         <tr>
@@ -386,9 +558,83 @@
             <th class="keyTd"><span class="">Blm</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Koli</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Kdv</span></th>
-            <th class="keyTd hidewhenmobile"><span class="">Fiyat</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Fiyat (Brüt)</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Stok</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Stok</span></th>
             <th class="keyTd"></th>
             <th class="keyTd"></th>
         </tr>
     </thead>
 </table>
+
+<script>
+
+    document.getElementById('inputExcel').addEventListener('change', handleFileSelect, false);
+
+    function handleFileSelect(evt) {
+
+        var files = evt.target.files;
+        var xl2json = new ExcelToJSON();
+        xl2json.parseExcel(files[0]);
+    }
+
+    var ExcelToJSON = function () {
+
+        this.parseExcel = function (file) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var data = e.target.result;
+                var workbook = XLSX.read(data, {
+                    type: 'binary'
+                });
+
+                workbook.SheetNames.forEach(function (sheetName) {
+                    var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                    var json_object = JSON.stringify(XL_row_object);
+                    //console.log(json_object);
+                    var malzemeler = "";
+                    var hata = "";
+                    var aktarilansayi = 0;
+                    if (XL_row_object[0].MALZEME && XL_row_object[0].MIKTAR) {
+                        for (var i = 0; i < XL_row_object.length; i++) {
+                            if (XL_row_object[i].MALZEME && XL_row_object[i].MIKTAR) {
+                                var malacik = malacikgetir(XL_row_object[i].MALZEME);
+                                if (malacik == "") {
+                                    hata += (i + 2) + ". satır: " + XL_row_object[i].MALZEME + " nolu malzeme bulunamadı.\r\n";
+                                }
+                                else {
+                                    var fiyat = fiyatgetir(XL_row_object[i].MALZEME);
+                                    var tur = localStorage["miktar"] ? localStorage["miktar"] : "ST"; //XL_row_object[i].TUR.toLocaleUpperCase().replace("ADET", "ST").replace("KOLI", "KI").replace("KOLİ", "KI");
+                                    var turack = tur == "KI" ? "KOLİ" : "ADET";
+                                    //tur = tur == "KI" || tur == "ST" ? tur : "ST";
+                                    siparisKontrol(XL_row_object[i].MALZEME, tur, malacik, parseInt(XL_row_object[i].MIKTAR.replace(",", "").replace(".", "")), fiyat);
+                                    malzemeler += XL_row_object[i].MALZEME + " " + malacik.substring(0, 20) + "... " + XL_row_object[i].MIKTAR + " (" + turack + ")\r\n";
+                                    aktarilansayi++;
+                                }
+                            }
+                            else {
+                                hata = (i + 2) + ". satırda hata var.";
+                                break;
+                            }
+                        }
+
+                        alert(XL_row_object.length + " satırdan " + aktarilansayi + " tanesi aktarıldı: \r\n" + malzemeler +
+                            (hata != "" ? "\r\n" + (XL_row_object.length - aktarilansayi) + " satırda hata oluştu:\r\n" + hata : ""));
+                    }
+                    else {
+                        alert("Excel formatı uygun değil.");
+                    }
+                })
+
+            };
+
+            reader.onerror = function (ex) {
+                console.log(ex);
+                alert("Dosya desteklenmiyor!");
+            };
+
+            reader.readAsBinaryString(file);
+        };
+    };
+</script>

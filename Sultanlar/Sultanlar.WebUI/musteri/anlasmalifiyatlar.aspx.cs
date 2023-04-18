@@ -66,14 +66,14 @@ namespace Sultanlar.WebUI.musteri
         protected void ASPxGridView1_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
         {
             e.Cancel = true;
-            FiyatTipUrun.DoDelete(Convert.ToInt32(e.Values[0]), Convert.ToInt32(e.Values[1]));
+            FiyatTipUrun.DoDelete(Convert.ToInt32(e.Values[0]), Convert.ToInt32(e.Values[1]), ((Musteriler)Session["Musteri"]).pkMusteriID.ToString());
             GetObjects(Convert.ToInt32(ddlFiyatTipleri.SelectedValue));
         }
 
         protected void ASPxGridView2_RowDeleting(object sender, DevExpress.Web.Data.ASPxDataDeletingEventArgs e)
         {
             e.Cancel = true;
-            FiyatTipUrun ftu = new FiyatTipUrun(Convert.ToInt32(e.Values[0]), Convert.ToInt32(e.Values[1]));
+            FiyatTipUrun ftu = new FiyatTipUrun(Convert.ToInt32(e.Values[0]), Convert.ToInt32(e.Values[1]), ((Musteriler)Session["Musteri"]).pkMusteriID.ToString());
             ftu.DoInsert();
             GetObjects(Convert.ToInt32(ddlFiyatTipleri.SelectedValue));
         }

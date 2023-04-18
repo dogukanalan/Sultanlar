@@ -14,10 +14,12 @@
 
     <script>
         var siparisid;
+        var fiyattip;
+        var table;
 
         function SiparislerDetayGetir() {
             var url1 = apiurl + "siparis/get/" + siparisid;
-            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
 
                 if (json.blAktarilmis) {
@@ -26,6 +28,8 @@
                     return;
                 }
                 document.getElementById("basTitle").innerHTML = "Sipariş Sil (" + json.pkSiparisID + ")";
+                document.getElementById("sipMus").innerHTML = json.cari.sube;
+                document.getElementById("aciklama").innerHTML = json.aciklama2;
             }).DataTable({
                 ajax: {
                     dataSrc: "detaylar",
@@ -35,6 +39,13 @@
                 },
                 "initComplete": function (settings, json) {
                     qtip();
+
+                    if (fiyattip != 2) {
+                        table.column(4).visible(false);
+                        table.column(5).visible(false);
+                        table.column(6).visible(false);
+                        table.column(7).visible(false);
+                    }
                 },
                 columns: inceleonaylasilcolumns,
                 "language": defaultDtLang,
@@ -67,6 +78,7 @@
         }
 
         $(document).ready(function () {
+            fiyattip = getParameterByName("fiyattipi");
             siparisid = getParameterByName('siparisid');
             SiparislerDetayGetir();
             $('#dtTable').on('draw.dt', function () {
@@ -85,6 +97,8 @@
         }
     </script>
 }
+<h5 class="spanCiplak" id="sipMus"></h5>
+<i><span class="spanCiplak" id="aciklama"></span></i>
 <div class="centerVeMiddle">
     <input type="button" class="btn btn-success secimTus" value="Siparişi Sistemden Sil" onclick="sil()" />
     <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.location.href = 'Siparisler'" />

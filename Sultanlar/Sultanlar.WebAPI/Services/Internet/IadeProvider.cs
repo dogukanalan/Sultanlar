@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
+using Sultanlar.DatabaseObject.Internet;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -84,6 +85,15 @@ namespace Sultanlar.WebAPI.Services.Internet
             iade.DoUpdate();
             Sultanlar.DatabaseObject.Internet.Iadeler.DoInsertCopeAt(IadeID);
 
+            if (iade.TKSREF > 1)
+            {
+                int bayikod = CariHesaplarTP.GetGMREFBySMREF(iade.SMREF);
+                int siparisno = CariHesaplarTPEk.GetBayiSiparisNo(bayikod) + 1;
+                CariHesaplarTPEk.SetBayiSiparisNo(bayikod, siparisno);
+
+                IadelerQ.WriteQuantumNo(iade.pkIadeID, Sultanlar.DatabaseObject.Internet.Genel.BayiSiparisnoDuzeltme(siparisno), "");
+            }
+
             iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 26, DateTime.Now, iade.Musteri.AdSoyad, ""); // iade onay talep edildi
             ih.DoInsert();
 
@@ -97,7 +107,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             iadeler kopyalanacak = new iadeler(ikg.IadeID).GetObject();
             for (int i = 0; i < ikg.SMREFs.Count; i++)
             {
-                iadeler iade = new iadeler(kopyalanacak.intMusteriID, ikg.SMREFs[i].smref, DateTime.Now, kopyalanacak.mnToplamTutar, false, DateTime.Now, kopyalanacak.strAciklama, kopyalanacak.strNedenKod, kopyalanacak.strDepoKod, kopyalanacak.strDepoUY, kopyalanacak.strPartiNo);
+                iadeler iade = new iadeler(kopyalanacak.intMusteriID, ikg.SMREFs[i].smref, DateTime.Now, 0, false, DateTime.Now, kopyalanacak.strAciklama, kopyalanacak.strNedenKod, kopyalanacak.strDepoKod, kopyalanacak.strDepoUY, kopyalanacak.strPartiNo, ikg.SMREFs[i].tip);
                 iade.DoInsert();
                 for (int j = 0; j < kopyalanacak.detaylar.Count; j++)
                 {
@@ -114,18 +124,14 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string IadeKaydet(IadeKaydet ikg)
         {
-            if (ikg.iadeid != 0) // iade güncelleniyorsa eskiyi silsin
-            {
-                iadeler iadees = new iadeler(ikg.iadeid).GetObject();
-                for (int i = 0; i < iadees.detaylar.Count; i++)
-                    iadees.detaylar[i].DoDelete();
-                iadees.DoDelete();
-            }
+            iadeler iadees = new iadeler(ikg.iadeid).GetObject();
+            if (iadees.tur != 0)
+                return "hata: bu iade değiştirilemez.";
 
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(ikg.musteri))).GetObject();
-            int musid = new musteriler().GetMusteriBySLSREF(new cariHesaplar(ikg.smref).GetObject().SLSREF).pkMusteriID;
+            int musid = new musteriler().GetMusteriBySLSREF(new cariHesaplar().GetObject1(ikg.mtip, ikg.smref).SLSREF).pkMusteriID;
 
-            iadeler iade = new iadeler(musid != 0 ? musid : mus.pkMusteriID, ikg.smref, DateTime.Now, 0, false, DateTime.Now, mus.AdSoyad + ";;;" + ikg.aciklama + ";;;", "", "", "", "");
+            iadeler iade = new iadeler(musid != 0 ? musid : mus.pkMusteriID, ikg.smref, DateTime.Now, 0, false, DateTime.Now, mus.AdSoyad + ";;;" + ikg.aciklama + ";;;", "", "", "", "", ikg.mtip);
             iade.DoInsert();
             for (int i = 0; i < ikg.detaylar.Count; i++)
             {
@@ -135,6 +141,14 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 8, DateTime.Now, mus.AdSoyad, ""); // iade girildi
             ih.DoInsert();
+
+            if (ikg.iadeid != 0) // iade güncelleniyorsa eskiyi silsin
+            {
+                List<iadelerDetay> silinecekler = new iadelerDetay().GetObjects(iadees.pkIadeID);
+                for (int i = 0; i < silinecekler.Count; i++)
+                    silinecekler[i].DoDelete();
+                iadees.DoDelete();
+            }
 
             return iade.pkIadeID.ToString();
         }

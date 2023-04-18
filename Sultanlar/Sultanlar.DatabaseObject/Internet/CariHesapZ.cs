@@ -361,6 +361,44 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
 
+        public static void GetObjects(IList List, int TIP, int SUBE_ANA)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                List.Clear();
+
+                SqlCommand cmd = new SqlCommand("SELECT [ACTIVE],[BOLGE],[GRP],[EKP],[YTK KOD],CASE WHEN [IL KOD] = '' THEN 0 ELSE [IL KOD] END AS [IL KOD],[IL],CASE WHEN [ILCE KOD] = '' THEN 0 ELSE [ILCE KOD] END AS [ILCE KOD],[ILCE],[TIP],[MT KOD],[MT ACIKLAMA],[UNVAN],[SLSREF],[SAT KOD],[SAT KOD1],[SAT TEM],[GMREF],[MUS KOD],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],[SEMT],[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],[ILGILI],[CEP-1],[NETTOP]" +
+                    " FROM [Web-Musteri-Z] INNER JOIN [Web-Musteri-Z-Tipler] ON [Web-Musteri-Z].[TIP] = [Web-Musteri-Z-Tipler].TIP_KOD WHERE TIP = @TIP AND NETTOP = @SUBE_ANA ORDER BY [SUBE]", conn);
+                cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                cmd.Parameters.Add("@SUBE_ANA", SqlDbType.Int).Value = SUBE_ANA;
+
+                SqlDataReader dr;
+                try
+                {
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        List.Add(new CariHesapZ(Convert.ToInt16(dr[0]), dr[1].ToString(), dr[2].ToString(), dr[3].ToString(), dr[4].ToString(),
+                            dr[5].ToString(), dr[6].ToString(), dr[7].ToString(), dr[8].ToString(), Convert.ToInt32(dr[9]), dr[10].ToString(),
+                            dr[11].ToString(), dr[12].ToString(), Convert.ToInt32(dr[13]), dr[14].ToString(), dr[15].ToString(), dr[16].ToString(),
+                            Convert.ToInt32(dr[17]), dr[18].ToString(), dr[19].ToString(), Convert.ToInt32(dr[20]), dr[21].ToString(),
+                            dr[22].ToString(), dr[23].ToString(), dr[24].ToString(), dr[25].ToString(), dr[26].ToString(),
+                            dr[27].ToString(), dr[28].ToString(), dr[29].ToString(), dr[30].ToString(), dr[31].ToString(), dr[32].ToString(),
+                            Convert.ToDouble(dr[33])));
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         public static CariHesapZ GetObject(int SMREF, int SLSREF)
         {
             CariHesapZ donendeger = new CariHesapZ();

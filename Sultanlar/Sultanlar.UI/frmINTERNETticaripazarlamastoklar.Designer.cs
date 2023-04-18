@@ -69,6 +69,7 @@
             this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.simpleButton5 = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
@@ -465,6 +466,7 @@
             this.simpleButton1.Size = new System.Drawing.Size(75, 22);
             this.simpleButton1.TabIndex = 7;
             this.simpleButton1.Text = "Aktarım Yap";
+            this.simpleButton1.ToolTip = "Aylık aktarım";
             this.simpleButton1.Click += new System.EventHandler(this.simpleButton1_Click);
             // 
             // simpleButton2
@@ -474,7 +476,7 @@
             this.simpleButton2.Size = new System.Drawing.Size(87, 22);
             this.simpleButton2.TabIndex = 7;
             this.simpleButton2.Text = "Tümünü Aktar";
-            this.simpleButton2.ToolTip = "1,7,22,25 ve 500\'lü fiyatları";
+            this.simpleButton2.ToolTip = "1,7,22,25 ve 500\'lü fiyatları (Aylık aktarım)";
             this.simpleButton2.Click += new System.EventHandler(this.simpleButton2_Click);
             // 
             // simpleButton3
@@ -514,12 +516,23 @@
             this.dateTimePicker1.TabIndex = 8;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
+            // simpleButton5
+            // 
+            this.simpleButton5.Location = new System.Drawing.Point(746, 470);
+            this.simpleButton5.Name = "simpleButton5";
+            this.simpleButton5.Size = new System.Drawing.Size(108, 22);
+            this.simpleButton5.TabIndex = 7;
+            this.simpleButton5.Text = "Günlük fiyat yenile";
+            this.simpleButton5.ToolTip = "Günlük aktarım";
+            this.simpleButton5.Click += new System.EventHandler(this.simpleButton5_Click);
+            // 
             // frmINTERNETticaripazarlamastoklar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 492);
             this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.simpleButton5);
             this.Controls.Add(this.simpleButton2);
             this.Controls.Add(this.simpleButton3);
             this.Controls.Add(this.simpleButton4);
@@ -582,5 +595,6 @@
         private DevExpress.XtraEditors.SimpleButton simpleButton4;
         private System.Windows.Forms.ComboBox comboBox4;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton5;
     }
 }

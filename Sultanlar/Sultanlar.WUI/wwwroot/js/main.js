@@ -16,20 +16,22 @@ $('.validate-form').on('submit', function () {
     return check;
 });*/
 
-var apiurl = "https://www.ittihadteknoloji.com.tr/internet/";
+var url = window.location.hostname;
+var apiurl = "https://" + (url.split('.').length > 3 && url.split('.')[0] !== 'www' ? url.split('.')[1] + '.' + url.split('.')[2] + '.' + url.split('.')[3] : url) + "/internet/";
 //http://localhost:50544/internet/
 //http://95.0.47.130/SulAPI/internet/
 //https://www.ittihadteknoloji.com.tr/internet/
 
 
 var aramadelay = 1000;
-var surum = '1.5.1';
+var surum = '1.5.3';
 
 
 
 $(document).ready(function () {
     $("#dtTable input[type=text]").keyup(function () {
-        $(this).val($(this).val().toLocaleUpperCase());
+        if (!$(this).hasClass("aramaoldugugibi"))
+            $(this).val($(this).val().toLocaleUpperCase());
     });
 
     setTimeout(function () {
@@ -42,8 +44,8 @@ $(document).ready(function () {
         }
     }, 2000);
 
-
     $('#selectYil').empty();
+    $("#selectYil").append($("<option />").val("2023").text("2023"));
     $("#selectYil").append($("<option />").val("2022").text("2022"));
     $("#selectYil").append($("<option />").val("2021").text("2021"));
     $("#selectYil").append($("<option />").val("2020").text("2020"));
@@ -177,6 +179,25 @@ function xhrDownloadUpload() {
     return xhr;
 }
 
+function xhrDownloadUpload2() {
+    $('#divProgress').css("display", "none");
+    var xhr = new window.XMLHttpRequest();
+    //Upload progress
+    xhr.upload.addEventListener("progress", function (evt) {
+        $('#divProgress').css("display", "none");
+    }, false);
+    //Download progress
+    xhr.addEventListener("progress", function (evt) {
+        $('#divProgress').css("display", "none");
+    }, false);
+    //Complated
+    xhr.addEventListener("load", function (evt) {
+        $('#divProgress').css("display", "none");
+    }, false);
+    $('#divProgress').css("display", "none");
+    return xhr;
+}
+
 function xhrTicket(xhr) {
     xhr.setRequestHeader("STicket", window.localStorage["token"]);
     xhr.setRequestHeader("sulLogin", readCookie("sulLogin"));
@@ -242,22 +263,22 @@ var inceleonaylasilcolumns = [
         }
     },
     {
-        "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+        "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
             return '<span class="sinirli isk1">' + (data.isks ? data.isks.isK1.formatMoney(3, ',', '.') : '') + '</span>';
         }
     },
     {
-        "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+        "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
             return '<span class="sinirli isk2">' + (data.isks ? data.isks.isK2.formatMoney(3, ',', '.') : '') + '</span>';
         }
     },
     {
-        "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+        "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
             return '<span class="sinirli isk3">' + (data.isks ? data.isks.isK3.formatMoney(3, ',', '.') : '') + '</span>';
         }
     },
     {
-        "data": null, "class": window.location.href.indexOf("fiyattipi=2") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+        "data": null, "class": "floaTd hidewhenmobile", render: function (data, type, row) {
             return '<span class="sinirli isk4">' + (data.isks ? data.isks.isK4.formatMoney(3, ',', '.') : '') + '</span>';
         }
     },
@@ -268,12 +289,12 @@ var inceleonaylasilcolumns = [
     },
     {
         "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
-            return '<span class="sinirli">' + (data.isks ? iskDusCoklu((data.mnFiyat), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4).formatMoney(2, ',', '.') : '') + '</span>';
+            return '<span class="sinirli">' + (data.isks ? ((data.strMiktarTur === "KI" ? data.malzeme.koli : 1) *iskDusCoklu((data.mnFiyat), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4)).formatMoney(2, ',', '.') : '') + '</span>';
         }
     },
     {
         "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
-            return '<span class="sinirli">' + (data.isks ? iskDusCoklu((data.mnFiyat * data.intMiktar), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4).formatMoney(2, ',', '.') : '') + '</span>';
+            return '<span class="sinirli">' + (data.isks ? ((data.strMiktarTur === "KI" ? data.malzeme.koli : 1) * iskDusCoklu((data.mnFiyat * data.intMiktar), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4)).formatMoney(2, ',', '.') : '') + '</span>';
         }
     }
 ];
@@ -710,10 +731,10 @@ function sleep(ms) {
 //    return sepet;
 //}
 
-function stringifySepet(sepet, smref, fiyattipi, siparisid) {
+function stringifySepet(sepet, smref, fiyattipi, mtip, siparisid) {
     var sentValue;
     for (var i = 0; i < sepet.length; i++) {
-        if (sepet[i].smref === smref && sepet[i].ftip === fiyattipi && sepet[i].siparisid === siparisid) {
+        if (sepet[i].smref === smref && sepet[i].ftip === fiyattipi && sepet[i].mtip === mtip && sepet[i].siparisid === siparisid) {
             var sepet2 = sepet[i];
             sepet2.musteri = window.localStorage["uyeid"];
             sentValue = JSON.stringify(sepet2);
@@ -723,10 +744,10 @@ function stringifySepet(sepet, smref, fiyattipi, siparisid) {
     return sentValue;
 }
 
-function stringifySepetI(sepet, smref, iadeid) {
+function stringifySepetI(sepet, smref, mtip, iadeid) {
     var sentValue;
     for (var i = 0; i < sepet.length; i++) {
-        if (sepet[i].smref === smref && sepet[i].iadeid === iadeid) {
+        if (sepet[i].smref === smref && sepet[i].mtip === mtip && sepet[i].iadeid === iadeid) {
             var sepet2 = sepet[i];
             sepet2.musteri = window.localStorage["uyeid"];
             sentValue = JSON.stringify(sepet2);
@@ -745,7 +766,7 @@ function stringifySepetA(sepet, smref, donem, tip, aktiviteid, anlasmaid) {
                 '", "tahbedel": "' + (sepet[i].tahbedel ? sepet[i].tahbedel : 0) + '", "yegbedel": "' + (sepet[i].yegbedel ? sepet[i].yegbedel : 0) + '", "tahciro": "' + (sepet[i].tahciro ? sepet[i].tahciro : 0) + '", "yegciro": "' + (sepet[i].yegciro ? sepet[i].yegciro : 0) +
                 '", "detaylar": [';
             for (var j = 0; j < sepet[i].detaylar.length; j++) {
-                sentValue += '{ "urun": ' + sepet[i].detaylar[j].itemref + ', "urunacik": "' + sepet[i].detaylar[j].malacik + '", "kdv": ' + sepet[i].detaylar[j].kdv + ', "miktar": ' + sepet[i].detaylar[j].miktar + ', "aksiyon": 0, "birimfiyat": ' + sepet[i].detaylar[j].birimfiyat + ', "fatalt": ' + sepet[i].detaylar[j].fatalt + ', "fataltciro": ' + sepet[i].detaylar[j].fataltciro + ', "ciroprim": ' + sepet[i].detaylar[j].ciroprim + ', "pazisk": ' + sepet[i].detaylar[j].pazisk + ', "ekisk": ' + sepet[i].detaylar[j].iskonto + ' },';
+                sentValue += '{ "urun": ' + sepet[i].detaylar[j].itemref + ', "urunacik": "' + sepet[i].detaylar[j].malacik + '", "kdv": ' + sepet[i].detaylar[j].kdv + ', "miktar": ' + sepet[i].detaylar[j].miktar + ', "aksiyon": 0, "birimfiyat": ' + sepet[i].detaylar[j].birimfiyat + ', "fatalt": ' + sepet[i].detaylar[j].fatalt + ', "fataltciro": ' + sepet[i].detaylar[j].fataltciro + ', "ciroprim": ' + sepet[i].detaylar[j].ciroprim + ', "pazisk": ' + sepet[i].detaylar[j].pazisk + ', "ekisk": ' + sepet[i].detaylar[j].iskonto + ', "aciklama": "' + sepet[i].detaylar[j].aciklama + '" },';
             }
             sentValue = sentValue.substring(0, sentValue.length - 1) + '] }';
         }
@@ -806,13 +827,13 @@ function sipSil(cookie) {
     window.localStorage['sepetU'] = "[]";
 }
 
-function siparisdbSenkRoot(data, smref, siparisid, ftip) {
+function siparisdbSenkRoot(data, smref, siparisid, ftip, mtip) {
     var eskisepet = JSON.parse(window.localStorage['sepet']);
     var yenisepet = [];
     for (var i = 0; i < eskisepet.length; i++) { // diger siparisleri doldur
-        if (eskisepet[i].smref != smref || eskisepet[i].siparisid != siparisid || eskisepet[i].ftip != ftip) {
+        if (eskisepet[i].smref != smref || eskisepet[i].siparisid != siparisid || eskisepet[i].ftip != ftip || eskisepet[i].mtip != mtip) {
             yenisepet.push(
-                { siparisid: eskisepet[i].siparisid, smref: eskisepet[i].smref, ftip: eskisepet[i].ftip, aciklama: eskisepet[i].aciklama, teslim: eskisepet[i].teslim, musteri: window.localStorage["uyeid"], detaylar: eskisepet[i].detaylar }
+                { siparisid: eskisepet[i].siparisid, gmref: eskisepet[i].gmref, smref: eskisepet[i].smref, ftip: eskisepet[i].ftip, mtip: eskisepet[i].mtip, aciklama: eskisepet[i].aciklama, teslim: eskisepet[i].teslim, musteri: window.localStorage["uyeid"], detaylar: eskisepet[i].detaylar }
             );
         }
     }
@@ -820,8 +841,10 @@ function siparisdbSenkRoot(data, smref, siparisid, ftip) {
     var icsepet =
     {
         siparisid: data.pkSiparisID.toString(),
+        gmref: data.cari.gmref.toString(),
         smref: data.smref.toString(),
         ftip: data.sintFiyatTipiID.toString(),
+        mtip: data.tksref.toString(),
         aciklama: data.aciklama2,
         teslim: data.aciklama3,
         musteri: window.localStorage["uyeid"],
@@ -844,7 +867,7 @@ function siparisdbSenkRoot(data, smref, siparisid, ftip) {
     });
     yenisepet.push(icsepet); // yeni siparisi doldur
     window.localStorage["sepet"] = JSON.stringify(yenisepet);
-    window.location.href = 'Icerik?smref=' + data.smref + '&ftip=' + data.sintFiyatTipiID + '&siparisid=' + data.pkSiparisID;
+    window.location.href = 'Icerik?smref=' + data.smref + '&gmref=' + data.cari.gmref + '&ftip=' + data.sintFiyatTipiID + '&mtip=' + data.tksref + '&siparisid=' + data.pkSiparisID;
 }
 
 function iadeSil(cookie) {
@@ -874,6 +897,10 @@ function getDateNow() {
     var date = new Date();
     //return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
     return new Date().toJSON();
+}
+
+function getDateNowLocal() {
+    return new Date().toLocaleDateString();
 }
 
 function GetDateNow() {
@@ -930,6 +957,10 @@ function KoordinatBaslat() {
         document.getElementById('inputCoords').value = '0,0';
         document.getElementById('inputCoordAddress').value = 'Konuma erişim desteklenmiyor.';
     }
+}
+
+function mapCallBack() {
+
 }
 
 function displayError(positionError) {
@@ -1181,4 +1212,35 @@ function AndroidToast(ileti) {
     } catch (e) {
         alert(ileti);
     }
+}
+
+String.prototype.querystringReplace = function () {
+    return this.replaceAll("&", "-").replaceAll("+", "-").replaceAll("=", "-").replaceAll("?", "-");
+}
+
+function anlasmaMaliyet(anlasma, bedeller) {
+    $("#divMal").css("display", "inline");
+    
+    var tahbedeltoplam = parseFloat(anlasma[0].anldisikgt);
+    var yegbedeltoplam = parseFloat(anlasma[0].anldisinf);
+
+    for (var i = 0; i < bedeller.length; i++) {
+        if (bedeller[i].tur == "kgt") {
+            tahbedeltoplam += bedeller[i].bedel * bedeller[i].adet;
+        }
+        if (bedeller[i].tur == "nf") {
+            yegbedeltoplam += bedeller[i].bedel * bedeller[i].adet;
+        }
+    }
+
+    var tahyilsonumaliyet = anlasma[0].topcirokgt != 0 ? tahbedeltoplam / anlasma[0].topcirokgt : 0;
+    var yegyilsonumaliyet = anlasma[0].topcironf != 0 ? yegbedeltoplam / anlasma[0].topcironf : 0;
+
+    var tahyilsonuciroprdahil = tahyilsonumaliyet + (anlasma[0].cirofataltkgt / 100) + (anlasma[0].fataltkgt / 100) + (anlasma[0].cirokgt / 100) + (anlasma[0].ciro3kgt / 100) + (anlasma[0].ciro6kgt / 100) + (anlasma[0].ciro12kgt / 100);
+    var yegyilsonuciroprdahil = yegyilsonumaliyet + (anlasma[0].cirofataltnf / 100) + (anlasma[0].fataltnf / 100) + (anlasma[0].cironf / 100) + (anlasma[0].ciro3nf / 100) + (anlasma[0].ciro6nf / 100) + (anlasma[0].ciro12nf / 100);
+
+    inputMalKGT.value = "%" + (tahyilsonumaliyet * 100).toFixed(2);
+    inputMalNF.value = "%" + (yegyilsonumaliyet * 100).toFixed(2);
+    inputMalCiroKGT.value = "%" + (tahyilsonuciroprdahil * 100).toFixed(2);
+    inputMalCiroNF.value = "%" + (yegyilsonuciroprdahil * 100).toFixed(2);
 }

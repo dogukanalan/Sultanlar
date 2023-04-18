@@ -110,6 +110,7 @@
             this.sbExceleAktar = new DevExpress.XtraEditors.SimpleButton();
             this.sbDonemSil = new DevExpress.XtraEditors.SimpleButton();
             this.sbNoktaAdDegistir = new DevExpress.XtraEditors.SimpleButton();
+            this.gridColumn57 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
@@ -187,7 +188,8 @@
             this.gridColumn54,
             this.gridColumn53,
             this.gridColumn52,
-            this.gridColumn24});
+            this.gridColumn24,
+            this.gridColumn57});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsBehavior.Editable = false;
@@ -1044,6 +1046,15 @@
             this.sbNoktaAdDegistir.Text = "Nokta Adı Değiştir";
             this.sbNoktaAdDegistir.Click += new System.EventHandler(this.sbNoktaAdDegistir_Click);
             // 
+            // gridColumn57
+            // 
+            this.gridColumn57.Caption = "Nokta Sistem Kod";
+            this.gridColumn57.FieldName = "NOKTAREF";
+            this.gridColumn57.Name = "gridColumn57";
+            this.gridColumn57.Visible = true;
+            this.gridColumn57.VisibleIndex = 41;
+            this.gridColumn57.Width = 80;
+            // 
             // frmINTERNETticaripazarlamasatisrapor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1169,5 +1180,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn56;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn55;
         private DevExpress.XtraEditors.SimpleButton sbNoktaAdDegistir;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn57;
     }
 }

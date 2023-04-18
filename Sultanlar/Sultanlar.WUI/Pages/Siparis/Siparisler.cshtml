@@ -12,6 +12,8 @@
     <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
 
     <script>
+        var table;
+
         function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
         function getGmref() { return getParameterByName("gmref") ? getParameterByName("gmref") : "0"; }
         function getSmref() { return getParameterByName("smref") ? getParameterByName("smref") : "0"; }
@@ -77,7 +79,7 @@
         }
 
         function SiparislerGetir(slsref, gmref, smref) {
-            $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
                 "responsive": true,
@@ -122,13 +124,13 @@
                             return '<a href="javascript:showSubMenu(div' + data.pkSiparisID + ')" class="btn btn-primary">İşlemler</a>' +
                                 '<div class="subMenu" id="div' + data.pkSiparisID + '">' +
                                 '<a href="Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">İncele</a>' +
-                                '<a href="Kopyala?siparisid=' + data.pkSiparisID + '">Kopyala</a>' +
+                                '<a href="Kopyala?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">Kopyala</a>' +
                                 (data.blAktarilmis == 0 ? '<a href="Onayla?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">Onayla</a>' : '') +
                                 (data.blAktarilmis == 0 ? '<a href="Duzenle?siparisid=' + data.pkSiparisID + '">Düzenle</a>' : '') +
                                 (data.blAktarilmis == 0 ? '<a href="Sil?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '">Sil</a>' : '') +
                                 '<a href="Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '&yazdir=true">Yazdır</a>' +
                                 '<a href="Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=' + data.sintFiyatTipiID + '&excel=true">Kaydet</a>' +
-                                (data.blAktarilmis == 1 ? '<a href="../Rapor/SiparisDurum?yil=' + getYil() + '&ay=' + getAy() + '&slsref=' + data.musteri.intSLSREF + '&sipno=' + data.pkSiparisID + '">Durum</a>' : '');
+                                (data.blAktarilmis == 1 ? (data.tksref == 1 ? ('<a href="../Rapor/SiparisDurum?yil=' + getYil() + '&ay=' + getAy() + '&slsref=' + data.musteri.intSLSREF + '&sipno=' + data.pkSiparisID + '">Durum</a>') : ('<a href="Sevk?siparisid=' + data.pkSiparisID + '&slsref=' + getSlsref() +'">Sevk</a>')) + '' : '');
                         },
                         "name": "pkSiparisID",
                         "width": "10%"
@@ -142,7 +144,7 @@
                     },
                     {
                         "data": "cari", "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli">' + data.sube + '</span>'
+                            return '<span class="sinirli" data-toggle="tooltip" title="' + data.musteri + '">' + data.sube + '</span>'
                         },
                         "name": "Cari.Sube",
                         "width": "30%"
@@ -177,6 +179,11 @@
                 "deferRender": true,
                 "order": [[0, "desc"]]
             });
+
+            $("div.dataTables_filter input").unbind();
+            $("div.dataTables_filter input").on('keyup change', delay(function () {
+                table.search(this.value).draw();
+            }, aramadelay));
         }
 
         function init() {
@@ -239,6 +246,13 @@
         }
 
         $(document).ready(function () {
+            if (window.localStorage["taksit"] == "true" || window.localStorage["uyetipiid"] == "aZZA1PyhVTw=" || window.localStorage["uyetipiid"] == "vdna04pQKLI=") {
+                $("#bakiye").css("display", "block");
+                $("#sevkaktarilmis").css("display", "block");
+                $("#sevkonaysiz").css("display", "block");
+                $("#sevkonayli").css("display", "block");
+            }
+
             SaticilarGetir(true);
 
             $('#selectSaticilar').on('change', function (e) {
@@ -320,6 +334,10 @@
 </select>
 
 <div id="divOnay" class="btn-group" data-toggle="buttons">
+    <input type="button" id="bakiye" class="btn btn-info secimTus" value="Bakiyeler" onclick="window.location.href = 'Bakiye?slsref=' + getSlsref()" style="display: none" />
+    <input type="button" id="sevkaktarilmis" class="btn btn-info secimTus" value="Aktarılmış" onclick="window.location.href = 'SevkBaslik?aktarilmis=1&slsref=' + getSlsref()" style="display: none" />
+    <input type="button" id="sevkonayli" class="btn btn-info secimTus" value="Sevk Onaylı" onclick="window.location.href = 'SevkBaslik?onayli=1&slsref=' + getSlsref()" style="display: none" />
+    <input type="button" id="sevkonaysiz" class="btn btn-info secimTus" value="Sevk Onaysız" onclick="window.location.href = 'SevkBaslik?slsref=' + getSlsref()" style="display: none" />&nbsp;
     <label class="btn btn-primary">
         <input type="radio" name="options" id="option1" value="2" autocomplete="off"> Hepsi
     </label>

@@ -342,6 +342,30 @@ namespace Sultanlar.DatabaseObject
                 }
             }
         }
+        public static void SorguCl(IList List, string sorgu)
+        {
+            List.Clear();
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand(sorgu, conn);
+                    SqlDataReader dr;
+                    conn.Open();
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        List.Add(new WebGenelClass() { Kod = Convert.ToInt32(dr[0]), Acik = dr[1].ToString() });
+                    }
+                    conn.Close();
+                }
+                catch (Exception ex)
+                {
+                    Hatalar.DoInsert(ex, "webgenel sorgu: " + sorgu);
+                }
+            }
+        }
         public static string SorguSkalar(string sorgu)
         {
             string donendeger = string.Empty;
@@ -530,7 +554,7 @@ namespace Sultanlar.DatabaseObject
                         var = true;
                         if (i == 0)
                             where = " WHERE ";
-                        where += "[" + ParameterNames[i] + "] = @" + ParameterNames[i] + " AND ";
+                        where += "[" + ParameterNames[i] + "] = @" + ParameterNames[i].ToString().Replace(" ", "_") + " AND ";
                     }
                 }
                 where = var ? where.Substring(0, where.Length - 5) : where;
@@ -545,7 +569,36 @@ namespace Sultanlar.DatabaseObject
                     da.SelectCommand.CommandType = CommandType.StoredProcedure;
 
                 for (int i = 0; i < Parameters.Count; i++)
-                    da.SelectCommand.Parameters.AddWithValue(ParameterNames[i].ToString(), Parameters[i].ToString());
+                    da.SelectCommand.Parameters.AddWithValue(ParameterNames[i].ToString().Replace(" ", "_"), Parameters[i].ToString());
+                try
+                {
+                    conn.Open();
+                    da.Fill(dt);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex, " " + da.SelectCommand.CommandText);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return dt;
+        }
+        public static DataTable WCFdata(string commandText, CommandType commandType, ArrayList ParameterNames, ArrayList Parameters, string TableName)
+        {
+            DataTable dt = new DataTable(TableName);
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlDataAdapter da = new SqlDataAdapter(commandText, conn);
+                da.SelectCommand.CommandTimeout = 1000;
+                da.SelectCommand.CommandType = commandType;
+
+                for (int i = 0; i < Parameters.Count; i++)
+                    da.SelectCommand.Parameters.AddWithValue(ParameterNames[i].ToString(), Parameters[i]);
                 try
                 {
                     conn.Open();
@@ -582,6 +635,64 @@ namespace Sultanlar.DatabaseObject
                     conn.Close();
                 }
             }
+        }
+        public static string SultanlarEpostaSifre()
+        {
+            string donendeger = "";
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT sultanlarSifre FROM tblWebGenel", conn);
+                try
+                {
+                    conn.Open();
+                    donendeger = cmd.ExecuteScalar().ToString();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex, " " + cmd.CommandText);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        public static string MistifGmailEpostaSifre()
+        {
+            string donendeger = "";
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT mistifGmailSifre FROM tblWebGenel", conn);
+                try
+                {
+                    conn.Open();
+                    donendeger = cmd.ExecuteScalar().ToString();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex, " " + cmd.CommandText);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+    }
+
+    public class WebGenelClass
+    {
+        public int Kod { get; set; }
+        public string Acik { get; set; }
+        public override string ToString()
+        {
+            return Acik;
         }
     }
 }

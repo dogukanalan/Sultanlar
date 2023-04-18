@@ -81,6 +81,7 @@
             this.cmbListeFiyati = new System.Windows.Forms.ComboBox();
             this.btnExcel = new System.Windows.Forms.Button();
             this.btnAciklamaGuncelle = new System.Windows.Forms.Button();
+            this.cbOto = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -509,6 +510,16 @@
             this.btnAciklamaGuncelle.UseVisualStyleBackColor = true;
             this.btnAciklamaGuncelle.Click += new System.EventHandler(this.btnAciklamaGuncelle_Click);
             // 
+            // cbOto
+            // 
+            this.cbOto.AutoSize = true;
+            this.cbOto.Location = new System.Drawing.Point(676, 11);
+            this.cbOto.Name = "cbOto";
+            this.cbOto.Size = new System.Drawing.Size(168, 17);
+            this.cbOto.TabIndex = 28;
+            this.cbOto.Text = "Son faturadan fiyatla ve kapat";
+            this.cbOto.UseVisualStyleBackColor = true;
+            // 
             // frmINTERNETiadelerdetay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -520,6 +531,7 @@
             this.Controls.Add(this.txtAciklama2);
             this.Controls.Add(this.btnExcel);
             this.Controls.Add(this.btnYazdir);
+            this.Controls.Add(this.cbOto);
             this.Controls.Add(this.cbAnaSube);
             this.Controls.Add(this.btnHizmetHesapla);
             this.Controls.Add(this.btnIadeFiyatlandir);
@@ -589,5 +601,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn cldtHizmetTarihi;
         private System.Windows.Forms.DataGridViewTextBoxColumn clstrHizmetleyen;
         private System.Windows.Forms.Button btnAciklamaGuncelle;
+        private System.Windows.Forms.CheckBox cbOto;
     }
 }

@@ -19,6 +19,10 @@
     </style>
 
     <script type="text/javascript">
+        var paramgmref;
+        var paramsmref;
+        var parammtip;
+
         function UyeYetkileri(uyeid) {
             $.ajax(
                 {
@@ -38,18 +42,35 @@
                                     var htmlText = '<table id="dtTable1" class="dtFiyat table table-striped table-bordered"><thead><tr><th class="keyTd">Fiyat Tipi Belirleyiniz</th></tr></thead><tbody>';
                                     $.each(rootData, function (i, item) {
 
-                                        //if (data1.fiyatTip500 == 0) {
-                                        htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
-                                        htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
-                                        htmlText += '</tr>';
-                                        /*}
+                                        if (data1.fiyatTip500 == 0 || data1.fiyatTip500 > 5000) {
+                                            htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?gmref=' + paramgmref + '&smref=' + paramsmref + '&ftip=' + rootData[i].sintFiyatTipiID + '&mtip=' + parammtip + '\'">';
+                                            htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
+                                            htmlText += '</tr>';
+                                        }
                                         else {
                                             if (data1.fiyatTip500 == item.sintFiyatTipiID) {
-                                                htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?smref=' + getParameterByName("smref") + '&ftip=' + rootData[i].sintFiyatTipiID + '\'">';
+                                                htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?gmref=' + paramgmref + '&smref=' + paramsmref + '&ftip=' + rootData[i].sintFiyatTipiID + '&mtip=' + parammtip + '\'">';
                                                 htmlText += '<td class="valueTd">' + rootData[i].fiyatTipi.aciklama + '</td>';
                                                 htmlText += '</tr>';
+
+                                                $.ajax(
+                                                    {
+                                                        xhr: function () { return xhrDownloadUpload(); },
+                                                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                                                        url: apiurl + "fiyat/getfiyattipler500birlikte",
+                                                        async: false,
+                                                        success: function (data2, textStatus, response) {
+
+                                                            $.each(data2, function (i, item2) {
+                                                                htmlText += '<tr class="onclickcursor" onclick="window.location.href = \'Siparis?gmref=' + paramgmref + '&smref=' + paramsmref + '&ftip=' + item2.nosu + '&mtip=' + parammtip + '\'">';
+                                                                htmlText += '<td class="valueTd">' + item2.aciklama + '</td>';
+                                                                htmlText += '</tr>';
+                                                            });
+                                                        },
+                                                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                                    });
                                             }
-                                        }*/
+                                        }
                                     });
                                     var miktar = '<select id="selectMiktar" style="width: 100%"><option value="ST">Varsayılan seçim miktarı: Adet</option><option value="KI"' + (window.localStorage["miktar"] == 'KI' ? ' selected = "selected"' : '') + '>Varsayılan seçim miktarı: Koli</option></select><br><br>';
                                     divData.innerHTML = miktar + htmlText + '</table>';
@@ -133,11 +154,21 @@
         }
 
         $(document).ready(function () {
+            paramgmref = getParameterByName('gmref');
+            paramsmref = getParameterByName('smref');
+            parammtip = getParameterByName('mtip');
+            getCari(parammtip, paramsmref, getCariSube, "sipMus");
             Bilgiler();
             UyeYetkileri(localStorage["musteri"]);
         });
     </script>
 }
+<h5 class="spanCiplak" id="sipMus"></h5>
+<div>
+    <div id="divCariAcikGunler"></div>
+    <div id="divCariAcikYetkililer"></div>
+    <br />
+</div>
 <table id="dtTable2" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>
         <tr>

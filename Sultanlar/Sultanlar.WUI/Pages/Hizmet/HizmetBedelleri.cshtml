@@ -20,6 +20,8 @@
     <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
 
     <script>
+        var table;
+
         function getSlsref() { return getParameterByName("slsref") ? getParameterByName("slsref") : $('select[name=selectSaticilar]').val(); }
         function getGmref() { return getParameterByName("gmref") ? getParameterByName("gmref") : "0"; }
         function getSmref() { return getParameterByName("smref") ? getParameterByName("smref") : "0"; }
@@ -82,7 +84,7 @@
                 }
             );
         }
-        var table;
+
         function HizmetBedelleriGetir(slsref, gmref, smref) {
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
@@ -232,6 +234,11 @@
                 "deferRender": true,
                 "order": [[0, "desc"]]
             });
+
+            $("div.dataTables_filter input").unbind();
+            $("div.dataTables_filter input").on('keyup change', delay(function () {
+                table.search(this.value).draw();
+            }, aramadelay));
         }
 
         function HizmetGir() {
@@ -421,6 +428,7 @@
 <div id="divOnay" class="btn-group">
     <a href="javascript:HizmetGir()" class="btn btn-primary">Yeni Hizmet Bedeli</a>
 </div>
+@*<input type="button" class="btn btn-default secimTus tumuExcel" value="Tümünü Excel'e Aktar" onclick="Hepsi()" />*@
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>
         <tr>
@@ -438,4 +446,3 @@
         </tr>
     </thead>
 </table>
-@*<input type="button" class="btn btn-danger secimTus" value="Tümü Excel" onclick="Hepsi()" />*@

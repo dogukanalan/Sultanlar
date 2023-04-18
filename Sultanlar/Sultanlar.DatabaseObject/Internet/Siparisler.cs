@@ -80,6 +80,9 @@ namespace Sultanlar.DatabaseObject.Internet
         public DateTime dtOlusmaTarihi { get { return this._dtOlusmaTarihi; } set { this._dtOlusmaTarihi = value; } }
         public decimal mnToplamTutar { get { return this._mnToplamTutar; } set { this._mnToplamTutar = value; } }
         public bool blAktarilmis { get { return this._blAktarilmis; } set { this._blAktarilmis = value; } }
+        /// <summary>
+        /// MTIP
+        /// </summary>
         public int TKSREF { get { return this._TKSREF; } set { this._TKSREF = value; } }
         public DateTime dtOnaylamaTarihi { get { return this._dtOnaylamaTarihi; } set { this._dtOnaylamaTarihi = value; } }
         public string strAciklama { get { return this._strAciklama; } set { this._strAciklama = value; } }
@@ -1750,13 +1753,37 @@ namespace Sultanlar.DatabaseObject.Internet
         }
         //
         //
-        public static void DoInsertQ(int SiparisID, string QUANTUMNO)
+        public static void DoInsertQ(int SiparisID, string QUANTUMNO, bool BAKIYE)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO tblINTERNET_SiparislerQ (intSiparisID,QUANTUMNO) VALUES (@intSiparisID,@QUANTUMNO)", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO tblINTERNET_SiparislerQ (intSiparisID,QUANTUMNO,BAKIYE) VALUES (@intSiparisID,@QUANTUMNO,@BAKIYE)", conn);
                 cmd.Parameters.Add("@intSiparisID", SqlDbType.Int).Value = SiparisID;
                 cmd.Parameters.Add("@QUANTUMNO", SqlDbType.NVarChar, 50).Value = QUANTUMNO;
+                cmd.Parameters.Add("@BAKIYE", SqlDbType.Bit).Value = BAKIYE;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        //
+        //
+        public static void DoDeleteQ(int SiparisID)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("DELETE FROM tblINTERNET_SiparislerQ WHERE intSiparisID = @intSiparisID", conn);
+                cmd.Parameters.Add("@intSiparisID", SqlDbType.Int).Value = SiparisID;
                 try
                 {
                     conn.Open();

@@ -8,11 +8,11 @@ namespace Sultanlar.WebAPI.Services.Internet
 {
     public class EkstreProvider
     {
-        internal List<ekstreler> Ekstreler(int GMREF, int AY)
+        internal List<ekstreler> Ekstreler(int GMREF, int Yil, int AY)
         {
             object Ay = AY == 0 ? (object)DBNull.Value : AY;
 
-            List <ekstreler> ekstre = new ekstreler().GetObjects(GMREF, Ay);
+            List <ekstreler> ekstre = new ekstreler().GetObjects(GMREF, Yil, Ay);
 
             double oncekitoplam = 0;
             for (int i = 0; i < ekstre.Count; i++)

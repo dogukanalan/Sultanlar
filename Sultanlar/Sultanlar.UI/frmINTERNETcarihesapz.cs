@@ -63,7 +63,7 @@ namespace Sultanlar.UI
         {
             //CariHesapZTipler.GetObjects(listBox1.Items);
             CariHesapZTipler.GetObjects(cmbTipler.Items);
-            cmbTipler.SelectedIndex = 0;
+            //cmbTipler.SelectedIndex = 0;
         }
 
         private void GetMusteriler()
@@ -717,7 +717,8 @@ namespace Sultanlar.UI
 
         private void btnYenile_Click(object sender, EventArgs e)
         {
-            GetMusteriler();
+            if (cmbTipler.SelectedIndex > -1)
+                GetMusteriler();
         }
 
         private void cmbTipler_SelectedIndexChanged(object sender, EventArgs e)
@@ -1070,6 +1071,28 @@ namespace Sultanlar.UI
             int TIP = Convert.ToInt32(gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "TIP"));
             Rutlar.SetKaynak(SMREF, TIP, ((CariHesapZKaynak)cmbKaynak.SelectedItem).KOD);
             MessageBox.Show("Güncellendi.", "Başarılı");
+        }
+
+        private void sbGunler_Click(object sender, EventArgs e)
+        {
+            int SMREF = Convert.ToInt32(gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "SMREF"));
+            int TIP = Convert.ToInt32(gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "TIP"));
+            string MUSTERI = gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "MUSTERI").ToString();
+            string SUBE = gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "SUBE").ToString();
+
+            frmINTERNETcarihesapzgunler frm = new frmINTERNETcarihesapzgunler(SMREF, TIP, MUSTERI, SUBE);
+            frm.ShowDialog();
+        }
+
+        private void sbYetkiler_Click(object sender, EventArgs e)
+        {
+            int SMREF = Convert.ToInt32(gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "SMREF"));
+            int TIP = Convert.ToInt32(gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "TIP"));
+            string MUSTERI = gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "MUSTERI").ToString();
+            string SUBE = gridView1.GetRowCellValue(gridView1.GetSelectedRows()[0], "SUBE").ToString();
+
+            frmINTERNETcarihesapzyetkili frm = new frmINTERNETcarihesapzyetkili(SMREF, TIP, MUSTERI, SUBE);
+            frm.ShowDialog();
         }
     }
 }

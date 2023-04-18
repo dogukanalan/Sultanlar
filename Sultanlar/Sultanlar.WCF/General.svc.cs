@@ -5,15 +5,18 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Data;
+//using System.Data.DataSetExtensions;
 using Sultanlar.DatabaseObject;
 using Sultanlar.DatabaseObject.Internet;
 using System.Xml;
 using System.ServiceModel.Web;
 using System.Collections;
 using System.IO;
-//using System.Data.SQLite;
 using System.Xml.Serialization;
 using System.Drawing;
+using Sultanlar.Model.Xml;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Sultanlar.WCF
 {
@@ -947,6 +950,52 @@ namespace Sultanlar.WCF
             return donendeger;
         }
         /// <summary>
+        /// View
+        /// </summary>
+        public Stream GetViewJson(string Sifre, string Name, string ParamNames, string ParamValues)
+        {
+            DataSet ds = new DataSet("Views");
+            DataTable dt = new DataTable(Name);
+
+            ArrayList paramn = new ArrayList();
+            ArrayList paramv = new ArrayList();
+            string[] paramN = ParamNames.Split(new string[] { ";" }, StringSplitOptions.None);
+            string[] paramV = ParamValues.Split(new string[] { ";" }, StringSplitOptions.None);
+            for (int i = 0; i < paramN.Length; i++)
+            {
+                paramn.Add(paramN[i]);
+                paramv.Add(paramV[i]);
+            }
+
+            if (Sifre == "rapor2020")
+                dt = WebGenel.WCFdata("SELECT * FROM [" + Name + "] ", paramn, paramv, Name);
+
+            ds.Tables.Add(dt);
+
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+
+            //JsonSerializerSettings jss = new JsonSerializerSettings();
+            //jss.MaxDepth = int.MaxValue;
+            //System.Web.Script.Serialization.JavaScriptSerializer js = new System.Web.Script.Serialization.JavaScriptSerializer();
+            //js.MaxJsonLength = int.MaxValue;
+            /*return JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(donendeger);*/
+            //return Newtonsoft.Json.JsonConvert.SerializeObject(rows, Newtonsoft.Json.Formatting.None);
+            //return js.Serialize(rows);
+            string donendeger = JsonConvert.SerializeObject(dt, new DataTableConverter());
+            return new MemoryStream(Encoding.UTF8.GetBytes(donendeger));
+            //return JsonConvert.SerializeObject(dt.AsEnumerable().Select(r => r.ItemArray));
+        }
+        /// <summary>
         /// 
         /// </summary>
         public XmlDocument GetOrdersPirpa()
@@ -967,14 +1016,14 @@ namespace Sultanlar.WCF
 
 
 
-            Sultanlar.Class.XmlSiparislerDis siparisler = new Sultanlar.Class.XmlSiparislerDis();
-            siparisler.Siparisler = new List<Sultanlar.Class.XmlSiparisDis>();
+            XmlSiparislerDis siparisler = new XmlSiparislerDis();
+            siparisler.Siparisler = new List<XmlSiparisDis>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Sultanlar.Class.XmlSiparisDis siparis = new Class.XmlSiparisDis();
+                XmlSiparisDis siparis = new XmlSiparisDis();
 
                 DataTable dt2 = WebGenel.WCFdata("SELECT DISTINCT [IL] AS Sehir,[ILCE] AS Ilce,[GMREF] AS BayiKod,[MUSTERI] AS BayiUnvan,[SMREF] AS Kod,[SUBE] AS Unvan,[MT ACIKLAMA] AS Aciklama,SEHIR AS FaturaTip,[VRG DAIRE] AS VergiDaire,[VRG NO] AS VergiNo,[ADRES] AS Adres,[TEL-1] AS Telefon,[CEP-1] AS Mobil,[FAX-1] AS Fax,[EMAIL-1] AS Eposta FROM [Web-Musteri]", new ArrayList() { "SMREF" }, new ArrayList() { dt.Rows[i]["MusKod"].ToString() }, "Musteri");
-                siparis.Musteri = new Sultanlar.Class.XmlSiparisMusteri();
+                siparis.Musteri = new XmlSiparisMusteri();
                 siparis.Musteri.Sehir = dt2.Rows[0]["Sehir"].ToString();
                 siparis.Musteri.Ilce = dt2.Rows[0]["Ilce"].ToString();
                 siparis.Musteri.BayiKod = dt2.Rows[0]["BayiKod"].ToString();
@@ -999,7 +1048,7 @@ namespace Sultanlar.WCF
                 siparis.Tarih = Convert.ToDateTime(dt.Rows[i]["Tarih"]);
                 //siparis.Tutar = Convert.ToDouble(dt.Rows[i]["Tutar"]);
                 siparis.Aciklama = dt.Rows[i]["strAciklama"].ToString().Split(new string[] { ";;;" }, StringSplitOptions.None)[1];
-                siparis.Kalemler = new List<Class.XmlSiparisDisDetay>();
+                siparis.Kalemler = new List<XmlSiparisDisDetay>();
 
                 DataTable dt1 = WebGenel.WCFdata("" +
 
@@ -1029,7 +1078,7 @@ namespace Sultanlar.WCF
                 double toplamnetkdv = 0;
                 for (int j = 0; j < dt1.Rows.Count; j++)
                 {
-                    Sultanlar.Class.XmlSiparisDisDetay detay = new Class.XmlSiparisDisDetay();
+                    XmlSiparisDisDetay detay = new XmlSiparisDisDetay();
                     detay.UrunKod = dt1.Rows[j]["UrunKod"].ToString();
                     detay.Bolum = dt1.Rows[j]["Bolum"].ToString();
                     detay.Barkod = dt1.Rows[j]["Barkod"].ToString();
@@ -1065,7 +1114,7 @@ namespace Sultanlar.WCF
 
             XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
             xsn.Add("g", "http://base.google.com/ns/1.0");
-            XmlSerializer MySerializer = new XmlSerializer(typeof(Sultanlar.Class.XmlSiparislerDis), "http://www.w3.org/2005/Atom");
+            XmlSerializer MySerializer = new XmlSerializer(typeof(XmlSiparislerDis), "http://www.w3.org/2005/Atom");
 
             TextWriter TW = new StringWriter();
 

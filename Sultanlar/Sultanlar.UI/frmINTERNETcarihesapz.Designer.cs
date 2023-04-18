@@ -151,6 +151,8 @@
             this.cmbZiyIl = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
             this.cbZiyPasif = new System.Windows.Forms.CheckBox();
+            this.sbGunler = new DevExpress.XtraEditors.SimpleButton();
+            this.sbYetkiler = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -180,6 +182,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.sbYetkiler);
+            this.splitContainer1.Panel2.Controls.Add(this.sbGunler);
             this.splitContainer1.Panel2.Controls.Add(this.sbKaynakGuncelle);
             this.splitContainer1.Panel2.Controls.Add(this.cmbKaynak);
             this.splitContainer1.Panel2.Controls.Add(this.sbGuncelle);
@@ -1306,6 +1310,24 @@
             this.cbZiyPasif.Text = "Pasif";
             this.cbZiyPasif.UseVisualStyleBackColor = true;
             // 
+            // sbGunler
+            // 
+            this.sbGunler.Location = new System.Drawing.Point(774, 126);
+            this.sbGunler.Name = "sbGunler";
+            this.sbGunler.Size = new System.Drawing.Size(278, 23);
+            this.sbGunler.TabIndex = 11;
+            this.sbGunler.Text = "Günler";
+            this.sbGunler.Click += new System.EventHandler(this.sbGunler_Click);
+            // 
+            // sbYetkiler
+            // 
+            this.sbYetkiler.Location = new System.Drawing.Point(774, 155);
+            this.sbYetkiler.Name = "sbYetkiler";
+            this.sbYetkiler.Size = new System.Drawing.Size(278, 23);
+            this.sbYetkiler.TabIndex = 11;
+            this.sbYetkiler.Text = "Yetkililer";
+            this.sbYetkiler.Click += new System.EventHandler(this.sbYetkiler_Click);
+            // 
             // frmINTERNETcarihesapz
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1457,5 +1479,7 @@
         private System.Windows.Forms.ComboBox cmbKaynak;
         private System.Windows.Forms.Label label31;
         private DevExpress.XtraEditors.SimpleButton sbKaynakGuncelle;
+        private DevExpress.XtraEditors.SimpleButton sbYetkiler;
+        private DevExpress.XtraEditors.SimpleButton sbGunler;
     }
 }

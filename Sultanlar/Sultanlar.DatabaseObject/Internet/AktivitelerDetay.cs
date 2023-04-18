@@ -36,6 +36,7 @@ namespace Sultanlar.DatabaseObject.Internet
         private string _strAciklama3; //paz isk
         private string _strAciklama4; //değiştirilmişse 1
         private string _strAciklama5; //değişiklik yapan ve tarih
+        private string _strAciklama6; //değişiklik yapan ve tarih
         //
         //
         //
@@ -44,7 +45,7 @@ namespace Sultanlar.DatabaseObject.Internet
         private AktivitelerDetay(long pkID, int intAktiviteID, int intUrunID, string strUrunAdi, int intKoliAdet, decimal mnBirimFiyatKDVli,
             decimal mnAksiyonFiyati, double flMusteriKarYuzde, string strSatisHedefi, decimal mnTutar, double flEkIsk, double flCiroPrimDonusYuzde,
             decimal mnBayiMaliyet, decimal mnDusulmusBirimFiyatKDVli, double flKarZararYuzde, decimal mnToplam, string strAciklama1,
-            string strAciklama2, string strAciklama3, string strAciklama4, string strAciklama5)
+            string strAciklama2, string strAciklama3, string strAciklama4, string strAciklama5, string strAciklama6)
         {
             this._pkID = pkID;
             this._intAktiviteID = intAktiviteID;
@@ -67,13 +68,14 @@ namespace Sultanlar.DatabaseObject.Internet
             this._strAciklama3 = strAciklama3;
             this._strAciklama4 = strAciklama4;
             this._strAciklama5 = strAciklama5;
+            this._strAciklama6 = strAciklama6;
         }
         //
         //
         public AktivitelerDetay(int intAktiviteID, int intUrunID, string strUrunAdi, int intKoliAdet, decimal mnBirimFiyatKDVli,
             decimal mnAksiyonFiyati, double flMusteriKarYuzde, string strSatisHedefi, decimal mnTutar, double flEkIsk, double flCiroPrimDonusYuzde,
             decimal mnBayiMaliyet, decimal mnDusulmusBirimFiyatKDVli, double flKarZararYuzde, decimal mnToplam, string strAciklama1,
-            string strAciklama2, string strAciklama3, string strAciklama4, string strAciklama5)
+            string strAciklama2, string strAciklama3, string strAciklama4, string strAciklama5, string strAciklama6)
         {
             this._intAktiviteID = intAktiviteID;
             this._intUrunID = intUrunID;
@@ -95,6 +97,7 @@ namespace Sultanlar.DatabaseObject.Internet
             this._strAciklama3 = strAciklama3;
             this._strAciklama4 = strAciklama4;
             this._strAciklama5 = strAciklama5;
+            this._strAciklama6 = strAciklama6;
         }
         //
         //
@@ -122,6 +125,7 @@ namespace Sultanlar.DatabaseObject.Internet
         public string strAciklama3 { get { return this._strAciklama3; } set { this._strAciklama3 = value; } }
         public string strAciklama4 { get { return this._strAciklama4; } set { this._strAciklama4 = value; } }
         public string strAciklama5 { get { return this._strAciklama5; } set { this._strAciklama5 = value; } }
+        public string strAciklama6 { get { return this._strAciklama6; } set { this._strAciklama6 = value; } }
         //
         //
         //
@@ -171,6 +175,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@strAciklama3", SqlDbType.NVarChar).Value = this._strAciklama3;
                 cmd.Parameters.Add("@strAciklama4", SqlDbType.NVarChar).Value = this._strAciklama4;
                 cmd.Parameters.Add("@strAciklama5", SqlDbType.NVarChar).Value = this._strAciklama5;
+                cmd.Parameters.Add("@strAciklama6", SqlDbType.NVarChar).Value = this._strAciklama6;
                 cmd.Parameters.Add("@pkID", SqlDbType.BigInt).Direction = ParameterDirection.Output;
                 try
                 {
@@ -217,6 +222,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@strAciklama3", SqlDbType.NVarChar).Value = this._strAciklama3;
                 cmd.Parameters.Add("@strAciklama4", SqlDbType.NVarChar).Value = this._strAciklama4;
                 cmd.Parameters.Add("@strAciklama5", SqlDbType.NVarChar).Value = this._strAciklama5;
+                cmd.Parameters.Add("@strAciklama6", SqlDbType.NVarChar).Value = this._strAciklama6;
                 try
                 {
                     conn.Open();
@@ -353,7 +359,7 @@ namespace Sultanlar.DatabaseObject.Internet
                             Convert.ToInt32(dr[4]), Convert.ToDecimal(dr[5]), Convert.ToDecimal(dr[6]), Convert.ToDouble(dr[7]), dr[8].ToString(),
                             Convert.ToDecimal(dr[9]), Convert.ToDouble(dr[10]), Convert.ToDouble(dr[11]), Convert.ToDecimal(dr[12]),
                             Convert.ToDecimal(dr[13]), Convert.ToDouble(dr[14]), Convert.ToDecimal(dr[15]), dr[16].ToString(), dr[17].ToString(),
-                            dr[18].ToString(), dr[19].ToString(), dr[20].ToString());
+                            dr[18].ToString(), dr[19].ToString(), dr[20].ToString(), dr[21].ToString());
                     }
                 }
                 catch (SqlException ex)
@@ -385,7 +391,7 @@ namespace Sultanlar.DatabaseObject.Internet
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
                 //SqlCommand cmd = new SqlCommand("SELECT TOP 1 tblINTERNET_AktivitelerDetay.pkID + CASE WHEN DATEPART(mm,dtOnaylamaTarihi) > DATEPART(mm,dtAktiviteBaslangic) OR DATEPART(mm,dtOnaylamaTarihi) > DATEPART(mm,dtAktiviteBitis) THEN 1000000000 ELSE 0 END FROM tblINTERNET_AktivitelerDetay INNER JOIN tblINTERNET_Aktiviteler ON tblINTERNET_AktivitelerDetay.intAktiviteID = tblINTERNET_Aktiviteler.pkID WHERE " + urunid + " AND SMREF = @SMREF AND dtAktiviteBaslangic <= @Tarih AND dtAktiviteBitis >= @Tarih ORDER BY mnDusulmusBirimFiyatKDVli ASC", conn);
-                SqlCommand cmd = new SqlCommand("SELECT TOP 1 tblINTERNET_AktivitelerDetay.pkID + CASE WHEN DATEPART(mm,dtOnaylamaTarihi) > DATEPART(mm,dtAktiviteBaslangic) OR DATEPART(mm,dtOnaylamaTarihi) > DATEPART(mm,dtAktiviteBitis) THEN 1000000000 ELSE 0 END FROM tblINTERNET_AktivitelerDetay INNER JOIN tblINTERNET_Aktiviteler ON tblINTERNET_AktivitelerDetay.intAktiviteID = tblINTERNET_Aktiviteler.pkID INNER JOIN [Web-Malzeme-Full] ON tblINTERNET_AktivitelerDetay.intUrunID = [Web-Malzeme-Full].ITEMREF WHERE " + urtkod + " AND blAktarilmis = 'True' AND SMREF = @SMREF AND DATEADD(day,-1,dtAktiviteBaslangic) <= @Tarih AND DATEADD(day,1,dtAktiviteBitis) >= @Tarih AND DATEPART(mm,dtAktiviteBaslangic) <= DATEPART(mm,@Tarih) AND DATEPART(mm,dtAktiviteBitis) >= DATEPART(mm,@Tarih) AND sintFiyatTipiID = @sintFiyatTipiID ORDER BY flEkIsk DESC", conn);
+                SqlCommand cmd = new SqlCommand("SELECT TOP 1 tblINTERNET_AktivitelerDetay.pkID + CASE WHEN DATEPART(mm,dtOnaylamaTarihi) > DATEPART(mm,dtAktiviteBaslangic) OR DATEPART(mm,dtOnaylamaTarihi) > DATEPART(mm,dtAktiviteBitis) THEN 1000000000 ELSE 0 END FROM tblINTERNET_AktivitelerDetay INNER JOIN tblINTERNET_Aktiviteler ON tblINTERNET_AktivitelerDetay.intAktiviteID = tblINTERNET_Aktiviteler.pkID INNER JOIN [Web-Malzeme-Full] ON tblINTERNET_AktivitelerDetay.intUrunID = [Web-Malzeme-Full].ITEMREF WHERE " + urtkod + " AND blAktarilmis = 'True' AND SMREF = @SMREF AND DATEADD(day,-1,dtAktiviteBaslangic) <= @Tarih AND DATEADD(day,1,dtAktiviteBitis) >= @Tarih AND (DATEPART(mm,dtAktiviteBaslangic) <= DATEPART(mm,@Tarih) OR DATEPART(mm,dtAktiviteBitis) >= DATEPART(mm,@Tarih)) AND sintFiyatTipiID = @sintFiyatTipiID ORDER BY flEkIsk DESC", conn);
                 cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
                 cmd.Parameters.Add("@Tarih", SqlDbType.SmallDateTime).Value = Tarih;
                 cmd.Parameters.Add("@sintFiyatTipiID", SqlDbType.SmallInt).Value = FiyatTipi;

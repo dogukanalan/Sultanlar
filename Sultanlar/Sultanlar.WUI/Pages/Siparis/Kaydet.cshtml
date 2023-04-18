@@ -8,6 +8,7 @@
     <script>
         var paramsmref;
         var paramftip;
+        var parammtip;
         var siparisid;
         var paramonay;
 
@@ -39,9 +40,10 @@
         $(document).ready(function () {
             paramsmref = getParameterByName('smref');
             paramftip = getParameterByName('fiyattipi');
+            parammtip = getParameterByName('mtip');
             siparisid = getParameterByName('siparisid') ? getParameterByName('siparisid') : "0";
             paramonay = getParameterByName('onay');
-            sipariskaydet(paramsmref, paramftip, siparisid, paramonay, true);
+            sipariskaydet(paramsmref, paramftip, parammtip, siparisid, paramonay, true);
         });
     </script>
 }

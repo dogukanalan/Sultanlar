@@ -178,6 +178,11 @@
                 "deferRender": true,
                 "order": [[3, "desc"]]
             });
+
+            $("div.dataTables_filter input").unbind();
+            $("div.dataTables_filter input").on('keyup change', delay(function () {
+                table.search(this.value).draw();
+            }, aramadelay));
         }
 
         function init() {

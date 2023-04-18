@@ -23,7 +23,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             {
                 List<satisTemsilcileri> sattem = new satisTemsilcileri().GetObjects();
                 if (tumu)
-                    sattem.Insert(0, new satisTemsilcileri(0, 0, "", "Tümü"));
+                    sattem.Insert(0, new satisTemsilcileri(0, 0, "", "Tümü", "", "", ""));
                 return sattem;
             }
             else if (musteri.tintUyeTipiID == 4 || musteri.tintUyeTipiID == 6) // satici ise
@@ -39,8 +39,8 @@ namespace Sultanlar.WebAPI.Services.Internet
 
 
 
-                List<satisTemsilcileri> sattem = CacheControl("SatTems", 30, CacheItemPriority.Normal);
-                List<satisTemsilcileriSefler> hepsi = CacheControl1("SatTemSefs", 30, CacheItemPriority.Normal);
+                List<satisTemsilcileri> sattem = CacheControl("SatTems", 5, CacheItemPriority.Normal);
+                List<satisTemsilcileriSefler> hepsi = CacheControl1("SatTemSefs", 5, CacheItemPriority.Normal);
                 var ustler = hepsi.Where(x => x.ustSLSREF == musteri.intSLSREF).Select(x => x.altSLSREF);
                 donendeger = sattem.Where(y => ustler.Contains(y.SLSMANREF)).ToList();
 

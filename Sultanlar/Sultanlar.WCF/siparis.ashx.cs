@@ -14,20 +14,26 @@ namespace Sultanlar.WCF
     /// </summary>
     public class siparis : IHttpHandler
     {
-
         public void ProcessRequest(HttpContext context)
         {
             string donendeger = "hata";
             bool aktarildi = false;
+            bool bakiye = Convert.ToBoolean(context.Request.QueryString["bakiye"]);
 
             Siparisler sip = Siparisler.GetObjectsBySiparisID(Convert.ToInt32(context.Request.QueryString["siparisid"]));
 
-            if (Musteriler.GetMusteriByID(Convert.ToInt32(context.Request.QueryString["musteriid"])).blTaksitPlani) // harici bayi elemanı
+            if (Musteriler.GetMusteriByID(Convert.ToInt32(context.Request.QueryString["musteriid"])).blTaksitPlani || sip.TKSREF > 1) // harici bayi elemanı
             {
                 sip.dtOnaylamaTarihi = DateTime.Now;
                 sip.blAktarilmis = true;
                 sip.DoUpdate();
                 aktarildi = true;
+
+                int bayikod = CariHesaplarTP.GetGMREFBySMREF(sip.SMREF);
+                int siparisno = CariHesaplarTPEk.GetBayiSiparisNo(bayikod) + 1;
+                CariHesaplarTPEk.SetBayiSiparisNo(bayikod, siparisno);
+
+                Siparisler.DoInsertQ(sip.pkSiparisID, Genel.BayiSiparisnoDuzeltme(siparisno), bakiye);
             }
             else
             {

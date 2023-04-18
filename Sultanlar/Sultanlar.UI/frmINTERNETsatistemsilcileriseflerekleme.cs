@@ -40,7 +40,7 @@ namespace Sultanlar.UI
 
         private void GetSatisTemsilcileri()
         {
-            SatisTemsilcileri.GetObjects(lb1.Items, true);
+            SatisTemsilcileri.GetObjectsAll(lb1.Items, true);
         }
 
         private void Esitle()

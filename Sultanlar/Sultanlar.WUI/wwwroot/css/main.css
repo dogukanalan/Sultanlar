@@ -609,7 +609,7 @@ iframe {
         margin-left: 15px;
     }
 
-    #divMusSub, #divRapSub, #divUyeAlt {
+    #divMusSub, #divRapSub, #divUyeAlt, #divDash {
         position: absolute !important;
     }
 
@@ -665,7 +665,7 @@ iframe {
         padding-right: 6px !important;
     }
 
-    #dtTable .dtClearButton {
+    /*#dtTable*/ .dtClearButton {
         display: none !important;
     }
 
@@ -696,12 +696,12 @@ iframe {
     }
 
     .sinirli3 {
-        font-size: 0.95rem;
+        font-size: 0.80rem;
         white-space: nowrap;
         display: inline-block;
         overflow: hidden !important;
         text-overflow: ellipsis;
-        width: 180px;
+        width: 160px;
     }
 
     .sinirli4 {
@@ -733,6 +733,10 @@ iframe {
     .inputSecim {
         width: 40px;
         font-size: 0.75rem;
+    }
+
+    .tumuExcel {
+        float: none !important;
     }
 }
 
@@ -806,6 +810,14 @@ table tr.odd:hover {
 table tr.even:hover {
     background-color: floralwhite;
 }
+
+/*table tr.even.selected {
+    background-color: lightblue;
+}
+
+table tr.odd.selected {
+    background-color: lightblue;
+}*/
 
 .tableRowBlue {
     background-color: #EAF5FF !important;
@@ -1247,7 +1259,7 @@ table.dataTable {
     visibility: hidden !important;
 }
 
-#divMusSub, #divRapSub, #divUyeAlt {
+#divMusSub, #divRapSub, #divUyeAlt, #divDash {
     position: fixed;
 }
 
@@ -1296,9 +1308,10 @@ button.dt-button {
 #dtTable tbody td {
 }
 
-#dtTable .dtClearButton {
+/*#dtTable*/
+.dtClearButton {
     display: none;
-    margin-top: 7px;
+    margin-top: 0.2em;
     margin-left: -25px;
     margin-right: 5px;
     width: 20px;
@@ -1377,4 +1390,40 @@ input[type="number"]:disabled {
 .disabledEverything {
     pointer-events: none;
     opacity: 0.4;
+}
+
+label.active {
+    /*opacity: .5;*/
+    color: lightblue !important;
+}
+
+.btn-group {
+    overflow: auto;
+}
+
+div.table {
+    display: table;
+}
+
+div.tr {
+    display: table-row;
+}
+
+div.td {
+    text-align: right;
+    display: table-cell;
+}
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.tumuExcel {
+    float: right;
 }

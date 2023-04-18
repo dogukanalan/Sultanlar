@@ -371,5 +371,27 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
+
+        public static void GetJob()
+        {
+            SqlConnection conn = new SqlConnection(General.ConnectionString);
+            SqlCommand cmd = new SqlCommand("msdb.dbo.sp_start_job", conn);
+            cmd.CommandTimeout = 1000;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@job_name", "Web_Fiyat_TP_2");
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Hatalar.DoInsert(ex, "fiyatlartp job");
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

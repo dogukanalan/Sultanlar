@@ -37,6 +37,8 @@
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn10 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn11 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn14 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.btnYenile = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -56,6 +58,10 @@
             this.sbGuncelle = new DevExpress.XtraEditors.SimpleButton();
             this.sbSil = new DevExpress.XtraEditors.SimpleButton();
             this.button1 = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtTAHKDV = new System.Windows.Forms.TextBox();
+            this.txtYEGKDV = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView4)).BeginInit();
             this.SuspendLayout();
@@ -63,9 +69,6 @@
             // gridControl4
             // 
             this.gridControl4.Dock = System.Windows.Forms.DockStyle.Fill;
-            // 
-            // 
-            // 
             this.gridControl4.EmbeddedNavigator.Appearance.BackColor = System.Drawing.Color.White;
             this.gridControl4.EmbeddedNavigator.Appearance.ForeColor = System.Drawing.Color.Black;
             this.gridControl4.EmbeddedNavigator.Appearance.Options.UseBackColor = true;
@@ -87,6 +90,8 @@
             this.gridColumn6,
             this.gridColumn10,
             this.gridColumn11,
+            this.gridColumn2,
+            this.gridColumn1,
             this.gridColumn14});
             this.gridView4.GridControl = this.gridControl4;
             this.gridView4.Name = "gridView4";
@@ -183,6 +188,24 @@
             this.gridColumn11.VisibleIndex = 4;
             this.gridColumn11.Width = 125;
             // 
+            // gridColumn2
+            // 
+            this.gridColumn2.Caption = "KGT KDV Oranı";
+            this.gridColumn2.FieldName = "intTAHKDVoran";
+            this.gridColumn2.Name = "gridColumn2";
+            this.gridColumn2.OptionsColumn.AllowEdit = false;
+            this.gridColumn2.Visible = true;
+            this.gridColumn2.VisibleIndex = 5;
+            // 
+            // gridColumn1
+            // 
+            this.gridColumn1.Caption = "NF KDV Oranı";
+            this.gridColumn1.FieldName = "intYEGKDVoran";
+            this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.OptionsColumn.AllowEdit = false;
+            this.gridColumn1.Visible = true;
+            this.gridColumn1.VisibleIndex = 6;
+            // 
             // gridColumn14
             // 
             this.gridColumn14.AppearanceHeader.Options.UseTextOptions = true;
@@ -193,7 +216,7 @@
             this.gridColumn14.OptionsColumn.AllowEdit = false;
             this.gridColumn14.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn14.Visible = true;
-            this.gridColumn14.VisibleIndex = 5;
+            this.gridColumn14.VisibleIndex = 7;
             this.gridColumn14.Width = 200;
             // 
             // btnYenile
@@ -231,7 +254,7 @@
             this.cmbBayi.FormattingEnabled = true;
             this.cmbBayi.Location = new System.Drawing.Point(66, 401);
             this.cmbBayi.Name = "cmbBayi";
-            this.cmbBayi.Size = new System.Drawing.Size(221, 20);
+            this.cmbBayi.Size = new System.Drawing.Size(231, 20);
             this.cmbBayi.TabIndex = 37;
             // 
             // label2
@@ -245,9 +268,9 @@
             // 
             // txtYil
             // 
-            this.txtYil.Location = new System.Drawing.Point(330, 401);
+            this.txtYil.Location = new System.Drawing.Point(320, 401);
             this.txtYil.Name = "txtYil";
-            this.txtYil.Size = new System.Drawing.Size(49, 20);
+            this.txtYil.Size = new System.Drawing.Size(35, 20);
             this.txtYil.TabIndex = 39;
             this.txtYil.Text = "2016";
             this.txtYil.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -255,7 +278,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(303, 404);
+            this.label3.Location = new System.Drawing.Point(300, 404);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(21, 13);
             this.label3.TabIndex = 38;
@@ -264,7 +287,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(395, 404);
+            this.label4.Location = new System.Drawing.Point(359, 404);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(22, 13);
             this.label4.TabIndex = 38;
@@ -272,9 +295,9 @@
             // 
             // txtAy
             // 
-            this.txtAy.Location = new System.Drawing.Point(422, 401);
+            this.txtAy.Location = new System.Drawing.Point(379, 401);
             this.txtAy.Name = "txtAy";
-            this.txtAy.Size = new System.Drawing.Size(49, 20);
+            this.txtAy.Size = new System.Drawing.Size(27, 20);
             this.txtAy.TabIndex = 39;
             this.txtAy.Text = "1";
             this.txtAy.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -282,7 +305,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(487, 404);
+            this.label5.Location = new System.Drawing.Point(413, 404);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(53, 13);
             this.label5.TabIndex = 38;
@@ -290,7 +313,7 @@
             // 
             // txtTAH
             // 
-            this.txtTAH.Location = new System.Drawing.Point(546, 401);
+            this.txtTAH.Location = new System.Drawing.Point(472, 401);
             this.txtTAH.Name = "txtTAH";
             this.txtTAH.Size = new System.Drawing.Size(69, 20);
             this.txtTAH.TabIndex = 39;
@@ -300,7 +323,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(487, 430);
+            this.label6.Location = new System.Drawing.Point(421, 430);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(45, 13);
             this.label6.TabIndex = 38;
@@ -308,7 +331,7 @@
             // 
             // txtYEG
             // 
-            this.txtYEG.Location = new System.Drawing.Point(546, 427);
+            this.txtYEG.Location = new System.Drawing.Point(472, 426);
             this.txtYEG.Name = "txtYEG";
             this.txtYEG.Size = new System.Drawing.Size(69, 20);
             this.txtYEG.TabIndex = 39;
@@ -319,7 +342,7 @@
             // 
             this.txtAciklama.Location = new System.Drawing.Point(66, 427);
             this.txtAciklama.Name = "txtAciklama";
-            this.txtAciklama.Size = new System.Drawing.Size(405, 20);
+            this.txtAciklama.Size = new System.Drawing.Size(340, 20);
             this.txtAciklama.TabIndex = 39;
             // 
             // label7
@@ -359,6 +382,42 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(547, 404);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(32, 13);
+            this.label8.TabIndex = 38;
+            this.label8.Text = "KDV:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(547, 430);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(32, 13);
+            this.label9.TabIndex = 38;
+            this.label9.Text = "KDV:";
+            // 
+            // txtTAHKDV
+            // 
+            this.txtTAHKDV.Location = new System.Drawing.Point(585, 401);
+            this.txtTAHKDV.Name = "txtTAHKDV";
+            this.txtTAHKDV.Size = new System.Drawing.Size(30, 20);
+            this.txtTAHKDV.TabIndex = 39;
+            this.txtTAHKDV.Text = "8";
+            this.txtTAHKDV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtYEGKDV
+            // 
+            this.txtYEGKDV.Location = new System.Drawing.Point(585, 427);
+            this.txtYEGKDV.Name = "txtYEGKDV";
+            this.txtYEGKDV.Size = new System.Drawing.Size(30, 20);
+            this.txtYEGKDV.TabIndex = 39;
+            this.txtYEGKDV.Text = "18";
+            this.txtYEGKDV.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // frmINTERNETticaripazarlamabayiciroprimleri
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -368,11 +427,15 @@
             this.Controls.Add(this.txtAy);
             this.Controls.Add(this.txtAciklama);
             this.Controls.Add(this.txtYEG);
+            this.Controls.Add(this.txtYEGKDV);
+            this.Controls.Add(this.txtTAHKDV);
             this.Controls.Add(this.txtTAH);
             this.Controls.Add(this.txtYil);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label7);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -425,5 +488,11 @@
         private DevExpress.XtraEditors.SimpleButton sbGuncelle;
         private DevExpress.XtraEditors.SimpleButton sbSil;
         private System.Windows.Forms.Button button1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txtTAHKDV;
+        private System.Windows.Forms.TextBox txtYEGKDV;
     }
 }

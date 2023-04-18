@@ -37,5 +37,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public int mudurbutcesi { get; set; }
         public int elemanbutcesi { get; set; }
         public int kapamaetki { get; set; }
+        public int tahkdvoran { get; set; }
+        public int yegkdvoran { get; set; }
     }
 }

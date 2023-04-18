@@ -24,10 +24,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>true</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>https://www.sultanlar.com.tr/sultanlarui/</InstallUrl>
-    <UpdateUrl>https://www.sultanlar.com.tr/sultanlarui/</UpdateUrl>
-    <SupportUrl>https://www.sultanlar.com.tr</SupportUrl>
-    <ErrorReportUrl>https://www.sultanlar.com.tr</ErrorReportUrl>
+    <InstallUrl>http://www.sultanlar.com.tr/sultanlarui/</InstallUrl>
+    <UpdateUrl>http://www.sultanlar.com.tr/sultanlarui/</UpdateUrl>
+    <SupportUrl>http://www.sultanlar.com.tr</SupportUrl>
+    <ErrorReportUrl>http://www.sultanlar.com.tr</ErrorReportUrl>
     <ProductName>Sultanlar UI</ProductName>
     <PublisherName>Sultanlar</PublisherName>
     <SuiteName>Sultanlar</SuiteName>
@@ -35,7 +35,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>197</ApplicationRevision>
+    <ApplicationRevision>220</ApplicationRevision>
     <ApplicationVersion>2.3.4.%2a</ApplicationVersion>
     <UseApplicationTrust>true</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -322,6 +322,18 @@
     <Compile Include="frmINTERNETcarihesapz.Designer.cs">
       <DependentUpon>frmINTERNETcarihesapz.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmINTERNETcarihesapzgunler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmINTERNETcarihesapzgunler.Designer.cs">
+      <DependentUpon>frmINTERNETcarihesapzgunler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmINTERNETcarihesapzyetkili.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmINTERNETcarihesapzyetkili.Designer.cs">
+      <DependentUpon>frmINTERNETcarihesapzyetkili.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmINTERNETdisSiparisler.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -399,6 +411,12 @@
     </Compile>
     <Compile Include="frmINTERNETfiyaturunbaglantieklemesilme.Designer.cs">
       <DependentUpon>frmINTERNETfiyaturunbaglantieklemesilme.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmINTERNETfiyaturunbaglantikopyalama.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmINTERNETfiyaturunbaglantikopyalama.Designer.cs">
+      <DependentUpon>frmINTERNETfiyaturunbaglantikopyalama.cs</DependentUpon>
     </Compile>
     <Compile Include="frmINTERNEThedef.cs">
       <SubType>Form</SubType>
@@ -1152,6 +1170,12 @@
     <EmbeddedResource Include="frmINTERNETcarihesapz.resx">
       <DependentUpon>frmINTERNETcarihesapz.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmINTERNETcarihesapzgunler.resx">
+      <DependentUpon>frmINTERNETcarihesapzgunler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmINTERNETcarihesapzyetkili.resx">
+      <DependentUpon>frmINTERNETcarihesapzyetkili.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmINTERNETdisSiparisler.resx">
       <DependentUpon>frmINTERNETdisSiparisler.cs</DependentUpon>
     </EmbeddedResource>
@@ -1190,6 +1214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmINTERNETfiyaturunbaglantieklemesilme.resx">
       <DependentUpon>frmINTERNETfiyaturunbaglantieklemesilme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmINTERNETfiyaturunbaglantikopyalama.resx">
+      <DependentUpon>frmINTERNETfiyaturunbaglantikopyalama.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmINTERNEThedef.resx">
       <DependentUpon>frmINTERNEThedef.cs</DependentUpon>

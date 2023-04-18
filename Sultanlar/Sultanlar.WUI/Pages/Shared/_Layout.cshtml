@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="~/css/main.css">
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'" />
 
         <script src="https://unpkg.com/bowser@2.7.0/es5.js"></script>
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -20,7 +21,7 @@
         <script src="~/js/main.js"></script>
         <script src="~/js/db.js"></script>
         <script src="~/js/lazyload.js"></script>
-        <script>//apiurl = "http://localhost:50544/internet/";</script>
+        <script>apiurl = "http://localhost:50544/internet/";</script>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
@@ -29,6 +30,7 @@
         <link rel="stylesheet" href="~/css/main.min.css" asp-append-version="true" />
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'" />
 
         <script src="https://unpkg.com/bowser@2.7.0/es5.js"></script>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -44,6 +46,7 @@
     <script>
         var girissayfasi = false;
         var cikissayfasi = false;
+        var yetkisizsayfa = false;
 
         $(document).ready(function () {
             document.getElementById("spanUye").textContent = window.localStorage["eposta"];
@@ -54,7 +57,7 @@
             } catch (e) { }
 
             //check(false);
-            if (!girissayfasi && !cikissayfasi)
+            if (!girissayfasi && !cikissayfasi && !yetkisizsayfa)
                 MesajSayisi();
 
             if (localStorage["ziyaret"] != null && window.localStorage["uyeid"]) {
@@ -64,9 +67,16 @@
                 document.getElementById("divZiy").style.display = "none";
             }
 
-            if (window.location.href.indexOf("/Dashboard") > -1 || window.location.href.indexOf("/Rapor/") > -1 || window.location.href.indexOf("/Siparis/") > -1 || window.location.href.indexOf("/Iade/") > -1
-                || window.location.href.indexOf("/Anlasma/") > -1 || window.location.href.indexOf("/Aktivite/") > -1 || window.location.href.indexOf("/Hizmet/") > -1) {
-                if (window.localStorage["uyetipiid"] == "OtBFcTxR8BU=") {
+            if (window.localStorage["uyetipiid"] == "OtBFcTxR8BU=") {
+                if (window.location.href.indexOf("/Dashboard") > -1 || window.location.href.indexOf("/Rapor/") > -1 || window.location.href.indexOf("/Siparis/") > -1 || window.location.href.indexOf("/Iade/") > -1
+                    || window.location.href.indexOf("/Anlasma/") > -1 || window.location.href.indexOf("/Aktivite/") > -1 || window.location.href.indexOf("/Hizmet/") > -1) {
+                    window.location.replace("../Musteri");
+                }
+            }
+
+            if (window.localStorage["taksit"] == "true" && window.localStorage["tur"] != "AlL7YXUKaCY=" && window.localStorage["tur"] != "SSL5rqzumqM=") {
+                if (window.location.href.indexOf("/Dashboard") > -1 || window.location.href.indexOf("/Rapor/") > -1
+                    || window.location.href.indexOf("/Anlasma/") > -1 || window.location.href.indexOf("/Aktivite/") > -1 || window.location.href.indexOf("/Hizmet/") > -1) {
                     window.location.replace("../Musteri");
                 }
             }
@@ -79,6 +89,18 @@
                 $("#liAktivite").css("display", "none");
                 $("#liHizmet").css("display", "none");
                 $("#liRapor").css("display", "none");
+            }
+
+            if (window.localStorage["taksit"] == "true") {
+                $("#liDashboard").css("display", "none");
+                $("#liAnlasma").css("display", "none");
+                $("#liAktivite").css("display", "none");
+                $("#liHizmet").css("display", "none");
+                $("#liRapor").css("display", "none");
+            }
+
+            if (window.localStorage["tur"] == "AlL7YXUKaCY=" || window.localStorage["tur"] == "SSL5rqzumqM=") {
+                $("#liRapor").css("display", "block");
             }
 
             $("#selectSaticilar").select2({ theme: "bootstrap", language: "tr" }); //.selSaticilar
@@ -134,7 +156,13 @@
             <div class="navbar-collapse collapse" style="overflow-x: scroll !important;">
                 <div class="navbar-ic">
                     <ul class="nav navbar-nav">
-                        <li id="liDashboard"><a href="~/Dashboard">Dashboard</a></li>
+                        <li id="liDashboard">
+                            <a href="javascript:showSubMenu(divDash)" onmouseover="showSubMenu(divDash)" onmouseout="divDash.classList.remove('show')">Dashboard</a>
+                            <div onmouseover="showSubMenu(divDash)" onmouseout="divDash.classList.remove('show')" class="subMenu" id="divDash">
+                                <a href="~/Dashboard">Grafikler</a>
+                                <a href="~/Uygulamalar/FiyatListe">Fiyat Listeleri</a>
+                            </div>
+                        </li>
                         <li>
                             <a href="javascript:showSubMenu(divMusSub)" onmouseover="showSubMenu(divMusSub)" onmouseout="divMusSub.classList.remove('show')">Müşteriler</a>
                             <div onmouseover="showSubMenu(divMusSub)" onmouseout="divMusSub.classList.remove('show')" class="subMenu" id="divMusSub">
@@ -153,21 +181,22 @@
                         <li id="liAktivite"><a href="~/Aktivite/Aktiviteler">Aktiviteler</a></li>
                         <li id="liHizmet"><a href="~/Hizmet/HizmetBedelleri">Hizmet Bedelleri</a></li>
                         @*<li><a href="~/Tahsilatlar">Tahsilatlar</a></li>*@
-                        <li id="liRapor">
-                            <a href="javascript:showSubMenu(divRapSub)" onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')">Raporlar</a>
-                            <div onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')" class="subMenu" id="divRapSub">
-                                <a href="~/Rapor/Ekstre">Ekstre</a>
-                                <a href="~/Rapor/Satis">Satış</a>
-                                <a href="~/Rapor/SatisHedef">Satış Hedef</a>
-                                <a href="~/Rapor/SatisOzet">Satış Özet</a>
-                                <a href="~/Rapor/SatisKars">Satış Karşılaştırma</a>
-                                <a href="~/Rapor/BorcAlacak">Borç Alacak</a>
-                                <a href="~/Rapor/Stok">Stok</a>
-                                <a href="~/Rapor/Siparis">Sipariş</a>
-                                <a href="~/Rapor/SiparisDetay">Sipariş Detay</a>
-                                <a href="~/Rapor/SiparisDurum">Sipariş Durum</a>
-                            </div>
-                        </li>
+                    <li id="liRapor">
+                        <a href="javascript:showSubMenu(divRapSub)" onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')">Raporlar</a>
+                        <div onmouseover="showSubMenu(divRapSub)" onmouseout="divRapSub.classList.remove('show')" class="subMenu" id="divRapSub">
+                            <a href="~/Rapor/Ekstre">Ekstre</a>
+                            <a href="~/Rapor/Satis">Satış</a>
+                            <a href="~/Rapor/SatisHedef">Satış Hedef</a>
+                            <a href="~/Rapor/SatisOzet">Satış Özet</a>
+                            <a href="~/Rapor/SatisKars">Satış Karşılaştırma</a>
+                            <a href="~/Rapor/BorcAlacak">Borç Alacak</a>
+                            <a href="~/Rapor/Stok">Stok</a>
+                            <a href="~/Rapor/Siparis">Sipariş</a>
+                            <a href="~/Rapor/SiparisDetay">Sipariş Detay</a>
+                            <a href="~/Rapor/SiparisDurum">Sipariş Durum</a>
+                            <a href="~/Rapor/Bayi">Bayi Raporları</a>
+                        </div>
+                    </li>
                         <li><a href="~/Cikis">Çıkış</a></li>
                         <li>
                             <a href="javascript:showSubMenu(divUyeAlt)" onmouseover="showSubMenu(divUyeAlt)" onmouseout="divUyeAlt.classList.remove('show')"><span id="spanUye">Üye</span></a>

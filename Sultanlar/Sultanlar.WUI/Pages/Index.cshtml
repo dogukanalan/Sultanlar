@@ -5,7 +5,6 @@
 }
 
 @section head {
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="none" onload="if(media!='all')media='all'" />
     <style>
         @@media (min-width: 1279px) {
             .wrap {
@@ -48,6 +47,8 @@
                         createCookie("sulLogin", data.tokenCr, 1);
                         createCookie("sulLoginR", $('#ckb1').is(':checked') ? "true" : "false", 1);
                         window.localStorage["musteri"] = data.musteri;
+                        window.localStorage["taksit"] = data.taksit;
+                        window.localStorage["tur"] = data.tur;
 
                         if (!window.localStorage["sepet"]) {
                             window.localStorage["sepet"] = "[]";
@@ -57,6 +58,9 @@
                         }
                         if (!window.localStorage["sepetA"]) {
                             window.localStorage["sepetA"] = "[]";
+                        }
+                        if (!window.localStorage["sepetS"]) {
+                            window.localStorage["sepetS"] = "[]";
                         }
 
                         var bas = window.location.href.indexOf("site") > -1 ? window.location.href.substring(0, window.location.href.indexOf("/")) + "/site" : window.location.href.substring(0, window.location.href.indexOf("/"));

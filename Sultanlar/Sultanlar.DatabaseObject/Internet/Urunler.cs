@@ -4325,6 +4325,61 @@ namespace Sultanlar.DatabaseObject.Internet
             }
         }
 
+        public static void SilHedef(int SLSREF, int SMREF, int YIL, int AY, bool bonus)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                string tablo = bonus ? "[Web-Hedef-2]" : "[Web-Hedef]";
+
+                SqlCommand cmd1 = new SqlCommand("DELETE FROM " + tablo + " WHERE SLSREF = @SLSREF AND SMREF = @SMREF AND YIL = @YIL AND AY = @AY", conn);
+                cmd1.Parameters.Add("@SLSREF", System.Data.SqlDbType.Int).Value = SLSREF;
+                cmd1.Parameters.Add("@SMREF", System.Data.SqlDbType.Int).Value = SMREF;
+                cmd1.Parameters.Add("@YIL", System.Data.SqlDbType.Int).Value = YIL;
+                cmd1.Parameters.Add("@AY", System.Data.SqlDbType.Int).Value = AY;
+
+                try
+                {
+                    conn.Open();
+                    cmd1.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public static void SilHedef(int SLSREF, int YIL, int AY, bool bonus)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                string tablo = bonus ? "[Web-Hedef-2]" : "[Web-Hedef]";
+
+                SqlCommand cmd1 = new SqlCommand("DELETE FROM " + tablo + " WHERE SLSREF = @SLSREF AND YIL = @YIL AND AY = @AY", conn);
+                cmd1.Parameters.Add("@SLSREF", System.Data.SqlDbType.Int).Value = SLSREF;
+                cmd1.Parameters.Add("@YIL", System.Data.SqlDbType.Int).Value = YIL;
+                cmd1.Parameters.Add("@AY", System.Data.SqlDbType.Int).Value = AY;
+
+                try
+                {
+                    conn.Open();
+                    cmd1.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         public static void GetHedefler(DataTable dt, bool bonus)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))

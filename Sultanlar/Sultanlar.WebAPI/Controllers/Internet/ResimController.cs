@@ -34,6 +34,16 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         }
 
         [HttpGet("{ITEMREF}")]
+        public IActionResult GetTObase64(int ITEMREF)
+        {
+            ResimProvider rp = new ResimProvider();
+            List<urunResimleri> ur = new UrunResimProvider().UrunResimleri(ITEMREF);
+            if (ur.Count == 0)
+                return Content(Convert.ToBase64String(rp.BosResimOlustur(100, 100)));
+            return Content(Convert.ToBase64String(rp.Resimler(ur[0].intResimID).binResimO));
+        }
+
+        [HttpGet("{ITEMREF}")]
         public IActionResult GetT(int ITEMREF)
         {
             ResimProvider rp = new ResimProvider();

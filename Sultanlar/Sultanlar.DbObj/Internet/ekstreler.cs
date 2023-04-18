@@ -53,11 +53,11 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<ekstreler> GetObjects(int GMREF, object AY)
+        public List<ekstreler> GetObjects(int GMREF, int YIL, object AY)
         {
             List<ekstreler> donendeger = new List<ekstreler>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_ekstrelerGetir", new Dictionary<string, object>() { { "GMREF", GMREF }, { "AY", AY } }, timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_ekstrelerGetir", new Dictionary<string, object>() { { "GMREF", GMREF }, { "YIL", YIL }, { "AY", AY } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new ekstreler(dic[i][0].ToString(), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), dic[i][3].ToString(), dic[i][4].ToString(), ConvertToDateTime(dic[i][5]), dic[i][6].ToString(), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8]), ConvertToDouble(dic[i][9])));

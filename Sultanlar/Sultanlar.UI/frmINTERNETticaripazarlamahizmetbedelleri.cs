@@ -138,6 +138,8 @@ namespace Sultanlar.UI
                 txtMudurButcesi.Text = anlasmahizmetbedeli.mnMudurButce.ToString("N0");
                 txtElemanButcesi.Text = anlasmahizmetbedeli.mnElemanButce.ToString("N0");
                 cbKapamaEtki.Checked = anlasmahizmetbedeli.blKapamaEtki;
+                txtTAHKDV.Text = anlasmahizmetbedeli.intTAHKDVoran.ToString();
+                txtYEGKDV.Text = anlasmahizmetbedeli.intYEGKDVoran.ToString();
             }
             else
             {
@@ -161,6 +163,8 @@ namespace Sultanlar.UI
             txtTAHBedel.Text = 0.ToString("N2");
             txtYEGBedel.Text = 0.ToString("N2");
             cbKapamaEtki.Checked = true;
+            txtTAHKDV.Text = "8";
+            txtYEGKDV.Text = "18";
         }
 
         private void gridControl4_Click(object sender, EventArgs e)
@@ -225,6 +229,8 @@ namespace Sultanlar.UI
                         anlasmahizmetbedeli.mnMudurButce = Convert.ToDecimal(txtMudurButcesi.Text.Replace(".", ""));
                         anlasmahizmetbedeli.mnElemanButce = Convert.ToDecimal(txtElemanButcesi.Text.Replace(".", ""));
                         anlasmahizmetbedeli.blKapamaEtki = cbKapamaEtki.Checked;
+                        anlasmahizmetbedeli.intTAHKDVoran = Convert.ToInt32(txtTAHKDV.Text);
+                        anlasmahizmetbedeli.intYEGKDVoran = Convert.ToInt32(txtYEGKDV.Text);
 
                         anlasmahizmetbedeli.DoInsert();
 
@@ -267,6 +273,8 @@ namespace Sultanlar.UI
                             anlasmahizmetbedeli.mnMudurButce = Convert.ToDecimal(txtMudurButcesi.Text.Replace(".", ""));
                             anlasmahizmetbedeli.mnElemanButce = Convert.ToDecimal(txtElemanButcesi.Text.Replace(".", ""));
                             anlasmahizmetbedeli.blKapamaEtki = cbKapamaEtki.Checked;
+                            anlasmahizmetbedeli.intTAHKDVoran = Convert.ToInt32(txtTAHKDV.Text);
+                            anlasmahizmetbedeli.intYEGKDVoran = Convert.ToInt32(txtYEGKDV.Text);
 
                             anlasmahizmetbedeli.DoUpdate();
                         }

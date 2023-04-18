@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Sultanlar.DbObj.Internet;
 using Sultanlar.WebAPI.Models.Internet;
 using System.Linq.Dynamic.Core;
+using System.Collections;
+using System.Data;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -32,12 +34,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             if (zget.search.value != "")
             {
                 donendeger2 = donendeger2.ToList().Where(k =>
-                    k.Cari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.Cari.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.Satici.SATTEM.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.AnaCari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.AnaCari.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1 ||
-                    k.ZiyaretNeden.value.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1
+                    k.Cari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(zget.search.value.ToUpper(CultureInfo.CurrentCulture)) > -1
                 ).ToList();
             }
             donendeger.recordsFiltered = donendeger2.Count;
@@ -91,7 +88,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 ziy = new ziyaretler(ziyaret.MTIP, ziyaret.SMREF, ziyaret.SLSREF, Convert.ToDateTime(ziyaret.ZIY_BAS_TAR)).GetObject();
             }*/
 
-            ziy.ZIY_BIT_TAR = Convert.ToDateTime(ziyaret.ZIY_BIT_TAR);
+            ziy.ZIY_BIT_TAR = DateTime.Now; //Convert.ToDateTime(ziyaret.ZIY_BIT_TAR);
             ziy.ZIY_NDN_ID = ziyaret.ZIY_NDN_ID;
             ziy.ZIY_KONUM = ziyaret.ZIY_KONUM;
             ziy.ZIY_KONUM_ADRES = ziyaret.ZIY_KONUM_ADRES;
@@ -120,6 +117,9 @@ namespace Sultanlar.WebAPI.Services.Internet
 
         internal string VaryokEkle(ZiyaretVaryok varyok)
         {
+            /*VaryokEkle2(varyok); //metodun bitişini beklemeden çağırmak için
+            return "";*/
+
             ziyaretler ziy = new ziyaretler().GetObjectByBarkod(varyok.barkod);
             if (ziy.ZIY_BAS_TAR != ziy.ZIY_BIT_TAR)
                 return "ziyaret bitmis";
@@ -128,10 +128,14 @@ namespace Sultanlar.WebAPI.Services.Internet
             if (onceki.pkID > 0)
                 onceki.DoDelete();
 
+            if (varyok.barkod == "")
+                return "liste gönderilmedi. detay: " + varyok.tip + " " + varyok.musteri;
+
             ziyaretvaryok vy = new ziyaretvaryok();
             vy.BARKOD = varyok.barkod;
             vy.FIYAT_TIP = varyok.tip;
             vy.TARIH = DateTime.Now;
+            vy.SONALIM = new SatisRaporuProvider().SonAlis(ziy.GMREF, ziy.MTIP, ziy.SMREF);
             vy.DoInsert();
 
             SiparisKaydet skg = new SiparisKaydet();
@@ -148,7 +152,13 @@ namespace Sultanlar.WebAPI.Services.Internet
                 vyd.RAF_FIYAT = varyok.detays[i].raffiyat;
                 vyd.SKT = varyok.detays[i].skt;
                 vyd.SIPARIS = varyok.detays[i].siparis;
-                vyd.DoInsert();
+                if (varyok.detays[i].isaret)
+                {
+                    vyd.SONALIM = new SatisRaporuProvider().SonDetayAlis(ziy.GMREF, ziy.MTIP, ziy.SMREF, vyd.ITEMREF);
+                    vyd.DoInsert();
+                }
+                else
+                    vyd.DoInsertNull();
 
                 SiparisKaydetDetay skgd = new SiparisKaydetDetay();
                 skgd.itemref = vyd.ITEMREF;
@@ -160,6 +170,25 @@ namespace Sultanlar.WebAPI.Services.Internet
                     skg.detaylar.Add(skgd);
             }
 
+            if (vy.Ziyaret.BARKOD != "")
+            {
+                ArrayList eposta = new ArrayList();
+                /*for (int i = 0; i < vy.Ziyaret.AnaCari.muhataplar.Count; i++)
+                {
+                    musteriler mus = new musteriler().GetMusteriBySLSREF(Convert.ToInt32(vy.Ziyaret.AnaCari.muhataplar[i].SLSMANREF));
+                    if (mus.pkMusteriID > 0)
+                        eposta.Add(mus.strEposta2);
+                }*/
+                musteriler mus = new musteriler().GetMusteriBySLSREF(Convert.ToInt32(vy.Ziyaret.AnaCari.SATKOD));
+                eposta.Add(mus.strEposta2);
+                eposta.Add("fkaya@sultanlar.com.tr");
+                eposta.Add("kemalbayulgen@tibet.com.tr");
+                new EpostaProvider().EpostaGonder("Sultanlar",
+                    eposta,
+                    "Var/Yok Liste (" + vy.Ziyaret.Satici.SATTEM + ")",
+                    vy.Ziyaret.Cari.MUSTERI + " - " + vy.Ziyaret.Cari.SUBE + " carisine bir varyok listesi gönderilmiştir.<br><br><a href='" + "https://www.ittihadteknoloji.com.tr/site/Ziyaret/Varyok?ziyaretid=" + vy.Ziyaret.BARKOD + "&smref=" + vy.Ziyaret.SMREF + "&mtip=" + vy.Ziyaret.MTIP + "&incele=true'>Görüntülemek için tıklayınız");
+            }
+
             skg.ftip = Convert.ToInt16(vy.FIYAT_TIP);
             skg.aciklama = "Ziy.V/Y: " + varyok.barkod;
             skg.smref = vy.Ziyaret.MTIP == 1 ? vy.Ziyaret.SMREF : vy.Ziyaret.GMREF;
@@ -167,8 +196,12 @@ namespace Sultanlar.WebAPI.Services.Internet
             skg.musteri = varyok.musteri;
             skg.siparisid = 0;
 
-            if (varyok.tip != 0 && varyok.tip < 1000 && skg.detaylar.Count > 0)
+            if (varyok.tip != 0 && skg.detaylar.Count > 0)
             {
+                if (varyok.tip > 5000)
+                    skg.ftip = Convert.ToInt16(new fiyatTipleri().GetObjectByGMREF(ziy.AnaCari.GMREF, 1).NOSU);
+                if (skg.ftip == 0)
+                    skg.ftip = 7;
                 SiparisProvider sp = new SiparisProvider();
                 sp.SiparisKaydet(skg);
             }
@@ -176,11 +209,128 @@ namespace Sultanlar.WebAPI.Services.Internet
             return "";
         }
 
+        internal async Task<string> VaryokEkle2(ZiyaretVaryok varyok)
+        {
+            return await Task.Run(() =>
+            {
+                ziyaretler ziy = new ziyaretler().GetObjectByBarkod(varyok.barkod);
+                if (ziy.ZIY_BAS_TAR != ziy.ZIY_BIT_TAR)
+                    return "ziyaret bitmis";
+
+                ziyaretvaryok onceki = new ziyaretvaryok().GetObject(varyok.barkod);
+                if (onceki.pkID > 0)
+                    onceki.DoDelete();
+
+                if (varyok.barkod == "")
+                    return "liste gönderilmedi. detay: " + varyok.tip + " " + varyok.musteri;
+
+                ziyaretvaryok vy = new ziyaretvaryok();
+                vy.BARKOD = varyok.barkod;
+                vy.FIYAT_TIP = varyok.tip;
+                vy.TARIH = DateTime.Now;
+                vy.SONALIM = new SatisRaporuProvider().SonAlis(ziy.GMREF, ziy.MTIP, ziy.SMREF);
+                vy.DoInsert();
+
+                SiparisKaydet skg = new SiparisKaydet();
+                skg.detaylar = new List<SiparisKaydetDetay>();
+
+                for (int i = 0; i < varyok.detays.Count; i++)
+                {
+                    ziyaretvaryokdetay vyd = new ziyaretvaryokdetay();
+                    vyd.VARYOK_ID = vy.pkID;
+                    vyd.ITEMREF = varyok.detays[i].itemref;
+                    vyd.VARYOK = varyok.detays[i].varyok;
+                    vyd.DEPO = varyok.detays[i].depo;
+                    vyd.RAF = varyok.detays[i].raf;
+                    vyd.RAF_FIYAT = varyok.detays[i].raffiyat;
+                    vyd.SKT = varyok.detays[i].skt;
+                    vyd.SIPARIS = varyok.detays[i].siparis;
+                    if (varyok.detays[i].isaret)
+                    {
+                        vyd.SONALIM = new SatisRaporuProvider().SonDetayAlis(ziy.GMREF, ziy.MTIP, ziy.SMREF, vyd.ITEMREF);
+                        vyd.DoInsert();
+                    }
+                    else
+                        vyd.DoInsertNull();
+
+                    SiparisKaydetDetay skgd = new SiparisKaydetDetay();
+                    skgd.itemref = vyd.ITEMREF;
+                    skgd.malacik = new malzemeler(vyd.ITEMREF).GetObject().MALACIK;
+                    skgd.miktar = vyd.SIPARIS;
+                    skgd.miktartur = "ST";
+                    skgd.netkdv = new fiyatlar(vy.FIYAT_TIP, vyd.ITEMREF).NETKDV;
+                    if (skgd.miktar > 0)
+                        skg.detaylar.Add(skgd);
+                }
+
+                if (vy.Ziyaret.BARKOD != "")
+                {
+                    ArrayList eposta = new ArrayList();
+                    /*for (int i = 0; i < vy.Ziyaret.AnaCari.muhataplar.Count; i++)
+                    {
+                        musteriler mus = new musteriler().GetMusteriBySLSREF(Convert.ToInt32(vy.Ziyaret.AnaCari.muhataplar[i].SLSMANREF));
+                        if (mus.pkMusteriID > 0)
+                            eposta.Add(mus.strEposta2);
+                    }*/
+                    musteriler mus = new musteriler().GetMusteriBySLSREF(Convert.ToInt32(vy.Ziyaret.AnaCari.SATKOD));
+                    eposta.Add(mus.strEposta2);
+                    eposta.Add("fkaya@sultanlar.com.tr");
+                    eposta.Add("asayin@sultanlar.com.tr");
+                    eposta.Add("kemalbayulgen@tibet.com.tr");
+                    eposta.Add("ihsantetik@tibet.com.tr");
+                    new EpostaProvider().EpostaGonder("Sultanlar",
+                        eposta,
+                        "Var/Yok Liste (" + vy.Ziyaret.Satici.SATTEM + ")",
+                        vy.Ziyaret.Cari.MUSTERI + " - " + vy.Ziyaret.Cari.SUBE + " carisine bir varyok listesi gönderilmiştir.<br><br><a href='" + "https://www.ittihadteknoloji.com.tr/site/Ziyaret/Varyok?ziyaretid=" + vy.Ziyaret.BARKOD + "&smref=" + vy.Ziyaret.SMREF + "&mtip=" + vy.Ziyaret.MTIP + "&incele=true'>Görüntülemek için tıklayınız");
+                }
+
+                skg.ftip = Convert.ToInt16(vy.FIYAT_TIP);
+                skg.aciklama = "Ziy.V/Y: " + varyok.barkod;
+                skg.smref = vy.Ziyaret.MTIP == 1 ? vy.Ziyaret.SMREF : vy.Ziyaret.GMREF;
+                skg.teslim = DateTime.Now.ToShortDateString();
+                skg.musteri = varyok.musteri;
+                skg.siparisid = 0;
+
+                if (varyok.tip != 0 && skg.detaylar.Count > 0)
+                {
+                    if (varyok.tip > 5000)
+                        skg.ftip = Convert.ToInt16(new fiyatTipleri().GetObjectByGMREF(ziy.AnaCari.GMREF, 1).NOSU);
+                    if (skg.ftip == 0)
+                        skg.ftip = 7;
+                    SiparisProvider sp = new SiparisProvider();
+                    sp.SiparisKaydet(skg);
+                }
+
+                return "";
+            });
+        }
+
         internal ziyaretvaryok VaryokGetir(string BARKOD) => new ziyaretvaryok().GetObject(BARKOD);
 
         internal string VaryokSil(string BARKOD)
         {
             new ziyaretvaryok().GetObject(BARKOD).DoDelete();
+            return "";
+        }
+
+        internal string VaryokLogekle(string ID, string MUSTERIID, string SLSREF)
+        {
+            ziyaretvaryok varyok = new ziyaretvaryok().GetObject(Convert.ToInt32(ID));
+            bool YONETICI = varyok.Ziyaret.AnaCari.SATKOD == SLSREF;
+            bool MUDUR = false;
+            for (int i = 0; i < varyok.Ziyaret.AnaCari.muhataplar.Count; i++)
+            {
+                if (varyok.Ziyaret.AnaCari.muhataplar[i].SATKOD1 == "ZM" && Convert.ToInt32(SLSREF) == varyok.Ziyaret.AnaCari.muhataplar[i].SLSMANREF)
+                {
+                    MUDUR = true;
+                    break;
+                }
+            }
+
+            ziyaretvaryok.ExecNQ("db_sp_ziyaretVaryokLogEkle", 
+                new ArrayList() { "pkID", "VARYOK_ID", "intMusteriID", "SLSREF", "TARIH", "YONETICI", "MUDUR" }, 
+                new SqlDbType[] { SqlDbType.Int, SqlDbType.Int, SqlDbType.Int, SqlDbType.Int, SqlDbType.DateTime, SqlDbType.Bit, SqlDbType.Bit }, 
+                new ArrayList() { 0, Convert.ToInt32(ID), Convert.ToInt32(MUSTERIID), Convert.ToInt32(SLSREF), DateTime.Now, YONETICI, MUDUR });
             return "";
         }
     }

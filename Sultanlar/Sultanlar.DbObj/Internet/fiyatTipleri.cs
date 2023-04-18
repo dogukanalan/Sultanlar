@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Sultanlar.DbObj.Internet
         public int NOSU { get; set; }
         public string ACIKLAMA { get; set; }
         public int GMREF { get; set; }
+        public int ANAGMREF { get { return GMREF == 0 ? 0 : GetAnaGmrefNo(); } }
 
         public fiyatTipleri() { }
         public fiyatTipleri(int NOSU) { this.NOSU = NOSU; }
@@ -28,6 +30,16 @@ namespace Sultanlar.DbObj.Internet
         {
             Dictionary<string, object> param = new Dictionary<string, object>() { { "NOSU", NOSU }, { "ACIKLAMA", ACIKLAMA }, { "GMREF", GMREF } };
             Do(QueryType.Update, "db_sp_fiyatTipiEkle", param, timeout);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public static int DoInsert(string ACIKLAMA, int MTIP, int BY_REF, int ANA_GMREF, int GMREF)
+        {
+            return Convert.ToInt32(ExecSc("db_sp_fiyatTipiEkle2", 
+                new ArrayList() { "ACIKLAMA", "MTIP", "BY_REF", "ANA_GMREF", "GMREF" }, 
+                new System.Data.SqlDbType[] { System.Data.SqlDbType.NVarChar, System.Data.SqlDbType.Int, System.Data.SqlDbType.Int, System.Data.SqlDbType.Int, System.Data.SqlDbType.Int }, 
+                new ArrayList() { ACIKLAMA, MTIP, BY_REF, ANA_GMREF, GMREF }));
         }
         /// <summary>
         /// 
@@ -59,7 +71,7 @@ namespace Sultanlar.DbObj.Internet
             return donendeger;
         }
         /// <summary>
-        /// 
+        /// MTIP eklendikten sonra kullanmıyoruz
         /// </summary>
         /// <returns></returns>
         public fiyatTipleri GetObjectByGMREF(int GMREF)
@@ -67,6 +79,20 @@ namespace Sultanlar.DbObj.Internet
             fiyatTipleri donendeger = new fiyatTipleri();
 
             Dictionary<int, object> dic = GetObject("db_sp_fiyatTipiGetirByGMREF", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
+            if (dic != null)
+                donendeger = new fiyatTipleri(ConvertToInt32(dic[0]), dic[1].ToString(), ConvertToInt32(dic[2]));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public fiyatTipleri GetObjectByGMREF(int GMREF, int MTIP)
+        {
+            fiyatTipleri donendeger = new fiyatTipleri();
+
+            Dictionary<int, object> dic = GetObject("db_sp_fiyatTipiGetirByGMREFMTIP", new Dictionary<string, object>() { { "GMREF", GMREF }, { "MTIP", MTIP } }, timeout);
             if (dic != null)
                 donendeger = new fiyatTipleri(ConvertToInt32(dic[0]), dic[1].ToString(), ConvertToInt32(dic[2]));
 
@@ -91,6 +117,44 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
+        public void GetObjects(IList Liste)
+        {
+            Liste.Clear();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("SELECT NOSU,ACIKLAMA,GMREF FROM [Web-FiyatTipleri] ORDER BY NOSU", timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    Liste.Add(new fiyatTipleri(ConvertToInt32(dic[i][0]), dic[i][1].ToString(), ConvertToInt32(dic[i][2])));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public void GetObjects(IList Liste, int GMREF, int MTIP)
+        {
+            Liste.Clear();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("SELECT NOSU,ACIKLAMA,GMREF FROM [Web-FiyatTipleri] WHERE MTIP = @MTIP AND GMREF = @GMREF ORDER BY NOSU", new Dictionary<string, object>() { { "GMREF", GMREF }, { "MTIP", MTIP } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    Liste.Add(new fiyatTipleri(ConvertToInt32(dic[i][0]), dic[i][1].ToString(), ConvertToInt32(dic[i][2])));
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int GetAnaGmrefNo()
+        {
+            int donendeger = 0;
+            object obj = GetObjectSc("SELECT NOSU FROM [Web-FiyatTipleri] WHERE GMREF != @GMREF AND GMREF = (SELECT TOP 1 [ANA_GMREF] FROM [Web-FiyatTipleri] AS TIP WHERE GMREF = @GMREF)", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
+            if (obj != null)
+                donendeger = Convert.ToInt32(obj);
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public fiyatTipleri GetObjectVyByGMREF(int GMREF)
         {
             fiyatTipleri donendeger = new fiyatTipleri();
@@ -98,6 +162,21 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, object> dic = GetObject("db_sp_fiyatTipiVyGetirByGMREF", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
             if (dic != null)
                 donendeger = new fiyatTipleri(ConvertToInt32(dic[0]), dic[1].ToString(), ConvertToInt32(dic[2]));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<fiyatTipleri> GetObjects500birlikte()
+        {
+            List<fiyatTipleri> donendeger = new List<fiyatTipleri>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_fiyatTip500BirlikteGetir", timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new fiyatTipleri(ConvertToInt32(dic[i][0]), dic[i][1].ToString(), ConvertToInt32(dic[i][2])));
 
             return donendeger;
         }

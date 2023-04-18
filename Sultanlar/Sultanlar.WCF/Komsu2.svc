@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Sultanlar.WCF.Komsu2" CodeBehind="Komsu2.svc.cs" %>

@@ -16,7 +16,10 @@
                         checkAuth(response);
                         if (data == "") {
                             alert("Konum kaydedildi.");
-                            window.history.back();
+                            if (getParameterByName("slsref") && getParameterByName("gmref") && getParameterByName("deg") == "0")
+                                window.location.href = '../../Ziyaret/?smref=' + getParameterByName("smref") + '&gmref=' + getParameterByName("gmref") + '&slsref=' + getParameterByName("slsref") + '&tip=' + getParameterByName("tip") + '&konum=' + document.getElementById("inputCoords").value;
+                            else
+                                window.location.href = '../../Musteri';
                         }
                         else {
                             alert(data);

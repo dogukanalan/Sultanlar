@@ -1,0 +1,321 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Fiyat-Malzeme Seçim";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
+
+    <style>
+        #dtTable_wrapper {
+            width: 49% !important;
+            float: left !important;
+        }
+
+        #dtTable1_wrapper {
+            width: 49% !important;
+            float: right !important;
+            margin-top: 2px;
+        }
+
+        @@media (max-width: 576px) {
+            #dtTable_wrapper {
+                width: 100% !important;
+                float: none !important;
+            }
+
+            #dtTable1_wrapper {
+                width: 100% !important;
+                float: none !important;
+            }
+        }
+    </style>
+
+    <script>
+        var paramgmref;
+        var paramsmref;
+        var parammtip;
+        var paramtip;
+        var table;
+        var table1;
+
+        function getFiyatlar() {
+            var url1 = apiurl + (paramtip > 5000 ? "fiyat/GetVyByGMREF/" + paramsmref + "/" + parammtip : "fiyat/GetByTip/" + paramtip + "/" + paramgmref + "/" + parammtip + "/" + paramsmref);
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    $('.dataTables_filter input').keyup(function () {
+                        $(this).val($(this).val().toLocaleUpperCase());
+                    });
+                },
+                "fnDrawCallback": function (oSettings) {
+                    qtip();
+                },
+                columns: [
+                    {
+                        "data": null, "class": "bgwhite keyTd hidewhenmobile", render: function (data, type, row) {
+                            if (data.odemE_GUN > 0)
+                                return '<div class="imgKucRes"><img class="urunResim lazyload" rel="' + apiurl + 'resim/getT/' + data.itemref + '" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="' + apiurl + 'resim/getTO/' + data.itemref + '" /></div>';
+                            else
+                                return '<div style="width:100px; height:100px" />';
+                        }
+                    },
+                    {
+                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malacik", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli malacik">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": "hide", render: function (data, type, row) {
+                            return '<span class="sinirli ozelacik">' + data.ozelacik + '</span>';
+                        }
+                    },
+                    {
+                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="button" class="btn btn-danger" value="Çıkar" onclick="Degistir(this,false,' + data + ')" />';
+                        }
+                    }
+                ],
+                "destroy": true,
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true
+            });
+        }
+
+        function getFiyatlar1() {
+            var url1 = apiurl + (paramtip > 5000 ? "fiyat/GetNonVyByGMREF/" + paramsmref + "/" + parammtip : "fiyat/GetNonByTip/" + paramtip + "/" + paramgmref + "/" + parammtip + "/" + paramsmref);
+            table1 = $('#dtTable1').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+            }).DataTable({
+                ajax: {
+                    dataSrc: "",
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    $('.dataTables_filter input').keyup(function () {
+                        $(this).val($(this).val().toLocaleUpperCase());
+                    });
+                },
+                "fnDrawCallback": function (oSettings) {
+                    qtip();
+                },
+                columns: [
+                    {
+                        "data": null, "class": "bgwhite keyTd hidewhenmobile", render: function (data, type, row) {
+                            if (data.odemE_GUN > 0)
+                                return '<div class="imgKucRes"><img class="urunResim lazyload" rel="' + apiurl + 'resim/getT/' + data.itemref + '" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="' + apiurl + 'resim/getTO/' + data.itemref + '" /></div>';
+                            else
+                                return '<div style="width:100px; height:100px" />';
+                        }
+                    },
+                    {
+                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malacik", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli malacik">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": "hide", render: function (data, type, row) {
+                            return '<span class="sinirli ozelacik">' + data.ozelacik + '</span>';
+                        }
+                    },
+                    {
+                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="button" class="btn btn-success" value="Ekle" onclick="Degistir(this,true,' + data + ')" />';
+                        }
+                    }
+                ],
+                "destroy": true,
+                "language": defaultDtLang,
+                "paging": true,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true
+            });
+        }
+
+        function Degistir(that, ekle, itemref) {
+            /*if (ekle) {
+                table1.row($(that).parents('tr')).remove().draw();
+                getFiyatlar();
+
+                //var row = table1.row($(that).parents('tr'));
+                //var rowNode = row.node();
+                //row.remove();
+                //table.row.add(rowNode).draw();
+            }
+            else {
+                table.row($(that).parents('tr')).remove().draw();
+                getFiyatlar1();
+            }*/
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "fiyat/" + (ekle ? "SetEkle/" : "SetCikar/") + paramtip + "/" + itemref + "/" + window.localStorage["musteri"],
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data == "")
+                            window.location.href = window.location.href;
+                        else
+                            alert(data);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function IlkBilgiler() {
+            document.getElementById("basTitle").innerHTML += " (" + paramtip + ")";
+
+            getCari(parammtip, getParameterByName("smref"), getCariSube, "fiyMus");
+            getFiyatlar();
+            getFiyatlar1();
+
+            $('input[type=radio][name=options]').change(function () {
+                var val;
+                $("#divTur input").each(function (index, element) {
+                    if ($(element).is(':checked')) {
+                        val = $(element).val();
+                    }
+                });
+
+                table.columns(3).search(val == 1 ? "" : val).draw();
+                table1.columns(3).search(val == 1 ? "" : val).draw();
+            });
+        }
+
+        function YeniFiyatTip() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "fiyat/yenifiyattip/" + paramgmref + "/" + paramnettop + "/" + paramsmref + "/" + parammtip + "/" + parammusteri,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data != "") {
+                            paramtip = data;
+                            alert("Açık ürün listesi oluşturuldu.");
+                            //IlkBilgiler();
+                            window.location.href = window.location.href.replace("yeni=1", "yeni=0").replace("tip=0", "tip=" + paramtip);
+                        }
+                        else {
+                            alert("Bu müşteri için açık ürün listesi daha önce oluşturulmuş.");
+                            window.history.back();
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            paramgmref = getParameterByName('gmref');
+            paramnettop = getParameterByName('nettop');
+            paramsmref = getParameterByName('smref');
+            paramtip = getParameterByName('tip');
+            parammtip = getParameterByName('mtip');
+            parammusteri = getParameterByName('musteri');
+            paramyeni = getParameterByName('yeni');
+
+            if (paramyeni == 1) {
+                YeniFiyatTip();
+            }
+            else {
+                IlkBilgiler();
+            }
+        });
+
+        function qtip() {
+            $('.urunResim').each(function () {
+                $(this).qtip({
+                    content: '<img src="' + $(this).attr('rel') + '" class="urunResimQtip" />',
+                    position: { at: 'top right' }
+                });
+            });
+            lazyload();
+        }
+    </script>
+}
+
+<h5 class="spanCiplak" id="fiyMus"></h5>
+<input type="button" class="btn btn-danger" value="Geri Dön" onclick="window.location.href = '../../Musteri'" />
+<div id="divTur" data-toggle="buttons" style="text-align: center">
+    <label class="btn btn-primary active">
+        <input type="radio" name="options" id="option0" value="1" checked> Tümü
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option1" value="ARI"> Arı
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option2" value="HAYAT"> Hayat
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option3" value="TİBET"> Temizlik
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option4" value="YEG"> YEG
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option4" value="ÇAPA MEDİKAL"> Banduff
+    </label>
+    <label class="btn btn-primary">
+        <input type="radio" name="options" id="option4" value="DİĞER"> Diğer
+    </label>
+</div>
+<br />
+<table id="dtTable1" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+            <th class="keyTd"><span class="">Kod</span></th>
+            <th class="keyTd"><span class="">Malzeme</span></th>
+            <th class="keyTd"><span class="">Blm</span></th>
+            <th class="keyTd"></th>
+        </tr>
+    </thead>
+</table>
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
+    <thead>
+        <tr>
+            <th class="keyTd"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+            <th class="keyTd"><span class="">Kod</span></th>
+            <th class="keyTd"><span class="">Malzeme</span></th>
+            <th class="keyTd"><span class="">Blm</span></th>
+            <th class="keyTd"></th>
+        </tr>
+    </thead>
+</table>

@@ -15,7 +15,7 @@
         var smref;
         var tip;
 
-        function Gonder() {
+        function Gonder(gonder) {
             var input = $('.validate-input input');
             for (var i = 0; i < input.length; i++) {
                 if (validate(input[i]) == false) {
@@ -67,6 +67,14 @@
                     bedeller: bedeller
                 });
 
+            if (gonder)
+                Send(anlasma);
+            else {
+                anlasmaMaliyet(anlasma, bedeller);
+            }
+        }
+
+        function Send(anlasma) {
             var sentData = JSON.stringify(anlasma).substring(1, JSON.stringify(anlasma).length - 1);
 
             $.ajax(
@@ -356,4 +364,33 @@
 </div>
 <br />
 <div id="divData"></div>
-<input type="button" class="btn btn-success btnWidthFull" value="Anlaşma Talebi Yap" onclick="Gonder()" />
+<div class="centerVeMiddle" id="divMal" style="display: none">
+    <span class="txt1">
+        Maliyet
+    </span>
+    <div class="anlasmaBolum">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="text" name="inputTopCiroKGT" id="inputMalKGT" placeholder="KGT">
+    </div>
+    &nbsp;
+    <div class="anlasmaBolum">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="text" name="inputTopCiroNF" id="inputMalNF" placeholder="NF">
+    </div>
+    <br />
+    <br />
+    <span class="txt1">
+        Ciro Primi Dahil Maliyet
+    </span>
+    <div class="anlasmaBolum">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="text" name="inputTopCiroKGT" id="inputMalCiroKGT" placeholder="KGT">
+    </div>
+    &nbsp;
+    <div class="anlasmaBolum">
+        <input class="form-control input100 clGerekli anlasmaBolum" type="text" name="inputTopCiroNF" id="inputMalCiroNF" placeholder="NF">
+    </div>
+    <br />
+    <br />
+</div>
+<div class="centerVeMiddle">
+    <input type="button" class="btn btn-primary" value="Maliyeti Hesapla" onclick="Gonder(false)" />
+    <input type="button" class="btn btn-success" value="Anlaşma Talebi Yap" onclick="Gonder(true)" />
+</div>

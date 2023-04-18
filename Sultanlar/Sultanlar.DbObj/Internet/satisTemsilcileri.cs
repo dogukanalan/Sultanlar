@@ -10,63 +10,46 @@ namespace Sultanlar.DbObj.Internet
         public int SLSMANREF { get; set; }
         public string SATKOD1 { get; set; }
         public string SATTEM { get; set; }
+        public string SATKOD { get; set; }
+        public string TELEFON { get; set; }
+        public string POSITION_ { get; set; }
 
         public satisTemsilcileri() { }
         public satisTemsilcileri(int SLSMANREF) { this.SLSMANREF = SLSMANREF; }
-        public satisTemsilcileri(int ACTIVE, int SLSMANREF, string SATKOD1, string SATTEM)
+        public satisTemsilcileri(int ACTIVE, int SLSMANREF, string SATKOD1, string SATTEM, string SATKOD, string TELEFON, string POSITION_)
         {
             this.ACTIVE = ACTIVE;
             this.SLSMANREF = SLSMANREF;
             this.SATKOD1 = SATKOD1;
             this.SATTEM = SATTEM;
+            this.SATKOD = SATKOD;
+            this.TELEFON = TELEFON;
+            this.POSITION_ = POSITION_;
         }
-        
         public override string ToString() { return SATTEM; }
-        #region kullanımdışı
         /// <summary>
-        /// Kullanılmayacak
+        /// 2
         /// </summary>
         public override void DoInsert()
         {
-            /*using (conn)
-            {
-                string[] param = new string[] { "ACTIVE", "SLSMANREF", "SATKOD1", "SATTEM" };
-                object[] values = new object[] { ACTIVE, SLSMANREF, SATKOD1, SATTEM };
-                CmdInit("INSERT INTO [Web-SatisTemsilcileri] (ACTIVE, SLSMANREF, [SAT KOD1], [SAT TEM]) VALUES (@ACTIVE, @SLSMANREF, @SATKOD1, @SATTEM)", CommandType.Text, 200, param, values);
-                conn.Open();
-                cmd.ExecuteNonQuery();
-            }*/
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "ACTIVE", ACTIVE }, { "SLSMANREF", SLSMANREF }, { "SATKOD", SATKOD }, { "SATKOD1", SATKOD1 }, { "SATTEM", SATTEM }, { "TELEFON", TELEFON }, { "POSITION_", POSITION_ } };
+            SLSMANREF = ConvertToInt32(Do(QueryType.Insert, "INSERT INTO [Web-SatisTemsilcileri-2] (ACTIVE, [SAT KOD], [SAT KOD1], [SAT TEM], TELEFON, POSITION_) VALUES (@ACTIVE, @SATKOD1, @SATTEM, @TELEFON, @POSITION_) SELECT @SLSMANREF = SCOPE_IDENTITY()", param, timeout));
         }
         /// <summary>
-        /// Kullanılmayacak
+        /// 2
         /// </summary>
         public override void DoUpdate()
         {
-            /*using (conn)
-            {
-                string[] param = new string[] { "ACTIVE", "SLSMANREF", "SATKOD1", "SATTEM" };
-                object[] values = new object[] { ACTIVE, SLSMANREF, SATKOD1, SATTEM };
-                CmdInit("UPDATE [Web-SatisTemsilcileri] SET ACTIVE = @ACTIVE, [SAT KOD1] = @SATKOD1, [SAT TEM] = @SATTEM) WHERE SLSMANREF = @SLSMANREF", CommandType.Text, 200, param, values);
-                conn.Open();
-                cmd.ExecuteNonQuery();
-            }*/
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "ACTIVE", ACTIVE }, { "SLSMANREF", SLSMANREF }, { "SATKOD", SATKOD }, { "SATKOD1", SATKOD1 }, { "SATTEM", SATTEM }, { "TELEFON", TELEFON }, { "POSITION_", POSITION_ } };
+            Do(QueryType.Update, "UPDATE [Web-SatisTemsilcileri-2] SET ACTIVE = @ACTIVE, [SAT KOD] = @SATKOD, [SAT KOD1] = @SATKOD1, [SAT TEM] = @SATTEM, [TELEFON] = @TELEFON, [POSITION_] = @POSITION_ WHERE SLSMANREF = @SLSMANREF", param, timeout);
         }
         /// <summary>
-        /// Kullanılmayacak
+        /// 2
         /// </summary>
         public override void DoDelete()
         {
-            /*using (conn)
-            {
-                string[] param = new string[] { "ACTIVE", "SLSMANREF", "SATKOD1", "SATTEM" };
-                object[] values = new object[] { ACTIVE, SLSMANREF, SATKOD1, SATTEM };
-                CmdInit("DELETE [Web-SatisTemsilcileri] WHERE SLSMANREF = @SLSMANREF", CommandType.Text, 200, param, values);
-                conn.Open();
-                cmd.ExecuteNonQuery();
-            }*/
+            Do(QueryType.Delete, "DELETE [Web-SatisTemsilcileri-2] WHERE SLSMANREF = @SLSMANREF", new Dictionary<string, object>() { { "SLSMANREF", SLSMANREF } }, timeout);
         }
-        #endregion
-
         /// <summary>
         /// 
         /// </summary>
@@ -77,18 +60,7 @@ namespace Sultanlar.DbObj.Internet
 
             Dictionary<int, object> dic = GetObject("db_sp_satisTemsilcisiGetir", new Dictionary<string, object>() { { "SLSMANREF", SLSMANREF } }, timeout);
             if (dic != null)
-                donendeger = new satisTemsilcileri(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), dic[2].ToString(), dic[3].ToString());
-
-            /*using (conn)
-            {
-                string[] param = new string[] { "SLSMANREF" };
-                object[] values = new object[] { SLSMANREF };
-                CmdInit("db_sp_satisTemsilcisiGetir", 200, param, values);
-                conn.Open();
-                dr = cmd.ExecuteReader();
-                if (dr.Read())
-                    donendeger = new satisTemsilcileri(ConvertToInt32(dr[0]), ConvertToInt32(dr[1]), dr[2].ToString(), dr[3].ToString());
-            }*/
+                donendeger = new satisTemsilcileri(ConvertToInt32(dic[0]), ConvertToInt32(dic[1]), dic[2].ToString(), dic[3].ToString(), dic[4].ToString(), dic[5].ToString(), dic[6].ToString());
 
             return donendeger;
         }
@@ -103,18 +75,22 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisTemsilcileriGetir", timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new satisTemsilcileri(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString()));
+                    donendeger.Add(new satisTemsilcileri(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString()));
 
-            /*using (conn)
-            {
-                string[] param = new string[] { };
-                object[] values = new object[] { };
-                CmdInit("db_sp_satisTemsilcileriGetir", 200, param, values);
-                conn.Open();
-                dr = cmd.ExecuteReader();
-                while (dr.Read())
-                    donendeger.Add(new satisTemsilcileri(ConvertToInt32(dr[0]), ConvertToInt32(dr[1]), dr[2].ToString(), dr[3].ToString()));
-            }*/
+            return donendeger;
+        }
+        /// <summary>
+        /// Muhataplar
+        /// </summary>
+        /// <returns></returns>
+        public List<satisTemsilcileri> GetObjectsBySMREF(int SMREF)
+        {
+            List<satisTemsilcileri> donendeger = new List<satisTemsilcileri>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisTemsilcileriGetirBySMREF", new Dictionary<string, object>() { { "SMREF", SMREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new satisTemsilcileri(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString()));
 
             return donendeger;
         }

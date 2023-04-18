@@ -13,7 +13,7 @@ namespace Sultanlar.UI
 {
     public partial class frmINTERNETiadelerdetayfiyat : Form
     {
-        public frmINTERNETiadelerdetayfiyat(long iadedetayid, int gmref, int smref, int itemref, int adet, DateTime dt1, DateTime dt2)
+        public frmINTERNETiadelerdetayfiyat(long iadedetayid, int gmref, int smref, int itemref, int adet, DateTime dt1, DateTime dt2, bool sontarihoto)
         {
             InitializeComponent();
             GMREF = gmref;
@@ -23,6 +23,7 @@ namespace Sultanlar.UI
             IadeDetayID = iadedetayid;
             Dt1 = dt1;
             Dt2 = dt2;
+            Sontarihoto = sontarihoto;
         }
 
         DateTime Dt1;
@@ -33,6 +34,7 @@ namespace Sultanlar.UI
         int ITEMREF;
         int Adet;
         ArrayList IlkIadeAdetler;
+        bool Sontarihoto;
 
         private void frmINTERNETiadelerdetayfiyat_Load(object sender, EventArgs e)
         {
@@ -63,11 +65,15 @@ namespace Sultanlar.UI
                     IlkIadeAdetler.Add(deger);
                 }
             }
+
+            if (Sontarihoto)
+                btnYukaridan.PerformClick();
         }
 
         private void btnYukaridan_Click(object sender, EventArgs e)
         {
-            GetObjects(false);
+            if (!Sontarihoto)
+                GetObjects(false);
 
             int kalanadet = Adet;
 
@@ -101,6 +107,9 @@ namespace Sultanlar.UI
             }
 
             lblSecilen.Text = (kalanadet < 0) ? lblSecilecek.Text : (Convert.ToInt32(lblSecilecek.Text) - kalanadet).ToString();
+
+            if (Sontarihoto)
+                btnOnayla.PerformClick();
         }
 
         private void btnAsagidan_Click(object sender, EventArgs e)
@@ -179,7 +188,7 @@ namespace Sultanlar.UI
 
             if (lblKalan.Text == "0")
             {
-                if (MessageBox.Show("Ürün için oluşturulan fiyat: " + ortalama.ToString("C2") + "\r\n\r\nDevam etmek istiyor musunuz?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                if (Sontarihoto || MessageBox.Show("Ürün için oluşturulan fiyat: " + ortalama.ToString("C2") + "\r\n\r\nDevam etmek istiyor musunuz?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                 {
                     AdetEkle();
 

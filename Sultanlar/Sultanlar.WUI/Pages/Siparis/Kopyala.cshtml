@@ -14,8 +14,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
 
     <script>
+        var paramftip;
         var siparisid;
         var table;
+        var getfunc;
 
         function SaticilarGetir(uyeid) {
             $.ajax(
@@ -49,6 +51,8 @@
         }
 
         function MusterilerGetir(slsref) {
+            getfunc = slsref > 1000000000 ? 'gethepsi124' : 'gethepsi12';
+
             table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
             }).DataTable({
@@ -56,7 +60,7 @@
                     dataSrc: "",
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "cari/gethepsi12/" + slsref
+                    url: apiurl + "cari/" + getfunc + "/" + slsref
                 },
                 columns: [
                     {
@@ -75,8 +79,8 @@
                         }
                     },
                     {
-                        "data": "smref", "class": "keyTd", render: function (data, type, row) {
-                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" accesskey="' + data + '" /><div class="state p-primary-o"><label></label></div></div>';
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" accesskey="' + data.smref + '" value="' + data.tip + '" /><div class="state p-primary-o"><label></label></div></div>';
                         }
                     }
                 ],
@@ -94,14 +98,14 @@
         }
 
         function kopyala() {
-            sentValue = '{ "siparisID": ' + siparisid + ', "smreFs": [';
+            sentValue = '{ "siparisID": ' + siparisid + ', "fiyatTipi": ' + $("#fiyattipleri").val() + ', "smreFs": [';
             $('.smm').each(function () {
                 if ($(this).is(':checked')) {
-                    sentValue += '{ "smref": ' + $(this).attr("accesskey") + ' },';
+                    sentValue += '{ "smref": ' + $(this).attr("accesskey") + ', "tip": ' + $(this).attr("value") + ' },';
                 }
             });
             sentValue = sentValue.substring(0, sentValue.length - 1) + '] }';
-
+            
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
@@ -125,10 +129,13 @@
 
         $(document).ready(function () {
             siparisid = getParameterByName('siparisid');
+            paramftip = getParameterByName('fiyattipi');
             document.getElementById("basTitle").innerHTML = "Sipariş Kopyala (" + siparisid + ")";
             SaticilarGetir(window.localStorage["uyeid"]);
+            UyeYetkileri(localStorage["musteri"]);
             $('#selectSaticilar').on('change', function (e) {
-                table = $('#dtTable').DataTable().ajax.url(apiurl + "cari/gethepsi12/" + this.value).load();
+                getfunc = this.value > 1000000000 ? 'gethepsi124' : 'gethepsi12';
+                table = $('#dtTable').DataTable().ajax.url(apiurl + "cari/" + getfunc + "/" + this.value).load();
             });
         });
     </script>
@@ -136,6 +143,8 @@
 <select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar">
     <option value="1" selected="selected">Seçiniz</option>
 </select>
+<br />
+<select id="fiyattipleri"></select>
 
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>

@@ -21,6 +21,74 @@
         var aktiviteid;
         var sepet;
 
+        var kolonlar = [
+            {
+                "mDataProp": "itemref", title: "Kod", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli itemref">' + data + '</span>';
+                }
+            },
+            {
+                "mDataProp": "malacik", title: "Malzeme", "class": "valueTd", render: function (data, type, row) {
+                    return '<span class="sinirli malacik">' + data + '</span>';
+                }
+            },
+            {
+                "mDataProp": "miktar", title: "S.H.", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data + ' koli</span>';
+                }
+            },
+            {
+                "mDataProp": "birimfiyat", title: "B.F.", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli netkdv">' + parseFloat(data).formatMoney(3, ',', '.') + '</span>';
+                }
+            },
+            {
+                "mDataProp": "fatalt", title: "F.A.", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli fatalt">' + data + '</span>';
+                }
+            },
+            {
+                "mDataProp": "fataltciro", title: "F.A.C.", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli fataltciro">' + data + '</span>';
+                }
+            },
+            {
+                "mDataProp": "ciroprim", title: "C.P.D.", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli cpd">' + data + '</span>';
+                }
+            },
+            {
+                "mDataProp": null, title: "Isk.", "class": "keyTd", render: function (data, type, row) {
+                    return '<input type="text" id="isk' + data.itemref + '" class="inputSecim" value="' + parseFloat(data.iskonto).toFixed(2) + '" autocomplete="off" />';
+                }
+            },
+            {
+                "mDataProp": null, title: "C.P.T.", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + iskDusCoklu(data.birimfiyat, data.fatalt, data.fataltciro, data.iskonto, data.ciroprim).formatMoney(3, ',', '.') + '</span>';
+                }
+            },
+            {
+                "mDataProp": null, title: "KDV'siz", "class": "floaTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + kdvDus(iskDusCoklu(data.birimfiyat, data.fatalt, data.fataltciro, data.iskonto, 0), data.kdv).formatMoney(3, ',', '.') + '</span>';
+                }
+            },
+            {
+                "mDataProp": null, title: "KDV'li", "class": "keyTd", render: function (data, type, row) {
+                    return '<input type="text" id="fiy' + data.itemref + '" class="inputFiyat" value="' + parseFloat(iskDusCoklu(data.birimfiyat, data.fatalt, data.fataltciro, data.iskonto, 0)).toFixed(3) + '" autocomplete="off" />';
+                }
+            },
+            {
+                "mDataProp": null, title: "Açk.", "class": "keyTd", render: function (data, type, row) {
+                    return '<input type="text" id="ack' + data.itemref + '" class="inputAck btn" value="' + data.aciklama + '" style="width: 100px" autocomplete="off" />';
+                }
+            },
+            {
+                "mDataProp": null, title: "", "class": "keyTd", render: function (data, type, row) {
+                    return '<input type="button" class="btn btn-danger" value="Sil" onclick="urunSil(' + data.itemref + ')" />';
+                }
+            }
+        ];
+
         function initSepet() {
             var cookie = JSON.parse(getLocal());
             for (var i = 0; i < cookie.length; i++) {
@@ -39,7 +107,8 @@
                                 pazisk: cookie[i].detaylar[j].pazisk,
                                 iskonto: cookie[i].detaylar[j].iskonto,
                                 cirodusulmus: cookie[i].detaylar[j].cirodusulmus,
-                                kdvli: cookie[i].detaylar[j].kdvli
+                                kdvli: cookie[i].detaylar[j].kdvli,
+                                aciklama: cookie[i].detaylar[j].aciklama
                             }
                         );
                     }
@@ -51,7 +120,7 @@
             table = $('#dtTable').dataTable({
                 "scrollX": true,
                 "aaData": sepet,
-                "aoColumns": aktiviteicerikcolumns,
+                "aoColumns": kolonlar,
                 "language": defaultDtLang,
                 "paging": true,
                 "ordering": false,
@@ -88,7 +157,8 @@
                                 pazisk: sepet[j].pazisk,
                                 iskonto: sepet[j].iskonto,
                                 cirodusulmus: sepet[j].cirodusulmus,
-                                kdvli: sepet[j].kdvli
+                                kdvli: sepet[j].kdvli,
+                                aciklama: sepet[j].aciklama
                             });
                     }
                 }
@@ -112,7 +182,8 @@
                         pazisk: sepet[i].pazisk,
                         iskonto: sepet[i].iskonto,
                         cirodusulmus: sepet[i].cirodusulmus,
-                        kdvli: sepet[i].kdvli
+                        kdvli: sepet[i].kdvli,
+                        aciklama: sepet[i].aciklama
                     });
                 }
             }
@@ -124,7 +195,8 @@
             keyuplar();
         }
 
-        function urunGuncelle(itemref, isk) {
+        function urunGuncelle(itemref, isk, ack, kontrol) {
+            isk = isk.toString().trim() == '' ? 0 : isk;
             var yenisepet = [];
             for (var i = 0; i < sepet.length; i++) {
                 if (sepet[i].itemref != itemref) {
@@ -140,7 +212,8 @@
                         pazisk: sepet[i].pazisk,
                         iskonto: sepet[i].iskonto,
                         cirodusulmus: sepet[i].cirodusulmus,
-                        kdvli: sepet[i].kdvli
+                        kdvli: sepet[i].kdvli,
+                        aciklama: sepet[i].aciklama
                     });
                 }
                 else {
@@ -156,7 +229,8 @@
                         pazisk: sepet[i].pazisk,
                         iskonto: isk,
                         cirodusulmus: sepet[i].cirodusulmus,
-                        kdvli: sepet[i].kdvli
+                        kdvli: sepet[i].kdvli,
+                        aciklama: ack
                     });
                 }
             }
@@ -168,6 +242,12 @@
             aktGoster();
             keyuplar();
             document.documentElement.scrollTop = yeksen;
+            
+            var kontrolid = $(kontrol).attr('id');
+            var strLength = $(table).find("#" + kontrolid).val().length * 2;
+            $(table).find("#" + kontrolid).focus();
+            $(table).find("#" + kontrolid)[0].setSelectionRange(strLength, strLength);
+            //setTimeout(function () { $(table).find("#ack" + itemref)[0].focus(); }, 3000);
         }
 
         function sil() {
@@ -211,19 +291,25 @@
         }
 
         function keyuplar() {
+            $('.inputAck').on('keyup', delay(function (e) {
+                var iskOnceki = parseFloat($(this).closest("tr").find(".inputSecim").val().replace(",", "."));
+                urunGuncelle($(this).closest("tr").find(".itemref").text(), iskOnceki, this.value, this);
+            }, 2000));
             $('.inputSecim').on('keyup', delay(function (e) {
-                urunGuncelle($(this).closest("tr").find(".itemref").text(), this.value);
+                var ackOnceki = $(this).closest("tr").find(".inputAck").val();
+                urunGuncelle($(this).closest("tr").find(".itemref").text(), parseFloat(this.value.replace(",", ".")), ackOnceki, this);
             }, 1000));
             $('.inputFiyat').on('keyup', delay(function (e) {
+                var ackOnceki = $(this).closest("tr").find(".inputAck").val();
                 $(this).closest("tr").find(".inputSecim").val(0);
                 var itemref = $(this).closest("tr").find(".itemref").text();
                 var fiyat = parseFloat($(this).closest("tr").find(".netkdv").text().replace(",", "."));
-                var isk1 = $(this).closest("tr").find(".fatalt").text();
-                var isk2 = $(this).closest("tr").find(".fataltciro").text();
+                var isk1 = parseFloat($(this).closest("tr").find(".fatalt").text().replace(",", "."));
+                var isk2 = parseFloat($(this).closest("tr").find(".fataltciro").text().replace(",", "."));
                 //var isk3 = $(this).closest("tr").find(".cpd").text();
-                var isk = iskBul(fiyat, isk1, isk2, 0, this.value);
+                var isk = iskBul(fiyat, isk1, isk2, 0, parseFloat(this.value.replace(",", ".")));
                 //$(this).closest("tr").find(".inputSecim").val(isk);
-                urunGuncelle(itemref, isk);
+                urunGuncelle(itemref, isk, ackOnceki, this);
             }, 1000));
         }
 
@@ -266,10 +352,12 @@
             <th class="keyTd"></th>
             <th class="keyTd"></th>
             <th class="keyTd"></th>
+            <th class="keyTd"></th>
         </tr>
     </thead>
     <tfoot>
         <tr>
+            <th class="keyTd"></th>
             <th class="keyTd"></th>
             <th class="keyTd"></th>
             <th class="keyTd"></th>
