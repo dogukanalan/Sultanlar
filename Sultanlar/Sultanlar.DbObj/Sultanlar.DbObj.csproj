@@ -79,6 +79,7 @@
     <Compile Include="Internet\siparislerDetay.cs" />
     <Compile Include="Internet\siparisRaporu.cs" />
     <Compile Include="Internet\stoklar.cs" />
+    <Compile Include="Internet\tpPersoneller.cs" />
     <Compile Include="Internet\urunResimleri.cs" />
     <Compile Include="Internet\uyeFiyatTipleri.cs" />
     <Compile Include="Internet\uyeGrubuFiyatTipleri.cs" />
