@@ -81,6 +81,8 @@ namespace Sultanlar.UI
 
             //XmlDocument xml = Gokw3satis("2014","1");
             //xml.Save("f:\\asd.xml");
+
+            //Sultanlar.WindowsServiceIslemler.Sap.MalzemelerC(true, true);
         }
 
         private void tmr_Tick(object sender, EventArgs e)

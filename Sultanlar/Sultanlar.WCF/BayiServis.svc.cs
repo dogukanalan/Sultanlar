@@ -125,6 +125,7 @@ namespace Sultanlar.WCF
                 siparis.vade = dt.Rows[i]["vade"].ToString();
                 siparis.aciklama = dt.Rows[i]["aciklama"].ToString();
                 siparis.iptal = dt.Rows[i]["iptal"].ToString();
+                siparis.saticino = dt.Rows[i]["saticino"].ToString();
 
                 DataTable dt1 = DetayVeriGetir(siparis.tur == "3", true, siparis.sipno);
                 siparis.detaylar = new List<SiparisDisDetay>();
@@ -177,6 +178,7 @@ namespace Sultanlar.WCF
                 siparis.aciklama = dt.Rows[i]["aciklama"].ToString();
                 siparis.vade = dt.Rows[i]["vade"].ToString();
                 siparis.iptal = dt.Rows[i]["iptal"].ToString();
+                siparis.saticino = dt.Rows[i]["saticino"].ToString();
 
                 DataTable dt1 = DetayVeriGetir(siparis.tur == "3", false, siparis.sipno);
                 siparis.detaylar = new List<SiparisDisDetay>();
@@ -514,15 +516,17 @@ CASE WHEN TKSREF = 5 THEN (SELECT MUSTERI FROM [Web-Musteri-TP] WHERE SMREF = [W
 (siparis ? "dtOlusmaTarihi" : "FATTAR") + " AS tarih," +
 (siparis ? "'False'" : "IPTAL") + " AS iptal," +
 @"28 AS vade
-,CASE WHEN TKSREF = 5 THEN 'Şube: ' + SUBE + ' (' + CONVERT(nvarchar(50),[Web-Musteri-1].SMREF) + ')' ELSE '' END AS aciklama
-,intMusteriID AS saticino
+,ISNULL(strKod,'') AS saticino
 ,dtOlusmaTarihi as siptar
+,CASE WHEN TKSREF = 5 THEN 'Şube: ' + SUBE + ' (' + CONVERT(nvarchar(50),[Web-Musteri-1].SMREF) + ') ' ELSE '' END + REPLACE(SUBSTRING(tblINTERNET_Siparisler.strAciklama, CHARINDEX(';;;', tblINTERNET_Siparisler.strAciklama) + 3, 500),SUBSTRING(tblINTERNET_Siparisler.strAciklama, CHARINDEX(';;;', tblINTERNET_Siparisler.strAciklama, CHARINDEX(';;;', tblINTERNET_Siparisler.strAciklama) + 3), 500),'') AS aciklama
 FROM tblINTERNET_Siparisler
 INNER JOIN (SELECT TIP,GMREF,SMREF,[MUS KOD],SUBE,NETTOP FROM [Web-Musteri-1]) AS [Web-Musteri-1] ON tblINTERNET_Siparisler.SMREF = [Web-Musteri-1].SMREF AND tblINTERNET_Siparisler.TKSREF = [Web-Musteri-1].TIP
 INNER JOIN tblINTERNET_SiparislerDetay ON pkSiparisID = intSiparisID
 INNER JOIN tblINTERNET_SiparislerDetaySevk ON pkSiparisDetayID = bintSiparisDetayID
 INNER JOIN tblINTERNET_SiparislerQ ON pkSiparisID = tblINTERNET_SiparislerQ.intSiparisID
 INNER JOIN [Web-Musteri-TP-Bayikodlar] ON [Web-Musteri-1].GMREF = [Web-Musteri-TP-Bayikodlar].GMREF
+INNER JOIN tblINTERNET_Musteriler ON intMusteriID = pkMusteriID
+LEFT OUTER JOIN [Web-Musteri-TP_Personeller] ON pkID = intSLSREF - 1000000000
 WHERE tblINTERNET_SiparislerDetaySevk.intMiktar > 0 AND blAktarildi = 'True' AND API = '" + apikey.ToString() + "' AND " + 
 where + 
 
@@ -533,14 +537,16 @@ CASE WHEN TKSREF = 5 THEN [Web-Musteri-1].NETTOP ELSE [Web-Musteri-1].SMREF END 
 CASE WHEN TKSREF = 5 THEN (SELECT [MUS KOD] FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE [Web-Musteri-1].[MUS KOD] END AS carino2, 
 CASE WHEN TKSREF = 5 THEN (SELECT MUSTERI FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE SUBE END AS cari, 
 dtOlusmaTarihi AS tarih,'False' AS iptal,28 AS vade
-,CASE WHEN TKSREF = 5 THEN 'Şube: ' + SUBE + ' (' + CONVERT(nvarchar(50),[Web-Musteri-1].SMREF) + ')' ELSE '' END AS aciklama
-,intMusteriID AS saticino
+,ISNULL(strKod,'') AS saticino
 ,dtOlusmaTarihi as siptar
+,CASE WHEN TKSREF = 5 THEN 'Şube: ' + SUBE + ' (' + CONVERT(nvarchar(50),[Web-Musteri-1].SMREF) + ') ' ELSE '' END + REPLACE(SUBSTRING(tblINTERNET_Iadeler.strAciklama, CHARINDEX(';;;', tblINTERNET_Iadeler.strAciklama) + 3, 500),SUBSTRING(tblINTERNET_Iadeler.strAciklama, CHARINDEX(';;;', tblINTERNET_Iadeler.strAciklama, CHARINDEX(';;;', tblINTERNET_Iadeler.strAciklama) + 3), 500),'') AS aciklama
 FROM tblINTERNET_Iadeler
 INNER JOIN (SELECT TIP,GMREF,SMREF,[MUS KOD],SUBE,NETTOP FROM [Web-Musteri-1]) AS [Web-Musteri-1] ON tblINTERNET_Iadeler.SMREF = [Web-Musteri-1].SMREF AND tblINTERNET_Iadeler.TKSREF = [Web-Musteri-1].TIP
 INNER JOIN tblINTERNET_IadelerDetay ON pkIadeID = intIadeID
 INNER JOIN tblINTERNET_IadelerQ ON pkIadeID = tblINTERNET_IadelerQ.intIadeID
 INNER JOIN [Web-Musteri-TP-Bayikodlar] ON [Web-Musteri-1].GMREF = [Web-Musteri-TP-Bayikodlar].GMREF
+INNER JOIN tblINTERNET_Musteriler ON intMusteriID = pkMusteriID
+LEFT OUTER JOIN [Web-Musteri-TP_Personeller] ON pkID = intSLSREF - 1000000000
 WHERE TKSREF != 1 AND API = '" + apikey.ToString() + "' AND " +
 iadewhere
 : "") +

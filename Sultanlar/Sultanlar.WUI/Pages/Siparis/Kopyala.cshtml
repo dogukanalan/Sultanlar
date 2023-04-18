@@ -98,14 +98,14 @@
         }
 
         function kopyala() {
-            sentValue = '{ "siparisID": ' + siparisid + ', "smreFs": [';
+            sentValue = '{ "siparisID": ' + siparisid + ', "fiyatTipi": ' + $("#fiyattipleri").val() + ', "smreFs": [';
             $('.smm').each(function () {
                 if ($(this).is(':checked')) {
                     sentValue += '{ "smref": ' + $(this).attr("accesskey") + ', "tip": ' + $(this).attr("value") + ' },';
                 }
             });
             sentValue = sentValue.substring(0, sentValue.length - 1) + '] }';
-
+            
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },

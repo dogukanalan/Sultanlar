@@ -71,7 +71,7 @@
                             if (data.bedeller[i].intTAHAdet > 0)
                                 bedeller.push({ id: data.bedeller[i].intAnlasmaBedelAdID, tur: "kgt", adet: data.bedeller[i].intTAHAdet, bedel: data.bedeller[i].mnTAHBedel });
                             if (data.bedeller[i].intYEGAdet > 0)
-                                bedeller.push({ id: data.bedeller[i].intAnlasmaBedelAdID, tur: "nf", adet: data.bedeller[i].intYEGAdet, bedel: data.bedeller[i].mnTAHBedel });
+                                bedeller.push({ id: data.bedeller[i].intAnlasmaBedelAdID, tur: "nf", adet: data.bedeller[i].intYEGAdet, bedel: data.bedeller[i].mnYEGBedel });
                         }
                         anlasma.push(
                             {
@@ -104,7 +104,6 @@
                                 aciklama: data.strAciklama1,
                                 bedeller: bedeller
                             });
-                        console.log(bedeller);
                         anlasmaMaliyet(anlasma, bedeller);
 
                         if (yazdir)

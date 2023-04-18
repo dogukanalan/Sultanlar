@@ -91,6 +91,7 @@ namespace Sultanlar.Model.Xml
         public string cari { get; set; }
         public string tarih { get; set; }
         public string aciklama { get; set; }
+        public string saticino { get; set; }
         public List<SiparisDisDetay> detaylar { get; set; }
     }
 

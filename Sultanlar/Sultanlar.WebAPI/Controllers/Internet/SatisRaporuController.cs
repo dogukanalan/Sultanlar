@@ -33,6 +33,9 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public List<siparisDetayRaporu> GetirSiparisDetay(int YIL, int AY, int SLSREF, int SIPNO) => new SiparisProvider().SiparisDetayRapor(YIL, AY, SLSREF, SIPNO);
 
         [HttpGet, Route("internet/[controller]/[action]/{YIL}/{AY}/{SLSREF}/{SIPNO}")]
+        public List<siparisDetayRaporu> GetirSiparisDetayTp(int YIL, int AY, int SLSREF, int SIPNO) => new SiparisProvider().SiparisDetayRaporTp(YIL, AY, SLSREF, SIPNO);
+
+        [HttpGet, Route("internet/[controller]/[action]/{YIL}/{AY}/{SLSREF}/{SIPNO}")]
         public List<siparisDurumRaporu> GetirSiparisDurum(int YIL, int AY, int SLSREF, int SIPNO) => new SiparisProvider().SiparisDurumRapor(YIL, AY, SLSREF, SIPNO);
 
         [HttpGet, Route("internet/[controller]/[action]/{GMREF}/{MTIP}/{SMREF}")]

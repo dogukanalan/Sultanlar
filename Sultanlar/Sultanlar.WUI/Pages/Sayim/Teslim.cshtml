@@ -1,0 +1,272 @@
+﻿@page
+@model TeslimModel
+@{
+    ViewData["Title"] = "Fatura Teslimat";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.5.0/css/select.dataTables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.5.0/js/dataTables.select.min.js"></script>
+
+<style>
+    td.details-control {
+        background: url('http://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+    tr.shown td.details-control {
+        background: url('http://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+    }
+</style>
+
+    <script>
+        var table;
+        var smref;
+
+        function RaporGetir() {
+            var datasrc = "";
+            var url1 = apiurl + "stok/getbayistokteslimler/" + smref;
+
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+
+            }).DataTable({
+                "scrollX": true,
+                ajax: {
+                    dataSrc: datasrc,
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    $(".smm").change(function () {
+                        if (!confirm("Onaylamak istediğinize emin misiniz?")) {
+                            $(this).prop('checked', false);
+                            return;
+                        }
+
+                        var cek = this;
+                        var fatno = $(cek).attr("accesskey");
+                        if (cek.checked) {
+                            $.ajax(
+                                {
+                                    xhr: function () { return xhrDownloadUpload(); },
+                                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                                    url: apiurl + 'stok/SetTeslim/' + smref + '/' + fatno + '/' + localStorage["musteri"] + '/1',
+                                    success: function (data, textStatus, response) {
+                                        checkAuth(response);
+                                        if (data == "") {
+                                            window.location.href = window.location.href;
+                                        }
+                                        else {
+                                            alert("Onaylanamadı. hata: " + data);
+                                        }
+
+                                        $(cek).prop("disabled", "disabled");
+                                        $("#span" + fatno)[0].innerHTML = "onaylı";
+                                        $("#div" + fatno).prop("display", "block");
+                                    },
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                }
+                            );
+                        }
+                    });
+                },
+                "fnDrawCallback": function (oSettings) {
+
+                },
+                "rowId": 'faT_NO_MTB',
+                columns: [
+                    {
+                        "class": 'details-control',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ''
+                    },
+                    {
+                        "data": "faT_NO_MTB", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        },
+                        title: 'Fat.No'
+                    },
+                    {
+                        "data": "tarih", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.substring(0, 10) + '</span>';
+                        },
+                        title: 'Tarih'
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return (data.ipT_FAT == "I" || data.ipT_IRS == "I") ? '<i>fatura iptal</i>' : ('<span class="hide" id="span' + data.faT_NO_MTB + '">' + (data.teslim ? 'onaylı' : 'onaysız') + '</span><div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" rel="" accesskey="' + data.faT_NO_MTB + '" ' + (data.teslim ? 'checked="checked" disabled' : '') + ' /><div class="state p-primary-o"><label></label></div></div>');
+                        },
+                        title: 'Teslim Alındı'
+                    }
+                ],
+                //dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [1, 2, 3]
+                        },
+                        filename: function () {
+                            return 'Sultanlar Teslimat Raporu';
+                        },
+                        customize: function (doc) {
+                            doc.content.splice(1, 0, {
+                                margin: [0, 0, 0, 12],
+                                alignment: 'center',
+                                text: document.getElementById("sayMus").innerHTML
+                            });
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [1, 2, 3]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: [1, 2, 3],
+                            format: {
+                                body: function (data, row, column, node) {
+                                    data = $('<p>' + data + '</p>').text();
+                                    return $.isNumeric(data.replace(',', '.')) ? data.replace(',', '.') : data;
+                                }
+                            }
+                        },
+                        filename: function () {
+                            return 'Sultanlar Stok Rapor';
+                        },
+                        customize: function (xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            $('c[r=A1] t', sheet).text(document.getElementById("sayMus").innerHTML);
+                        }
+                    }
+                ],
+                "language": defaultDtLang,
+                "paging": false,
+                "ordering": true,
+                "info": false,
+                "searching": true,
+                "deferRender": true,
+                "order": [[2, "desc"]]
+            });
+        }
+
+        function format(callback, fatno, teslim, iptal) {
+            $.ajax(
+                {
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + 'stok/GetBayiStokTeslimDetay/' + fatno,
+                    success: function (data, textStatus, response) {
+                        var gerial = '<div style="text-align: center;" id="div' + fatno + '"><input type="button" class="btn btn-warning" value="' + fatno + ' nolu Fatura Teslimatını Geri Al" onclick="Teslim(\'' + fatno + '\')" /></div>';
+                        var tablo = '<table class="table table-striped table-bordered">';
+                        tablo += '<tr style="font-weight: bold"><td>Sip.No</td><td>Kod</td><td>Malzeme</td><td>Adet</td><td>Koli</td><td>Net</td><td>Net+Kdv</td></tr>';
+                        for (var i = 0; i < data.length; i++) {
+                            tablo += '<tr>';
+                            tablo += '<td>';
+                            tablo += data[i].sipno;
+                            tablo += '</td>';
+                            tablo += '<td>';
+                            tablo += data[i].malzeme.itemref;
+                            tablo += '</td>';
+                            tablo += '<td>';
+                            tablo += data[i].malzeme.malacik;
+                            tablo += '</td>';
+                            tablo += '<td>';
+                            tablo += data[i].adett;
+                            tablo += '</td>';
+                            tablo += '<td>';
+                            tablo += data[i].kolit;
+                            tablo += '</td>';
+                            tablo += '<td>';
+                            tablo += data[i].nett;
+                            tablo += '</td>';
+                            tablo += '<td>';
+                            tablo += data[i].netkdvt;
+                            tablo += '</td>';
+                            tablo += '</tr>';
+                        }
+                        tablo += '</table>' + (teslim && !iptal ? gerial : '');
+
+                        callback($(tablo)).show();
+                    }
+                });
+        }
+
+        function Teslim(fatno) {
+            $.ajax(
+                {
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + 'stok/SetTeslim/' + smref + '/' + fatno + '/' + localStorage["musteri"] + '/0',
+                    success: function (data, textStatus, response) {
+                        if (data == "") {
+                            window.location.href = window.location.href;
+                        }
+                        else {
+                            alert("hata: " + data);
+                        }
+                    }
+                });
+        }
+
+        $(document).ready(function () {
+            smref = getParameterByName('smref');
+            getCari(1, smref, getCariSube, "sayMus");
+
+            $('#dtTable').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    format(row.child, row.data().faT_NO_MTB, row.data().teslim, row.data().ipT_FAT == "I" || row.data().ipT_IRS == "I");
+                    tr.addClass('shown');
+                }
+            });
+
+            RaporGetir();
+        });
+
+        function qtip() {
+            $('.urunResim').each(function () {
+                $(this).qtip({
+                    content: '<img src="' + $(this).attr('rel') + '" class="urunResimQtip" />',
+                    position: { at: 'top right' }
+                });
+            });
+            lazyload();
+        }
+
+        function fis() {
+            window.location.href = 'Fis?smref=' + smref;
+        }
+    </script>
+}
+<h5 class="spanCiplak" id="sayMus"></h5>
+<table id="dtTable" class="table table-bordered" style="width:100%">
+</table>
+<br />
+<div class="centerVeMiddle">
+    <input type="button" class="btn btn-danger secimTus" value="Geri Dön" onclick="window.history.back()" />
+</div>

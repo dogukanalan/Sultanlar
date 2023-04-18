@@ -245,7 +245,7 @@ namespace Sultanlar.Class
                 SmtpClient client = new SmtpClient("smtp.gmail.com");
                 client.Port = 587;
                 client.EnableSsl = true;
-                client.Credentials = new NetworkCredential("mistif.sultanlar@gmail.com", WebGenel.MistifGmailEpostaSifre());
+                client.Credentials = new NetworkCredential("mistif.sultanlar@gmail.com", WebGenel.MistifGmailEpostaSifre()); //mistifMorgen
                 mail.Subject = Konu;
                 mail.Body = Icerik;
                 mail.IsBodyHtml = true;

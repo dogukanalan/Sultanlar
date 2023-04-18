@@ -82,6 +82,10 @@
                                         )
                                         : ''
                                 ) +
+                                (
+                                    data[i].mtkod == "Z1" &&
+                                        (window.localStorage["uyetipiid"] == "aZZA1PyhVTw=" || (window.localStorage["taksit"] == "true" && (window.localStorage["tur"] == "AlL7YXUKaCY=" || window.localStorage["tur"] == "SSL5rqzumqM="))) ?
+                                        '<a href="Sayim/Teslim?smref=' + data[i].gmref + '">Mal Alım Onay</a>' : '') +
                                 '</div>';
                             htmlText += '</td></tr>';
                         });

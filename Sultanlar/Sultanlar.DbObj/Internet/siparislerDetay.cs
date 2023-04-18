@@ -95,6 +95,20 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
+        public siparislerDetay GetObject(int StokYeri)
+        {
+            siparislerDetay donendeger = new siparislerDetay();
+
+            Dictionary<int, object> dic = GetObject("db_sp_siparislerDetayGetir", new Dictionary<string, object>() { { "pkSiparisDetayID", pkSiparisDetayID } }, timeout);
+            if (dic != null)
+                donendeger = new siparislerDetay(ConvertToInt64(dic[0]), ConvertToInt32(dic[1]), ConvertToInt32(dic[2]), dic[3].ToString(), ConvertToInt32(dic[4]), ConvertToDouble(dic[5]), ConvertToGuid(dic[6].ToString()), Convert.ToBoolean(dic[7]), ConvertToGuid(dic[8].ToString()), dic[9].ToString(), StokYeri);
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<siparislerDetay> GetObjects(int SiparisID, int StokYeri)
         {
             List<siparislerDetay> donendeger = new List<siparislerDetay>();

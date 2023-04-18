@@ -62,7 +62,7 @@ namespace Sultanlar.WindowsServiceIslemler
             tmrSAPprices.Enabled = true;
             tmrSAPprices.Start();
 
-            tmrSAP = new Timer(3600000);
+            tmrSAP = new Timer(300000); //3600000
             tmrSAP.Elapsed += new ElapsedEventHandler(tmrSAP_Elapsed);
             tmrSAP.Enabled = true;
             tmrSAP.Start();
@@ -139,7 +139,10 @@ namespace Sultanlar.WindowsServiceIslemler
                     DateTime.Now.Hour == 23*/)
                 )
             {
-                Sap.GetSAP(true, true, true, true, true, true, true, true);
+                if ((DateTime.Now.Minute > 50 && DateTime.Now.Minute <= 55))
+                {
+                    Sap.GetSAP(true, true, true, true, true, true, true, true);
+                }
                 //EntegraSiparis();
             }
             //else if (DateTime.Now.Hour == 23 && DateTime.Now.Minute >= 30 && DateTime.Now.Minute < 40) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
@@ -148,7 +151,10 @@ namespace Sultanlar.WindowsServiceIslemler
             //}
             else if (DateTime.Now.Hour == 6 /*&& DateTime.Now.Minute >= 30 && DateTime.Now.Minute < 40*/) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
             {
-                Sap.GetSAPgece(true);
+                if ((DateTime.Now.Minute > 50 && DateTime.Now.Minute <= 55))
+                {
+                    Sap.GetSAPgece(true);
+                }
             }
             //else if (DateTime.Now.Hour == 6 && DateTime.Now.Minute >= 10 && DateTime.Now.Minute < 20) // 10 dakikada bir çalıştığı için günde iki kez düşecek buraya
             //{

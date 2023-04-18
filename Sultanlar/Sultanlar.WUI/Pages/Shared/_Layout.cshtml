@@ -74,7 +74,7 @@
                 }
             }
 
-            if (window.localStorage["taksit"] == "true") {
+            if (window.localStorage["taksit"] == "true" && window.localStorage["tur"] != "AlL7YXUKaCY=" && window.localStorage["tur"] != "SSL5rqzumqM=") {
                 if (window.location.href.indexOf("/Dashboard") > -1 || window.location.href.indexOf("/Rapor/") > -1
                     || window.location.href.indexOf("/Anlasma/") > -1 || window.location.href.indexOf("/Aktivite/") > -1 || window.location.href.indexOf("/Hizmet/") > -1) {
                     window.location.replace("../Musteri");
@@ -97,6 +97,10 @@
                 $("#liAktivite").css("display", "none");
                 $("#liHizmet").css("display", "none");
                 $("#liRapor").css("display", "none");
+            }
+
+            if (window.localStorage["tur"] == "AlL7YXUKaCY=" || window.localStorage["tur"] == "SSL5rqzumqM=") {
+                $("#liRapor").css("display", "block");
             }
 
             $("#selectSaticilar").select2({ theme: "bootstrap", language: "tr" }); //.selSaticilar

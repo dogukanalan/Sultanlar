@@ -11,7 +11,7 @@ using Sultanlar.WebAPI.Services.Internet;
 
 namespace Sultanlar.WebAPI.Controllers.Internet
 {
-    [Yetkili]
+    //[Yetkili]
     [Produces("application/json")]
     [Route("internet/[controller]/[action]")]
     public class SiparisController : Controller

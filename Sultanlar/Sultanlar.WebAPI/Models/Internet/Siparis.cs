@@ -33,6 +33,7 @@ namespace Sultanlar.WebAPI.Models.Internet
     public class SiparisKopya
     {
         public int SiparisID { get; set; }
+        public int FiyatTipi { get; set; }
         public List<SiparisKopyaSmref> SMREFs { get; set; }
     }
 

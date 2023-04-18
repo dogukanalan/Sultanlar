@@ -2191,8 +2191,8 @@ COMMIT TRANSACTION t_Transaction
                             drow["Erzet"] = yirmiuc2[i].Erzet;
                             drow["Xblnr"] = yirmiuc2[i].Xblnr;
                             drow["Rebzg"] = yirmiuc2[i].Rebzg;
-                            drow["Rebzj"] = yirmiuc2[i].Rebzj == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzj);
-                            drow["Rebzz"] = yirmiuc2[i].Rebzz == string.Empty ? 0 : Convert.ToInt32(yirmiuc[i].Rebzz);
+                            drow["Rebzj"] = yirmiuc2[i].Rebzj == string.Empty ? 0 : Convert.ToInt32(yirmiuc2[i].Rebzj);
+                            drow["Rebzz"] = yirmiuc2[i].Rebzz == string.Empty ? 0 : Convert.ToInt32(yirmiuc2[i].Rebzz);
                             drow["Hkont"] = yirmiuc2[i].Hkont;
                             drow["Aedat"] = yirmiuc2[i].Aedat;
                             drow["Stblg"] = yirmiuc2[i].Stblg;

@@ -103,6 +103,22 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// Web-Satis-Rapor-1 degil
+        /// </summary>
+        /// <param name="FATNOMTB"></param>
+        /// <returns></returns>
+        public List<satisRaporu> GetObject(string FATNOMTB)
+        {
+            List<satisRaporu> donendeger = new List<satisRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_satisRaporGetirByFATNOMTB", new Dictionary<string, object>() { { "FATNOMTB", FATNOMTB } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new satisRaporu(dic[i][0].ToString(), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToDateTime(dic[i][3]), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), ConvertToInt32(dic[i][10]), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), true, true, true));
+
+            return donendeger;
+        }
 
         /// <summary>
         /// YIL ve AY zorunlu, diğerleri DBNull.Value olabilir

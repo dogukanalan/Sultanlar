@@ -100,7 +100,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             siparisler kopyalanacak = new siparisler(skg.SiparisID).GetObject();
             for (int i = 0; i < skg.SMREFs.Count; i++)
             {
-                siparisler sip = new siparisler(kopyalanacak.intMusteriID, skg.SMREFs[i].smref, kopyalanacak.sintFiyatTipiID, DateTime.Now, kopyalanacak.mnToplamTutar, false, skg.SMREFs[i].tip, DateTime.Now, kopyalanacak.strAciklama);
+                siparisler sip = new siparisler(kopyalanacak.intMusteriID, skg.SMREFs[i].smref, Convert.ToInt16(skg.FiyatTipi), DateTime.Now, kopyalanacak.mnToplamTutar, false, skg.SMREFs[i].tip, DateTime.Now, kopyalanacak.strAciklama);
                 sip.DoInsert();
                 cariHesaplar ch = new cariHesaplar(sip.SMREF).GetObject();
                 double toplamtutar = 0;
@@ -182,6 +182,14 @@ namespace Sultanlar.WebAPI.Services.Internet
                             sipdet.mnFiyat = fiykdv;
                             sipdet.DoUpdate();
                         }
+                    }
+                    else
+                    {
+                        fiyatlar fiy = new fiyatlar(sip.sintFiyatTipiID, sipdet.intUrunID).GetObject();
+                        double fiykdv = fiy.FIYAT + ((fiy.FIYAT * mal.KDV) / 100);
+
+                        sipdet.mnFiyat = fiykdv;
+                        sipdet.DoUpdate();
                     }
 
                     toplamtutar += (sipdet.strMiktarTur == "KI" ? sipdet.Malzeme.KOLI : 1) * sipdet.mnFiyat * sipdet.intMiktar;
@@ -299,6 +307,12 @@ namespace Sultanlar.WebAPI.Services.Internet
         {
             object sipno = Sipno == 0 ? DBNull.Value : (object)Sipno;
             return new siparisDetayRaporu().GetObjects(Yil, Ay, Slsref, sipno);
+        }
+
+        internal List<siparisDetayRaporu> SiparisDetayRaporTp(int Yil, int Ay, int Slsref, int Sipno)
+        {
+            object sipno = Sipno == 0 ? DBNull.Value : (object)Sipno;
+            return new siparisDetayRaporu().GetObjectsTp(Yil, Ay, Slsref, sipno);
         }
 
         internal List<siparisDurumRaporu> SiparisDurumRapor(int Yil, int Ay, int Slsref, int Sipno)
@@ -476,6 +490,15 @@ namespace Sultanlar.WebAPI.Services.Internet
         {
             siparisler sip = new siparisler(new siparislerDetay(sks[0].detayid).GetObject().intSiparisID).GetObject();
 
+            for (int i = 0; i < sks.Count; i++) // kontrol
+            {
+                siparislerDetay sd = new siparislerDetay(sks[i].detayid).GetObject(sip.Cari.GMREF);
+                if (sd.Malzeme.STOKDIS < sd.intMiktar)
+                    return "hata: sevk adedi stoktan fazla girildi " + sd.intUrunID;
+                if (sd.intMiktar < 0)
+                    return "hata: sevk adedi eksi girildi " + sd.intUrunID;
+            }
+
             /*siparisler bakiyesiparis = new siparisler();
             bool bakiyeMi = sip.QuantumBakiye;
             List<siparislerDetay> bakiyeler = new List<siparislerDetay>();
@@ -490,7 +513,6 @@ namespace Sultanlar.WebAPI.Services.Internet
             for (int i = 0; i < sks.Count; i++)
             {
                 butunmiktar += Convert.ToInt32(sks[i].miktar);
-                siparislerDetay sd = new siparislerDetay(sks[i].detayid).GetObject();
                 siparislerDetaySevk sds = new siparislerDetaySevk(sks[i].detayid, Convert.ToInt32(sks[i].miktar), false, DateTime.Now, DateTime.Now);
                 sds.DoInsert();
                 sipdetsevkler.Add(sds);

@@ -276,7 +276,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                     eposta.Add(mus.strEposta2);
                     eposta.Add("fkaya@sultanlar.com.tr");
                     eposta.Add("asayin@sultanlar.com.tr");
-                    eposta.Add("tolgatopcu@tibet.com.tr");
+                    eposta.Add("kemalbayulgen@tibet.com.tr");
                     eposta.Add("ihsantetik@tibet.com.tr");
                     new EpostaProvider().EpostaGonder("Sultanlar",
                         eposta,

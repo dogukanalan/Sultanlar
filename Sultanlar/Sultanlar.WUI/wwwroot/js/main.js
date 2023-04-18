@@ -1232,7 +1232,7 @@ function anlasmaMaliyet(anlasma, bedeller) {
             yegbedeltoplam += bedeller[i].bedel * bedeller[i].adet;
         }
     }
-    
+
     var tahyilsonumaliyet = anlasma[0].topcirokgt != 0 ? tahbedeltoplam / anlasma[0].topcirokgt : 0;
     var yegyilsonumaliyet = anlasma[0].topcironf != 0 ? yegbedeltoplam / anlasma[0].topcironf : 0;
 

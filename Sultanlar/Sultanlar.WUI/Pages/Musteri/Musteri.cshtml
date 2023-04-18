@@ -38,7 +38,7 @@
                 columns: [
                     {
                         "data": null, "class": "keyTd", render: function (data, type, row) {
-                            return '<span class="sinirli" data-toggle="tooltip" title="' + satkodgetir(data) + '">' + data.smref + '</span>';
+                            return '<span class="sinirli" data-toggle="tooltip" title="' + (data.tip == 1 ? satkodgetir(data) : 'Sistem kod: ' + data.smref) + '">' + (data.tip == 1 || data.tip == 5 ? data.smref : (data.muskod ? data.muskod : '&nbsp;')) + '</span>';
                         },
                         "width": "10%"
                     },
