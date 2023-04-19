@@ -303,6 +303,12 @@ namespace Sultanlar.WebAPI.Services.Internet
             return new siparisRaporu().GetObjects(Yil, ay, Slsref);
         }
 
+        internal List<siparisRaporu> SiparisRaporTp(int Yil, int Ay, int Slsref)
+        {
+            object ay = Ay == 0 ? DBNull.Value : (object)Ay;
+            return new siparisRaporu().GetObjectsTp(Yil, ay, Slsref);
+        }
+
         internal List<siparisDetayRaporu> SiparisDetayRapor(int Yil, int Ay, int Slsref, int Sipno)
         {
             object sipno = Sipno == 0 ? DBNull.Value : (object)Sipno;

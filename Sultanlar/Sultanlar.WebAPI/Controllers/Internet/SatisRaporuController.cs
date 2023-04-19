@@ -29,6 +29,9 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         [HttpGet, Route("internet/[controller]/[action]/{YIL}/{AY}/{SLSREF}")]
         public List<siparisRaporu> GetirSiparis(int YIL, int AY, int SLSREF) => new SiparisProvider().SiparisRapor(YIL, AY, SLSREF);
 
+        [HttpGet, Route("internet/[controller]/[action]/{YIL}/{AY}/{SLSREF}")]
+        public List<siparisRaporu> GetirSiparisTp(int YIL, int AY, int SLSREF) => new SiparisProvider().SiparisRaporTp(YIL, AY, SLSREF);
+
         [HttpGet, Route("internet/[controller]/[action]/{YIL}/{AY}/{SLSREF}/{SIPNO}")]
         public List<siparisDetayRaporu> GetirSiparisDetay(int YIL, int AY, int SLSREF, int SIPNO) => new SiparisProvider().SiparisDetayRapor(YIL, AY, SLSREF, SIPNO);
 

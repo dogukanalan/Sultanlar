@@ -8,12 +8,36 @@ namespace Sultanlar.DbObj.Internet
     public class siparisRaporu : DbObj
     {
         public int SIPNO { get; set; }
-        public int WEBSIPNO { get; set; }
+        public string WEBSIPNO { get; set; }
         public DateTime TARIH { get; set; }
         public int GMREF { get; set; }
         public cariHesaplar AnaCari { get { cariHesaplar cariana = new cariHesaplar(GMREF).GetObject(); if (cariAna) return cariana; else { cariHesaplar cari = new cariHesaplar(); cari.MUSTERI = cariana.MUSTERI; return cari; } } }
         public int SMREF { get; set; }
-        public cariHesaplar Sube { get { cariHesaplar carisube = new cariHesaplar(SMREF).GetObject(); if (cariSube) return carisube; else { cariHesaplar cari = new cariHesaplar(); cari.SUBE = carisube.SUBE; return cari; } } }
+        //public cariHesaplar Sube { get { cariHesaplar carisube = new cariHesaplar(SMREF).GetObject(); if (cariSube) return carisube; else { cariHesaplar cari = new cariHesaplar(); cari.SUBE = carisube.SUBE; return cari; } } }
+        public cariHesaplar Sube
+        {
+            get
+            {
+                cariHesaplar carisube = new cariHesaplar();
+                if (AnaCari.MTKOD == "Z1")
+                {
+                    carisube = new cariHesaplar().GetObject1(4, SMREF);
+                }
+                else
+                {
+                    carisube = new cariHesaplar(SMREF).GetObject();
+                }
+
+                if (cariSube)
+                {
+                    return carisube;
+                }
+                else
+                {
+                    cariHesaplar cari = new cariHesaplar(); cari.SUBE = carisube.SUBE; return cari;
+                }
+            }
+        }
         public string BOLUM { get; set; }
         public string ACIKLAMA { get; set; }
         public double BRUTT { get; set; }
@@ -25,7 +49,7 @@ namespace Sultanlar.DbObj.Internet
         private bool cariSube { get; set; }
 
         public siparisRaporu() { }
-        private siparisRaporu(int SIPNO, int WEBSIPNO, DateTime TARIH, int GMREF, int SMREF, string BOLUM, string ACIKLAMA, double BRUTT, double NETT, double ISKT, double KOLIT, bool cariAna, bool cariSube)
+        private siparisRaporu(int SIPNO, string WEBSIPNO, DateTime TARIH, int GMREF, int SMREF, string BOLUM, string ACIKLAMA, double BRUTT, double ISKT, double NETT, double KOLIT, bool cariAna, bool cariSube)
         {
             this.SIPNO = SIPNO;
             this.WEBSIPNO = WEBSIPNO;
@@ -35,8 +59,8 @@ namespace Sultanlar.DbObj.Internet
             this.BOLUM = BOLUM;
             this.ACIKLAMA = ACIKLAMA;
             this.BRUTT = BRUTT;
-            this.NETT = NETT;
             this.ISKT = ISKT;
+            this.NETT = NETT;
             this.KOLIT = KOLIT;
             this.cariAna = cariAna;
             this.cariSube = cariSube;
@@ -54,7 +78,22 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparisRaporGetir", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "SLSREF", SLSREF } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new siparisRaporu(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToDateTime(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8]), ConvertToDouble(dic[i][9]), ConvertToDouble(dic[i][10]), false, false));
+                    donendeger.Add(new siparisRaporu(ConvertToInt32(dic[i][0]), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8]), ConvertToDouble(dic[i][9]), ConvertToDouble(dic[i][10]), false, false));
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<siparisRaporu> GetObjectsTp(int YIL, object AY, int SLSREF)
+        {
+            List<siparisRaporu> donendeger = new List<siparisRaporu>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparisRaporTpGetir", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "SLSREF", SLSREF } }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new siparisRaporu(ConvertToInt32(dic[i][0]), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), dic[i][5].ToString(), dic[i][6].ToString(), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8]), ConvertToDouble(dic[i][9]), ConvertToDouble(dic[i][10]), true, true));
 
             return donendeger;
         }
