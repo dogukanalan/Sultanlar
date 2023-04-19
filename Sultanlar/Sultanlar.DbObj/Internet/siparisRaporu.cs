@@ -63,7 +63,7 @@ namespace Sultanlar.DbObj.Internet
     public class siparisDetayRaporu : DbObj
     {
         public int SIPNO { get; set; }
-        public int WEBSIPNO { get; set; }
+        public string WEBSIPNO { get; set; }
         public DateTime TARIH { get; set; }
         public int GMREF { get; set; }
         public cariHesaplar AnaCari { get { cariHesaplar cariana = new cariHesaplar(GMREF).GetObject(); if (cariAna) return cariana; else { cariHesaplar cari = new cariHesaplar(); cari.MUSTERI = cariana.MUSTERI; return cari; } } }
@@ -97,13 +97,16 @@ namespace Sultanlar.DbObj.Internet
         public double NETT { get; set; }
         public double ADT { get; set; }
         public double KOLIT { get; set; }
+        public int SVKADT { get; set; }
+        public int BKYADT { get; set; }
+        public int STOK { get; set; }
 
         public double NET { get { return ADT > 0 ? NETT / ADT : NETT; } }
         private bool cariAna { get; set; }
         private bool cariSube { get; set; }
 
         public siparisDetayRaporu() { }
-        private siparisDetayRaporu(int SIPNO, int WEBSIPNO, DateTime TARIH, int GMREF, int SMREF, int MALKOD, string ACIKLAMA, double BRUTT, double NETT, double ADT, double KOLIT, bool cariAna, bool cariSube)
+        private siparisDetayRaporu(int SIPNO, string WEBSIPNO, DateTime TARIH, int GMREF, int SMREF, int MALKOD, string ACIKLAMA, double BRUTT, double NETT, double ADT, double KOLIT, int SVKADT, int BKYADT, int STOK, bool cariAna, bool cariSube)
         {
             this.SIPNO = SIPNO;
             this.WEBSIPNO = WEBSIPNO;
@@ -116,6 +119,9 @@ namespace Sultanlar.DbObj.Internet
             this.NETT = NETT;
             this.ADT = ADT;
             this.KOLIT = KOLIT;
+            this.SVKADT = SVKADT;
+            this.BKYADT = BKYADT;
+            this.STOK = STOK;
             this.cariAna = cariAna;
             this.cariSube = cariSube;
         }
@@ -132,7 +138,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparisDetayRaporGetir", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "SLSREF", SLSREF }, { "SIPNO", SIPNO } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new siparisDetayRaporu(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToDateTime(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]), dic[i][6].ToString(), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8]), ConvertToDouble(dic[i][9]), ConvertToDouble(dic[i][10]), false, false));
+                    donendeger.Add(new siparisDetayRaporu(ConvertToInt32(dic[i][0]), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]), dic[i][6].ToString(), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8]), ConvertToDouble(dic[i][9]), ConvertToDouble(dic[i][10]), ConvertToInt32(dic[i][11]), ConvertToInt32(dic[i][12]), ConvertToInt32(dic[i][13]), false, false));
 
             return donendeger;
         }
@@ -147,7 +153,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparisDetayRaporTpGetir", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "SLSREF", SLSREF }, { "SIPNO", SIPNO } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new siparisDetayRaporu(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToDateTime(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]), dic[i][6].ToString(), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8]), ConvertToDouble(dic[i][9]), ConvertToDouble(dic[i][10]), true, true));
+                    donendeger.Add(new siparisDetayRaporu(ConvertToInt32(dic[i][0]), dic[i][1].ToString(), ConvertToDateTime(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]), dic[i][6].ToString(), ConvertToDouble(dic[i][7]), ConvertToDouble(dic[i][8]), ConvertToDouble(dic[i][9]), ConvertToDouble(dic[i][10]), ConvertToInt32(dic[i][11]), ConvertToInt32(dic[i][12]), ConvertToInt32(dic[i][13]), true, true));
 
             return donendeger;
         }
