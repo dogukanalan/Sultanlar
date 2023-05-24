@@ -20,6 +20,21 @@ namespace Sultanlar.DbObj.Internet
             this.personelID = personelID;
             this.strAciklama = strAciklama;
         }
+        public override void DoInsert()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "SMREF", SMREF }, { "blBayi", blBayi }, { "personelID", personelID }, { "strAciklama", strAciklama } };
+            SMREF = ConvertToByte(Do(QueryType.Insert, "Web-Musteri-TP_PersonelBaglantilari", param, timeout));
+        }
+        public override void DoUpdate()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "SMREF", SMREF }, { "blBayi", blBayi }, { "personelID", personelID }, { "strAciklama", strAciklama } };
+            Do(QueryType.Update, "Web-Musteri-TP_PersonelBaglantilari", param, timeout);
+        }
+        public override void DoDelete()
+        {
+            Do(QueryType.Delete, "Web-Musteri-TP_PersonelBaglantilari", new Dictionary<string, object>() { { "SMREF", SMREF } }, timeout);
+            //personel ID yapmam daha mantıklı olurdu sanırım
+        }
     }
 
     public class tpPersoneller : DbObj
@@ -50,7 +65,22 @@ namespace Sultanlar.DbObj.Internet
             this.perBayi = perBayi;
 
         }
+        public override void DoInsert()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "pkID", pkID }, { "perTur", perTur }, { "strAd", strAd }, { "strSoyad", strSoyad }, { "strGorev", strGorev }, { "strTelefon", strTelefon }, { "strKod", strKod }, { "strEposta", strEposta }, { "strAciklama", strAciklama }, { "perBayi", perBayi } };
+            pkID = ConvertToByte(Do(QueryType.Insert, "Web-Musteri-TP_Personeller", param, timeout));
+        }
+        public override void DoUpdate()
+        {
+            Dictionary<string, object> param = new Dictionary<string, object>() { { "pkID", pkID }, { "perTur", perTur }, { "strAd", strAd }, { "strSoyad", strSoyad }, { "strGorev", strGorev }, { "strTelefon", strTelefon }, { "strKod", strKod }, { "strEposta", strEposta }, { "strAciklama", strAciklama }, { "perBayi", perBayi } };
+            pkID = ConvertToByte(Do(QueryType.Update, "Web-Musteri-TP_Personeller", param, timeout));
+        }
+        public override void DoDelete() 
+        {
+            Do(QueryType.Delete, "Web-Musteri-TP_Personeller", new Dictionary<string, object>() { { "pkID", pkID } }, timeout);
+        }
     }
+}
 
     public class tpPersonelTurleri : DbObj
     {
@@ -61,8 +91,11 @@ namespace Sultanlar.DbObj.Internet
         public tpPersonelTurleri(byte pkID) { this.pkID = pkID; }
         public tpPersonelTurleri(string strTur, string strAciklama)
         {
+            this.pkID = pkID;
             this.strTur = strTur;
             this.strAciklama = strAciklama;
         }
+
     }
-}
+
+
