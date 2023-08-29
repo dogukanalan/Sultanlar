@@ -16,6 +16,7 @@
 
     <script>
         var aktiviteid;
+        var aktivite;
 
         function SaticilarGetir(uyeid) {
             $.ajax(
@@ -79,7 +80,8 @@
                         $("#inputDonem").val().substring(5, 7),
                         $(this).attr('accesskey'),
                         $(this).attr('rel'),
-                        $(this).attr('auid'));
+                        $(this).attr('auid')
+                    );
                 }
                 else {
                     $("#" + $(this).attr('auid')).empty().append($("<option></option>").text("Yok").val("0"));
@@ -154,7 +156,7 @@
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
                     url: apiurl + "anlasma/getirbymus",
-                    data: '{ "yil": ' + yil + ', "ay": "' + ay + '", "smref": ' + smref + ', "tip": "' + (tip == "1" ? "2" : "1") + '" }',
+                    data: '{ "yil": ' + yil + ', "ay": "' + ay + '", "smref": ' + smref + ', "tip": "' + (tip == "1" ? "2" : "1") + '", "yegmi": ' + aktivite.mnAktiviteKarZarar + ' }',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     success: function (data, textStatus, response) {
@@ -216,9 +218,27 @@
             );
         }
 
+        function AktiviteGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "aktivite/get/" + aktiviteid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        if (data.mnAktiviteKarZarar == -1) {
+                            window.location.href = "Aktiviteler";
+                            alert("Aktivite karma olduğundan kopyalanamaz.");
+                        }
+                        aktivite = data;
+                    }
+                });
+        }
+
         $(document).ready(function () {
             aktiviteid = getParameterByName('aktiviteid');
             document.getElementById("basTitle").innerHTML = "Aktivite Kopyala (" + aktiviteid + ")";
+            AktiviteGetir();
             $('#inputDonem').datepicker({
                 locale: "tr",
                 language: "tr",

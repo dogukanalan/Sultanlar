@@ -60,7 +60,7 @@
                     },
                     {
                         "data": "malacik", "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli malacik">' + data + '</span>';
+                            return '<span class="sinirli malacik">' + data + '</span><span class="hide">' + data.toLocaleLowerCase() + '</span>';
                         }
                     },
                     {
@@ -379,8 +379,9 @@
                             }
                         }
 
-                        alert(XL_row_object.length + " satırdan " + aktarilansayi + " tanesi aktarıldı: \r\n" + malzemeler +
-                            (hata != "" ? "\r\n" + (XL_row_object.length - aktarilansayi) + " satırda hata oluştu:\r\n" + hata : ""));
+                        alert(
+                            (hata != "" ? (XL_row_object.length - aktarilansayi) + " satırda hata oluştu:\r\n" + hata + "\r\n": "") +
+                            XL_row_object.length + " satırdan " + aktarilansayi + " tanesi aktarıldı: \r\n" + malzemeler);
                     }
                     else {
                         alert("Excel formatı uygun değil.");

@@ -541,8 +541,7 @@ iframe {
 
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
-
-@media (min-width: 1279px) {
+@media (min-width: 1359px) {
     .container {
         width: 1280px;
     }
@@ -551,6 +550,17 @@ iframe {
         top: 50px;
         z-index: 1;
     }
+}
+
+@media (max-width: 1280px) {
+    .secimArti {
+        width: 50px;
+        display: inline !important;
+    }
+}
+
+.secimArti {
+    display: none;
 }
 
 @media (max-width: 992px) {
@@ -716,6 +726,10 @@ iframe {
         display: none;
     }
 
+    .hideSiparisColumn {
+        display: none;
+    }
+
     .urunResimQtip {
         max-width: 200px !important;
         max-height: 200px !important;
@@ -731,12 +745,16 @@ iframe {
     }
 
     .inputSecim {
-        width: 40px;
+        width: 34px;
         font-size: 0.75rem;
     }
 
     .tumuExcel {
         float: none !important;
+    }
+
+    .secimArti {
+        width: 34px;
     }
 }
 
@@ -1427,3 +1445,19 @@ input[type="file"] {
 .tumuExcel {
     float: right;
 }
+
+.dataTables_scrollBody {
+    position: unset !important;
+}
+
+.btn-second {
+    color: #fff;
+    background-color: #F1D031;
+    border-color: #e2c42f;
+}
+
+    .btn-second:hover {
+        color: #fff;
+        background-color: #ddbf2f;
+        border-color: #d3b62e;
+    }

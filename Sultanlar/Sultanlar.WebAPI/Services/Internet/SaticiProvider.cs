@@ -13,6 +13,22 @@ namespace Sultanlar.WebAPI.Services.Internet
     {
         private IMemoryCache _memoryCache;
 
+        internal List<satisTemsilcileriAgac> Agac()
+        {
+            List<satisTemsilcileriSefler> donendeger = new List<satisTemsilcileriSefler>();
+            List<satisTemsilcileriAgac> enustler = new satisTemsilcileriAgac().GetEnUstler();
+            /*for (int i = 0; i < enustler.Count; i++)
+            {
+                donendeger.Add(enustler[i]);
+                List<satisTemsilcileriSefler> altlar = new satisTemsilcileriSefler().GetObjects(enustler[i].ustSLSREF);
+                for (int j = 0; j < altlar.Count; j++)
+                {
+                    donendeger.Add(altlar[j]);
+                }
+            }*/
+            return enustler;
+        }
+
         internal List<satisTemsilcileri> Saticilar(string uyeid, bool tumu, IMemoryCache memoryCache)
         {
             _memoryCache = memoryCache;

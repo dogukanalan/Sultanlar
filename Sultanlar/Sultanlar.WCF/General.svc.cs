@@ -924,7 +924,7 @@ namespace Sultanlar.WCF
         /// <summary>
         /// View
         /// </summary>
-        public XmlDocument GetView(string Sifre, string Name, string ParamNames, string ParamValues)
+        public XmlDocument GetView(string Eposta, string Sifre, string Name, string ParamNames, string ParamValues, string ParamSp)
         {
             XmlDocument donendeger = new XmlDocument();
 
@@ -941,8 +941,11 @@ namespace Sultanlar.WCF
                 paramv.Add(paramV[i]);
             }
 
-            if (Sifre == "rapor2020")
-                dt = WebGenel.WCFdata("SELECT * FROM [" + Name + "] ", paramn, paramv, Name);
+            ArrayList mus = Musteriler.ValidateCustomer(Eposta, Sifre);
+            if (Convert.ToBoolean(mus[0]) && Convert.ToBoolean(mus[1]) && Convert.ToBoolean(mus[2]) && !Convert.ToBoolean(mus[4]))
+            {
+                dt = WebGenel.WCFdata(ParamSp == "1" ? Name : "SELECT * FROM [" + Name + "] ", paramn, paramv, Name);
+            }
 
             ds.Tables.Add(dt);
             donendeger.LoadXml(ds.GetXml());
@@ -952,7 +955,7 @@ namespace Sultanlar.WCF
         /// <summary>
         /// View
         /// </summary>
-        public Stream GetViewJson(string Sifre, string Name, string ParamNames, string ParamValues)
+        public Stream GetViewJson(string Eposta, string Sifre, string Name, string ParamNames, string ParamValues, string ParamSp)
         {
             DataSet ds = new DataSet("Views");
             DataTable dt = new DataTable(Name);
@@ -967,8 +970,9 @@ namespace Sultanlar.WCF
                 paramv.Add(paramV[i]);
             }
 
-            if (Sifre == "rapor2020")
-                dt = WebGenel.WCFdata("SELECT * FROM [" + Name + "] ", paramn, paramv, Name);
+            ArrayList mus = Musteriler.ValidateCustomer(Eposta, Sifre);
+            if (Convert.ToBoolean(mus[0]) && Convert.ToBoolean(mus[1]) && Convert.ToBoolean(mus[2]) && !Convert.ToBoolean(mus[4]))
+                dt = WebGenel.WCFdata(ParamSp == "1" ? Name : "SELECT * FROM [" + Name + "] ", paramn, paramv, Name);
 
             ds.Tables.Add(dt);
 
@@ -991,6 +995,11 @@ namespace Sultanlar.WCF
             /*return JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(donendeger);*/
             //return Newtonsoft.Json.JsonConvert.SerializeObject(rows, Newtonsoft.Json.Formatting.None);
             //return js.Serialize(rows);
+
+            OutgoingWebResponseContext context =
+    WebOperationContext.Current.OutgoingResponse;
+            context.ContentType = "application/json";
+
             string donendeger = JsonConvert.SerializeObject(dt, new DataTableConverter());
             return new MemoryStream(Encoding.UTF8.GetBytes(donendeger));
             //return JsonConvert.SerializeObject(dt.AsEnumerable().Select(r => r.ItemArray));

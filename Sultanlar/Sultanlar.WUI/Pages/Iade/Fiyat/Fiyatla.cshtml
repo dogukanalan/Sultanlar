@@ -1,0 +1,309 @@
+﻿@page
+@model FiyatlaModel
+@{
+    ViewData["Title"] = "İade Fiyatlandırma";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.5.0/css/select.dataTables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.5.0/js/dataTables.select.min.js"></script>
+
+    <script>
+        var table;
+        var iadeid;
+        var iadedetayid;
+        var iadedetay;
+        var smref;
+        var itemref;
+        var fiyatsecimi;
+        var fiydet = [];
+
+        function DetayGetir(scrollx, siralama) {
+            var datasrc;
+            var url1 = apiurl + "iade/fiyatadetlerget/" + smref + "/" + itemref;
+            datasrc = "";
+
+            table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
+                checkAuth(xhr);
+
+            }).DataTable({
+                "scrollX": scrollx,
+                ajax: {
+                    dataSrc: datasrc,
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: url1
+                },
+                "initComplete": function (settings, json) {
+                    qtip();
+                },
+                "fnDrawCallback": function (oSettings) {
+
+                },
+                columns: [
+                    /*{
+                        "data": "id", "class": "keyTd", render: function (data, type, row) {
+                            return '<div class="pretty p-default p-curve prettyMargin2"><input type="checkbox" class="smm" rel="" accesskey="' + data + '" /><div class="state p-primary-o"><label></label></div></div>';
+                        },
+                        title: 'Seçim'
+                    },*/
+                    {
+                        "data": "siparis", "class": "keyTd", render: function (data, type, row) {
+                            return '<a href="../../Siparis/Incele?siparisid=' + data.pkSiparisID + '&fiyattipi=2"><span class="sinirli">' + data.pkSiparisID + '</span></a>';
+                        },
+                        title: 'S.No'
+                    },
+                    {
+                        "data": "siparis", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.dtOnaylamaTarihi.substring(0, 10) + '</span>';
+                        },
+                        title: 'Tarih'
+                    },
+                    {
+                        "data": "siparisDetay", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli itemref">' + data.intUrunID + '</span>';
+                        },
+                        title: 'Kod'
+                    },
+                    {
+                        "data": "siparisDetay", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli malacik">' + data.malzeme.malacik + '</span>';
+                        },
+                        title: 'Malzeme'
+                    },
+                    {
+                        "data": null, "class": "floaTd", render: function (data, type, row) {
+                            return '<span class="sinirli netkdv" id="fiyat' + data.bintSiparisDetayID + '">' + iskDusCoklu((data.siparisDetay.mnFiyat), data.siparisDetay.isks.isK1, data.siparisDetay.isks.isK2, data.siparisDetay.isks.isK3, data.siparisDetay.isks.isK4).toFixed(2) + '</span>';
+                        },
+                        title: 'Fiyat'
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.siparisDetay.intMiktar + '</span>';
+                        },
+                        title: 'Sipariş Miktarı'
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + (parseInt(data.siparisDetay.intMiktar) - parseInt(data.intIadeMiktar)) + '</span>';
+                        },
+                        title: 'Eksilmiş'
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<span id="miktar' + data.bintSiparisDetayID + '" class="sinirli miktar" accesskey="' + data.bintSiparisDetayID + '">' + data.intIadeMiktar + '</span>';
+                        },
+                        title: 'Kalan Miktar'
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<input type="number" class="inputSecim secilen" id="secim' + data.bintSiparisDetayID + '" disabled="disabled" />';
+                        },
+                        title: 'Seçilen'
+                    }
+                ],
+                select: {
+                    style: ['multi', 'os'],
+                    selector: 'td:first-child'
+                },
+                "language": defaultDtLang,
+                "paging": false,
+                "ordering": siralama,
+                "info": false,
+                "searching": false,
+                "deferRender": true
+            });
+        }
+
+        function IadeDetayGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "iade/GetIadeDetay/" + iadedetayid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        iadedetay = data;
+                        document.getElementById("spanAdet").innerHTML = data.intMiktar;
+                        if (iadedetay.mnFiyat > 0) {
+                            alert('İade daha önce fiyatlandırılmış. Tutar: ' + iadedetay.mnFiyat);
+                            window.location.href = 'Index?iadeid=' + iadeid;
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            iadeid = getParameterByName('iadeid');
+            iadedetayid = getParameterByName('iadedetayid');
+            smref = getParameterByName('smref');
+            itemref = getParameterByName('itemref');
+
+            IadeDetayGetir();
+            DetayGetir(true, false);
+
+            $(document).on('click', '.keyTd', function () {
+                $(this).find('input').prop('checked', $(this).closest("tr").hasClass("selected"));
+            });
+
+            fiyatsecimi = 1;
+            $('input[type="radio"]').on('change', function (e) {
+                fiyatsecimi = $(this).attr("accesskey");
+                if (fiyatsecimi == 1) {
+                    $("#inputFiyat").val("");
+                    $("#inputFiyat").attr("disabled", "disabled");
+                    $("#sontar").removeAttr("disabled");
+                }
+                else {
+                    $("#inputFiyat").removeAttr("disabled");
+                    $('#dtTable').find('.secilen').each(function () {
+                        $(this).val("");
+                    });
+                    $("#sontar").attr("disabled", "disabled");
+                }
+            });
+        });
+
+        function qtip() {
+            $('.urunResim').each(function () {
+                $(this).qtip({
+                    content: '<img src="' + $(this).attr('rel') + '" class="urunResimQtip" />',
+                    position: { at: 'top right' }
+                });
+            });
+            lazyload();
+        }
+
+        function sontarih() {
+            //table.destroy();
+            //DetayGetir(true, true);
+            //table.order([1, 'asc']).draw();
+            fiydet = [];
+            var secilecek = parseFloat(iadedetay.intMiktar);
+            var fiyattoplam = 0.0;
+            $('#dtTable').find('.miktar').each(function () {
+                var kontrol = $("#secim" + $(this).attr('id').replace("miktar", ""));
+                var fiyat = parseFloat($("#fiyat" + $(this).attr('id').replace("miktar", ""))[0].innerHTML);
+                var icmiktar = parseInt($(this)[0].innerHTML);
+                var secilen = 0;
+                if (secilecek >= icmiktar) {
+                    secilecek = secilecek - icmiktar;
+                    secilen = icmiktar;
+                    kontrol.val(icmiktar);
+                }
+                else {
+                    secilen = secilecek;
+                    kontrol.val(secilecek);
+                    secilecek = 0;
+                }
+                fiyattoplam += fiyat * secilen;
+
+                fiyatdetay = {};
+                fiyatdetay.iadedetayid = iadedetayid;
+                fiyatdetay.siparisdetayid = $(this).attr('accesskey');
+                fiyatdetay.miktar = secilen;
+                if (secilen > 0)
+                    fiydet.push(fiyatdetay);
+            });
+            var ortfiyat = fiyattoplam / iadedetay.intMiktar;
+            $('#inputFiyat').val(ortfiyat);
+            //table.order([1, 'desc']).draw();
+        }
+
+        function fiyOnay() {
+            if ($('#inputFiyat').val() == "" || parseFloat($('#inputFiyat').val()) == 0) {
+                return;
+            }
+
+            if (confirm("İade " + parseFloat($('#inputFiyat').val()) + " tutarıyla fiyatlandırılacak. Emin misiniz?") == false) {
+                return;
+            }
+
+            if (fiyatsecimi == 1) {
+                for (var i = 0; i < fiydet.length; i++) {
+                    $.ajax(
+                        {
+                            xhr: function () { return xhrDownloadUpload(); },
+                            beforeSend: function (xhr) { xhrTicket(xhr); },
+                            url: apiurl + "iade/FiyatAdetEkle/" + fiydet[i].iadedetayid + "/" + fiydet[i].siparisdetayid + "/" + fiydet[i].miktar,
+                            success: function (data, textStatus, response) {
+                                checkAuth(response);
+
+                                fiyBit();
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                        }
+                    );
+                }
+            }
+            else {
+                fiyBit();
+            }
+        }
+
+        function fiyBit() {
+            iadedetay.mnFiyat = parseFloat($('#inputFiyat').val());
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'POST',
+                    url: apiurl + "iade/SetIadeDetay",
+                    data: JSON.stringify(iadedetay),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+                        window.location.href = 'Index?iadeid=' + iadeid;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+    </script>
+}
+Seçilecek miktar: <strong><span class="spanCiplak" id="spanAdet"></span></strong>
+<br />
+<br />
+<input type="button" class="btn btn-primary" id="sontar" value="Son tarihten itibaren" onclick="sontarih()" />
+<table id="dtTable" class="table table-striped table-bordered" style="width:100%">
+</table>
+<br />
+<div class="centerVeMiddle">
+    <div id="divRutlu">
+        <div class="pretty p-default p-curve prettyMargin3">
+            <input class="chkbxs" type="radio" name="fiyatsec" accesskey="1" checked="checked" />
+            <div class="state p-primary-o">
+                <label> Hesaplanan fiyat</label>
+            </div>
+        </div>
+        <div class="pretty p-default p-curve prettyMargin3">
+            <input class="chkbxs" type="radio" name="fiyatsec" accesskey="2" />
+            <div class="state p-primary-o">
+                <label> Elle fiyat girişi</label>
+            </div>
+        </div>
+    </div>
+    <input type="number" class="inputSecim" id="inputFiyat" disabled="disabled" style="width: 100px" />
+</div>
+<br />
+<div class="centerVeMiddle">
+    <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.location.href = '../Fiyat/?iadeid=' + iadeid" />
+    <input type="button" class="btn btn-success secimTus" id="inputFiyOnay" value="Fiyatlandırmayı Onayla" onclick="fiyOnay()" />
+</div>

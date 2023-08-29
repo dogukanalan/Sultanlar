@@ -234,12 +234,13 @@ namespace Sultanlar.DatabaseObject.Internet
         }
         //
         //
-        public static void GetObjects(DataTable dt)
+        public static void GetObjects(DataTable dt, string Kullanici)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
                 SqlDataAdapter da = new SqlDataAdapter("sp_INTERNET_AnlasmaHizmetBedelleriDDGetir", conn);
                 da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand.Parameters.Add("@Kullanici", SqlDbType.NVarChar, 50).Value = Kullanici;
                 try
                 {
                     conn.Open();

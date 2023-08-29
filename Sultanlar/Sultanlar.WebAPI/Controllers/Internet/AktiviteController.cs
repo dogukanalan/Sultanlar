@@ -22,15 +22,15 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public DtAjaxResponse Getir([FromBody]AktiviteGet aktiviteget) => new AktiviteProvider().Aktiviteler(aktiviteget);
 
         [HttpGet("{AktiviteID}")]
-        public string Onay(int AktiviteID) => new AktiviteProvider().AktiviteOnay(AktiviteID);
+        public string Onay(int AktiviteID) => new AktiviteProvider().AktiviteOnay(AktiviteID, HttpContext.Request.Headers["sulMus"]);
 
         [HttpPost]
-        public string Kopya([FromBody]AktiviteKopya aktivitekopya) => new AktiviteProvider().AktiviteKopyala(aktivitekopya);
+        public string Kopya([FromBody]AktiviteKopya aktivitekopya) => new AktiviteProvider().AktiviteKopyala(aktivitekopya, HttpContext.Request.Headers["sulMus"]);
 
         [HttpGet("{AktiviteID}")]
-        public string Sil(int AktiviteID) => new AktiviteProvider().AktiviteSil(AktiviteID);
+        public string Sil(int AktiviteID) => new AktiviteProvider().AktiviteSil(AktiviteID, HttpContext.Request.Headers["sulMus"]);
 
         [HttpPost]
-        public string Kaydet([FromBody]AktiviteKaydet aktivitekaydet) => new AktiviteProvider().AktiviteKaydet(aktivitekaydet);
+        public string Kaydet([FromBody] AktiviteKaydet aktivitekaydet) => new AktiviteProvider().AktiviteKaydet(aktivitekaydet, HttpContext.Request.Headers["sulMus"]);
     }
 }

@@ -22,10 +22,10 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public DtAjaxResponse Getir([FromBody]AnlasmaGet anlasmaget) => new AnlasmaProvider().Anlasmalar(anlasmaget);
         
         [HttpPost]
-        public List<anlasmalar> GetirByMus([FromBody]AnlasmaMusteriGet anlasmaget) => new AnlasmaProvider().Anlasmalar(anlasmaget.yil, anlasmaget.ay, anlasmaget.smref, anlasmaget.tip);
+        public List<anlasmalar> GetirByMus([FromBody]AnlasmaMusteriGet anlasmaget) => new AnlasmaProvider().Anlasmalar(anlasmaget.yil, anlasmaget.ay, anlasmaget.smref, anlasmaget.tip, anlasmaget.yegmi);
 
         [HttpPost]
-        public string Kaydet([FromBody]AnlasmaKaydet anlasmakaydet) => new AnlasmaProvider().AnlasmaKaydet(anlasmakaydet);
+        public string Kaydet([FromBody]AnlasmaKaydet anlasmakaydet) => new AnlasmaProvider().AnlasmaKaydet(anlasmakaydet, HttpContext.Request.Headers["sulMus"]);
 
         [HttpGet("{ID}")]
         public anlasmaBedelAdlari GetBedelTanim(int ID) => new AnlasmaProvider().AnlasmaBedelAdlari(ID);
@@ -34,6 +34,6 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public List<anlasmaBedelAdlari> GetBedelTanimlar() => new AnlasmaProvider().AnlasmaBedelAdlari();
 
         [HttpPost]
-        public string Kopya([FromBody]AnlasmaKopya anlasmakopya) => new AnlasmaProvider().AnlasmaKopyala(anlasmakopya);
+        public string Kopya([FromBody]AnlasmaKopya anlasmakopya) => new AnlasmaProvider().AnlasmaKopyala(anlasmakopya, HttpContext.Request.Headers["sulMus"]);
     }
 }

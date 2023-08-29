@@ -19,8 +19,8 @@ namespace Sultanlar.WCF
         string Test();
 
         [OperationContract, XmlSerializerFormat]
-        [WebGet(ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/HesaplaKaydet?bayikod={BayiKod}&yil={Yil}&ay={Ay}&kaydet={Kaydet}&eposta={Email}")]
-        XmlDocument HesaplaKaydetIc(int BayiKod, int Yil, int Ay, bool Kaydet, string Email);
+        [WebGet(ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/HesaplaKaydet?bayikod={BayiKod}&yil={Yil}&ay={Ay}&Bolum={Bolum}&kaydet={Kaydet}&eposta={Email}")]
+        XmlDocument HesaplaKaydetIc(int BayiKod, int Yil, int Ay, int Bolum, bool Kaydet, string Email);
 
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Xml, ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/HesaplaKaydet?kaydet={Kaydet}")]

@@ -49,6 +49,8 @@ namespace Sultanlar.WebAPI.Services.Internet
             return donendeger;
         }
 
+        internal List<fiyatlar> FiyatlarHaric() => new fiyatlar().GetObjectsHaric();
+
         internal fiyatlar Fiyat(int TIP, int ITEMREF) => new fiyatlar(TIP, ITEMREF).GetObject();
 
         internal List<fiyatlarTp> FiyatlarTP() => new fiyatlarTp().GetObjects();

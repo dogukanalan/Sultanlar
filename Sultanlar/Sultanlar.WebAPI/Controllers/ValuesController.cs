@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,9 @@ namespace Sultanlar.WebAPI.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            //new Services.Internet.EpostaProvider().EpostaGonder("Sultanlar",
+            //        new ArrayList() { "mistif.sultanlar@gmail.com" },
+            //        "deneme", "deneme");
             return new string[] { "value1", "value2" };
         }
 

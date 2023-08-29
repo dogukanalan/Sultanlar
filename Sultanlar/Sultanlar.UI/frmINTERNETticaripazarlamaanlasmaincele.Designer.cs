@@ -104,6 +104,7 @@
             this.sbExcel = new DevExpress.XtraEditors.SimpleButton();
             this.txtKategori = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
+            this.lblOnayDurum = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
@@ -825,6 +826,17 @@
             this.label19.TabIndex = 123;
             this.label19.Text = "Eski Anlaşma No";
             // 
+            // lblOnayDurum
+            // 
+            this.lblOnayDurum.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOnayDurum.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblOnayDurum.Location = new System.Drawing.Point(603, 163);
+            this.lblOnayDurum.Name = "lblOnayDurum";
+            this.lblOnayDurum.Size = new System.Drawing.Size(196, 53);
+            this.lblOnayDurum.TabIndex = 108;
+            this.lblOnayDurum.Text = "ONAY DURUMU";
+            this.lblOnayDurum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // frmINTERNETticaripazarlamaanlasmaincele
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -861,6 +873,7 @@
             this.Controls.Add(this.label25);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label17);
+            this.Controls.Add(this.lblOnayDurum);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label4);
@@ -982,5 +995,6 @@
         private DevExpress.XtraEditors.SimpleButton sbExcel;
         private System.Windows.Forms.TextBox txtKategori;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label lblOnayDurum;
     }
 }

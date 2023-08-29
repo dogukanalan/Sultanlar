@@ -34,7 +34,7 @@ $(document).ready(function () {
             $(this).val($(this).val().toLocaleUpperCase());
     });
 
-    setTimeout(function () {
+    /*setTimeout(function () {
         try {
             $("#dtTable_filter input[type=search]").keyup(function () {
                 $(this).val($(this).val().toLocaleUpperCase());
@@ -42,7 +42,7 @@ $(document).ready(function () {
         } catch (e) {
 
         }
-    }, 2000);
+    }, 200);*/
 
     $('#selectYil').empty();
     $("#selectYil").append($("<option />").val("2023").text("2023"));
@@ -57,11 +57,11 @@ $(document).ready(function () {
     $("#selectYil").append($("<option />").val("2014").text("2014"));
 
     if (typeof Android !== "undefined") {
-        $("input").focus(function () {
+        /*$("input").focus(function () {
             if ($(this).hasClass("tarihpicker")) {
                 //Android.HideKeyboard();
             }
-        });
+        });*/
     }
 });
 
@@ -124,7 +124,29 @@ function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
+        results = regex.exec(url); //
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function getParameterByName2(name, url) { //encodeURIComponent(uriComponent)
+    if (!url) url = window.location.href;
+    if (url.indexOf("?") == -1) {
+        return null;
+    }
+    var encypted = url.substring(url.indexOf("?") + 1);
+    var decyrpted = atob(encypted);
+    
+    //var regex2 = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    //    results2 = regex2.exec(cozulmus);
+    //if (!results2) return null;
+    //if (!results2[2]) return '';
+    //console.log(decodeURIComponent(results2[2].replace(/\+/g, " ")));
+    
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec("?" + decyrpted);
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
@@ -455,7 +477,7 @@ var aktivitecolumns = [
     },
     {
         "data": "malacik", "class": "valueTd", render: function (data, type, row) {
-            return '<span class="sinirli malacik">' + data + '</span>';
+            return '<span class="sinirli malacik">' + data + '</span><span class="hide">' + data.toLocaleLowerCase() + '</span>';
         }
     },
     {
@@ -757,13 +779,13 @@ function stringifySepetI(sepet, smref, mtip, iadeid) {
     return sentValue;
 }
 
-function stringifySepetA(sepet, smref, donem, tip, aktiviteid, anlasmaid) {
+function stringifySepetA(sepet, smref, donem, tip, aktiviteid, anlasmaid, ahtyeg) {
     var sentValue = '';
     for (var i = 0; i < sepet.length; i++) {
-        if (sepet[i].smref === smref && sepet[i].donem === donem && sepet[i].tip === tip && sepet[i].aktiviteid === aktiviteid && sepet[i].anlasmaid === anlasmaid) {
+        if (sepet[i].smref === smref && sepet[i].donem === donem && sepet[i].tip === tip && sepet[i].aktiviteid === aktiviteid && sepet[i].anlasmaid === anlasmaid && sepet[i].yegmi == ahtyeg) {
             sentValue = '{ "id": ' + sepet[i].aktiviteid + ', "musteri": "' + window.localStorage["uyeid"] + '", "smref": ' + sepet[i].smref + ', "fiyattipi": ' + sepet[i].ftip + ', "aktivitetipi": ' + sepet[i].tip + ', "anlasmaid": ' + sepet[i].anlasmaid + ', "donem": "' + sepet[i].donem + '", "baslangic": "' + sepet[i].baslangic + '", "bitis": "' + sepet[i].bitis +
                 '", "aciklama1": "' + sepet[i].aciklama1 + '", "aciklama2": "' + sepet[i].aciklama2 + '", "aciklama3": "' + sepet[i].aciklama3 +
-                '", "tahbedel": "' + (sepet[i].tahbedel ? sepet[i].tahbedel : 0) + '", "yegbedel": "' + (sepet[i].yegbedel ? sepet[i].yegbedel : 0) + '", "tahciro": "' + (sepet[i].tahciro ? sepet[i].tahciro : 0) + '", "yegciro": "' + (sepet[i].yegciro ? sepet[i].yegciro : 0) +
+                '", "tahbedel": "' + (sepet[i].tahbedel ? sepet[i].tahbedel : 0) + '", "yegbedel": "' + (sepet[i].yegbedel ? sepet[i].yegbedel : 0) + '", "tahciro": "' + (sepet[i].tahciro ? sepet[i].tahciro : 0) + '", "yegciro": "' + (sepet[i].yegciro ? sepet[i].yegciro : 0) + '", "yegmi": "' + sepet[i].yegmi + 
                 '", "detaylar": [';
             for (var j = 0; j < sepet[i].detaylar.length; j++) {
                 sentValue += '{ "urun": ' + sepet[i].detaylar[j].itemref + ', "urunacik": "' + sepet[i].detaylar[j].malacik + '", "kdv": ' + sepet[i].detaylar[j].kdv + ', "miktar": ' + sepet[i].detaylar[j].miktar + ', "aksiyon": 0, "birimfiyat": ' + sepet[i].detaylar[j].birimfiyat + ', "fatalt": ' + sepet[i].detaylar[j].fatalt + ', "fataltciro": ' + sepet[i].detaylar[j].fataltciro + ', "ciroprim": ' + sepet[i].detaylar[j].ciroprim + ', "pazisk": ' + sepet[i].detaylar[j].pazisk + ', "ekisk": ' + sepet[i].detaylar[j].iskonto + ', "aciklama": "' + sepet[i].detaylar[j].aciklama + '" },';
@@ -777,7 +799,7 @@ function stringifySepetA(sepet, smref, donem, tip, aktiviteid, anlasmaid) {
 function aktSil(cookie) {
     var yenicookie = [];
     for (var i = 0; i < cookie.length; i++) {
-        if (cookie[i].smref === paramsmref && cookie[i].tip === paramtip && cookie[i].donem === paramdonem && cookie[i].aktiviteid === aktiviteid && cookie[i].anlasmaid === anlasmaid) {
+        if (cookie[i].smref === paramsmref && cookie[i].tip === paramtip && cookie[i].donem === paramdonem && cookie[i].aktiviteid === aktiviteid && cookie[i].anlasmaid === anlasmaid && cookie[i].yegmi == ahtyeg) {
             var asd = cookie[i].smref;
         }
         else {
@@ -794,11 +816,17 @@ function aktSil(cookie) {
                 ftip: cookie[i].ftip,
                 tip: cookie[i].tip,
                 donem: cookie[i].donem,
+                tahbedel: cookie[i].tahbedel,
+                yegbedel: cookie[i].yegbedel,
+                tahciro: cookie[i].tahciro,
+                yegciro: cookie[i].yegciro,
                 baslangic: cookie[i].baslangic,
                 bitis: cookie[i].bitis,
                 aciklama1: cookie[i].aciklama1,
                 aciklama2: cookie[i].aciklama2,
                 aciklama3: cookie[i].aciklama3,
+                musteri: cookie[i].musteri,
+                yegmi: cookie[i].yegmi,
                 detaylar: cookie[i].detaylar
             });
         }
@@ -809,16 +837,19 @@ function aktSil(cookie) {
 function sipSil(cookie) {
     var yenicookie = [];
     for (var i = 0; i < cookie.length; i++) {
-        if (cookie[i].smref === paramsmref && cookie[i].ftip === paramftip && cookie[i].siparisid === siparisid) {
+        if (cookie[i].smref === paramsmref && cookie[i].ftip === paramftip && cookie[i].siparisid === siparisid && cookie[i].mtip === parammtip) {
             var asd = cookie[i].smref;
         }
         else {
             yenicookie.push({
                 siparisid: cookie[i].siparisid,
+                gmref: cookie[i].gmref,
                 smref: cookie[i].smref,
                 ftip: cookie[i].ftip,
+                mtip: cookie[i].mtip,
                 aciklama: cookie[i].aciklama,
                 teslim: cookie[i].teslim,
+                musteri: cookie[i].musteri,
                 detaylar: cookie[i].detaylar
             });
         }
@@ -1243,4 +1274,9 @@ function anlasmaMaliyet(anlasma, bedeller) {
     inputMalNF.value = "%" + (yegyilsonumaliyet * 100).toFixed(2);
     inputMalCiroKGT.value = "%" + (tahyilsonuciroprdahil * 100).toFixed(2);
     inputMalCiroNF.value = "%" + (yegyilsonuciroprdahil * 100).toFixed(2);
+}
+
+function xmlSpecialChars(unsafe) {
+    return unsafe
+        .replaceAll(/&/g, " ");
 }

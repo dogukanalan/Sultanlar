@@ -102,7 +102,9 @@
             this.gridColumn56 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn50 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn53 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn59 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn55 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn60 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn58 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.lblUyari = new System.Windows.Forms.TextBox();
@@ -160,7 +162,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.dtpBitis = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
-            this.gridColumn59 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -674,9 +675,7 @@
             // 
             // gridColumn24
             // 
-            this.gridColumn24.Caption = "Aktivite Kar Zarar";
-            this.gridColumn24.DisplayFormat.FormatString = "C2";
-            this.gridColumn24.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.gridColumn24.Caption = "Bölüm";
             this.gridColumn24.FieldName = "mnAktiviteKarZarar";
             this.gridColumn24.Name = "gridColumn24";
             this.gridColumn24.OptionsColumn.AllowEdit = false;
@@ -686,7 +685,7 @@
             // 
             // gridColumn25
             // 
-            this.gridColumn25.Caption = "Aktivite Kar Zarar Yuzde";
+            this.gridColumn25.Caption = "Genel anlaşmasız";
             this.gridColumn25.DisplayFormat.FormatString = "N1";
             this.gridColumn25.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
             this.gridColumn25.FieldName = "flAktiviteKarZararYuzde";
@@ -768,6 +767,7 @@
             this.gridColumn53,
             this.gridColumn59,
             this.gridColumn55,
+            this.gridColumn60,
             this.gridColumn58});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
@@ -1128,6 +1128,18 @@
             this.gridColumn53.Visible = true;
             this.gridColumn53.VisibleIndex = 22;
             // 
+            // gridColumn59
+            // 
+            this.gridColumn59.Caption = "Maliyet Düş.";
+            this.gridColumn59.DisplayFormat.FormatString = "C4";
+            this.gridColumn59.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.gridColumn59.FieldName = "MaliyetFiy";
+            this.gridColumn59.Name = "gridColumn59";
+            this.gridColumn59.OptionsColumn.AllowEdit = false;
+            this.gridColumn59.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
+            this.gridColumn59.Visible = true;
+            this.gridColumn59.VisibleIndex = 23;
+            // 
             // gridColumn55
             // 
             this.gridColumn55.Caption = "Toptan F.";
@@ -1141,6 +1153,17 @@
             this.gridColumn55.VisibleIndex = 24;
             this.gridColumn55.Width = 100;
             // 
+            // gridColumn60
+            // 
+            this.gridColumn60.Caption = "Toptan Isk.";
+            this.gridColumn60.DisplayFormat.FormatString = "N2";
+            this.gridColumn60.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
+            this.gridColumn60.FieldName = "TOPTANISK";
+            this.gridColumn60.Name = "gridColumn60";
+            this.gridColumn60.OptionsColumn.AllowEdit = false;
+            this.gridColumn60.Visible = true;
+            this.gridColumn60.VisibleIndex = 25;
+            // 
             // gridColumn58
             // 
             this.gridColumn58.Caption = "Açıklama";
@@ -1149,7 +1172,7 @@
             this.gridColumn58.OptionsColumn.AllowEdit = false;
             this.gridColumn58.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gridColumn58.Visible = true;
-            this.gridColumn58.VisibleIndex = 25;
+            this.gridColumn58.VisibleIndex = 26;
             this.gridColumn58.Width = 250;
             // 
             // repositoryItemComboBox1
@@ -1468,7 +1491,6 @@
             this.txtAktiviteKarZarar.ReadOnly = true;
             this.txtAktiviteKarZarar.Size = new System.Drawing.Size(106, 20);
             this.txtAktiviteKarZarar.TabIndex = 12;
-            this.txtAktiviteKarZarar.TextChanged += new System.EventHandler(this.txtTAHHedefCiro_TextChanged);
             // 
             // label14
             // 
@@ -1610,9 +1632,9 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(432, 61);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(78, 13);
+            this.label11.Size = new System.Drawing.Size(36, 13);
             this.label11.TabIndex = 10;
-            this.label11.Text = "Eski Sistem No";
+            this.label11.Text = "Bölüm";
             // 
             // label12
             // 
@@ -1672,18 +1694,6 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(864, 99);
             this.label4.TabIndex = 14;
-            // 
-            // gridColumn59
-            // 
-            this.gridColumn59.Caption = "Maliyet Düş.";
-            this.gridColumn59.DisplayFormat.FormatString = "C4";
-            this.gridColumn59.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
-            this.gridColumn59.FieldName = "MaliyetFiy";
-            this.gridColumn59.Name = "gridColumn59";
-            this.gridColumn59.OptionsColumn.AllowEdit = false;
-            this.gridColumn59.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
-            this.gridColumn59.Visible = true;
-            this.gridColumn59.VisibleIndex = 23;
             // 
             // frmINTERNETticaripazarlamaaktiviteler
             // 
@@ -1847,5 +1857,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn57;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn58;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn59;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn60;
     }
 }

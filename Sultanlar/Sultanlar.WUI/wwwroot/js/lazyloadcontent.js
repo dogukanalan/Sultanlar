@@ -31,6 +31,7 @@
                             $.ajax(
                                 {
                                     xhr: function () { return xhrDownloadUpload2(); },
+                                    beforeSend: function (xhr) { xhrTicket(xhr); },
                                     url: s,
                                     success: function (data, textStatus, response) {
                                         if (t.target.className.indexOf("llctarih") > -1) {

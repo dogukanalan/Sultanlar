@@ -78,6 +78,8 @@ namespace Sultanlar.UI
             txtAciklama.Text = anlasma.strAciklama1;
             txtKategori.Text = Anlasmalar.GetKat(anlasma.pkID);
 
+            lblOnayDurum.Text = anlasma.intOnay == 0 ? "Onaysız" : anlasma.intOnay == 1 ? "Tamamen Onaylı" : anlasma.intOnay == 2 ? "Yalnız KGT Onaylı" : anlasma.intOnay == 3 ? "Yalnız NF Onaylı" : "";
+
             GetAnlasmaBedeller();
         }
 

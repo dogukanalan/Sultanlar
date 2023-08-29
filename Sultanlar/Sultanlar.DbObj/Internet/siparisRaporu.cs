@@ -202,6 +202,7 @@ namespace Sultanlar.DbObj.Internet
     {
         public DateTime SIPTAR { get; set; }
         public int WEBNO { get; set; }
+        public siparisler Siparis { get { return new siparisler(WEBNO).GetObject(false); } }
         public int SIPNO { get; set; }
         public cariHesaplar AnaCari { get { cariHesaplar cariana = new cariHesaplar(Sube.GMREF).GetObject(); if (cariAna) return cariana; else { cariHesaplar cari = new cariHesaplar(); cari.MUSTERI = cariana.MUSTERI; return cari; } } }
         public int MUSKOD { get; set; }
@@ -214,13 +215,14 @@ namespace Sultanlar.DbObj.Internet
         public int BKYAD { get; set; }
         public int IPTAD { get; set; }
         public string RED { get; set; }
+        public int BKLAD { get; set; }
 
         private bool cariAna { get; set; }
         private bool cariSube { get; set; }
         private bool malzeme { get; set; }
 
         public siparisDurumRaporu() { }
-        private siparisDurumRaporu(DateTime SIPTAR, int WEBNO, int SIPNO, int MUSKOD, int MALKOD, int SIPAD, int TSLAD, int IRSAD, int BKYAD, int IPTAD, string RED, bool cariAna, bool cariSube, bool malzeme)
+        private siparisDurumRaporu(DateTime SIPTAR, int WEBNO, int SIPNO, int MUSKOD, int MALKOD, int SIPAD, int TSLAD, int IRSAD, int BKYAD, int IPTAD, string RED, int BKLAD, bool cariAna, bool cariSube, bool malzeme)
         {
             this.SIPTAR = SIPTAR;
             this.SIPNO = SIPNO;
@@ -233,6 +235,7 @@ namespace Sultanlar.DbObj.Internet
             this.BKYAD = BKYAD;
             this.IPTAD = IPTAD;
             this.RED = RED;
+            this.BKLAD = BKLAD;
             this.cariAna = cariAna;
             this.cariSube = cariSube;
             this.malzeme = malzeme;
@@ -250,7 +253,7 @@ namespace Sultanlar.DbObj.Internet
             Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_siparisDurumRaporGetir", new Dictionary<string, object>() { { "YIL", YIL }, { "AY", AY }, { "SLSREF", SLSREF }, { "SIPNO", SIPNO } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
-                    donendeger.Add(new siparisDurumRaporu(ConvertToDateTime(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]), ConvertToInt32(dic[i][6]), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), false, false, false));
+                    donendeger.Add(new siparisDurumRaporu(ConvertToDateTime(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToInt32(dic[i][3]), ConvertToInt32(dic[i][4]), ConvertToInt32(dic[i][5]), ConvertToInt32(dic[i][6]), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), ConvertToInt32(dic[i][11]), false, false, true));
 
             return donendeger;
         }

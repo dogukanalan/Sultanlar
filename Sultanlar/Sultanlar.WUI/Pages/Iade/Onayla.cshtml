@@ -35,7 +35,64 @@
                 "initComplete": function (settings, json) {
                     qtip();
                 },
-                columns: inceleonaylasilcolumns,
+                columns: [
+                    {
+                        "data": "intUrunID", "class": "bgwhite keyTd hidewhenmobile", render: function (data, type, row) {
+                            return '<div class="imgKucRes"><img class="urunResim lazyload" rel="' + apiurl + 'resim/getT/' + data + '" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="' + apiurl + 'resim/getTO/' + data + '" /></div>';
+                        },
+                        "name": "ID"
+                    },
+                    {
+                        "data": "intUrunID", "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data + '</span>';
+                        }
+                    },
+                    {
+                        "data": "malzeme", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli malacik">' + data.malacik + '</span>';
+                        }
+                    },
+                    {
+                        "data": "mnFiyat", "class": "floaTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli netkdv">' + data.formatMoney(2, ',', '.') + '</span>';
+                        }
+                    },
+                    {
+                        "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+                            return '<span class="sinirli isk1">' + (data.isks ? data.isks.isK1.formatMoney(3, ',', '.') : '') + '</span>';
+                        }
+                    },
+                    {
+                        "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+                            return '<span class="sinirli isk2">' + (data.isks ? data.isks.isK2.formatMoney(3, ',', '.') : '') + '</span>';
+                        }
+                    },
+                    {
+                        "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+                            return '<span class="sinirli isk3">' + (data.isks ? data.isks.isK3.formatMoney(3, ',', '.') : '') + '</span>';
+                        }
+                    },
+                    {
+                        "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+                            return '<span class="sinirli isk4">' + (data.isks ? data.isks.isK4.formatMoney(3, ',', '.') : '') + '</span>';
+                        }
+                    },
+                    {
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.intMiktar + ' (' + (data.strMiktarTur === "KI" ? 'kl' : 'ad') + ')' + '</span>';
+                        }
+                    },
+                    {
+                        "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+                            return '<span class="sinirli">' + (data.isks ? ((data.strMiktarTur === "KI" ? data.malzeme.koli : 1) * iskDusCoklu((data.mnFiyat), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4)).formatMoney(2, ',', '.') : '') + '</span>';
+                        }
+                    },
+                    {
+                        "data": null, "class": window.location.href.indexOf("fiyattipi") > -1 ? "floaTd hidewhenmobile" : "hide", render: function (data, type, row) {
+                            return '<span class="sinirli">' + (data.isks ? ((data.strMiktarTur === "KI" ? data.malzeme.koli : 1) * iskDusCoklu((data.mnFiyat * data.intMiktar), data.isks.isK1, data.isks.isK2, data.isks.isK3, data.isks.isK4)).formatMoney(2, ',', '.') : '') + '</span>';
+                        }
+                    }
+                ],
                 "language": defaultDtLang,
                 "paging": true,
                 "ordering": true,

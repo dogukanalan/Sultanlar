@@ -19,9 +19,9 @@ namespace Sultanlar.DbObj.Internet
         public bool blAktarilmis { get; set; }
         public DateTime dtOnaylamaTarihi { get; set; }
         public string strAciklama { get; set; }
-        public string Aciklama1 { get { return strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[0]; } }
-        public string Aciklama2 { get { return strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[1]; } }
-        public string Aciklama3 { get { return strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[2]; } }
+        public string Aciklama1 { get { return strAciklama is null ? "" : strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[0]; } }
+        public string Aciklama2 { get { return strAciklama is null ? "" : strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[1]; } }
+        public string Aciklama3 { get { return strAciklama is null ? "" : strAciklama.Split(new string[] { ";;;" }, StringSplitOptions.None)[2]; } }
         public string strNedenKod { get; set; }
         public string strDepoKod { get; set; }
         public string strDepoUY { get; set; }

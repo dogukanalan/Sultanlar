@@ -19,7 +19,7 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
-                    url: apiurl + "iade/kaydet",
+                    url: apiurl + "iade/kaydet/" + getParameterByName("neden"),
                     data: stringifySepetI(arrayFromCookie, paramsmref, parammtip, iadeid),
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',

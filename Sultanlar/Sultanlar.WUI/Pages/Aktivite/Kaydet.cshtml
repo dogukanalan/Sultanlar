@@ -11,18 +11,18 @@
         var paramtip;
         var aktiviteid;
         var anlasmaid;
+        var ahtyeg;
         var paramonay;
 
         function kaydet() {
             var cookie = JSON.parse(window.localStorage['sepetA']);
-            
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
                     url: apiurl + "aktivite/kaydet",
-                    data: stringifySepetA(cookie, paramsmref, paramdonem, paramtip, aktiviteid, anlasmaid),
+                    data: stringifySepetA(cookie, paramsmref, paramdonem, paramtip, aktiviteid, anlasmaid, ahtyeg),
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     success: function (data, textStatus, response) {
@@ -49,6 +49,7 @@
             paramtip = getParameterByName('tip');
             aktiviteid = getParameterByName('aktiviteid');
             anlasmaid = getParameterByName('anlasmaid');
+            ahtyeg = getParameterByName('ahtyeg');
             paramonay = getParameterByName('onay');
             kaydet();
         });

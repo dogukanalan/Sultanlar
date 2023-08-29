@@ -56,6 +56,7 @@
     <Compile Include="Internet\fiyatTipleri.cs" />
     <Compile Include="Internet\hatalar.cs" />
     <Compile Include="Internet\hizmetBedelleri.cs" />
+    <Compile Include="Internet\iadeFiyat.cs" />
     <Compile Include="Internet\iadeHareketleri.cs" />
     <Compile Include="Internet\iadeHareketTurleri.cs" />
     <Compile Include="Internet\iadeler.cs" />

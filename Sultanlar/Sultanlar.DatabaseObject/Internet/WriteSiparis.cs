@@ -132,6 +132,7 @@ namespace Sultanlar.DatabaseObject.Internet
                         }
                         yenisiparis.mnToplamTutar = toplamtutar;
                         yenisiparis.DoUpdate();
+                        yenisiparis.ToplamTutarGuncelle();
 
                         //if (!TaksitPlanlari.TaksitMi(siparis.TKSREF))
                         //    yenisiparis.TKSREF = TaksitPlanlari.GetODMREF(GetSiparisOrtVade(yenisiparis));
@@ -174,6 +175,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
                     siparis.mnToplamTutar = toplamtutar;
                     siparis.DoUpdate();
+                    siparis.ToplamTutarGuncelle();
                 }
 
 
@@ -256,6 +258,8 @@ namespace Sultanlar.DatabaseObject.Internet
                         {
                             vadesiparisaktarilamadi = true;
                         }
+
+                        yenisiparis.ToplamTutarGuncelle();
                     }
 
                     siparis.DoDelete(); // eski siparişte ürün kalmadığından sil
@@ -429,7 +433,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             if (donen != string.Empty)
             {
-                Siparisler.DoInsertQ(sip.pkSiparisID, donen, Bakiye);
+                Siparisler.DoInsertQ(sip.pkSiparisID, donen, Bakiye, "");
                 error = string.Empty;
             }
             else
@@ -543,7 +547,7 @@ namespace Sultanlar.DatabaseObject.Internet
             string str7;
             if (EvVbeln != string.Empty)
             {
-                Siparisler.DoInsertQ(111, EvVbeln, false);
+                Siparisler.DoInsertQ(111, EvVbeln, false, "");
                 str7 = string.Empty;
             }
             else
@@ -655,7 +659,7 @@ namespace Sultanlar.DatabaseObject.Internet
             string str7;
             if (EvVbeln != string.Empty)
             {
-                Siparisler.DoInsertQ(111, EvVbeln, false);
+                Siparisler.DoInsertQ(111, EvVbeln, false, "");
                 str7 = string.Empty;
             }
             else

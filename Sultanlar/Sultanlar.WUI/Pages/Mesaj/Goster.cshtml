@@ -11,7 +11,7 @@
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "mesaj/get/" + getParameterByName("mesajid") + "/" + getParameterByName("gelgit"),
+                    url: apiurl + "mesaj/get/" + getParameterByName2("mesajid") + "/" + getParameterByName2("gelgit"),
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
@@ -20,7 +20,7 @@
                         $("#icerik").html(data.strIcerik);
                         $("#tarih").html(data.dtGondermeZamani.replace("T", " "));
 
-                        if (!data.blOkundu)
+                        if (!data.blOkundu && getParameterByName2("gelgit") == "1")
                             MesajOkundu();
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
@@ -33,7 +33,7 @@
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "mesaj/oku/" + getParameterByName("mesajid") + "/" + getParameterByName("gelgit"),
+                    url: apiurl + "mesaj/oku/" + getParameterByName2("mesajid") + "/" + getParameterByName2("gelgit"),
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                     },

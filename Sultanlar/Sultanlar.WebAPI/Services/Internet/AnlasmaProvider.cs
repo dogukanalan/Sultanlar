@@ -2,6 +2,7 @@
 using Sultanlar.DbObj.Internet;
 using Sultanlar.WebAPI.Models.Internet;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -60,12 +61,12 @@ namespace Sultanlar.WebAPI.Services.Internet
             return donendeger;
         }
 
-        internal List<anlasmalar> Anlasmalar(int yil, int ay, int smref, string tip)
+        internal List<anlasmalar> Anlasmalar(int yil, int ay, int smref, string tip, int yegmi)
         {
-            return new anlasmalar().GetObjectsByMusteri(yil, ay, smref, tip);
+            return new anlasmalar().GetObjectsByMusteri(yil, ay, smref, tip, yegmi);
         }
 
-        internal string AnlasmaKaydet(AnlasmaKaydet akg)
+        internal string AnlasmaKaydet(AnlasmaKaydet akg, string musID)
         {
             musteriler mus = new musteriler(Convert.ToInt32(Sifreleme.Decrypt(akg.musteri))).GetObject();
 
@@ -102,10 +103,12 @@ namespace Sultanlar.WebAPI.Services.Internet
                 }
             }
 
+            hareket(anlasma.pkID, 5, musID, "");
+
             return anlasma.pkID.ToString();
         }
 
-        internal string AnlasmaKopyala(AnlasmaKopya akg)
+        internal string AnlasmaKopyala(AnlasmaKopya akg, string musID)
         {
             string Donen = string.Empty;
 
@@ -152,9 +155,19 @@ namespace Sultanlar.WebAPI.Services.Internet
                     anlasmaBedeller bedel = new anlasmaBedeller(anl.pkID, bed.intAnlasmaBedelAdID, bed.intTAHAdet, bed.mnTAHBedel, bed.flTAHIsk, bed.intYEGAdet, bed.mnYEGBedel, bed.flYEGIsk, bed.strAciklama1, bed.strAciklama2, bed.strAciklama3, bed.strAciklama4);
                     bedel.DoInsert();
                 }
+
+                hareket(anl.pkID, 7, musID, "Kopyalanan: " + kopyalanacak.pkID);
             }
 
             return Donen;
+        }
+
+        private void hareket(int AnlasmaID, int HareketID, string musID, string Aciklama)
+        {
+            anlasmalar.ExecNQ("sp_INTERNET_AnlasmalarHareketEkle",
+                new ArrayList() { "intAnlasmaID", "intHareketTurID", "dtTarih", "strIslemYapan", "strAciklama", "pkID" },
+                new System.Data.SqlDbType[] { System.Data.SqlDbType.Int, System.Data.SqlDbType.Int, System.Data.SqlDbType.DateTime, System.Data.SqlDbType.NVarChar, System.Data.SqlDbType.NVarChar, System.Data.SqlDbType.Int },
+                new ArrayList() { AnlasmaID, HareketID, DateTime.Now, musID, Aciklama, 0 });
         }
     }
 }

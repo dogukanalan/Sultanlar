@@ -25,7 +25,10 @@
         var parammtip;
         var siparisid;
         var table;
-
+        jQuery.fn.DataTable.ext.type.search.string = function (sVal) {
+            var letters = { "İ": "i", "I": "ı", "i": "İ", "ı": "I" };
+            return sVal.replace(/(([İI]))/g, function (letter) { return letters[letter]; });
+        };
         function getFiyatlar() {
             /*$.ajax(
                 {
@@ -58,8 +61,9 @@
                     url: url1
                 },
                 "initComplete": function (settings, json) {
+                    //var item = $('.malacik');
                     $('.dataTables_filter input').keyup(function () {
-                        $(this).val($(this).val().toLocaleUpperCase());
+                        //$(this).val($(this).val().toLocaleUpperCase());
                     });
 
                     if (parseInt(getParameterByName("ftip")) > 5000 || parseInt(getParameterByName("ftip")) < 500) {
@@ -80,16 +84,28 @@
                                                 }
                                             });
                                         });
-                                        datatablethis.dataTable().fnClearTable();
-                                        datatablethis.dataTable().fnAddData(newjson);
+                                        /*datatablethis.dataTable().fnClearTable();
+                                        SepetToList(newjson);
+                                        datatablethis.dataTable().fnAddData(newjson);*/
                                     }
-
+                                    /*else {
+                                        datatablethis.dataTable().fnClearTable();
+                                        SepetToList(json);
+                                        datatablethis.dataTable().fnAddData(json);
+                                    }*/
                                 }
                             }
                         );
                     }
+                    else {
+                        /*$(this).dataTable().fnClearTable();
+                        SepetToList(json);
+                        $(this).dataTable().fnAddData(json);*/
+                    }
                 },
                 "fnDrawCallback": function (oSettings) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="tooltip"]').css("cursor", "pointer");
                     netfiyatlar();
                     qtip();
                 },
@@ -108,8 +124,8 @@
                         }
                     },
                     {
-                        "data": "malacik", "class": "valueTd", render: function (data, type, row) {
-                            return '<span class="sinirli malacik">' + data + '</span>';
+                        "data": null, "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli malacik" data-toggle="tooltip" title="Net+kdv: ' + data.netkdv.toFixed(2) + 'TL Stok: ' + (parammtip == 1 ? data.malzeme.stok : data.malzeme.stokdis) + '">' + data.malacik + '</span><span class="hide">' + data.malacik.toLocaleLowerCase() + '</span>';
                         }
                     },
                     {
@@ -128,7 +144,7 @@
                         }
                     },
                     {
-                        "data": null, "class": window.location.href.indexOf("Iade") > -1 ? "floaTd hide" : "floaTd hidewhenmobile", render: function (data, type, row) {
+                        "data": null, "class": window.location.href.indexOf("Iade") > -1 ? "floaTd hide" : "floaTd", render: function (data, type, row) {
                             //var kdvli = kdvEkle(iskDusCoklu((data.netfiyat.fiyat), data.netfiyat.isk1, data.netfiyat.isk2, data.netfiyat.isk3, data.netfiyat.isk4), data.malzeme.kdv).formatMoney(2, ',', '.');
                             //var rell = "<div class='table'><div class='tr'>";
                             //rell += "<div class='tr'><div class='iadegecmisIc td'>Liste Fiyatı</div><div class='iadegecmisIc td'>" + data.netfiyat.fiyat.toFixed(2) + "</div></div>";
@@ -146,26 +162,30 @@
                         }
                     },
                     {
-                        "data": "malzeme", "class": parammtip > 1 ? 'hide' : "floaTd hidewhenmobile", render: function (data, type, row) {
-                            return '<span class="sinirli netkdv">' + data.stok + '</span>';
+                        "data": "malzeme", "class": parammtip > 1 ? 'hide hidewhenmobile' : "floaTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.stok + '</span>';
                         }
                     },
                     {
-                        "data": "malzeme", "class": parammtip == 1 ? 'hide' : "floaTd hidewhenmobile", render: function (data, type, row) {
-                            return '<span class="sinirli netkdv">' + data.stokdis + '</span>';
+                        "data": "malzeme", "class": parammtip == 1 ? 'hide hidewhenmobile' : "floaTd hidewhenmobile", render: function (data, type, row) {
+                            return '<span class="sinirli">' + data.stokdis + '</span>';
                         }
                     },
                     {
-                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
-                            return '<input type="number" class="inputSecim" accesskey="' + data + '" onkeyup="clickButton(event,\'sipAktar\')" />';
+                        "data": null, "class": "keyTd", render: function (data, type, row) {
+                            return '<div><input type="number" class="inputSecim" accesskey="' + data.itemref + '" onkeyup="tusBasildi(this, event, ' + data.itemref + ')" value="' + /*data.isK10 +*/ '" /></div><div><input type="button" class="btn secimArti" value="+" onclick="sipariseAktar()" /><div>';
                         }
                     },
                     {
-                        "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                        "data": null, "class": "keyTd hidewhenmobile", render: function (data, type, row) {
+                            /*if (window.location.href.indexOf("Siparis") > -1 && data.rk.length > 1) {
+                                return '<select class="ddTur"><option value="ST"' + (data.rk == 'ST' ? ' selected = "selected"' : '') + '>Adet</option><option value="KI"' + (data.rk == 'KI' ? ' selected = "selected"' : '') + '>Koli</option></select>';
+                            }*/
                             return '<select class="ddTur">' + (window.location.href.indexOf("Aktivite") > -1 ? '' : '<option value="ST">Adet</option>') + (window.location.href.indexOf("Iade") > -1 ? '' : '<option value="KI"' + (window.localStorage["miktar"] == 'KI' ? ' selected = "selected"' : '') + '>Koli</option></select>');
                         }
                     }
                 ],
+                "scrollX": true,
                 "language": defaultDtLang,
                 "paging": true,
                 "ordering": true,
@@ -173,6 +193,23 @@
                 "searching": true,
                 "deferRender": true
             });
+        }
+
+        function SepetToList(json) {
+            var cookie = JSON.parse(getLocal());
+            for (var j = 0; j < cookie.length; j++) {
+                var cookiedet = cookie[j].detaylar;
+                if (cookie[j].smref == paramsmref && cookie[j].ftip == paramftip && cookie[j].mtip == parammtip && cookie[j].siparisid == siparisid) {
+                    for (var i = 0; i < cookiedet.length; i++) {
+                        for (var k = 0; k < json.length; k++) {
+                            if (cookiedet[i].itemref == json[k].itemref) {
+                                json[k].rk = cookiedet[i].miktartur;
+                                json[k].isK10 = cookiedet[i].miktar;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         function netfiyatlar() {
@@ -303,14 +340,16 @@
                 var malac = $(kontrol).closest("tr").find(".malacik").text();
                 var mik = parseInt($(kontrol).val());
                 var netkd = $(kontrol).closest("tr").find(".netkdv").text();
-
                 siparisKontrol(itref, miktur, malac, mik, netkd);
 
-                $(kontrol).val("");
+                $(kontrol).val(""); //
             }
         }
 
         function siparisKontrol(itref, miktur, malac, mik, netkd) {
+            if (mik < 1)
+                return;
+
             var varmis = false;
             var cookie = JSON.parse(getLocal());
             for (var j = 0; j < cookie.length; j++) {
@@ -318,7 +357,7 @@
                 if (cookie[j].smref == paramsmref && cookie[j].ftip == paramftip && cookie[j].mtip == parammtip && cookie[j].siparisid == siparisid) {
                     for (var i = 0; i < cookiedet.length; i++) {
                         if (cookiedet[i].itemref == itref && cookiedet[i].miktartur == miktur) {
-                            cookiedet[i].miktar = parseInt(cookiedet[i].miktar) + mik;
+                            cookiedet[i].miktar = parseInt(cookiedet[i].miktar) + mik;/**/
                             varmis = true;
                             break;
                         }
@@ -441,7 +480,7 @@
                             });
 
                     }
-                    console.log(JSON.stringify(yenidetaylar));
+                    //console.log(JSON.stringify(yenidetaylar));
                     cookie[i].detaylar = yenidetaylar;
                 }
             }
@@ -514,6 +553,19 @@
             });
             lazyload();
         }
+
+        function tusBasildi(control, event, itemref) {
+            /*var malzemeler = JSON.parse(window.localStorage["sepetU"]);
+            for (var i = 0; i < malzemeler.length; i++) {
+                if (malzemeler[i].itemref == itemref) {
+                    malzemeler[i].isK10 = parseInt(control.value);
+                    malzemeler[i].rk = $(control).closest("tr").find(".ddTur").val();
+                }
+            }
+            window.localStorage["sepetU"] = JSON.stringify(malzemeler);*/
+            clickButton(event, 'sipAktar');
+            //siparisEkle(control);
+        }
     </script>
 }
 <h5 class="spanCiplak" id="sipMus"></h5>
@@ -552,17 +604,17 @@
 <table id="dtTable" class="table table-striped table-bordered" style="width:100%" data-page-length='50'>
     <thead>
         <tr>
-            <th class="keyTd"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">&nbsp;&nbsp;&nbsp;&nbsp;Resim&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
             <th class="keyTd"><span class="">Kod</span></th>
             <th class="keyTd"><span class="">Malzeme</span></th>
-            <th class="keyTd"><span class="">Blm</span></th>
+            <th class="keyTd hidewhenmobile"><span class="">Blm</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Koli</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Kdv</span></th>
-            <th class="keyTd hidewhenmobile"><span class="">Fiyat (Brüt)</span></th>
+            <th class="keyTd"><span class="">Fiyat (Brüt)</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Stok</span></th>
             <th class="keyTd hidewhenmobile"><span class="">Stok</span></th>
             <th class="keyTd"></th>
-            <th class="keyTd"></th>
+            <th class="keyTd hidewhenmobile"></th>
         </tr>
     </thead>
 </table>
@@ -608,9 +660,12 @@
                                     var tur = localStorage["miktar"] ? localStorage["miktar"] : "ST"; //XL_row_object[i].TUR.toLocaleUpperCase().replace("ADET", "ST").replace("KOLI", "KI").replace("KOLİ", "KI");
                                     var turack = tur == "KI" ? "KOLİ" : "ADET";
                                     //tur = tur == "KI" || tur == "ST" ? tur : "ST";
-                                    siparisKontrol(XL_row_object[i].MALZEME, tur, malacik, parseInt(XL_row_object[i].MIKTAR.replace(",", "").replace(".", "")), fiyat);
-                                    malzemeler += XL_row_object[i].MALZEME + " " + malacik.substring(0, 20) + "... " + XL_row_object[i].MIKTAR + " (" + turack + ")\r\n";
-                                    aktarilansayi++;
+                                    var akt_miktar = parseInt(XL_row_object[i].MIKTAR.replace(",", "").replace(".", ""));
+                                    if (akt_miktar > 0) {
+                                        siparisKontrol(XL_row_object[i].MALZEME, tur, malacik, akt_miktar, fiyat);
+                                        malzemeler += XL_row_object[i].MALZEME + " " + malacik.substring(0, 20) + "... " + XL_row_object[i].MIKTAR + " (" + turack + ")\r\n";
+                                        aktarilansayi++;
+                                    }
                                 }
                             }
                             else {

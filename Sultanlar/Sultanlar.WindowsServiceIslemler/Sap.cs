@@ -1167,6 +1167,10 @@ COMMIT TRANSACTION t_Transaction
                 SqlCommand cmd12 = new SqlCommand("UPDATE [Web-Malzeme] SET TSLMT = (SELECT sum([Dlvry]) FROM [Web_Malzeme_Stock] WHERE Matnr = [Web-Malzeme].ITEMREF) FROM [Web-Malzeme] UPDATE [Web-Malzeme-Full] SET TSLMT = (SELECT sum([Dlvry]) FROM [Web_Malzeme_Stock] WHERE Matnr = [Web-Malzeme-Full].ITEMREF) FROM [Web-Malzeme-Full]", conn);
                 cmd12.CommandTimeout = 1000;
 
+                SqlCommand cmd15 = new SqlCommand("db_sp_malzeme2Ekle", conn);
+                cmd15.CommandType = CommandType.StoredProcedure;
+                cmd15.CommandTimeout = 1000;
+
                 conn.Open();
                 cmd2.ExecuteNonQuery();
                 cmd3.ExecuteNonQuery();
@@ -2296,7 +2300,7 @@ COMMIT TRANSACTION t_Transaction
         #endregion
 
         #region getsap
-        public static void GetSAP(bool vbfa, bool siparis, bool teslimat, bool nakilmalfatura, bool nakilsiparis, bool malcikis, bool fatura, bool kolietiket)
+        public static void GetSAP(bool vbfa, bool siparis, bool teslimat, bool nakilmalfatura, bool nakilsiparis, bool malcikis, bool fatura, bool kolietiket, bool satisupdate)
         {
             SqlConnection conn = new SqlConnection(General.ConnectionString);
 
@@ -2310,7 +2314,7 @@ COMMIT TRANSACTION t_Transaction
             bool kolietiket = true;*/
             bool accounting = false;
             bool efatura = false;
-            bool ekstre = DateTime.Now.Hour == 12;
+            bool ekstre = false; // DateTime.Now.Hour == 12;
 
 
 
@@ -2796,6 +2800,7 @@ COMMIT TRANSACTION t_Transaction
                         try
                         {
                             TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            saat = saat == "00:00:00" ? "00:00:01" : saat;
                             alti = client3.ZwebSelectSalesDelivery(tarih, "", saat, out onuc, out yirmibir, out dokuz);
                             tekrarcek = tekrarcekilecek;
                         }
@@ -3622,7 +3627,8 @@ COMMIT TRANSACTION t_Transaction
 
 
 
-            SatisUpdate(conn);
+            if (satisupdate)
+                SatisUpdate(conn);
 
 
 
@@ -4212,6 +4218,7 @@ COMMIT TRANSACTION t_Transaction
                         try
                         {
                             TarihSaat(maxtarih, cekilecektarih, out tarih, out saat);
+                            saat = saat == "00:00:00" ? "00:00:01" : saat;
                             alti = client3.ZwebSelectSalesDelivery(tarih, "", saat, out onuc, out yirmibir, out dokuz);
                             tekrarcek = tekrarcekilecek;
                         }

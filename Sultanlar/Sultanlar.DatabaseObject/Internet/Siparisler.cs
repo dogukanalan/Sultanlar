@@ -113,10 +113,17 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             DataTable dt = new DataTable();
             SiparislerDetay.GetObjectsBySiparisID(dt, this._pkSiparisID);
-            decimal toplam = 0;
+            double toplam = 0;
             for (int i = 0; i < dt.Rows.Count; i++)
-                toplam += Convert.ToDecimal(dt.Rows[i]["mnFiyat"]) * Convert.ToInt32(dt.Rows[i]["intMiktar"]);
-            this._mnToplamTutar = toplam;
+            {
+                double tutar = Convert.ToDouble(dt.Rows[i]["mnFiyat"]);
+                if (dt.Rows[i]["strMiktarTur"].ToString() == "KI")
+                {
+                    tutar = tutar * Urunler.GetKoliAdedi(Convert.ToInt32(dt.Rows[i]["intUrunID"]));
+                }
+                toplam += tutar * Convert.ToInt32(dt.Rows[i]["intMiktar"]);
+            }
+            this._mnToplamTutar = Convert.ToDecimal(toplam);
             this.DoUpdate();
         }
         //
@@ -1753,17 +1760,27 @@ namespace Sultanlar.DatabaseObject.Internet
         }
         //
         //
-        public static void DoInsertQ(int SiparisID, string QUANTUMNO, bool BAKIYE)
+        public static void DoInsertQ(int SiparisID, string QUANTUMNO, bool BAKIYE, string MTKOD)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO tblINTERNET_SiparislerQ (intSiparisID,QUANTUMNO,BAKIYE) VALUES (@intSiparisID,@QUANTUMNO,@BAKIYE)", conn);
+                bool varmi = false;
+                SqlCommand cmd1 = new SqlCommand("SELECT count(*) FROM tblINTERNET_SiparislerQ WHERE intSiparisID = @intSiparisID", conn);
+                cmd1.Parameters.Add("@intSiparisID", SqlDbType.Int).Value = SiparisID;
+
+                SqlCommand cmd = new SqlCommand("INSERT INTO tblINTERNET_SiparislerQ (intSiparisID,QUANTUMNO,BAKIYE,MTKOD) VALUES (@intSiparisID,@QUANTUMNO,@BAKIYE,@MTKOD)", conn);
                 cmd.Parameters.Add("@intSiparisID", SqlDbType.Int).Value = SiparisID;
                 cmd.Parameters.Add("@QUANTUMNO", SqlDbType.NVarChar, 50).Value = QUANTUMNO;
                 cmd.Parameters.Add("@BAKIYE", SqlDbType.Bit).Value = BAKIYE;
+                cmd.Parameters.Add("@MTKOD", SqlDbType.NVarChar, 50).Value = MTKOD;
                 try
                 {
                     conn.Open();
+                    varmi = Convert.ToBoolean(cmd1.ExecuteScalar());
+                    if (varmi)
+                    {
+                        cmd.CommandText = "UPDATE tblINTERNET_SiparislerQ SET QUANTUMNO = @QUANTUMNO,BAKIYE = @BAKIYE,MTKOD = @MTKOD WHERE intSiparisID = @intSiparisID";
+                    }
                     cmd.ExecuteNonQuery();
                 }
                 catch (SqlException ex)

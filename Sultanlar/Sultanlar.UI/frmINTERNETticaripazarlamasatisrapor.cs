@@ -25,6 +25,7 @@ namespace Sultanlar.UI
         ArrayList satisraporlarolmayancariler = new ArrayList();
         Thread thr;
         bool hesaplamayapilabilir;
+        int Bolum;
 
         private void frmINTERNETticaripazarlamasatisrapor_Load(object sender, EventArgs e)
         {
@@ -37,6 +38,9 @@ namespace Sultanlar.UI
             CheckForIllegalCrossThreadCalls = false;
             DevExpress.Data.CurrencyDataController.DisableThreadingProblemsDetection = true;
 
+
+            Bolum = frmAna.KAdi.ToUpper().StartsWith("YEG") ? 1 : (frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR") ? 0 : 2;
+
             lblTAH.Visible = false;
             lblTAH1.Visible = false;
             lblYEG.Visible = false;
@@ -46,7 +50,7 @@ namespace Sultanlar.UI
 
             hesaplamayapilabilir = false;
             GetBayiler();
-            cmbYil.SelectedIndex = 9;
+            cmbYil.SelectedIndex = 10;
             cmbAy.SelectedIndex = 0;
             GetSatisRaporBos();
         }
@@ -92,7 +96,7 @@ namespace Sultanlar.UI
         private void GetSatisRaporBos()
         {
             DataTable dt = new DataTable();
-            SatisRaporTP.GetObjects(dt, 100, 100, 100);
+            SatisRaporTP.GetObjects(dt, 100, 100, 100, 0);
             gridControl1.DataSource = dt;
 
             //decimal[] toplamlar = SatisRaporTP.GetToplamlar(100, 100, 100);
@@ -104,7 +108,7 @@ namespace Sultanlar.UI
         private void GetSatisRapor(int GMREF, byte Ay, short Yil)
         {
             DataTable dt = new DataTable();
-            SatisRaporTP.GetObjects(dt, GMREF, Ay, Yil);
+            SatisRaporTP.GetObjects(dt, GMREF, Ay, Yil, Bolum);
             gridControl1.DataSource = dt;
 
             //decimal[] toplamlar = SatisRaporTP.GetToplamlar(GMREF, Ay, Yil);
@@ -116,7 +120,7 @@ namespace Sultanlar.UI
         private DataTable GetSatisRapor(int GMREF, byte Ay, short Yil, bool sourceyap)
         {
             DataTable dt = new DataTable();
-            SatisRaporTP.GetObjects(dt, GMREF, Ay, Yil);
+            SatisRaporTP.GetObjects(dt, GMREF, Ay, Yil, Bolum);
             if (sourceyap)
                 gridControl1.DataSource = dt;
             return dt;
@@ -287,12 +291,15 @@ namespace Sultanlar.UI
                         }
                         else
                         {
+                            bool noktagec = false;
+                            bool urungec = false;
+
                             int GMREF = CariHesaplarTP.GetGMREFByBAYIKOD(values[i, 1].ToString());
                             string SUBE = CariHesaplarTP.GetNoktaVarMi2(values[i, 10].ToString(), GMREF);
                             if (SUBE != string.Empty || CariHesaplarTP.GetNoktaVarMi(values[i, 2].ToString().ToUpper(), GMREF))
                             {
                                 satisrapor.NOKTAAD = SUBE != string.Empty ? SUBE : satisrapor.NOKTAAD;
-                                satisraporlar.Add(satisrapor);
+                                noktagec = true;
                             }
                             else
                             {
@@ -309,6 +316,15 @@ namespace Sultanlar.UI
 
                                 if (!var)
                                     satisraporlarolmayancariler.Add(satisrapor);
+                            }
+
+                            string bolum = Urunler.GetProductReyKod(Convert.ToInt32(values[i, 5].ToString().ToUpper()));
+                            if ((bolum == "T2" && Bolum == 1) || (bolum != "T2" && Bolum == 2) || (Bolum == 0))
+                                urungec = true;
+
+                            if (noktagec && urungec)
+                            {
+                                satisraporlar.Add(satisrapor);
                             }
                         }
                     }
@@ -359,14 +375,21 @@ namespace Sultanlar.UI
             {
                 if (MessageBox.Show("Tüm nokta isimleri aktarım için hazır. Devam etmek istediğinize emin misiniz?", "Aktarım", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                 {
-                    Thread thr1 = new Thread(new ParameterizedThreadStart(AktarimYap));
-                    thr1.Start(satisraporlar);
+                    AktarimYapDelegate aktarimdelegate = new AktarimYapDelegate(AktarimYap);
+
+                    /*Thread thr1 = new Thread(new ParameterizedThreadStart(AktarimYap));
+                    thr1.Start(satisraporlar);*/
+
+                    //int Bolum = frmAna.KAdi.ToUpper().StartsWith("YEG") ? 1 : (frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR") ? 0 : 2;
+                    aktarimdelegate.BeginInvoke(satisraporlar, Bolum, null, null);
                 }
             }
         }
 
-        private void AktarimYap(object satisraporlar1)
-        {
+        delegate void AktarimYapDelegate(object satisraporlar1, int Bolum);
+
+        private void AktarimYap(object satisraporlar1, int Bolum)
+        { 
             string oncekitext = this.Text;
             this.Enabled = false;
             progressBar1.Visible = true;
@@ -420,7 +443,7 @@ namespace Sultanlar.UI
                 {
                     this.Text = "Ticari Pazarlama : Satış Raporu (Raporu silinen bayi sayısı: " + i.ToString() + " / " + silinecekbayikodlar.Count.ToString() + ")";
 
-                    SatisRaporTP.DoDelete(silinecekbayikodlar[i].ToString(), Convert.ToInt16(cmbYil.SelectedItem), Convert.ToByte(cmbAy.SelectedItem));
+                    SatisRaporTP.DoDelete(silinecekbayikodlar[i].ToString(), Convert.ToInt16(cmbYil.SelectedItem), Convert.ToByte(cmbAy.SelectedItem), Bolum);
                     //SatisRaporTP.SetToplamlar(CariHesaplarTP.GetGMREFByBAYIKOD(silinecekbayikodlar[i].ToString()), Convert.ToByte(cmbAy.SelectedItem), Convert.ToInt16(cmbYil.SelectedItem), 0, 0);
 
                     if (progressBar1.Value < progressBar1.Maximum) progressBar1.Value++;
@@ -443,6 +466,11 @@ namespace Sultanlar.UI
                 }
                 MessageBox.Show("Aktarım tamamlandı.", "Aktarım", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 progressBar1.Value = 0;
+
+                for (int i = 0; i < silinecekbayikodlar.Count; i++)
+                {
+                    WebGenel.ExecNQ("INSERT INTO [Web-Satis-Rapor-TP-AKT-Log] ([BAYIKOD],[YIL],[AY],[BOLUM],[KULLANICI],[TARIH]) VALUES (@BAYIKOD,@YIL,@AY,@BOLUM,@KULLANICI,@TARIH)", CommandType.Text, new ArrayList() { "BAYIKOD", "YIL", "AY", "BOLUM", "KULLANICI", "TARIH" }, new ArrayList() { silinecekbayikodlar[i], cmbYil.SelectedItem.ToString(), cmbAy.SelectedItem.ToString(), Bolum, frmAna.KAdi, DateTime.Now });
+                }
             }
 
             progressBar1.Visible = false;
@@ -461,23 +489,30 @@ namespace Sultanlar.UI
                 {
                     DataTable dt = new DataTable();
 
+                    //int hesaplabolum = frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR" ? 0 : frmAna.KAdi.ToUpper().StartsWith("YEG") ? 1 : 2;
+                    int bayikod = 0;
+                    byte ay = 0;
+                    short yil = 0;
+
                     if (cmbBayiler.SelectedIndex > -1 && cmbBayiler.SelectedItem.ToString() != "SULTANLAR PAZARLAMA A.Ş.")
                     {
 
-                        byte ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
-                        short yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
+                        ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
+                        yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
+                        bayikod = ((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF;
 
-                        dt = GetSatisRapor(((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF, ay, yil, true);
+                        dt = GetSatisRapor(bayikod, ay, yil, true);
 
                         //HesaplaKaydet(dt, 0, 0, dt.Rows.Count, true, false, true);
                         //return;
                     }
                     else if (cmbBayiler.SelectedIndex > -1 && cmbBayiler.SelectedItem.ToString() == "SULTANLAR PAZARLAMA A.Ş.")
                     {
-                        byte ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
-                        short yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
+                        ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
+                        yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
+                        bayikod = -1;
 
-                        dt = GetSatisRapor(-1, ay, yil, true);
+                        dt = GetSatisRapor(bayikod, ay, yil, true);
 
                         //HesaplaKaydet(dt, 0, 0, dt.Rows.Count, true, true, true);
                         //return;
@@ -499,10 +534,12 @@ namespace Sultanlar.UI
                     //HesaplaDelegate hesapla1 = new HesaplaDelegate(Hesapla);
                     //HesaplaDelegate hesapla2 = new HesaplaDelegate(Hesapla);
                     //HesaplaDelegate hesapla3 = new HesaplaDelegate(Hesapla);
-                    hesapla.BeginInvoke(dt, 0, 0, dt.Rows.Count, true, false, true, null, null);
+                    hesapla.BeginInvoke(dt, 0, 0, dt.Rows.Count, true, false, true, Bolum, null, null);
                     //hesapla1.BeginInvoke(BirinciBitis, IkinciBitis, null, null);
                     //hesapla2.BeginInvoke(IkinciBitis, UcuncuBitis, null, null);
                     //hesapla3.BeginInvoke(UcuncuBitis, DorduncuBitis, null, null);
+                    
+                    WebGenel.ExecNQ("INSERT INTO [Web-Satis-Rapor-TP-HK-Log] ([BAYIKOD],[YIL],[AY],[BOLUM],[KAYDET],[KULLANICI],[TARIH],[WEB]) VALUES (@BAYIKOD,@YIL,@AY,@BOLUM,@KAYDET,@KULLANICI,@TARIH,@WEB)", CommandType.Text, new ArrayList() { "BAYIKOD", "YIL", "AY", "BOLUM", "KAYDET", "KULLANICI", "TARIH", "WEB" }, new ArrayList() { bayikod, yil, ay, Bolum, false, frmAna.KAdi, DateTime.Now, false });
                 }
             }
             else
@@ -582,17 +619,18 @@ namespace Sultanlar.UI
             if (cmbBayiler.SelectedIndex > -1 && cmbYil.SelectedIndex > 0 && cmbAy.SelectedIndex > 0)
             {
                 if (MessageBox.Show(cmbBayiler.SelectedItem.ToString() + " bayisinin \"" + cmbYil.SelectedItem.ToString() + " - " + 
-                    cmbAy.SelectedItem.ToString() + "\" dönemindeki tüm satış verisini silmek istediğinize emin misiniz?", "Önemli Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
+                    cmbAy.SelectedItem.ToString() + "\" dönemindeki satış verisini silmek istediğinize emin misiniz?", "Önemli Uyarı", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == System.Windows.Forms.DialogResult.Yes)
                 {
+                    //int Bolum = frmAna.KAdi.ToUpper().StartsWith("YEG") ? 1 : (frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR") ? 0 : 2;
                     string oncekitext = this.Text;
                     if (cmbBayiler.SelectedItem.ToString() == "SULTANLAR PAZARLAMA A.Ş.")
                     {
-                        SatisRaporTP.DoDelete("1001327", Convert.ToInt16(cmbYil.SelectedItem), Convert.ToByte(cmbAy.SelectedItem));
+                        SatisRaporTP.DoDelete("1001327", Convert.ToInt16(cmbYil.SelectedItem), Convert.ToByte(cmbAy.SelectedItem), Bolum);
                         //SatisRaporTP.SetToplamlar(-1, Convert.ToByte(cmbAy.SelectedItem), Convert.ToInt16(cmbYil.SelectedItem), 0, 0);
                     }
                     else
                     {
-                        SatisRaporTP.DoDelete(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF), Convert.ToInt16(cmbYil.SelectedItem), Convert.ToByte(cmbAy.SelectedItem));
+                        SatisRaporTP.DoDelete(CariHesaplarTP.GetBAYIKODByGMREF(((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF), Convert.ToInt16(cmbYil.SelectedItem), Convert.ToByte(cmbAy.SelectedItem), Bolum);
                         //SatisRaporTP.SetToplamlar(((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF, Convert.ToByte(cmbAy.SelectedItem), Convert.ToInt16(cmbYil.SelectedItem), 0, 0);
                     }
 
@@ -626,26 +664,34 @@ namespace Sultanlar.UI
             {
                 DataTable dt = new DataTable();
 
+                //int hesaplabolum = frmAna.KAdi.ToUpper() == "BI04" || frmAna.KAdi.ToUpper() == "ADMİNİSTRATOR" ? 0 : frmAna.KAdi.ToUpper().StartsWith("YEG") ? 1 : 2;
+                int bayikod = 0;
+                byte ay = 0;
+                short yil = 0;
+
                 if (cmbBayiler.SelectedIndex > -1 && cmbBayiler.SelectedItem.ToString() != "SULTANLAR PAZARLAMA A.Ş.")
                 {
-                    byte ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
-                    short yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
+                    ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
+                    yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
+                    bayikod = ((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF;
 
-                    dt = GetSatisRapor(((CariHesaplarTP)cmbBayiler.SelectedItem).GMREF, ay, yil, false);
+                    dt = GetSatisRapor(bayikod, ay, yil, false);
                 }
                 else if (cmbBayiler.SelectedIndex > -1 && cmbBayiler.SelectedItem.ToString() == "SULTANLAR PAZARLAMA A.Ş.")
                 {
-                    byte ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
-                    short yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
+                    ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
+                    yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
+                    bayikod = -1;
 
-                    dt = GetSatisRapor(-1, ay, yil, false);
+                    dt = GetSatisRapor(bayikod, ay, yil, false);
                 }
                 else if (cmbBayiler.SelectedIndex == -1)
                 {
-                    byte ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
-                    short yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
+                    ay = cmbAy.SelectedIndex > 0 ? Convert.ToByte(cmbAy.SelectedItem) : (byte)0;
+                    yil = cmbYil.SelectedIndex > 0 ? Convert.ToInt16(cmbYil.SelectedItem) : (short)0;
+                    bayikod = 0;
 
-                    dt = GetSatisRapor(0, ay, yil, false);
+                    dt = GetSatisRapor(bayikod, ay, yil, false);
                     hesaplamayapilabilir = true;
                 }
 
@@ -685,18 +731,20 @@ namespace Sultanlar.UI
 
                 //hesapla.BeginInvoke(dt, 0, 0, dt.Rows.Count, true, true, true, null, null);
 
-                hesapla.BeginInvoke(dt, 1, 0, BirinciBitis, true, true, true, null, null);
-                hesapla1.BeginInvoke(dt1, 2, BirinciBitis, IkinciBitis, true, true, true, null, null);
-                hesapla2.BeginInvoke(dt2, 3, IkinciBitis, UcuncuBitis, true, true, true, null, null);
-                hesapla3.BeginInvoke(dt3, 4, UcuncuBitis, DorduncuBitis, true, true, true, null, null);
+                hesapla.BeginInvoke(dt, 1, 0, BirinciBitis, true, true, true, Bolum, null, null);
+                hesapla1.BeginInvoke(dt1, 2, BirinciBitis, IkinciBitis, true, true, true, Bolum, null, null);
+                hesapla2.BeginInvoke(dt2, 3, IkinciBitis, UcuncuBitis, true, true, true, Bolum, null, null);
+                hesapla3.BeginInvoke(dt3, 4, UcuncuBitis, DorduncuBitis, true, true, true, Bolum, null, null);
+
+                WebGenel.ExecNQ("INSERT INTO [Web-Satis-Rapor-TP-HK-Log] ([BAYIKOD],[YIL],[AY],[BOLUM],[KAYDET],[KULLANICI],[TARIH],[WEB]) VALUES (@BAYIKOD,@YIL,@AY,@BOLUM,@KAYDET,@KULLANICI,@TARIH,@WEB)", CommandType.Text, new ArrayList() { "BAYIKOD", "YIL", "AY", "BOLUM", "KAYDET", "KULLANICI", "TARIH", "WEB" }, new ArrayList() { bayikod, yil, ay, Bolum, true, frmAna.KAdi, DateTime.Now, false });
             }
         }
 
         bool birincibitti, ikincibitti, ucuncubitti, dorduncubitti;
         string birincibilgi, ikincibilgi, ucuncubilgi, dorduncubilgi;
-        delegate void HesaplaKaydetDelegate(DataTable dt, int Kacinci, int Kactan, int KacaKadar, bool Hesapla, bool Kaydet, bool textbilgi);
+        delegate void HesaplaKaydetDelegate(DataTable dt, int Kacinci, int Kactan, int KacaKadar, bool Hesapla, bool Kaydet, bool textbilgi, int hesaplabolum);
 
-        private void HesaplaKaydet(DataTable dt, int Kacinci, int Kactan, int KacaKadar, bool Hesapla, bool Kaydet, bool textbilgi)
+        private void HesaplaKaydet(DataTable dt, int Kacinci, int Kactan, int KacaKadar, bool Hesapla, bool Kaydet, bool textbilgi, int hesaplabolum)
         {
             string oncekitext = this.Text;
 
@@ -713,7 +761,7 @@ namespace Sultanlar.UI
             ArrayList hesaplanamayansatirlar = new ArrayList();
             if (Hesapla)
             {
-                SatisRaporTP.Hesapla(dt, Kactan, KacaKadar);
+                SatisRaporTP.Hesapla(dt, Kactan, KacaKadar, hesaplabolum);
                 #region Hesaplama
                 /*decimal ToplamTAH = 0;
                 decimal ToplamYEG = 0;
@@ -1073,7 +1121,7 @@ namespace Sultanlar.UI
 
             if (Kaydet)
             {
-                SatisRaporTP.Kaydet(dt, Kactan, KacaKadar);
+                SatisRaporTP.Kaydet(dt, Kactan, KacaKadar, hesaplabolum);
                 #region Kaydetme
                 //progressBar1.Maximum = dt.Rows.Count;
                 /*for (int i = Kactan; i < KacaKadar; i++)
@@ -1147,7 +1195,7 @@ namespace Sultanlar.UI
                     MessageBox.Show("Hesaplamalar başarıyla kaydedildi.", "Kaydedildi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //else
                 //    MessageBox.Show("Hesaplama bitti.", "Bitti", MessageBoxButtons.OK, MessageBoxIcon.Information); gridControl1.DataSource = dt;
-                if (Kaydet)
+                //if (Kaydet)
                     this.Close(); //gridControl1.DataSource = dt;
 
                 progressBar1.Visible = false;

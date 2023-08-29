@@ -27,6 +27,12 @@
                 document.getElementById("basTitle").innerHTML = "İade İncele (" + json.pkIadeID + ")";
                 document.getElementById("iadeMus").innerHTML = json.cari.sube;
                 document.getElementById("aciklama").innerHTML = json.aciklama2;
+                if (json.strNedenKod == "Z16") {
+                    $("#optionNeden1").attr("checked", "checked");
+                }
+                else {
+                    $("#optionNeden2").attr("checked", "checked");
+                }
             }).DataTable({
                 ajax: {
                     dataSrc: "detaylar",
@@ -134,3 +140,11 @@
         </tr>
     </thead>
 </table>
+<div id="divXmlNeden" class="btn-group" style="padding-left: 5px; padding-bottom: 3px">
+    <label class="btn btn-default">
+        <input type="radio" name="optionsNeden" id="optionNeden1" value="Z17" autocomplete="off" disabled> Sağlam iade
+    </label>
+    <label class="btn btn-default">
+        <input type="radio" name="optionsNeden" id="optionNeden2" value="Z16" autocomplete="off" disabled> Bozuk iade
+    </label>
+</div>

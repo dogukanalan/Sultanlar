@@ -399,7 +399,10 @@
                         success: function (data, textStatus, response) {
                             checkAuth(response);
 
-                            window.location.href = 'SevkBaslik?onayli=1&slsref=' + getParameterByName('slsref');
+                            if (data == "")
+                                window.location.href = 'SevkBaslik?onayli=1&slsref=' + getParameterByName('slsref');
+                            else
+                                alert(data);
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                     }

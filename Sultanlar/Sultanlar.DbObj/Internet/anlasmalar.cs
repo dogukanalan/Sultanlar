@@ -184,11 +184,11 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<anlasmalar> GetObjectsByMusteri(int Yil, int Ay, int SMREF, string Tip)
+        public List<anlasmalar> GetObjectsByMusteri(int Yil, int Ay, int SMREF, string Tip, int yegmi)
         {
             List<anlasmalar> donendeger = new List<anlasmalar>();
 
-            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_anlasmaGetirByMusteri", new Dictionary<string, object>() { { "Yil", Yil }, { "Ay", Ay }, { "SMREF", SMREF }, { "strAciklama2", Tip } }, timeout);
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_anlasmaGetirByMusteri", new Dictionary<string, object>() { { "Yil", Yil }, { "Ay", Ay }, { "SMREF", SMREF }, { "strAciklama2", Tip }, { "yegmi", yegmi } }, timeout);
             if (dic != null)
                 for (int i = 0; i < dic.Count; i++)
                     donendeger.Add(new anlasmalar(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), ConvertToInt32(dic[i][2]), ConvertToDateTime(dic[i][3]), ConvertToDateTime(dic[i][4]), ConvertToInt32(dic[i][5]), ConvertToInt32(dic[i][6]), ConvertToInt32(dic[i][7]), ConvertToInt32(dic[i][8]), ConvertToDouble(dic[i][9]), ConvertToDouble(dic[i][10]), ConvertToDouble(dic[i][11]), ConvertToDouble(dic[i][12]), ConvertToDouble(dic[i][13]), ConvertToDouble(dic[i][14]), ConvertToDouble(dic[i][15]), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), ConvertToDouble(dic[i][18]), ConvertToDouble(dic[i][19]), ConvertToDouble(dic[i][20]), ConvertToDouble(dic[i][21]), ConvertToDouble(dic[i][22]), ConvertToDouble(dic[i][23]), ConvertToDouble(dic[i][24]), dic[i][25].ToString(), dic[i][26].ToString(), dic[i][27].ToString(), dic[i][28].ToString(), ConvertToInt32(dic[i][29]), false));

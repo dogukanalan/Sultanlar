@@ -131,7 +131,11 @@
                                 '<a href="Kopyala?iadeid=' + data.pkIadeID + '">Kopyala</a>' +
                                 (data.tur == 0 ? '<a href="Onayla?iadeid=' + data.pkIadeID + '">Onayla</a>' : '') +
                                 (data.tur == 0 ? '<a href="Duzenle?iadeid=' + data.pkIadeID + '">Düzenle</a>' : '') +
-                                (data.tur == 0 ? '<a href="Sil?iadeid=' + data.pkIadeID + '">Sil</a>' : '');
+                                (data.tur == 0 ? '<a href="Sil?iadeid=' + data.pkIadeID + '">Sil</a>' : '') +
+                                (data.tur == 1 && data.tksref > 1 && (window.localStorage["slsref"] == 0 || (window.localStorage["taksit"] == "true" && (window.localStorage["tur"] == "AlL7YXUKaCY=" || window.localStorage["tur"] == "SSL5rqzumqM="))) ? '<a href="Fiyat/?iadeid=' + data.pkIadeID + '">Fiyatla</a>' : '') +
+                                (data.tur == 1 && data.tksref > 1 && (window.localStorage["slsref"] == 0 || (window.localStorage["taksit"] == "true" && (window.localStorage["tur"] == "AlL7YXUKaCY=" || window.localStorage["tur"] == "SSL5rqzumqM="))) ? '<a href="javascript:Gerial(' + data.pkIadeID + ')">Geri al</a>' : '') +
+                                (data.tur == 2 && data.tksref > 1 && (window.localStorage["slsref"] == 0 || (window.localStorage["taksit"] == "true" && (window.localStorage["tur"] == "AlL7YXUKaCY=" || window.localStorage["tur"] == "SSL5rqzumqM="))) ? '<a href="javascript:Sonaal(' + data.pkIadeID + ')">Sonlandır</a>' : '') +
+                                (data.tur == 5 && data.tksref > 1 && (window.localStorage["slsref"] == 0 || (window.localStorage["taksit"] == "true" && (window.localStorage["tur"] == "AlL7YXUKaCY=" || window.localStorage["tur"] == "SSL5rqzumqM="))) ? '<a href="javascript:Reddet(' + data.pkIadeID + ')">İptal et</a>' : '');
                             //'<a href="Yazdir?iadeid=' + data.pkIadeID + '">Yazdır</a>' +
                             //'<a href="Cikti?iadeid=' + data.pkIadeID + '">Kaydet</a>';
                         },
@@ -265,7 +269,19 @@
             });
         }
 
+        function getNedenRadioCheck() {
+            var val;
+            $("#divXmlNeden input").each(function (index, element) {
+                if ($(element).is(':checked')) {
+                    val = $(element).val();
+                }
+            });
+            return val;
+        }
+
         function xmlGonder() {
+            var neden = getNedenRadioCheck();
+
             if (!xmlicerik) {
                 alert("Dosya seçilmedi.");
                 return;
@@ -280,7 +296,7 @@
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     type: 'POST',
-                    url: apiurl + "iade/diskaydet/" + getGmref() + "/" + localStorage["musteri"],
+                    url: apiurl + "iade/diskaydet/" + getGmref() + "/" + localStorage["musteri"] + "/" + neden,
                     data: xmlicerik,
                     contentType: 'application/xml; charset=utf-8',
                     dataType: 'json',
@@ -289,6 +305,61 @@
 
                         alert(data.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?><string>", "").replace("</string>", "").replaceAll(".", "\r\n"));
                         window.location.href = window.location.href;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log(errorThrown); }
+                }
+            );
+        }
+
+        function Gerial(iadeid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'GET',
+                    url: apiurl + "iade/gerial/" + iadeid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        window.location.href = window.location.href;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log(errorThrown); }
+                }
+            );
+        }
+
+        function Sonaal(iadeid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'GET',
+                    url: apiurl + "iade/bitir/" + iadeid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        window.location.href = window.location.href;
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log(errorThrown); }
+                }
+            );
+        }
+
+        function Reddet(iadeid) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    type: 'GET',
+                    url: apiurl + "iade/reddet/" + iadeid,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data == "")
+                            window.location.href = window.location.href;
+                        else {
+                            alert(data);
+                        }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log(errorThrown); }
                 }
@@ -411,6 +482,14 @@
     <label for="inputXml" class="custom-file-upload">
         <i class="fa fa-cloud-upload"></i> Xml aktarımı
     </label>
+    <div id="divXmlNeden" class="btn-group" style="padding-left: 5px; padding-bottom: 3px">
+        <label class="btn btn-default">
+            <input type="radio" name="optionsNeden" id="optionNeden1" value="Z17" autocomplete="off" checked> Sağlam iade
+        </label>
+        <label class="btn btn-default">
+            <input type="radio" name="optionsNeden" id="optionNeden2" value="Z16" autocomplete="off"> Bozuk iade
+        </label>
+    </div>
     <input id="inputXml" type="file" accept="text/xml" class="custom-file-upload" />
     <input id="inputXmlGonder" type="button" class="custom-file-upload" value="Gönder" onclick="xmlGonder()" />
     <span id="xmlBayi"></span>
@@ -436,10 +515,11 @@
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    xmlicerik = reader.result.replace("ISO-8859-9", "utf-8");
+                    xmlicerik = xmlSpecialChars(reader.result.replace("ISO-8859-9", "utf-8"));
+                    //console.log(xmlicerik);
                 }
 
-                reader.readAsText(file);
+                reader.readAsText(file, 'ISO-8859-9');
             } else {
                 alert("Dosya desteklenmiyor!");
             }

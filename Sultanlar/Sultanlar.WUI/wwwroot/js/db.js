@@ -122,6 +122,11 @@ function sipariskaydet(paramsmref, paramftip, parammtip, siparisid, paramonay, y
                     window.location.href = 'Onayla?siparisid=' + data;
                 }
                 else {
+                    if (yenisiparis == "hata") {
+                        alert("Bir hata oluştu, sipariş kaydedilemedi.");
+                        return;
+                    }
+
                     if (yonlendir) {
                         document.getElementById("sipNo").innerHTML = "Sipariş kaydedildi.<br><br>Sipariş no: " + yenisiparis;
                     }
@@ -189,6 +194,24 @@ function UyeYetkileri(uyeid) {
                         }
                     }
                 });
+
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        url: apiurl + "fiyat/getfiyattipler500birlikte",
+                        async: false,
+                        success: function (data2, textStatus, response) {
+                            $.each(data2, function (i, item2) {
+                                $("#fiyattipleri").append(
+                                    $("<option></option>")
+                                        .text(item2.aciklama)
+                                        .val(item2.nosu)
+                                );
+                            });
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    });
                 $('select[id=fiyattipleri]').val(paramftip);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }

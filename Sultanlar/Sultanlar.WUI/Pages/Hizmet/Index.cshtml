@@ -69,6 +69,20 @@
                         $('#inputYEGKDV').val(data.intYEGKDVoran);
                         GetCari(4, data.smref, getCariSube, "inputCari", "inputBayi", Yazdir);
 
+                        if (incele == 4) {
+                            $("#anaVeri").removeClass("disabledEverything");
+                            $("#btnGonder").css("display", "block");
+                            if ($("#inputKgt").val() == 0) {
+                                $("#optionAhtYeg1").removeAttr("checked");
+                                $("#optionAhtYeg2").attr('checked', 'checked');
+                            }
+                            else {
+                                $("#optionAhtYeg1").attr('checked', 'checked');
+                                $("#optionAhtYeg2").removeAttr("checked");
+                            }
+
+                            getAhtYegRadioCheck();
+                        }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
@@ -159,7 +173,7 @@
                 }).then(() => {
                     callback2();
                 }
-            );
+                );
         }
 
         function GeriDon() {
@@ -221,6 +235,11 @@
             if (incele > 0) {
                 $("#anaVeri").addClass("disabledEverything");
                 $("#btnGonder").css("display", "none");
+
+                if (incele != 4) { // değiştiriliyorsa
+                    $("#divSecim").css("display", "none");
+                }
+
                 if (incele == 2) {
                     $("#inputSil").css("display", "unset");
                 }
@@ -228,17 +247,58 @@
                     yazdir = true;
                     $("#inputGeri").css("display", "none");
                 }
-                else if (incele == 4) {
-                    $("#anaVeri").removeClass("disabledEverything");
-                    $("#btnGonder").css("display", "block");
-                }
             }
+
+            $('#divAhtYeg input').change(function () {
+                getAhtYegRadioCheck();
+            });
         });
+
+        function getAhtYegRadioCheck() {
+            var val;
+            $("#divAhtYeg input").each(function (index, element) {
+                if ($(element).is(':checked')) {
+                    val = $(element).val();
+                }
+            });
+
+            if (val == 1) {
+                $("#inputKgt").attr("disabled", "disabled");
+                $("#inputKgt").val("0");
+                $("#inputNf").removeAttr("disabled");
+                $("#inputTAHKDV").attr("disabled", "disabled");
+                $("#inputTAHKDV").val("8");
+                $("#inputYEGKDV").removeAttr("disabled");
+            }
+            else {
+                $("#inputKgt").removeAttr("disabled");
+                $("#inputNf").attr("disabled", "disabled");
+                $("#inputNf").val("0");
+                $("#inputTAHKDV").removeAttr("disabled");
+                $("#inputYEGKDV").attr("disabled", "disabled");
+                $("#inputYEGKDV").val("18");
+            }
+
+            return val;
+        }
     </script>
 }
 <div class="centerVeMiddle">
     <input id="inputSil" type="button" class="btn btn-success secimTus" value="Hizmet Bedelini Sil" onclick="sil()" style="display: none" />
     <input id="inputGeri" type="button" class="btn btn-danger secimTus" value="Geri Dön" onclick="GeriDon()" />
+</div>
+<br />
+<div id="divSecim" class="centerVeMiddle">
+    <div id="divAhtYeg" class="btn-group" style="padding-left: 5px; padding-bottom: 3px">
+        <label class="btn btn-default">
+            <input type="radio" name="optionsAhtYeg" id="optionAhtYeg1" value="0" autocomplete="off" checked="checked"> KGT (ARI HAYAT TİBET)
+        </label>
+        <label class="btn btn-default">
+            <input type="radio" name="optionsAhtYeg" id="optionAhtYeg2" value="1" autocomplete="off"> Non-Food (YEG)
+        </label>
+    </div>
+    <br />
+    <i>NOT: KGT ve NF hizmet faturalarının ayrı ayrı girilmesi gerekmektedir.<br />Hangi bölüm seçilmiş ise o bölümün alanları aktif olur.</i>
 </div>
 <br />
 <div id="anaVeri">
@@ -285,7 +345,7 @@
     <span class="txt1">
         NF Bedel
     </span>
-    <input class="form-control input100" type="number" name="inputNf" id="inputNf" autocomplete="off" value="0">
+    <input class="form-control input100" type="number" name="inputNf" id="inputNf" autocomplete="off" value="0" disabled>
     <br />
     <span class="txt1">
         Açıklama
@@ -310,7 +370,7 @@
     <span class="txt1">
         NF KDV Oranı
     </span>
-    <input class="form-control input100" type="number" name="inputYEGKDV" min="1" max="18" id="inputYEGKDV" autocomplete="off" value="18">
+    <input class="form-control input100" type="number" name="inputYEGKDV" min="1" max="18" id="inputYEGKDV" autocomplete="off" value="18" disabled>
     <br />
     <span class="txt1">
         Kapamayı Etkilesin

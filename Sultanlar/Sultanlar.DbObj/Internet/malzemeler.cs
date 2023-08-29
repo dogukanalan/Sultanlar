@@ -151,5 +151,20 @@ namespace Sultanlar.DbObj.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// Web-Malzeme-2 rakip ürünler
+        /// </summary>
+        /// <returns></returns>
+        public List<malzemeler> GetObjects2()
+        {
+            List<malzemeler> donendeger = new List<malzemeler>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_malzemelerGetir", timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new malzemeler(ConvertToInt32(dic[i][0]), ConvertToInt32(dic[i][1]), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), dic[i][9].ToString(), dic[i][10].ToString(), dic[i][11].ToString(), dic[i][12].ToString(), dic[i][13].ToString(), dic[i][14].ToString(), dic[i][15].ToString(), ConvertToDouble(dic[i][16]), ConvertToDouble(dic[i][17]), dic[i][18].ToString(), ConvertToDouble(dic[i][19]), ConvertToInt32(dic[i][20]), ConvertToInt32(dic[i][21]), ConvertToInt32(dic[i][22]), ConvertToInt32(dic[i][23]), dic[i][24].ToString(), dic[i][25].ToString(), ConvertToInt32(dic[i][26]), ConvertToInt32(dic[i][27]), ConvertToInt32(dic[i][28])));
+
+            return donendeger;
+        }
     }
 }

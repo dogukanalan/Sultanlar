@@ -636,6 +636,31 @@ namespace Sultanlar.DatabaseObject
                 }
             }
         }
+        public static void ExecNQ(string commandText, CommandType commandType, ArrayList ParameterNames, ArrayList Parameters)
+        {
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand(commandText, conn);
+                cmd.CommandTimeout = 1000;
+                cmd.CommandType = commandType;
+
+                for (int i = 0; i < Parameters.Count; i++)
+                    cmd.Parameters.AddWithValue(ParameterNames[i].ToString(), Parameters[i]);
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex, " " + cmd.CommandText);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
         public static string SultanlarEpostaSifre()
         {
             string donendeger = "";

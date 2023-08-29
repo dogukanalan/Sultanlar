@@ -84,7 +84,23 @@ namespace Sultanlar.UI
             if (SMREF != 0)
                 AnlasmaHizmetBedelleri.GetObjects(dt, SMREF, Onayli, dateTimePicker1.Value, dateTimePicker2.Value, 0, AnlasmaHizmetBedelleri.GetObjectCount(SMREF, Onayli, dateTimePicker1.Value, dateTimePicker2.Value));
             else
-                AnlasmaHizmetBedelleri.GetObjects(dt, Onayli, dateTimePicker1.Value, dateTimePicker2.Value, 0, AnlasmaHizmetBedelleri.GetObjectCount(Onayli, dateTimePicker1.Value, dateTimePicker2.Value));
+                AnlasmaHizmetBedelleri.GetObjects(dt, Onayli, dateTimePicker1.Value, dateTimePicker2.Value, frmAna.KAdi, 0, AnlasmaHizmetBedelleri.GetObjectCount(Onayli, dateTimePicker1.Value, dateTimePicker2.Value));
+
+            /*DataTable dt1 = new DataTable();
+            for (int i = 0; i < dt.Columns.Count; i++)
+                dt1.Columns.Add(dt.Columns[i].ColumnName, dt.Columns[i].DataType);
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                if (frmAna.KAdi.StartsWith("YEG") && Convert.ToDouble(dt.Rows[i]["mnYEGBedel"]) > 0)
+                {
+                    dt1.Rows.Add(dt.Rows[i].ItemArray);
+                }
+                if (!frmAna.KAdi.StartsWith("YEG") && Convert.ToDouble(dt.Rows[i]["mnTAHBedel"]) > 0)
+                {
+                    dt1.Rows.Add(dt.Rows[i].ItemArray);
+                }
+            }*/
+
             gridControl4.DataSource = dt;
         }
 
@@ -190,7 +206,7 @@ namespace Sultanlar.UI
             if (!Convert.ToBoolean(((DataRowView)gridControl4.MainView.GetRow(gridView4.GetSelectedRows()[0])).Row.ItemArray[1]))
             {
                 int AnlasmaHizmetBedelID = Convert.ToInt32(((DataRowView)gridControl4.MainView.GetRow(gridView4.GetSelectedRows()[0])).Row.ItemArray[0]);
-                int smref = Convert.ToInt32(((DataRowView)gridControl4.MainView.GetRow(gridView4.GetSelectedRows()[0])).Row.ItemArray[2]);
+                int smref = Convert.ToInt32(((DataRowView)gridControl4.MainView.GetRow(gridView4.GetSelectedRows()[0])).Row.ItemArray[3]);
                 frmINTERNETticaripazarlamahizmetanlasmakapama frm = new frmINTERNETticaripazarlamahizmetanlasmakapama(smref, AnlasmaHizmetBedelID);
                 frm.ShowDialog();
                 GetHizmetBedelleri();
@@ -203,6 +219,7 @@ namespace Sultanlar.UI
 
         private void sbEkle_Click(object sender, EventArgs e)
         {
+            //return;
             frmINTERNETticaripazarlamacarisecimi frm = new frmINTERNETticaripazarlamacarisecimi();
             frm.ShowDialog();
 

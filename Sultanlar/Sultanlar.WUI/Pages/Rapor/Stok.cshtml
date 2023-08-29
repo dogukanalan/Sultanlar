@@ -33,6 +33,11 @@
             },
             {
                 "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli">' + data.itemref + '</span>';
+                }
+            },
+            {
+                "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
                     return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.malacik + '">' + data.malacik + '</span>';
                 }
             },
@@ -155,7 +160,7 @@
             });
             table.columns().every(function () {
                 var that = this;
-                $('input', this.header()).on('keyup change', function () {
+                $('input[type=text]', this.header()).on('inputchange', function () {
                     if (that.search() !== this.value) {
                         that
                             .search(this.value)
@@ -196,6 +201,7 @@
     <thead>
         <tr>
             <th class="keyTd" data-priority="1"><span class="spanCiplak">Bayi</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
+            <th class="keyTd" data-priority="2"><span class="spanCiplak">Kod</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
             <th class="keyTd" data-priority="2"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
             <th class="keyTd" data-priority="3"><span class="spanCiplak">St.TL</span><br /><input type="text" class="form-control" style="width: 100%" /></th>
             <th class="keyTd" data-priority="6"><span class="spanCiplak">St.Koli</span><br /><input type="text" class="form-control" style="width: 100%" /></th>

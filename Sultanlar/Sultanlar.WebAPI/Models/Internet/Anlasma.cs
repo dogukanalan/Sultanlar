@@ -29,6 +29,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public int ay { get; set; }
         public int smref { get; set; }
         public string tip { get; set; }
+        public int yegmi { get; set; }
     }
 
     public class AnlasmaKaydet

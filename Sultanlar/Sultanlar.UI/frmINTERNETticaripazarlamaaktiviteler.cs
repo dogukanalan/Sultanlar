@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Sultanlar.DatabaseObject.Internet;
 using System.Collections;
+using Sultanlar.DatabaseObject;
 
 namespace Sultanlar.UI
 {
@@ -283,7 +284,7 @@ namespace Sultanlar.UI
                 txtYEGSabitBedel.Text = aktivite.mnYegSabitBedel.ToString("N2");
                 txtTAHHedefCiro.Text = aktivite.mnTahHedefCiro.ToString("N2");
                 txtYEGHedefCiro.Text = aktivite.mnYegHedefCiro.ToString("N2");
-                txtAktiviteKarZarar.Text = aktivite.mnAktiviteKarZarar.ToString("N0");
+                txtAktiviteKarZarar.Text = aktivite.mnAktiviteKarZarar == 0 ? "KGT" : aktivite.mnAktiviteKarZarar == 1 ? "NF" : "Karma";
                 txtAktiviteKarZararYuzde.Text = Aktiviteler.GetMaliyet(aktivite.pkID).ToString("N2");
 
                 GetAktiviteDetaylar();
@@ -325,7 +326,7 @@ namespace Sultanlar.UI
             txtYEGSabitBedel.Text = 0.ToString("N2");
             txtTAHHedefCiro.Text = 0.ToString("N2");
             txtYEGHedefCiro.Text = 0.ToString("N2");
-            txtAktiviteKarZarar.Text = 0.ToString("N0");
+            txtAktiviteKarZarar.Text = "";
             txtAktiviteKarZararYuzde.Text = 0.ToString("N2");
 
             DataTable dt = new DataTable();
@@ -362,6 +363,7 @@ namespace Sultanlar.UI
             gridColumn100.OptionsColumn.AllowEdit = false;
             gridColumn58.OptionsColumn.AllowEdit = false;
             gridColumn59.OptionsColumn.AllowEdit = false;
+            gridColumn60.OptionsColumn.AllowEdit = false;
         }
 
         private void AktiviteEnableDisable(bool Aktif)
@@ -531,6 +533,8 @@ namespace Sultanlar.UI
 
                             MesajAt(aktivite, 3);
 
+                            Hareket(aktivite.pkID, 8);
+
                             MessageBox.Show("Aktivite güncellendi.", "Güncellendi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             txtAktiviteKarZararYuzde.Text = Aktiviteler.GetMaliyet(aktivite.pkID).ToString("N2");
                         }
@@ -570,6 +574,8 @@ namespace Sultanlar.UI
 
                         MesajAt(aktivite, 4);
 
+                        Hareket(aktivite.pkID, 3);
+
                         GetAktiviteler();
                     }
                 }
@@ -597,6 +603,8 @@ namespace Sultanlar.UI
 
                     MesajAt(aktivite, 1);
 
+                    Hareket(aktivite.pkID, 1);
+
                     GetAktiviteler();
                 }
             }
@@ -616,6 +624,8 @@ namespace Sultanlar.UI
 
                     MesajAt(aktivite, 2);
 
+                    Hareket(aktivite.pkID, 4);
+
                     GetAktiviteler();
                 }
             }
@@ -633,6 +643,8 @@ namespace Sultanlar.UI
                     aktivite.DoReddet();
 
                     MesajAt(aktivite, 5);
+
+                    Hareket(aktivite.pkID, 2);
 
                     GetAktiviteler();
                 }
@@ -1161,6 +1173,13 @@ namespace Sultanlar.UI
         {
             frmINTERNETticaripazarlamaaktivitetoptan frm = new frmINTERNETticaripazarlamaaktivitetoptan();
             frm.ShowDialog();
+        }
+
+        private void Hareket(int AktiviteID, int HareketID)
+        {
+            WebGenel.ExecNQ("sp_INTERNET_AktivitelerHareketEkle", CommandType.StoredProcedure,
+                new ArrayList() { "intAktiviteID", "intHareketTurID", "dtTarih", "strIslemYapan", "strAciklama", "pkID" },
+                new ArrayList() { AktiviteID, HareketID, DateTime.Now, frmAna.KAdi, "", 0 });
         }
     }
 }

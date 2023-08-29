@@ -486,7 +486,7 @@ namespace Sultanlar.DatabaseObject.Internet
             {
                 List.Clear();
 
-                SqlCommand cmd = new SqlCommand("SELECT [ACTIVE],[BOLGE],[GRP],[EKP],[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[TIP],[MT KOD],[MT ACIKLAMA],[UNVAN],[SLSREF],[SAT KOD],[SAT KOD1],[SAT TEM],[GMREF],[MUS KOD],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],[SEMT],[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],[ILGILI],[CEP-1],[NETTOP] FROM [Web-Musteri-TP] WHERE GMREF = " + GMREF.ToString() + " AND SUBE LIKE '%" + Nokta + "%' ORDER BY MUSTERI", conn);
+                SqlCommand cmd = new SqlCommand("SELECT [ACTIVE],[BOLGE],[GRP],[EKP],[YTK KOD],[IL KOD],[IL],[ILCE KOD],[ILCE],[TIP],[MT KOD],[MT ACIKLAMA],[UNVAN],[SLSREF],[SAT KOD],[SAT KOD1],[SAT TEM],[GMREF],[MUS KOD],[MUSTERI],[SMREF],[SUB KOD],[SUBE],[ADRES],[SEHIR],[SEMT],[VRG DAIRE],[VRG NO],[TEL-1],[FAX-1],[EMAIL-1],[ILGILI],[CEP-1],[NETTOP] FROM [Web-Musteri-TP] WHERE GMREF = " + GMREF.ToString() + " AND SUBE LIKE '%" + Nokta.Replace("'", "") + "%' ORDER BY MUSTERI", conn);
                 SqlDataReader dr;
                 try
                 {
@@ -1411,6 +1411,34 @@ namespace Sultanlar.DatabaseObject.Internet
                 {
                     conn.Open();
                     donendeger = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string GetErpByApikey(Guid Apikey)
+        {
+            string donendeger = string.Empty;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT [ERP] FROM [Web-Musteri-TP-Bayikodlar] WHERE [API] = @API", conn);
+                cmd.Parameters.Add("@API", SqlDbType.UniqueIdentifier).Value = Apikey;
+                try
+                {
+                    conn.Open();
+                    donendeger = cmd.ExecuteScalar().ToString();
                 }
                 catch (SqlException ex)
                 {

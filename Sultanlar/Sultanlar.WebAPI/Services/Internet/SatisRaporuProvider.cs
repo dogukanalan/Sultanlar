@@ -52,6 +52,8 @@ namespace Sultanlar.WebAPI.Services.Internet
                         donendeger2 = donendeger2.ToList().Where(k => k.AnaCari.MUSTERI.ToUpper(CultureInfo.CurrentCulture).IndexOf(Req.columns[i].search.value.ToUpper(CultureInfo.CurrentCulture)) > -1).ToList();
                     else if (Req.columns[i].name == "sube")
                         donendeger2 = donendeger2.ToList().Where(k => k.Sube.SUBE.ToUpper(CultureInfo.CurrentCulture).IndexOf(Req.columns[i].search.value.ToUpper(CultureInfo.CurrentCulture)) > -1).ToList();
+                    else if (Req.columns[i].name == "itemref")
+                        donendeger2 = donendeger2.ToList().Where(k => k.Malzeme.ITEMREF.ToString().ToUpper(CultureInfo.CurrentCulture).IndexOf(Req.columns[i].search.value.ToUpper(CultureInfo.CurrentCulture)) > -1).ToList();
                     else if (Req.columns[i].name == "malzeme")
                         donendeger2 = donendeger2.ToList().Where(k => k.Malzeme.MALACIK.ToUpper(CultureInfo.CurrentCulture).IndexOf(Req.columns[i].search.value.ToUpper(CultureInfo.CurrentCulture)) > -1).ToList();
                     else if (Req.columns[i].name == "kdv")

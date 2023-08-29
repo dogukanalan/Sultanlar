@@ -23,7 +23,7 @@
                         divData.innerHTML = htmlText + "</div>";
 
 
-                        if (!getParameterByName("mesajid"))
+                        if (!getParameterByName2("mesajid"))
                             setDepRadioCheck(9);
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
@@ -92,7 +92,7 @@
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "mesaj/get/" + getParameterByName("mesajid") + "/1",
+                    url: apiurl + "mesaj/get/" + getParameterByName2("mesajid") + "/1",
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
@@ -116,7 +116,7 @@
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "mesaj/oku/" + getParameterByName("mesajid") + "/1",
+                    url: apiurl + "mesaj/oku/" + getParameterByName2("mesajid") + "/1",
                     success: function (data, textStatus, response) {
                         checkAuth(response);
                     },
@@ -135,7 +135,7 @@
             });
 
             DepartmanlarGetir();
-            if (getParameterByName("mesajid"))
+            if (getParameterByName2("mesajid"))
                 MesajGetir();
         });
     </script>

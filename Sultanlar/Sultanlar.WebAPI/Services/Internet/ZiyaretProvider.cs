@@ -180,9 +180,11 @@ namespace Sultanlar.WebAPI.Services.Internet
                         eposta.Add(mus.strEposta2);
                 }*/
                 musteriler mus = new musteriler().GetMusteriBySLSREF(Convert.ToInt32(vy.Ziyaret.AnaCari.SATKOD));
-                eposta.Add(mus.strEposta2);
+                //eposta.Add(mus.strEposta2);
                 eposta.Add("fkaya@sultanlar.com.tr");
                 eposta.Add("kemalbayulgen@tibet.com.tr");
+                eposta.Add("asayin@sultanlar.com.tr");
+                eposta.Add("okar@sultanlar.com.tr");
                 new EpostaProvider().EpostaGonder("Sultanlar",
                     eposta,
                     "Var/Yok Liste (" + vy.Ziyaret.Satici.SATTEM + ")",
@@ -275,9 +277,9 @@ namespace Sultanlar.WebAPI.Services.Internet
                     musteriler mus = new musteriler().GetMusteriBySLSREF(Convert.ToInt32(vy.Ziyaret.AnaCari.SATKOD));
                     eposta.Add(mus.strEposta2);
                     eposta.Add("fkaya@sultanlar.com.tr");
-                    eposta.Add("asayin@sultanlar.com.tr");
                     eposta.Add("kemalbayulgen@tibet.com.tr");
-                    eposta.Add("ihsantetik@tibet.com.tr");
+                    eposta.Add("asayin@sultanlar.com.tr");
+                    eposta.Add("okar@sultanlar.com.tr");
                     new EpostaProvider().EpostaGonder("Sultanlar",
                         eposta,
                         "Var/Yok Liste (" + vy.Ziyaret.Satici.SATTEM + ")",
