@@ -18,6 +18,10 @@ namespace Sultanlar.WebAPI.Controllers.Internet
         public List<cariHesaplar> GetAna(int slsref) => new CariProvider().Cariler(slsref);
 
         [Yetkili]
+        [HttpGet, Route("internet/[controller]/[action]")]
+        public List<cariHesaplar> GetBayi() => new CariProvider().Bayiler();
+
+        [Yetkili]
         [HttpGet, Route("internet/[controller]/[action]/{gmref}/{slsref}")]
         public List<cariHesaplar> GetSube(int gmref, int slsref) => new CariProvider().CarilerSub(gmref, slsref);
 

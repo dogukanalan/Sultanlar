@@ -23,6 +23,9 @@ namespace Sultanlar.WebAPI.Controllers.Internet
             _memoryCache = memoryCache;
         }
 
+        //[HttpGet]
+        //public List<satisTemsilcileriAgac> Get() => new SaticiProvider().Agac();
+
         [HttpPost]
         public List<satisTemsilcileri> Post([FromBody]SaticiGet saticiget) => new SaticiProvider().Saticilar(saticiget.uyeid, false, _memoryCache);
 

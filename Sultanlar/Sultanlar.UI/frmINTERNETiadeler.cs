@@ -1202,7 +1202,7 @@ namespace Sultanlar.UI
 
             if (donen != string.Empty)
             {
-                IadelerQ.WriteQuantumNo(iade.pkIadeID, donen, "0");
+                IadelerQ.WriteQuantumNo(iade.pkIadeID, donen, "0", iade.dtOnaylamaTarihi);
 
                 #region mesajlar
                 //iade.strAciklama += ";;;" + siparisno;
@@ -2678,14 +2678,14 @@ namespace Sultanlar.UI
                             secimyok = false;
 
                             int iadeid = Convert.ToInt32(dataGridView1.Rows[j].Cells["clpkIadeID"].Value);
+                            Iadeler iade = Iadeler.GetObjectsByIadeID(iadeid);
                             if (rbFiyatlandirilmamis.Checked)
                             {
-                                Iadeler iade = Iadeler.GetObjectsByIadeID(iadeid);
                                 iade.mnToplamTutar = Convert.ToDecimal(0.001);
                                 iade.blAktarilmis = false;
                                 iade.DoUpdate();
                             }
-                            IadelerQ.WriteQuantumNo(iadeid, "0", "0");
+                            IadelerQ.WriteQuantumNo(iadeid, "0", "0", iade.dtOnaylamaTarihi);
                             IadeHareketleri.DoInsert(iadeid, 24, frmAna.KAdi.ToUpper(), frmAna.InputBox);
                             //dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);
                             //if (dataGridView1.Rows.Count > 0)
@@ -2697,14 +2697,14 @@ namespace Sultanlar.UI
                 if (secimyok)
                 {
                     int iadeid = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["clpkIadeID"].Value);
+                    Iadeler iade = Iadeler.GetObjectsByIadeID(iadeid);
                     if (rbFiyatlandirilmamis.Checked)
                     {
-                        Iadeler iade = Iadeler.GetObjectsByIadeID(iadeid);
                         iade.mnToplamTutar = Convert.ToDecimal(0.001);
                         iade.blAktarilmis = false;
                         iade.DoUpdate();
                     }
-                    IadelerQ.WriteQuantumNo(iadeid, "0", "0");
+                    IadelerQ.WriteQuantumNo(iadeid, "0", "0", iade.dtOnaylamaTarihi);
                     IadeHareketleri.DoInsert(iadeid, 24, frmAna.KAdi.ToUpper(), frmAna.InputBox);
                     MessageBox.Show("İade 'İade Kabul' bölümüne atıldı.", "İşlem Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     dataGridView1.Rows.RemoveAt(dataGridView1.SelectedRows[0].Index);

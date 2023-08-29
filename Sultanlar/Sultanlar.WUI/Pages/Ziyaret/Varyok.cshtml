@@ -176,7 +176,6 @@
                                 beforeSend: function (xhr) { xhrTicket(xhr); },
                                 url: apiurl + 'fiyat/GetSmrefad/' + paramsmref,
                                 success: function (data, textStatus, response) {
-
                                     if (data.length > 0) {
                                         var newjson = [];
                                         $.each(json1, function (i, item) {
@@ -186,8 +185,14 @@
                                                 }
                                             });
                                         });
-                                        datatablethis.dataTable().fnClearTable();
-                                        datatablethis.dataTable().fnAddData(newjson);
+                                        if (newjson.length > 0) {
+                                            datatablethis.dataTable().fnClearTable();
+                                            datatablethis.dataTable().fnAddData(newjson);
+                                        }
+                                        else {
+                                            datatablethis.dataTable().fnClearTable();
+                                            datatablethis.dataTable().fnAddData(data);
+                                        }
                                     }
 
                                 }
@@ -521,42 +526,58 @@
                                     success: function (data1, textStatus, response) {
                                         checkAuth(response);
 
-                                        dataS = [];
-                                        for (var i = 0; i < data1.length; i++) {
-                                            for (var j = 0; j < data.detays.length; j++) {
-                                                if (data.detays[j].itemref == data1[i].itemref) {
-                                                    data1[i].fiyatvy.isaret = data.detays[j].isaret;
-                                                    data1[i].fiyatvy.varyok = data.detays[j].varyok;
-                                                    data1[i].fiyatvy.depo = data.detays[j].depo;
-                                                    data1[i].fiyatvy.raf = data.detays[j].raf;
-                                                    data1[i].fiyatvy.raffiyat = data.detays[j].raF_FIYAT;
-                                                    data1[i].fiyatvy.skt = data.detays[j].skt;
-                                                    data1[i].fiyatvy.siparis = data.detays[j].siparis;
-                                                    data1[i].fiyatvy.sonalim = data.detays[j].sonalim;
+                                        $.ajax(
+                                            {
+                                                xhr: function () { return xhrDownloadUpload(); },
+                                                beforeSend: function (xhr) { xhrTicket(xhr); },
+                                                url: apiurl + "fiyat/getharic",
+                                                success: function (data2, textStatus, response) {
+                                                    checkAuth(response);
 
-                                                    dataS.push(data1[i]);
-                                                }
+                                                    for (var i = 0; i < data2.length; i++) {
+                                                        data1.push(data2[i]);
+                                                    }
+
+                                                    dataS = [];
+                                                    for (var i = 0; i < data1.length; i++) {
+                                                        for (var j = 0; j < data.detays.length; j++) {
+                                                            if (data.detays[j].itemref == data1[i].itemref) {
+                                                                data1[i].fiyatvy.isaret = data.detays[j].isaret;
+                                                                data1[i].fiyatvy.varyok = data.detays[j].varyok;
+                                                                data1[i].fiyatvy.depo = data.detays[j].depo;
+                                                                data1[i].fiyatvy.raf = data.detays[j].raf;
+                                                                data1[i].fiyatvy.raffiyat = data.detays[j].raF_FIYAT;
+                                                                data1[i].fiyatvy.skt = data.detays[j].skt;
+                                                                data1[i].fiyatvy.siparis = data.detays[j].siparis;
+                                                                data1[i].fiyatvy.sonalim = data.detays[j].sonalim;
+
+                                                                dataS.push(data1[i]);
+                                                            }
+                                                        }
+                                                        /*if (data1[i].fiyatvy.isaret == true) {
+                                                            dataS.push(data1[i]);
+                                                        }*/
+                                                    }
+
+                                                    sepet.detays = dataS;
+                                                    $("#dtTable").css("display", "table");
+                                                    getListe();
+
+                                                    if (data.pkID != 0) {
+                                                        $.ajax(
+                                                            {
+                                                                url: apiurl + "ziyaret/varyoklogekle/" + data.pkID + "/" + localStorage["musteri"] + "/" + localStorage["slsref"],
+                                                                success: function (data, textStatus, response) {
+
+                                                                },
+                                                                error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                                            }
+                                                        );
+                                                    }
+                                                },
+                                                error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                                             }
-                                            /*if (data1[i].fiyatvy.isaret == true) {
-                                                dataS.push(data1[i]);
-                                            }*/
-                                        }
-
-                                        sepet.detays = dataS;
-                                        $("#dtTable").css("display", "table");
-                                        getListe();
-
-                                        if (data.pkID != 0) {
-                                            $.ajax(
-                                                {
-                                                    url: apiurl + "ziyaret/varyoklogekle/" + data.pkID + "/" + localStorage["musteri"] + "/" + localStorage["slsref"],
-                                                    success: function (data, textStatus, response) {
-
-                                                    },
-                                                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
-                                                }
-                                            );
-                                        }
+                                        );
                                     },
                                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                                 }
@@ -592,7 +613,6 @@
                             error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                         }
                     );
-
                 }
                 else {
 
@@ -620,26 +640,40 @@
                                             success: function (data1, textStatus, response) {
                                                 checkAuth(response);
 
-                                                for (var i = 0; i < data1.length; i++) {
-                                                    for (var j = 0; j < data.detays.length; j++) {
-                                                        if (data.detays[j].itemref == data1[i].itemref) {
-                                                            data1[i].fiyatvy.isaret = data.detays[j].isaret;
-                                                            data1[i].fiyatvy.varyok = data.detays[j].varyok ? data.detays[j].varyok : false;
-                                                            data1[i].fiyatvy.depo = data.detays[j].depo;
-                                                            data1[i].fiyatvy.raf = data.detays[j].raf;
-                                                            data1[i].fiyatvy.raffiyat = data.detays[j].raF_FIYAT;
-                                                            data1[i].fiyatvy.skt = data.detays[j].skt;
-                                                            data1[i].fiyatvy.siparis = data.detays[j].siparis;
-                                                            data1[i].fiyatvy.sonalim = data.detays[j].sonalim;
-                                                        }
-                                                    }
-                                                }
+                                                $.ajax(
+                                                    {
+                                                        xhr: function () { return xhrDownloadUpload(); },
+                                                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                                                        url: apiurl + "fiyat/getharic",
+                                                        success: function (data2, textStatus, response) {
+                                                            checkAuth(response);
 
-                                                sepet.detays = data1;
-                                                $("#selectFiyatTipler").css("display", "none");
-                                                $("#dtTable").css("display", "table");
-                                                window.localStorage['sepetV'] = JSON.stringify(sepet);
-                                                getListe();
+                                                            for (var i = 0; i < data2.length; i++) {
+                                                                data1.push(data2[i]);
+                                                            }
+
+                                                            for (var i = 0; i < data1.length; i++) {
+                                                                for (var j = 0; j < data.detays.length; j++) {
+                                                                    if (data.detays[j].itemref == data1[i].itemref) {
+                                                                        data1[i].fiyatvy.isaret = data.detays[j].isaret;
+                                                                        data1[i].fiyatvy.varyok = data.detays[j].varyok ? data.detays[j].varyok : false;
+                                                                        data1[i].fiyatvy.depo = data.detays[j].depo;
+                                                                        data1[i].fiyatvy.raf = data.detays[j].raf;
+                                                                        data1[i].fiyatvy.raffiyat = data.detays[j].raF_FIYAT;
+                                                                        data1[i].fiyatvy.skt = data.detays[j].skt;
+                                                                        data1[i].fiyatvy.siparis = data.detays[j].siparis;
+                                                                        data1[i].fiyatvy.sonalim = data.detays[j].sonalim;
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            sepet.detays = data1;
+                                                            $("#selectFiyatTipler").css("display", "none");
+                                                            $("#dtTable").css("display", "table");
+                                                            window.localStorage['sepetV'] = JSON.stringify(sepet);
+                                                            getListe();
+                                                        }
+                                                    });
                                             },
                                             error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                                         }
@@ -674,9 +708,25 @@
                                 success: function (data, textStatus, response) {
                                     checkAuth(response);
 
-                                    sepet = { barkod: ziyaretid, tip: fiyattip, detays: data };
-                                    window.localStorage['sepetV'] = JSON.stringify(sepet);
-                                    getListe();
+                                    $.ajax(
+                                        {
+                                            xhr: function () { return xhrDownloadUpload(); },
+                                            beforeSend: function (xhr) { xhrTicket(xhr); },
+                                            url: apiurl + "fiyat/getharic",
+                                            success: function (data1, textStatus, response) {
+                                                checkAuth(response);
+
+                                                for (var i = 0; i < data1.length; i++) {
+                                                    data.push(data1[i]);
+                                                }
+
+                                                sepet = { barkod: ziyaretid, tip: fiyattip, detays: data };
+                                                window.localStorage['sepetV'] = JSON.stringify(sepet);
+                                                getListe();
+                                            },
+                                            error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                                        }
+                                    );
                                 },
                                 error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                             }

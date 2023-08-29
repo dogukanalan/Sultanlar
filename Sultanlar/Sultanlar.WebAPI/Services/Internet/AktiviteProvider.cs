@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
+using System.Collections;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -65,7 +66,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             return donendeger;
         }
 
-        internal string AktiviteSil(int AktiviteID)
+        internal string AktiviteSil(int AktiviteID, string musID)
         {
             string Donen = string.Empty;
             aktiviteler akt = new aktiviteler(AktiviteID).GetObject();
@@ -73,19 +74,25 @@ namespace Sultanlar.WebAPI.Services.Internet
             for (int i = 0; i < silinecekler.Count; i++)
                 silinecekler[i].DoDelete();
             akt.DoDelete();
+
+            hareket(AktiviteID, 3, musID, "");
+
             return Donen;
         }
 
-        internal string AktiviteOnay(int AktiviteID)
+        internal string AktiviteOnay(int AktiviteID, string musID)
         {
             string Donen = string.Empty;
             aktiviteler akt = new aktiviteler(AktiviteID).GetObject();
             akt.blAktarilmis = DBNull.Value;
             akt.DoUpdate();
+
+            hareket(AktiviteID, 6, musID, "");
+
             return Donen;
         }
 
-        internal string AktiviteKopyala(AktiviteKopya akg)
+        internal string AktiviteKopyala(AktiviteKopya akg, string musID)
         {
             string Donen = string.Empty;
 
@@ -120,7 +127,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                     yegbedel,
                     tahciro,
                     yegciro,
-                    (kopyalanacak.sintFiyatTipiID == 25 && kopyalanacak.Cari.BayiMi) ? 1 : 0,
+                    kopyalanacak.mnAktiviteKarZarar, //(kopyalanacak.sintFiyatTipiID == 25 && kopyalanacak.Cari.BayiMi) ? 1 : 0,
                     cari.BayiMi ? 1 : 0);
                 akt.DoInsert();
 
@@ -167,12 +174,14 @@ namespace Sultanlar.WebAPI.Services.Internet
                         "", kopyalanacak.detaylar[j].strAciklama6);
                     aktdet.DoInsert();
                 }
+
+                hareket(akt.pkID, 7, musID, "Kopyalanan: " + kopyalanacak.pkID);
             }
 
             return Donen;
         }
 
-        internal string AktiviteKaydet(AktiviteKaydet akg)
+        internal string AktiviteKaydet(AktiviteKaydet akg, string musID)
         {
             aktiviteler aktivite = new aktiviteler(akg.id).GetObject();
             if (aktivite.blAktarilmis == DBNull.Value || Convert.ToBoolean(aktivite.blAktarilmis) == true)
@@ -190,7 +199,7 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             cariHesaplar ch = new cariHesaplar().GetObject1(akg.aktivitetipi, akg.smref);
 
-            aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.fiyattipi == 25 ? 1 : 2, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem, akg.tahbedel, akg.yegbedel, akg.tahciro, akg.yegciro, 0, (akg.fiyattipi == 25 && ch.BayiMi && akg.aktivitetipi == 1) ? 1 : 0);
+            aktiviteler akt = new aktiviteler(mus.pkMusteriID, akg.smref, akg.fiyattipi, akg.anlasmaid, akg.fiyattipi == 25 ? 1 : 2, DateTime.Now, DateTime.Now, false, Convert.ToDateTime(akg.baslangic), Convert.ToDateTime(akg.bitis), akg.aciklama1, akg.aciklama2, akg.aciklama3, akg.donem, akg.tahbedel, akg.yegbedel, akg.tahciro, akg.yegciro, akg.yegmi, (akg.fiyattipi == 25 && ch.BayiMi && akg.aktivitetipi == 1) ? 1 : 0);
             akt.DoInsert();
             for (int i = 0; i < akg.detaylar.Count; i++)
             {
@@ -235,7 +244,17 @@ namespace Sultanlar.WebAPI.Services.Internet
                 aktivite.DoDelete();
             }
 
+            hareket(akt.pkID, 5, musID, "");
+
             return akt.pkID.ToString();
+        }
+
+        private void hareket(int AktiviteID, int HareketID, string musID, string Aciklama)
+        {
+            aktiviteler.ExecNQ("sp_INTERNET_AktivitelerHareketEkle",
+                new ArrayList() { "intAktiviteID", "intHareketTurID", "dtTarih", "strIslemYapan", "strAciklama", "pkID" },
+                new System.Data.SqlDbType[] { System.Data.SqlDbType.Int, System.Data.SqlDbType.Int, System.Data.SqlDbType.DateTime, System.Data.SqlDbType.NVarChar, System.Data.SqlDbType.NVarChar, System.Data.SqlDbType.Int },
+                new ArrayList() { AktiviteID, HareketID, DateTime.Now, musID, Aciklama, 0 });
         }
     }
 }

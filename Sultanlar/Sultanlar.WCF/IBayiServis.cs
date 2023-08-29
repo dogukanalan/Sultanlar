@@ -63,13 +63,42 @@ namespace Sultanlar.WCF
 
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Fatura2/logo/{apikey}/{sipler}")]
-        XmlDocument Fatura2Logo(string apikey, string sipler);
+        Stream Fatura2Logo(string apikey, string sipler);
 
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "json/Fatura2/logo/{apikey}/{sipler}")]
         BimatFaturalarDis Fatura2JLogo(string apikey, string sipler);
         #endregion
 
+        #region dia
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Fatura/dia/{apikey}/{baslangic}/{bitis}")]
+        XmlDocument FaturaDia(string apikey, string baslangic, string bitis);
+
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Fatura2/dia/{apikey}/{sipler}")]
+        XmlDocument Fatura2Dia(string apikey, string sipler);
+        #endregion
+
+        #region logogo
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Fatura/logogo/{apikey}/{baslangic}/{bitis}")]
+        XmlDocument FaturaLogoGo(string apikey, string baslangic, string bitis);
+
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Fatura2/logogo/{apikey}/{sipler}")]
+        Stream Fatura2LogoGo(string apikey, string sipler);
+        #endregion
+
+        #region netsim
+        [OperationContract, XmlSerializerFormat]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Fatura/netsim/{apikey}/{baslangic}/{bitis}")]
+        XmlDocument FaturaNetsim(string apikey, string baslangic, string bitis);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", UriTemplate = "xml/Fatura2/netsim/{apikey}/{sipler}")]
+        Stream Fatura2Netsim(string apikey, string sipler);
+        #endregion
 
 
         [OperationContract, XmlSerializerFormat]
@@ -81,7 +110,7 @@ namespace Sultanlar.WCF
         XmlDocument PostXml2(XmlDocument icerik, string Bayikod, string Satis, string YilAd, string BasYil, string BitYil, string AyAd, string BasAy, string BitAy);
 
         [OperationContract, XmlSerializerFormat]
-        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Xml, ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Iade?bayikod={Bayikod}&musteri={Musteri}")]
-        string IadeXml(XmlDocument icerik, string Bayikod, string Musteri);
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Xml, ResponseFormat = WebMessageFormat.Xml, UriTemplate = "xml/Iade?bayikod={Bayikod}&musteri={Musteri}&neden={Neden}")]
+        string IadeXml(XmlDocument icerik, string Bayikod, string Musteri, string Neden);
     }
 }

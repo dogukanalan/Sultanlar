@@ -132,6 +132,20 @@ namespace Sultanlar.DbObj.Internet
         /// 
         /// </summary>
         /// <returns></returns>
+        public cariHesaplar GetObjectTPByMusKod(int GMREF, string MUSKOD)
+        {
+            cariHesaplar donendeger = new cariHesaplar();
+
+            Dictionary<int, object> dic = GetObject("db_sp_cariHesapGetirTPByMusKod", new Dictionary<string, object>() { { "GMREF", GMREF }, { "MUSKOD", MUSKOD } }, timeout);
+            if (dic != null)
+                donendeger = new cariHesaplar(ConvertToInt16(dic[0]), dic[1].ToString(), dic[2].ToString(), dic[3].ToString(), dic[4].ToString(), dic[5].ToString(), dic[6].ToString(), dic[7].ToString(), dic[8].ToString(), ConvertToInt32(dic[9]), dic[10].ToString(), dic[11].ToString(), dic[12].ToString(), ConvertToInt32(dic[13]), dic[14].ToString(), dic[15].ToString(), dic[16].ToString(), ConvertToInt32(dic[17]), dic[18].ToString(), dic[19].ToString(), ConvertToInt32(dic[20]), dic[21].ToString(), dic[22].ToString(), dic[23].ToString(), dic[24].ToString(), dic[25].ToString(), dic[26].ToString(), dic[27].ToString(), dic[28].ToString(), dic[29].ToString(), dic[30].ToString(), dic[31].ToString(), dic[32].ToString(), ConvertToDouble(dic[33]), false);
+
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<cariHesaplar> GetObjects()
         {
             List<cariHesaplar> donendeger = new List<cariHesaplar>();
@@ -232,6 +246,21 @@ namespace Sultanlar.DbObj.Internet
                     donendeger.Add(new cariHesaplar(ConvertToInt16(dic[i][0]), dic[i][1].ToString(), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToInt32(dic[i][13]), dic[i][14].ToString(), dic[i][15].ToString(), dic[i][16].ToString(), ConvertToInt32(dic[i][17]), dic[i][18].ToString(), dic[i][19].ToString(), ConvertToInt32(dic[i][20]), dic[i][21].ToString(), dic[i][22].ToString(), dic[i][23].ToString(), dic[i][24].ToString(), dic[i][25].ToString(), dic[i][26].ToString(), dic[i][27].ToString(), dic[i][28].ToString(), dic[i][29].ToString(), dic[i][30].ToString(), dic[i][31].ToString(), dic[i][32].ToString(), ConvertToDouble(dic[i][33]), false));
 
             //donendeger.Add(new cariHesaplar(0, "", "", "", "", "", "", "", "", 1, "", "", "", 0, "", "", "", ConvertToInt32(dic[i][0]), "", dic[i][1].ToString(), 0, "", "", "", "", "", "", "", "", "", "", "", "", 0));
+            return donendeger;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<cariHesaplar> GetObjectsOnlyBayi()
+        {
+            List<cariHesaplar> donendeger = new List<cariHesaplar>();
+
+            Dictionary<int, Dictionary<int, object>> dic = GetObjects("db_sp_cariHesaplarGetirSadeceBayiler", new Dictionary<string, object>() { }, timeout);
+            if (dic != null)
+                for (int i = 0; i < dic.Count; i++)
+                    donendeger.Add(new cariHesaplar(ConvertToInt16(dic[i][0]), dic[i][1].ToString(), dic[i][2].ToString(), dic[i][3].ToString(), dic[i][4].ToString(), dic[i][5].ToString(), dic[i][6].ToString(), dic[i][7].ToString(), dic[i][8].ToString(), ConvertToInt32(dic[i][9]), dic[i][10].ToString(), dic[i][11].ToString(), dic[i][12].ToString(), ConvertToInt32(dic[i][13]), dic[i][14].ToString(), dic[i][15].ToString(), dic[i][16].ToString(), ConvertToInt32(dic[i][17]), dic[i][18].ToString(), dic[i][19].ToString(), ConvertToInt32(dic[i][20]), dic[i][21].ToString(), dic[i][22].ToString(), dic[i][23].ToString(), dic[i][24].ToString(), dic[i][25].ToString(), dic[i][26].ToString(), dic[i][27].ToString(), dic[i][28].ToString(), dic[i][29].ToString(), dic[i][30].ToString(), dic[i][31].ToString(), dic[i][32].ToString(), ConvertToDouble(dic[i][33]), false));
+
             return donendeger;
         }
         /// <summary>
@@ -470,6 +499,16 @@ namespace Sultanlar.DbObj.Internet
             cariHesaplarBayikodlar donendeger = new cariHesaplarBayikodlar();
 
             Dictionary<int, object> dic = GetObject("SELECT GMREF,[BAYIUNVAN],[BOLGE],[SEHIR],[SIPNO],[API] FROM [Web-Musteri-TP-Bayikodlar] WHERE GMREF = @GMREF", new Dictionary<string, object>() { { "GMREF", GMREF } }, timeout);
+            if (dic != null)
+                donendeger = new cariHesaplarBayikodlar() { GMREF = ConvertToInt32(dic[0]), BAYIUNVAN = dic[1].ToString(), BOLGE = dic[2].ToString(), SEHIR = dic[3].ToString(), SIPNO = dic[4].ToString(), APIKEY = dic[5].ToString() };
+
+            return donendeger;
+        }
+        public cariHesaplarBayikodlar GetObject(string APIKEY)
+        {
+            cariHesaplarBayikodlar donendeger = new cariHesaplarBayikodlar();
+
+            Dictionary<int, object> dic = GetObject("SELECT GMREF,[BAYIUNVAN],[BOLGE],[SEHIR],[SIPNO],[API] FROM [Web-Musteri-TP-Bayikodlar] WHERE API = @API", new Dictionary<string, object>() { { "API", APIKEY } }, timeout);
             if (dic != null)
                 donendeger = new cariHesaplarBayikodlar() { GMREF = ConvertToInt32(dic[0]), BAYIUNVAN = dic[1].ToString(), BOLGE = dic[2].ToString(), SEHIR = dic[3].ToString(), SIPNO = dic[4].ToString(), APIKEY = dic[5].ToString() };
 

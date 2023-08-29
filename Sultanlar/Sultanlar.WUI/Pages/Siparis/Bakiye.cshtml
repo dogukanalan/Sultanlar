@@ -32,9 +32,9 @@
     <script>
         var table;
 
-        function SiparislerDetayGetir(scrollx, yazdir) {
+        function SiparislerDetayGetir(scrollx, yazdir, gmref) {
             var datasrc;
-            var url1 = apiurl + "siparis/getbakiyeler/" + getParameterByName('slsref');
+            var url1 = apiurl + "siparis/getbakiyeler" + (gmref != "0" ? "gmref" : "") + "/" + (gmref != "0" ? gmref : getParameterByName('slsref'));
             datasrc = "";
 
             $("#dtTable input").each(function (index, element) {
@@ -70,6 +70,7 @@
 
             }).DataTable({
                 "scrollX": scrollx,
+                "destroy": true,
                 ajax: {
                     dataSrc: datasrc,
                     xhr: function () { return xhrDownloadUpload(); },
@@ -145,6 +146,11 @@
                     {
                         "data": "cari", "class": "valueTd", render: function (data, type, row) {
                             return '<span class="sinirli">' + data.ilce + '</span>';
+                        }
+                    },
+                    {
+                        "data": "cari", "class": "valueTd", render: function (data, type, row) {
+                            return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.anaCari + '">' + data.anaCari + '</span>';
                         }
                     },
                     {
@@ -254,7 +260,8 @@
         }
 
         $(document).ready(function () {
-            SiparislerDetayGetir(true, false);
+            SiparislerDetayGetir(true, false, "0");
+            CarilerGetir();
 
             $(document).on('click', '.keyTd', function () {
                 var checkbox = $(this).find('input');
@@ -272,6 +279,10 @@
             $('#tarih, #tarih2').on('changeDate', function (ev) {
                 $(this).datepicker('hide');
                 table.draw();
+            });
+
+            $('#selectCariler').on('change', function (e) {
+                SiparislerDetayGetir(true, false, $('select[name=selectCariler]').val());
             });
         });
 
@@ -302,9 +313,6 @@
         }
 
         function olustur() {
-            if (!confirm("Seçilen bakiyeler yeni sipariş olarak oluşturulacak. Emin misiniz?"))
-                return;
-
             var sentData = "[";
             $('.smm').each(function () {
                 if ($(this).is(':checked')) {
@@ -314,19 +322,83 @@
             });
             sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
 
+            if (sentData != "[]") {
+                if (!confirm("Seçilen bakiyeler yeni sipariş olarak oluşturulacak. Emin misiniz?"))
+                    return;
+
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        type: 'POST',
+                        url: apiurl + "siparis/bakiyeolustur",
+                        data: sentData,
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (data, textStatus, response) {
+                            checkAuth(response);
+
+                            window.location.href = window.location.href;
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    }
+                );
+            }
+        }
+
+        function iptalEt() {
+            var sentData = "[";
+            $('.smm').each(function () {
+                if ($(this).is(':checked')) {
+                    var fattar = $(this).closest("tr").find(".spanfattar")[0] ? $(this).closest("tr").find(".spanfattar")[0].innerHTML : $(this).closest("tr").find(".ssmm")[0].value;
+                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": 0, "fattar": "' + fattar + '" },';
+                }
+            });
+            sentData = sentData == "[" ? "[]" : sentData.substring(0, sentData.length - 1) + "]";
+
+            if (sentData != "[]") {
+                if (!confirm("Seçilen bakiyeler iptal edilecek. Emin misiniz?"))
+                    return;
+
+                $.ajax(
+                    {
+                        xhr: function () { return xhrDownloadUpload(); },
+                        beforeSend: function (xhr) { xhrTicket(xhr); },
+                        type: 'POST',
+                        url: apiurl + "siparis/bakiyeiptal",
+                        data: sentData,
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (data, textStatus, response) {
+                            checkAuth(response);
+
+                            window.location.href = window.location.href;
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                    }
+                );
+            }
+        }
+
+        function CarilerGetir() {
+            var slsref = getParameterByName('slsref');
+            var url = slsref != "0" ? apiurl + "cari/getana/" + getParameterByName('slsref') : apiurl + "cari/getbayi";
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    type: 'POST',
-                    url: apiurl + "siparis/bakiyeolustur",
-                    data: sentData,
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
+                    url: url,
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 
-                        window.location.href = window.location.href;
+                        $("#selectCariler").empty().append($("<option></option>").text("Tümü (Son 90 gün)").val("0"));
+                        $.each(data, function (index, item) {
+                            $("#selectCariler").append(
+                                $("<option></option>")
+                                    .text(item.musteri)
+                                    .val(item.gmref)
+                            );
+                        });
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
@@ -336,6 +408,10 @@
 }
 <h5 class="spanCiplak" id="sipMus"></h5>
 <i><span class="spanCiplak" id="aciklama"></span></i>
+<br />
+<select id="selectCariler" name="selectCariler" class="dropDown selSaticilar">
+    <option value="0" selected="selected">Tümü</option>
+</select>
 <br />
 
 <div>
@@ -364,6 +440,7 @@
             <th class="keyTd"><span class="spanCiplak">Üye</span><br /><input type="text" class="form-control input100yuzde aramaoldugugibi" /></th>
             <th class="keyTd"><span class="spanCiplak">İl</span><br /><input type="text" id="iller" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" /></th>
             <th class="keyTd"><span class="spanCiplak">İlçe</span><br /><input type="text" id="ilceler" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" /></th>
+            <th class="keyTd"><span class="spanCiplak">Bayi</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd"><span class="spanCiplak">Nokta</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd"><span class="spanCiplak">Tutar</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd"><span class="spanCiplak">Açıklama</span><br /><input type="text" class="form-control input100yuzde aramaoldugugibi" /></th>
@@ -374,4 +451,5 @@
 <div class="centerVeMiddle">
     <input type="button" class="btn btn-danger secimTus" value="Vazgeç ve Geri Dön" onclick="window.location.href = 'Siparisler?slsref=' + getParameterByName('slsref')" />
     <input type="button" class="btn btn-success secimTus" id="aktar" value="Seçilenleri Yeni Sipariş Oluştur" onclick="olustur()" />
+    <input type="button" class="btn btn-warning secimTus" id="aktar" value="Seçilenleri Bakiyeden Kaldır" onclick="iptalEt()" />
 </div>

@@ -40,20 +40,21 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
-        public static bool QuantumNoVarMi(string QuantumNo)
+        public static int QuantumNoVarMi(string BAYIKOD, string QuantumNo)
         {
-            bool donendeger = false;
+            int donendeger = 0;
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT count(*) FROM tblINTERNET_IadelerQ WHERE QUANTUMNO = @QUANTUMNO", conn);
+                SqlCommand cmd = new SqlCommand("SELECT intIadeID FROM tblINTERNET_IadelerQ INNER JOIN tblINTERNET_Iadeler ON intIadeID = pkIadeID INNER JOIN (SELECT DISTINCT GMREF,SMREF,TIP FROM [Web-Musteri-1]) AS MUS ON MUS.TIP = tblINTERNET_Iadeler.TKSREF AND MUS.SMREF = tblINTERNET_Iadeler.SMREF WHERE GMREF = @BAYIKOD AND QUANTUMNO = @QUANTUMNO", conn);
+                cmd.Parameters.Add("@BAYIKOD", SqlDbType.NVarChar).Value = BAYIKOD;
                 cmd.Parameters.Add("@QUANTUMNO", SqlDbType.NVarChar).Value = QuantumNo;
                 try
                 {
                     conn.Open();
                     object obj = cmd.ExecuteScalar();
                     if (obj != null)
-                        donendeger = Convert.ToBoolean(obj);
+                        donendeger = Convert.ToInt32(obj);
                 }
                 catch (SqlException ex)
                 {
@@ -94,11 +95,11 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
-        public static void WriteQuantumNo(int IadeID, string QuantumNo, string Fatno)
+        public static void WriteQuantumNo(int IadeID, string QuantumNo, string Fatno, DateTime FATTAR)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO tblINTERNET_IadelerQ (intIadeID,QUANTUMNO,FATNO) VALUES (@intIadeID,@QUANTUMNO,@FATNO)", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO tblINTERNET_IadelerQ (intIadeID,QUANTUMNO,FATNO,FATTAR) VALUES (@intIadeID,@QUANTUMNO,@FATNO,@FATTAR)", conn);
 
                 if (QuantumNoVarMi(IadeID))
                     cmd.CommandText = "UPDATE tblINTERNET_IadelerQ SET QUANTUMNO = @QUANTUMNO,FATNO = @FATNO WHERE intIadeID = @intIadeID";
@@ -106,6 +107,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 cmd.Parameters.Add("@intIadeID", SqlDbType.Int).Value = IadeID;
                 cmd.Parameters.Add("@QUANTUMNO", SqlDbType.NVarChar, 50).Value = QuantumNo;
                 cmd.Parameters.Add("@FATNO", SqlDbType.VarChar, 17).Value = Fatno;
+                cmd.Parameters.Add("@FATTAR", SqlDbType.DateTime).Value = FATTAR;
                 try
                 {
                     conn.Open();

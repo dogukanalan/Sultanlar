@@ -9,7 +9,7 @@ using Sultanlar.WebAPI.Services.Internet;
 
 namespace Sultanlar.WebAPI.Controllers.Internet
 {
-    //[Yetkili]
+    [Yetkili]
     [Produces("application/json")]
     public class StokController : Controller
     {

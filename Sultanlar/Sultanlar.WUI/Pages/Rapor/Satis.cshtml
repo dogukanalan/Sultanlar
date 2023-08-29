@@ -66,7 +66,7 @@
             },
             {
                 "data": "fatnomtb", "class": "keyTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data + '</span>';
+                    return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data + '">' + data + '</span>';
                 },
                 "name": "fatnomtb",
                 "width": "8%"
@@ -86,6 +86,13 @@
                 "width": "8%"
             },
             {
+                "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer">' + data + '</span>';
+                },
+                "name": "itemref",
+                "width": "5%"
+            },
+            {
                 "data": "malzeme", "class": "keyTd", render: function (data, type, row) {
                     return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.malacik + '">' + data.malacik + '</span>';
                 },
@@ -97,7 +104,7 @@
                     return '<span class="sinirli sinirliHeryer">' + data.kdv + '</span>';
                 },
                 "name": "kdv",
-                "width": "6%"
+                "width": "5%"
             },
             /*{
                 "data": "adett", "class": "keyTd", render: function (data, type, row) {
@@ -111,29 +118,29 @@
                     return '<span class="sinirli">' + (data.netkdvt - data.nett).toFixed(2) + '</span>';
                 },
                 "name": "kdv tutar",
-                "width": "6%"
+                "width": "5%"
             },
             {
                 "data": "kolit", "class": "floaTd", render: function (data, type, row) {
                     return '<span class="sinirli">' + data.toFixed(1) + '</span>';
                 },
                 "name": "koli",
-                "width": "6%"
+                "width": "5%"
             },
             {
                 "data": "nett", "class": "floaTd", render: function (data, type, row) {
                     return '<span class="sinirli">' + data.toFixed(2) + '</span>';
                 },
                 "name": "net",
-                "width": "6%"
-            },
+                "width": "5%"
+            }/*,
             {
                 "data": "netkdvt", "class": "floaTd", render: function (data, type, row) {
                     return '<span class="sinirli">' + data.toFixed(2) + '</span>';
                 },
                 "name": "net+kdv",
-                "width": "6%"
-            }
+                "width": "5%"
+            }*/
         ];
 
         function SaticilarGetir() {
@@ -235,6 +242,7 @@
                 "destroy": true,
                 "processing": true,
                 "serverSide": true,
+                //"scrollX": true,
                 ajax: {
                     dataSrc: "json",
                     xhr: function () { return xhrDownloadUpload(); },
@@ -416,12 +424,13 @@
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Fat.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Sube</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Mal.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Kdv O.</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Kdv T.</span></th>
             <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Koli</span></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Net</span></th>
-            <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Net+Kdv</span></th>
+            @*<th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Net+Kdv</span></th>*@
         </tr>
     </thead>
     <tfoot>

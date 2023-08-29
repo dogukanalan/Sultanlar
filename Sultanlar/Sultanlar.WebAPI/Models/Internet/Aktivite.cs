@@ -58,6 +58,7 @@ namespace Sultanlar.WebAPI.Models.Internet
         public double yegbedel { get; set; }
         public double tahciro { get; set; }
         public double yegciro { get; set; }
+        public double yegmi { get; set; }
         public List<AktiviteKaydetDetay> detaylar { get; set; }
 
         public int yil { get { return Convert.ToInt32(donem.Substring(0, 4)); } }

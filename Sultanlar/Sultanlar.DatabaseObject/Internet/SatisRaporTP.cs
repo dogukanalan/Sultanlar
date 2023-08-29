@@ -303,11 +303,20 @@ namespace Sultanlar.DatabaseObject.Internet
         }
         //
         //
-        public static void DoDelete(string BAYIKOD, short Yil, byte Ay)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="BAYIKOD"></param>
+        /// <param name="Yil"></param>
+        /// <param name="Ay"></param>
+        /// <param name="Bolum">1: YEG, 2: TAH, 3:hepsi</param>
+        public static void DoDelete(string BAYIKOD, short Yil, byte Ay, int Bolum)
         {
+            string bolum = Bolum == 1 ? " AND [REY KOD] = 'T2'" : Bolum == 2 ? " AND [REY KOD] != 'T2'" : "";
+
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM [Web-Satis-Rapor-TP] WHERE BAYIKOD=@BAYIKOD AND NOKTASATYIL=@NOKTASATYIL AND NOKTASATAY=@NOKTASATAY", conn);
+                SqlCommand cmd = new SqlCommand("DELETE [Web-Satis-Rapor-TP] FROM [Web-Satis-Rapor-TP] INNER JOIN [Web-Malzeme-Full] ON URUNKOD = ITEMREF WHERE BAYIKOD=@BAYIKOD AND NOKTASATYIL=@NOKTASATYIL AND NOKTASATAY=@NOKTASATAY" + bolum, conn);
                 cmd.Parameters.Add("@BAYIKOD", SqlDbType.VarChar, 7).Value = BAYIKOD;
                 cmd.Parameters.Add("@NOKTASATYIL", SqlDbType.SmallInt).Value = Yil;
                 cmd.Parameters.Add("@NOKTASATAY", SqlDbType.TinyInt).Value = Ay;
@@ -431,7 +440,7 @@ namespace Sultanlar.DatabaseObject.Internet
         /// <summary>
         /// GMREF = 0 ise dahil değil -1 ise sultanlar, Ay = 0 ise dahil değil, Yil = 0 ise dahil değil
         /// </summary>
-        public static void GetObjects(DataTable dt, int GMREF, byte Ay, short Yil)
+        public static void GetObjects(DataTable dt, int GMREF, byte Ay, short Yil, int Bolum)
         {
             string noktaad = string.Empty;
             string bayikod = string.Empty;
@@ -459,7 +468,9 @@ namespace Sultanlar.DatabaseObject.Internet
             if (Yil != 0)
                 yil = " NOKTASATYIL = " + Yil.ToString() + " AND";
 
-            string where = bayikod != string.Empty || ay != string.Empty || yil != string.Empty ? " WHERE" + (bayikod + ay + yil).Substring(0, (bayikod + ay + yil).Length - 4) : string.Empty;
+            string reykod = Bolum == 0 ? string.Empty : Bolum == 1 ? " [REY KOD] = 'T2' AND" : " [REY KOD] != 'T2' AND";
+
+            string where = bayikod != string.Empty || ay != string.Empty || yil != string.Empty || reykod != string.Empty ? " WHERE" + (bayikod + ay + yil + reykod).Substring(0, (bayikod + ay + yil + reykod).Length - 4) : string.Empty;
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
@@ -819,8 +830,14 @@ namespace Sultanlar.DatabaseObject.Internet
         }
 
 
-
-        public static void Hesapla(DataTable dt, int Kactan, int KacaKadar)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="Kactan"></param>
+        /// <param name="KacaKadar"></param>
+        /// <param name="YEG">1: YEG, 2: TAH, 0: hepsi</param>
+        public static void Hesapla(DataTable dt, int Kactan, int KacaKadar, int YEG)
         {
             string olmayanurunler = string.Empty;
             string fiyatiolmayanurunler = string.Empty;
@@ -838,84 +855,59 @@ namespace Sultanlar.DatabaseObject.Internet
                 double isk4 = 0;
 
                 object objTAH = null;
-                string grupkod = Urunler.GetProductGRPKOD(dt.Rows[i]["URUNKOD"].ToString());
+                int UrunID = Convert.ToInt32(dt.Rows[i]["URUNKOD"].ToString());
+
+                string grupkod = Urunler.GetProductGRPKOD(UrunID.ToString());
+                string reykod = Urunler.GetProductReyKod(UrunID);
                 if (grupkod == "STG-1")
                     objTAH = true;
                 else if (grupkod == "STG-2")
                     objTAH = false;
                 else if (grupkod == string.Empty)
-                    olmayanurunler += "(" + dt.Rows[i]["URUNKOD"].ToString() + ") " + dt.Rows[i]["URUNAD"].ToString() + "\r\n";
+                    olmayanurunler += "(" + UrunID.ToString() + ") " + dt.Rows[i]["URUNAD"].ToString() + "\r\n";
 
                 int noktasatyil = Convert.ToInt32(dt.Rows[i]["NOKTASATYIL"]);
                 int noktasatay = Convert.ToInt32(dt.Rows[i]["NOKTASATAY"]);
                 int noktasatgun = Convert.ToDateTime(dt.Rows[i]["NOKTAEVREKTARIH"]).Day;
                 DateTime noktaevraktarih = Convert.ToDateTime(dt.Rows[i]["NOKTAEVREKTARIH"]);
 
-                if (objTAH != null) // ürünün bizde karşılığı varsa
+                bool otobayi = false;
+                DataTable dtOtoBayiler = new DataTable();
+                WebGenel.Sorgu(dtOtoBayiler, "SELECT [BAYIKOD] FROM [Web-Musteri-TP-Bayikodlar] WHERE TAMOTO = 1");
+                for (int j = 0; j < dtOtoBayiler.Rows.Count; j++)
                 {
-                    bool TAH = Convert.ToBoolean(objTAH);
-                    bool karTAH = Urunler.GetProductReyKod(Convert.ToInt32(dt.Rows[i]["URUNKOD"])) == "T2" ? false : true;
-
-                    int UrunID = Convert.ToInt32(dt.Rows[i]["URUNKOD"].ToString());
-
-                    kar = karTAH ? CariHesaplarTPEk2.GetObject(Convert.ToInt32(dt.Rows[i]["GMREF"]), noktasatyil, noktasatay).TAH_KAR : CariHesaplarTPEk2.GetObject(Convert.ToInt32(dt.Rows[i]["GMREF"]), noktasatyil, noktasatay).YEG_KAR;
-
-                    int SMREF = dt.Rows[i]["NOKTAREF"].ToString() != string.Empty ? Convert.ToInt32(dt.Rows[i]["NOKTAREF"]) : 0;
-                    if (SMREF == 0)
-                        SMREF = dt.Rows[i]["NOKTAKOD"].ToString() != string.Empty ?
-                            CariHesaplarTP.GetSMREFByMUSKOD(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAKOD"].ToString())
-                            : CariHesaplarTP.GetSMREFBySUBE(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAAD"].ToString().ToUpper());
-
-                    long aktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(
-                        SMREF,
-                        dt.Rows[i]["URUNKOD"].ToString(),
-                        noktaevraktarih,
-                        25);
-                    int anlasmaid = Anlasmalar.GetSonAnlasmaID(SMREF, noktaevraktarih, "1");
-
-                    if (aktivitedetayid > 0)
+                    if (dtOtoBayiler.Rows[j]["BAYIKOD"].ToString() == dt.Rows[i]["GMREF"].ToString())
                     {
-                        if (aktivitedetayid > 1000000000) // geriye dönük ise +1000000000
-                        {
-                            dt.Rows[i]["blGeriyeDonuk"] = true;
-                            aktivitedetayid = aktivitedetayid - 1000000000;
-                        }
-
-                        AktivitelerDetay aktlerdet = AktivitelerDetay.GetObject(aktivitedetayid);
-                        isk1 = Convert.ToDouble(aktlerdet.strAciklama1);
-                        isk2 = Convert.ToDouble(aktlerdet.strAciklama2);
-                        isk3 = Convert.ToDouble(aktlerdet.strAciklama3);
-                        isk4 = aktlerdet.flEkIsk;
-
-                        dt.Rows[i]["intAnlasmaID"] = Aktiviteler.GetObject(aktlerdet.intAktiviteID).intAnlasmaID;
-                        dt.Rows[i]["intAktiviteID"] = aktlerdet.intAktiviteID;
+                        otobayi = true;
+                        isk1 = Convert.ToDouble(dt.Rows[i]["flIsk1"]);
+                        isk2 = Convert.ToDouble(dt.Rows[i]["flIsk2"]);
+                        isk3 = Convert.ToDouble(dt.Rows[i]["flIsk3"]);
+                        isk4 = Convert.ToDouble(dt.Rows[i]["flIsk4"]);
+                        break;
                     }
-                    else if (anlasmaid > 0) // aktivitesiz anlaşmalı ise
+                }
+
+                if (otobayi == false)
+                {
+                    bool TAH = objTAH != null ? Convert.ToBoolean(objTAH) : false;
+                    if (objTAH != null && ((reykod == "T2" && YEG == 1) || (reykod != "T2" && YEG == 2) || YEG == 0)) // ürünün bizde karşılığı varsa, ve yeg mi aht mi hesaplamasi yapılıyorsa
                     {
-                        Anlasmalar anlasma = Anlasmalar.GetObject(anlasmaid);
-                        isk1 = TAH ? anlasma.flTAHIsk : anlasma.flYEGIsk;
-                        isk2 = TAH ? anlasma.flTAHCiroIsk : anlasma.flYEGCiroIsk;
-                        isk3 = Convert.ToDouble(
-                                FiyatlarTP.GetIskFiyat(UrunID, 3, 25,
-                                noktasatyil,
-                                noktasatay,
-                                noktasatgun));
+                        bool karTAH = Urunler.GetProductReyKod(UrunID) == "T2" ? false : true;
 
-                        dt.Rows[i]["intAnlasmaID"] = anlasma.pkID;
-                        dt.Rows[i]["intAktiviteID"] = 0;
+                        kar = karTAH ? CariHesaplarTPEk2.GetObject(Convert.ToInt32(dt.Rows[i]["GMREF"]), noktasatyil, noktasatay).TAH_KAR : CariHesaplarTPEk2.GetObject(Convert.ToInt32(dt.Rows[i]["GMREF"]), noktasatyil, noktasatay).YEG_KAR;
 
-                        if (isk1 == 0 && isk2 == 0) anlasmaid = 0; // anlaşma sadece tah veya sadece yeg ise diğerini kapsamasın, alttaki genel anlaşmasıza düşsün
-                        if (anlasma.flTAHIsk == 0 && anlasma.flYEGIsk == 0) anlasmaid = anlasma.pkID; // tah ve yeg yoksa anlaşma tah yada yeg için geçerlidir o yüzden genel anlaşmasıza düşmesin
-                    }
+                        int SMREF = dt.Rows[i]["NOKTAREF"].ToString() != string.Empty ? Convert.ToInt32(dt.Rows[i]["NOKTAREF"]) : 0;
+                        if (SMREF == 0)
+                            SMREF = dt.Rows[i]["NOKTAKOD"].ToString() != string.Empty ?
+                                CariHesaplarTP.GetSMREFByMUSKOD(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAKOD"].ToString())
+                                : CariHesaplarTP.GetSMREFBySUBE(Convert.ToInt32(dt.Rows[i]["GMREF"]), dt.Rows[i]["NOKTAAD"].ToString().ToUpper());
 
-                    if (aktivitedetayid == 0 && anlasmaid == 0) // genel anlaşmasız aktivite
-                    {
-                        int GMREF = Convert.ToInt32(dt.Rows[i]["GMREF"]);
-
-                        aktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(GMREF,
-                            dt.Rows[i]["URUNKOD"].ToString(),
+                        long aktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(
+                            SMREF,
+                            UrunID.ToString(),
                             noktaevraktarih,
                             25);
+                        int anlasmaid = Anlasmalar.GetSonAnlasmaID(SMREF, noktaevraktarih, "1");
 
                         if (aktivitedetayid > 0)
                         {
@@ -934,166 +926,217 @@ namespace Sultanlar.DatabaseObject.Internet
                             dt.Rows[i]["intAnlasmaID"] = Aktiviteler.GetObject(aktlerdet.intAktiviteID).intAnlasmaID;
                             dt.Rows[i]["intAktiviteID"] = aktlerdet.intAktiviteID;
                         }
-                        else // standart uygulama
+                        else if (anlasmaid > 0) // aktivitesiz anlaşmalı ise
                         {
-                            CariHesaplarTP cari = CariHesaplarTP.GetObject(SMREF, false);
-                            int tur = cari.MTKOD == "B1" ? 2 : 1;
-
-                            bool otoiskonto = true;
-                            DataTable dtHaricBayiler = new DataTable();
-                            WebGenel.Sorgu(dtHaricBayiler, "SELECT BAYIKOD FROM [Web-Fiyat-Aktivite-Kontrol-Haric]");
-                            for (int j = 0; j < dtHaricBayiler.Rows.Count; j++)
-                            {
-                                if (dtHaricBayiler.Rows[j]["BAYIKOD"].ToString() == dt.Rows[i]["GMREF"].ToString())
-                                {
-                                    otoiskonto = false;
-                                    break;
-                                }
-                            }
-
-                            if (otoiskonto)
-                            {
-                                DataTable dtS = WebGenel.WCFdata("SELECT TOP 1 ISK1 FROM [Web-Fiyat-TP-Donem] WHERE TUR = @TUR AND ITEMREF = @ITEMREF AND BASLANGIC <= @FATURA AND BITIS >= @FATURA ORDER BY BASLANGIC DESC",
-                                    new ArrayList() { "TUR", "ITEMREF", "FATURA" }, new SqlDbType[] { SqlDbType.Int, SqlDbType.Int, SqlDbType.DateTime }, new ArrayList() { tur, UrunID, noktaevraktarih }, "");
-                                isk4 = dtS.Rows.Count > 0 ? Convert.ToDouble(dtS.Rows[0][0]) : 0;
-                            }
-
-
-                            CariHesaplarTPEk2 chtpek = CariHesaplarTPEk2.GetObject(GMREF, noktasatyil, noktasatay);
-                            isk1 = TAH ? chtpek.TAH_ISK : chtpek.YEG_ISK;
-                            isk2 = 0;
+                            Anlasmalar anlasma = Anlasmalar.GetObject(anlasmaid);
+                            isk1 = TAH ? anlasma.flTAHIsk : anlasma.flYEGIsk;
+                            isk2 = TAH ? anlasma.flTAHCiroIsk : anlasma.flYEGCiroIsk;
                             isk3 = Convert.ToDouble(
-                                FiyatlarTP.GetIskFiyat(UrunID, 3, 25,
-                                noktasatyil,
-                                noktasatay,
-                                noktasatgun));
+                                    FiyatlarTP.GetIskFiyat(UrunID, 3, 25,
+                                    noktasatyil,
+                                    noktasatay,
+                                    noktasatgun));
 
-                            dt.Rows[i]["intAnlasmaID"] = 0;
+                            dt.Rows[i]["intAnlasmaID"] = anlasma.pkID;
                             dt.Rows[i]["intAktiviteID"] = 0;
+
+                            if (isk1 == 0 && isk2 == 0) anlasmaid = 0; // anlaşma sadece tah veya sadece yeg ise diğerini kapsamasın, alttaki genel anlaşmasıza düşsün
+                            if (anlasma.flTAHIsk == 0 && anlasma.flYEGIsk == 0) anlasmaid = anlasma.pkID; // tah ve yeg yoksa anlaşma tah yada yeg için geçerlidir o yüzden genel anlaşmasıza düşmesin
                         }
-                    }
 
-                    dt.Rows[i]["flIsk1"] = isk1;
-                    dt.Rows[i]["flIsk2"] = isk2;
-                    dt.Rows[i]["flIsk3"] = isk3;
-                    dt.Rows[i]["flIsk4"] = isk4;
+                        if (aktivitedetayid == 0 && anlasmaid == 0) // genel anlaşmasız aktivite
+                        {
+                            int GMREF = Convert.ToInt32(dt.Rows[i]["GMREF"]);
+
+                            aktivitedetayid = AktivitelerDetay.GetTarihAraligiAktivitelerDetayID(GMREF,
+                                UrunID.ToString(),
+                                noktaevraktarih,
+                                25);
+
+                            if (aktivitedetayid > 0)
+                            {
+                                if (aktivitedetayid > 1000000000) // geriye dönük ise +1000000000
+                                {
+                                    dt.Rows[i]["blGeriyeDonuk"] = true;
+                                    aktivitedetayid = aktivitedetayid - 1000000000;
+                                }
+
+                                AktivitelerDetay aktlerdet = AktivitelerDetay.GetObject(aktivitedetayid);
+                                isk1 = Convert.ToDouble(aktlerdet.strAciklama1);
+                                isk2 = Convert.ToDouble(aktlerdet.strAciklama2);
+                                isk3 = Convert.ToDouble(aktlerdet.strAciklama3);
+                                isk4 = aktlerdet.flEkIsk;
+
+                                dt.Rows[i]["intAnlasmaID"] = Aktiviteler.GetObject(aktlerdet.intAktiviteID).intAnlasmaID;
+                                dt.Rows[i]["intAktiviteID"] = aktlerdet.intAktiviteID;
+                            }
+                            else // standart uygulama
+                            {
+                                CariHesaplarTP cari = CariHesaplarTP.GetObject(SMREF, false);
+                                int tur = cari.MTKOD == "B1" ? 2 : 1;
+
+                                bool otoiskonto = true;
+                                DataTable dtHaricBayiler = new DataTable();
+                                WebGenel.Sorgu(dtHaricBayiler, "SELECT BAYIKOD FROM [Web-Fiyat-Aktivite-Kontrol-Haric]");
+                                for (int j = 0; j < dtHaricBayiler.Rows.Count; j++)
+                                {
+                                    if (dtHaricBayiler.Rows[j]["BAYIKOD"].ToString() == dt.Rows[i]["GMREF"].ToString())
+                                    {
+                                        otoiskonto = false;
+                                        break;
+                                    }
+                                }
+
+                                if (otoiskonto)
+                                {
+                                    DataTable dtS = WebGenel.WCFdata("SELECT TOP 1 ISK1 FROM [Web-Fiyat-TP-Donem] WHERE TUR = @TUR AND ITEMREF = @ITEMREF AND BASLANGIC <= @FATURA AND BITIS >= @FATURA ORDER BY BASLANGIC DESC",
+                                        new ArrayList() { "TUR", "ITEMREF", "FATURA" }, new SqlDbType[] { SqlDbType.Int, SqlDbType.Int, SqlDbType.DateTime }, new ArrayList() { tur, UrunID, noktaevraktarih }, "");
+                                    isk4 = dtS.Rows.Count > 0 ? Convert.ToDouble(dtS.Rows[0][0]) : 0;
+                                }
+
+
+                                CariHesaplarTPEk2 chtpek = CariHesaplarTPEk2.GetObject(GMREF, noktasatyil, noktasatay);
+                                isk1 = TAH ? chtpek.TAH_ISK : chtpek.YEG_ISK;
+                                isk2 = 0;
+                                isk3 = Convert.ToDouble(
+                                    FiyatlarTP.GetIskFiyat(UrunID, 3, 25,
+                                    noktasatyil,
+                                    noktasatay,
+                                    noktasatgun));
+
+                                dt.Rows[i]["intAnlasmaID"] = 0;
+                                dt.Rows[i]["intAktiviteID"] = 0;
+                            }
+                        }
 
 
 
-                    // bayinin alımı
-                    double listefiyat = Convert.ToDouble(FiyatlarTP.GetNetFiyat(
-                        UrunID,
-                        (short)22,
-                        noktasatyil,
-                        noktasatay,
-                        noktasatgun));
-                    if (listefiyat == 0.0)
-                    {
-                        listefiyat = Convert.ToDouble(Urunler.GetProductNetFiyatFULL(
-                            UrunID,
-                            (short)22
-                            ));
-                    }
+                        dt.Rows[i]["flIsk1"] = isk1;
+                        dt.Rows[i]["flIsk2"] = isk2;
+                        dt.Rows[i]["flIsk3"] = isk3;
+                        dt.Rows[i]["flIsk4"] = isk4;
 
 
 
-                    // brüt fiyat, aktivitenin hesaplanacagi fiyat
-                    double listefiyat1 = 0.0;
-                    if (listefiyat1 == 0.0)
-                    {
-                        listefiyat1 = Convert.ToDouble(FiyatlarTP.GetFiyat(
+                        // bayinin alımı
+                        double listefiyat = Convert.ToDouble(FiyatlarTP.GetNetFiyat(
                             UrunID,
                             (short)22,
                             noktasatyil,
                             noktasatay,
                             noktasatgun));
-                    }
-                    /*else */
-                    if (listefiyat1 == 0.0) // dönem fiyatı yoksa şimdiki fiyatı al
-                    {
-                        listefiyat1 = Convert.ToDouble(Urunler.GetProductDiscountsAndPriceFULL(
-                            UrunID,
-                            (short)22
-                            )[4]);
-                    }
-
-                    if (listefiyat == 0 || listefiyat1 == 0)
-                    {
-                        fiyatiolmayanurunler += "(" + dt.Rows[i]["URUNKOD"].ToString() + ") " + dt.Rows[i]["URUNAD"].ToString() + "\r\n";
-                        hesaplanamayansatirlar.Add(i);
-                    }
-
-                    double karlifiyat = listefiyat * ((100 + kar) / 100);
-
-                    double bayifiyat = Convert.ToDouble(dt.Rows[i]["NOKTASATNET"]);
-
-                    int bayiadet = Convert.ToInt32(dt.Rows[i]["NOKTASATADET"]);
-
-                    double olmasigereken = listefiyat1 - ((listefiyat1 / 100) * isk1);
-                    olmasigereken = olmasigereken - ((olmasigereken / 100) * isk2);
-                    olmasigereken = olmasigereken - ((olmasigereken / 100) * isk3);
-                    olmasigereken = olmasigereken - ((olmasigereken / 100) * isk4);
-
-                    dt.Rows[i]["mnListeFiyat"] = listefiyat;
-                    dt.Rows[i]["mnListeFiyatT"] = listefiyat * bayiadet;
-                    dt.Rows[i]["mnListeFiyatKarli"] = karlifiyat;
-                    dt.Rows[i]["mnListeFiyatKarliT"] = karlifiyat * bayiadet;
-
-                    dt.Rows[i]["mnNetBirimFiyat"] = olmasigereken;
-                    dt.Rows[i]["mnNetToplam"] = olmasigereken * bayiadet;
-
-                    if (UrunID > 0 && listefiyat != 0.0 && listefiyat1 != 0.0)
-                    {
-                        if (bayifiyat >= olmasigereken)
+                        if (listefiyat == 0.0)
                         {
-                            dt.Rows[i]["mnBirimFark"] = bayifiyat - karlifiyat; //olmasigereken - bayifiyat
-                            dt.Rows[i]["mnToplamFark"] = (bayifiyat - karlifiyat) * bayiadet; //(olmasigereken - bayifiyat) * bayiadet
+                            listefiyat = Convert.ToDouble(Urunler.GetProductNetFiyatFULL(
+                                UrunID,
+                                (short)22
+                                ));
                         }
-                        else if (bayifiyat < olmasigereken)
+
+
+
+                        // brüt fiyat, aktivitenin hesaplanacagi fiyat
+                        double listefiyat1 = 0.0;
+                        if (listefiyat1 == 0.0)
                         {
-                            dt.Rows[i]["mnBirimFark"] = olmasigereken - karlifiyat; //karlifiyat - olmasigereken
-                            dt.Rows[i]["mnToplamFark"] = (olmasigereken - karlifiyat) * bayiadet;
+                            listefiyat1 = Convert.ToDouble(FiyatlarTP.GetFiyat(
+                                UrunID,
+                                (short)22,
+                                noktasatyil,
+                                noktasatay,
+                                noktasatgun));
                         }
+                        /*else */
+                        if (listefiyat1 == 0.0) // dönem fiyatı yoksa şimdiki fiyatı al
+                        {
+                            listefiyat1 = Convert.ToDouble(Urunler.GetProductDiscountsAndPriceFULL(
+                                UrunID,
+                                (short)22
+                                )[4]);
+                        }
+
+                        if (listefiyat == 0 || listefiyat1 == 0)
+                        {
+                            fiyatiolmayanurunler += "(" + UrunID.ToString() + ") " + dt.Rows[i]["URUNAD"].ToString() + "\r\n";
+                            hesaplanamayansatirlar.Add(i);
+                        }
+
+                        double karlifiyat = listefiyat * ((100 + kar) / 100);
+
+                        double bayifiyat = Convert.ToDouble(dt.Rows[i]["NOKTASATNET"]);
+
+                        int bayiadet = Convert.ToInt32(dt.Rows[i]["NOKTASATADET"]);
+
+                        double olmasigereken = listefiyat1 - ((listefiyat1 / 100) * isk1);
+                        olmasigereken = olmasigereken - ((olmasigereken / 100) * isk2);
+                        olmasigereken = olmasigereken - ((olmasigereken / 100) * isk3);
+                        olmasigereken = olmasigereken - ((olmasigereken / 100) * isk4);
+
+                        dt.Rows[i]["mnListeFiyat"] = listefiyat;
+                        dt.Rows[i]["mnListeFiyatT"] = listefiyat * bayiadet;
+                        dt.Rows[i]["mnListeFiyatKarli"] = karlifiyat;
+                        dt.Rows[i]["mnListeFiyatKarliT"] = karlifiyat * bayiadet;
+
+                        dt.Rows[i]["mnNetBirimFiyat"] = olmasigereken;
+                        dt.Rows[i]["mnNetToplam"] = olmasigereken * bayiadet;
+
+                        if (UrunID > 0 && listefiyat != 0.0 && listefiyat1 != 0.0)
+                        {
+                            if (bayifiyat >= olmasigereken)
+                            {
+                                dt.Rows[i]["mnBirimFark"] = bayifiyat - karlifiyat; //olmasigereken - bayifiyat
+                                dt.Rows[i]["mnToplamFark"] = (bayifiyat - karlifiyat) * bayiadet; //(olmasigereken - bayifiyat) * bayiadet
+                            }
+                            else if (bayifiyat < olmasigereken)
+                            {
+                                dt.Rows[i]["mnBirimFark"] = olmasigereken - karlifiyat; //karlifiyat - olmasigereken
+                                dt.Rows[i]["mnToplamFark"] = (olmasigereken - karlifiyat) * bayiadet;
+                            }
+                        }
+                        else
+                        {
+                            dt.Rows[i]["mnBirimFark"] = 0;
+                            dt.Rows[i]["mnToplamFark"] = 0;
+                        }
+
+                        decimal tahtoplam = TAH ? Convert.ToDecimal(dt.Rows[i]["mnToplamFark"]) : 0;
+                        decimal yegtoplam = TAH ? 0 : Convert.ToDecimal(dt.Rows[i]["mnToplamFark"]);
+
+                        ToplamTAH += tahtoplam;
+                        ToplamYEG += yegtoplam;
+
+                        dt.Rows[i]["TAHmnToplamFark"] = tahtoplam;
+                        dt.Rows[i]["YEGmnToplamFark"] = yegtoplam;
                     }
-                    else
-                    {
-                        dt.Rows[i]["mnBirimFark"] = 0;
-                        dt.Rows[i]["mnToplamFark"] = 0;
-                    }
-
-                    decimal tahtoplam = TAH ? Convert.ToDecimal(dt.Rows[i]["mnToplamFark"]) : 0;
-                    decimal yegtoplam = TAH ? 0 : Convert.ToDecimal(dt.Rows[i]["mnToplamFark"]);
-
-                    ToplamTAH += tahtoplam;
-                    ToplamYEG += yegtoplam;
-
-                    dt.Rows[i]["TAHmnToplamFark"] = tahtoplam;
-                    dt.Rows[i]["YEGmnToplamFark"] = yegtoplam;
                 }
             }
         }
 
-        public static void Kaydet(DataTable dt, int Kactan, int KacaKadar)
+        public static void Kaydet(DataTable dt, int Kactan, int KacaKadar, int YEG)
         {
             for (int i = Kactan; i < KacaKadar; i++)
             {
                 SatisRaporTP satisrapor = SatisRaporTP.GetObject(Convert.ToInt64(dt.Rows[i]["REF"]));
-                satisrapor.intAnlasmaID = Convert.ToInt32(dt.Rows[i]["intAnlasmaID"]);
-                satisrapor.intAktiviteID = Convert.ToInt32(dt.Rows[i]["intAktiviteID"]);
-                satisrapor.flIsk1 = Convert.ToDouble(dt.Rows[i]["flIsk1"]);
-                satisrapor.flIsk2 = Convert.ToDouble(dt.Rows[i]["flIsk2"]);
-                satisrapor.flIsk3 = Convert.ToDouble(dt.Rows[i]["flIsk3"]);
-                satisrapor.flIsk4 = Convert.ToDouble(dt.Rows[i]["flIsk4"]);
-                satisrapor.mnListeFiyat = Convert.ToDecimal(dt.Rows[i]["mnListeFiyat"]);
-                satisrapor.mnListeFiyatKarli = Convert.ToDecimal(dt.Rows[i]["mnListeFiyatKarli"]);
-                satisrapor.mnNetBirimFiyat = Convert.ToDecimal(dt.Rows[i]["mnNetBirimFiyat"]);
-                satisrapor.mnNetToplam = Convert.ToDecimal(dt.Rows[i]["mnNetToplam"]);
-                satisrapor.mnBirimFark = Convert.ToDecimal(dt.Rows[i]["mnBirimFark"]);
-                satisrapor.mnToplamFark = Convert.ToDecimal(dt.Rows[i]["mnToplamFark"]);
-                satisrapor.blGeriyeDonuk = Convert.ToBoolean(dt.Rows[i]["blGeriyeDonuk"]);
-                satisrapor.mnFaturadanKapatilan = Convert.ToDecimal(dt.Rows[i]["mnFaturadanKapatilan"]);
-                satisrapor.intFaturaID = Convert.ToInt32(dt.Rows[i]["intFaturaID"]);
-                satisrapor.DoUpdate();
+                string bolum = Urunler.GetProductReyKod(Convert.ToInt32(satisrapor.URUNKOD));
+                if ((YEG == 1 && bolum == "T2") || (YEG == 2 && bolum != "T2") || (YEG == 0))
+                {
+                    satisrapor.intAnlasmaID = Convert.ToInt32(dt.Rows[i]["intAnlasmaID"]);
+                    satisrapor.intAktiviteID = Convert.ToInt32(dt.Rows[i]["intAktiviteID"]);
+                    satisrapor.flIsk1 = Convert.ToDouble(dt.Rows[i]["flIsk1"]);
+                    satisrapor.flIsk2 = Convert.ToDouble(dt.Rows[i]["flIsk2"]);
+                    satisrapor.flIsk3 = Convert.ToDouble(dt.Rows[i]["flIsk3"]);
+                    satisrapor.flIsk4 = Convert.ToDouble(dt.Rows[i]["flIsk4"]);
+                    satisrapor.mnListeFiyat = Convert.ToDecimal(dt.Rows[i]["mnListeFiyat"]);
+                    satisrapor.mnListeFiyatKarli = Convert.ToDecimal(dt.Rows[i]["mnListeFiyatKarli"]);
+                    satisrapor.mnNetBirimFiyat = Convert.ToDecimal(dt.Rows[i]["mnNetBirimFiyat"]);
+                    satisrapor.mnNetToplam = Convert.ToDecimal(dt.Rows[i]["mnNetToplam"]);
+                    satisrapor.mnBirimFark = Convert.ToDecimal(dt.Rows[i]["mnBirimFark"]);
+                    satisrapor.mnToplamFark = Convert.ToDecimal(dt.Rows[i]["mnToplamFark"]);
+                    satisrapor.blGeriyeDonuk = Convert.ToBoolean(dt.Rows[i]["blGeriyeDonuk"]);
+                    satisrapor.mnFaturadanKapatilan = Convert.ToDecimal(dt.Rows[i]["mnFaturadanKapatilan"]);
+                    satisrapor.intFaturaID = Convert.ToInt32(dt.Rows[i]["intFaturaID"]);
+                    satisrapor.DoUpdate();
+                }
             }
         }
     }

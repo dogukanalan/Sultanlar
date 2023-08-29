@@ -41,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bayi\Bimat.cs" />
+    <Compile Include="Bayi\Defaults.cs" />
+    <Compile Include="Bayi\Dia.cs" />
+    <Compile Include="Bayi\Kural.cs" />
+    <Compile Include="Bayi\Logo.cs" />
     <Compile Include="Dashboard\BayiSatisHedef.cs" />
     <Compile Include="Dashboard\BolumYillik.cs" />
     <Compile Include="Dashboard\SatisHedefBolge.cs" />

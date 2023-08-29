@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Sultanlar.DbObj.Internet;
+using Sultanlar.WebAPI.Models.Internet;
+using Sultanlar.WebAPI.Services.Internet;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -10,6 +14,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Sultanlar.WebAPI.Controllers.Internet
 {
@@ -202,6 +207,13 @@ namespace Sultanlar.WebAPI.Controllers.Internet
             return Ok(xdoc);
         }
 
+        [HttpGet("json")]
+        public IActionResult Deneme()
+        {
+            return Ok(new GenelController().WcfGetToJSON("http://www.ittihadteknoloji.com.tr/wcf/general.svc/web/json/View/Get?sifre=rapor2020&name=vw_Web-Satis-Rapor-TP-Excele&paramn=B%C3%96LGE;YIL&paramv=EGE%20B%C3%96LGE;2023"));
+            //return Ok(GetData("json", "fatura", apikey, baslangic, bitis));
+        }
+
         /*
         [HttpGet("{type}/{apikey}/{baslangic}/{bitis}")]
         public IActionResult Siparis(string apikey, string type, string baslangic, string bitis)
@@ -239,5 +251,88 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
             return "";
         }*/
+
+        [HttpGet("{apikey}/{muskod}/{malkod}")]
+        public IActionResult JsonFiyatIskonto(string apikey, string muskod, string malkod)
+        {
+            cariHesaplarBayikodlar chb = new cariHesaplarBayikodlar().GetObject(apikey);
+            cariHesaplar ch = new cariHesaplar().GetObjectTPByMusKod(chb.GMREF, muskod);
+
+            hareket(apikey, "JsonFiyatIskonto", "muskod:" + muskod, "malkod:" + malkod, "", "", "", HttpContext.Request.HttpContext.Connection.RemoteIpAddress.ToString());
+
+            return Ok(new SiparisProvider().IsksTP(ch.SMREF, 4, Convert.ToInt32(malkod), DateTime.Now));
+        }
+
+        [Produces("application/xml")]
+        [HttpGet("{apikey}/{muskod}/{malkod}")]
+        public IActionResult XmlFiyatIskonto(string apikey, string muskod, string malkod)
+        {
+            cariHesaplarBayikodlar chb = new cariHesaplarBayikodlar().GetObject(apikey);
+            cariHesaplar ch = new cariHesaplar().GetObjectTPByMusKod(chb.GMREF, muskod);
+            SiparisIsks isks = new SiparisProvider().IsksTP(ch.SMREF, 4, Convert.ToInt32(malkod), DateTime.Now);
+
+            XmlDocument xdoc = new XmlDocument();
+            XDocument doc = new XDocument(new XElement("kosullar",
+                                               new XElement("fiyat", isks.fiyat.ToString("N2")),
+                                               new XElement("isk1", isks.isk1.ToString("N2")),
+                                               new XElement("isk2", isks.isk2.ToString("N2")),
+                                               new XElement("isk3", isks.isk3.ToString("N2")),
+                                               new XElement("isk4", isks.isk4.ToString("N2"))));
+
+
+            xdoc.LoadXml(doc.ToString());
+
+            hareket(apikey, "XmlFiyatIskonto", "muskod:" + muskod, "malkod:" + malkod, "", "", "", HttpContext.Request.HttpContext.Connection.RemoteIpAddress.ToString());
+
+            return Ok(xdoc);
+        }
+
+        [Produces("application/xml")]
+        [HttpGet("{apikey}")]
+        public IActionResult xmlDonemStandart(string apikey)
+        {
+            XmlDocument xdoc = new XmlDocument();
+            cariHesaplarBayikodlar chb = new cariHesaplarBayikodlar().GetObject(apikey);
+            if (chb.GMREF != 0)
+            {
+                DataTable dt = aktiviteler.getCustomData("sp_z_TpBayiDonemFiyatIsk", new ArrayList(), new SqlDbType[] { }, new ArrayList(), "Malzeme");
+                DataSet ds = new DataSet("Standartlar");
+                ds.Tables.Add(dt);
+
+                xdoc.LoadXml(ds.GetXml());
+            }
+
+            hareket(apikey, "xmlDonemStandart", "", "", "", "", "", HttpContext.Request.HttpContext.Connection.RemoteIpAddress.ToString());
+
+            return Ok(xdoc);
+        }
+
+        [Produces("application/xml")]
+        [HttpGet("{apikey}")]
+        public IActionResult xmlDonemKampanya(string apikey)
+        {
+            XmlDocument xdoc = new XmlDocument();
+            cariHesaplarBayikodlar chb = new cariHesaplarBayikodlar().GetObject(apikey);
+            if (chb.GMREF != 0)
+            {
+                DataTable dt = aktiviteler.getCustomData("sp_z_TpBayiDonemFiyatIsk2", new ArrayList() { "API" }, new SqlDbType[] { SqlDbType.NVarChar }, new ArrayList() { apikey }, "Musteri");
+                DataSet ds = new DataSet("Kampanyalar");
+                ds.Tables.Add(dt);
+
+                xdoc.LoadXml(ds.GetXml());
+            }
+
+            hareket(apikey, "xmlDonemKampanya", "", "", "", "", "", HttpContext.Request.HttpContext.Connection.RemoteIpAddress.ToString());
+
+            return Ok(xdoc);
+        }
+
+        private void hareket(string api, string servis, string param1, string param2, string param3, string param4, string aciklama, string ipadres)
+        {
+            aktiviteler.ExecNQ("sp_TP_BayiServisLogEkle",
+                new ArrayList() { "API", "TARIH", "SERVIS", "PARAMETRE1", "PARAMETRE2", "PARAMETRE3", "PARAMETRE4", "ACIKLAMA", "IPADRES", "ID" },
+                new SqlDbType[] { SqlDbType.NVarChar, SqlDbType.DateTime, SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.NVarChar, SqlDbType.Int },
+                new ArrayList() { api, DateTime.Now, servis, param1, param2, param3, param4, aciklama, ipadres, 0 });
+        }
     }
 }

@@ -38,6 +38,7 @@
         var excelcikar;
         var yazdir;
         var table;
+        var onayli;
 
         var kolonlar = [
             {
@@ -135,6 +136,13 @@
                 //document.getElementById("aciklama3").innerHTML = json.strAciklama3;
                 document.getElementById("baslangic").innerHTML = json.dtAktiviteBaslangic.substring(0, 10);
                 document.getElementById("bitis").innerHTML = json.dtAktiviteBitis.substring(0, 10);
+                onayli = json.blAktarilmis == null ? undefined : json.blAktarilmis;
+                if (json.mnAktiviteKarZarar == "0") {
+                    $("#optionAhtYeg1").attr("checked", "checked");
+                }
+                else if (json.mnAktiviteKarZarar == "1") {
+                    $("#optionAhtYeg2").attr("checked", "checked");
+                }
             }).DataTable({
                 //"responsive": true,
                 "scrollX": true,
@@ -187,7 +195,7 @@
                             doc.content.splice(1, 0, {
                                 margin: [0, 0, 0, 12],
                                 alignment: 'center',
-                                text: document.getElementById("aktMus").innerHTML + ' (' + getParameterByName('aktiviteid') + ')   ' + document.getElementById("baslangic").innerHTML + ' : ' + document.getElementById("bitis").innerHTML
+                                text: '[' + (onayli == true ? 'Onaylı' : onayli == false ? 'Kaydedilmiş' : 'Talep edilmiş') + '] ' + document.getElementById("aktMus").innerHTML + ' (' + getParameterByName('aktiviteid') + ')   ' + document.getElementById("baslangic").innerHTML + ' : ' + document.getElementById("bitis").innerHTML
                             });
                         }
                     },
@@ -213,7 +221,7 @@
                         },
                         customize: function (xlsx) {
                             var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                            $('c[r=A1] t', sheet).text(document.getElementById("aktMus").innerHTML + ' (' + getParameterByName('aktiviteid') + ')   ' + document.getElementById("baslangic").innerHTML + ' : ' + document.getElementById("bitis").innerHTML);
+                            $('c[r=A1] t', sheet).text('[' + (onayli == true ? 'Onaylı' : onayli == false ? 'Kaydedilmiş' : 'Talep edilmiş') + '] ' + document.getElementById("aktMus").innerHTML + ' (' + getParameterByName('aktiviteid') + ')   ' + document.getElementById("baslangic").innerHTML + ' : ' + document.getElementById("bitis").innerHTML);
                         }
                     }
                 ],
@@ -300,3 +308,11 @@
         </tr>
     </tfoot>
 </table>
+<div id="divAhtYeg" class="btn-group" style="padding-left: 5px; padding-bottom: 3px">
+    <label class="btn btn-default">
+        <input type="radio" name="optionsAhtYeg" id="optionAhtYeg1" value="0" autocomplete="off" disabled> KGT Aktivitesi (ARI HAYAT TİBET)
+    </label>
+    <label class="btn btn-default">
+        <input type="radio" name="optionsAhtYeg" id="optionAhtYeg2" value="1" autocomplete="off" disabled> Non-Food Aktivitesi (YEG)
+    </label>
+</div>

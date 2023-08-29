@@ -32,6 +32,7 @@
         var yegbedel;
         var tahciro;
         var yegciro;
+        var ahtyeg;
 
         function getFiyatlar() {
             var url1 = apiurl + "fiyat/gettpbyyilaytip/" + paramdonem + "/" + paramftip;
@@ -48,6 +49,23 @@
                     $('.dataTables_filter input').keyup(function () {
                         $(this).val($(this).val().toLocaleUpperCase());
                     });
+
+                    var datatablethis = $(this);
+                    var newjson = [];
+                    $.each(json, function (i, item) {
+                        if (ahtyeg == 1) {
+                            if (item.reykod == 'T2') {
+                                newjson.push(item);
+                            }
+                        }
+                        else {
+                            if (item.reykod != 'T2') {
+                                newjson.push(item);
+                            }
+                        }
+                    });
+                    datatablethis.dataTable().fnClearTable();
+                    datatablethis.dataTable().fnAddData(newjson);
                 },
                 "fnDrawCallback": function (oSettings) {
                     qtip();
@@ -65,14 +83,13 @@
 
         function aktiviteyiGoster() {
             sencHeader();
-            window.location.href = 'Icerik?smref=' + paramsmref + '&ftip=' + paramftip + '&tip=' + paramtip + '&aktiviteid=' + aktiviteid + '&donem=' + paramdonem + '&anlasmaid=' + anlasmaid;
+            window.location.href = 'Icerik?smref=' + paramsmref + '&ftip=' + paramftip + '&tip=' + paramtip + '&aktiviteid=' + aktiviteid + '&donem=' + paramdonem + '&anlasmaid=' + anlasmaid + '&ahtyeg=' + ahtyeg;
         }
 
         function aktiviteyeAktar() {
             sencHeader();
             $('#dtTable').find('input.inputSecim').each(function () {
                 if ($(this).val() != "") {
-
                     /*if (getLocal() == "[]") {
                         var cookie = [];
                         cookie.push(
@@ -127,7 +144,7 @@
                     var cookie = JSON.parse(getLocal());
                     var varmis = false;
                     for (var j = 0; j < cookie.length; j++) {
-                        if (cookie[j].smref == paramsmref && cookie[j].tip == paramtip && cookie[j].donem == paramdonem && cookie[j].aktiviteid == aktiviteid && cookie[j].anlasmaid == anlasmaid) {
+                        if (cookie[j].smref == paramsmref && cookie[j].tip == paramtip && cookie[j].donem == paramdonem && cookie[j].aktiviteid == aktiviteid && cookie[j].anlasmaid == anlasmaid && cookie[j].yegmi == ahtyeg) {
                             for (var i = 0; i < cookie[j].detaylar.length; i++) {
                                 if (cookie[j].detaylar[i].itemref == $(this).attr('accesskey').split(';;;')[0]) {
                                     cookie[j].detaylar[i].miktar = parseInt(cookie[j].detaylar[i].miktar) + parseInt($(this).val());
@@ -138,6 +155,17 @@
 
                             if (!varmis) {
                                 var infos = $(this).attr('accesskey').split(';;;');
+
+                                /*var eskodlar = $(this).closest("tr").find(".aktiviteEskod").attr("rel").split("<br>");
+                                var eskodmalzemeler = [];
+                                for (var i = 0; i < eskodlar.length; i++) {
+                                    var eskoditemref = eskodlar[i].substring(0, 7);
+                                    var eskodmalacik = eskodlar[i].substring(9, 250);
+                                    if (eskoditemref != "" && eskoditemref != infos[0]) {
+                                        eskodmalzemeler.push({ itemref: eskoditemref, malacik: eskodmalacik });
+                                    }
+                                }*/
+
                                 cookie[j].detaylar.push(
                                     {
                                         itemref: infos[0],
@@ -155,6 +183,26 @@
                                         aciklama: ''
                                     }
                                 );
+
+                                /*for (var i = 0; i < eskodmalzemeler.length; i++) {
+                                    cookie[j].detaylar.push(
+                                        {
+                                            itemref: eskodmalzemeler[i].itemref,
+                                            malacik: eskodmalzemeler[i].malacik,
+                                            kdv: parseInt(((parseFloat($(this).closest("tr").find(".netkdv").text()) / parseFloat($(this).closest("tr").find(".net").text()) - 1) * 100).toFixed(0)),
+                                            miktar: parseInt($(this).val()),
+                                            birimfiyat: infos[1],
+                                            fatalt: $(this).closest("tr").find(".grupkod").val() == "STG-1" ? ahtfatalt : yegfatalt,
+                                            fataltciro: $(this).closest("tr").find(".grupkod").val() == "STG-1" ? ahtfataltciro : yegfataltciro,
+                                            ciroprim: $(this).closest("tr").find(".grupkod").val() == "STG-1" ? ahtciroprim : yegciroprim,
+                                            pazisk: 0,
+                                            iskonto: 0,
+                                            cirodusulmus: 0,
+                                            kdvli: 0,
+                                            aciklama: ''
+                                        }
+                                    );
+                                }*/
                             }
                         }
                     }
@@ -164,6 +212,10 @@
                 }
             });
         }
+
+        /*function aktiviteyeEkle(itemref,malacik,) {
+
+        }*/
 
         function getLocal() {
             return window.localStorage['sepetA'];
@@ -177,7 +229,7 @@
             var cookie = JSON.parse(getLocal());
             var degistirildi = false;
             for (var i = 0; i < cookie.length; i++) {
-                if (cookie[i].smref == paramsmref && cookie[i].tip == paramtip && cookie[i].donem == paramdonem && cookie[i].aktiviteid == aktiviteid && cookie[i].anlasmaid == anlasmaid) {
+                if (cookie[i].smref == paramsmref && cookie[i].tip == paramtip && cookie[i].donem == paramdonem && cookie[i].aktiviteid == aktiviteid && cookie[i].anlasmaid == anlasmaid && cookie[i].yegmi == ahtyeg) {
                     degistirildi = true;
                     cookie[i].aciklama1 = $("#inputAciklama1").val();
                     cookie[i].aciklama2 = $("#inputAciklama2").val();
@@ -195,7 +247,7 @@
             var varmis = false;
 
             for (var i = 0; i < cookie.length; i++) {
-                if (cookie[i].smref == paramsmref && cookie[i].tip == paramtip && cookie[i].donem == paramdonem && cookie[i].aktiviteid == aktiviteid && cookie[i].anlasmaid == anlasmaid) {
+                if (cookie[i].smref == paramsmref && cookie[i].tip == paramtip && cookie[i].donem == paramdonem && cookie[i].aktiviteid == aktiviteid && cookie[i].anlasmaid == anlasmaid && cookie[i].yegmi == ahtyeg) {
                     varmis = true;
                     $("#inputAciklama1").val(cookie[i].aciklama1);
                     $("#inputAciklama2").val(cookie[i].aciklama2);
@@ -230,6 +282,7 @@
                         aciklama2: $("#inputAciklama2").val(),
                         aciklama3: $("#inputAciklama3").val(),
                         musteri: window.localStorage["uyeid"],
+                        yegmi: ahtyeg,
                         detaylar: []
                     }
                 );
@@ -255,6 +308,7 @@
             yegbedel = parseFloat(getParameterByName("yegbedel"));
             tahciro = parseFloat(getParameterByName("tahciro"));
             yegciro = parseFloat(getParameterByName("yegciro"));
+            ahtyeg = parseFloat(getParameterByName("ahtyeg"));
 
             $('#inputBaslangic').datepicker({
                 locale: "tr",

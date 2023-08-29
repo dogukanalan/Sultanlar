@@ -119,6 +119,7 @@
             this.btnKat = new System.Windows.Forms.Button();
             this.cbPasif = new System.Windows.Forms.CheckBox();
             this.sbAktif = new DevExpress.XtraEditors.SimpleButton();
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -545,6 +546,7 @@
             // gridView1
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn1,
             this.gcanpkID,
             this.gcanSMREF,
             this.gcanintMusteriID,
@@ -596,7 +598,7 @@
             this.gcanpkID.OptionsColumn.AllowEdit = false;
             this.gcanpkID.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanpkID.Visible = true;
-            this.gcanpkID.VisibleIndex = 0;
+            this.gcanpkID.VisibleIndex = 1;
             this.gcanpkID.Width = 45;
             // 
             // gcanSMREF
@@ -621,7 +623,7 @@
             this.gcanMUSTERI.OptionsColumn.AllowEdit = false;
             this.gcanMUSTERI.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanMUSTERI.Visible = true;
-            this.gcanMUSTERI.VisibleIndex = 1;
+            this.gcanMUSTERI.VisibleIndex = 2;
             this.gcanMUSTERI.Width = 110;
             // 
             // gcanBAYI
@@ -632,7 +634,7 @@
             this.gcanBAYI.OptionsColumn.AllowEdit = false;
             this.gcanBAYI.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanBAYI.Visible = true;
-            this.gcanBAYI.VisibleIndex = 2;
+            this.gcanBAYI.VisibleIndex = 3;
             this.gcanBAYI.Width = 190;
             // 
             // gcanSUBE
@@ -643,7 +645,7 @@
             this.gcanSUBE.OptionsColumn.AllowEdit = false;
             this.gcanSUBE.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanSUBE.Visible = true;
-            this.gcanSUBE.VisibleIndex = 3;
+            this.gcanSUBE.VisibleIndex = 4;
             this.gcanSUBE.Width = 190;
             // 
             // gcanintOnay
@@ -664,7 +666,7 @@
             this.gcandtBaslangic.OptionsColumn.AllowEdit = false;
             this.gcandtBaslangic.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcandtBaslangic.Visible = true;
-            this.gcandtBaslangic.VisibleIndex = 4;
+            this.gcandtBaslangic.VisibleIndex = 5;
             // 
             // gcandtBitis
             // 
@@ -676,7 +678,7 @@
             this.gcandtBitis.OptionsColumn.AllowEdit = false;
             this.gcandtBitis.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcandtBitis.Visible = true;
-            this.gcandtBitis.VisibleIndex = 5;
+            this.gcandtBitis.VisibleIndex = 6;
             // 
             // gcanintVadeTAH
             // 
@@ -686,7 +688,7 @@
             this.gcanintVadeTAH.OptionsColumn.AllowEdit = false;
             this.gcanintVadeTAH.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanintVadeTAH.Visible = true;
-            this.gcanintVadeTAH.VisibleIndex = 6;
+            this.gcanintVadeTAH.VisibleIndex = 7;
             // 
             // gcanintVadeYEG
             // 
@@ -696,7 +698,7 @@
             this.gcanintVadeYEG.OptionsColumn.AllowEdit = false;
             this.gcanintVadeYEG.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanintVadeYEG.Visible = true;
-            this.gcanintVadeYEG.VisibleIndex = 7;
+            this.gcanintVadeYEG.VisibleIndex = 8;
             // 
             // gcanintListSKUTAH
             // 
@@ -706,7 +708,7 @@
             this.gcanintListSKUTAH.OptionsColumn.AllowEdit = false;
             this.gcanintListSKUTAH.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanintListSKUTAH.Visible = true;
-            this.gcanintListSKUTAH.VisibleIndex = 8;
+            this.gcanintListSKUTAH.VisibleIndex = 9;
             // 
             // gcanintListSKUYEG
             // 
@@ -716,7 +718,7 @@
             this.gcanintListSKUYEG.OptionsColumn.AllowEdit = false;
             this.gcanintListSKUYEG.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanintListSKUYEG.Visible = true;
-            this.gcanintListSKUYEG.VisibleIndex = 9;
+            this.gcanintListSKUYEG.VisibleIndex = 10;
             // 
             // gcanflTAHIsk
             // 
@@ -726,7 +728,7 @@
             this.gcanflTAHIsk.OptionsColumn.AllowEdit = false;
             this.gcanflTAHIsk.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanflTAHIsk.Visible = true;
-            this.gcanflTAHIsk.VisibleIndex = 10;
+            this.gcanflTAHIsk.VisibleIndex = 11;
             // 
             // gcanflTAHCiro3
             // 
@@ -760,7 +762,7 @@
             this.gcanflTAHCiroIsk.OptionsColumn.AllowEdit = false;
             this.gcanflTAHCiroIsk.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanflTAHCiroIsk.Visible = true;
-            this.gcanflTAHCiroIsk.VisibleIndex = 11;
+            this.gcanflTAHCiroIsk.VisibleIndex = 12;
             // 
             // gcanmnTAHAnlasmaDisiBedeller
             // 
@@ -772,7 +774,7 @@
             this.gcanmnTAHAnlasmaDisiBedeller.OptionsColumn.AllowEdit = false;
             this.gcanmnTAHAnlasmaDisiBedeller.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanmnTAHAnlasmaDisiBedeller.Visible = true;
-            this.gcanmnTAHAnlasmaDisiBedeller.VisibleIndex = 12;
+            this.gcanmnTAHAnlasmaDisiBedeller.VisibleIndex = 13;
             // 
             // gcanmnTAHToplamCiro
             // 
@@ -784,7 +786,7 @@
             this.gcanmnTAHToplamCiro.OptionsColumn.AllowEdit = false;
             this.gcanmnTAHToplamCiro.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanmnTAHToplamCiro.Visible = true;
-            this.gcanmnTAHToplamCiro.VisibleIndex = 13;
+            this.gcanmnTAHToplamCiro.VisibleIndex = 14;
             // 
             // gcanflYEGIsk
             // 
@@ -794,7 +796,7 @@
             this.gcanflYEGIsk.OptionsColumn.AllowEdit = false;
             this.gcanflYEGIsk.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanflYEGIsk.Visible = true;
-            this.gcanflYEGIsk.VisibleIndex = 14;
+            this.gcanflYEGIsk.VisibleIndex = 15;
             // 
             // gcanflYEGCiro
             // 
@@ -836,7 +838,7 @@
             this.gcanflYEGCiroIsk.OptionsColumn.AllowEdit = false;
             this.gcanflYEGCiroIsk.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanflYEGCiroIsk.Visible = true;
-            this.gcanflYEGCiroIsk.VisibleIndex = 15;
+            this.gcanflYEGCiroIsk.VisibleIndex = 16;
             // 
             // gcanmnYEGAnlasmaDisiBedeller
             // 
@@ -848,7 +850,7 @@
             this.gcanmnYEGAnlasmaDisiBedeller.OptionsColumn.AllowEdit = false;
             this.gcanmnYEGAnlasmaDisiBedeller.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanmnYEGAnlasmaDisiBedeller.Visible = true;
-            this.gcanmnYEGAnlasmaDisiBedeller.VisibleIndex = 16;
+            this.gcanmnYEGAnlasmaDisiBedeller.VisibleIndex = 17;
             // 
             // gcanmnYEGToplamCiro
             // 
@@ -860,7 +862,7 @@
             this.gcanmnYEGToplamCiro.OptionsColumn.AllowEdit = false;
             this.gcanmnYEGToplamCiro.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanmnYEGToplamCiro.Visible = true;
-            this.gcanmnYEGToplamCiro.VisibleIndex = 17;
+            this.gcanmnYEGToplamCiro.VisibleIndex = 18;
             // 
             // gcanstrAciklama4
             // 
@@ -870,7 +872,7 @@
             this.gcanstrAciklama4.OptionsColumn.AllowEdit = false;
             this.gcanstrAciklama4.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanstrAciklama4.Visible = true;
-            this.gcanstrAciklama4.VisibleIndex = 18;
+            this.gcanstrAciklama4.VisibleIndex = 19;
             // 
             // gcanstrAciklama1
             // 
@@ -880,7 +882,7 @@
             this.gcanstrAciklama1.OptionsColumn.AllowEdit = false;
             this.gcanstrAciklama1.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
             this.gcanstrAciklama1.Visible = true;
-            this.gcanstrAciklama1.VisibleIndex = 19;
+            this.gcanstrAciklama1.VisibleIndex = 20;
             // 
             // gcanstrAciklama2
             // 
@@ -1079,6 +1081,17 @@
             this.sbAktif.Text = "Aktif Yap";
             this.sbAktif.Click += new System.EventHandler(this.sbAktif_Click);
             // 
+            // gridColumn1
+            // 
+            this.gridColumn1.Caption = "Durum";
+            this.gridColumn1.FieldName = "Durum";
+            this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.OptionsColumn.AllowEdit = false;
+            this.gridColumn1.OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.Contains;
+            this.gridColumn1.Visible = true;
+            this.gridColumn1.VisibleIndex = 0;
+            this.gridColumn1.Width = 100;
+            // 
             // frmINTERNETticaripazarlamaanlasmalar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1217,5 +1230,6 @@
         private System.Windows.Forms.Button btnKat;
         private System.Windows.Forms.CheckBox cbPasif;
         private DevExpress.XtraEditors.SimpleButton sbAktif;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
     }
 }

@@ -82,7 +82,18 @@ namespace Sultanlar.UI
             //XmlDocument xml = Gokw3satis("2014","1");
             //xml.Save("f:\\asd.xml");
 
-            //Sultanlar.WindowsServiceIslemler.Sap.MalzemelerC(true, true);
+            //DatabaseObject.SAP.Vbfa don = new DatabaseObject.SAP.Vbfa(DatabaseObject.SAP.SapType.Single, "20230504", "000000");
+            //List<DatabaseObject.SAP.ZwebSelectSalesVbfa> donendeger = (List<DatabaseObject.SAP.ZwebSelectSalesVbfa>)don.Get();
+
+            //DataGridView dgv = new DataGridView();
+            //dgv.DataSource = donendeger;
+            //dgv.Location = new Point(0, 0);
+            //dgv.Dock = DockStyle.Fill;
+            //this.Controls.Add(dgv);
+            //dgv.BringToFront();
+
+            //WindowsServiceIslemler.Sap.GetSAP(false, false, false, true, true, true, true, false, true);
+            //Class.Eposta.EpostaGonder("Sultanlar", "mistif.sultanlar@gmail.com", "deneme", "Deneme");
         }
 
         private void tmr_Tick(object sender, EventArgs e)
@@ -2491,6 +2502,34 @@ namespace Sultanlar.UI
 
             ToolStripButton lll = new ToolStripButton("Veri Çekme");
             lll.Name = "frmINTERNETticaripazarlamavericekme";
+            lll.MouseUp += new MouseEventHandler(lll_MouseUp);
+            statusStrip1.Items.Add(lll);
+        }
+        //
+        //
+        private void rakipÜrünlerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.Name == "frmRakipUrunler")
+                {
+                    if (f.WindowState == FormWindowState.Minimized)
+                    {
+                        f.WindowState = FormWindowState.Normal;
+                    }
+                    f.Focus();
+
+                    return;
+                }
+            }
+            frmRakipUrunler frm = new frmRakipUrunler();
+            frm.MdiParent = this;
+            frm.FormClosing += new FormClosingEventHandler(frm_FormClosing);
+            frm.Show();
+            frm.BringToFront();
+
+            ToolStripButton lll = new ToolStripButton("Rakip Ürünler");
+            lll.Name = "frmRakipUrunler";
             lll.MouseUp += new MouseEventHandler(lll_MouseUp);
             statusStrip1.Items.Add(lll);
         }

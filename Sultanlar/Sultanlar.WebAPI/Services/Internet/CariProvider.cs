@@ -13,6 +13,7 @@ namespace Sultanlar.WebAPI.Services.Internet
     public class CariProvider
     {
         internal List<cariHesaplar> Cariler(int SLSREF) => new cariHesaplar().GetObjectsOnlyMain(SLSREF);
+        internal List<cariHesaplar> Bayiler() => new cariHesaplar().GetObjectsOnlyBayi();
 
         internal List<cariHesaplar> CarilerSub(int GMREF, int SLSREF) => new cariHesaplar().GetObjectsOnlySub(GMREF, SLSREF);
 

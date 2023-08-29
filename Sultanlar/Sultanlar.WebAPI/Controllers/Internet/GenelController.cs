@@ -114,6 +114,7 @@ namespace Sultanlar.WebAPI.Controllers.Internet
                 wr.Timeout = 600000;
                 wr.ReadWriteTimeout = 600000;
 
+
                 HttpWebResponse response = (HttpWebResponse)wr.GetResponse();
                 if (response.StatusCode == HttpStatusCode.OK)
                 {

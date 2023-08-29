@@ -141,7 +141,7 @@ namespace Sultanlar.WindowsServiceIslemler
             {
                 if ((DateTime.Now.Minute > 50 && DateTime.Now.Minute <= 55))
                 {
-                    Sap.GetSAP(true, true, true, true, true, true, true, true);
+                    Sap.GetSAP(true, true, true, true, true, true, true, true, true);
                 }
                 //EntegraSiparis();
             }
@@ -336,6 +336,7 @@ namespace Sultanlar.WindowsServiceIslemler
                 FiyatlarTP.Update((short)20, DateTime.Now.Year, DateTime.Now.Month);
                 FiyatlarTP.Update((short)22, DateTime.Now.Year, DateTime.Now.Month);
                 FiyatlarTP.Update((short)25, DateTime.Now.Year, DateTime.Now.Month);
+                FiyatlarTP.Update((short)40, DateTime.Now.Year, DateTime.Now.Month);
                 //FiyatlarTP.Update((short)33, DateTime.Now.Year, DateTime.Now.Month);
             }
 

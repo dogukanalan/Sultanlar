@@ -292,7 +292,7 @@ namespace Sultanlar.DatabaseObject.Internet
         }
         //
         //
-        public static void GetObjects(DataTable dt, object Onayli, DateTime BaslangicTarih, DateTime BitisTarih, int Baslangic, int Adet)
+        public static void GetObjects(DataTable dt, object Onayli, DateTime BaslangicTarih, DateTime BitisTarih, string Kullanici, int Baslangic, int Adet)
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
@@ -301,6 +301,7 @@ namespace Sultanlar.DatabaseObject.Internet
                 da.SelectCommand.Parameters.Add("@Onayli", SqlDbType.Bit).Value = Onayli;
                 da.SelectCommand.Parameters.Add("@BaslangicTarih", SqlDbType.SmallDateTime).Value = BaslangicTarih;
                 da.SelectCommand.Parameters.Add("@BitisTarih", SqlDbType.SmallDateTime).Value = BitisTarih;
+                da.SelectCommand.Parameters.Add("@Kullanici", SqlDbType.NVarChar, 50).Value = Kullanici;
                 try
                 {
                     conn.Open();

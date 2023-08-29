@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using Sultanlar.DatabaseObject.Internet;
+using System.Collections;
+using System.Data;
 
 namespace Sultanlar.WebAPI.Services.Internet
 {
@@ -74,6 +76,102 @@ namespace Sultanlar.WebAPI.Services.Internet
             for (int i = 0; i < silinecekler.Count; i++)
                 silinecekler[i].DoDelete();
             iade.DoDelete();
+
+            iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 16, DateTime.Now, iade.Musteri.AdSoyad, "");
+            ih.DoInsert();
+
+            return Donen;
+        }
+
+        internal string IadeBasa(int IadeID)
+        {
+            string Donen = string.Empty;
+            iadeler iade = new iadeler(IadeID).GetObject();
+            iade.blAktarilmis = false;
+            iade.mnToplamTutar = 0;
+            iade.DoUpdate();
+            IadelerQ.Delete(IadeID);
+
+            for (int i = 0; i < iade.detaylar.Count; i++)
+            {
+                iade.detaylar[i].mnFiyat = 0;
+                iade.detaylar[i].DoUpdate();
+                IadeFiyatlarSil(iade.detaylar[i].pkIadeDetayID);
+            }
+
+            iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 28, DateTime.Now, iade.Musteri.AdSoyad, "");
+            ih.DoInsert();
+
+            return Donen;
+        }
+
+        internal string IadeSona(int IadeID)
+        {
+            string Donen = string.Empty;
+            iadeler iade = new iadeler(IadeID).GetObject();
+            iade.blAktarilmis = false;
+            iade.mnToplamTutar = -2;
+            iade.DoUpdate();
+
+            iadeler.ExecNQ("db_sp_bayiStokGuncelle1b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { iade.Cari.GMREF });
+            iadeler.ExecNQ("db_sp_bayiStokGuncelle2b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { iade.Cari.GMREF });
+
+            iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 6, DateTime.Now, iade.Musteri.AdSoyad, "");
+            ih.DoInsert();
+
+            return Donen;
+        }
+
+        internal string IadRede(int IadeID)
+        {
+            string Donen = string.Empty;
+            iadeler iade = new iadeler(IadeID).GetObject();
+
+            for (int i = 0; i < iade.detaylar.Count; i++)
+            {
+                bayiStokRaporu stok = new bayiStokRaporu().GetObject(iade.Cari.GMREF, iade.detaylar[i].intUrunID);
+                if (stok.STOKAY - iade.detaylar[i].intMiktar < 0)
+                {
+                    return iade.detaylar[i].intUrunID + " nolu malzemede stok eksiye düşeceği için iade iptal edilemez.";
+                }
+            }
+
+            iade.blAktarilmis = false;
+            iade.mnToplamTutar = -1;
+            iade.DoUpdate();
+
+            for (int i = 0; i < iade.detaylar.Count; i++)
+            {
+                IadeFiyatlarSil(iade.detaylar[i].pkIadeDetayID);
+            }
+
+            iadeler.ExecNQ("db_sp_bayiStokGuncelle1b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { iade.Cari.GMREF });
+            iadeler.ExecNQ("db_sp_bayiStokGuncelle2b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { iade.Cari.GMREF });
+
+            iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 5, DateTime.Now, iade.Musteri.AdSoyad, "");
+            ih.DoInsert();
+
+            return Donen;
+        }
+
+        internal string IadeFiyatlandirildi(int IadeID)
+        {
+            string Donen = string.Empty;
+            iadeler iade = new iadeler(IadeID).GetObject();
+            if (iade.tur == 1)
+            {
+                iade.blAktarilmis = true;
+                iade.mnToplamTutar = iade.ToplamTutar;
+                iade.DoUpdate();
+
+                iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 2, DateTime.Now, iade.Musteri.AdSoyad, "");
+                ih.DoInsert();
+            }
+            else
+            {
+                return "Hata: iade Fiyatlandırılmamış kategorisinde değil.";
+            }
+
             return Donen;
         }
 
@@ -87,15 +185,24 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             if (iade.TKSREF > 1)
             {
+                iade.blAktarilmis = true;
+                iade.mnToplamTutar = 0;
+                iade.DoUpdate(); // onay talep yerine fiyatlandırılmamışa gelmesi için
+
                 int bayikod = CariHesaplarTP.GetGMREFBySMREF(iade.SMREF);
                 int siparisno = CariHesaplarTPEk.GetBayiSiparisNo(bayikod) + 1;
                 CariHesaplarTPEk.SetBayiSiparisNo(bayikod, siparisno);
 
-                IadelerQ.WriteQuantumNo(iade.pkIadeID, Sultanlar.DatabaseObject.Internet.Genel.BayiSiparisnoDuzeltme(siparisno), "");
-            }
+                IadelerQ.WriteQuantumNo(iade.pkIadeID, DatabaseObject.Internet.Genel.BayiSiparisnoDuzeltme(siparisno), "", iade.dtOnaylamaTarihi);
 
-            iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 26, DateTime.Now, iade.Musteri.AdSoyad, ""); // iade onay talep edildi
-            ih.DoInsert();
+                iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 1, DateTime.Now, iade.Musteri.AdSoyad, ""); // fiyatlandırılmamışa
+                ih.DoInsert();
+            }
+            else
+            {
+                iadeHareketleri ih = new iadeHareketleri(iade.pkIadeID, 26, DateTime.Now, iade.Musteri.AdSoyad, ""); // iade onay talep edildi
+                ih.DoInsert();
+            }
 
             return "";
         }
@@ -122,7 +229,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             return Donen;
         }
 
-        internal string IadeKaydet(IadeKaydet ikg)
+        internal string IadeKaydet(IadeKaydet ikg, string neden)
         {
             iadeler iadees = new iadeler(ikg.iadeid).GetObject();
             if (iadees.tur != 0)
@@ -150,7 +257,62 @@ namespace Sultanlar.WebAPI.Services.Internet
                 iadees.DoDelete();
             }
 
+            DatabaseObject.Internet.Iadeler.SetSapDepo(neden, "", "", "", iade.pkIadeID);
+
             return iade.pkIadeID.ToString();
+        }
+
+        internal iadelerDetay IadeDetay(int IadeDetayID) => new iadelerDetay(IadeDetayID).GetObject();
+
+        internal string IadeDetayGuncelle(iadelerDetay Detay)
+        {
+            Detay.DoUpdate();
+
+            return "";
+        }
+
+        internal List<iadeFiyatAdet> IadeFiyatAdetler(int SMREF, int ITEMREF) => new iadeFiyatAdet().GetObjects(SMREF, ITEMREF);
+
+        internal iadeFiyatAdet IadeFiyatAdet(int ID)
+        {
+            iadeFiyatAdet iade = new iadeFiyatAdet(ID).GetObject();
+            return iade;
+        }
+
+        internal string IadeFiyatSil(int ID)
+        {
+            string Donen = string.Empty;
+            iadeFiyatAdet iade = new iadeFiyatAdet(ID).GetObject();
+            iade.DoDelete();
+            return Donen;
+        }
+
+        internal string IadeFiyatlarSil(long IadeDetayID)
+        {
+            string Donen = string.Empty;
+            List<iadeFiyatAdet> iadefiyatadetler = new iadeFiyatAdet().GetObjects(IadeDetayID);
+            for (int i = 0; i < iadefiyatadetler.Count; i++)
+            {
+                iadefiyatadetler[i].DoDelete();
+            }
+            return Donen;
+        }
+
+        internal string IadeFiyatKaydet(long IadeDetayID, long SiparisDetayID, int Miktar)
+        {
+            iadeFiyatAdet iade = new iadeFiyatAdet(IadeDetayID, SiparisDetayID, Miktar);
+            iade.DoInsert();
+            return iade.ID.ToString();
+        }
+
+        internal string IadeFiyatDuzenle(long ID, long IadeDetayID, long SiparisDetayID, int Miktar)
+        {
+            iadeFiyatAdet iade = new iadeFiyatAdet(ID).GetObject();
+            iade.bintIadeDetayID = IadeDetayID;
+            iade.bintSiparisDetayID = SiparisDetayID;
+            iade.intIadeMiktar = Miktar;
+            iade.DoUpdate();
+            return "";
         }
     }
 }

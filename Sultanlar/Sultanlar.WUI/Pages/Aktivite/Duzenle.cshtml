@@ -35,6 +35,10 @@
                             aciklama2: data.strAciklama2,
                             aciklama3: data.strAciklama3,
                             donem: data.strAciklama4,
+                            tahbedel: data.mnTahSabitBedel,
+                            yegbedel: data.mnYegSabitBedel,
+                            tahciro: data.mnTahHedefCiro,
+                            yegciro: data.mnYegHedefCiro,
                             baslangic: data.dtAktiviteBaslangic.toString().substring(0, 10).replaceAll("-", "/"),
                             bitis: data.dtAktiviteBitis.toString().substring(0, 10).replaceAll("-", "/"),
                             anlasmaid: data.intAnlasmaID.toString(),
@@ -45,6 +49,7 @@
                             ahtciroprim: data.intAnlasmaID > 0 ? data.anlasma.ahtCiroPrimDonusYuzdeToplam : 0,
                             yegciroprim: data.intAnlasmaID > 0 ? data.anlasma.yegCiroPrimDonusYuzdeToplam : 0,
                             musteri: window.localStorage["uyeid"],
+                            yegmi: data.mnAktiviteKarZarar,
                             detaylar: []
                         };
                         $.each(data.detaylar, function (i, item) {
@@ -69,7 +74,7 @@
                         yenisepet.push(icsepet);
                         window.localStorage["sepetA"] = JSON.stringify(yenisepet);
                         window.location.href = 'Aktivite?smref=' + data.smref + '&tip=' + icsepet.tip + '&ftip=' + icsepet.ftip + '&aktiviteid=' + data.pkID + '&donem=' + icsepet.donem + '&anlasmaid=' + icsepet.anlasmaid +
-                            '&ahtfatalt=' + icsepet.ahtfatalt + '&ahtfataltciro=' + icsepet.ahtfataltciro + '&ahtciroprim=' + icsepet.ahtciroprim + '&yegfatalt=' + icsepet.yegfatalt + '&yegfataltciro=' + icsepet.yegfataltciro + '&yegciroprim=' + icsepet.yegciroprim;
+                            '&ahtfatalt=' + icsepet.ahtfatalt + '&ahtfataltciro=' + icsepet.ahtfataltciro + '&ahtciroprim=' + icsepet.ahtciroprim + '&yegfatalt=' + icsepet.yegfatalt + '&yegfataltciro=' + icsepet.yegfataltciro + '&yegciroprim=' + icsepet.yegciroprim + '&ahtyeg=' + icsepet.yegmi;
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
                 }
@@ -90,6 +95,10 @@
                             aciklama2: eskisepet[i].aciklama2,
                             aciklama3: eskisepet[i].aciklama3,
                             donem: eskisepet[i].donem,
+                            tahbedel: eskisepet[i].tahbedel,
+                            yegbedel: eskisepet[i].yegbedel,
+                            tahciro: eskisepet[i].tahciro,
+                            yegciro: eskisepet[i].yegciro,
                             baslangic: eskisepet[i].baslangic,
                             bitis: eskisepet[i].bitis,
                             ahtfatalt: eskisepet[i].ahtfatalt,
@@ -99,6 +108,7 @@
                             ahtciroprim: eskisepet[i].ahtciroprim,
                             yegciroprim: eskisepet[i].yegciroprim,
                             musteri: window.localStorage["uyeid"],
+                            yegmi: eskisepet[i].yegmi,
                             detaylar: eskisepet[i].detaylar
                         }
                     );

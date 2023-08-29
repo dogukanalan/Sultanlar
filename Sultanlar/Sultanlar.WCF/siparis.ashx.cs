@@ -33,7 +33,10 @@ namespace Sultanlar.WCF
                 int siparisno = CariHesaplarTPEk.GetBayiSiparisNo(bayikod) + 1;
                 CariHesaplarTPEk.SetBayiSiparisNo(bayikod, siparisno);
 
-                Siparisler.DoInsertQ(sip.pkSiparisID, Genel.BayiSiparisnoDuzeltme(siparisno), bakiye);
+                int SMREF = sip.TKSREF == 4 ? sip.SMREF : CariHesaplar.GetANASMREFBySMREF(sip.SMREF, sip.TKSREF);
+                CariHesaplarTP ch = CariHesaplarTP.GetObject(SMREF, false);
+
+                Siparisler.DoInsertQ(sip.pkSiparisID, Genel.BayiSiparisnoDuzeltme(siparisno), bakiye, ch.MTKOD);
             }
             else
             {
@@ -97,6 +100,10 @@ WHERE (CASE WHEN LIMIT <= GIRILEN THEN 1 ELSE 0 END) = 1");
             if (aktarildi)
             {
                 donendeger = string.Empty;
+            }
+            else
+            {
+                donendeger = "Sipariş (veya bölünen bir sipariş ise bölünenlerden bazıları) aktarılamadı.";
             }
 
             context.Response.ContentType = "text/plain";

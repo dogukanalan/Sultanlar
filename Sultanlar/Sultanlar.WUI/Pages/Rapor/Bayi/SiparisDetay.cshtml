@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <style>
         .dataTables_filter {
             display: none;
@@ -17,6 +18,7 @@
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.2.2/js/dataTables.fixedHeader.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
@@ -42,11 +44,11 @@
                     return '<span class="sinirli">' + data.substring(0, 10).replace("0001-01-01", "") + '</span>';
                 }
             },
-            /*{
+            {
                 "data": "anaCari", "class": "valueTd", render: function (data, type, row) {
                     return '<span class="sinirli">' + data.musteri + '</span>';
                 }
-            },*/
+            },
             {
                 "data": "sube", "class": "valueTd", render: function (data, type, row) {
                     return '<span class="sinirli">' + data.sube + '</span>';
@@ -89,7 +91,7 @@
             },
             {
                 "data": null, "class": "floaTd", render: function (data, type, row) {
-                    return '<span class="sinirli">' + data.brutt + '</span>';
+                    return '<span class="sinirli">' + data.stok + '</span>';
                 }
             }
         ];
@@ -125,12 +127,27 @@
         }
 
         function getRapor() {
-            $("#dtTable input").each(function (index, element) {
+            $("#dtTable input[type=text]").each(function (index, element) {
                 $(element).val("");
             });
             var url1 = apiurl + "satisraporu/getirsiparisdetaytp/" + getYil() + "/" + getAy() + "/" + getSlsref() + "/" + getSipno();
             var table = $('#dtTable').on('xhr.dt', function (e, settings, json, xhr) {
                 checkAuth(xhr);
+
+                var bayiler = [];
+                $.each(json, function (index, item) {
+                    if (bayiler.indexOf(item.anaCari.musteri) === -1)
+                        bayiler.push(item.anaCari.musteri);
+                });
+
+                if (true) { //$(window).width() > 576
+                    $("#bayiler").autocomplete({
+                        source: bayiler,
+                        minLength: 0
+                    }).focus(function () {
+                        $(this).autocomplete('search', $(this).val())
+                    });
+                }
             }).DataTable({
                 "responsive": true,
                 "destroy": true,
@@ -163,16 +180,24 @@
                 "deferRender": true,
                 "order": [[0, "asc"]]
             });
+
             table.columns().every(function () {
                 var that = this;
-                $('input', this.header()).on('keyup change', function () {
-                    if (that.search() !== this.value) {
-                        that
-                            .search(this.value)
-                            .draw();
+                $('input[type=text]', this.header()).on('inputchange', delay(function () {
+                    if ($(this).val() !== '') {
+                        $(this).closest("th").find(".dtClearButton").css("display", "inline");
                     }
+                    else {
+                        $(this).closest("th").find(".dtClearButton").css("display", "none");
+                    }
+                    if (that.search() !== this.value) {
+                        that.search(this.value.toLocaleUpperCase()).draw();
+                    }
+                }, 1));
+                $('input[type=button]', this.header()).on('click', function () {
+                    $(this).closest("th").find("input[type=text]").val("");
                 });
-            })
+            });
         }
 
         $(window).on("popstate", function (e) {
@@ -245,6 +270,7 @@
         <tr>
             <th class="keyTd" data-priority="1"><span class="spanCiplak">Sip.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd"><span class="spanCiplak">Tarih</span><br /><input type="text" id="tarih" class="form-control input100yuzde tarihpicker" /></th>
+            <th class="keyTd" data-priority="2"><span class="spanCiplak">Bayi</span><br /><input type="text" id="bayiler" class="form-control input100yuzde" /><input type="button" class="dtClearButton" value="X" /></th>
             <th class="keyTd" data-priority="2"><span class="spanCiplak">Alt Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd"><span class="spanCiplak">Mal.Kod</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd" data-priority="3"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Sultanlar.DatabaseObject;
 using Sultanlar.DatabaseObject.Internet;
 
 namespace Sultanlar.UI
@@ -233,6 +235,11 @@ namespace Sultanlar.UI
 
             anlasma.DoUpdate();
             MesajAt(anlasma, 3);
+
+            WebGenel.ExecNQ("sp_INTERNET_AnlasmalarHareketEkle", CommandType.StoredProcedure,
+                new ArrayList() { "intAnlasmaID", "intHareketTurID", "dtTarih", "strIslemYapan", "strAciklama", "pkID" },
+                new ArrayList() { anlasma.pkID, 8, DateTime.Now, frmAna.KAdi, "", 0 });
+
             MessageBox.Show("Anlaşma düzenlendi.", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }

@@ -16,7 +16,7 @@ using Sultanlar.WebAPI.Services.Internet;
 
 namespace Sultanlar.WebAPI.Controllers
 {
-    //[Yetkili]
+    [Yetkili]
     [Produces("application/json")]
     [Route("internet/[controller]/[action]")]
     public class IadeController : Controller
@@ -36,16 +36,51 @@ namespace Sultanlar.WebAPI.Controllers
         [HttpGet("{IadeID}")]
         public string Sil(int IadeID) => new IadeProvider().IadeSil(IadeID);
 
-        [HttpPost]
-        public string Kaydet([FromBody]IadeKaydet iadekaydet) => new IadeProvider().IadeKaydet(iadekaydet);
+        [HttpGet("{IadeID}")]
+        public string Gerial(int IadeID) => new IadeProvider().IadeBasa(IadeID);
 
-        [HttpPost("{bayikod}/{musteri}")]
-        public string DisKaydet(string bayikod, string musteri, [FromBody] XmlDocument icerik)
+        [HttpGet("{IadeID}")]
+        public string Bitir(int IadeID) => new IadeProvider().IadeSona(IadeID);
+
+        [HttpGet("{IadeID}")]
+        public string Reddet(int IadeID) => new IadeProvider().IadRede(IadeID);
+
+        [HttpGet("{IadeID}")]
+        public string FiyatlandirmaBitir(int IadeID) => new IadeProvider().IadeFiyatlandirildi(IadeID);
+
+        [HttpPost("{Neden}")]
+        public string Kaydet([FromBody]IadeKaydet iadekaydet, string Neden) => new IadeProvider().IadeKaydet(iadekaydet, Neden);
+
+        [HttpPost("{bayikod}/{musteri}/{neden}")]
+        public string DisKaydet(string bayikod, string musteri, string neden, [FromBody] XmlDocument icerik)
         {
-            string donendeger = new Internet.GenelController().WcfPostTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/Iade?bayikod=" + bayikod + "&musteri=" + musteri, "application/soap+xml", icerik);
-            iadeler.ExecNQ("db_sp_bayiStokGuncelle1b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { Convert.ToInt32(bayikod) });
-            iadeler.ExecNQ("db_sp_bayiStokGuncelle2b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { Convert.ToInt32(bayikod) });
+            string donendeger = new Internet.GenelController().WcfPostTo("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/Iade?bayikod=" + bayikod + "&musteri=" + musteri + "&neden=" + neden, "application/soap+xml", icerik);
+
             return donendeger;
         }
+
+        [HttpGet("{SMREF}/{ITEMREF}")]
+        public List<iadeFiyatAdet> FiyatAdetlerGet(int SMREF, int ITEMREF) => new IadeProvider().IadeFiyatAdetler(SMREF, ITEMREF);
+
+        [HttpGet("{ID}")]
+        public iadeFiyatAdet FiyatAdetGet(int ID) => new IadeProvider().IadeFiyatAdet(ID);
+
+        [HttpGet("{IadeDetayID}")]
+        public iadelerDetay GetIadeDetay(int IadeDetayID) => new IadeProvider().IadeDetay(IadeDetayID);
+
+        [HttpPost]
+        public string SetIadeDetay([FromBody]iadelerDetay detay) => new IadeProvider().IadeDetayGuncelle(detay);
+
+        [HttpGet("{ID}")]
+        public string FiyatAdetSil(int ID) => new IadeProvider().IadeFiyatSil(ID);
+
+        [HttpGet("{IadeDetayID}")]
+        public string FiyatAdetlerSil(long IadeDetayID) => new IadeProvider().IadeFiyatlarSil(IadeDetayID);
+
+        [HttpGet("{IadeDetayID}/{SiparisDetayID}/{Miktar}")]
+        public string FiyatAdetEkle(long IadeDetayID, long SiparisDetayID, int Miktar) => new IadeProvider().IadeFiyatKaydet(IadeDetayID, SiparisDetayID, Miktar);
+
+        [HttpGet("{ID}/{IadeDetayID}/{SiparisDetayID}/{Miktar}")]
+        public string FiyatAdetGuncelle(long ID, long IadeDetayID, long SiparisDetayID, int Miktar) => new IadeProvider().IadeFiyatDuzenle(ID, IadeDetayID, SiparisDetayID, Miktar);
     }
 }

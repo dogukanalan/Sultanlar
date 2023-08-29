@@ -50,13 +50,13 @@
                 "name": "siptar",
                 "width": "11%"
             },
-            {
+            /*{
                 "data": "sipno", "class": "keyTd", render: function (data, type, row) {
                     return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data + '">' + data + '</span>';
                 },
                 "name": "sipno",
                 "width": "8%"
-            },
+            },*/
             {
                 "data": "fattar", "class": "keyTd", render: function (data, type, row) {
                     return '<span class="sinirli">' + data.replace("T", " ").replace(" 00:00:00", "") + '</span>';
@@ -83,6 +83,13 @@
                     return '<span class="sinirli sinirliHeryer" data-toggle="tooltip" title="' + data.sube + '">' + data.sube + '</span>';
                 },
                 "name": "sube",
+                "width": "8%"
+            },
+            {
+                "data": "itemref", "class": "keyTd", render: function (data, type, row) {
+                    return '<span class="sinirli sinirliHeryer">' + data + '</span>';
+                },
+                "name": "itemref",
                 "width": "8%"
             },
             {
@@ -310,7 +317,7 @@
             });
             table.columns().every(function () {
                 var that = this;
-                $('input', this.header()).on('keyup change', delay(function () {
+                $('input[type=text]', this.header()).on('inputchange', delay(function () {
                     if (that.search() !== this.value) {
                         that
                             .search(this.value)
@@ -413,11 +420,11 @@
         <tr>
             <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Tür</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Sip.Tar.</span><br /><input type="text" id="siptar" class="form-control input100yuzde tarihpicker" /></th>
-            <th class="keyTd desktop"><span class="spanCiplak">Sip.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop mobile-l mobile-p tablet-l tablet-p"><span class="spanCiplak">Fat.Tar.</span><br /><input type="text" id="fattar" class="form-control input100yuzde tarihpicker" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Fat.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Cari</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop"><span class="spanCiplak">Sube</span><br /><input type="text" class="form-control input100yuzde" /></th>
+            <th class="keyTd desktop"><span class="spanCiplak">Mal.No</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Malzeme</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Kdv O.</span><br /><input type="text" class="form-control input100yuzde" /></th>
             <th class="keyTd desktop tablet-l tablet-p"><span class="spanCiplak">Kdv T.</span></th>

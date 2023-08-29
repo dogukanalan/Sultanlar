@@ -23,8 +23,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.tr.min.js"></script>
 
     <script>
-        function getSecim() { return getParameterByName("secim") ? getParameterByName("secim") : "1"; }
-        function getDepSecim() { return getParameterByName("dep") ? getParameterByName("dep") : "0"; }
+        function getSecim() { return getParameterByName2("secim") ? getParameterByName2("secim") : "1"; }
+        function getDepSecim() { return getParameterByName2("dep") ? getParameterByName2("dep") : "0"; }
 
         function DepartmanlarGetir() {
             $.ajax(
@@ -45,7 +45,7 @@
                         MesajlarGetir();
 
                         $('input[type=radio][name=color]').change(function () {
-                            window.history.pushState("", "Title", '?secim=' + getRadioCheck() + '&dep=' + getDepRadioCheck());
+                            window.history.pushState("", "Title", '?' + btoa('secim=' + getRadioCheck() + '&dep=' + getDepRadioCheck()));
                             MesajlarGetir();
                         });
 
@@ -122,7 +122,7 @@
                     },
                     {
                         "data": null, "class": "valueTd", render: function (data, type, row) {
-                            return '<a href="Goster?gelgit=' + getRadioCheck() + '&mesajid=' + data.pkMesajID + '"><span class="sinirli">' + data.strKonu + '</span></a>';
+                            return '<a href="Goster?' + btoa('gelgit=' + getRadioCheck() + '&mesajid=' + data.pkMesajID) + '"><span class="sinirli">' + data.strKonu + '</span></a>';
                         },
                         "name": "konu",
                         "width": "40%"
@@ -136,7 +136,7 @@
                     },
                     {
                         "data": "pkMesajID", "class": "keyTd", render: function (data, type, row) {
-                            return (getSecim() == 2 ? '' : '<a href="Yaz?mesajid=' + data + '">Cevapla</a><br>') + '<a href="Sil?gelgit=' + getRadioCheck() + '&mesajid=' + data + '">Sil</a>';
+                            return (getSecim() == 2 ? '' : '<a href="Yaz?' + btoa('mesajid=' + data) + '">Cevapla</a><br>') + '<a href="Sil?' + btoa('gelgit=' + getRadioCheck() + '&mesajid=' + data) + '">Sil</a>';
                         },
                         "width": "15%"
                     }
@@ -212,7 +212,7 @@
         });
 
         function Git() {
-            window.history.pushState("", "Title", '?secim=' + getRadioCheck() + '&dep=' + getDepRadioCheck());
+            window.history.pushState("", "Title", '?' + btoa('secim=' + getRadioCheck() + '&dep=' + getDepRadioCheck()));
             MesajlarGetir();
         }
 
@@ -232,7 +232,7 @@
             setRadioCheck(getSecim());
 
             $('input[type=radio][name=options]').change(function () {
-                window.history.pushState("", "Title", '?secim=' + getRadioCheck() + '&dep=' + getDepRadioCheck());
+                window.history.pushState("", "Title", '?' + btoa('secim=' + getRadioCheck() + '&dep=' + getDepRadioCheck()));
                 MesajlarGetir();
             });
         });

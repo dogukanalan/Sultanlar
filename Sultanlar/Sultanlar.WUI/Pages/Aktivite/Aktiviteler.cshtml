@@ -126,7 +126,7 @@
                             return '<a href="javascript:showSubMenu(div' + data.pkID + ')" class="btn btn-primary">İşlemler</a>' +
                                 '<div class="subMenu" id="div' + data.pkID + '">' +
                                 '<a href="Incele?aktiviteid=' + data.pkID + '">İncele</a>' +
-                                '<a href="Kopyala?aktiviteid=' + data.pkID + '">Kopyala</a>' +
+                                (data.mnAktiviteKarZarar > -1 ? ('<a href="Kopyala?aktiviteid=' + data.pkID + '">Kopyala</a>') : '<a href="javascript:alert(\'Aktivitede KGT-NF ayrımı olmadığından kopyalanamaz.\')">Kopyalanamaz</a>') +
                                 (getOnay() == 0 ? '<a href="Onayla?aktiviteid=' + data.pkID + '">Onayla</a>' : '') +
                                 (getOnay() == 0 ? '<a href="Duzenle?aktiviteid=' + data.pkID + '">Düzenle</a>' : '') +
                                 (getOnay() == 0 ? '<a href="Sil?aktiviteid=' + data.pkID + '">Sil</a>' : '') +

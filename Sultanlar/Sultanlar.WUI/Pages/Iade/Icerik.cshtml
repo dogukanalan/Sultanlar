@@ -142,16 +142,16 @@
 
         function kaydet() {
             if (Object.keys(sepet).length != 0) {
-                if (confirm("İadeyi kaydetmek istediğinize emin misiniz?")) {
-                    window.location.href = 'Kaydet?onay=0&smref=' + paramsmref + '&mtip=' + parammtip + '&iadeid=' + iadeid;
+                if (confirm("İadeyi '" + getNedenTextRadioCheck() + "' şeklinde kaydetmek istediğinize emin misiniz?")) {
+                    window.location.href = 'Kaydet?onay=0&smref=' + paramsmref + '&mtip=' + parammtip + '&iadeid=' + iadeid + '&neden=' + getNedenRadioCheck();
                 }
             }
         }
 
         function onayla() {
             if (Object.keys(sepet).length != 0) {
-                if (confirm("İadeyi kaydetmek ve onaylamak istediğinize emin misiniz?")) {
-                    window.location.href = 'Kaydet?onay=1&smref=' + paramsmref + '&mtip=' + parammtip + '&iadeid=' + iadeid;
+                if (confirm("İadeyi '" + getNedenTextRadioCheck() + "' şeklinde kaydetmek ve onaylamak istediğinize emin misiniz?")) {
+                    window.location.href = 'Kaydet?onay=1&smref=' + paramsmref + '&mtip=' + parammtip + '&iadeid=' + iadeid + '&neden=' + getNedenRadioCheck();
                 }
             }
         }
@@ -159,6 +159,26 @@
         function sepetBosalt() {
             sepet = [];
             senkRoot();
+        }
+
+        function getNedenRadioCheck() {
+            var val;
+            $("#divXmlNeden input").each(function (index, element) {
+                if ($(element).is(':checked')) {
+                    val = $(element).val();
+                }
+            });
+            return val;
+        }
+
+        function getNedenTextRadioCheck() {
+            var val;
+            $("#divXmlNeden input").each(function (index, element) {
+                if ($(element).is(':checked')) {
+                    val = $(element).parent('label').text().trim();
+                }
+            });
+            return val;
         }
 
         $(document).ready(function () {
@@ -175,7 +195,6 @@
         });
     </script>
 }
-
 <input type="button" class="btn btn-info secimTus" value="Ürün Listesine Dön" onclick="window.history.back()" />
 <input type="button" class="btn btn-danger secimTus" value="İçeriği Sil" onclick="sil()" />
 <input type="button" class="btn btn-danger secimTus" value="İadeyi Sil" onclick="sSil()" />
@@ -199,3 +218,11 @@
         </tr>
     </thead>
 </table>
+<div id="divXmlNeden" class="btn-group" style="padding-left: 5px; padding-bottom: 3px">
+    <label class="btn btn-default">
+        <input type="radio" name="optionsNeden" id="optionNeden1" value="Z17" autocomplete="off" checked> Sağlam iade
+    </label>
+    <label class="btn btn-default">
+        <input type="radio" name="optionsNeden" id="optionNeden2" value="Z16" autocomplete="off"> Bozuk iade
+    </label>
+</div>

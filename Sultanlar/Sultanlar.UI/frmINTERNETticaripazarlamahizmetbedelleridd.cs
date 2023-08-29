@@ -20,6 +20,29 @@ namespace Sultanlar.UI
 
         private void frmINTERNETticaripazarlamahizmetbedelleridd_Load(object sender, EventArgs e)
         {
+            cmbBolum.Items.Clear();
+            if (frmAna.KAdi.StartsWith("YEG"))
+            {
+                cmbBolum.Items.Add("YEG");
+            }
+            else if (frmAna.KAdi == "BI04" || frmAna.KAdi == "ADMİNİSTRATOR")
+            {
+                cmbBolum.Items.Add("AHT");
+                cmbBolum.Items.Add("YEG");
+                cmbBolum.Items.Add("DİĞER");
+                cmbBolum.Items.Add("TEMİZLİK");
+                cmbBolum.Items.Add("GIDA");
+                cmbBolum.Items.Add("ARI");
+            }
+            else
+            {
+                cmbBolum.Items.Add("AHT");
+                cmbBolum.Items.Add("DİĞER");
+                cmbBolum.Items.Add("TEMİZLİK");
+                cmbBolum.Items.Add("GIDA");
+                cmbBolum.Items.Add("ARI");
+            }
+
             GetObjects();
             FocusedRow();
         }
@@ -42,7 +65,7 @@ namespace Sultanlar.UI
             Temizle();
 
             DataTable dt = new DataTable();
-            AnlasmaHizmetBedelleriDD.GetObjects(dt);
+            AnlasmaHizmetBedelleriDD.GetObjects(dt, frmAna.KAdi);
             gridControl4.DataSource = dt;
         }
 

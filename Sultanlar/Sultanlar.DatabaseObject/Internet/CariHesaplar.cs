@@ -3375,6 +3375,37 @@ namespace Sultanlar.DatabaseObject.Internet
             return donendeger;
         }
         /// <summary>
+        /// [Web-Musteri-1]
+        /// </summary>
+        public static int GetANASMREFBySMREF(int SMREF, int TIP)
+        {
+            int donendeger = 0;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT [NETTOP] FROM [Web-Musteri-1] WHERE [SMREF] = @SMREF AND TIP = @TIP", conn);
+                cmd.Parameters.Add("@SMREF", SqlDbType.Int).Value = SMREF;
+                cmd.Parameters.Add("@TIP", SqlDbType.Int).Value = TIP;
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                        donendeger = Convert.ToInt32(obj);
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
+        /// <summary>
         /// [Web-Musteri-Acik]
         /// </summary>
         public static string GetYuzolcum(int SMREF, int TIP)

@@ -7,13 +7,13 @@
 @section head {
     <script>
         function MesajSil() {
-            document.getElementById("basTitle").innerHTML = "Mesaj Sil (" + getParameterByName("mesajid") + ")";
+            document.getElementById("basTitle").innerHTML = "Mesaj Sil (" + getParameterByName2("mesajid") + ")";
 
             $.ajax(
                 {
                     xhr: function () { return xhrDownloadUpload(); },
                     beforeSend: function (xhr) { xhrTicket(xhr); },
-                    url: apiurl + "mesaj/sil/" + getParameterByName("mesajid") + "/" + getParameterByName("gelgit"),
+                    url: apiurl + "mesaj/sil/" + getParameterByName2("mesajid") + "/" + getParameterByName2("gelgit"),
                     success: function (data, textStatus, response) {
                         checkAuth(response);
 

@@ -18,6 +18,7 @@ namespace Sultanlar.WebAPI.Services.Internet
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient client = new SmtpClient();
+                //client.Port = 25;
                 client.EnableSsl = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.UseDefaultCredentials = false;

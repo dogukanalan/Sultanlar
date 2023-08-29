@@ -28,9 +28,9 @@ namespace Sultanlar.WCF
         /// <summary>
         /// 8 çekirdek
         /// </summary>
-        public XmlDocument HesaplaKaydetIc(int BayiKod, int Yil, int Ay, bool Kaydet, string Email)
+        public XmlDocument HesaplaKaydetIc(int BayiKod, int Yil, int Ay, int Bolum, bool Kaydet, string Email)
         {
-            DataTable dt = GetSatisRapor(BayiKod, (byte)Ay, (short)Yil);
+            DataTable dt = GetSatisRapor(BayiKod, (byte)Ay, (short)Yil, Bolum);
             //HesaplaKaydet(dt, Kaydet);
 
 
@@ -67,28 +67,28 @@ namespace Sultanlar.WCF
 
             HesaplaKaydetDelegate hesapla = new HesaplaKaydetDelegate(HesaplaKaydet);
 
-            hesapla.BeginInvoke(dt, 1, 0, BirinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla.BeginInvoke(dt1, 2, BirinciBitis, IkinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla.BeginInvoke(dt2, 3, IkinciBitis, UcuncuBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla.BeginInvoke(dt3, 4, UcuncuBitis, DorduncuBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla.BeginInvoke(dt4, 5, DorduncuBitis, BesinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla.BeginInvoke(dt5, 6, BesinciBitis, AltinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla.BeginInvoke(dt6, 7, AltinciBitis, YedinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
-            hesapla.BeginInvoke(dt7, 8, YedinciBitis, SekizinciBitis, BayiKod, Yil, Ay, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt, 1, 0, BirinciBitis, BayiKod, Yil, Ay, Bolum, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt1, 2, BirinciBitis, IkinciBitis, BayiKod, Yil, Ay, Bolum, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt2, 3, IkinciBitis, UcuncuBitis, BayiKod, Yil, Ay, Bolum, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt3, 4, UcuncuBitis, DorduncuBitis, BayiKod, Yil, Ay, Bolum, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt4, 5, DorduncuBitis, BesinciBitis, BayiKod, Yil, Ay, Bolum, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt5, 6, BesinciBitis, AltinciBitis, BayiKod, Yil, Ay, Bolum, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt6, 7, AltinciBitis, YedinciBitis, BayiKod, Yil, Ay, Bolum, Kaydet, Email, DateTime.Now, null, null);
+            hesapla.BeginInvoke(dt7, 8, YedinciBitis, SekizinciBitis, BayiKod, Yil, Ay, Bolum, Kaydet, Email, DateTime.Now, null, null);
 
             XmlDocument donendeger = new XmlDocument();
-            donendeger.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><sonuc><basarili>true</basarili></sonuc>");
+            donendeger.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><sonuc><basarili>true</basarili><bayi>" + BayiKod + "</bayi></sonuc>");
             return donendeger;
         }
 
-        delegate void HesaplaKaydetDelegate(DataTable dt, int Kacinci, int Kactan, int KacaKadar, int BayiKod, int Yil, int Ay, bool Kaydet, string Email, DateTime Baslangic);
+        delegate void HesaplaKaydetDelegate(DataTable dt, int Kacinci, int Kactan, int KacaKadar, int BayiKod, int Yil, int Ay, int Bolum, bool Kaydet, string Email, DateTime Baslangic);
         /// <summary>
         /// Tek çekirdek
         /// </summary>
-        public XmlDocument HesaplaKaydetIc1(int BayiKod, int Yil, int Ay, bool Kaydet)
+        public XmlDocument HesaplaKaydetIc1(int BayiKod, int Yil, int Ay, int Bolum, bool Kaydet)
         {
-            DataTable dt = GetSatisRapor(BayiKod, (byte)Ay, (short)Yil);
-            HesaplaKaydet(dt, 1, 0, dt.Rows.Count, BayiKod, Yil, Ay, Kaydet, string.Empty, DateTime.Now);
+            DataTable dt = GetSatisRapor(BayiKod, (byte)Ay, (short)Yil, Bolum);
+            HesaplaKaydet(dt, 1, 0, dt.Rows.Count, BayiKod, Yil, Ay, Bolum, Kaydet, string.Empty, DateTime.Now);
 
             XmlDocument donendeger = new XmlDocument();
             donendeger.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><sonuc><basarili>true</basarili></sonuc>");
@@ -103,7 +103,7 @@ namespace Sultanlar.WCF
             DataSet ds = new DataSet();
             ds.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
             DataTable dt = ds.Tables[0];
-            HesaplaKaydet(dt, 1, 0, dt.Rows.Count, 0, 0, 0, Kaydet, string.Empty, DateTime.Now);
+            HesaplaKaydet(dt, 1, 0, dt.Rows.Count, 0, 0, 0, 0, Kaydet, string.Empty, DateTime.Now);
 
             XmlDocument donendeger = new XmlDocument();
             donendeger.LoadXml("<?xml version=\"1.0\" encoding=\"utf-8\"?><sonuc><basarili>true</basarili></sonuc>");
@@ -112,18 +112,18 @@ namespace Sultanlar.WCF
         /// <summary>
         /// Satis rapor tp getir
         /// </summary>
-        private DataTable GetSatisRapor(int GMREF, byte Ay, short Yil)
+        private DataTable GetSatisRapor(int GMREF, byte Ay, short Yil, int Bolum)
         {
             DataTable dt = new DataTable();
-            SatisRaporTP.GetObjects(dt, GMREF, Ay, Yil);
+            SatisRaporTP.GetObjects(dt, GMREF, Ay, Yil, Bolum);
             return dt;
         }
         /// <summary>
         /// Hesapla kaydet fonksiyonu
         /// </summary>
-        public void HesaplaKaydet(DataTable dt, int Kacinci, int Kactan, int KacaKadar, int BayiKod, int Yil, int Ay, bool Kaydet, string Email, DateTime Baslangic)
+        public void HesaplaKaydet(DataTable dt, int Kacinci, int Kactan, int KacaKadar, int BayiKod, int Yil, int Ay, int Bolum, bool Kaydet, string Email, DateTime Baslangic)
         {
-            SatisRaporTP.Hesapla(dt, Kactan, KacaKadar);
+            SatisRaporTP.Hesapla(dt, Kactan, KacaKadar, Bolum);
             #region Hesaplama
             /*string olmayanurunler = string.Empty;
             string fiyatiolmayanurunler = string.Empty;
@@ -357,7 +357,7 @@ namespace Sultanlar.WCF
 
             if (Kaydet)
             {
-                SatisRaporTP.Kaydet(dt, Kactan, KacaKadar);
+                SatisRaporTP.Kaydet(dt, Kactan, KacaKadar, Bolum);
                 #region Kaydetme
                 /*for (int i = Kactan; i < KacaKadar; i++)
                 {
@@ -395,7 +395,7 @@ namespace Sultanlar.WCF
             if (birincibitti && ikincibitti && ucuncubitti && dorduncubitti && besincibitti && altincibitti && yedincibitti && sekizincibitti)
             {
                 if (Kaydet && Email != string.Empty)
-                    Eposta.GmailGonder("Sultanlar UI", Email, "Hs.&Ky. " + BayiKod.ToString() + "-" + Yil.ToString() + "-" + Ay.ToString(), "Hesapla kaydet başarıyla tamamlandı.<br><br>Bayi:" + BayiKod.ToString() + "<br>Dönem:" + Yil.ToString() + "-" + Ay.ToString() + "<br>Başlangıç:" + Baslangic.ToString() + "<br>Bitiş:" + DateTime.Now.ToString());
+                    Eposta.EpostaGonder("Sultanlar UI", Email, "Hs.&Ky. " + BayiKod.ToString() + "-" + Yil.ToString() + "-" + Ay.ToString(), "Hesapla kaydet başarıyla tamamlandı.<br><br>Bayi:" + BayiKod.ToString() + "<br>Dönem:" + Yil.ToString() + "-" + Ay.ToString() + "<br>Başlangıç:" + Baslangic.ToString() + "<br>Bitiş:" + DateTime.Now.ToString());
                 else if (!Kaydet && Email != string.Empty)
                 {
                     DataSet ds = new DataSet(BayiKod.ToString());
@@ -408,7 +408,7 @@ namespace Sultanlar.WCF
 
                     byte[] file = Encoding.UTF8.GetBytes(jsonText); //ds.GetXml()
 
-                    Eposta.GmailGonder("Sultanlar UI", Email, "Hs. " + BayiKod.ToString() + "-" + Yil.ToString() + "-" + Ay.ToString(), "Hesaplama başarıyla tamamlandı, hesaplanan veri ektedir.<br><br>Bayi:" + BayiKod.ToString() + "<br>Dönem:" + Yil.ToString() + "-" + Ay.ToString() + "<br>Başlangıç:" + Baslangic.ToString() + "<br>Bitiş:" + DateTime.Now.ToString(), file, "Hs." + BayiKod.ToString() + "-" + Yil.ToString() + "-" + Ay.ToString() + ".json");
+                    Eposta.EpostaGonder("Sultanlar UI", Email, "Hs. " + BayiKod.ToString() + "-" + Yil.ToString() + "-" + Ay.ToString(), "Hesaplama başarıyla tamamlandı, hesaplanan veri ektedir.<br><br>Bayi:" + BayiKod.ToString() + "<br>Dönem:" + Yil.ToString() + "-" + Ay.ToString() + "<br>Başlangıç:" + Baslangic.ToString() + "<br>Bitiş:" + DateTime.Now.ToString(), file, "Hs." + BayiKod.ToString() + "-" + Yil.ToString() + "-" + Ay.ToString() + ".json");
                 }
             }
         }

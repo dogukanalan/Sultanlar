@@ -157,12 +157,12 @@ namespace Sultanlar.WCF
         XmlDocument EmusiadGetProducts(string Sifre, string Grup);
         //
         [OperationContract, XmlSerializerFormat]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/View/Get?sifre={Sifre}&name={Name}&paramn={ParamNames}&paramv={ParamValues}")]
-        XmlDocument GetView(string Sifre, string Name, string ParamNames, string ParamValues);
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/View/Get?eposta={Eposta}&sifre={Sifre}&name={Name}&paramn={ParamNames}&paramv={ParamValues}&sp={ParamSp}")]
+        XmlDocument GetView(string Eposta, string Sifre, string Name, string ParamNames, string ParamValues, string ParamSp);
         //
         [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/json/View/Get?sifre={Sifre}&name={Name}&paramn={ParamNames}&paramv={ParamValues}"), DataContractFormat]
-        Stream GetViewJson(string Sifre, string Name, string ParamNames, string ParamValues);
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, UriTemplate = "/json/View/Get?eposta={Eposta}&sifre={Sifre}&name={Name}&paramn={ParamNames}&paramv={ParamValues}&sp={ParamSp}"), DataContractFormat]
+        Stream GetViewJson(string Eposta, string Sifre, string Name, string ParamNames, string ParamValues, string ParamSp);
         //
         [OperationContract, XmlSerializerFormat]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, UriTemplate = "/xml/Orders/Pirpa")]

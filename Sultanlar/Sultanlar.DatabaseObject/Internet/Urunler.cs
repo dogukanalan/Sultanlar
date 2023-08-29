@@ -3341,6 +3341,37 @@ namespace Sultanlar.DatabaseObject.Internet
 
             return donendeger;
         }
+        /// <summary>
+        /// [Web-Malzeme-Full] *
+        /// </summary>
+        public static string GetProductMastercode(int Bayikod, string MASTERCODE)
+        {
+            string donendeger = string.Empty;
+
+            using (SqlConnection conn = new SqlConnection(General.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT [URT_KOD] FROM DisVeri.dbo.[STOK_BIRLESIK_OTOMASYON] WHERE BAYIKOD = @Bayikod AND [MASTER_CODE] = @MASTERCODE", conn);
+                cmd.Parameters.Add("@Bayikod", System.Data.SqlDbType.Int).Value = Bayikod;
+                cmd.Parameters.Add("@MASTERCODE", System.Data.SqlDbType.NVarChar).Value = MASTERCODE;
+                try
+                {
+                    conn.Open();
+                    object obj = cmd.ExecuteScalar();
+                    if (obj != null)
+                        donendeger = obj.ToString();
+                }
+                catch (SqlException ex)
+                {
+                    Hatalar.DoInsert(ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+
+            return donendeger;
+        }
         #endregion
         //
         //
