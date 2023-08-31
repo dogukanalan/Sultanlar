@@ -355,7 +355,39 @@ namespace Sultanlar.DatabaseObject.Internet
         public Malzeme2()
         { }
 
-        public Malzeme2(int AP, int ITEMREF, string MALKOD, string MALACIK, string URTKOD, string ESKOD, string BIRIMREF, string BIRIM, string GRUPKOD, string GRUPACIK, string OZELKOD, string HK, string OZELACIK, string REYKOD, string RK, string REYACIK, double KDV, double KOLI, string BARKOD, double STOK, int KYTM, int KANAL, int PRIMT, int PRIMB, string HYRS, string HYRS_TANIM, int DONUSUM, int MHDHB, int MHDRZ)
+        public Malzeme2(int AP, string MALKOD, string MALACIK, string URTKOD, string ESKOD, string BIRIMREF, string BIRIM, string GRUPKOD, string GRUPACIK, string OZELKOD, string HK, string OZELACIK, string REYKOD, string RK, string REYACIK, double KDV, double KOLI, string BARKOD, double STOK, int KYTM, int KANAL, int PRIMT, int PRIMB, string HYRS, string HYRS_TANIM, int DONUSUM, int MHDHB, int MHDRZ)
+        {
+            this.AP = AP;
+            this.MALKOD = MALKOD;
+            this.MALACIK = MALACIK;
+            this.URTKOD = URTKOD;
+            this.ESKOD = ESKOD;
+            this.BIRIMREF = BIRIMREF;
+            this.BIRIM = BIRIM;
+            this.GRUPKOD = GRUPKOD;
+            this.GRUPACIK = GRUPACIK;
+            this.OZELKOD = OZELKOD;
+            this.HK = HK;
+            this.OZELACIK = OZELACIK;
+            this.REYKOD = REYKOD;
+            this.RK = RK;
+            this.REYACIK = REYACIK;
+            this.KDV = KDV;
+            this.KOLI = KOLI;
+            this.BARKOD = BARKOD;
+            this.STOK = STOK;
+            this.KYTM = KYTM;
+            this.KANAL = KANAL;
+            this.PRIMT = PRIMT;
+            this.PRIMB = PRIMB;
+            this.HYRS = HYRS;
+            this.HYRS_TANIM = HYRS_TANIM;
+            this.DONUSUM = DONUSUM;
+            this.MHDHB = MHDHB;
+            this.MHDRZ = MHDRZ;
+        }
+
+        private Malzeme2(int AP, int ITEMREF, string MALKOD, string MALACIK, string URTKOD, string ESKOD, string BIRIMREF, string BIRIM, string GRUPKOD, string GRUPACIK, string OZELKOD, string HK, string OZELACIK, string REYKOD, string RK, string REYACIK, double KDV, double KOLI, string BARKOD, double STOK, int KYTM, int KANAL, int PRIMT, int PRIMB, string HYRS, string HYRS_TANIM, int DONUSUM, int MHDHB, int MHDRZ)
         {
             this.AP = AP;
             this.ITEMREF = ITEMREF;
@@ -397,7 +429,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Malzeme-2] ([AP],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ]) VALUES (@AP, @MALKOD, @MALACIK, @URTKOD, @ESKOD, @BIRIMREF, @BIRIM, @GRUPKOD, @GRUPACIK, @OZELKOD, @HK, @OZELACIK, @REYKOD, @RK, @REYACIK, @KDV, @KOLI, @BARKOD, @STOK, @KYTM, @KANAL, @PRIMT, @PRIMB, @HYRS, @HYRS_TANIM, @DONUSUM, @MHDHB, @MHDRZ) SELECT @ITEMREF = SCOPE_IDENTITY", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO [Web-Malzeme-2] ([AP],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ]) VALUES (@AP, @MALKOD, @MALACIK, @URTKOD, @ESKOD, @BIRIMREF, @BIRIM, @GRUPKOD, @GRUPACIK, @OZELKOD, @HK, @OZELACIK, @REYKOD, @RK, @REYACIK, @KDV, @KOLI, @BARKOD, @STOK, @KYTM, @KANAL, @PRIMT, @PRIMB, @HYRS, @HYRS_TANIM, @DONUSUM, @MHDHB, @MHDRZ) SELECT @ITEMREF = SCOPE_IDENTITY()", conn);
                 cmd.Parameters.Add("@AP", SqlDbType.Int).Value = this.AP;
                 cmd.Parameters.Add("@MALKOD", SqlDbType.NVarChar).Value = this.MALKOD;
                 cmd.Parameters.Add("@MALACIK", SqlDbType.NVarChar).Value = this.MALACIK;
@@ -519,7 +551,7 @@ namespace Sultanlar.DatabaseObject.Internet
         {
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlDataAdapter da = new SqlDataAdapter("SELECT [AP],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ] FROM [Web-Malzeme-2] ORDER BY [MAL ACIK]", conn);
+                SqlDataAdapter da = new SqlDataAdapter("SELECT [AP],ITEMREF,[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ] FROM [Web-Malzeme-2] WHERE AP = 0 ORDER BY [MAL ACIK]", conn);
                 try
                 {
                     conn.Open();
@@ -542,7 +574,7 @@ namespace Sultanlar.DatabaseObject.Internet
 
             using (SqlConnection conn = new SqlConnection(General.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SELECT [AP],[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ] FROM [Web-Malzeme-2] WHERE ITEMREF = @ITEMREF", conn);
+                SqlCommand cmd = new SqlCommand("SELECT [AP],ITEMREF,[MAL KOD],[MAL ACIK],[URT KOD],[ES KOD],[BIRIMREF],[BIRIM],[GRUP KOD],[GRUP ACIK],[OZEL KOD],[HK],[OZEL ACIK],[REY KOD],[RK],[REY ACIK],[KDV],[KOLI],[BARKOD],[STOK],[KYTM],[KANAL],[PRIMT],[PRIMB],[HYRS],[HYRS_TANIM],[DONUSUM],[MHDHB],[MHDRZ] FROM [Web-Malzeme-2] WHERE ITEMREF = @ITEMREF", conn);
                 cmd.Parameters.Add("@ITEMREF", SqlDbType.Int).Value = ITEMREF;
                 SqlDataReader dr;
                 try
