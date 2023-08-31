@@ -627,9 +627,17 @@ namespace Sultanlar.WebAPI.Services.Internet
                 for (int j = 0; j < sip.detaylar.Count; j++)
                 {
                     siparislerDetaySevk sds = new siparislerDetaySevk().GetObjectByDetayID(sip.detaylar[j].pkSiparisDetayID);
-                    sds.blAktarildi = true;
-                    sds.dtAktarmaTarih = DateTime.Now;
-                    sds.DoUpdate();
+                    if (sds.ID != 0) // sevk oluşmuş ise (sevk onaysızdan iptal edilenlerde sevk kaydı yok)
+                    {
+                        sds.blAktarildi = true;
+                        sds.dtAktarmaTarih = DateTime.Now;
+                        sds.DoUpdate();
+                    }
+                    else // sevk oluşmamış ise iptal ederken 0 adet aktarılmış sevk oluştur (sevk satırı olmazsa iptal faturalarda gözükmüyor)
+                    {
+                        siparislerDetaySevk sds1 = new siparislerDetaySevk(sip.detaylar[j].pkSiparisDetayID, 0, true, DateTime.Now, DateTime.Now);
+                        sds1.DoInsert();
+                    }
                 }
 
                 siparisler.ExecNQ("db_sp_bayiStokGuncelle1b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { sip.Cari.GMREF });
