@@ -1331,11 +1331,11 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + Sipari
             for (int i = 0; i < faturalar.Count; i++)
             {
                 string muskod = faturalar[i].SelectSingleNode("ARP_CODE").InnerText;
-                string docnumber = faturalar[i].SelectSingleNode("DOC_NUMBER").InnerText;
+                string docnumber = faturalar[i].SelectSingleNode("DOC_NUMBER") != null ? faturalar[i].SelectSingleNode("DOC_NUMBER").InnerText : faturalar[i].SelectSingleNode("NUMBER").InnerText;
                 string docdate = faturalar[i].SelectSingleNode("DATE").InnerText;
-                string hour = faturalar[i].SelectSingleNode("HOUR_CREATED").InnerText;
-                string minute = faturalar[i].SelectSingleNode("MIN_CREATED").InnerText;
-                string second = faturalar[i].SelectSingleNode("SEC_CREATED").InnerText;
+                string hour = faturalar[i].SelectSingleNode("HOUR_CREATED") != null ? faturalar[i].SelectSingleNode("HOUR_CREATED").InnerText : "00";
+                string minute = faturalar[i].SelectSingleNode("MIN_CREATED") != null ? faturalar[i].SelectSingleNode("MIN_CREATED").InnerText : "00";
+                string second = faturalar[i].SelectSingleNode("SEC_CREATED") != null ? faturalar[i].SelectSingleNode("SEC_CREATED").InnerText : "00";
                 DateTime date = DateTime.ParseExact(docdate + " " + hour + ":" + minute + ":" + second, "dd.MM.yyyy H:m:s", System.Globalization.CultureInfo.CurrentCulture);
                 int SMREF = CariHesaplarTP.GetSMREFByMUSKOD(Convert.ToInt32(Bayikod), muskod);
 
@@ -1363,6 +1363,7 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + Sipari
                         
                         XmlNodeList transactions = faturalar[i].SelectNodes("TRANSACTIONS/TRANSACTION");
                         string hataliurun = string.Empty;
+                        int aktarilanurun = 0;
                         for (int j = 0; j < transactions.Count; j++)
                         {
                             string type = transactions[j].SelectSingleNode("TYPE").InnerText;
@@ -1399,6 +1400,7 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + Sipari
                                     iadedetay.DoInsert();
                                     IadelerDetayFiy fiy = new IadelerDetayFiy(iadedetay.pkIadeDetayID, netfiyat * Convert.ToInt32(miktar), 0, tarih, "Sistem (XML)", DateTime.MinValue, string.Empty);
                                     fiy.DoInsert();
+                                    aktarilanurun++;
                                 }
                             }
                             else if (type == "2") // iskontolara gerek yok
@@ -1406,7 +1408,7 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + Sipari
                             }
                         }
 
-                        if (hataliurun == string.Empty) // bütün ürünler vardıysa eklendiyse
+                        if (hataliurun == string.Empty && aktarilanurun > 0) // bütün ürünler vardıysa eklendiyse
                         {
                             IadelerQ.WriteQuantumNo(iade.pkIadeID, docnumber, docnumber, date);
 
@@ -1417,6 +1419,10 @@ INNER JOIN [Web-Malzeme-Full] ON ITEMREF = intUrunID WHERE pkIadeID = " + Sipari
                             WebGenel.ExecNQ("db_sp_bayiStokGuncelle2b", CommandType.StoredProcedure, new ArrayList() { "GMREF" }, new ArrayList() { CariHesaplarTP.GetGMREFBySMREF(iade.SMREF) });
 
                             aktarilan += docnumber + ".";
+                        }
+                        else // iade içindeki hiç bir ürün bizim değilse
+                        {
+                            iade.DoDelete();
                         }
                     }
                     else

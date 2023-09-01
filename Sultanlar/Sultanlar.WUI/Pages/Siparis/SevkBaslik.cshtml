@@ -486,10 +486,12 @@
             var aktarilanfaturasayisi = 0;
             var fatnoson = "";
             var sentData = "[";
+            var apikey = "";
             $('.smm').each(function () {
                 if ($(this).is(':checked')) {
                     var fattar = $(this).closest("tr").find(".spanfattar")[0] ? $(this).closest("tr").find(".spanfattar")[0].innerHTML : $(this).closest("tr").find(".ssmm")[0].value;
-                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": "' + $(this).attr("accesskey2") + '", "fattar": "' + fattar + '" },';
+                    apikey = $(this).attr("accesskey2");
+                    sentData += '{ "detayid": ' + $(this).attr("accesskey") + ', "miktar": "' + apikey + '", "fattar": "' + fattar + '" },';
                     fatnoson = $(this).attr("accesskey");
                     aktarilanfaturasayisi++;
                 }
@@ -516,6 +518,9 @@
                             if (data != "") {
                                 //var toXml = new XMLSerializer().serializeToString($.parseXML(data)).replaceAll("><", ">\r\n<");
                                 var filename = "sultanlar-" + fatnoson + ".xml";
+                                if (apikey == "14eac406-f114-492e-9e81-7dd6fca62e8b") { //kural
+                                    filename = "sultanlar.xml";
+                                }
                                 var pseudoelement = document.createElement('a');
                                 var blob = new Blob([data]); //, ["text/plain"]
 
