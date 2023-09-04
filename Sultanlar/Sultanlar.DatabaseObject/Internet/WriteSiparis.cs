@@ -439,7 +439,7 @@ namespace Sultanlar.DatabaseObject.Internet
             else
             {
                 Hatalar.DoInsert("Sipariş (" + sip.pkSiparisID.ToString() + ") SAP'a gönderilemedi. " + DateTime.Now.ToString() + " --- Ayrıntı: " + error, "siparisler.aspx Quantumayaz()");
-                error = "Ayrıntı: " + error.Replace("SALES_HEADER_IN işlendi, ", "").Replace("SALES_ITEM_IN işlendi, ", "").Replace("Satış belgesi  değiştirilmedi, ", "").Replace("SALES_ITEM_IN", "").Replace("Teknik eksiklikler", "Ürün kullanım dışındadır. Lütfen ürünü siparişten silerek onaylayınız, ");
+                error = "Sip.No:" + sip.pkSiparisID.ToString() + " Ayrıntı: " + error.Replace("SALES_HEADER_IN işlendi, ", "").Replace("SALES_ITEM_IN işlendi, ", "").Replace("Satış belgesi  değiştirilmedi, ", "").Replace("SALES_ITEM_IN", "").Replace("Teknik eksiklikler", "Ürün kullanım dışındadır. Lütfen ürünü siparişten silerek onaylayınız, ");
             }
 
             QuantumWebServisLog.DoInsert(error == string.Empty, sip.pkSiparisID, donen, MusteriID, "", "SATIS");

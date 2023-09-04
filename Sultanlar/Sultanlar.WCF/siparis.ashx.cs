@@ -103,7 +103,7 @@ WHERE (CASE WHEN LIMIT <= GIRILEN THEN 1 ELSE 0 END) = 1");
             }
             else
             {
-                donendeger = "Sipariş (veya bölünen bir sipariş ise bölünenlerden bazıları) aktarılamadı.";
+                donendeger = "Sipariş (veya bölünen bir sipariş ise bölünenlerden bazıları) aktarılamadı. Detay: " + donendeger;
             }
 
             context.Response.ContentType = "text/plain";
