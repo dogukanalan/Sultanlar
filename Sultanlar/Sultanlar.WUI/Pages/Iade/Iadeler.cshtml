@@ -110,9 +110,9 @@
                     headerOffset: $('.navbar').outerHeight()
                 },
                 "initComplete": function (settings, json) {
-                    hareketler();
                 },
                 "fnDrawCallback": function (oSettings) {
+                    hareketler();
                     $('[data-toggle="tooltip"]').tooltip();
                     $('[data-toggle="tooltip"]').css("cursor", "pointer");
                 },
