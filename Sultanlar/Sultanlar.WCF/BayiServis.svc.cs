@@ -858,6 +858,13 @@ namespace Sultanlar.WCF
             {
                 siparis.PAYMENT_CODE = "30";
             }
+            else if (apikey == "1CF22957-4D72-423A-876C-4EB02321EEFD") //öpd
+            {
+                siparis.NUMBER = "";
+                siparis.EINVOICE = "2";
+                siparis.DISPATCHES[0].EINVOICE = "2";
+                siparis.DISPATCHES[0].DISP_STATUS = "1";
+            }
         }
 
         private void BayiOzelIslemLogoGo(string apikey, LogoGoSiparisDisDetay detay)

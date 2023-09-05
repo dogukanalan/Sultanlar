@@ -69,6 +69,9 @@ namespace Sultanlar.Model.Bayi
         [XmlElement(ElementName = "PAYMENT_CODE")]
         public string PAYMENT_CODE { get; set; }
 
+        [XmlElement(ElementName = "EINVOICE")]
+        public string EINVOICE { get; set; }
+
         public List<LogoGoSiparisDisDetay> TRANSACTIONS { get; set; }
         public List<LogoGoSiparisDisDispatch> DISPATCHES { get; set; }
     }
@@ -96,6 +99,12 @@ namespace Sultanlar.Model.Bayi
 
         [XmlElement(ElementName = "ARP_CODE")]
         public string ARP_CODE { get; set; }
+
+        [XmlElement(ElementName = "EINVOICE")]
+        public string EINVOICE { get; set; }
+
+        [XmlElement(ElementName = "DISP_STATUS")]
+        public string DISP_STATUS { get; set; }
     }
 
     [XmlType("TRANSACTION")]
