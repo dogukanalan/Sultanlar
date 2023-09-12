@@ -714,7 +714,7 @@ namespace Sultanlar.WebAPI.Services.Internet
                 string erp = CariHesaplarTP.GetErpByApikey(Guid.Parse(apikey));
 
                 System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
-                client.BaseAddress = new Uri("http://localhost:18006/bayiservis.svc/web/xml/fatura2/" + erp + "/" + apikey + "/" + sipler.Substring(0, sipler.Length - 1)); //http://www.ittihadteknoloji.com.tr/wcf
+                client.BaseAddress = new Uri("http://www.ittihadteknoloji.com.tr/wcf/bayiservis.svc/web/xml/fatura2/" + erp + "/" + apikey + "/" + sipler.Substring(0, sipler.Length - 1)); //http://www.ittihadteknoloji.com.tr/wcf
                 client.DefaultRequestHeaders.Accept.Add(
                     new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/octet-stream"));
                 Stream responseStream1 = client.GetStreamAsync("").Result;

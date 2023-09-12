@@ -852,7 +852,7 @@ namespace Sultanlar.WCF
                 siparis.TRADING_GRP = "01";
                 siparis.PAYMENT_CODE = "V30";
                 siparis.AUXIL_CODE = "SULTANLAR";
-                siparis.ARP_CODE = drow["carino3"].ToString();
+                //siparis.ARP_CODE = drow["carino3"].ToString();
             }
             else if (apikey == "8DF4A3A1-737E-4D07-AA85-0A99C92A3F16") //akgönül
             {
@@ -1244,7 +1244,7 @@ namespace Sultanlar.WCF
             DataTable dt = WebGenel.WCFdata(@"SELECT DISTINCT pkSiparisID AS sipno,8 AS tur, QUANTUMNO AS belgeno, 
 CASE WHEN TKSREF = 5 THEN [Web-Musteri-1].NETTOP ELSE [Web-Musteri-1].SMREF END AS carino, 
 CASE WHEN TKSREF = 5 THEN (SELECT [MUS KOD] FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE [Web-Musteri-1].[MUS KOD] END AS carino2, 
-CASE WHEN TKSREF = 5 THEN (SELECT CODE FROM DisVeri.dbo.CARI_BIRLESIK_OTOMASYON WHERE LOGICALREF = (SELECT [MUS KOD] FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP))  ELSE (SELECT CODE FROM DisVeri.dbo.CARI_BIRLESIK_OTOMASYON WHERE LOGICALREF = [Web-Musteri-1].[MUS KOD]) END AS carino3,
+
 CASE WHEN TKSREF = 5 THEN (SELECT MUSTERI FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE SUBE END AS cari, " + 
 (siparis ? "dtOlusmaTarihi" : "FATTAR") + " AS tarih," +
 (siparis ? "'False'" : "IPTAL") + " AS iptal," +
@@ -1268,6 +1268,7 @@ where +
 SELECT DISTINCT pkIadeID AS sipno,3 AS tur, QUANTUMNO AS belgeno, 
 CASE WHEN TKSREF = 5 THEN [Web-Musteri-1].NETTOP ELSE [Web-Musteri-1].SMREF END AS carino, 
 CASE WHEN TKSREF = 5 THEN (SELECT [MUS KOD] FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE [Web-Musteri-1].[MUS KOD] END AS carino2, 
+
 CASE WHEN TKSREF = 5 THEN (SELECT MUSTERI FROM [Web-Musteri-TP] WHERE SMREF = [Web-Musteri-1].NETTOP) ELSE SUBE END AS cari, 
 dtOlusmaTarihi AS tarih,'False' AS iptal,28 AS vade
 ,ISNULL(strKod,'') AS saticino
