@@ -62,15 +62,18 @@ function SaticilarGetir(tumudahil) {
             success: function (data, textStatus, response) {
                 checkAuth(response);
 
+                var ilksira = 0;
                 $.each(data, function (index, item) {
                     $("#selectSaticilar").append(
                         $("<option></option>")
                             .text(item.sattem)
                             .val(item.slsmanref)
                     );
+                    if (index === 0)
+                        ilksira = item.slsmanref;
                 });
-                $("#selectSaticilar").val(window.localStorage["slsref"]);
-
+                $("#selectSaticilar").val(window.localStorage["slsref"] !== "0" ? window.localStorage["slsref"] : ilksira);
+                
                 CarilerGetir();
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }

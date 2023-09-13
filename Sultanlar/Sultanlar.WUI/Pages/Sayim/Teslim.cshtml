@@ -176,7 +176,7 @@
                     beforeSend: function (xhr) { xhrTicket(xhr); },
                     url: apiurl + 'stok/GetBayiStokTeslimDetay/' + fatno,
                     success: function (data, textStatus, response) {
-                        var gerial = '<div style="text-align: center;" id="div' + fatno + '"><input type="button" class="btn btn-warning" value="' + fatno + ' nolu Fatura Teslimatını Geri Al" onclick="Teslim(\'' + fatno + '\')" /></div>';
+                        var gerial = '<div style="text-align: center;" id="div' + fatno + '"><input type="button" class="btn btn-primary" value="' + fatno + ' nolu Faturayı satış siparişine dönüştür" onclick="Siparis(\'' + fatno + '\')" /> <input type="button" class="btn btn-warning" value="' + fatno + ' nolu Fatura Teslimatını Geri Al" onclick="Teslim(\'' + fatno + '\')" /></div>';
                         var tablo = '<table class="table table-striped table-bordered">';
                         tablo += '<tr style="font-weight: bold"><td>Sip.No</td><td>Kod</td><td>Malzeme</td><td>Adet</td><td>Koli</td><td>Net</td><td>Net+Kdv</td></tr>';
                         for (var i = 0; i < data.length; i++) {
@@ -225,6 +225,10 @@
                         }
                     }
                 });
+        }
+
+        function Siparis(fatno) {
+            window.location.href = '../Musteri/Secim?fatno=' + fatno;
         }
 
         $(document).ready(function () {

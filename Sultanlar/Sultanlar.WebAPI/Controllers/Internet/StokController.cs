@@ -27,5 +27,8 @@ namespace Sultanlar.WebAPI.Controllers.Internet
 
         [HttpGet, Route("internet/[controller]/[action]/{GMREF}/{FATNO}/{KULLANICI}/{ONAY}")]
         public string SetTeslim(int GMREF, string FATNO, int KULLANICI, int ONAY) => new StokProvider().SetBayiStokTeslim(GMREF, FATNO, KULLANICI, ONAY);
+
+        [HttpGet, Route("internet/[controller]/[action]/{GMREF}/{SMREF}/{MTIP}/{FATNO}/{MUS}")]
+        public string TeslimToSip(int GMREF, int SMREF, int MTIP, string FATNO, string MUS) => new StokProvider().TeslimSiparis(GMREF, SMREF, MTIP, FATNO, MUS);
     }
 }

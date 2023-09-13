@@ -1,4 +1,6 @@
-﻿using Sultanlar.DbObj.Internet;
+﻿using Sultanlar.Class;
+using Sultanlar.DbObj.Internet;
+using Sultanlar.WebAPI.Models.Internet;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,6 +43,48 @@ namespace Sultanlar.WebAPI.Services.Internet
 
             siparisler.ExecNQ("db_sp_bayiStokGuncelle1b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { Gmref });
             siparisler.ExecNQ("db_sp_bayiStokGuncelle2b", new ArrayList() { "GMREF" }, new[] { SqlDbType.Int }, new ArrayList() { Gmref });
+
+            return "";
+        }
+        internal string TeslimSiparis(int Gmref, int Smref, int Tip, string FatNo, string musteri)
+        {
+            SiparisProvider sp = new SiparisProvider();
+            List<satisRaporu> sr = new satisRaporu().GetObject(FatNo);
+
+            SiparisKaydet skg = new SiparisKaydet();
+            skg.detaylar = new List<SiparisKaydetDetay>();
+            skg.ftip = 2;
+            skg.mtip = Tip;
+            skg.aciklama = "Nama sevk: " + FatNo;
+            skg.smref = Smref;
+            skg.teslim = DateTime.Now.ToShortDateString();
+            skg.musteri = musteri;
+            skg.siparisid = 0;
+
+            for (int i = 0; i < sr.Count; i++)
+            {
+                SiparisKaydetDetay skgd = new SiparisKaydetDetay();
+                skgd.itemref = sr[i].ITEMREF;
+                skgd.malacik = sr[i].Malzeme.MALACIK;
+                skgd.miktar = Convert.ToInt32(sr[i].ADETT);
+                skgd.miktartur = "ST";
+
+                SiparisIsks isks = sp.IsksTP(Smref, Tip, sr[i].ITEMREF, DateTime.Now);
+                skgd.isk1 = isks.isk1;
+                skgd.isk2 = isks.isk2;
+                skgd.isk3 = isks.isk3;
+                skgd.isk4 = isks.isk4;
+                skgd.netkdv = Class.Math.IskontoDus(isks.fiyat, isks.isk1, isks.isk2, isks.isk3, isks.isk4, 0);
+                
+                if (skgd.miktar > 0)
+                    skg.detaylar.Add(skgd);
+            }
+
+            int musteriid = Convert.ToInt32(Sifreleme.Decrypt(skg.musteri));
+            string sipid = sp.SiparisKaydet(skg);
+
+            if (sp.SiparisOnay(Convert.ToInt32(sipid), 0, musteriid) == string.Empty)
+                SetBayiStokTeslim(Gmref, FatNo, musteriid, 1);
 
             return "";
         }

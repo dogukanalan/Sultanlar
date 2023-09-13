@@ -1,0 +1,125 @@
+﻿@page
+@model SecimModel
+@{
+    ViewData["Title"] = "Cari Seçimi";
+}
+
+@section head {
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.css" />
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+
+    <script>
+        function CarilerGetir() {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getana/" + $('select[name=selectSaticilar]').val(),
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectCariler").empty().append($("<option></option>").text("Tümü").val("0"));
+                        $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0"));
+                        $.each(data, function (index, item) {
+                            $("#selectCariler").append(
+                                $("<option></option>")
+                                    .text(item.musteri)
+                                    .val(item.gmref)
+                            );
+                        });
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function SubelerGetir(slsref, gmref) {
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "cari/getsube1/" + gmref + "/" + slsref,
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        $("#selectSubeler").empty().append($("<option></option>").text("Tümü").val("0"));
+                        $.each(data, function (index, item) {
+                            if (item.smref != gmref) {
+                                $("#selectSubeler").append(
+                                    $("<option></option>")
+                                        .text(item.sube)
+                                        .val(item.smref + ';;;' + item.tip)
+                                );
+                            }
+                        });
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        function Devam() {
+            if ($('select[name=selectCariler]').val() == "0") {
+                alert("Bayi seçilmedi.");
+                return;
+            }
+            if ($('select[name=selectSubeler]').val() == "0") {
+                alert("Cari seçilmedi.");
+                return;
+            }
+
+            var gmref = $('select[name=selectCariler]').val();
+            var smref = $('select[name=selectSubeler]').val().split(";;;")[0];
+            var mtip = $('select[name=selectSubeler]').val().split(";;;")[1];
+            var fatno = getParameterByName("fatno");
+
+            $.ajax(
+                {
+                    xhr: function () { return xhrDownloadUpload(); },
+                    beforeSend: function (xhr) { xhrTicket(xhr); },
+                    url: apiurl + "stok/teslimtosip/" + gmref + "/" + smref + "/" + mtip + "/" + fatno + "/" + localStorage["uyeid"],
+                    success: function (data, textStatus, response) {
+                        checkAuth(response);
+
+                        if (data == "") {
+                            window.location.href = "../Siparis/Siparisler";
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) { console.log('hata'); }
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            SaticilarGetir(false);
+
+            $("#selectSaticilar").select2({ theme: "bootstrap" });
+            $("#selectCariler").select2({ theme: "bootstrap" });
+            $("#selectSubeler").select2({ theme: "bootstrap" });
+
+            $('#selectSaticilar').on('change', function (e) {
+                CarilerGetir();
+            });
+            $('#selectCariler').on('change', function (e) {
+                SubelerGetir($('select[name=selectSaticilar]').val(), $('select[name=selectCariler]').val());
+            });
+            $('#selectSubeler').on('change', function (e) {
+
+            });
+        });
+    </script>
+}
+<select id="selectSaticilar" name="selectSaticilar" class="dropDown selSaticilar" style="width: 100% !important"></select>
+<select id="selectCariler" name="selectCariler" class="dropDown selSaticilar" style="width: 100% !important">
+    <option value="0" selected="selected">Tümü</option>
+</select>
+<select id="selectSubeler" name="selectSubeler" class="dropDown selSaticilar" style="width: 100% !important">
+    <option value="0" selected="selected">Tümü</option>
+</select>
+<br />
+<div style="text-align: center;">
+    <input type="button" class="btn btn-danger" value="Geri Dön" onclick="window.history.back();" />
+    <input type="button" class="btn btn-success" value="Devam" onclick="Devam()" />
+</div>
