@@ -63,7 +63,7 @@ namespace Sultanlar.DbObj
             for (; i < param.Count; i++)
                 cmd.Parameters.AddWithValue(param.Keys.ToArray()[i], param.Values.ToArray()[i]);
         }
-
+        
         protected object Do(QueryType type, string storedproducer, Dictionary<string, object> param, int timeout)
         {
             object donendeger = null;
@@ -263,7 +263,7 @@ namespace Sultanlar.DbObj
                 for (int i = 0; i < Parameters.Count; i++)
                     da.SelectCommand.Parameters.Add(ParameterNames[i].ToString(), (SqlDbType)Types[i]).Value = Parameters[i].ToString();
                 try
-                {
+                { 
                     conn.Open();
                     da.Fill(dt);
                 }
