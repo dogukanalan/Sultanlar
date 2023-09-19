@@ -18,14 +18,14 @@ namespace Sultanlar.DbObj.Internet
         {
             this.strDepartman = strDepartman;
             this.strDepartmanEposta = strDepartmanEposta;
-            this.blDepartmanWeb = blDepartmanWeb;
+            this.blDepartmanWeb = blDepartmanWeb  ;
         }
         private departmanlar(byte pkDepartmanID, string strDepartman, string strDepartmanEposta, bool blDepartmanWeb)
         {
             this.pkDepartmanID = pkDepartmanID;
             this.strDepartman = strDepartman;
             this.strDepartmanEposta = strDepartmanEposta;
-            this.blDepartmanWeb = blDepartmanWeb;
+            this.blDepartmanWeb = blDepartmanWeb; 
         }
 
         public override string ToString() { return strDepartman; }
